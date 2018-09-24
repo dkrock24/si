@@ -36,9 +36,9 @@ class Home extends CI_Controller {
 	public function index()
 	{
 		// Construir Menu
-		$id_rol = $this->session->usuario['info'][0]->rol;
+
+		$id_rol = $this->session->usuario[0]->ID_ROL;
 		
-		$data['user'] = $this->Login_model->usuarios();
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['home'] = 'home';
 

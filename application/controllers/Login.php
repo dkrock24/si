@@ -42,11 +42,13 @@ class Login extends CI_Controller {
 			$usuario = $_POST['usuario'];
 			$passwd  = $_POST['passwd'];
 
-			$user['info'] = $this->login_model->login($usuario , $passwd );	
+			$user['usuario'] = $this->login_model->login( $usuario , $passwd );	
 
-			if($user['info'] != 0){	
 
-				$_SESSION['usuario'] = $user;
+			if($user['usuario'] != 0){	
+
+				$_SESSION = $user;
+
 				header("location:../admin/home/index");
 
 			}else{

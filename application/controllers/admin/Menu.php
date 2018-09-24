@@ -46,9 +46,6 @@ class Menu extends CI_Controller {
 	public function submenu( $id_menu ){
 		$id_rol = $this->session->usuario['info'][0]->rol;
 
-		$this->load->model('admin/Menu_model');
-		$this->load->model('Login_model');
-
 		$data['user'] = $this->Login_model->usuarios();
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['submenus'] = $this->Menu_model->getSubMenu( $id_menu );		

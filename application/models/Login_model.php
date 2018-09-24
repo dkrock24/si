@@ -1,7 +1,7 @@
 <?php
 class Login_model extends CI_Model {
 
-        const users = 'sr_usuarios';
+        const users = 'sys_persona_usuario';
         
         public function login( $usuario , $passwd )
         {   
@@ -10,13 +10,16 @@ class Login_model extends CI_Model {
 
             $this->db->select('*');
             $this->db->from(self::users);
-            $this->db->where('usuario',$usuario);    
-            $this->db->where('password',$pass);   
-            $query = $this->db->get();  
+            $this->db->where('NOMBRE_USUARIO',$usuario);    
+            //$this->db->where('CONTRASENA_USUARIO',$pass);   
+            $query = $this->db->get(); 
+            //echo $this->db->queries[0];
             
         	if($query->num_rows() > 0 ){
+     
                 return $query->result();
             }else{
+ 
                 return 0;
             } 
         }
