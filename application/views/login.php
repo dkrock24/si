@@ -47,12 +47,13 @@
             <img class="brand-logo" src="../../../asstes/Backend/html/assets/img/logo.png" alt="Yima - Admin Web App" />
         </a>
         <div class="login animated">
+        <form action="login" method="post">
             <div class="membership-title">Already have an account?</div>
             <div class="membership-input">
-                <input type="text" class="form-control" placeholder="Email" />
+                <input type="text" class="form-control" name="usuario" placeholder="Usuario" />
             </div>
             <div class="membership-input">
-                <input type="text" class="form-control" placeholder="Password" />
+                <input type="password" class="form-control" name="passwd" placeholder="Password" />
             </div>
             <div class="row">
                 <div class="col-lg-6">
@@ -73,8 +74,10 @@
             </div>
 
             <div class="membership-submit">
-                <input type="button" class="btn btn-primary btn-lg btn-block" value="Sign In">
+                <input type="submit" class="btn btn-primary btn-lg btn-block" value="Sign In">
             </div>
+
+        </form>
 
             <div class="membership-signup">
                 <div class="signup-title">Do not Have an account?</div>

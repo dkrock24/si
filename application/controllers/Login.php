@@ -18,8 +18,50 @@ class Login extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+
+	public function __construct()
+	{
+		parent::__construct();    
+		$this->load->database();   
+
+		$this->load->library('session'); 
+		$this->load->helper('url');
+	}
+
 	public function index()
 	{
 		$this->load->view('login');
 	}
+
+	public function login(){
+
+		$this->load->model('login_model');
+
+		if(isset($_POST['usuario']) and isset($_POST['passwd'])){	
+
+			$usuario = $_POST['usuario'];
+			$passwd  = $_POST['passwd'];
+
+			$user['info'] = $this->login_model->login($usuario , $passwd );	
+
+			if($user['info'] != 0){	
+
+				$_SESSION['usuario'] = $user;
+				header("location:../admin/home/index");
+
+			}else{
+
+				$this->load->view('login');
+			}
+		}		
+		else{			
+			$this->load->view('login');
+		}
+	}
+
+	public function logout(){
+		$this->session->sess_destroy();
+		$this->load->view('login');
+	}
 }
+
