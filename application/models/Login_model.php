@@ -10,8 +10,8 @@ class Login_model extends CI_Model {
 
             $this->db->select('*');
             $this->db->from(self::users);
-            $this->db->where('NOMBRE_USUARIO',$usuario);    
-            //$this->db->where('CONTRASENA_USUARIO',$pass);   
+            $this->db->where('nombre_usu',$usuario);    
+            $this->db->where('password_usu',$pass);   
             $query = $this->db->get(); 
             //echo $this->db->queries[0];
             

@@ -59,7 +59,7 @@
                                     if($submenu->id_menu == $menus->id_menu){
                                         ?>
                                         <li >
-                                            <a href="<?php echo $submenu->url_submenu; ?>">
+                                            <a href="<?php echo base_url(). $submenu->url_submenu; ?>">
                                                 <i class="<?php echo $submenu->icon_submenu; ?>"></i>
                                                 <span><?php echo $submenu->nombre_submenu; ?></span>
                                             </a>
@@ -85,9 +85,8 @@
                 <div class="footer-user">
                     <a href="Profile.html">
                         <?php
-                        echo $this->session->usuario['info'][0]->nombres;
-                        echo " ";
-                        echo $this->session->usuario['info'][0]->apellidos;
+                        
+                        echo $this->session->usuario[0]->nombre_usu;
                         ?>
                     </a>
                 </div>

@@ -1,4 +1,4 @@
-<?php include_once "template/libraries.php";?>
+<?php include_once 'template/libraries.php'; ?>
 
 <div class="row membership">
     <div class="col-lg-8 col-md-6 hidden-sm hidden-xs membership-brand">
@@ -125,4 +125,3 @@
     </div>
 </div>
 
-<?php include_once "template/footer.php"; ?>

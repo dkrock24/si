@@ -3,7 +3,7 @@
     <div class="col-lg-12">
         <div class="panel panel-white">
             <div class="panel-heading">
-                <h3 class="panel-title">Menus</h3>
+                <h3 class="panel-title">Lista Roles</h3>
                 <div class="panel-tools">
                     <a class="tools-action" href="#" data-toggle="collapse">
                         <i class="pe-7s-angle-up"></i>
@@ -18,10 +18,10 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nombre</th>
-                            <th>Url</th>
-                            <th>Icono</th>
-                            <th>Rol</th>
+                            <th>Nombre Rol</th>
+                            <th>Pagina</th>
+                            <th>Creacion</th>
+                            <th>Actualizacion</th>
                             <th>Estado</th>
                             <th>Acciones</th>                            
                         </tr>
@@ -30,31 +30,32 @@
                     	<?php
                     		$id_menu = 0;
                     		$contado=1;
-	                    	foreach ($menu as $menus) {
-	                    		if($id_menu != $menus->id_menu)
-	                    		{
-                            		$id_menu = $menus->id_menu;
+	                    	foreach ($roles as $role) {
+	                    		
 	                    			?>
 	                    			<tr>
 			                            <th scope="row"><?php echo $contado; ?></th>
-			                            <td><?php echo $menus->nombre_menu; ?></td>
-			                            <td><?php echo $menus->url_menu; ?></td>
-			                            <td><i class="<?php echo $menus->icon_menu; ?>"></i> <?php echo $menus->icon_menu; ?></td>
-			                            <td>
-			                            	<?php 
-			                            		if($menus->estado_menu==1){
-			                            			?>
-			                            			<span class="label label-success">Activo</span>
-			                            			<?php
-			                            		}?></td>
-			                            <td><?php echo $menus->nombre_menu; ?></td>
+			                            <td><?php echo $role->role; ?></td>
+			                            <td><?php echo $role->pagina; ?></td>
+			                          
+			  
+			                            <td><?php echo $role->fecha_creacion; ?></td>
+                                        <td><?php echo $role->fecha_actualizacion; ?></td>
+                                        <td>
+                                        <?php
+                                            if($role->estado_rol==1){
+                                        ?>
+                                            <span class="label label-success">Activo</span>
+                                        <?php
+                                            }
+                                        ?>
+                                        </td>
 			                            <td>
 			                            	<div class="input-group">                                
 				                                <div class="input-group-btn">
 				                                    <button type="button" class="btn btn-primary dropdown-toggle left" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
-				                                    <ul class="dropdown-menu">
-                                                        <li><a href="submenu/<?php echo $menus->id_menu; ?>">Ver</a></li>
-				                                        <li><a href="editar_menu/<?php echo $menus->id_menu; ?>">Editar</a></li>
+				                                    <ul class="dropdown-menu">    
+				                                        <li><a href="editar_role/<?php echo $role->role_id; ?>">Editar</a></li>
 				                                        <li><a data-toggle="modal" data-target="#ver" href="#">Eliminar</a></li>
 				                                    </ul>
 				                                </div>
@@ -63,7 +64,7 @@
 			                        </tr>
 	                    			<?php
 	                    			$contado+=1;
-	                    		}
+	                    		
 	                    		
 	                    	}
 

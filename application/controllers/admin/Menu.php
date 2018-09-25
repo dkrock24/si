@@ -26,6 +26,7 @@ class Menu extends CI_Controller {
 
 		$this->load->library('parser');
 		$this->load->library('session');
+		$this->load->helper('url');
 
 		$this->load->model('admin/Menu_model');
 		$this->load->model('Login_model');   
@@ -34,40 +35,58 @@ class Menu extends CI_Controller {
 	public function index()
 	{
 		// Construir Menu
-		$id_rol = $this->session->usuario['info'][0]->rol;
+		$id_rol = $this->session->usuario[0]->id_rol;
 
-		$data['user'] = $this->Login_model->usuarios();
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
-		$data['home'] = 'admin/menu';
+		$data['home'] = 'admin/menu/menu';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function submenu( $id_menu ){
-		$id_rol = $this->session->usuario['info'][0]->rol;
+		$id_rol = $this->session->usuario[0]->id_rol;
 
-		$data['user'] = $this->Login_model->usuarios();
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['submenus'] = $this->Menu_model->getSubMenu( $id_menu );		
-		$data['home'] = 'admin/submenu';
+		$data['home'] = 'admin/menu/submenu';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function editar_menu( $id_menu ){
-		$id_rol = $this->session->usuario['info'][0]->rol;	
+		$id_rol = $this->session->usuario[0]->id_rol;
 
-		$this->load->model('admin/Menu_model');
-		$this->load->model('Login_model');
-
-		$data['user'] = $this->Login_model->usuarios();
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['onMenu'] = $this->Menu_model->getOneMenu( $id_menu );
 
-		$data['home'] = 'admin/menueditar';	
-
-		
+		$data['home'] = 'admin/menu/menueditar';			
 
 		$this->parser->parse('template', $data);
+	}
+
+	public function update_menu(){
+
+		$this->Menu_model->update_menu( $_POST );
+
+		redirect(base_url()."admin/menu/index");
+	}
+
+	public function editar_sub_menu( $id_sub_menu ){
+		$id_rol = $this->session->usuario[0]->id_rol;
+
+		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['allMenus'] = $this->Menu_model->getAllMenu();
+		$data['onMenu'] = $this->Menu_model->getOneSubMenu( $id_sub_menu );
+
+		$data['home'] = 'admin/menu/submenueditar';			
+
+		$this->parser->parse('template', $data);
+	}
+
+	public function update_sub_menu(){
+
+		$this->Menu_model->update_sub_menu( $_POST );
+
+		redirect(base_url()."admin/menu/index");
 	}
 }

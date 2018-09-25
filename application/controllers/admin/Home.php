@@ -1,5 +1,4 @@
 <?php
-//session_start();
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
@@ -36,8 +35,7 @@ class Home extends CI_Controller {
 	public function index()
 	{
 		// Construir Menu
-
-		$id_rol = $this->session->usuario[0]->ID_ROL;
+		$id_rol = $this->session->usuario[0]->id_rol;
 		
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['home'] = 'home';
