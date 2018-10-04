@@ -1,74 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-<html>
-  <head>
-    
-    <!-- Font Icons CSS-->
-    <link rel="stylesheet" href="/si/asstes/vendor/fontawesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/si/asstes/vendor/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="/si/asstes/vendor/animate.css/animate.min.css">
-    <link rel="stylesheet" href="/si/asstes/vendor/whirl/dist/whirl.css">
 
-    <link rel="stylesheet" href="/si/asstes/css/bootstrap.css" id="bscss">
-    <link rel="stylesheet" href="/si/asstes/css/app.css" id="maincss">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+   <meta name="description" content="Bootstrap Admin App + jQuery">
+   <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
+   <title>Angle - Bootstrap Admin Template</title>
+   <!-- =============== VENDOR STYLES ===============-->
+   <!-- FONT AWESOME-->
+   <link rel="stylesheet" href="../vendor/fontawesome/css/font-awesome.min.css">
+   <!-- SIMPLE LINE ICONS-->
+   <link rel="stylesheet" href="../vendor/simple-line-icons/css/simple-line-icons.css">
+   <!-- ANIMATE.CSS-->
+   <link rel="stylesheet" href="../vendor/animate.css/animate.min.css">
+   <!-- WHIRL (spinners)-->
+   <link rel="stylesheet" href="../vendor/whirl/dist/whirl.css">
+   <!-- =============== PAGE VENDOR STYLES ===============-->
+   <!-- WEATHER ICONS-->
+   <link rel="stylesheet" href="../vendor/weather-icons/css/weather-icons.min.css">
+   <!-- =============== BOOTSTRAP STYLES ===============-->
+   <link rel="stylesheet" href="css/bootstrap.css" id="bscss">
+   <!-- =============== APP STYLES ===============-->
+   <link rel="stylesheet" href="css/app.css" id="maincss">
+</head>
 
-  </head>
-  <title>
-      <?php
-      if(isset($title)){ echo $title; }else{ echo "Administracion"; }
-      ?>
-  </title>
-  <body>
-    <div class="wrapper">
-    <!-- top navbar-->
+<body class="layout-h">
+   <div class="wrapper">
+      <!-- top navbar-->
       <header class="topnavbar-wrapper">
          <!-- START Top Navbar-->
          <nav role="navigation" class="navbar topnavbar">
             <!-- START navbar header-->
             <div class="navbar-header">
+               <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+               </button>
                <a href="#/" class="navbar-brand">
                   <div class="brand-logo">
-                     <img src="<?php echo base_url(); ?>../asstes/img/logo.png" alt="App Logo" class="img-responsive">
+                     <img src="img/logo.png" alt="App Logo" class="img-responsive">
                   </div>
                   <div class="brand-logo-collapsed">
-                     <img src="<?php echo base_url(); ?>../asstes/img/logo-single.png" alt="App Logo" class="img-responsive">
+                     <img src="img/logo-single.png" alt="App Logo" class="img-responsive">
                   </div>
                </a>
             </div>
             <!-- END navbar header-->
             <!-- START Nav wrapper-->
-            <div class="nav-wrapper">
+            <div class="navbar-collapse collapse">
                <!-- START Left navbar-->
                <ul class="nav navbar-nav">
-                  <li>
-                     <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
-                     <a href="#" data-trigger-resize="" data-toggle-state="aside-collapsed" class="hidden-xs">
-                        <em class="fa fa-navicon"></em>
-                     </a>
-                     <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
-                     <a href="#" data-toggle-state="aside-toggled" data-no-persist="true" class="visible-xs sidebar-toggle">
-                        <em class="fa fa-navicon"></em>
-                     </a>
+                  <li></li>
+                  <li><a href="#dashboard" data-toggle="dropdown">Dashboard</a>
+                     <ul class="dropdown-menu animated fadeIn">
+                        <li><a href="dashboard.html">Dashboard v1</a>
+                        </li>
+                        <li><a href="dashboard_v2.html">Dashboard v2</a>
+                        </li>
+                        <li><a href="dashboard_v3.html">Dashboard v3</a>
+                        </li>
+                     </ul>
                   </li>
-                  <!-- START User avatar toggle-->
-                  <li>
-                     <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
-                     <a id="user-block-toggle" href="#user-block" data-toggle="collapse">
-                        <em class="icon-user"></em>
-                     </a>
+                  <li><a href="widgets.html">Widgets</a>
                   </li>
-                  <!-- END User avatar toggle-->
+               </ul>
+               <!-- END Left navbar-->
+               <!-- START Right Navbar-->
+               <ul class="nav navbar-nav navbar-right">
                   <!-- START lock screen-->
-                  <li>
+                  <li class="dropdown">
                      <a href="lock.html" title="Lock screen">
                         <em class="icon-lock"></em>
                      </a>
                   </li>
                   <!-- END lock screen-->
-               </ul>
-               <!-- END Left navbar-->
-               <!-- START Right Navbar-->
-               <ul class="nav navbar-nav navbar-right">
                   <!-- Search icon-->
                   <li>
                      <a href="#" data-search-open="">
@@ -134,7 +142,7 @@
                                     </div>
                                  </div>
                               </a>
-                              <!-- last list item-->
+                              <!-- last list item -->
                               <a href="#" class="list-group-item">
                                  <small>More notifications</small>
                                  <span class="label label-danger pull-right">14</span>
@@ -146,13 +154,13 @@
                      <!-- END Dropdown menu-->
                   </li>
                   <!-- END Alert menu-->
-                  <!-- START Offsidebar button-->
+                  <!-- START Contacts button-->
                   <li>
                      <a href="#" data-toggle-state="offsidebar-open" data-no-persist="true">
                         <em class="icon-notebook"></em>
                      </a>
                   </li>
-                  <!-- END Offsidebar menu-->
+                  <!-- END Contacts menu-->
                </ul>
                <!-- END Right Navbar-->
             </div>
@@ -169,137 +177,6 @@
          </nav>
          <!-- END Top Navbar-->
       </header>
-      <!-- sidebar-->
-      <aside class="aside">
-         <!-- START Sidebar (left)-->
-         <div class="aside-inner">
-            <nav data-sidebar-anyclick-close="" class="sidebar">
-               <!-- START sidebar nav-->
-               <ul class="nav">
-                  <!-- START user info-->
-                  <li class="has-user-block">
-                     <div id="user-block" class="collapse">
-                        <div class="item user-block">
-                           <!-- User picture-->
-                           <div class="user-block-picture">
-                              <div class="user-block-status">
-                                 <img src="<?php echo base_url(); ?>../asstes/img/user/02.jpg" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
-                                 <div class="circle circle-success circle-lg"></div>
-                              </div>
-                           </div>
-                           <!-- Name and Job-->
-                           <div class="user-block-info">
-                              <span class="user-block-name">Hello, 
-                                <?php                        
-                                    echo $this->session->usuario[0]->nombre_usu;
-                                ?>
-                              </span>
-                              <span class="user-block-role">Designer</span>
-                           </div>
-                        </div>
-                     </div>
-                  </li>
-                  <!-- END user info-->
-                  <!-- Iterates over all sidebar items-->
-                  <li class="nav-heading ">
-                     <span data-localize="sidebar.heading.HEADER">Main Navigation</span>
-                  </li>
-                  
-                    <?php
-                        $id_menu = 0;
-                        foreach ($menu as $menus)
-                        {                            
-                            if($id_menu != $menus->id_menu)
-                            {
-                                $id_menu = $menus->id_menu;                        
-                        ?>
-                        <li class=" ">
-                         <a href="#<?php echo $menus->nombre_menu; ?>" title="<?php echo $menus->nombre_menu; ?>" data-toggle="collapse">
-                            <div class="pull-right label label-info">3</div>
-                            <em class="<?php echo $menus->icon_menu; ?>"></em>
-                            <span data-localize="sidebar.nav.DASHBOARD"><?php echo $menus->nombre_menu; ?></span>
-                         </a>
-                         <ul id="<?php echo $menus->nombre_menu; ?>" class="nav sidebar-subnav collapse">
-                            <?php
-                                foreach ($menu as $submenu)
-                                {
-                                    if($submenu->id_menu == $menus->id_menu)
-                                    {
-                                ?>
-                                    <li class="sidebar-subnav-header">Dashboard</li>
-                                    <li class=" ">
-                                       <a href="<?php echo base_url(). $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>">
-                                          <span><?php echo $submenu->nombre_submenu; ?></span>
-                                       </a>
-                                    </li>
-
-                                <?php
-                                    }
-                                }
-                            ?>
-
-                         </ul>
-                         </li>
-                     <?php
-                            }
-                        }
-                    ?>
-                  
-
-                  
-
-
-         
-                  <li class=" ">
-                     <a href="#multilevel" title="Multilevel" data-toggle="collapse">
-                        <em class="fa fa-folder-open-o"></em>
-                        <span>Multilevel</span>
-                     </a>
-                     <ul id="multilevel" class="nav sidebar-subnav collapse">
-                        <li class="sidebar-subnav-header">Multilevel</li>
-                        <li class=" ">
-                           <a href="#level1" title="Level 1" data-toggle="collapse">
-                              <span>Level 1</span>
-                           </a>
-                           <ul id="level1" class="nav sidebar-subnav collapse">
-                              <li class="sidebar-subnav-header">Level 1</li>
-                              <li class=" ">
-                                 <a href="multilevel-1.html" title="Level1 Item">
-                                    <span>Level1 Item</span>
-                                 </a>
-                              </li>
-                              <li class=" ">
-                                 <a href="#level2" title="Level 2" data-toggle="collapse">
-                                    <span>Level 2</span>
-                                 </a>
-                                 <ul id="level2" class="nav sidebar-subnav collapse">
-                                    <li class="sidebar-subnav-header">Level 2</li>
-                                    <li class=" ">
-                                       <a href="#level3" title="Level 3" data-toggle="collapse">
-                                          <span>Level 3</span>
-                                       </a>
-                                       <ul id="level3" class="nav sidebar-subnav collapse">
-                                          <li class="sidebar-subnav-header">Level 3</li>
-                                          <li class=" ">
-                                             <a href="<?php echo base_url(); ?>login/logout" title="Level3 Item">
-                                                <span>Sign Out</span>
-                                             </a>
-                                          </li>
-                                       </ul>
-                                    </li>
-                                 </ul>
-                              </li>
-                           </ul>
-                        </li>
-                     </ul>
-                  </li>
-
-               </ul>
-               <!-- END sidebar nav-->
-            </nav>
-         </div>
-         <!-- END Sidebar (left)-->
-      </aside>
       <!-- offsidebar-->
       <aside class="offsidebar hide">
          <!-- START Off Sidebar (right)-->
@@ -528,7 +405,7 @@
                               </span>
                               <span class="pull-left">
                                  <!-- Contact avatar-->
-                                 <img src="<?php echo base_url(); ?>../asstes/img/user/05.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                 <img src="img/user/05.jpg" alt="Image" class="media-box-object img-circle thumb48">
                               </span>
                               <!-- Contact info-->
                               <span class="media-box-body">
@@ -547,7 +424,7 @@
                               </span>
                               <span class="pull-left">
                                  <!-- Contact avatar-->
-                                 <img src="<?php echo base_url(); ?>../asstes/img/user/06.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                 <img src="img/user/06.jpg" alt="Image" class="media-box-object img-circle thumb48">
                               </span>
                               <!-- Contact info-->
                               <span class="media-box-body">
@@ -566,7 +443,7 @@
                               </span>
                               <span class="pull-left">
                                  <!-- Contact avatar-->
-                                 <img src="<?php echo base_url(); ?>../asstes/img/user/07.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                 <img src="img/user/07.jpg" alt="Image" class="media-box-object img-circle thumb48">
                               </span>
                               <!-- Contact info-->
                               <span class="media-box-body">
@@ -585,7 +462,7 @@
                               </span>
                               <span class="pull-left">
                                  <!-- Contact avatar-->
-                                 <img src="<?php echo base_url(); ?>../asstes/img/user/08.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                 <img src="img/user/08.jpg" alt="Image" class="media-box-object img-circle thumb48">
                               </span>
                               <!-- Contact info-->
                               <span class="media-box-body">
@@ -611,7 +488,7 @@
                               </span>
                               <span class="pull-left">
                                  <!-- Contact avatar-->
-                                 <img src="<?php echo base_url(); ?>../asstes/img/user/09.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                 <img src="img/user/09.jpg" alt="Image" class="media-box-object img-circle thumb48">
                               </span>
                               <!-- Contact info-->
                               <span class="media-box-body">
@@ -630,7 +507,7 @@
                               </span>
                               <span class="pull-left">
                                  <!-- Contact avatar-->
-                                 <img src="<?php echo base_url(); ?>../asstes/img/user/10.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                 <img src="img/user/10.jpg" alt="Image" class="media-box-object img-circle thumb48">
                               </span>
                               <!-- Contact info-->
                               <span class="media-box-body">
@@ -679,4 +556,389 @@
          </nav>
          <!-- END Off Sidebar (right)-->
       </aside>
-      
+      <!-- Main section-->
+      <section>
+         <!-- Page content-->
+         <div class="content-wrapper">
+            <div class="row">
+               <div class="col-lg-4">
+                  <!-- START List group-->
+                  <ul class="list-group">
+                     <li class="list-group-item">
+                        <div class="row row-table pv-lg">
+                           <div class="col-xs-6">
+                              <p class="m0 lead">1204</p>
+                              <p class="m0">
+                                 <small>Commits this month</small>
+                              </p>
+                           </div>
+                           <div class="col-xs-6 text-center">
+                              <div data-sparkline="" data-bar-color="#23b7e5" data-height="60" data-bar-width="10" data-bar-spacing="6" data-chart-range-min="0" values="3,6,7,8,4,5"></div>
+                           </div>
+                        </div>
+                     </li>
+                     <li class="list-group-item">
+                        <div class="row row-table pv-lg">
+                           <div class="col-xs-6">
+                              <p class="m0 lead">$ 3,200.00</p>
+                              <p class="m0">
+                                 <small>Available budget</small>
+                              </p>
+                           </div>
+                           <div class="col-xs-6 text-center">
+                              <div data-sparkline="" data-type="line" data-height="60" data-width="80%" data-line-width="2" data-line-color="#7266ba" data-chart-range-min="0" data-spot-color="#888" data-min-spot-color="#7266ba" data-max-spot-color="#7266ba"
+                              data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="3" values="7,3,4,7,5,9,4,4,7,5,9,6,4" data-resize="true"></div>
+                           </div>
+                        </div>
+                     </li>
+                     <li class="list-group-item">
+                        <div class="row row-table pv-lg">
+                           <div class="col-xs-6">
+                              <p class="m0 lead">67</p>
+                              <p class="m0">
+                                 <small>New followers</small>
+                              </p>
+                           </div>
+                           <div class="col-xs-6">
+                              <ul class="list-inline text-center">
+                                 <li>
+                                    <a href="#" tooltip="Katie">
+                                       <img src="img/user/02.jpg" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                 </li>
+                                 <li>
+                                    <a href="#" tooltip="Cody">
+                                       <img src="img/user/01.jpg" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                 </li>
+                                 <li>
+                                    <a href="#" tooltip="Tamara">
+                                       <img src="img/user/03.jpg" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                 </li>
+                                 <li>
+                                    <a href="#" tooltip="Gene">
+                                       <img src="img/user/04.jpg" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                 </li>
+                                 <li>
+                                    <a href="#" tooltip="Marsha">
+                                       <img src="img/user/04.jpg" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                 </li>
+                                 <li>
+                                    <a href="#" tooltip="Robin">
+                                       <img src="img/user/09.jpg" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+                  <!-- END List group-->
+               </div>
+               <div class="col-lg-8">
+                  <!-- START bar chart-->
+                  <div id="panelChart3" class="panel">
+                     <div class="panel-heading">
+                        <!-- START button group-->
+                        <div class="pull-right btn-group">
+                           <button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-default btn-sm">Monthly</button>
+                           <ul role="menu" class="dropdown-menu fadeInLeft animated">
+                              <li><a href="#">Daily</a>
+                              </li>
+                              <li><a href="#">Monthly</a>
+                              </li>
+                              <li><a href="#">Yearly</a>
+                              </li>
+                           </ul>
+                        </div>
+                        <!-- END button group-->
+                        <div class="panel-title">Projects Hours</div>
+                     </div>
+                     <div collapse="panelChart3" class="panel-wrapper">
+                        <div class="panel-body">
+                           <div class="indicator show">
+                              <span class="spinner"></span>
+                           </div>
+                           <div class="chart-bar-stackedv2 flot-chart"></div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- END bar chart-->
+               </div>
+            </div>
+            <div class="unwrap mv-lg">
+               <!-- START chart-->
+               <div id="panelChart9" class="panel">
+                  <div class="panel-heading">
+                     <!-- START button group-->
+                     <div class="pull-right btn-group">
+                        <button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-default btn-sm">All time</button>
+                        <ul role="menu" class="dropdown-menu fadeInLeft animated">
+                           <li><a href="#">Daily</a>
+                           </li>
+                           <li><a href="#">Monthly</a>
+                           </li>
+                           <li class="divider"></li>
+                           <li><a href="#">All time</a>
+                           </li>
+                        </ul>
+                     </div>
+                     <!-- END button group-->
+                     <div class="panel-title">Overall progress</div>
+                  </div>
+                  <div collapse="panelChart9" class="panel-wrapper">
+                     <div class="panel-body">
+                        <div class="chart-splinev2 flot-chart"></div>
+                     </div>
+                     <div class="panel-body">
+                        <div class="row">
+                           <div class="col-sm-3 col-xs-6 text-center">
+                              <p>Projects</p>
+                              <div class="h1">25</div>
+                           </div>
+                           <div class="col-sm-3 col-xs-6 text-center">
+                              <p>Teammates</p>
+                              <div class="h1">85</div>
+                           </div>
+                           <div class="col-sm-3 col-xs-6 text-center">
+                              <p>Hours</p>
+                              <div class="h1">380</div>
+                           </div>
+                           <div class="col-sm-3 col-xs-6 text-center">
+                              <p>Budget</p>
+                              <div class="h1">$ 10,000.00</div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- END chart-->
+            </div>
+            <!-- START radial charts-->
+            <div class="row mb-lg">
+               <div class="col-sm-3 col-xs-6 text-center">
+                  <p>Current Project</p>
+                  <div class="text-center pv-lg">
+                     <div data-easypiechart="" data-percent="60" data-animate="{duration: 800, enabled: true}" data-bar-color="#23b7e5" data-track-Color="#edf2f6" data-scale-Color="false" data-line-width="2" data-line-cap="round" data-size="130" class="easypie-chart easypie-chart-md">
+                        <span>60%</span>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-3 col-xs-6 text-center">
+                  <p>Current Progress</p>
+                  <div class="text-center pv-lg">
+                     <div data-easypiechart="" data-percent="30" data-animate="{duration: 800, enabled: true}" data-bar-color="#f532e5" data-track-Color="#edf2f6" data-scale-Color="false" data-line-width="2" data-line-cap="round" data-size="130" class="easypie-chart easypie-chart-md">
+                        <span>30%</span>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-3 col-xs-6 text-center">
+                  <p>Space Usage</p>
+                  <div class="text-center pv-lg">
+                     <div data-easypiechart="" data-percent="50" data-animate="{duration: 800, enabled: true}" data-bar-color="#7266ba" data-track-Color="#edf2f6" data-scale-Color="false" data-line-width="2" data-line-cap="round" data-size="130" class="easypie-chart easypie-chart-md">
+                        <span>50%</span>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-3 col-xs-6 text-center">
+                  <p>Interactions</p>
+                  <div class="text-center pv-lg">
+                     <div data-easypiechart="" data-percent="75" data-animate="{duration: 800, enabled: true}" data-bar-color="#ff902b" data-track-Color="#edf2f6" data-scale-Color="false" data-line-width="2" data-line-cap="round" data-size="130" class="easypie-chart easypie-chart-md">
+                        <span>75%</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- START radial charts-->
+            <!-- START Multiple List group-->
+            <div class="list-group">
+               <a href="#" class="list-group-item">
+                  <table class="wd-wide">
+                     <tbody>
+                        <tr>
+                           <td class="wd-xs">
+                              <div class="ph">
+                                 <img src="img/dummy.png" alt="" class="media-box-object img-responsive img-rounded thumb64">
+                              </div>
+                           </td>
+                           <td>
+                              <div class="ph">
+                                 <h4 class="media-box-heading">Project A</h4>
+                                 <small class="text-muted">Vestibulum ante ipsum primis in faucibus orci</small>
+                              </div>
+                           </td>
+                           <td class="wd-sm hidden-xs hidden-sm">
+                              <div class="ph">
+                                 <p class="m0">Last change</p>
+                                 <small class="text-muted">4 weeks ago</small>
+                              </div>
+                           </td>
+                           <td class="wd-xs hidden-xs hidden-sm">
+                              <div class="ph">
+                                 <p class="m0 text-muted">
+                                    <em class="icon-users mr fa-lg"></em>26</p>
+                              </div>
+                           </td>
+                           <td class="wd-xs hidden-xs hidden-sm">
+                              <div class="ph">
+                                 <p class="m0 text-muted">
+                                    <em class="icon-doc mr fa-lg"></em>3500</p>
+                              </div>
+                           </td>
+                           <td class="wd-sm">
+                              <div class="ph">
+                                 <progressbar value="80" type="success" class="m0 progress-xs">80%</progressbar>
+                              </div>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </a>
+            </div>
+            <div class="list-group">
+               <a href="#" class="list-group-item">
+                  <table class="wd-wide">
+                     <tbody>
+                        <tr>
+                           <td class="wd-xs">
+                              <div class="ph">
+                                 <img src="img/dummy.png" alt="" class="media-box-object img-responsive img-rounded thumb64">
+                              </div>
+                           </td>
+                           <td>
+                              <div class="ph">
+                                 <h4 class="media-box-heading">Project X</h4>
+                                 <small class="text-muted">Vestibulum ante ipsum primis in faucibus orci</small>
+                              </div>
+                           </td>
+                           <td class="wd-sm hidden-xs hidden-sm">
+                              <div class="ph">
+                                 <p class="m0">Last change</p>
+                                 <small class="text-muted">Today at 06:23 am</small>
+                              </div>
+                           </td>
+                           <td class="wd-xs hidden-xs hidden-sm">
+                              <div class="ph">
+                                 <p class="m0 text-muted">
+                                    <em class="icon-users mr fa-lg"></em>3</p>
+                              </div>
+                           </td>
+                           <td class="wd-xs hidden-xs hidden-sm">
+                              <div class="ph">
+                                 <p class="m0 text-muted">
+                                    <em class="icon-doc mr fa-lg"></em>150</p>
+                              </div>
+                           </td>
+                           <td class="wd-sm">
+                              <div class="ph">
+                                 <progressbar value="50" type="purple" class="m0 progress-xs">50%</progressbar>
+                              </div>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </a>
+            </div>
+            <div class="list-group">
+               <a href="#" class="list-group-item">
+                  <table class="wd-wide">
+                     <tbody>
+                        <tr>
+                           <td class="wd-xs">
+                              <div class="ph">
+                                 <img src="img/dummy.png" alt="" class="media-box-object img-responsive img-rounded thumb64">
+                              </div>
+                           </td>
+                           <td>
+                              <div class="ph">
+                                 <h4 class="media-box-heading">Project Z</h4>
+                                 <small class="text-muted">Vestibulum ante ipsum primis in faucibus orci</small>
+                              </div>
+                           </td>
+                           <td class="wd-sm hidden-xs hidden-sm">
+                              <div class="ph">
+                                 <p class="m0">Last change</p>
+                                 <small class="text-muted">Yesterday at 10:20 pm</small>
+                              </div>
+                           </td>
+                           <td class="wd-xs hidden-xs hidden-sm">
+                              <div class="ph">
+                                 <p class="m0 text-muted">
+                                    <em class="icon-users mr fa-lg"></em>15</p>
+                              </div>
+                           </td>
+                           <td class="wd-xs hidden-xs hidden-sm">
+                              <div class="ph">
+                                 <p class="m0 text-muted">
+                                    <em class="icon-doc mr fa-lg"></em>480</p>
+                              </div>
+                           </td>
+                           <td class="wd-sm">
+                              <div class="ph">
+                                 <progressbar value="20" type="green" class="m0 progress-xs">20%</progressbar>
+                              </div>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </a>
+               <!-- END dashboard main content-->
+            </div>
+            <!-- END Multiple List group-->
+         </div>
+      </section>
+      <!-- Page footer-->
+      <footer>
+         <span>&copy; 2017 - Angle</span>
+      </footer>
+   </div>
+   <!-- =============== VENDOR SCRIPTS ===============-->
+   <!-- MODERNIZR-->
+   <script src="../vendor/modernizr/modernizr.custom.js"></script>
+   <!-- MATCHMEDIA POLYFILL-->
+   <script src="../vendor/matchMedia/matchMedia.js"></script>
+   <!-- JQUERY-->
+   <script src="../vendor/jquery/dist/jquery.js"></script>
+   <!-- BOOTSTRAP-->
+   <script src="../vendor/bootstrap/dist/js/bootstrap.js"></script>
+   <!-- STORAGE API-->
+   <script src="../vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+   <!-- JQUERY EASING-->
+   <script src="../vendor/jquery.easing/js/jquery.easing.js"></script>
+   <!-- ANIMO-->
+   <script src="../vendor/animo.js/animo.js"></script>
+   <!-- SLIMSCROLL-->
+   <script src="../vendor/slimScroll/jquery.slimscroll.min.js"></script>
+   <!-- SCREENFULL-->
+   <script src="../vendor/screenfull/dist/screenfull.js"></script>
+   <!-- LOCALIZE-->
+   <script src="../vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
+   <!-- RTL demo-->
+   <script src="js/demo/demo-rtl.js"></script>
+   <!-- =============== PAGE VENDOR SCRIPTS ===============-->
+   <!-- SPARKLINE-->
+   <script src="../vendor/sparkline/index.js"></script>
+   <!-- FLOT CHART-->
+   <script src="../vendor/flot/jquery.flot.js"></script>
+   <script src="../vendor/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+   <script src="../vendor/flot/jquery.flot.resize.js"></script>
+   <script src="../vendor/flot/jquery.flot.pie.js"></script>
+   <script src="../vendor/flot/jquery.flot.time.js"></script>
+   <script src="../vendor/flot/jquery.flot.categories.js"></script>
+   <script src="../vendor/flot-spline/js/jquery.flot.spline.min.js"></script>
+   <!-- EASY PIE CHART-->
+   <script src="../vendor/jquery.easy-pie-chart/dist/jquery.easypiechart.js"></script>
+   <!-- MOMENT JS-->
+   <script src="../vendor/moment/min/moment-with-locales.min.js"></script>
+   <!-- SKYCONS-->
+   <script src="../vendor/skycons/skycons.js"></script>
+   <!-- DEMO-->
+   <script src="js/demo/demo-flot.js"></script>
+   <!-- =============== APP SCRIPTS ===============-->
+   <script src="js/app.js"></script>
+</body>
+
+</html>
