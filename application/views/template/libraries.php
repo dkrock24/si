@@ -3,12 +3,13 @@
   <head>
     
     <!-- Font Icons CSS-->
-    <link rel="stylesheet" href="/si/asstes/Backend/html/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/si/asstes/Backend/html/assets/css/animate.min.css">
-    <link rel="stylesheet" href="/si/asstes/Backend/html/assets/css/app.css">
-    <link rel="stylesheet" href="/si/asstes/Backend/html/assets/css/demo.min.css">
-    <link rel="stylesheet" href="/si/asstes/Backend/html/assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/si/asstes/Backend/html/assets/css/pe-icon-7-stroke.css">
+    <link rel="stylesheet" href="/si/asstes/vendor/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/si/asstes/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/si/asstes/vendor/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/si/asstes/vendor/whirl/dist/whirl.css">
+
+    <link rel="stylesheet" href="/si/asstes/css/bootstrap.css" id="bscss">
+    <link rel="stylesheet" href="/si/asstes/css/app.css" id="maincss">
 
   </head>
   <title>

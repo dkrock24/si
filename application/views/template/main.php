@@ -1,14 +1,16 @@
 <!DOCTYPE html>
+<html lang="en">
 <html>
   <head>
     
     <!-- Font Icons CSS-->
-    <link rel="stylesheet" href="/si/asstes/Backend/html/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/si/asstes/Backend/html/assets/css/animate.min.css">
-    <link rel="stylesheet" href="/si/asstes/Backend/html/assets/css/app.css">
-    <link rel="stylesheet" href="/si/asstes/Backend/html/assets/css/demo.min.css">
-    <link rel="stylesheet" href="/si/asstes/Backend/html/assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/si/asstes/Backend/html/assets/css/pe-icon-7-stroke.css">
+    <link rel="stylesheet" href="/si/asstes/vendor/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/si/asstes/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/si/asstes/vendor/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/si/asstes/vendor/whirl/dist/whirl.css">
+
+    <link rel="stylesheet" href="/si/asstes/css/bootstrap.css" id="bscss">
+    <link rel="stylesheet" href="/si/asstes/css/app.css" id="maincss">
 
   </head>
   <title>
@@ -17,413 +19,662 @@
       ?>
   </title>
   <body>
-
-    <div class="animsition">
-        <!--
-        [3. Sidebar Menu]
-        -->
-        <div class="sidebar menu">
-            <div class="sidebar-header">
-                <div class="header-brand">
-                    <div class="brand-logo">
-                        <img src="../../../asstes/Backend/images/logo-empresa.png" alt="Yima - Admin Web App" />
-                    </div>
-                    <div class="brand-slogan">
-                        <div class="slogan-title">Sistema Integrado</div>
-                    </div>
-                </div>
-
+    <div class="wrapper">
+    <!-- top navbar-->
+      <header class="topnavbar-wrapper">
+         <!-- START Top Navbar-->
+         <nav role="navigation" class="navbar topnavbar">
+            <!-- START navbar header-->
+            <div class="navbar-header">
+               <a href="#/" class="navbar-brand">
+                  <div class="brand-logo">
+                     <img src="<?php echo base_url(); ?>../asstes/img/logo.png" alt="App Logo" class="img-responsive">
+                  </div>
+                  <div class="brand-logo-collapsed">
+                     <img src="<?php echo base_url(); ?>../asstes/img/logo-single.png" alt="App Logo" class="img-responsive">
+                  </div>
+               </a>
             </div>
-            <div class="sidebar-menu">
-                <ul class="menu">
-                    <?php
-                    $id_menu = 0;
-                    foreach ($menu as $menus) {
-                        
-                        if($id_menu != $menus->id_menu){
-                            $id_menu = $menus->id_menu;
-                        
-                        ?>
+            <!-- END navbar header-->
+            <!-- START Nav wrapper-->
+            <div class="nav-wrapper">
+               <!-- START Left navbar-->
+               <ul class="nav navbar-nav">
+                  <li>
+                     <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+                     <a href="#" data-trigger-resize="" data-toggle-state="aside-collapsed" class="hidden-xs">
+                        <em class="fa fa-navicon"></em>
+                     </a>
+                     <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
+                     <a href="#" data-toggle-state="aside-toggled" data-no-persist="true" class="visible-xs sidebar-toggle">
+                        <em class="fa fa-navicon"></em>
+                     </a>
+                  </li>
+                  <!-- START User avatar toggle-->
+                  <li>
+                     <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+                     <a id="user-block-toggle" href="#user-block" data-toggle="collapse">
+                        <em class="icon-user"></em>
+                     </a>
+                  </li>
+                  <!-- END User avatar toggle-->
+                  <!-- START lock screen-->
+                  <li>
+                     <a href="lock.html" title="Lock screen">
+                        <em class="icon-lock"></em>
+                     </a>
+                  </li>
+                  <!-- END lock screen-->
+               </ul>
+               <!-- END Left navbar-->
+               <!-- START Right Navbar-->
+               <ul class="nav navbar-nav navbar-right">
+                  <!-- Search icon-->
+                  <li>
+                     <a href="#" data-search-open="">
+                        <em class="icon-magnifier"></em>
+                     </a>
+                  </li>
+                  <!-- Fullscreen (only desktops)-->
+                  <li class="visible-lg">
+                     <a href="#" data-toggle-fullscreen="">
+                        <em class="fa fa-expand"></em>
+                     </a>
+                  </li>
+                  <!-- START Alert menu-->
+                  <li class="dropdown dropdown-list">
+                     <a href="#" data-toggle="dropdown">
+                        <em class="icon-bell"></em>
+                        <div class="label label-danger">11</div>
+                     </a>
+                     <!-- START Dropdown menu-->
+                     <ul class="dropdown-menu animated flipInX">
                         <li>
-                            <a>
-                                <i class="<?php echo $menus->icon_menu; ?>"></i>
-                                <span><?php echo $menus->nombre_menu; ?></span>
-                            </a>
-                            <ul>
-                                <li class="submenu-title">
-                                    <span>Data</span>
-                                </li>
-                                
-                                <?php
-                                foreach ($menu as $submenu) {
-                                    if($submenu->id_menu == $menus->id_menu){
-                                        ?>
-                                        <li >
-                                            <a href="<?php echo base_url(). $submenu->url_submenu; ?>">
-                                                <i class="<?php echo $submenu->icon_submenu; ?>"></i>
-                                                <span><?php echo $submenu->nombre_submenu; ?></span>
-                                            </a>
-                                        </li>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                                
-                            </ul>
+                           <!-- START list group-->
+                           <div class="list-group">
+                              <!-- list item-->
+                              <a href="#" class="list-group-item">
+                                 <div class="media-box">
+                                    <div class="pull-left">
+                                       <em class="fa fa-twitter fa-2x text-info"></em>
+                                    </div>
+                                    <div class="media-box-body clearfix">
+                                       <p class="m0">New followers</p>
+                                       <p class="m0 text-muted">
+                                          <small>1 new follower</small>
+                                       </p>
+                                    </div>
+                                 </div>
+                              </a>
+                              <!-- list item-->
+                              <a href="#" class="list-group-item">
+                                 <div class="media-box">
+                                    <div class="pull-left">
+                                       <em class="fa fa-envelope fa-2x text-warning"></em>
+                                    </div>
+                                    <div class="media-box-body clearfix">
+                                       <p class="m0">New e-mails</p>
+                                       <p class="m0 text-muted">
+                                          <small>You have 10 new emails</small>
+                                       </p>
+                                    </div>
+                                 </div>
+                              </a>
+                              <!-- list item-->
+                              <a href="#" class="list-group-item">
+                                 <div class="media-box">
+                                    <div class="pull-left">
+                                       <em class="fa fa-tasks fa-2x text-success"></em>
+                                    </div>
+                                    <div class="media-box-body clearfix">
+                                       <p class="m0">Pending Tasks</p>
+                                       <p class="m0 text-muted">
+                                          <small>11 pending task</small>
+                                       </p>
+                                    </div>
+                                 </div>
+                              </a>
+                              <!-- last list item-->
+                              <a href="#" class="list-group-item">
+                                 <small>More notifications</small>
+                                 <span class="label label-danger pull-right">14</span>
+                              </a>
+                           </div>
+                           <!-- END list group-->
                         </li>
-                        <?php
-                        }
-                    }
-                    ?>
-                    
-                </ul>
+                     </ul>
+                     <!-- END Dropdown menu-->
+                  </li>
+                  <!-- END Alert menu-->
+                  <!-- START Offsidebar button-->
+                  <li>
+                     <a href="#" data-toggle-state="offsidebar-open" data-no-persist="true">
+                        <em class="icon-notebook"></em>
+                     </a>
+                  </li>
+                  <!-- END Offsidebar menu-->
+               </ul>
+               <!-- END Right Navbar-->
             </div>
-            <div class="sidebar-footer">
-                <div class="footer-avatar">
-                    <img src="../../../asstes/Backend/html/assets/img/avatars/andy.jpg" alt="Fabian Mellan Jr." />
-                </div>
-                <div class="footer-user">
-                    <a href="Profile.html">
-                        <?php
-                        
-                        echo $this->session->usuario[0]->nombre_usu;
+            <!-- END Nav wrapper-->
+            <!-- START Search form-->
+            <form role="search" action="search.html" class="navbar-form">
+               <div class="form-group has-feedback">
+                  <input type="text" placeholder="Type and hit enter ..." class="form-control">
+                  <div data-search-dismiss="" class="fa fa-times form-control-feedback"></div>
+               </div>
+               <button type="submit" class="hidden btn btn-default">Submit</button>
+            </form>
+            <!-- END Search form-->
+         </nav>
+         <!-- END Top Navbar-->
+      </header>
+      <!-- sidebar-->
+      <aside class="aside">
+         <!-- START Sidebar (left)-->
+         <div class="aside-inner">
+            <nav data-sidebar-anyclick-close="" class="sidebar">
+               <!-- START sidebar nav-->
+               <ul class="nav">
+                  <!-- START user info-->
+                  <li class="has-user-block">
+                     <div id="user-block" class="collapse">
+                        <div class="item user-block">
+                           <!-- User picture-->
+                           <div class="user-block-picture">
+                              <div class="user-block-status">
+                                 <img src="<?php echo base_url(); ?>../asstes/img/user/02.jpg" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
+                                 <div class="circle circle-success circle-lg"></div>
+                              </div>
+                           </div>
+                           <!-- Name and Job-->
+                           <div class="user-block-info">
+                              <span class="user-block-name">Hello, 
+                                <?php                        
+                                    echo $this->session->usuario[0]->nombre_usu;
+                                ?>
+                              </span>
+                              <span class="user-block-role">Designer</span>
+                           </div>
+                        </div>
+                     </div>
+                  </li>
+                  <!-- END user info-->
+                  <!-- Iterates over all sidebar items-->
+                  <li class="nav-heading ">
+                     <span data-localize="sidebar.heading.HEADER">Main Navigation</span>
+                  </li>
+                  <li class=" ">
+                    <?php
+                        $id_menu = 0;
+                        foreach ($menu as $menus)
+                        {                            
+                            if($id_menu != $menus->id_menu)
+                            {
+                                $id_menu = $menus->id_menu;                        
                         ?>
-                    </a>
-                </div>
-                <div class="footer-links">
-                    <a href="<?php echo base_url(); ?>login/logout" class="links-logout">
-                        <i class="pe-7s-power"></i>
-                        <span>Sign Out</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!--
-        [4. Sidebar Form]
-        -->
-        <div class="sidebar form collapsed">
-        </div>
-        <!--
-        [5. Main Page Content]
-        -->
-        <div class="main-content">
-            <!--
-            [5.1. Page Header]
-            -->
-            <div class="content-header">
-                <!--
-                [5.1.1. BreadCrumb]
-                -->
-                <div class="content-nav">
-                <div class="navbar navbar-default content-nav-navbar">
+                     <a href="#<?php echo $menus->nombre_menu; ?>" title="<?php echo $menus->nombre_menu; ?>" data-toggle="collapse">
+                        <div class="pull-right label label-info">3</div>
+                        <em class="<?php echo $menus->icon_menu; ?>"></em>
+                        <span data-localize="sidebar.nav.DASHBOARD"><?php echo $menus->nombre_menu; ?></span>
+                     </a>
+                     <ul id="<?php echo $menus->nombre_menu; ?>" class="nav sidebar-subnav collapse">
+                        <?php
+                            foreach ($menu as $submenu)
+                            {
+                                if($submenu->id_menu == $menus->id_menu)
+                                {
+                            ?>
+                                <li class="sidebar-subnav-header">Dashboard</li>
+                                <li class=" ">
+                                   <a href="<?php echo base_url(). $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>">
+                                      <span><?php echo $submenu->nombre_submenu; ?></span>
+                                   </a>
+                                </li>
+
+                            <?php
+                                }
+                            }
+                        ?>
+
+                     </ul>
+                     <?php
+                            }
+                        }
+                    ?>
+                  </li>
+
+                  
+
+
          
-                    <div id="navbar-collapse-2" class="navbar-collapse collapse">
+                  <li class=" ">
+                     <a href="#multilevel" title="Multilevel" data-toggle="collapse">
+                        <em class="fa fa-folder-open-o"></em>
+                        <span>Multilevel</span>
+                     </a>
+                     <ul id="multilevel" class="nav sidebar-subnav collapse">
+                        <li class="sidebar-subnav-header">Multilevel</li>
+                        <li class=" ">
+                           <a href="#level1" title="Level 1" data-toggle="collapse">
+                              <span>Level 1</span>
+                           </a>
+                           <ul id="level1" class="nav sidebar-subnav collapse">
+                              <li class="sidebar-subnav-header">Level 1</li>
+                              <li class=" ">
+                                 <a href="multilevel-1.html" title="Level1 Item">
+                                    <span>Level1 Item</span>
+                                 </a>
+                              </li>
+                              <li class=" ">
+                                 <a href="#level2" title="Level 2" data-toggle="collapse">
+                                    <span>Level 2</span>
+                                 </a>
+                                 <ul id="level2" class="nav sidebar-subnav collapse">
+                                    <li class="sidebar-subnav-header">Level 2</li>
+                                    <li class=" ">
+                                       <a href="#level3" title="Level 3" data-toggle="collapse">
+                                          <span>Level 3</span>
+                                       </a>
+                                       <ul id="level3" class="nav sidebar-subnav collapse">
+                                          <li class="sidebar-subnav-header">Level 3</li>
+                                          <li class=" ">
+                                             <a href="<?php echo base_url(); ?>login/logout" title="Level3 Item">
+                                                <span>Sign Out</span>
+                                             </a>
+                                          </li>
+                                       </ul>
+                                    </li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </li>
+                     </ul>
+                  </li>
 
-                         <ul class="nav navbar-nav header-actions navbar-left">
-                              
-                            <li class="actions-stretch-menu" id="action-stretch-menu">
-                                <div class="icon"></div>
-                            </li>
-                            <li id="action-menu-collapse">
-                                <a>
-                                    <i class="pe-7s-menu"></i>
-                                </a>
-                            </li>
-     
-                            
-                   
-                        </ul>
-                        <ul class="nav navbar-nav">
-                            <li class="dropdown content-nav-navbar-fw">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Services<i class="dropdown-caret pe-7s-angle-down"></i></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <div class="content-nav-navbar-content p-b-0">
-                                            <ul class="thumbnail-links row">
-                                                <li class="col-sm-4">
-                                                    <a href="">
-                                                        <i class="pe-7s-users"></i>
-                                                        <div class="link-title">User Management</div>
-                                                        <p>Manage Your Users Online</p>
-                                                    </a>
-                                                </li>
-                                                <li class="col-sm-4">
-                                                    <a href="">
-                                                        <i class="pe-7s-settings"></i>
-                                                        <div class="link-title">Configuration</div>
-                                                        <p>Set Application settings</p>
-                                                    </a>
-                                                </li>
-                                                <li class="col-sm-4">
-                                                    <a href="">
-                                                        <i class="pe-7s-mail-open-file"></i>
-                                                        <div class="link-title">Messages</div>
-                                                        <p>See your messages</p>
-                                                    </a>
-                                                </li>
-                                                <li class="col-sm-4">
-                                                    <a href="">
-                                                        <i class="pe-7s-shield"></i>
-                                                        <div class="link-title">Security Management</div>
-                                                        <p>Secure your application</p>
-                                                    </a>
-                                                </li>
-                                                <li class="col-sm-4">
-                                                    <a href="">
-                                                        <i class="pe-7s-edit"></i>
-                                                        <div class="link-title">Sound</div>
-                                                        <p>Sound Settings</p>
-                                                    </a>
-                                                </li>
-                                                <li class="col-sm-4">
-                                                    <a href="">
-                                                        <i class="pe-7s-paint-bucket"></i>
-                                                        <div class="link-title">Skins</div>
-                                                        <p>Change your skins</p>
-                                                    </a>
-                                                </li>
-                                                <li class="col-sm-4">
-                                                    <a href="">
-                                                        <i class="pe-7s-headphones"></i>
-                                                        <div class="link-title">Support</div>
-                                                        <p>Call Support Center</p>
-                                                    </a>
-                                                </li>
-                                                <li class="col-sm-4">
-                                                    <a href="">
-                                                        <i class="pe-7s-map-marker"></i>
-                                                        <div class="link-title">Location</div>
-                                                        <p>Enable Location</p>
-                                                    </a>
-                                                </li>
-                                                <li class="col-sm-4">
-                                                    <a href="">
-                                                        <i class="pe-7s-help1"></i>
-                                                        <div class="link-title">Help Center</div>
-                                                        <p>Browse Help Center</p>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown content-nav-navbar-fw">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Categories<i class="dropdown-caret pe-7s-angle-down"></i></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <div class="content-nav-navbar-content p-b-0">
-                                            <ul class="categories-links row">
-                                                <li class="col-sm-4">
-                                                    <div class="category-title">
-                                                        App Management
-                                                    </div>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-monitor"></i>
-                                                                Dashboards
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-users"></i>
-                                                                Users
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-graph1"></i>
-                                                                Charts and Graphs
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-id"></i>
-                                                                Profile and User Info
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-edit"></i>
-                                                                Forms Settings
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-map-marker"></i>
-                                                                Navigations
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-mail"></i>
-                                                                Inbox
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="col-sm-4">
-                                                    <div class="category-title">
-                                                        User Configuration
-                                                    </div>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-alarm"></i>
-                                                                Time Monitored
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-albums"></i>
-                                                                Albums
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-attention"></i>
-                                                                Notifications
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-ball"></i>
-                                                                Sport Activitis
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-bicycle"></i>
-                                                                Round Trips
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-gleam"></i>
-                                                                UI Elements
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-cup"></i>
-                                                                Entertainment
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="col-sm-4">
-                                                    <div class="category-title">
-                                                        Security Console
-                                                    </div>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-coffee"></i>
-                                                                JavaScript
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-calculator"></i>
-                                                                Calculator
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-file"></i>
-                                                                Files and Folders
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-camera"></i>
-                                                                Pictures
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-display1"></i>
-                                                                Forms and Dashboards
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-science"></i>
-                                                                Reaction
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="">
-                                                                <i class="pe-7s-date"></i>
-                                                                Calendar
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown content-nav-navbar-fw">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Products<i class="dropdown-caret pe-7s-angle-down"></i></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <div class="content-nav-navbar-content p-b-0">
-                                            <ul class="gallery-links row">
-                                                <li class="col-sm-3">
-                                                    <a href="">
-                                                        <img src="assets/img/products/p1.png" alt="Mac Pro"/>
-                                                        <div class="link-title">Mac Pro</div>
-                                                        <p>Built for creativity on an epic scale</p>
-                                                    </a>
-                                                </li>
-                                                <li class="col-sm-3">
-                                                    <a href="">
-                                                        <img src="assets/img/products/p2.png" alt="Apple Watch"/>
-                                                        <div class="link-title">Apple Watch</div>
-                                                        <p>The watch that works like your PC</p>
-                                                    </a>
-                                                </li>
-                                                <li class="col-sm-3">
-                                                    <a href="">
-                                                        <img src="assets/img/products/p3.png" alt="Surface Pro 4"/>
-                                                        <div class="link-title">Surface Pro 4</div>
-                                                        <p>Make the most of your 24 hours</p>
-                                                    </a>
-                                                </li>
-                                                <li class="col-sm-3">
-                                                    <a href="">
-                                                        <img src="assets/img/products/p4.png" alt="Iphone 6"/>
-                                                        <div class="link-title">Iphone 6</div>
-                                                        <p>Best Smart Phone Ever</p>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                       
-                    </div>
-                </div>
+               </ul>
+               <!-- END sidebar nav-->
+            </nav>
+         </div>
+         <!-- END Sidebar (left)-->
+      </aside>
+      <!-- offsidebar-->
+      <aside class="offsidebar hide">
+         <!-- START Off Sidebar (right)-->
+         <nav>
+            <div role="tabpanel">
+               <!-- Nav tabs-->
+               <ul role="tablist" class="nav nav-tabs nav-justified">
+                  <li role="presentation" class="active">
+                     <a href="#app-settings" aria-controls="app-settings" role="tab" data-toggle="tab">
+                        <em class="icon-equalizer fa-lg"></em>
+                     </a>
+                  </li>
+                  <li role="presentation">
+                     <a href="#app-chat" aria-controls="app-chat" role="tab" data-toggle="tab">
+                        <em class="icon-user fa-lg"></em>
+                     </a>
+                  </li>
+               </ul>
+               <!-- Tab panes-->
+               <div class="tab-content">
+                  <div id="app-settings" role="tabpanel" class="tab-pane fade in active">
+                     <h3 class="text-center text-thin">Settings</h3>
+                     <div class="p">
+                        <h4 class="text-muted text-thin">Themes</h4>
+                        <div class="table-grid mb">
+                           <div class="col mb">
+                              <div class="setting-color">
+                                 <label data-load-css="css/theme-a.css">
+                                    <input type="radio" name="setting-theme" checked="checked">
+                                    <span class="icon-check"></span>
+                                    <span class="split">
+                                       <span class="color bg-info"></span>
+                                       <span class="color bg-info-light"></span>
+                                    </span>
+                                    <span class="color bg-white"></span>
+                                 </label>
+                              </div>
+                           </div>
+                           <div class="col mb">
+                              <div class="setting-color">
+                                 <label data-load-css="css/theme-b.css">
+                                    <input type="radio" name="setting-theme">
+                                    <span class="icon-check"></span>
+                                    <span class="split">
+                                       <span class="color bg-green"></span>
+                                       <span class="color bg-green-light"></span>
+                                    </span>
+                                    <span class="color bg-white"></span>
+                                 </label>
+                              </div>
+                           </div>
+                           <div class="col mb">
+                              <div class="setting-color">
+                                 <label data-load-css="css/theme-c.css">
+                                    <input type="radio" name="setting-theme">
+                                    <span class="icon-check"></span>
+                                    <span class="split">
+                                       <span class="color bg-purple"></span>
+                                       <span class="color bg-purple-light"></span>
+                                    </span>
+                                    <span class="color bg-white"></span>
+                                 </label>
+                              </div>
+                           </div>
+                           <div class="col mb">
+                              <div class="setting-color">
+                                 <label data-load-css="css/theme-d.css">
+                                    <input type="radio" name="setting-theme">
+                                    <span class="icon-check"></span>
+                                    <span class="split">
+                                       <span class="color bg-danger"></span>
+                                       <span class="color bg-danger-light"></span>
+                                    </span>
+                                    <span class="color bg-white"></span>
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="table-grid mb">
+                           <div class="col mb">
+                              <div class="setting-color">
+                                 <label data-load-css="css/theme-e.css">
+                                    <input type="radio" name="setting-theme">
+                                    <span class="icon-check"></span>
+                                    <span class="split">
+                                       <span class="color bg-info-dark"></span>
+                                       <span class="color bg-info"></span>
+                                    </span>
+                                    <span class="color bg-gray-dark"></span>
+                                 </label>
+                              </div>
+                           </div>
+                           <div class="col mb">
+                              <div class="setting-color">
+                                 <label data-load-css="css/theme-f.css">
+                                    <input type="radio" name="setting-theme">
+                                    <span class="icon-check"></span>
+                                    <span class="split">
+                                       <span class="color bg-green-dark"></span>
+                                       <span class="color bg-green"></span>
+                                    </span>
+                                    <span class="color bg-gray-dark"></span>
+                                 </label>
+                              </div>
+                           </div>
+                           <div class="col mb">
+                              <div class="setting-color">
+                                 <label data-load-css="css/theme-g.css">
+                                    <input type="radio" name="setting-theme">
+                                    <span class="icon-check"></span>
+                                    <span class="split">
+                                       <span class="color bg-purple-dark"></span>
+                                       <span class="color bg-purple"></span>
+                                    </span>
+                                    <span class="color bg-gray-dark"></span>
+                                 </label>
+                              </div>
+                           </div>
+                           <div class="col mb">
+                              <div class="setting-color">
+                                 <label data-load-css="css/theme-h.css">
+                                    <input type="radio" name="setting-theme">
+                                    <span class="icon-check"></span>
+                                    <span class="split">
+                                       <span class="color bg-danger-dark"></span>
+                                       <span class="color bg-danger"></span>
+                                    </span>
+                                    <span class="color bg-gray-dark"></span>
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="p">
+                        <h4 class="text-muted text-thin">Layout</h4>
+                        <div class="clearfix">
+                           <p class="pull-left">Fixed</p>
+                           <div class="pull-right">
+                              <label class="switch">
+                                 <input id="chk-fixed" type="checkbox" data-toggle-state="layout-fixed">
+                                 <span></span>
+                              </label>
+                           </div>
+                        </div>
+                        <div class="clearfix">
+                           <p class="pull-left">Boxed</p>
+                           <div class="pull-right">
+                              <label class="switch">
+                                 <input id="chk-boxed" type="checkbox" data-toggle-state="layout-boxed">
+                                 <span></span>
+                              </label>
+                           </div>
+                        </div>
+                        <div class="clearfix">
+                           <p class="pull-left">RTL</p>
+                           <div class="pull-right">
+                              <label class="switch">
+                                 <input id="chk-rtl" type="checkbox">
+                                 <span></span>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="p">
+                        <h4 class="text-muted text-thin">Aside</h4>
+                        <div class="clearfix">
+                           <p class="pull-left">Collapsed</p>
+                           <div class="pull-right">
+                              <label class="switch">
+                                 <input id="chk-collapsed" type="checkbox" data-toggle-state="aside-collapsed">
+                                 <span></span>
+                              </label>
+                           </div>
+                        </div>
+                        <div class="clearfix">
+                           <p class="pull-left">Collapsed Text</p>
+                           <div class="pull-right">
+                              <label class="switch">
+                                 <input id="chk-collapsed-text" type="checkbox" data-toggle-state="aside-collapsed-text">
+                                 <span></span>
+                              </label>
+                           </div>
+                        </div>
+                        <div class="clearfix">
+                           <p class="pull-left">Float</p>
+                           <div class="pull-right">
+                              <label class="switch">
+                                 <input id="chk-float" type="checkbox" data-toggle-state="aside-float">
+                                 <span></span>
+                              </label>
+                           </div>
+                        </div>
+                        <div class="clearfix">
+                           <p class="pull-left">Hover</p>
+                           <div class="pull-right">
+                              <label class="switch">
+                                 <input id="chk-hover" type="checkbox" data-toggle-state="aside-hover">
+                                 <span></span>
+                              </label>
+                           </div>
+                        </div>
+                        <div class="clearfix">
+                           <p class="pull-left">Show Scrollbar</p>
+                           <div class="pull-right">
+                              <label class="switch">
+                                 <input id="chk-hover" type="checkbox" data-toggle-state="show-scrollbar" data-target=".sidebar">
+                                 <span></span>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div id="app-chat" role="tabpanel" class="tab-pane fade">
+                     <h3 class="text-center text-thin">Connections</h3>
+                     <ul class="nav">
+                        <!-- START list title-->
+                        <li class="p">
+                           <small class="text-muted">ONLINE</small>
+                        </li>
+                        <!-- END list title-->
+                        <li>
+                           <!-- START User status-->
+                           <a href="#" class="media-box p mt0">
+                              <span class="pull-right">
+                                 <span class="circle circle-success circle-lg"></span>
+                              </span>
+                              <span class="pull-left">
+                                 <!-- Contact avatar-->
+                                 <img src="<?php echo base_url(); ?>../asstes/img/user/05.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                              </span>
+                              <!-- Contact info-->
+                              <span class="media-box-body">
+                                 <span class="media-box-heading">
+                                    <strong>Juan Sims</strong>
+                                    <br>
+                                    <small class="text-muted">Designeer</small>
+                                 </span>
+                              </span>
+                           </a>
+                           <!-- END User status-->
+                           <!-- START User status-->
+                           <a href="#" class="media-box p mt0">
+                              <span class="pull-right">
+                                 <span class="circle circle-success circle-lg"></span>
+                              </span>
+                              <span class="pull-left">
+                                 <!-- Contact avatar-->
+                                 <img src="<?php echo base_url(); ?>../asstes/img/user/06.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                              </span>
+                              <!-- Contact info-->
+                              <span class="media-box-body">
+                                 <span class="media-box-heading">
+                                    <strong>Maureen Jenkins</strong>
+                                    <br>
+                                    <small class="text-muted">Designeer</small>
+                                 </span>
+                              </span>
+                           </a>
+                           <!-- END User status-->
+                           <!-- START User status-->
+                           <a href="#" class="media-box p mt0">
+                              <span class="pull-right">
+                                 <span class="circle circle-danger circle-lg"></span>
+                              </span>
+                              <span class="pull-left">
+                                 <!-- Contact avatar-->
+                                 <img src="<?php echo base_url(); ?>../asstes/img/user/07.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                              </span>
+                              <!-- Contact info-->
+                              <span class="media-box-body">
+                                 <span class="media-box-heading">
+                                    <strong>Billie Dunn</strong>
+                                    <br>
+                                    <small class="text-muted">Designeer</small>
+                                 </span>
+                              </span>
+                           </a>
+                           <!-- END User status-->
+                           <!-- START User status-->
+                           <a href="#" class="media-box p mt0">
+                              <span class="pull-right">
+                                 <span class="circle circle-warning circle-lg"></span>
+                              </span>
+                              <span class="pull-left">
+                                 <!-- Contact avatar-->
+                                 <img src="<?php echo base_url(); ?>../asstes/img/user/08.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                              </span>
+                              <!-- Contact info-->
+                              <span class="media-box-body">
+                                 <span class="media-box-heading">
+                                    <strong>Tomothy Roberts</strong>
+                                    <br>
+                                    <small class="text-muted">Designer</small>
+                                 </span>
+                              </span>
+                           </a>
+                           <!-- END User status-->
+                        </li>
+                        <!-- START list title-->
+                        <li class="p">
+                           <small class="text-muted">OFFLINE</small>
+                        </li>
+                        <!-- END list title-->
+                        <li>
+                           <!-- START User status-->
+                           <a href="#" class="media-box p mt0">
+                              <span class="pull-right">
+                                 <span class="circle circle-lg"></span>
+                              </span>
+                              <span class="pull-left">
+                                 <!-- Contact avatar-->
+                                 <img src="<?php echo base_url(); ?>../asstes/img/user/09.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                              </span>
+                              <!-- Contact info-->
+                              <span class="media-box-body">
+                                 <span class="media-box-heading">
+                                    <strong>Lawrence Robinson</strong>
+                                    <br>
+                                    <small class="text-muted">Developer</small>
+                                 </span>
+                              </span>
+                           </a>
+                           <!-- END User status-->
+                           <!-- START User status-->
+                           <a href="#" class="media-box p mt0">
+                              <span class="pull-right">
+                                 <span class="circle circle-lg"></span>
+                              </span>
+                              <span class="pull-left">
+                                 <!-- Contact avatar-->
+                                 <img src="<?php echo base_url(); ?>../asstes/img/user/10.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                              </span>
+                              <!-- Contact info-->
+                              <span class="media-box-body">
+                                 <span class="media-box-heading">
+                                    <strong>Tyrone Owens</strong>
+                                    <br>
+                                    <small class="text-muted">Designer</small>
+                                 </span>
+                              </span>
+                           </a>
+                           <!-- END User status-->
+                        </li>
+                        <li>
+                           <div class="p-lg text-center">
+                              <!-- Optional link to list more users-->
+                              <a href="#" title="See more contacts" class="btn btn-purple btn-sm">
+                                 <strong>Load more..</strong>
+                              </a>
+                           </div>
+                        </li>
+                     </ul>
+                     <!-- Extra items-->
+                     <div class="p">
+                        <p>
+                           <small class="text-muted">Tasks completion</small>
+                        </p>
+                        <div class="progress progress-xs m0">
+                           <div role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-success progress-80">
+                              <span class="sr-only">80% Complete</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="p">
+                        <p>
+                           <small class="text-muted">Upload quota</small>
+                        </p>
+                        <div class="progress progress-xs m0">
+                           <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-warning progress-40">
+                              <span class="sr-only">40% Complete</span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-                <!--
-                [5.1.2. Header Buttons]
-                -->
-
-            </div>
-
-            <!--
-            [5.2. Page Navbar]
-            -->
-
-            <!--
-            [5.3. Page Body]
-            -->
-            
-    
-    
-   
+         </nav>
+         <!-- END Off Sidebar (right)-->
+      </aside>
+      
