@@ -25,7 +25,10 @@ class Menu extends CI_Controller {
 		$this->load->database(); 
 
 		$this->load->library('parser');
-		$this->load->library('session');
+
+	    
+	    @$this->load->library('session');
+	    
 		$this->load->helper('url');
 
 		$this->load->model('admin/Menu_model');
@@ -35,7 +38,7 @@ class Menu extends CI_Controller {
 	public function index(){
 		// Construir Menu basado en el rol de usuario
 
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['lista_menu'] = $this->Menu_model->lista_menu();
@@ -45,7 +48,7 @@ class Menu extends CI_Controller {
 	}
 
 	public function nuevo(){
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['home'] = 'admin/menu/nuevoMenu.php';
@@ -63,7 +66,7 @@ class Menu extends CI_Controller {
 	public function submenu( $id_menu ){
 		// Selecionar todos los submenus de cada menu
 
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['submenus'] = $this->Menu_model->getSubMenu( $id_menu );		
@@ -75,7 +78,7 @@ class Menu extends CI_Controller {
 	public function editar_menu( $id_menu ){
 		// Cargar menu para editar
 
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['onMenu'] = $this->Menu_model->getOneMenu( $id_menu );
@@ -83,6 +86,26 @@ class Menu extends CI_Controller {
 		$data['home'] = 'admin/menu/menueditar';			
 
 		$this->parser->parse('template', $data);
+	}
+
+	// Cargar formulario para nuevo menu
+	public function nuevo_submenu( $id_menu ){
+		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
+
+		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['allMenus'] = $this->Menu_model->getAllMenu();
+		$data['home'] = 'admin/menu/nuevo_sub_menu.php';
+		$data['id_menu'] = $id_menu;
+
+		$this->parser->parse('template', $data);
+	}
+
+	public function save_sub_menu( $id_menu ){
+		// Guardar nuevo sub menu
+
+		$this->Menu_model->save_sub_menu( $_POST );
+
+		redirect(base_url()."admin/menu/submenu/". $id_menu );
 	}
 
 	public function update_menu(){
@@ -96,7 +119,7 @@ class Menu extends CI_Controller {
 	public function editar_sub_menu( $id_sub_menu ){
 		// Cargar sub menu para editar
 
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['allMenus'] = $this->Menu_model->getAllMenu();
@@ -116,6 +139,11 @@ class Menu extends CI_Controller {
 
 	public function delete( $id_menu ){
 		$this->Menu_model->delete_menu( $id_menu );
+		redirect(base_url()."admin/menu/index");
+	}
+
+	public function delete_sub_menu( $id_sub_menu ){
+		$this->Menu_model->delete_sub_menu( $id_sub_menu );
 		redirect(base_url()."admin/menu/index");
 	}
 }

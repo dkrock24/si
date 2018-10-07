@@ -21,7 +21,22 @@
                                 <th>Icono</th>
                                 <th>Rol</th>
                                 <th>Estado</th>
-                                <th>Acciones</th>                               
+                                <th>
+                                     <div class="btn-group">
+                                       <button type="button" class="btn btn-default">Opcion</button>
+                                       <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-default">
+                                          <span class="caret"></span>
+                                          <span class="sr-only">default</span>
+                                       </button>
+                                       <ul role="menu" class="dropdown-menu">
+                                          <li><a href="../nuevo_submenu/<?php echo $submenus[0]->id_menu; ?>">Nuevo</a>                </li>
+                                          <li><a href="#">Exportar</a>              </li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Otros</a>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                </th>                               
                             </tr>
                         </thead>
                         <tbody>
@@ -54,7 +69,7 @@
                            </button>
                                                     <ul role="menu" class="dropdown-menu">
                                                         <li><a href="../editar_sub_menu/<?php echo $sub->id_submenu; ?>">Editar</a></li>
-                                                        <li><a href="../editar_sub_menu/<?php echo $sub->id_submenu; ?>">Eliminar</a></li>
+                                                        <li><a href="../delete_sub_menu/<?php echo $sub->id_submenu; ?>">Eliminar</a></li>
                                                     </ul>
                                                 </div>
                                           

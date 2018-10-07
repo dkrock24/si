@@ -167,6 +167,29 @@ class Menu_model extends CI_Model {
         return 1;
     }
 
+    function save_sub_menu( $submenu ){
+
+        $data = array(
+            'nombre_submenu'    => $submenu['nombre_submenu'],
+            'url_submenu'       => $submenu['url_submenu'],
+            'titulo_submenu'    => $submenu['titulo_submenu'],
+            'icon_submenu'      => $submenu['icon_submenu'],
+            'id_menu'           => $submenu['id_menu'],            
+            'estado_submen'     => $submenu['estado_menu']            
+        );
+        $this->db->insert('sys_menu_submenu', $data ); 
+    }
+
+    function delete_sub_menu( $id_sub_menu ){
+
+        $data = array(
+            'id_submenu' => $id_sub_menu
+        );
+        $this->db->delete('sys_menu_submenu', $data);
+
+        return 1;
+    }
+
     
 }
 

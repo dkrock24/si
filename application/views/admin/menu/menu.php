@@ -13,9 +13,9 @@
                                 <th>#</th>
                                 <th>Nombre</th>
                                 <th>Url</th>
-                                <th>Icono</th>
-                                <th>Rol</th>
+                                <th>Icono</th>                                
                                 <th>Estado</th>
+                                <th>Class</th>
                                 <th>
                                     <div class="btn-group">
                                        <button type="button" class="btn btn-default">Opcion</button>
@@ -55,7 +55,7 @@
             			                            			<span class="label label-success">Activo</span>
             			                            			<?php
             			                            		}?></td>
-            			                            <td><?php echo $menus->nombre_menu; ?></td>
+            			                            <td><?php echo $menus->class_menu; ?></td>
             			                            <td>
             			                            	                                
             				                                <div class="btn-group mb-sm">
@@ -65,7 +65,10 @@
             				                                    <ul role="menu" class="dropdown-menu">
                                                                     <li><a href="submenu/<?php echo $menus->id_menu; ?>">Ver</a></li>
             				                                        <li><a href="editar_menu/<?php echo $menus->id_menu; ?>">Editar</a></li>
+                                                                    <li><a href="nuevo_submenu/<?php echo $menus->id_menu; ?>">Nuevo</a></li>
+                                                                    <li class="divider"></li>
             				                                        <li><a href="delete/<?php echo $menus->id_menu; ?>">Eliminar</a></li>
+
             				                                    </ul>
             				                                </div>
                                         				

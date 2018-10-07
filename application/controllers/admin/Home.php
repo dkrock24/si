@@ -25,7 +25,7 @@ class Home extends CI_Controller {
 		$this->load->database();    
 
 		$this->load->library('parser');
-		$this->load->library('session');
+		@$this->load->library('session');
 		$this->load->helper('url');
 
 		$this->load->model('admin/Menu_model');
@@ -33,10 +33,12 @@ class Home extends CI_Controller {
 	}
 
 	public function index()
-	{
-		// Construir Menu
-		$id_rol = $this->session->usuario[0]->id_rol;
-		
+	{		
+		// Construir Menu		
+		$this->load->model('Login_model');
+		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
+
+
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['home'] = 'home';
 
