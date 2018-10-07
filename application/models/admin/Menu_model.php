@@ -28,6 +28,20 @@ class Menu_model extends CI_Model {
         } 
     }
 
+    function lista_menu( ){
+
+        $this->db->select('*');
+        $this->db->from(self::menu);       
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        //die;   
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
     function getSubMenu( $id_menu ){
 
         $this->db->select('*');
@@ -110,6 +124,47 @@ class Menu_model extends CI_Model {
         );
         $this->db->where('id_submenu', $submenu['id_submenu']);
         $this->db->update(self::submenu, $data);       
+    }
+
+    function save_menu( $data ){
+
+        $data = array(
+            'nombre_menu' => $data['nombre_menu'],
+            'url_menu' => $data['url_menu'],
+            'icon_menu' =>  $data['icon_menu'],
+            'class_menu' => $data['class_menu'],
+            'id_rol_menu' => 1,
+            'estado_menu' => $data['estado_menu']
+        );
+        $this->db->insert(self::menu, $data );
+
+        $ultimo_id = $this->db->insert_id();
+
+        $query = "select distinct role_id from sys_role";
+        $query = $this->db->query($query);  
+        $data_roles = $query->result_array(); 
+
+        foreach ($data_roles as $value) {
+            $a = $value['role_id'];
+            $inset_acceso = "insert into sys_menu_acceso (id_rol,id_menu,id_usuario,estado)
+            values($a,$ultimo_id,0,0)";
+            $this->db->query($inset_acceso);
+        }   
+    }
+
+    function delete_menu( $menu_id ){
+
+        $data = array(
+            'id_menu' => $menu_id
+        );
+        $this->db->delete('sys_menu_acceso', $data);
+        
+        $data = array(
+            'id_menu' => $menu_id
+        );
+        $this->db->delete(self::menu, $data);
+
+        return 1;
     }
 
     

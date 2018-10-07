@@ -32,18 +32,37 @@ class Menu extends CI_Controller {
 		$this->load->model('Login_model');   
 	}
 
-	public function index()
-	{
-		// Construir Menu
+	public function index(){
+		// Construir Menu basado en el rol de usuario
+
 		$id_rol = $this->session->usuario[0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['lista_menu'] = $this->Menu_model->lista_menu();
 		$data['home'] = 'admin/menu/menu';
 
 		$this->parser->parse('template', $data);
 	}
 
+	public function nuevo(){
+		$id_rol = $this->session->usuario[0]->id_rol;
+
+		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['home'] = 'admin/menu/nuevoMenu.php';
+
+		$this->parser->parse('template', $data);
+	}
+
+	public function save_menu(){
+
+		$this->Menu_model->save_menu( $_POST );
+
+		redirect(base_url()."admin/menu/index");
+	}
+
 	public function submenu( $id_menu ){
+		// Selecionar todos los submenus de cada menu
+
 		$id_rol = $this->session->usuario[0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
@@ -54,6 +73,8 @@ class Menu extends CI_Controller {
 	}
 
 	public function editar_menu( $id_menu ){
+		// Cargar menu para editar
+
 		$id_rol = $this->session->usuario[0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
@@ -65,6 +86,7 @@ class Menu extends CI_Controller {
 	}
 
 	public function update_menu(){
+		// Update Menu
 
 		$this->Menu_model->update_menu( $_POST );
 
@@ -72,6 +94,8 @@ class Menu extends CI_Controller {
 	}
 
 	public function editar_sub_menu( $id_sub_menu ){
+		// Cargar sub menu para editar
+
 		$id_rol = $this->session->usuario[0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
@@ -84,9 +108,14 @@ class Menu extends CI_Controller {
 	}
 
 	public function update_sub_menu(){
-
+		// Update sub menu 
 		$this->Menu_model->update_sub_menu( $_POST );
 
+		redirect(base_url()."admin/menu/submenu/". $_POST['id_menu']);
+	}
+
+	public function delete( $id_menu ){
+		$this->Menu_model->delete_menu( $id_menu );
 		redirect(base_url()."admin/menu/index");
 	}
 }

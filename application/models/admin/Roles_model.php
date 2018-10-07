@@ -46,8 +46,47 @@ class Roles_model extends CI_Model {
         $this->db->update(self::roles, $data);  
     }
 
-    
-    
+    function nuevo_rol( $nuevo_rol ){
+
+        $data = array(
+           'role' => $nuevo_rol['role'],
+            'pagina' => $nuevo_rol['pagina'],
+            'fecha_actualizacion' => date('Y-m-d'),
+            'estado_rol' => $nuevo_rol['estado_rol'],
+        );
+
+        $this->db->insert(self::roles, $data );
+
+        $ultimo_id = $this->db->insert_id();
+
+        $query = "select distinct id_menu from sys_menu";
+        $query = $this->db->query($query);  
+        $data_menu = $query->result_array(); 
+
+        foreach ($data_menu as $value) {
+            $a = $value['id_menu'];
+            $inset_acceso = "insert into sys_menu_acceso (id_rol,id_menu,id_usuario,estado)
+            values($ultimo_id,$a,0,0)";
+            $this->db->query($inset_acceso);
+        } 
+    }
+
+    function delete_rol( $role_id ){
+
+        $data = array(
+            'id_rol' => $role_id
+        );
+        $this->db->delete('sys_menu_acceso', $data);
+        
+        $data = array(
+            'role_id' => $role_id
+        );
+        $this->db->delete(self::roles, $data);
+
+        
+
+        return 1;
+    }
 }
 
 ?>

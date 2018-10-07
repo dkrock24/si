@@ -44,5 +44,27 @@ class Roles extends CI_Controller {
 		
 		redirect(base_url()."admin/roles/index");
 	}
+
+	public function nuevo(){
+
+		$id_rol = $this->session->usuario[0]->id_rol;
+
+		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+						//$this->Roles_model->nuevo_rol( $_POST );
+		$data['home'] = 'admin/roles/roles_nuevo';
+
+		$this->parser->parse('template', $data);
+	}
+
+	public function save_rol(){
+		$this->Roles_model->nuevo_rol( $_POST );
+		redirect(base_url()."admin/roles/index");
+	}
+
+	public function delete( $id_rol ){
+		$this->Roles_model->delete_rol( $id_rol );
+		redirect(base_url()."admin/roles/index");
+	}
+
 	
 }
