@@ -31,7 +31,7 @@
                                           <span class="sr-only">default</span>
                                        </button>
                                        <ul role="menu" class="dropdown-menu">
-                                          <li><a href="../ciudad_nuevo/<?php  echo $ciu[0]->id_departamento; ?>">Nuevo</a>                </li>
+                                          <li><a href="../nuevo_ciu/<?php  echo $ciu[0]->id_departamento; ?>">Nuevo</a>                </li>
                                           <li><a href="#">Exportar</a>              </li>
                                           <li class="divider"></li>
                                           <li><a href="#">Otros</a>

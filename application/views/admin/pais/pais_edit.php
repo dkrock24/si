@@ -18,7 +18,7 @@
                                 <div id="" class="panel panel-info">
                                     <div class="panel-heading">Editar Pais : <?php echo $pais[0]->nombre_pais ?> </div>
                                         <p>
-                                        <form class="form-horizontal" action='../pais_update' method="post">
+                                        <form class="form-horizontal" action='../update' method="post">
                                             <input type="hidden" value="<?php echo $pais[0]->id_pais; ?>" name="id_pais">
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>

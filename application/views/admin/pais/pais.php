@@ -64,7 +64,7 @@
                                                                 </button>
             				                                    <ul role="menu" class="dropdown-menu">
                                                                     <li><a href="dep/<?php echo $lista_pais->id_pais; ?>">Ver</a></li>
-            				                                        <li><a href="pais_edit/<?php echo $lista_pais->id_pais; ?>">Editar</a></li>
+            				                                        <li><a href="edit/<?php echo $lista_pais->id_pais; ?>">Editar</a></li>
                                                                     
                                                                     <li class="divider"></li>
             				                                        <li><a href="delete/<?php echo $lista_pais->id_pais; ?>">Eliminar</a></li>
