@@ -10,7 +10,7 @@
                     <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Ciudades</button>
                 </h3>
             <div class="panel panel-default">
-                <div class="panel-heading">Lista Departmentos</div>
+                <div class="panel-heading">Lista Ciudades</div>
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
@@ -23,7 +23,6 @@
                                 <th>Estado</th>                               
                                 <th>Creado</th>
                                 <th>Actualizado</th>
-                                <th>Option</th>
                                 <th>
                                     <div class="btn-group">
                                        <button type="button" class="btn btn-default">Opcion</button>
@@ -32,7 +31,7 @@
                                           <span class="sr-only">default</span>
                                        </button>
                                        <ul role="menu" class="dropdown-menu">
-                                          <li><a href="nuevo">Nuevo</a>                </li>
+                                          <li><a href="../ciudad_nuevo/<?php  echo $ciu[0]->id_departamento; ?>">Nuevo</a>                </li>
                                           <li><a href="#">Exportar</a>              </li>
                                           <li class="divider"></li>
                                           <li><a href="#">Otros</a>
@@ -70,9 +69,7 @@
                                                                     <span class="caret"></span>
                                                                 </button>
             				                                    <ul role="menu" class="dropdown-menu">
-                                                                    <li><a href="ver_pais/<?php echo $ciudad->id_ciu; ?>">Ver</a></li>
-            				                                        <li><a href="editar_pais/<?php echo $ciudad->id_ciu; ?>">Editar</a></li>
-                                                                    <li><a href="nuevo_pais/<?php echo $ciudad->id_ciu; ?>">Nuevo</a></li>
+            				                                        <li><a href="../editar_ciu/<?php echo $ciudad->id_ciu; ?>">Editar</a></li>
                                                                     <li class="divider"></li>
             				                                        <li><a href="delete/<?php echo $ciudad->id_ciu; ?>">Eliminar</a></li>
 

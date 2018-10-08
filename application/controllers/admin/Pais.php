@@ -160,6 +160,39 @@ class Pais extends CI_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function ciudad_nuevo( $id_dep ){
+		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
+
+		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['dep'] =  $id_dep;
+		$data['home'] = 'admin/pais/ciu_nuevo';
+
+		$this->parser->parse('template', $data);
+	}
+
+	public function crear_ciu(){
+
+		$this->Pais_model->crear_ciu( $_POST );
+		
+		redirect(base_url()."admin/pais/ciudad/".$_POST['id_departamento']);
+	}
+
+	public function editar_ciu( $id_ciu ){
+		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
+
+		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['ciu'] =  $this->Menu_model->get_ciu( $id_ciu );
+		$data['home'] = 'admin/pais/ciu_editar';
+
+		$this->parser->parse('template', $data);
+	}
+
+	public function update_ciu(){
+		$this->Pais_model->update_ciu( $_POST );
+		
+		redirect(base_url()."admin/pais/ciudad/".$_POST['id_ciu']);
+	}
+
 	
 
 	
