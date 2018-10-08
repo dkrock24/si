@@ -90,8 +90,8 @@
                   <!-- START Alert menu-->
                   <li class="dropdown dropdown-list">
                      <a href="#" data-toggle="dropdown">
-                        <em class="icon-bell"></em>
-                        <div class="label label-danger">11</div>
+                        <em class="icon-user"></em>
+                        <!--<div class="label label-danger">11</div> -->
                      </a>
                      <!-- START Dropdown menu-->
                      <ul class="dropdown-menu animated flipInX">
@@ -99,15 +99,15 @@
                            <!-- START list group-->
                            <div class="list-group">
                               <!-- list item-->
-                              <a href="#" class="list-group-item">
+                              <a href="<?php echo base_url(); ?>/login/logout" class="list-group-item">
                                  <div class="media-box">
                                     <div class="pull-left">
-                                       <em class="fa fa-twitter fa-2x text-info"></em>
+                                       <em class="fa fa-lock fa-2x text-info"></em>
                                     </div>
                                     <div class="media-box-body clearfix">
-                                       <p class="m0">New followers</p>
+                                       <p class="m0">Salir</p>
                                        <p class="m0 text-muted">
-                                          <small>1 new follower</small>
+                                          <small>Logout System</small>
                                        </p>
                                     </div>
                                  </div>
@@ -116,12 +116,12 @@
                               <a href="#" class="list-group-item">
                                  <div class="media-box">
                                     <div class="pull-left">
-                                       <em class="fa fa-envelope fa-2x text-warning"></em>
+                                       <em class="fa fa-user fa-2x text-warning"></em>
                                     </div>
                                     <div class="media-box-body clearfix">
-                                       <p class="m0">New e-mails</p>
+                                       <p class="m0">Perfil</p>
                                        <p class="m0 text-muted">
-                                          <small>You have 10 new emails</small>
+                                          <small>Informacion Personal</small>
                                        </p>
                                     </div>
                                  </div>
@@ -130,12 +130,12 @@
                               <a href="#" class="list-group-item">
                                  <div class="media-box">
                                     <div class="pull-left">
-                                       <em class="fa fa-tasks fa-2x text-success"></em>
+                                       <em class="fa fa-cog fa-2x text-success"></em>
                                     </div>
                                     <div class="media-box-body clearfix">
-                                       <p class="m0">Pending Tasks</p>
+                                       <p class="m0">Preferencias</p>
                                        <p class="m0 text-muted">
-                                          <small>11 pending task</small>
+                                          <small>Preferencias</small>
                                        </p>
                                     </div>
                                  </div>
