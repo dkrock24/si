@@ -151,7 +151,7 @@ class Pais extends CI_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
-		$data['ciu']  = $this->Pais_model->get_ciu( $id_dep );
+		$data['ciu']  = $this->Pais_model->get_ciu_by( $id_dep );
 		$data['home'] = 'admin/pais/ciu';
 
 		$this->parser->parse('template', $data);

@@ -125,7 +125,7 @@ class Pais_model extends CI_Model {
 
 // Ciudad **********************************************************************
 
-	function get_ciu( $id_dep ){
+	function get_ciu_by( $id_dep ){
 
 			$this->db->select('*');
 	        $this->db->from(self::pais.' as p');
