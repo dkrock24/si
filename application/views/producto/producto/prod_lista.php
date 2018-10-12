@@ -67,7 +67,7 @@
                                                                     <span class="caret"></span>
                                                                 </button>
             				                                    <ul role="menu" class="dropdown-menu">
-                                                                    <li><a href="dep/<?php echo $p->id_entidad; ?>">Ver</a></li>
+                                                                    <li><a href="dep/<?php //echo $p->id_entidade; ?>">Ver</a></li>
             				                                        <li><a href="edit/<?php //echo $p->id_pais; ?>">Editar</a></li>
                                                                     
                                                                     <li class="divider"></li>

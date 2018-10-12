@@ -28,5 +28,16 @@ class Producto extends CI_Controller {
 
 		$this->parser->parse('template', $data);
 	}
+
+	public function nuevo(){
+
+		$id_rol = $this->session->usuario[0]->id_rol;
+
+		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+
+		$data['home'] = 'producto/producto/prod_nuevo';
+
+		$this->parser->parse('template', $data);
+	}
 	
 }
