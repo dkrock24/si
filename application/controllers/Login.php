@@ -22,7 +22,7 @@ class Login extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();    
-		$this->load->database('client', true);
+		$this->load->database('default', true);
 
 		 
 		@$this->load->library('session');
@@ -47,9 +47,11 @@ class Login extends CI_Controller {
 
 			if($user['usuario'] != 0){	
 				//$_SESSION = $user;
-				$_SESSION['db'] = $user;
+				//$_SESSION['db'] = $user;
+				$_SESSION = $user;
 				
-				header("location: validar");
+				//header("location: validar");
+				header("location:../admin/home/index");
 
 			}else{
 

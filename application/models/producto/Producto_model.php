@@ -3,7 +3,7 @@ class Producto_model extends CI_Model {
 
 		const producto =  'ops_prod';
 		const atributo =  'ops_atributo';
-		const categoria =  'ops_categoria';
+		const categoria =  'ops_categ';
 		const producto_valor =  'ops_prod_valor';
 		const sub_categoria =  'ops_categoria_subcategoria';		
 		const producto_atributo =  'ops_prod_atri';

@@ -36,7 +36,7 @@ class Home extends CI_Controller {
 	{		
 		// Construir Menu		
 		$this->load->model('Login_model');
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
+		$id_rol = $this->session->usuario[0]->id_rol;
 
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );

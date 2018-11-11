@@ -75,12 +75,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$db['client'] = array(
+$db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'db_core',
+	'database' => 'group_ibs_market',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -97,7 +97,7 @@ $db['client'] = array(
 	'save_queries' => TRUE
 );
 
-
+/*
 				$db['default'] = array(
 				'dsn'	=> '',
 				'hostname' => 'localhost',
@@ -118,6 +118,6 @@ $db['client'] = array(
 				'stricton' => FALSE,
 				'failover' => array(),
 				'save_queries' => TRUE
-			);
+			);*/
 
 //var_dump($db['default']);
