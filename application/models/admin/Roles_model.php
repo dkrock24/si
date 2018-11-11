@@ -25,7 +25,7 @@ class Roles_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::roles);   
-        $this->db->where('role_id', $id_role );    
+        $this->db->where('id_rol', $id_role );    
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -42,7 +42,7 @@ class Roles_model extends CI_Model {
             'fecha_actualizacion' => date('Y-m-d'),
             'estado_rol' => $roles['estado_rol'],
         );
-        $this->db->where('role_id', $roles['role_id']);
+        $this->db->where('id_rol', $roles['role_id']);
         $this->db->update(self::roles, $data);  
     }
 

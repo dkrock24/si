@@ -20,9 +20,10 @@
                                 <th>Pais</th>
                                 <th>Departamento</th>
                                 <th>Ciudad</th>
-                                <th>Estado</th>                               
+                                                              
                                 <th>Creado</th>
                                 <th>Actualizado</th>
+                                <th>Estado</th> 
                                 <th>
                                     <div class="btn-group">
                                        <button type="button" class="btn btn-default">Opcion</button>
@@ -49,17 +50,21 @@
             	                    			<tr>
             			                            <th scope="row"><?php echo $contado; ?></th>
             			                            <td><?php echo $ciudad->nombre_pais; ?></td>
-            			                            <td><?php echo $ciudad->nombre_depa; ?></td>
-            			                            <td><?php echo $ciudad->nombre_ciu; ?></td>
-                                                    <td><?php echo $ciudad->fecha_creacion_ciu; ?></td>
-                                                    <td><?php echo $ciudad->fecha_actualizacion_ciu; ?></td>
+            			                            <td><?php echo $ciudad->nombre_departamento; ?></td>
+            			                            <td><?php echo $ciudad->nombre_ciudad; ?></td>                                                    
+                                                    <td><?php echo $ciudad->fecha_ciudad_creacion; ?></td>
+                                                    <td><?php echo $ciudad->fecha_ciudad_actualizacion; ?></td>
             			                            <td>
             			                            	<?php 
-            			                            		if($ciudad->estado_ciu==1){
+            			                            		if($ciudad->estado_ciudad==1){
             			                            			?>
             			                            			<span class="label label-success">Activo</span>
             			                            			<?php
-            			                            		}
+            			                            		}else{
+                                                                ?>
+                                                                <span class="label label-warning">Inactivo</span>
+                                                                <?php
+                                                            }
                                                         ?>
                                                     </td>
             			                            <td>
@@ -69,9 +74,9 @@
                                                                     <span class="caret"></span>
                                                                 </button>
             				                                    <ul role="menu" class="dropdown-menu">
-            				                                        <li><a href="../editar_ciu/<?php echo $ciudad->id_ciu; ?>">Editar</a></li>
+            				                                        <li><a href="../editar_ciu/<?php echo $ciudad->id_ciudad; ?>">Editar</a></li>
                                                                     <li class="divider"></li>
-            				                                        <li><a href="delete/<?php echo $ciudad->id_ciu; ?>">Eliminar</a></li>
+            				                                        <li><a href="delete/<?php echo $ciudad->id_ciudad; ?>">Eliminar</a></li>
 
             				                                    </ul>
             				                                </div>

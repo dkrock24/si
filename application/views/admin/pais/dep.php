@@ -48,13 +48,13 @@
             	                    			<tr>
             			                            <th scope="row"><?php echo $contado; ?></th>
             			                            <td><?php echo $departamento->nombre_pais; ?></td>
-            			                            <td><?php echo $departamento->nombre_depa; ?></td>
-            			                            <td><?php echo $departamento->estado_depa; ?></td>
+            			                            <td><?php echo $departamento->nombre_departamento; ?></td>
+            			                            <td><?php echo $departamento->estado_departamento; ?></td>
                                                     <td><?php echo $departamento->fecha_creacion_depa; ?></td>
-                                                    <td><?php echo $departamento->fecha_actuqalizacion_depa; ?></td>
+                                                    <td><?php echo $departamento->fecha_actualizacion_depa; ?></td>
             			                            <td>
             			                            	<?php 
-            			                            		if($departamento->estado_depa==1){
+            			                            		if($departamento->estado_departamento==1){
             			                            			?>
             			                            			<span class="label label-success">Activo</span>
             			                            			<?php
@@ -68,11 +68,11 @@
                                                                     <span class="caret"></span>
                                                                 </button>
             				                                    <ul role="menu" class="dropdown-menu">
-                                                                    <li><a href="../ciu/<?php echo $departamento->id_depa; ?>">Ver</a></li>
-            				                                        <li><a href="../editar_dep/<?php echo $departamento->id_depa; ?>">Editar</a></li>
+                                                                    <li><a href="../ciu/<?php echo $departamento->id_departamento; ?>">Ver</a></li>
+            				                                        <li><a href="../editar_dep/<?php echo $departamento->id_departamento; ?>">Editar</a></li>
                                                                     
                                                                     <li class="divider"></li>
-            				                                        <li><a href="delete/<?php echo $departamento->id_depa; ?>">Eliminar</a></li>
+            				                                        <li><a href="delete/<?php echo $departamento->id_departamento; ?>">Eliminar</a></li>
 
             				                                    </ul>
             				                                </div>

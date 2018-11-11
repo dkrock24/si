@@ -25,7 +25,7 @@
       
                                             <div class="panel-body">
                                                 <form class="form-horizontal" action='../update_roles' method="post">
-                                                    <input type="hidden" value="<?php echo $roles[0]->role_id; ?>" name="role_id">
+                                                    <input type="hidden" value="<?php echo $roles[0]->id_rol; ?>" name="role_id">
                                                     <div class="form-group">
                                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                                         <div class="col-sm-10">

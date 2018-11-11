@@ -14,6 +14,7 @@
                                 <th>Nombre</th>
                                 <th>Codigo</th>
                                 <th>Moneda</th>                                
+                                <th>Simbolo</th>   
                                 <th>Creado</th>
                                 <th>Actualizado</th>
                                 <th>Estado</th>
@@ -43,8 +44,9 @@
             	                    			<tr>
             			                            <th scope="row"><?php echo $contado; ?></th>
             			                            <td><?php echo $lista_pais->nombre_pais; ?></td>
-            			                            <td><?php echo $lista_pais->codigo_pais; ?></td>
-            			                            <td><?php echo $lista_pais->moneda_pais; ?></td>
+            			                            <td><?php echo $lista_pais->zip_code; ?></td>
+            			                            <td><?php echo $lista_pais->nombre; ?></td>
+                                                    <td><?php echo $lista_pais->simbolo; ?></td>
                                                     <td><?php echo $lista_pais->fecha_creacion_pais; ?></td>
                                                     <td><?php echo $lista_pais->fecha_actualizacion_pais; ?></td>
             			                            <td>

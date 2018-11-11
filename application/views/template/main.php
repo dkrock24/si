@@ -197,7 +197,7 @@
                            <div class="user-block-info">
                               <span class="user-block-name">Hello, 
                                 <?php                        
-                                    echo $this->session->usuario[0]->nombre_usu;
+                                    echo $this->session->usuario[0]->nombre_usuario;
                                 ?>
                               </span>
                               <span class="user-block-role">Designer</span>

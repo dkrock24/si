@@ -50,6 +50,7 @@ class Pais extends CI_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['moneda'] = $this->Pais_model->get_moneda();
 		$data['home'] = 'admin/pais/pais_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -68,6 +69,7 @@ class Pais extends CI_Controller {
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['pais'] = $this->Pais_model->edit_pais( $id_pais );
+		$data['moneda'] = $this->Pais_model->get_moneda();
 		$data['home'] = 'admin/pais/pais_edit';
 
 		$this->parser->parse('template', $data);
@@ -171,14 +173,14 @@ class Pais extends CI_Controller {
 
 		$this->Pais_model->crear_ciu( $_POST );
 		
-		redirect(base_url()."admin/pais/ciudad/".$_POST['id_departamento']);
+		redirect(base_url()."admin/pais/ciu/".$_POST['id_departamento']);
 	}
 
 	public function editar_ciu( $id_ciu ){
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
-		$data['ciu']  =  $this->Menu_model->get_ciu( $id_ciu );
+		$data['ciu']  =  $this->Pais_model->get_ciu( $id_ciu );
 		$data['home'] = 'admin/pais/ciu_editar';
 
 		$this->parser->parse('template', $data);
@@ -188,7 +190,7 @@ class Pais extends CI_Controller {
 
 		$this->Pais_model->update_ciu( $_POST );
 		
-		redirect(base_url()."admin/pais/ciudad/".$_POST['id_ciu']);
+		redirect(base_url()."admin/pais/ciu/".$_POST['departamento']);
 	}
 
 }

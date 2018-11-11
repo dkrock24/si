@@ -2,19 +2,18 @@
     <section>
         <!-- Page content-->
         <div class="content-wrapper">
-            <h3 style="height: 50px; ">Lista Productos </h3>
+            <h3 style="height: 50px; ">Lista de Atributos </h3>
             <div class="panel panel-default">
-                <div class="panel-heading">Lista Pais</div>
+                <div class="panel-heading">Atributos</div>
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Categoria</th>
-                                <th>Sub Categoria</th>
-                                <th>Producto</th>                                
-                                <th>Creado</th>                                
+                                <th>Nombre</th>
+                                <th>Tipo</th>                               
+                                <th>Creado</th>
                                 <th>Actualizado</th>
                                 <th>Estado</th>
                                 <th>
@@ -25,9 +24,7 @@
                                           <span class="sr-only">default</span>
                                        </button>
                                        <ul role="menu" class="dropdown-menu">
-                                          <li><a href="nuevo">Nuevo Producto</a></li>
-                                          <li><a href="nuevo">Nueva Categoria</a></li>
-                                          <li><a href="nuevo">Nueva Atributo</a></li>
+                                          <li><a href="nuevo">Nuevo</a>                </li>
                                           <li><a href="#">Exportar</a>              </li>
                                           <li class="divider"></li>
                                           <li><a href="#">Otros</a>
@@ -40,19 +37,17 @@
                         <tbody>
                             <?php
                                 $contado=1;
-                                if($prod){
-            	               foreach ($prod as $p) {
+            	               foreach ($lista_atributos as $atributo) {
             	               ?>
             	                    			<tr>
             			                            <th scope="row"><?php echo $contado; ?></th>
-                                                    <td><?php echo $p->nombre_categoria; ?></td>
-                                                    <td><?php echo $p->SubCategoria; ?></td>
-            			                            <td><?php echo $p->name_entidad; ?></td>          			                            
-                                                    <td><?php echo $p->creado_producto; ?></td>
-                                                    <td><?php //echo $p->pro_estado; ?></td>
+            			                            <td><?php echo $atributo->nam_atributo; ?></td>
+            			                            <td><?php echo $atributo->tipo_atributo; ?></td>
+            			                            <td><?php echo $atributo->creado_atributo; ?></td>
+                                                    <td><?php echo $atributo->actualizado_atributo; ?></td>
             			                            <td>
             			                            	<?php 
-            			                            		if($p->producto_estado==1){
+            			                            		if($atributo->estado_atributo==1){
             			                            			?>
             			                            			<span class="label label-success">Activo</span>
             			                            			<?php
@@ -69,12 +64,11 @@
             				                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs">Opcion
                                                                     <span class="caret"></span>
                                                                 </button>
-            				                                    <ul role="menu" class="dropdown-menu">
-                                                                    <li><a href="dep/<?php //echo $p->id_entidade; ?>">Ver</a></li>
-            				                                        <li><a href="edit/<?php //echo $p->id_pais; ?>">Editar</a></li>
+            				                                    <ul role="menu" class="dropdown-menu">                                                                    
+            				                                        <li><a href="edit/<?php echo $atributo->id_prod_atributo; ?>">Editar</a></li>
                                                                     
                                                                     <li class="divider"></li>
-            				                                        <li><a href="delete/<?php //echo $p->id_pais; ?>">Eliminar</a></li>
+            				                                        <li><a href="delete/<?php echo $atributo->id_prod_atributo; ?>">Eliminar</a></li>
 
             				                                    </ul>
             				                                </div>
@@ -83,7 +77,7 @@
             			                        </tr>
                                                 <?php
             	                    	}
-                                    }
+
                                 	?>                       
                                    
                                 </tbody>

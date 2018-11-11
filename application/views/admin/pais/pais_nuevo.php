@@ -31,7 +31,7 @@
                                             <div class="form-group">
                                                 <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Codigo</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="url_menu" name="codigo_pais" placeholder="Codigo" value="">
+                                                    <input type="text" class="form-control" id="url_menu" name="zip_code" placeholder="Codigo" value="">
                                                     <p class="help-block">Codigo Pais.</p>
                                                 </div>
                                             </div>
@@ -39,7 +39,15 @@
                                             <div class="form-group">
                                                 <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Moneda</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="icon_menu" name="moneda_pais" placeholder="Moneda" value="">
+                                                    <select class="form-control" id="icon_menu" name="moneda_pais">
+                                                        <?php
+                                                        foreach ($moneda as $value) {
+                                                            ?>
+                                                            <option value="<?php echo  $value->id_moneda; ?>"><?php echo $value->nombre .' '.$value->alias; ?></option>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </select>
                                                     <p class="help-block">Moneda Pais.</p>
                                                 </div>
                                             </div>

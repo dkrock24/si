@@ -64,8 +64,8 @@
             			            <div class="btn-group mb-sm">
             				                <button type="button" class="btn btn-primary dropdown-toggle left btn-xs" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
             				                <ul class="dropdown-menu">    
-            				                    <li><a href="editar_role/<?php echo $role->role_id; ?>">Editar</a></li>
-            				                    <li><a data-target="#ver" href="delete/<?php echo $role->role_id; ?>">Eliminar</a></li>
+            				                    <li><a href="editar_role/<?php echo $role->id_rol; ?>">Editar</a></li>
+            				                    <li><a data-target="#ver" href="delete/<?php echo $role->id_rol; ?>">Eliminar</a></li>
             				                </ul>
                                     </div>
             			         </td>

@@ -31,7 +31,7 @@
                                             <div class="form-group">
                                                 <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Codigo</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="codigo_pais" name="codigo_pais" placeholder="URL" value="<?php echo $pais[0]->codigo_pais ?>">
+                                                    <input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="URL" value="<?php echo $pais[0]->zip_code ?>">
                                                     <p class="help-block">Codigo Pais.</p>
                                                 </div>
                                             </div>
@@ -39,7 +39,24 @@
                                             <div class="form-group">
                                                 <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Moneda</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="moneda_pais" name="moneda_pais" placeholder="ICON" value="<?php echo $pais[0]->moneda_pais ?>">
+                                                    <select class="form-control" id="moneda_pais" name="moneda_pais" placeholder="ICON">
+                                                        <?php
+                                                        foreach ($moneda as $value) {
+                                                            if($pais[0]->id_moneda == $value->id_moneda){
+                                                            ?>
+                                                            <option value="<?php echo  $value->id_moneda; ?>"><?php echo $value->nombre .' '.$value->alias; ?></option>
+                                                            <?php
+                                                            }
+                                                        }
+                                                        foreach ($moneda as $value) {
+                                                            if($pais[0]->id_moneda != $value->id_moneda){
+                                                            ?>
+                                                            <option value="<?php echo  $value->id_moneda; ?>"><?php echo $value->nombre .' '.$value->alias; ?></option>
+                                                            <?php
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </select>                                                    
                                                     <p class="help-block">Moneda Pais.</p>
                                                 </div>
                                             </div>

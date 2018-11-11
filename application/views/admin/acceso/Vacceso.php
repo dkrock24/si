@@ -19,7 +19,7 @@
                                     <?php
                                         foreach ( $roles as $role) {
                                             ?>
-                                            <option value="<?php echo $role->role_id; ?>"><?php echo $role->role; ?></option>
+                                            <option value="<?php echo $role->id_rol; ?>"><?php echo $role->role; ?></option>
                                             <?php
                                         }
                                     ?>
