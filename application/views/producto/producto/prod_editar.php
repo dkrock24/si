@@ -6,7 +6,7 @@
           $("#sub_categoria").empty();
           var id = $(this).val();
           $.ajax({
-            url: "sub_categoria_byId/"+id,  
+            url: "../sub_categoria_byId/"+id,  
             datatype: 'json',      
             cache : false,                
 
@@ -30,9 +30,9 @@
         <div class="content-wrapper">            
             
             <h3 style="height: 50px; font-size: 13px;">                
-                <a href="index" style="top: -12px;position: relative; text-decoration: none">
+                <a href="../index" style="top: -12px;position: relative; text-decoration: none">
                     <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Producto</button> </a> 
-                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Nuevo</button>
+                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Editar</button>
                 </h3>
             <div class="row">
                 <div class="col-lg-12">
@@ -42,14 +42,14 @@
                             <div class="col-lg-6">
                                
                                 <div id="" class="panel panel-info">
-                                    <div class="panel-heading">Nuevo Producto :  </div>
+                                    <div class="panel-heading">Editar Producto :  </div>
                                         <p>
-                                        <form class="form-horizontal" action='crear' method="post">
- 
+                                        <form class="form-horizontal" action='../actualizar' method="post">
+                                             <input type="hidden" value="<?php echo $producto[0]->id_entidad; ?>" name="id_entidad">
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="name_entidad" name="name_entidad" placeholder="Nombre Producto" value="">
+                                                    <input type="text" value="<?php echo $producto[0]->name_entidad; ?>" class="form-control" id="name_entidad" name="name_entidad" placeholder="Nombre Producto" value="">
                                                     <p class="help-block">Nombre Producto.</p>
                                                 </div>
                                             </div>  
@@ -58,13 +58,14 @@
                                                 <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Categoria</label>
                                                 <div class="col-sm-10">
                                                     <select class="form-control" id="categoria" name="categoria">
-                                                      <option value="0">Seleccione Categoria</option>
+                                                        <option value="<?php echo $producto[0]->id_categoria; ?>"><?php echo $producto[0]->nombre_categoria; ?></option>
                                                         <?php
                                                         foreach ($categorias as $value) {
+                                                            if( $producto[0]->id_categoria != $value->id_categoria ){
                                                             ?>
-                                                            <option value="<?php echo  $value->id_categoria; ?>"><?php echo $value->nombre_categoria; ?>     
-                                                            </option>
+                                                            <option value="<?php echo $value->id_categoria; ?>"><?php echo $value->nombre_categoria; ?></option>
                                                             <?php
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -76,6 +77,7 @@
                                                 <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Sub Categoria</label>
                                                 <div class="col-sm-10">
                                                     <select class="form-control" id="sub_categoria" name="sub_categoria">
+                                                        <option value="<?php echo $producto[0]->id_sub_categoria; ?>"><?php echo $producto[0]->SubCategoria; ?></option>
                                                     </select>
                                                     <p class="help-block">Sub Categoria.</p>
                                                 </div>
@@ -86,8 +88,19 @@
                                                     
                                                     <label>
                                                         <select name="producto_estado" class="form-control">
-                                                            <option value="1">Activo</option>
-                                                            <option value="0">Inactivo</option>
+                                                            <?php 
+                                                                    if( $producto[0]->producto_estado ==1 ){ 
+                                                                        ?>
+                                                                        <option value="1">Activo</option>
+                                                                        <option value="0">Inactivo</option>
+                                                                        <?php
+                                                                    } else{
+                                                                         ?>
+                                                                        <option value="0">Inactivo</option>
+                                                                        <option value="1">Activo</option>
+                                                                        <?php
+                                                                    }
+                                                                ?> 
                                                         </select>
                                                     </label>
                                                     

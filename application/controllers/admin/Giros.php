@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Categorias extends CI_Controller {
+class Giros extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -28,59 +28,57 @@ class Categorias extends CI_Controller {
 	    @$this->load->library('session');	    
 		$this->load->helper('url');
 
-		$this->load->model('admin/Categorias_model');  
+		$this->load->model('admin/Giros_model');  
 		$this->load->model('admin/Menu_model');
 	}
 
-// Start PAIS **********************************************************************************
+// Start  **********************************************************************************
 
 	public function index(){
-		// GET PAIS
+
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
-		$data['lista_categorias'] = $this->Categorias_model->get_categorias();
-		$data['home'] = 'admin/categorias/categorias_lista';
+		$data['lista_giros'] = $this->Giros_model->get_giros();
+		$data['home'] = 'admin/giros/giros_lista';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function nuevo(){
-		// GET PAIS
+
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );	
-		$data['categorias']	= $this->Categorias_model->get_categorias_padres();
-		$data['home'] = 'admin/categorias/categorias_nuevo';
+		$data['menu'] = $this->Menu_model->getMenu( $id_rol );		
+		$data['home'] = 'admin/giros/giros_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function crear(){
+		// Insert Nuevo Giro
+		$this->Giros_model->crear_giro( $_POST );
 
-		// Crear Categoria y Sub Categoria
-		$this->Categorias_model->crear_categoria( $_POST );
-		redirect(base_url()."admin/categorias/index");
+		redirect(base_url()."admin/giros/index");
 	}
 
-	public function edit( $id_categoria ){
+	public function editar( $id_giro ){
+		
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );		
-		$data['categorias'] = $this->Categorias_model->get_categoria_id( $id_categoria );
-		$data['categorias_padres']	= $this->Categorias_model->get_categorias_padres();
-		$data['home'] = 'admin/categorias/categorias_editar';
+		$data['giros'] = $this->Giros_model->get_giro_id( $id_giro );
+		$data['home'] = 'admin/giros/giros_editar';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function actualizar(){
-		// Insert pais
-		$this->Categorias_model->actualizar_categoria( $_POST );
+		// Actualizar Giro 
+		$this->Giros_model->actualizar_giro( $_POST );
 
-		redirect(base_url()."admin/categorias/index");
+		redirect(base_url()."admin/giros/index");
 	}
-	
 	
 
 }

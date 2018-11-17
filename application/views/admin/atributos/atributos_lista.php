@@ -76,6 +76,7 @@
             			                            </td>
             			                        </tr>
                                                 <?php
+                                            $contado+=1;
             	                    	}
 
                                 	?>                       

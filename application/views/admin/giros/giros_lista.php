@@ -2,9 +2,9 @@
     <section>
         <!-- Page content-->
         <div class="content-wrapper">
-            <h3 style="height: 50px; ">Lista de categorias </h3>
+            <h3 style="height: 50px; ">Lista Giros </h3>
             <div class="panel panel-default">
-                <div class="panel-heading">categorias</div>
+                <div class="panel-heading">Giros</div>
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
@@ -12,9 +12,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Nombre</th>
-                                <th>Imagen</th>                               
-                                <th>Padre</th>
-                                <th>Empresa</th>
+                                <th>Tipo</th>                               
+                                <th>Descripcion</th>
+                                <th>Codigo</th>
                                 <th>Creado</th>
                                 <th>Actualizado</th>
                                 <th>Estado</th>
@@ -39,19 +39,19 @@
                         <tbody>
                             <?php
                                 $contado=1;
-            	               foreach ($lista_categorias as $categoria) {
+            	               foreach ($lista_giros as $giros) {
             	               ?>
             	                    			<tr>
             			                            <th scope="row"><?php echo $contado; ?></th>
-            			                            <td><?php echo $categoria->nombre_categoria; ?></td>
-            			                            <td><?php echo $categoria->img_cate; ?></td>
-            			                            <td><?php echo $categoria->cat_padre; ?></td>
-                                                    <td><?php echo $categoria->nombre_comercial; ?></td>
-                                                    <td><?php echo $categoria->creado_categoria; ?></td>
-                                                    <td><?php echo $categoria->actualizado_categoria; ?></td>
+            			                            <td><?php echo $giros->nombre_giro; ?></td>
+            			                            <td><?php echo $giros->tipo_giro; ?></td>
+            			                            <td><?php echo $giros->descripcion_giro; ?></td>
+                                                    <td><?php echo $giros->codigo_giro; ?></td>
+                                                    <td><?php echo $giros->fecha_giro_creado; ?></td>
+                                                    <td><?php echo $giros->fecha_giro_actualizado; ?></td>
             			                            <td>
             			                            	<?php 
-            			                            		if($categoria->categoria_estado==1){
+            			                            		if($giros->estado_giro==1){
             			                            			?>
             			                            			<span class="label label-success">Activo</span>
             			                            			<?php
@@ -64,23 +64,23 @@
                                                     </td>
             			                            <td>
             			                            	                                
-        				                                <div class="btn-group mb-sm">
-        				                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs">Opcion
-                                                                <span class="caret"></span>
-                                                            </button>
-        				                                    <ul role="menu" class="dropdown-menu">                                                                    
-        				                                        <li><a href="edit/<?php echo $categoria->id_categoria; ?>">Editar</a></li>
-                                                                
-                                                                <li class="divider"></li>
-        				                                        <li><a href="delete/<?php echo $categoria->id_categoria; ?>">Eliminar</a></li>
+            				                                <div class="btn-group mb-sm">
+            				                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs">Opcion
+                                                                    <span class="caret"></span>
+                                                                </button>
+            				                                    <ul role="menu" class="dropdown-menu">                                                                    
+            				                                        <li><a href="editar/<?php echo $giros->id_giro; ?>">Editar</a></li>
+                                                                    
+                                                                    <li class="divider"></li>
+            				                                        <li><a href="delete/<?php echo $giros->id_giro; ?>">Eliminar</a></li>
 
-        				                                    </ul>
-        				                                </div>
+            				                                    </ul>
+            				                                </div>
                                         				
             			                            </td>
             			                        </tr>
                                                 <?php
-                                                $contado+=1;
+                                            $contado+=1;
             	                    	}
 
                                 	?>                       
