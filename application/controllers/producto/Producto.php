@@ -15,6 +15,7 @@ class Producto extends CI_Controller {
 		$this->load->model('admin/Menu_model');	
 
 		$this->load->model('producto/Producto_model');	
+		$this->load->model('admin/Giros_model');	
 	}
 
 	public function index()
@@ -35,6 +36,7 @@ class Producto extends CI_Controller {
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['categorias'] = $this->Producto_model->get_sub_categorias();
+		$data['empresa'] = $this->Giros_model->get_empresa();
 
 		$data['home'] = 'producto/producto/prod_nuevo';
 
@@ -63,6 +65,7 @@ class Producto extends CI_Controller {
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['producto'] = $this->Producto_model->get_producto( $id_producto );
 		$data['categorias'] = $this->Producto_model->get_sub_categorias();
+		$data['empresa'] = $this->Giros_model->get_empresa();
 
 		$data['home'] = 'producto/producto/prod_editar';
 
@@ -74,6 +77,13 @@ class Producto extends CI_Controller {
 		$this->Producto_model->actualizar_producto( $_POST );
 
 		redirect(base_url()."producto/producto/index");
+	}
+
+	public function get_giros_empresa( $id_empresa ){
+
+		$giros = $this->Giros_model->get_giros_empresa( $id_empresa );
+
+		echo json_encode( $giros );
 	}
 	
 }

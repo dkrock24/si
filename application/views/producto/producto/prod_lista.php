@@ -4,16 +4,17 @@
         <div class="content-wrapper">
             <h3 style="height: 50px; ">Lista Productos </h3>
             <div class="panel panel-default">
-                <div class="panel-heading">Lista Pais</div>
+                <div class="panel-heading">Productos</div>
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Producto</th> 
                                 <th>Categoria</th>
                                 <th>Sub Categoria</th>
-                                <th>Producto</th>                                
+                                <th>Giro</th>                                                              
                                 <th>Creado</th>                                
                                 <th>Actualizado</th>
                                 <th>Estado</th>
@@ -45,9 +46,11 @@
             	               ?>
             	                    			<tr>
             			                            <th scope="row"><?php echo $contado; ?></th>
+                                                    <td><?php echo $p->name_entidad; ?></td>
                                                     <td><?php echo $p->nombre_categoria; ?></td>
                                                     <td><?php echo $p->SubCategoria; ?></td>
-            			                            <td><?php echo $p->name_entidad; ?></td>          			                            
+                                                    <td><?php echo $p->nombre_giro; ?></td>
+            			                                      			                            
                                                     <td><?php echo $p->creado_producto; ?></td>
                                                     <td><?php //echo $p->pro_estado; ?></td>
             			                            <td>

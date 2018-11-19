@@ -21,6 +21,29 @@
                 }
             });
         });
+
+    $("#empresa").change(function(){
+          $("#giro").empty();
+          var id = $(this).val();
+          $.ajax({
+            url: "../get_giros_empresa/"+id,  
+            datatype: 'json',      
+            cache : false,                
+
+                success: function(data){
+                  
+                  var datos = JSON.parse(data);
+                  
+                  $("#id_empresa").val(datos[0].Empresa);
+                  $.each(JSON.parse(data), function(i, item) {                    
+                    $("#giro").append('<option value='+item.id_giro_empresa+'>'+item.nombre_giro+'</option>');
+                });
+                
+                },
+                error:function(){
+                }
+            });
+    });
   });
 </script>
 
@@ -50,9 +73,36 @@
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" value="<?php echo $producto[0]->name_entidad; ?>" class="form-control" id="name_entidad" name="name_entidad" placeholder="Nombre Producto" value="">
-                                                    <p class="help-block">Nombre Producto.</p>
+                                                    
                                                 </div>
                                             </div>  
+
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Empresa</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-control" id="empresa" name="empresa">
+                                                        <option value="<?php echo $producto[0]->id_empresa ?>"><?php echo $producto[0]->nombre_razon_social ?></option>
+                                                        <?php
+                                                        foreach ($empresa as $value) {
+                                                            ?>
+                                                            <option value="<?php echo  $value->id_empresa; ?>"><?php echo $value->nombre_razon_social; ?>     
+                                                            </option>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                    
+                                                </div>
+                                            </div>  
+
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Giro</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-control" id="giro" name="giro">
+                                                       <option><?php echo $producto[0]->nombre_giro ?></option>
+                                                    </select>                                                    
+                                                </div>
+                                            </div> 
 
                                             <div class="form-group">
                                                 <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Categoria</label>
@@ -69,7 +119,7 @@
                                                         }
                                                         ?>
                                                     </select>
-                                                    <p class="help-block">Categoria.</p>
+                                                    
                                                 </div>
                                             </div>
 
@@ -79,7 +129,7 @@
                                                     <select class="form-control" id="sub_categoria" name="sub_categoria">
                                                         <option value="<?php echo $producto[0]->id_sub_categoria; ?>"><?php echo $producto[0]->SubCategoria; ?></option>
                                                     </select>
-                                                    <p class="help-block">Sub Categoria.</p>
+                                                    
                                                 </div>
                                             </div>
 

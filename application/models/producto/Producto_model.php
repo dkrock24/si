@@ -27,13 +27,17 @@ class Producto_model extends CI_Model {
 	        }*/
 
 	        
-	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria'
+	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro
 				FROM `producto` as `P`
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
 				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
 				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
 				LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
-				LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`");
+				LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
+				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
+				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`");
+
 		         //echo $this->db->queries[0];
 		        return $query->result();
 
@@ -45,7 +49,8 @@ class Producto_model extends CI_Model {
 	            'name_entidad' => $producto['name_entidad'],
 	            'producto_estado' => $producto['producto_estado'],
 	            'creado_producto' => date("Y-m-d h:i:s"),
-	            'Empresa' => 1
+	            'Empresa' => $producto['empresa'],
+	            'Giro' => $producto['giro']
 	        );
 
 			$this->db->insert(self::producto, $data ); 
@@ -93,13 +98,16 @@ class Producto_model extends CI_Model {
 
 		function get_producto( $id_producto ){
 
-			$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', sub_c.id_categoria as 'id_sub_categoria', c.id_categoria as 'id_categoria'
+			$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', sub_c.id_categoria as 'id_sub_categoria', c.id_categoria as 'id_categoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro
 				FROM `producto` as `P`
-				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`id_producto`
-				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`id_atributo`
+				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`id_prod_atrri`
+				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
 				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
 				LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
 				LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
+				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
+				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
 				where P.id_entidad=".$id_producto );
 		         //echo $this->db->queries[0];
 		        return $query->result();
@@ -109,7 +117,9 @@ class Producto_model extends CI_Model {
 
 			$data = array(
 	            'name_entidad' => $producto['name_entidad'],
-	            'producto_estado' => $producto['producto_estado']
+	            'producto_estado' => $producto['producto_estado'],
+	            'Empresa' => $producto['empresa'],
+	            'Giro' => $producto['giro']
 	        );
 
 			$this->db->where('id_entidad', $producto['id_entidad']);
@@ -127,4 +137,6 @@ class Producto_model extends CI_Model {
 			$this->db->where('id_producto', $id_producto);
 			$this->db->update(self::categoria_producto, $data );
 		}
+
+
     }

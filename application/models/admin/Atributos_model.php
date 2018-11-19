@@ -17,6 +17,19 @@ class Atributos_model extends CI_Model {
         } 
 	}
 
+    function get_atributos_total(){
+
+        $this->db->select('count(*) as atributos_total');
+        $this->db->from(self::atributos);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
 	function crear_atributo( $atributos){
 
 		$data = array(

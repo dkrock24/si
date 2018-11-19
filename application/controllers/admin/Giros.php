@@ -29,6 +29,7 @@ class Giros extends CI_Controller {
 		$this->load->helper('url');
 
 		$this->load->model('admin/Giros_model');  
+		$this->load->model('admin/Atributos_model');  
 		$this->load->model('admin/Menu_model');
 	}
 
@@ -78,6 +79,67 @@ class Giros extends CI_Controller {
 		$this->Giros_model->actualizar_giro( $_POST );
 
 		redirect(base_url()."admin/giros/index");
+	}
+
+	public function get_atributos( $id_giro ){
+
+		$data['atributos'] = $this->Atributos_model->get_atributos();
+		$data['atributos_total'] = $this->Atributos_model->get_atributos_total();
+		$data['giro'] = $this->Giros_model->get_giro_id( $id_giro );
+		$data['plantilla'] = $this->Giros_model->get_plantilla( $id_giro );
+		$data['plantilla_giro_total'] = $this->Giros_model->get_total_plantilla_giro( $id_giro );
+
+		echo json_encode( $data );
+		//echo json_encode( $giro );
+	}
+
+	public function guardar_giro_atributos(){
+
+		$this->Giros_model->insert_plantilla( $_POST );
+
+		$data['plantilla'] = $this->Giros_model->get_plantilla( $_POST['giro'] );
+		$data['plantilla_giro_total'] = $this->Giros_model->get_total_plantilla_giro( $_POST['giro']  );
+		
+		echo json_encode( $data );
+		
+	}
+
+	public function eliminar_giro_atributos(){
+		$this->Giros_model->eliminar_plantilla( $_POST );
+
+		$data['plantilla'] = $this->Giros_model->get_plantilla( $_POST['giro'] );
+		$data['plantilla_giro_total'] = $this->Giros_model->get_total_plantilla_giro( $_POST['giro']  );
+		
+		echo json_encode( $data );
+	}
+
+	// GIROS EMPRESA
+
+	public function listar_giros(){
+		$data['lista_giros'] = $this->Giros_model->get_giros();
+		$data['lista_empresa'] = $this->Giros_model->get_empresa();
+
+		echo json_encode( $data );
+	}
+
+	public function guardar_giro_empresa(){
+		$this->Giros_model->insert_giro_empresa( $_POST );
+	}
+
+	public function get_empresa_giro( $id_empresa ){
+		$data['lista_giros'] = $this->Giros_model->get_empresa_giro( $id_empresa );
+		$data['empresa_giro_total'] = $this->Giros_model->get_total_empresa_giro( $id_empresa );
+
+		echo json_encode( $data );
+	}
+
+	public function eliminar_giro_empresa(){
+		$this->Giros_model->eliminar_giro_empresa( $_POST );
+
+		$data['lista_giros'] = $this->Giros_model->get_empresa_giro( $_POST['empresa']  );
+		$data['empresa_giro_total'] = $this->Giros_model->get_total_empresa_giro( $_POST['empresa'] );
+		
+		echo json_encode( $data );
 	}
 	
 
