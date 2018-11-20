@@ -7,6 +7,10 @@ class Producto_model extends CI_Model {
 		const producto_valor =  'producto_valor';
 		const categoria_producto =  'categoria_producto';		
 		const producto_atributo =  'producto_atributo';
+		const empresa_giro =  'giros_empresa';
+		const giro_plantilla =  'giro_pantilla';
+
+		
 		
         
         function getProd(){
@@ -136,6 +140,40 @@ class Producto_model extends CI_Model {
 
 			$this->db->where('id_producto', $id_producto);
 			$this->db->update(self::categoria_producto, $data );
+		}
+
+		// Buscar un producto para ser mostrado en la editicion de producto
+		function get_producto_atributos( $id_producto ){
+
+			$this->db->select('*');
+	        $this->db->from(self::producto .' as p');
+	        $this->db->join(self::empresa_giro .' as eg',' on eg.id_giro_empresa=p.Giro');
+	        $this->db->join(self::giro_plantilla .' as gp',' on gp.Giro=eg.Giro');
+	        $this->db->join(self::atributo .' as a',' on a.id_prod_atributo=gp.Atributo');
+	        $this->db->where('p.id_entidad', $id_producto );	        
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[1];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function get_empresa_giro_atributos( $id_giro ){
+
+			$this->db->select('*');
+	        $this->db->from(self::empresa_giro .' as eg');
+	        $this->db->join(self::giro_plantilla .' as gp',' on gp.Giro=eg.Giro');
+	        $this->db->join(self::atributo .' as a',' on a.id_prod_atributo=gp.Atributo');
+	        $this->db->where('eg.id_giro_empresa', $id_giro );	        
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[1];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
 		}
 
 

@@ -32,10 +32,11 @@
 
                 success: function(data){
                   
-                  var datos = JSON.parse(data);
+                var datos = JSON.parse(data);
                   
-                  $("#id_empresa").val(datos[0].Empresa);
-                  $.each(JSON.parse(data), function(i, item) {                    
+                $("#id_empresa").val(datos[0].Empresa);
+                $("#giro").append('<option value="0">Selecione Giro</option>');
+                $.each(JSON.parse(data), function(i, item) {                    
                     $("#giro").append('<option value='+item.id_giro_empresa+'>'+item.nombre_giro+'</option>');
                 });
                 
@@ -44,6 +45,39 @@
                 }
             });
     });
+
+    // Busca el Giro para dibujar los inputs del producto
+    $("#giro").change(function(){
+          var id = $(this).val();
+          $.ajax({
+            url: "get_empresa_giro_atributos/"+id,  
+            datatype: 'json',      
+            cache : false,                
+
+                success: function(data){
+                
+                    var datos = JSON.parse(data);
+                    var plantilla = datos["plantilla"];
+                    $(".giro_atributos").empty();
+                    $.each(plantilla, function(i, item) {                    
+                        $(".giro_atributos").append(
+                            '<div class="form-group">'+
+                            '<label for="inputEmail3" class="col-sm-3 control-label no-padding-right">'+item.nam_atributo+'</label>'+
+                            '<div class="col-sm-8">'+
+                                '<input type="text" name="demo" class="form-control">'+
+                            '</div>'+
+                            '<span class="col-sm-1 control-label no-padding-right"></span>'+
+                            '</div>'
+                        );
+                    });
+                
+                },
+                error:function(){
+                }
+            });
+    });
+
+    
 
 
     
@@ -157,7 +191,21 @@
                                 </div>
                               
                             </div>
+
+                            <div class="col-lg-6">
+                               
+                                <div id="" class="panel panel-info">
+                                    <div class="panel-heading">Atributos Producto :  </div>
+                                        <p class="form-horizontal giro_atributos">
+                                        </p>
+                                </div>
+                              
+                            </div>
+
+
                         </div>
+
+
 
                     </div>
                 </div>

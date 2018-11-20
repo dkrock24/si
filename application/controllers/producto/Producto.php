@@ -64,6 +64,7 @@ class Producto extends CI_Controller {
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['producto'] = $this->Producto_model->get_producto( $id_producto );
+		$data['atributos'] = $this->Producto_model->get_producto_atributos( $id_producto );
 		$data['categorias'] = $this->Producto_model->get_sub_categorias();
 		$data['empresa'] = $this->Giros_model->get_empresa();
 
@@ -84,6 +85,13 @@ class Producto extends CI_Controller {
 		$giros = $this->Giros_model->get_giros_empresa( $id_empresa );
 
 		echo json_encode( $giros );
+	}
+
+	public function get_empresa_giro_atributos( $_giro ){
+
+		$data['plantilla'] = $this->Producto_model->get_empresa_giro_atributos( $_giro );
+
+		echo json_encode( $data );
 	}
 	
 }

@@ -1,4 +1,5 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+
 <script>
   $(document).ready(function(){
 
@@ -60,14 +61,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-white">
-
+                        <form class="form-horizontal" action='../actualizar' method="post">
                         <div class="panel-body">
                             <div class="col-lg-6">
                                
                                 <div id="" class="panel panel-info">
                                     <div class="panel-heading">Editar Producto :  </div>
                                         <p>
-                                        <form class="form-horizontal" action='../actualizar' method="post">
+                                        
                                              <input type="hidden" value="<?php echo $producto[0]->id_entidad; ?>" name="id_entidad">
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
@@ -139,37 +140,64 @@
                                                     <label>
                                                         <select name="producto_estado" class="form-control">
                                                             <?php 
-                                                                    if( $producto[0]->producto_estado ==1 ){ 
-                                                                        ?>
-                                                                        <option value="1">Activo</option>
-                                                                        <option value="0">Inactivo</option>
-                                                                        <?php
-                                                                    } else{
-                                                                         ?>
-                                                                        <option value="0">Inactivo</option>
-                                                                        <option value="1">Activo</option>
-                                                                        <?php
-                                                                    }
-                                                                ?> 
+                                                                if( $producto[0]->producto_estado ==1 ){ 
+                                                                    ?>
+                                                                    <option value="1">Activo</option>
+                                                                    <option value="0">Inactivo</option>
+                                                                    <?php
+                                                                } else{
+                                                                     ?>
+                                                                    <option value="0">Inactivo</option>
+                                                                    <option value="1">Activo</option>
+                                                                    <?php
+                                                                }
+                                                            ?> 
                                                         </select>
                                                     </label>
                                                     
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
                                                     <button type="submit" class="btn btn-primary">Guardar</button>
                                                 </div>
                                             </div>
-                                        </form>
+                                        
                                         </p>
                                 </div>
                               
                             </div>
-                        </div>
 
+                            <div class="col-lg-6">
+                                <div id="" class="panel panel-info">
+                                    <div class="panel-heading">Atributos :  </div>
+                                    <p>                                        
+                                        
+                                    <?php
+                                    if(isset($atributos)){
+                                        foreach ($atributos as $value) {
+                                        ?>
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-sm-3 control-label no-padding-right"><?php echo $value->nam_atributo ?></label>
+                                            <div class="col-sm-8">
+                                                <input type="<?php echo $value->tipo_atributo; ?>" name="<?php echo $value->id_prod_atributo.$value->nam_atributo; ?>" class="form-control">                                                    
+                                            </div>
+                                            <span class="col-sm-1 control-label no-padding-right"></span>
+                                        </div>
+                                        <?php
+                                        }
+                                    }
+                                    ?>
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
