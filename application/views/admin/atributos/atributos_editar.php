@@ -1,3 +1,59 @@
+<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('.removeInput').click(function(){
+            var id = $(this).attr('id');
+            $("#"+id).remove();
+        });
+
+        if($("#tipo_atributo").val() == 'text'){
+            $(".agregar").hide();
+        }       
+
+        $("#tipo_atributo").change(function(){
+            clearOption();
+
+            var valueInput = $(this).val();
+            if(valueInput == 'text'){
+                $(".agregar").hide();
+            }else{
+                $(".agregar").show();
+            }
+
+            typeInput(valueInput);
+
+        });
+
+        function typeInput(valueInput){
+            switch(valueInput){
+                case 'select' : drawSelect( valueInput );
+                break;
+                case 'check' : drawSelect( valueInput );
+                break;
+                case 'radio' : drawSelect( valueInput );
+                break;
+            }
+        }
+
+        $(".agregar").click(function(){
+            var tipo = $(".agregar").attr('name');
+            typeInput(tipo);
+        });
+        
+        cont = $(".contadorInputs").attr('id');
+        //cont +=1;
+        function drawSelect( valueInput ){            
+
+            $(".agregar").attr('name', valueInput);
+            var inputValue = "<div class='form-group'><div class='col-sm-2'>Opcion "+cont+"</div><div class='col-sm-9'><input type='text' name='option"+cont+"' value='' class='form-control'/></div><div class='col-sm-1'><a href='#' class='removeInput'><i class='fa fa-remove'></i></a></div>";
+            var inputValue2 = "</div>";
+            $("#atributosOptios").append( inputValue + inputValue2 );
+            cont++;
+        }
+
+    });
+</script>
 <!-- Main section-->
     <section>
         <!-- Page content-->
@@ -11,15 +67,15 @@
                 </h3>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-white">
-
-                        <div class="panel-body">
+                    <div class="row">
+                        <form class="form-horizontal" action='../actualizar' method="post">
+                        
                             <div class="col-lg-6">
                                
                                 <div id="" class="panel panel-info">
                                     <div class="panel-heading">Editar Atributo </div>
                                         <p>
-                                        <form class="form-horizontal" action='../actualizar' method="post">
+                                        
                                             <input type="hidden" value="<?php echo $atributo[0]->id_prod_atributo; ?>" name="id_prod_atributo">
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
@@ -65,12 +121,42 @@
                                                     <button type="submit" class="btn btn-primary">Guardar</button>
                                                 </div>
                                             </div>
-                                        </form>
+                                        
                                         </p>
                                 </div>
                               
                             </div>
-                        </div>
+
+                            <div class="col-lg-6">
+                                <div id="" class="panel panel-info">
+                                    <div class="panel-heading">Editar Opciones <span class='btn btn-default agregar' name="<?php echo $atributo[0]->tipo_atributo; ?>">Agregar</span> </div>
+                                    <div class="panel-body">
+                                        <div id="atributosOptios">
+                                            <?php
+                                            $contador = 1;
+                                            if(isset($atributo[0]->id_attr_opcion)){
+                                            foreach ($atributo as $optiones) {
+                                                ?>
+                                                <div class='form-group' id="<?php echo $optiones->id_attr_opcion; ?>">
+                                                    <div class='col-sm-2'>Opcion <?php echo $contador; ?></div>
+                                                    <div class='col-sm-9'>
+                                                        <input type='text' name='option<?php echo $optiones->id_attr_opcion; ?>' value='<?php echo $optiones->attr_valor; ?>' class='form-control'/>
+                                                    </div>
+                                                    <div class='col-sm-1'><a href='#' class='removeInput' id="<?php echo $optiones->id_attr_opcion; ?>" name="">
+                                                        <i class='fa fa-remove'></i></a>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                $contador+=1;
+                                            }}
+                                            ?> 
+                                            <i class="contadorInputs" id="<?php  echo $contador; ?>"></i>                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </form>
 
                     </div>
                 </div>

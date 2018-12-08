@@ -3,12 +3,15 @@ class Producto_model extends CI_Model {
 
 		const producto =  'producto';
 		const atributo =  'atributo';
+		const atributo_opcion =  'atributos_opciones';
 		const categoria =  'categoria';
 		const producto_valor =  'producto_valor';
 		const categoria_producto =  'categoria_producto';		
 		const producto_atributo =  'producto_atributo';
 		const empresa_giro =  'giros_empresa';
 		const giro_plantilla =  'giro_pantilla';
+		const pos_linea = 'pos_linea';
+		const proveedor = 'pos_proveedor';
 
 		
 		
@@ -100,6 +103,32 @@ class Producto_model extends CI_Model {
 	        }
 		}
 
+		function get_lineas( ){
+			$this->db->select('*');
+	        $this->db->from(self::pos_linea);
+	        $this->db->where('estado_linea = 1');
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[0];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function get_proveedor( ){
+			$this->db->select('*');
+	        $this->db->from(self::proveedor);
+	        $this->db->where('estado = 1');
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[0];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
 		function get_producto( $id_producto ){
 
 			$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', sub_c.id_categoria as 'id_sub_categoria', c.id_categoria as 'id_categoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro
@@ -166,9 +195,11 @@ class Producto_model extends CI_Model {
 	        $this->db->from(self::empresa_giro .' as eg');
 	        $this->db->join(self::giro_plantilla .' as gp',' on gp.Giro=eg.Giro');
 	        $this->db->join(self::atributo .' as a',' on a.id_prod_atributo=gp.Atributo');
-	        $this->db->where('eg.id_giro_empresa', $id_giro );	        
+	        $this->db->join(self::atributo_opcion .' as ao',' on a.id_prod_atributo=ao.Atributo','left');
+	        $this->db->where('eg.id_giro_empresa', $id_giro );	     
+	        $this->db->order_by('a.id_prod_atributo', 'ASC');
 	        $query = $this->db->get(); 
-	        //echo $this->db->queries[1];
+	        //echo $this->db->queries[4];
 	        
 	        if($query->num_rows() > 0 )
 	        {
