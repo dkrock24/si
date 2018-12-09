@@ -12,6 +12,7 @@ class Producto_model extends CI_Model {
 		const giro_plantilla =  'giro_pantilla';
 		const pos_linea = 'pos_linea';
 		const proveedor = 'pos_proveedor';
+		const producto_proveedor = 'pos_proveedor_has_producto';
 
 		
 		
@@ -50,8 +51,10 @@ class Producto_model extends CI_Model {
 
 		}
 
+		//	Creacion de un nuevo producto
 		function nuevo_producto( $producto , $usuario ){
-
+			
+			//	Creando cabecera de la tabla producto
 			$data = array(
 	            'name_entidad' => $producto['name_entidad'],
 	            'producto_estado' => $producto['producto_estado'],
@@ -63,10 +66,19 @@ class Producto_model extends CI_Model {
 			$this->db->insert(self::producto, $data ); 
 			$id_producto = $this->db->insert_id();
 
-			$this->producto_categoria( $id_producto , $producto['sub_categoria']);
+			$this->producto_categoria( $id_producto , $producto['sub_categoria'] );
+
+			// cinsertamos los proveedores en un array para recorrerlos
+			$proveedor_array = array($producto['proveedor1'], $producto['proveedor2']);
+
+			$this->producto_proveedor( $id_producto , $proveedor_array );
+
+			// Insertando Atributos para el producto
+			$this->producto_atributos( $id_producto, $producto );
 		}
 
 		function producto_categoria($id_producto , $sub_categoria){
+			//	Creando detalle en producto categoria
 
 			$data = array(
 	            'id_categoria' => $sub_categoria,
@@ -74,6 +86,65 @@ class Producto_model extends CI_Model {
 	        );
 
 			$this->db->insert(self::categoria_producto, $data ); 
+		}
+
+		function producto_proveedor($producto , $proveedores ){
+			// Insertando los proveedores para el producto
+
+			$contador = 0;
+			$valor =0;
+			do{
+				
+				$data = array(
+		            'proveedor_id_proveedor' => $proveedores[$valor],
+		            'producto_id_producto' => $producto
+		        );
+
+		        $this->db->insert(self::producto_proveedor, $data );
+
+		        if( $proveedores[0] == $proveedores[1] ){
+		        	$contador=2;
+		        }else{
+		        	$contador=1;
+		        	$valor =1;
+		        }
+		        
+			}while( $contador <= 1 );
+
+		}
+
+		function producto_atributos($id_producto, $producto){
+			// Inserta todos los atributos relacionados al producto
+
+			foreach ($producto as $key => $value) {
+	            
+	            $atributo = (int)$key;
+
+				$int2 = (int) $atributo;
+
+	            if($int2 != 0){
+
+                    $data = array(
+                        'Producto' => $id_producto,
+                        'Atributo' => $int2
+                    );
+                    $this->db->insert(self::producto_atributo, $data ); 
+                    $id_producto_atributo = $this->db->insert_id();
+
+                    // llamando el insert de los valores de los atributos del producto
+	        		$this->producto_atributo_valor( $id_producto_atributo , $producto[$int2] );
+	            }
+	        }
+
+		}
+
+		function producto_atributo_valor( $id_producto_atributo , $atributo_valor ){
+			// Insertando todos los valores de los campos de los atributos del producto
+			$data = array(
+                'id_prod_atributo' => $id_producto_atributo,
+                'valor' => $atributo_valor
+            );
+            $this->db->insert(self::producto_valor, $data ); 
 		}
 
 		function get_sub_categorias(){

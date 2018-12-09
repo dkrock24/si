@@ -47,7 +47,7 @@
             $(".agregar").attr('name', valueInput);
             var inputValue = "<div class='form-group'><div class='col-sm-2'>Opcion "+cont+"</div><div class='col-sm-9'><input type='text' name='option"+cont+"' value='' class='form-control'/></div><div class='col-sm-1'><a href='#' class='removeInput'><i class='fa fa-remove'></i></a></div>";
             var inputValue2 = "</div>";
-            $("#atributosOptios").html( inputValue + inputValue2 );
+            $("#atributosOptios").append( inputValue + inputValue2 );
             cont++;
         }
 
@@ -101,6 +101,7 @@
                                                             <option value="radio">Radio</option>                                                        
                                                             <option value="select">Select</option>
                                                             <option value="check">Check</option>
+                                                            <option value="file">File</option>
                                                         </select>
 
                                                         <p class="help-block">Tipo Atributo.</p>

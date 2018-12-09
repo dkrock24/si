@@ -65,7 +65,7 @@
                     $.each(plantilla, function(i, item) {  
 
                         if(id_producto != item.id_prod_atributo){
-                            if(item.tipo_atributo == 'text' ){                            
+                            if(item.tipo_atributo == 'text' ||  item.tipo_atributo == 'file'){                            
                                 $(".giro_atributos").append( html_template_text(item) );
                             }
                             if(item.tipo_atributo == 'select'){
@@ -90,7 +90,7 @@
                             '<div class="form-group">'+
                             '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+item.nam_atributo+'</label><br>'+
                             '<div class="col-sm-offset-1 col-sm-11">'+
-                                '<input type="text" name="demo" class="form-control">'+
+                                '<input type="'+item.tipo_atributo+'" name="'+item.id_prod_atributo+'"  class="form-control '+item.nam_atributo+'">'+
                             '</div>'+
                             '<span class="col-sm-1 control-label no-padding-right"></span>'+
                             '</div>'+
@@ -104,8 +104,9 @@
         var nombre =  "";
         
         $.each(plantilla, function(i, item) {
-            nombre = item.nam_atributo
+            
             if(id == item.id_prod_atributo){
+                nombre = item.nam_atributo
                 opciones += '<option>'+item.attr_valor+'</option>';    
             }            
         });
@@ -115,7 +116,7 @@
                             '<div class="form-group">'+
                             '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+ nombre +'</label><br>'+
                             '<div class="col-sm-offset-1 col-sm-11">'+
-                                '<select name="'+nombre+'" class="form-control">'+opciones+'</select>'+
+                                '<select name="'+id+'" class="form-control '+nombre+'">'+opciones+'</select>'+
                             '</div>'+
                             '<span class="col-sm-1 control-label no-padding-right"></span>'+
                             '</div>'+
@@ -123,10 +124,25 @@
         return html_template;
     }
 
-    
+    $(document).on('change', '.Imagen', function()
+    {
+        readURL(this);
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+              $('.preview_producto').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 
 
-    
+
   });
 
 </script>
@@ -135,10 +151,20 @@
         text-align: center;
     }
     .menu-cuadro{
-        border:1px solid black;
+        width: 40%;
+        border:0px solid black;
+        text-align: center;
+        margin-left: 7%;
     }
-    .menu-cuadro:hover{
-        background-color: white;
+    .menu-cuadro:hover{        
+        color:#23b7e5;
+    }
+
+    .preview_producto{
+        width: 100%;
+    }
+    .alenado-left{
+        float: right;
     }
 </style>
 <!-- Main section-->
@@ -156,15 +182,17 @@
                     <div class="panel panel-white">
 
                         <div class="col-lg-3">
+                            <div id="" class="panel panel-info">
+                                <div class="panel-heading">Nuevo Producto :  </div>
                                 
                                 <div class="row">
 
-                                    <div class="col-sm-5 menu-cuadro">
+                                    <div class="col-sm-6 menu-cuadro">
                                         <h1 class="icon-basket icon-center"></h1>
                                         <span class="icon-center">Producto</span>
                                     </div>
 
-                                    <div class="col-sm-5 menu-cuadro">
+                                    <div class="col-sm-6 menu-cuadro">
                                         <h1 class="icon-book-open icon-center"></h1>
                                         <span class="icon-center">Categoria</span>
                                     </div>
@@ -172,12 +200,12 @@
 
                                 <div class="row">
 
-                                    <div class="col-sm-5 menu-cuadro">
+                                    <div class="col-sm-6 menu-cuadro">
                                         <h1 class="icon-social-dropbox icon-center"></h1>
                                         <span class="icon-center">Cant. Producto</span>
                                     </div>
 
-                                    <div class="col-sm-5 menu-cuadro">
+                                    <div class="col-sm-6 menu-cuadro">
                                         <h1 class="icon-doc icon-center"></h1>
                                         <span class="icon-center">Sub Categoria</span>
                                     </div>
@@ -185,13 +213,13 @@
                                 </div>
                                 <div class="row">
 
-                                    <div class="col-sm-5 menu-cuadro">
+                                    <div class="col-sm-6 menu-cuadro">
                                         <h1 class="icon-center">
                                             <i class="fa fa-barcode"></i>
                                         </h1>
                                         <span class="icon-center">Cod. Barra</span>
                                     </div>
-                                    <div class="col-sm-5 menu-cuadro">
+                                    <div class="col-sm-6 menu-cuadro">
                                         <h1 class="icon-center">
                                             <i class="fa fa-plus-square"></i>
                                         </h1>
@@ -201,14 +229,14 @@
                                 </div>
                                 <div class="row">
 
-                                    <div class="col-sm-5 menu-cuadro">
+                                    <div class="col-sm-6 menu-cuadro">
                                         <h1 class="icon-center">
                                             <i class="icon-note"></i>
                                         </h1>
                                         <span class="icon-center">Existencias</span>
                                     </div>
 
-                                    <div class="col-sm-5 menu-cuadro">
+                                    <div class="col-sm-6 menu-cuadro">
                                         <h1 class="icon-center">
                                             <i class="icon-note"></i>
                                         </h1>
@@ -218,11 +246,11 @@
 
                                 <div class="row">
 
-                                    <div class="col-sm-5 menu-cuadro">
+                                    <div class="col-sm-6 menu-cuadro">
                                         <h1 class="icon-social-dropbox icon-center"></h1>
                                         <span class="icon-center">Kit Producto</span>
                                     </div>
-                                    <div class="col-sm-5 menu-cuadro">
+                                    <div class="col-sm-6 menu-cuadro">
                                         <h1 class="icon-center">                                            
                                             <i class="fa fa-cubes"></i>
                                         </h1>
@@ -231,15 +259,26 @@
 
                                 </div>
 
-                            
+                                <div class="row">
+                                    <br>
+                                    <hr>
+                                    <br>
+                                    <div class="col-sm-12">
+                                        <img src="" name="" id="" class="preview_producto" />
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
+
+                        <form class="form-horizontal" action='crear' method="post">
                         
                         <div class="col-lg-9">
                            
                             <div id="" class="panel panel-info">
                                 <div class="panel-heading">Nuevo Producto :  </div>
                                     <p>
-                                    <form class="form-horizontal" action='crear' method="post">
+                                    
                                         <input type="hidden" name="empresa" value="" id="id_empresa">
                                         
                                         <div class="row">
@@ -275,7 +314,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Giro</label>
+                                                    <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Linea</label>
                                                     <div class="col-sm-8">
                                                         <select class="form-control" id="giro" name="giro">
                                                            
@@ -322,9 +361,10 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Linea</label>
+                                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Relacion</label>
                                                     <div class="col-sm-8">
-                                                        <select class="form-control" id="empresa" name="empresa">   
+                                                        <input type="text" name="" id="procuto_asociado" class="form-control">
+                                                        <!--<select class="form-control" id="empresa" name="empresa">   
                                                             <?php
                                                             foreach ($lineas as $value) {
                                                                 ?>
@@ -333,7 +373,7 @@
                                                                 <?php
                                                             }
                                                             ?>
-                                                        </select>
+                                                        </select> -->
                                                         
                                                     </div>
                                                     <div class="col-sm-1"></div>
@@ -409,7 +449,7 @@
                                             </div>
                                         </div>
 
-                                    </form>
+                                    
                                     </p>
                             </div>
                           
@@ -426,6 +466,73 @@
                             </div>
                           
                         </div>
+
+                        <div class="col-lg-9 alenado-left">
+                           
+                            <div id="" class="panel panel-info">
+                                <div class="panel-heading">Precios :  </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                      <div class="panel panel-default">
+                                         
+                                         <div class="panel-body">
+                                            <div class="table-responsive">
+                                               <table class="table table-hover">
+                                                  <thead>
+                                                     <tr>
+                                                        <th>#</th>
+                                                        <th>Presentacion</th>
+                                                        <th>Factor</th>
+                                                        <th>Precio</th>
+                                                        <th>Cliente</th>
+                                                        <th>Sucursal</th>
+                                                        <th>Utilidad</th>
+                                                        <th>
+                                                            <div class="btn-group">
+                                                               <button type="button" class="btn btn-default">Opcion</button>
+                                                               <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-default">
+                                                                  <span class="caret"></span>
+                                                                  <span class="sr-only">default</span>
+                                                               </button>
+                                                               <ul role="menu" class="dropdown-menu">
+                                                                  <li><a href="nuevo">Agregar</a></li>
+                                                                  <li><a href="nuevo">Buscar</a></li>
+                                                                  </li>
+                                                               </ul>
+                                                            </div>  
+                                                        </th>
+                                                     </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                     <tr>
+                                                        <td>1</td>
+                                                        <td>Mark</td>
+                                                        <td>Otto</td>
+                                                        <td>@mdo</td>
+                                                        <td>1</td>
+                                                        <td>Mark</td>
+                                                        <td>Otto</td>
+                                                        <td>
+                                                            <div class="btn-group mb-sm">
+                                                                <a href="#" class="btn btn-warning btn-sm" alt="Editar"><i class="fa fa-edit"></i></a>
+                                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-copy"></i></a>
+                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                
+                                                            </div>
+                                                        </td>
+                                                     </tr>                                                     
+                                                  </tbody>
+                                               </table>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+                                </div>
+                            </div>
+                          
+                        </div>
+
+                        </form>
 
                     </div>
                 </div>
