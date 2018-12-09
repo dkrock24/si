@@ -13,6 +13,7 @@ class Producto_model extends CI_Model {
 		const pos_linea = 'pos_linea';
 		const proveedor = 'pos_proveedor';
 		const producto_proveedor = 'pos_proveedor_has_producto';
+		const marcas = 'pos_marca';
 
 		
 		
@@ -58,6 +59,7 @@ class Producto_model extends CI_Model {
 			$data = array(
 	            'name_entidad' => $producto['name_entidad'],
 	            'producto_estado' => $producto['producto_estado'],
+	            'id_producto_relacionado' => $producto['procuto_asociado'],
 	            'creado_producto' => date("Y-m-d h:i:s"),
 	            'Empresa' => $producto['empresa'],
 	            'Giro' => $producto['giro']
@@ -69,7 +71,7 @@ class Producto_model extends CI_Model {
 			$this->producto_categoria( $id_producto , $producto['sub_categoria'] );
 
 			// cinsertamos los proveedores en un array para recorrerlos
-			$proveedor_array = array($producto['proveedor1'], $producto['proveedor2']);
+			$proveedor_array = array($producto['proveedor1'], $producto['proveedor2'], $producto['marca'] );
 
 			$this->producto_proveedor( $id_producto , $proveedor_array );
 
@@ -97,7 +99,8 @@ class Producto_model extends CI_Model {
 				
 				$data = array(
 		            'proveedor_id_proveedor' => $proveedores[$valor],
-		            'producto_id_producto' => $producto
+		            'producto_id_producto' => $producto,
+		            'marca_id_producto' => $proveedores[2]
 		        );
 
 		        $this->db->insert(self::producto_proveedor, $data );
@@ -105,8 +108,8 @@ class Producto_model extends CI_Model {
 		        if( $proveedores[0] == $proveedores[1] ){
 		        	$contador=2;
 		        }else{
-		        	$contador=1;
-		        	$valor =1;
+		        	$contador += 1;
+		        	$valor += 1;
 		        }
 		        
 			}while( $contador <= 1 );
@@ -178,6 +181,20 @@ class Producto_model extends CI_Model {
 			$this->db->select('*');
 	        $this->db->from(self::pos_linea);
 	        $this->db->where('estado_linea = 1');
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[0];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function get_marcas(){
+
+			$this->db->select('*');
+	        $this->db->from(self::marcas);
+	        $this->db->where('estado_marca = 1');
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[0];
 	        

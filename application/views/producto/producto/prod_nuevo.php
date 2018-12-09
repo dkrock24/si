@@ -314,7 +314,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Linea</label>
+                                                    <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Giro</label>
                                                     <div class="col-sm-8">
                                                         <select class="form-control" id="giro" name="giro">
                                                            
@@ -361,19 +361,18 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Relacion</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="" id="procuto_asociado" class="form-control">
-                                                        <!--<select class="form-control" id="empresa" name="empresa">   
+                                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Marca</label>
+                                                    <div class="col-sm-8">                                                        
+                                                        <select class="form-control" id="marca" name="marca">   
                                                             <?php
-                                                            foreach ($lineas as $value) {
+                                                            foreach ($marcas as $value) {
                                                                 ?>
-                                                                <option value="<?php echo  $value->id_linea; ?>"><?php echo $value->tipo_producto; ?>     
+                                                                <option value="<?php echo  $value->id_marca; ?>"><?php echo $value->nombre_marca; ?>     
                                                                 </option>
                                                                 <?php
                                                             }
                                                             ?>
-                                                        </select> -->
+                                                        </select>
                                                         
                                                     </div>
                                                     <div class="col-sm-1"></div>
@@ -439,12 +438,25 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-sm-12">
+
+                                            <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <div class="col-sm-offset-9 col-sm-2">
-                                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                                     <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Relacion</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="procuto_asociado" id="procuto_asociado" class="form-control">
+                                                        
+                                                        
                                                     </div>
                                                     <div class="col-sm-1"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-8">
+                                                <div class="form-group">
+                                                    <div class="col-sm-offset-7 col-sm-3">
+                                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>

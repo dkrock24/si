@@ -38,6 +38,7 @@ class Producto extends CI_Controller {
 		$data['categorias'] = $this->Producto_model->get_sub_categorias();
 		$data['lineas'] = $this->Producto_model->get_lineas();
 		$data['proveedor'] = $this->Producto_model->get_proveedor();
+		$data['marcas'] = $this->Producto_model->get_marcas();
 		$data['empresa'] = $this->Giros_model->get_empresa();
 
 		$data['home'] = 'producto/producto/prod_nuevo';
