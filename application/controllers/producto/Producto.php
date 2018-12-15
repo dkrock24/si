@@ -46,6 +46,10 @@ class Producto extends CI_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function show( $id_producto ){
+
+	}
+
 	public function crear(){
 		
 		$this->Producto_model->nuevo_producto( $_POST , $this->session->usuario );
@@ -70,10 +74,24 @@ class Producto extends CI_Controller {
 		$data['atributos'] = $this->Producto_model->get_producto_atributos( $id_producto );
 		$data['categorias'] = $this->Producto_model->get_sub_categorias();
 		$data['empresa'] = $this->Giros_model->get_empresa();
+		$data['marcas'] = $this->Producto_model->get_marcas();
+		$data['proveedor'] = $this->Producto_model->get_proveedor();
+		$data['producto_proveedor'] = $this->Producto_model->get_producto_proveedor( $id_producto  );
 
+		
 		$data['home'] = 'producto/producto/prod_editar';
 
 		$this->parser->parse('template', $data);
+	}
+
+	public function get_clientes(){
+		$clientes = $this->Producto_model->get_clientes( );
+		echo json_encode( $clientes );
+	}
+
+	public function get_sucursales(){
+		$sucursales = $this->Producto_model->get_sucursales( );
+		echo json_encode( $sucursales );
 	}
 
 	public function actualizar(){

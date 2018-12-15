@@ -2,6 +2,8 @@
 <script>
   $(document).ready(function(){
 
+    
+
     $("#categoria").change(function(){
           $("#sub_categoria").empty();
           var id = $(this).val();
@@ -71,6 +73,13 @@
                             if(item.tipo_atributo == 'select'){
                                 $(".giro_atributos").append(html_template_select(item.id_prod_atributo , plantilla));
                             }
+                            if(item.tipo_atributo == 'radio'){
+                                $(".giro_atributos").append(html_template_radio(item.id_prod_atributo , plantilla));
+                            }
+                            if(item.tipo_atributo == 'check'){
+                                $(".giro_atributos").append(html_template_check(item.id_prod_atributo , plantilla));
+                            }
+                            
                             id_producto = item.id_prod_atributo;
                         }
                         
@@ -84,6 +93,111 @@
             });
     });
 
+    $(document).on('click', '.deletePrecio', function(){
+
+        html_remove_precios($(this).attr('name'));
+    
+    });
+
+    // Dibuja los precios y utlidades en la pantalla de nuevo cliente
+    var html_cliente2;
+    var obj_cliente;
+    var obj_sucursales;
+    var contador = 0;
+    $("#AgregarPrecios").click(function(){
+        
+        contador++;
+        var cliente = html_get_cliente(contador);
+        var sucursal = html_get_sucursal(contador);
+        var html = "<tr id='"+contador+"'>"+
+                    "<td>"+contador+"</td>"+
+                    "<td><select name='presentacion"+contador+"' class=''><option>Docena</option></select></td>"+
+                    "<td><input type='text' size='5' name='factor"+contador+"' class=''></td>"+
+                    "<td><input type='text' size='5' name='precio"+contador+"' class=''></td>"+
+                    "<td><input type='text' size='10' name='cbarra"+contador+"' class=''></td>"+
+                    "<td>"+cliente+"</td>"+
+                    "<td>"+sucursal+"</td>"+
+                    "<td>$</td>"+
+                        "<td>"+
+                            "<div class='btn-group mb-sm'>"+
+                               " <a href='#' class='btn btn-danger btn-sm deletePrecio' name='"+contador+"'><i class='fa fa-trash'></i></a>"+
+
+                           " </div>"+
+                 "   </td>"+
+                " </tr>";
+        $(".preciosTable").append(html);
+    });
+
+    // Remover los precios por presentacion de la tabla
+    function html_remove_precios( id_tr ){
+        $('table#preciosTable tr#'+id_tr).remove();
+    }
+
+    // Dibujar Objeto Select del Cliente
+    function html_get_cliente (contador){
+        html_cliente = '<select name="cliente'+contador+'">';
+        $.each(JSON.parse(obj_cliente), function(i, item) {                    
+            html_cliente += '<option value='+item.id_cliente+'>'+item.nombre_empresa_o_compania+'</option>';
+        });
+        html_cliente += "</select>";
+        html_cliente2 =html_cliente;
+
+        return html_cliente2 ;
+    }
+
+    // Dibujar Objeto select del Sucursal
+    function html_get_sucursal (contador){
+        html_sucursal = '<select name="sucursal'+contador+'">';
+        $.each(JSON.parse(obj_sucursales), function(i, item) {                    
+            html_sucursal += '<option value='+item.id_sucursal+'>'+item.nombre_sucursal+'</option>';
+        });
+        html_sucursal += "</select>";
+        html_sucursal2 =html_sucursal;
+
+        return html_sucursal2 ;
+    }
+    
+    // Llamadas de funciones catalogos
+    get_cliente(); 
+    get_sucursal();
+
+    // Obtener los clientes desde la base de datos mediante Ajax
+    function get_cliente(){
+        
+        $.ajax({
+            url: "get_clientes",  
+            datatype: 'json',      
+            cache : false,                
+
+                success: function(data){
+                  
+                obj_cliente = data;
+
+                },
+                error:function(){
+                }
+            });
+    }
+
+    // Obtener las sucursales desde la base de datos mediante Ajax
+    function get_sucursal(){
+        
+        $.ajax({
+            url: "get_sucursales",  
+            datatype: 'json',      
+            cache : false,                
+
+                success: function(data){
+                  
+                obj_sucursales = data;
+
+                },
+                error:function(){
+                }
+            });
+    }
+
+    // Dibuja los atributos de tipo TEXT
     function html_template_text(item){
         var html_template ="";
         html_template = '<div class="col-sm-3">'+
@@ -98,6 +212,7 @@
         return html_template;
     }
     
+    // Dibuja los atributos de tipo SELECT
     function html_template_select(id , plantilla){
         
         var opciones="";
@@ -106,7 +221,7 @@
         $.each(plantilla, function(i, item) {
             
             if(id == item.id_prod_atributo){
-                nombre = item.nam_atributo
+                nombre = item.nam_atributo;
                 opciones += '<option>'+item.attr_valor+'</option>';    
             }            
         });
@@ -117,6 +232,60 @@
                             '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+ nombre +'</label><br>'+
                             '<div class="col-sm-offset-1 col-sm-11">'+
                                 '<select name="'+id+'" class="form-control '+nombre+'">'+opciones+'</select>'+
+                            '</div>'+
+                            '<span class="col-sm-1 control-label no-padding-right"></span>'+
+                            '</div>'+
+                            '</div>';
+        return html_template;
+    }
+
+    // Dibuja los atributos de tipo RADIO
+    function html_template_radio(id , plantilla){
+        
+        var opciones="";
+        var nombre =  "";
+        
+        $.each(plantilla, function(i, item) {
+            
+            if(id == item.id_prod_atributo){
+                nombre = item.nam_atributo;
+                opciones += '<input type="radio" class="" name="'+item.id_prod_atributo+'" value="'+nombre+'"/>'+item.attr_valor+'<br>';    
+            }            
+        });
+
+        var html_template ="";
+        html_template = '<div class="col-sm-3">'+
+                            '<div class="form-group">'+
+                            '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+ nombre +'</label><br>'+
+                            '<div class="col-sm-offset-1 col-sm-11">'+
+                                opciones+
+                            '</div>'+
+                            '<span class="col-sm-1 control-label no-padding-right"></span>'+
+                            '</div>'+
+                            '</div>';
+        return html_template;
+    }
+
+    // Dibuja los atributos de tipo CHECK -- PENDIENTE
+    function html_template_radio(id , plantilla){
+        
+        var opciones="";
+        var nombre =  "";
+        
+        $.each(plantilla, function(i, item) {
+            
+            if(id == item.id_prod_atributo){
+                nombre = item.nam_atributo;
+                opciones += '<input type="radio" class="" name="'+item.id_prod_atributo+'" value="'+nombre+'"/>'+item.attr_valor+'<br>';    
+            }            
+        });
+
+        var html_template ="";
+        html_template = '<div class="col-sm-3">'+
+                            '<div class="form-group">'+
+                            '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+ nombre +'</label><br>'+
+                            '<div class="col-sm-offset-1 col-sm-11">'+
+                                opciones+
                             '</div>'+
                             '<span class="col-sm-1 control-label no-padding-right"></span>'+
                             '</div>'+
@@ -181,6 +350,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-white">
 
+                        <!-- INICIO MENU IZQUIERDO -->
                         <div class="col-lg-3">
                             <div id="" class="panel panel-info">
                                 <div class="panel-heading">Nuevo Producto :  </div>
@@ -270,13 +440,15 @@
 
                             </div>
                         </div>
+                        <!-- FIN MENU IZQUIERDO -->
 
                         <form class="form-horizontal" action='crear' method="post">
                         
+                        <!-- INICIO PRODUCTO ENCABEZADO -->
                         <div class="col-lg-9">
                            
                             <div id="" class="panel panel-info">
-                                <div class="panel-heading">Nuevo Producto :  </div>
+                                <div class="panel-heading">Producto General:  </div>
                                     <p>
                                     
                                         <input type="hidden" name="empresa" value="" id="id_empresa">
@@ -466,11 +638,13 @@
                             </div>
                           
                         </div>
+                        <!-- FIN PRODUCTO ENCABEZADO -->
 
+                        <!-- INICIO PRODUCTO ATRIBUTOS -->
                         <div class="col-lg-9">
                            
                             <div id="" class="panel panel-info">
-                                <div class="panel-heading">Atributos Producto :  </div>
+                                <div class="panel-heading">Producto Atributos:  </div>
                                 <div class="row">
                                     <p class="form-horizontal giro_atributos">
                                     </p>
@@ -478,61 +652,41 @@
                             </div>
                           
                         </div>
+                        <!-- FIN PRODUCTO ATRIBUTOS -->
 
+                        <!-- INICIO PRODUCTO PRECIOS -->
                         <div class="col-lg-9 alenado-left">
                            
                             <div id="" class="panel panel-info">
-                                <div class="panel-heading">Precios :  </div>
+                                <div class="panel-heading">Producto Precios :  </div>
                                 <div class="row">
                                     <div class="col-lg-12">
                                       <div class="panel panel-default">
                                          
                                          <div class="panel-body">
                                             <div class="table-responsive">
-                                               <table class="table table-hover">
+                                               <table class="table table-hover" id="preciosTable">
                                                   <thead>
                                                      <tr>
                                                         <th>#</th>
                                                         <th>Presentacion</th>
                                                         <th>Factor</th>
                                                         <th>Precio</th>
+                                                        <th>Code Barra</th>
                                                         <th>Cliente</th>
                                                         <th>Sucursal</th>
                                                         <th>Utilidad</th>
                                                         <th>
                                                             <div class="btn-group">
-                                                               <button type="button" class="btn btn-default">Opcion</button>
-                                                               <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-default">
-                                                                  <span class="caret"></span>
-                                                                  <span class="sr-only">default</span>
-                                                               </button>
-                                                               <ul role="menu" class="dropdown-menu">
-                                                                  <li><a href="nuevo">Agregar</a></li>
-                                                                  <li><a href="nuevo">Buscar</a></li>
-                                                                  </li>
-                                                               </ul>
+                                                            
+                                                                <a href="#" id="AgregarPrecios" class="btn btn-default">Agregar</a>
+                                                          
                                                             </div>  
                                                         </th>
                                                      </tr>
                                                   </thead>
-                                                  <tbody>
-                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>Mark</td>
-                                                        <td>Otto</td>
-                                                        <td>@mdo</td>
-                                                        <td>1</td>
-                                                        <td>Mark</td>
-                                                        <td>Otto</td>
-                                                        <td>
-                                                            <div class="btn-group mb-sm">
-                                                                <a href="#" class="btn btn-warning btn-sm" alt="Editar"><i class="fa fa-edit"></i></a>
-                                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-copy"></i></a>
-                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-                                
-                                                            </div>
-                                                        </td>
-                                                     </tr>                                                     
+                                                  <tbody class="preciosTable">
+                                                                                                     
                                                   </tbody>
                                                </table>
                                             </div>
@@ -543,6 +697,7 @@
                             </div>
                           
                         </div>
+                        <!-- FIN PRODUCTO PRECIOS -->
 
                         </form>
 
@@ -551,3 +706,4 @@
             </div>
         </div>
     </section>
+

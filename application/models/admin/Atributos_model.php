@@ -51,21 +51,25 @@ class Atributos_model extends CI_Model {
 
     function guardar_atributos_opciones( $ultimo_id , $atributos ){
         // esta funcion guarda las opcciones de los tipos de atributos de multiples opciones
-        
-        $contador =1;
+        var_dump($atributos);
+        $contador = 1;
         foreach ($atributos as $key => $value) {
+
+            $option = (int)$key;
+
+            $int2 = (int) $option;
             
-            if ( $key == 'option'.$contador ) {
+            if($int2 != 0){
 
                 $data = array(
                     'Atributo'  => $ultimo_id,
                     'attr_valor' => $value,
                     'attr_fecha_creado' => date("Y-m-d h:i:s"),
                     'attr_estado' => 1
-                );   
+                );
                 $this->db->insert(self::atributos_opciones, $data ); 
-                $contador+=1;
-            }
+                $contador += 1;
+            }            
         }
     }
 

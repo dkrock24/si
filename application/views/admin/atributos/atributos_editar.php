@@ -46,7 +46,7 @@
         function drawSelect( valueInput ){            
 
             $(".agregar").attr('name', valueInput);
-            var inputValue = "<div class='form-group'><div class='col-sm-2'>Opcion "+cont+"</div><div class='col-sm-9'><input type='text' name='option"+cont+"' value='' class='form-control'/></div><div class='col-sm-1'><a href='#' class='removeInput'><i class='fa fa-remove'></i></a></div>";
+            var inputValue = "<div class='form-group'><div class='col-sm-2'>Opcion "+cont+"</div><div class='col-sm-9'><input type='text' name='"+cont+"' value='' class='form-control'/></div><div class='col-sm-1'><a href='#' class='removeInput'><i class='fa fa-remove'></i></a></div>";
             var inputValue2 = "</div>";
             $("#atributosOptios").append( inputValue + inputValue2 );
             cont++;
@@ -140,7 +140,7 @@
                                                 <div class='form-group' id="<?php echo $optiones->id_attr_opcion; ?>">
                                                     <div class='col-sm-2'>Opcion <?php echo $contador; ?></div>
                                                     <div class='col-sm-9'>
-                                                        <input type='text' name='option<?php echo $optiones->id_attr_opcion; ?>' value='<?php echo $optiones->attr_valor; ?>' class='form-control'/>
+                                                        <input type='text' name='<?php echo $contador; ?>' value='<?php echo $optiones->attr_valor; ?>' class='form-control'/>
                                                     </div>
                                                     <div class='col-sm-1'><a href='#' class='removeInput' id="<?php echo $optiones->id_attr_opcion; ?>" name="">
                                                         <i class='fa fa-remove'></i></a>

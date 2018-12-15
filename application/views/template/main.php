@@ -34,7 +34,9 @@
             <div class="navbar-header">
                <a href="#/" class="navbar-brand">
                   <div class="brand-logo">
-                     <img src="<?php echo base_url(); ?>../asstes/img/logo.png" alt="App Logo" class="img-responsive">
+                    <h1 style="margin-top: 0px; color: white;">IBS</h1>
+                    <!--
+                     <img src="<?php echo base_url(); ?>../asstes/img/logo.png" alt="App Logo" class="img-responsive"> -->  
                   </div>
                   <div class="brand-logo-collapsed">
                      <img src="<?php echo base_url(); ?>../asstes/img/logo-single.png" alt="App Logo" class="img-responsive">
