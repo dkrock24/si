@@ -2,7 +2,20 @@
 <script>
   $(document).ready(function(){
 
+    var html_cliente2;
+    var obj_cliente;
+    var obj_sucursales;
+    var obj_impuesto;
+    var incluyeIva = 0;
+    var gravado = 0;
+    var incluyeIva=0;
+    var gravado_contador=0;
+    var contador_precios=0;
+    var obj_precios_cont=[];
+
     
+    // Llamadas de funciones catalogos
+    get_cliente(); 
 
     $("#categoria").change(function(){
           $("#sub_categoria").empty();
@@ -99,25 +112,97 @@
     
     });
 
+    // Calculando utilidad de Productos Dinamicamente
+    $(document).on('keyup', '.calculoUtilidad' , function(){
+        var contador = $(this).attr('id');
+
+        // calculando utilidad para el precio especifico
+        calculoUtilidad(contador);
+
+    });
+
+    // Calculo general de los valores en la tabla de los precios
+    function calculoUtilidad(contador){
+
+        var factor = $('input[name*=factor'+contador+']').val();
+        var unidad = $('input[name*=unidad'+contador+']').val();
+        var costo  = $('input[name*=14]').val();
+        var total  = (factor * unidad);
+
+        if( gravado==1 && incluyeIva!=0 ){
+
+            //Remover IVA del precio del producto
+            costo -= costo * incluyeIva;
+            var utilidad  = ( total / factor ) - costo ;
+        }else{
+
+            var utilidad  = ( total / factor ) - costo ;
+        }        
+
+        $('.precio'+contador).val((total).toFixed(2));
+        $('.utilidad'+contador).val((utilidad).toFixed(2));
+    }
+
+    // Calcula la utilidad posterior al agregar precios a la tabla de factores
+    function calcularUtilidadPosPrecios(){
+
+        //Recorremos los precios exstentes para actualizar sus valores dinamicamente
+        obj_precios_cont.forEach(function(element) {
+
+            calculoUtilidad(element);
+                    
+        });
+
+    }
+
+    //Validar si Gravado Y Quitar Iva estan set
+    $(document).on('click','.check26', function(){
+        //Position [0] es iva
+        
+        incluyeIva = obj_impuesto[0].porcentage;
+        var checked =1;
+        $('.check26').attr('checked');
+        // Validando si es gravado
+        gravado = $('select[name*=24]').val();
+        if(gravado == 'Gravados' && gravado_contador==0){
+            gravado = 1;
+            gravado_contador=1;
+            if(obj_precios_cont.length > 0){
+                
+                calcularUtilidadPosPrecios();
+            }
+        }else{
+            gravado = 0;
+            gravado_contador=0;
+            if(obj_precios_cont.length > 0){
+                
+                calcularUtilidadPosPrecios();
+            }
+        }
+    });
+
     // Dibuja los precios y utlidades en la pantalla de nuevo cliente
-    var html_cliente2;
-    var obj_cliente;
-    var obj_sucursales;
     var contador = 0;
     $("#AgregarPrecios").click(function(){
         
         contador++;
+        
+        obj_precios_cont.push(contador);
+        console.log(obj_precios_cont);
+
         var cliente = html_get_cliente(contador);
         var sucursal = html_get_sucursal(contador);
         var html = "<tr id='"+contador+"'>"+
                     "<td>"+contador+"</td>"+
-                    "<td><select name='presentacion"+contador+"' class=''><option>Docena</option></select></td>"+
-                    "<td><input type='text' size='5' name='factor"+contador+"' class=''></td>"+
-                    "<td><input type='text' size='5' name='precio"+contador+"' class=''></td>"+
-                    "<td><input type='text' size='10' name='cbarra"+contador+"' class=''></td>"+
+                    "<td><input type='text' size='10' name='presentacion"+contador+"' class=''/></td>"+
+                    "<td><input type='text' size='3' name='factor"+contador+"' class=''></td>"+
+                    "<td><input type='text' size='3' name='unidad"+contador+"' class='calculoUtilidad' id='"+contador+"'></td>"+
+                    "<td><input type='text' size='4' name='precio"+contador+"' class='precio"+contador+"' value=''></td>"+
+                    
+                    "<td><input type='text' size='5' name='cbarra"+contador+"' class=''></td>"+
                     "<td>"+cliente+"</td>"+
                     "<td>"+sucursal+"</td>"+
-                    "<td>$</td>"+
+                    "<td><input type='text' size='4' name='utilidad"+contador+"' readonly class='utilidad"+contador+"' value=''/></td>"+
                         "<td>"+
                             "<div class='btn-group mb-sm'>"+
                                " <a href='#' class='btn btn-danger btn-sm deletePrecio' name='"+contador+"'><i class='fa fa-trash'></i></a>"+
@@ -131,14 +216,27 @@
     // Remover los precios por presentacion de la tabla
     function html_remove_precios( id_tr ){
         $('table#preciosTable tr#'+id_tr).remove();
+        
+        obj_precios_cont.forEach(function(element) {
+
+            if(id_tr == element ){
+                
+                obj_precios_cont.splice( obj_precios_cont.indexOf(element), 1 );
+            }
+                    
+        });
+        contador_precios -= 1;
     }
 
     // Dibujar Objeto Select del Cliente
     function html_get_cliente (contador){
         html_cliente = '<select name="cliente'+contador+'">';
-        $.each(JSON.parse(obj_cliente), function(i, item) {                    
+        html_cliente+='<option value=""> - </option>';
+
+        $.each(obj_cliente, function(i, item) {                    
             html_cliente += '<option value='+item.id_cliente+'>'+item.nombre_empresa_o_compania+'</option>';
         });
+
         html_cliente += "</select>";
         html_cliente2 =html_cliente;
 
@@ -148,7 +246,8 @@
     // Dibujar Objeto select del Sucursal
     function html_get_sucursal (contador){
         html_sucursal = '<select name="sucursal'+contador+'">';
-        $.each(JSON.parse(obj_sucursales), function(i, item) {                    
+        html_sucursal+='<option value=""> - </option>';
+        $.each(obj_sucursales, function(i, item) {                    
             html_sucursal += '<option value='+item.id_sucursal+'>'+item.nombre_sucursal+'</option>';
         });
         html_sucursal += "</select>";
@@ -156,10 +255,6 @@
 
         return html_sucursal2 ;
     }
-    
-    // Llamadas de funciones catalogos
-    get_cliente(); 
-    get_sucursal();
 
     // Obtener los clientes desde la base de datos mediante Ajax
     function get_cliente(){
@@ -171,7 +266,11 @@
 
                 success: function(data){
                   
-                obj_cliente = data;
+                    var datos     = JSON.parse(data);
+
+                    obj_cliente = datos['cliente'];
+                    obj_sucursales = datos['sucursal'];
+                    obj_impuesto = datos['impuesto'];
 
                 },
                 error:function(){
@@ -179,23 +278,6 @@
             });
     }
 
-    // Obtener las sucursales desde la base de datos mediante Ajax
-    function get_sucursal(){
-        
-        $.ajax({
-            url: "get_sucursales",  
-            datatype: 'json',      
-            cache : false,                
-
-                success: function(data){
-                  
-                obj_sucursales = data;
-
-                },
-                error:function(){
-                }
-            });
-    }
 
     // Dibuja los atributos de tipo TEXT
     function html_template_text(item){
@@ -222,7 +304,7 @@
             
             if(id == item.id_prod_atributo){
                 nombre = item.nam_atributo;
-                opciones += '<option>'+item.attr_valor+'</option>';    
+                opciones += '<option value="'+item.attr_valor+'">'+item.attr_valor+'</option>';    
             }            
         });
 
@@ -267,7 +349,7 @@
     }
 
     // Dibuja los atributos de tipo CHECK -- PENDIENTE
-    function html_template_radio(id , plantilla){
+    function html_template_check(id , plantilla){
         
         var opciones="";
         var nombre =  "";
@@ -276,7 +358,7 @@
             
             if(id == item.id_prod_atributo){
                 nombre = item.nam_atributo;
-                opciones += '<input type="radio" class="" name="'+item.id_prod_atributo+'" value="'+nombre+'"/>'+item.attr_valor+'<br>';    
+                opciones += '<input type="checkbox" class="check'+item.id_prod_atributo+'" name="'+item.id_prod_atributo+'"/>'+item.attr_valor+'<br>';    
             }            
         });
 
@@ -442,8 +524,8 @@
                         </div>
                         <!-- FIN MENU IZQUIERDO -->
 
-                        <form class="form-horizontal" action='crear' method="post">
-                        
+                        <form class="form-horizontal" enctype="multipart/form-data" action='crear' method="post" >
+
                         <!-- INICIO PRODUCTO ENCABEZADO -->
                         <div class="col-lg-9">
                            
@@ -613,7 +695,27 @@
 
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                     <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Relacion</label>
+                                                     <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Linea</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" id="linea" name="linea">   
+                                                            <?php
+                                                            foreach ($lineas as $value) {
+                                                                ?>
+                                                                <option value="<?php echo  $value->id_linea; ?>"><?php echo $value->tipo_producto; ?>     
+                                                                </option>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                        
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Relacion</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="procuto_asociado" id="procuto_asociado" class="form-control">
                                                         
@@ -623,7 +725,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <div class="col-sm-offset-7 col-sm-3">
                                                         <button type="submit" class="btn btn-primary">Guardar</button>
@@ -671,7 +773,8 @@
                                                         <th>#</th>
                                                         <th>Presentacion</th>
                                                         <th>Factor</th>
-                                                        <th>Precio</th>
+                                                        <th>Unidad</th>
+                                                        <th>Precio</th>                                                        
                                                         <th>Code Barra</th>
                                                         <th>Cliente</th>
                                                         <th>Sucursal</th>

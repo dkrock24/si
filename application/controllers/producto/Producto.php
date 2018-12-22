@@ -71,12 +71,15 @@ class Producto extends CI_Controller {
 
 		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
 		$data['producto'] = $this->Producto_model->get_producto( $id_producto );
+		$data['precios'] = $this->Producto_model->get_precios( $id_producto );
 		$data['atributos'] = $this->Producto_model->get_producto_atributos( $id_producto );
 		$data['categorias'] = $this->Producto_model->get_sub_categorias();
 		$data['empresa'] = $this->Giros_model->get_empresa();
 		$data['marcas'] = $this->Producto_model->get_marcas();
 		$data['proveedor'] = $this->Producto_model->get_proveedor();
 		$data['producto_proveedor'] = $this->Producto_model->get_producto_proveedor( $id_producto  );
+		$data['clientes'] = $this->Producto_model->get_clientes();
+		$data['sucursal'] = $this->Producto_model->get_sucursales();
 
 		
 		$data['home'] = 'producto/producto/prod_editar';
@@ -85,7 +88,11 @@ class Producto extends CI_Controller {
 	}
 
 	public function get_clientes(){
-		$clientes = $this->Producto_model->get_clientes( );
+
+		$clientes['cliente'] = $this->Producto_model->get_clientes( );
+		$clientes['sucursal'] = $this->Producto_model->get_sucursales( );
+		$clientes['impuesto'] = $this->Producto_model->get_inpuesto( );
+
 		echo json_encode( $clientes );
 	}
 

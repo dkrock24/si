@@ -14,7 +14,9 @@
                                 <th>Producto</th> 
                                 <th>Categoria</th>
                                 <th>Sub Categoria</th>
-                                <th>Giro</th>                                                              
+                                <th>Marca</th>
+                                <th>Precio</th>
+                                <th>Giro</th>                                                   
                                 <th>Creado</th>                                
                                 <th>Actualizado</th>
                                 <th>Estado</th>
@@ -49,6 +51,8 @@
                                                     <td><?php echo $p->name_entidad; ?></td>
                                                     <td><?php echo $p->nombre_categoria; ?></td>
                                                     <td><?php echo $p->SubCategoria; ?></td>
+                                                    <td><?php echo $p->nombre_marca; ?></td>
+                                                    <td><?php echo $p->Precio; ?></td>
                                                     <td><?php echo $p->nombre_giro; ?></td>
             			                                      			                            
                                                     <td><?php echo $p->creado_producto; ?></td>

@@ -161,7 +161,7 @@
     }
 
     .preview_producto{
-        width: 100%;
+
     }
     .alenado-left{
         float: right;
@@ -265,16 +265,14 @@
                                     <br>
                                     <div class="col-sm-12">
                                         <?php
-                                        if(isset($atributos)){
-                                            foreach ($atributos as $value) 
-                                            {
-                                                if( $value->tipo_atributo=='file'){
-                                                ?>
-                                                    <img src="<?php //echo $value->valor ?>" name="" id="" class="preview_producto" />
-                                                <?php
-                                                }
-                                            }
+
+                                        if( $producto[0]->producto_img_blob ){
+                                        ?>
+                                            <img src="data: <?php echo $producto[0]->imageType ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode( $producto[0]->producto_img_blob ) ?>" clas="preview_producto" style="width:100%" />
+                                            
+                                        <?php
                                         }
+   
                                         ?>
                                         
                                     </div>
@@ -530,50 +528,86 @@
                                          
                                          <div class="panel-body">
                                             <div class="table-responsive">
-                                               <table class="table table-hover">
+                                                <table class="table table-hover" id="preciosTable">
                                                   <thead>
                                                      <tr>
                                                         <th>#</th>
                                                         <th>Presentacion</th>
                                                         <th>Factor</th>
-                                                        <th>Precio</th>
+                                                        <th>Unidad</th>
+                                                        <th>Precio</th>                                                        
+                                                        <th>Code Barra</th>
                                                         <th>Cliente</th>
                                                         <th>Sucursal</th>
                                                         <th>Utilidad</th>
                                                         <th>
                                                             <div class="btn-group">
-                                                               <button type="button" class="btn btn-default">Opcion</button>
-                                                               <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-default">
-                                                                  <span class="caret"></span>
-                                                                  <span class="sr-only">default</span>
-                                                               </button>
-                                                               <ul role="menu" class="dropdown-menu">
-                                                                  <li><a href="#">Agregar</a></li>
-                                                                  <li><a href="nuevo">Buscar</a></li>
-                                                                  </li>
-                                                               </ul>
+                                                            
+                                                                <a href="#" id="AgregarPrecios" class="btn btn-default">Agregar</a>
+                                                          
                                                             </div>  
                                                         </th>
                                                      </tr>
                                                   </thead>
-                                                  <tbody>
-                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>Mark</td>
-                                                        <td>Otto</td>
-                                                        <td>@mdo</td>
-                                                        <td>1</td>
-                                                        <td>Mark</td>
-                                                        <td>Otto</td>
-                                                        <td>
-                                                            <div class="btn-group mb-sm">
-                                                                <a href="#" class="btn btn-warning btn-sm" alt="Editar"><i class="fa fa-edit"></i></a>
-                                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-copy"></i></a>
-                                                                <a href="#" data-toggle="modal" data-target="#ModalEmpresa2" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-                                
-                                                            </div>
-                                                        </td>
-                                                     </tr>                                                     
+                                                  <tbody class="preciosTable">
+                                                    <?php
+                                                    $cont_table =1;
+                                                    ?>
+                                                       <tr>
+                                                           <td><?php echo $cont_table; ?></td>
+                                                           <td><input type="text" size='10' name="presentacion<?php echo $cont_table ?>" value="<?php echo $precios[0]->presentacion; ?>"></td>
+                                                           <td><input type="text" size='3' name="factor<?php echo $cont_table ?>" value="<?php echo $precios[0]->factor; ?>"></td>
+                                                           <td><input type="text" size='3' name="unidad<?php echo $cont_table ?>" value="<?php echo $precios[0]->unidad; ?>"></td>
+                                                           <td><input type="text" size='4' name="precio<?php echo $cont_table ?>" value="<?php echo $precios[0]->precio; ?>"></td>
+                                                           <td><input type="text" size='5' name="cbarra<?php echo $cont_table ?>" value="<?php echo $precios[0]->cod_barra; ?>"></td>
+                                                           <td>
+                                                               <select name="cliente<?php echo $cont_table ?>">
+                                                                   <?php
+                                                                   foreach ($clientes as $key => $value) {
+                                                                        if($value->id_cliente == $precios[0]->Cliente)
+                                                                        {
+                                                                            ?>
+                                                                           <option value="<?php echo $value->id_cliente; ?>"><?php echo $value->nombre_empresa_o_compania; ?></option>
+                                                                           <?php
+                                                                        }else{
+                                                                            ?>
+                                                                           <option value="<?php echo $value->id_cliente; ?>"><?php echo $value->nombre_empresa_o_compania; ?></option>
+                                                                           <?php
+                                                                        }
+                                                                   }
+                                                                   ?>
+                                                               </select>
+                                                           </td>
+                                                           <td>
+                                                               <select name="sucursal<?php echo $cont_table ?>">
+                                                                   <?php
+                                                                   foreach ($sucursal as $key => $value) {
+                                                                        if($sucursal->id_sucursal == $precios[0]->Sucursal)
+                                                                        {
+                                                                            ?>
+                                                                           <option value="<?php echo $value->id_sucursal; ?>"><?php echo $value->nombre_sucursal; ?></option>
+                                                                           <?php
+                                                                        }else{
+                                                                            ?>
+                                                                           <option value="<?php echo $value->id_sucursal; ?>"><?php echo $value->nombre_sucursal; ?></option>
+                                                                           <?php
+                                                                        }
+                                                                   }
+                                                                   ?>
+                                                               </select>
+                                                           </td>
+                                                           
+                                                            <td><input type="text" size='4' name="utilidad<?php echo $cont_table ?>" value="<?php echo $precios[0]->Utilidad; ?>"></td>
+                                                            <td>
+                                                                <div class='btn-group mb-sm'>
+                                                                    <a href='#' class='btn btn-danger btn-sm deletePrecio' name='<?php echo $cont_table ?>'><i class='fa fa-trash'></i></a>
+                                                                </div>
+                                                            </td>
+                                                           
+                                                       </tr>      
+                                                    <?php
+                                                        $cont_table +=1;
+                                                    ?>                                        
                                                   </tbody>
                                                </table>
                                             </div>
@@ -592,7 +626,6 @@
             </div>
         </div>
     </section>
-
 
 <!-- Modal Large-->
    <div id="ModalEmpresa2" tabindex="-1" role="dialog" aria-labelledby="ModalEmpresa2" aria-hidden="true" class="modal fade">
@@ -731,3 +764,4 @@
       </div>
    </div>
    <!-- Modal Small-->
+

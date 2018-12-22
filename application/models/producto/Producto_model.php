@@ -17,6 +17,8 @@ class Producto_model extends CI_Model {
 		const cliente = 'pos_cliente';
 		const sucursal = 'pos_sucursal';
 		const producto_detalle = 'prouducto_detalle';
+		const impuestos = 'pos_tipos_impuestos';
+		const producto_img = 'pos_producto_img';
 		
 		
         
@@ -38,7 +40,8 @@ class Producto_model extends CI_Model {
 	        }*/
 
 	        
-	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro
+	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
+	        	,(select pv1.valor from producto_valor as pv1 where pv1.id_prod_atributo=PA.id_prod_atrri ) as Precio
 				FROM `producto` as `P`
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
 				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
@@ -47,7 +50,8 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` group by P.id_entidad ");
+				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 group by P.id_entidad ");
 
 		        //echo $this->db->queries[1];
 		        return $query->result();
@@ -56,12 +60,13 @@ class Producto_model extends CI_Model {
 
 		//	Creacion de un nuevo producto
 		function nuevo_producto( $producto , $usuario ){
-			
+
 			//	Creando cabecera de la tabla producto
 			$data = array(
 	            'name_entidad' => $producto['name_entidad'],
 	            'producto_estado' => $producto['producto_estado'],
 	            'Marca' => $producto['marca'],
+	            'Linea' => $producto['linea'],
 	            'id_producto_relacionado' => $producto['procuto_asociado'],
 	            'creado_producto' => date("Y-m-d h:i:s"),
 	            'Empresa' => $producto['empresa'],
@@ -133,6 +138,7 @@ class Producto_model extends CI_Model {
 				$int2 = (int) $atributo;
 
 	            if($int2 != 0){
+	            	
 
                     $data = array(
                         'Producto' => $id_producto,
@@ -145,7 +151,11 @@ class Producto_model extends CI_Model {
 	        		$this->producto_atributo_valor( $id_producto_atributo , $producto[$int2] );
 	            }
 	        }
-
+	        if( $_FILES['11'] ){
+	            // Si viene Atribut0 11=Imagen insertemos la imagen blob
+	       		$this->producto_images( $id_producto , $_FILES['11'] );
+	        }
+	       	
 		}
 
 		function producto_precios( $id_producto, $producto ){
@@ -158,26 +168,30 @@ class Producto_model extends CI_Model {
 	            similar_text( $key, $similar_key, $percent );
 				
 				if( round( $percent) >= 90  and isset($producto['14']) ){
-					
+
+					$contador = substr($key, -1);
+					/*
 					if(isset($producto[14])){
 	            		$costo = $producto['14'] ;
 	            	}
 
-					//$contador = substr($key, -1);
+					
 					if(preg_match_all('/\d+/', $key, $numbers))
     					$contador = end($numbers[0]);
 
 					// Calcular factor					
 					 $factor = ($costo / $producto['precio'.$contador] );
+					*/
 
                     $data = array(
                         'Producto' => $id_producto,
                         'presentacion' 	=> $producto['presentacion'.$contador],
                         'factor' 		=> $producto['factor'.$contador],
                         'precio' 		=> $producto['precio'.$contador],
+                        'unidad' 		=> $producto['unidad'.$contador],
                         'Cliente' 		=> $producto['cliente'.$contador],
                         'Sucursal' 		=> $producto['sucursal'.$contador],
-                        'Utilidad' 		=> $factor,
+                        'Utilidad' 		=> $producto['utilidad'.$contador],
                         'cod_barra' 	=> $producto['cbarra'.$contador],
                         'estado_producto_detalle' => 1,
                         'fecha_creacion_producto_detalle' => date("Y-m-d h:i:s")
@@ -194,6 +208,24 @@ class Producto_model extends CI_Model {
                 'valor' => $atributo_valor
             );
             $this->db->insert(self::producto_valor, $data ); 
+		}
+
+		function producto_images( $id_producto  , $imagen_producto ){
+			// Insertando Imagenes Productos
+			$imagen="";
+			$imagen = file_get_contents($_FILES['11']['tmp_name']);
+			$imageProperties = getimageSize($_FILES['11']['tmp_name']);
+
+			$data = array(
+                'id_producto' => $id_producto,
+                'producto_img_blob' => $imagen,
+                'imageType' => $imageProperties['mime'],
+                'estado_producto_img' => 1,
+                'creado_producto_img' => date("Y-m-d h:i:s")
+            );
+            $this->db->insert(self::producto_img, $data ); 
+            
+
 		}
 
 		function get_sub_categorias(){
@@ -265,7 +297,7 @@ class Producto_model extends CI_Model {
 
 		function get_producto( $id_producto ){
 
-			$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', sub_c.id_categoria as 'id_sub_categoria', c.id_categoria as 'id_categoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
+			$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', sub_c.id_categoria as 'id_sub_categoria', c.id_categoria as 'id_categoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, img.producto_img_blob,img.imageType,cli.nombre_empresa_o_compania,cli.id_cliente 
 				FROM `producto` as `P`
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`id_prod_atrri`
 				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
@@ -276,8 +308,16 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.`id_marca` = `P`.`Marca`
+				LEFT JOIN `pos_producto_img` as `img` ON `img`.`id_producto` = `P`.`id_entidad`
+				LEFT JOIN `pos_cliente` as `cli` ON `cli`.`id_cliente` = `img`.`id_producto`
 				where P.id_entidad=".$id_producto );
 		         //echo $this->db->queries[0];
+		        return $query->result();
+		}
+
+		function get_precios( $id_producto ){
+			$query = $this->db->query("SELECT *
+				FROM `prouducto_detalle` as `P` where P.Producto=".$id_producto );
 		        return $query->result();
 		}
 
@@ -368,6 +408,19 @@ class Producto_model extends CI_Model {
 	        $this->db->where('estado = 1');
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function get_inpuesto(){
+			$this->db->select('*');
+	        $this->db->from(self::impuestos);
+	        $this->db->where('id_tipos_impuestos = 1');
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[0];
 	        
 	        if($query->num_rows() > 0 )
 	        {
