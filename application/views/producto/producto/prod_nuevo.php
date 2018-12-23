@@ -126,14 +126,17 @@
 
         var factor = $('input[name*=factor'+contador+']').val();
         var unidad = $('input[name*=unidad'+contador+']').val();
+        var precio = $('input[name*=precio'+contador+']').val();
         var costo  = $('input[name*=14]').val();
         var total  = (factor * unidad);
+        var x;
 
         if( gravado==1 && incluyeIva!=0 ){
 
             //Remover IVA del precio del producto
-            costo -= costo * incluyeIva;
-            var utilidad  = ( total / factor ) - costo ;
+            x = ( unidad / incluyeIva );
+
+            var utilidad  = x - costo ;
         }else{
 
             var utilidad  = ( total / factor ) - costo ;

@@ -2,6 +2,23 @@
 <script>
   $(document).ready(function(){
 
+    var html_cliente2;
+    var obj_cliente;
+    var obj_sucursales;
+    var obj_impuesto;
+    var incluyeIva = 0;
+    var gravado = 0;
+    var incluyeIva=0;
+    var gravado_contador=0;
+    var contador_precios=0;
+    var obj_precios_cont=[];
+    var precios_contador =0;
+
+    
+    // Llamadas de funciones catalogos
+    get_cliente(); 
+    atributos();
+
     $("#categoria").change(function(){
           $("#sub_categoria").empty();
           var id = $(this).val();
@@ -47,30 +64,38 @@
     });
 
     // Busca el Giro para dibujar los inputs del producto
-    $("#giro").change(function(){
-          var id = $(this).val();
+    function atributos(){
+          var id = $("#id_producto").val();
+
           $.ajax({
-            url: "get_empresa_giro_atributos/"+id,  
+            url: "../get_atributos_producto/"+id,  
             datatype: 'json',      
             cache : false,                
 
                 success: function(data){
-                
+                    
                     var datos = JSON.parse(data);
-                    var plantilla = datos["plantilla"];
+                    var atributos = datos["atributos"];
                     $(".giro_atributos").empty();
                     
                     //$(".giro_atributos").append('<div class="col-sm-3">' );
                     var id_producto = 0;
-                    $.each(plantilla, function(i, item) {  
+                    $.each(atributos, function(i, item) {  
 
                         if(id_producto != item.id_prod_atributo){
                             if(item.tipo_atributo == 'text' ||  item.tipo_atributo == 'file'){                            
-                                $(".giro_atributos").append( html_template_text(item) );
+                                $(".giro_atributos").append( html_template_text(item, atributos) );
                             }
                             if(item.tipo_atributo == 'select'){
-                                $(".giro_atributos").append(html_template_select(item.id_prod_atributo , plantilla));
+                                $(".giro_atributos").append(html_template_select(item.id_prod_atributo , atributos));
                             }
+                            if(item.tipo_atributo == 'radio'){
+                                $(".giro_atributos").append(html_template_radio(item.id_prod_atributo , atributos));
+                            }
+                            if(item.tipo_atributo == 'check'){
+                                $(".giro_atributos").append(html_template_check(item.id_prod_atributo , atributos));
+                            }
+                            
                             id_producto = item.id_prod_atributo;
                         }
                         
@@ -82,15 +107,210 @@
                 error:function(){
                 }
             });
+    }
+
+    $(document).on('click', '.deletePrecio', function(){
+
+        html_remove_precios($(this).attr('name'));
+    
     });
 
-    function html_template_text(item){
+    // Calculando utilidad de Productos Dinamicamente
+    $(document).on('keyup', '.calculoUtilidad' , function(){
+        var contador = $(this).attr('id');
+
+        // calculando utilidad para el precio especifico
+        calculoUtilidad(contador);
+
+    });
+
+    // Calculo general de los valores en la tabla de los precios
+    function calculoUtilidad(contador){
+
+        var factor = $('input[name*=factor'+contador+']').val();
+        var unidad = $('input[name*=unidad'+contador+']').val();
+        var precio = $('input[name*=precio'+contador+']').val();
+        var costo  = $('input[name*=14]').val();
+        var total  = (factor * unidad);
+        var x;
+
+        if( gravado==1 && incluyeIva!=0 ){
+            //Remover IVA del precio del producto
+            x = ( unidad / incluyeIva );
+
+            var utilidad  = x - costo ;
+        }else{
+            var utilidad  = ( total / factor ) - costo ;
+        }        
+
+        $('.precio'+contador).val((total).toFixed(2));
+        $('.utilidad'+contador).val((utilidad).toFixed(2));
+    }
+
+    // Calcula la utilidad posterior al agregar precios a la tabla de factores
+    function calcularUtilidadPosPrecios(){
+
+        //Recorremos los precios exstentes para actualizar sus valores dinamicamente
+        obj_precios_cont.forEach(function(element) {
+            
+            calculoUtilidad(element);
+                    
+        });
+
+    }
+
+    //Validar Tipo Iva
+    $(document).on('change','.24',function(){
+        gravado = $('select[name*=24]').val();
+    });
+
+    //Validar si Gravado Y Quitar Iva estan set
+    $(document).on('click','.check26', function(){
+        
+        //Recorrer Precios existentes
+        var temp_cont=1;
+
+        while(temp_cont <= precios_contador){
+            obj_precios_cont.push(temp_cont);
+            temp_cont++;
+        }
+        //Position [0] es iva        
+        incluyeIva = obj_impuesto[0].porcentage;
+        var checked =1;
+
+        $('.check26').attr('checked');
+        // Validando si es gravado
+        gravado = $('select[name*=24]').val();
+
+        if(gravado == 'Gravados' && gravado_contador==0){
+            gravado = 1;
+            gravado_contador=1;
+            if(obj_precios_cont.length > 0){
+                
+                calcularUtilidadPosPrecios();
+            }
+        }else{
+            gravado = 0;
+            gravado_contador=0;
+            if(obj_precios_cont.length > 0){
+                
+                calcularUtilidadPosPrecios();
+            }
+        }
+    });
+
+    // Dibuja los precios y utlidades en la pantalla de nuevo cliente
+    precios_contador = $("#precios_contador").val();
+    var contador = 0;
+    if(precios_contador != 0){
+        contador = precios_contador;
+    }else{
+        contador = 0;
+    }
+    
+    $("#AgregarPrecios").click(function(){
+        
+        contador++;
+        
+        obj_precios_cont.push(contador);
+        console.log(obj_precios_cont);
+
+        var cliente = html_get_cliente(contador);
+        var sucursal = html_get_sucursal(contador);
+        var html = "<tr id='"+contador+"'>"+
+                    "<td>"+contador+"</td>"+
+                    "<td><input type='text' size='10' name='presentacion"+contador+"' class=''/></td>"+
+                    "<td><input type='text' size='3' name='factor"+contador+"' class=''></td>"+
+                    "<td><input type='text' size='3' name='unidad"+contador+"' class='calculoUtilidad' id='"+contador+"'></td>"+
+                    "<td><input type='text' size='4' name='precio"+contador+"' class='precio"+contador+"' value=''></td>"+
+                    
+                    "<td><input type='text' size='5' name='cbarra"+contador+"' class=''></td>"+
+                    "<td>"+cliente+"</td>"+
+                    "<td>"+sucursal+"</td>"+
+                    "<td><input type='text' size='4' name='utilidad"+contador+"' readonly class='utilidad"+contador+"' value=''/></td>"+
+                        "<td>"+
+                            "<div class='btn-group mb-sm'>"+
+                               " <a href='#' class='btn btn-danger btn-sm deletePrecio' name='"+contador+"'><i class='fa fa-trash'></i></a>"+
+
+                           " </div>"+
+                 "   </td>"+
+                " </tr>";
+        $(".preciosTable").append(html);
+    });
+
+    // Remover los precios por presentacion de la tabla
+    function html_remove_precios( id_tr ){
+        $('table#preciosTable tr#'+id_tr).remove();
+        
+        obj_precios_cont.forEach(function(element) {
+
+            if(id_tr == element ){
+                
+                obj_precios_cont.splice( obj_precios_cont.indexOf(element), 1 );
+            }
+                    
+        });
+        contador_precios -= 1;
+    }
+
+    // Dibujar Objeto Select del Cliente
+    function html_get_cliente (contador){
+        html_cliente = '<select name="cliente'+contador+'">';
+        html_cliente+='<option value=""> - </option>';
+
+        $.each(obj_cliente, function(i, item) {                    
+            html_cliente += '<option value='+item.id_cliente+'>'+item.nombre_empresa_o_compania+'</option>';
+        });
+
+        html_cliente += "</select>";
+        html_cliente2 =html_cliente;
+
+        return html_cliente2 ;
+    }
+
+    // Dibujar Objeto select del Sucursal
+    function html_get_sucursal (contador){
+        html_sucursal = '<select name="sucursal'+contador+'">';
+        html_sucursal+='<option value=""> - </option>';
+        $.each(obj_sucursales, function(i, item) {                    
+            html_sucursal += '<option value='+item.id_sucursal+'>'+item.nombre_sucursal+'</option>';
+        });
+        html_sucursal += "</select>";
+        html_sucursal2 =html_sucursal;
+
+        return html_sucursal2 ;
+    }
+
+    // Obtener los clientes desde la base de datos mediante Ajax
+    function get_cliente(){
+        
+        $.ajax({
+            url: "../get_clientes",  
+            datatype: 'json',      
+            cache : false,                
+
+                success: function(data){
+                  
+                    var datos     = JSON.parse(data);
+
+                    obj_cliente = datos['cliente'];
+                    obj_sucursales = datos['sucursal'];
+                    obj_impuesto = datos['impuesto'];
+
+                },
+                error:function(){
+                }
+            });
+    }
+
+    // Dibuja los atributos de tipo TEXT
+    function html_template_text(item , atributos){
         var html_template ="";
         html_template = '<div class="col-sm-3">'+
                             '<div class="form-group">'+
                             '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+item.nam_atributo+'</label><br>'+
                             '<div class="col-sm-offset-1 col-sm-11">'+
-                                '<input type="'+item.tipo_atributo+'" name="'+item.id_prod_atributo+'"  class="form-control '+item.nam_atributo+'">'+
+                                '<input type="'+item.tipo_atributo+'" name="'+item.AtributoId+'" value="'+item.valor+'"  class="form-control '+item.nam_atributo+'">'+
                             '</div>'+
                             '<span class="col-sm-1 control-label no-padding-right"></span>'+
                             '</div>'+
@@ -98,16 +318,30 @@
         return html_template;
     }
     
+    // Dibuja los atributos de tipo SELECT
     function html_template_select(id , plantilla){
         
         var opciones="";
         var nombre =  "";
+        var delimitador=0;
+        var atributo_id = 0;
         
         $.each(plantilla, function(i, item) {
             
             if(id == item.id_prod_atributo){
-                nombre = item.nam_atributo
-                opciones += '<option>'+item.attr_valor+'</option>';    
+                if(item.valor == item.attr_valor){
+                    opciones += '<option value="'+item.valor+'">'+item.attr_valor+'</option>';    
+                }
+            }            
+        });
+        $.each(plantilla, function(i, item) {
+            
+            if(id == item.id_prod_atributo){
+                if(item.valor != item.attr_valor){
+                    opciones += '<option value="'+item.attr_valor+'">'+item.attr_valor+'</option>';    
+                }
+                nombre = item.nam_atributo;
+                atributo_id = item.AtributoId;
             }            
         });
 
@@ -116,7 +350,66 @@
                             '<div class="form-group">'+
                             '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+ nombre +'</label><br>'+
                             '<div class="col-sm-offset-1 col-sm-11">'+
-                                '<select name="'+id+'" class="form-control '+nombre+'">'+opciones+'</select>'+
+                                '<select name="'+atributo_id+'" class="form-control '+atributo_id+'">'+opciones+'</select>'+
+                            '</div>'+
+                            '<span class="col-sm-1 control-label no-padding-right"></span>'+
+                            '</div>'+
+                            '</div>';
+        return html_template;
+    }
+
+    // Dibuja los atributos de tipo RADIO
+    function html_template_radio(id , plantilla){
+        
+        var opciones="";
+        var nombre =  "";
+        
+        $.each(plantilla, function(i, item) {
+            
+            if(id == item.id_prod_atributo){
+                nombre = item.nam_atributo;
+                opciones += '<input type="radio" class="" name="'+item.id_prod_atributo+'" value="'+nombre+'"/>'+item.attr_valor+'<br>';    
+            }            
+        });
+
+        var html_template ="";
+        html_template = '<div class="col-sm-3">'+
+                            '<div class="form-group">'+
+                            '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+ nombre +'</label><br>'+
+                            '<div class="col-sm-offset-1 col-sm-11">'+
+                                opciones+
+                            '</div>'+
+                            '<span class="col-sm-1 control-label no-padding-right"></span>'+
+                            '</div>'+
+                            '</div>';
+        return html_template;
+    }
+
+    // Dibuja los atributos de tipo CHECK -- PENDIENTE
+    function html_template_check(id , plantilla){
+        
+        var opciones="";
+        var nombre =  "";
+        
+        $.each(plantilla, function(i, item) {
+            var checked = "";
+            if(item.valor == 1){
+                checked = "checked";
+                incluyeIva = obj_impuesto[0].porcentage;
+            }
+            
+            if(id == item.id_prod_atributo){
+                nombre = item.nam_atributo;
+                opciones += '<input type="checkbox" '+checked+' class="check'+item.AtributoId+'" name="'+item.AtributoId+'"/>'+item.attr_valor+'<br>';    
+            }            
+        });
+
+        var html_template ="";
+        html_template = '<div class="col-sm-3">'+
+                            '<div class="form-group">'+
+                            '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+ nombre +'</label><br>'+
+                            '<div class="col-sm-offset-1 col-sm-11">'+
+                                opciones+
                             '</div>'+
                             '<span class="col-sm-1 control-label no-padding-right"></span>'+
                             '</div>'+
@@ -140,6 +433,7 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
 
 
 
@@ -290,6 +584,7 @@
                                     <p>
                                     
                                         <input type="hidden" name="empresa" value="" id="id_empresa">
+                                        <input type="hidden" name="id_producto" value="<?php echo $producto[0]->id_entidad; ?>" id="id_producto">
                                         
                                         <div class="row">
                                             <div class="col-sm-4">
@@ -494,24 +789,7 @@
                                 <div class="panel-heading">Atributos Producto :  </div>
                                 <div class="row">
                                     <p class="form-horizontal giro_atributos">
-                                        <?php
-                                        if(isset($atributos)){
-                                            foreach ($atributos as $value) 
-                                            {
-                                        ?>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                <label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right"><?php echo $value->nam_atributo;  ?></label><br>
-                                                <div class="col-sm-offset-1 col-sm-11">
-                                                    <input type="<?php echo $value->tipo_atributo; ?>" name=""  class="form-control" value="<?php echo $value->valor; ?>">
-                                                </div>
-                                                <span class="col-sm-1 control-label no-padding-right"></span>
-                                                </div>
-                                            </div>
-                                        <?php
-                                            }
-                                        }
-                                        ?>
+                                        
                                     </p>
                                 </div>
                             </div>
@@ -553,13 +831,13 @@
                                                     <?php
                                                     $cont_table =1;
                                                     ?>
-                                                       <tr>
+                                                       <tr><input type="hidden" name="precios_contador" id="precios_contador" value="<?php echo $cont_table; ?>">
                                                            <td><?php echo $cont_table; ?></td>
-                                                           <td><input type="text" size='10' name="presentacion<?php echo $cont_table ?>" value="<?php echo $precios[0]->presentacion; ?>"></td>
-                                                           <td><input type="text" size='3' name="factor<?php echo $cont_table ?>" value="<?php echo $precios[0]->factor; ?>"></td>
-                                                           <td><input type="text" size='3' name="unidad<?php echo $cont_table ?>" value="<?php echo $precios[0]->unidad; ?>"></td>
-                                                           <td><input type="text" size='4' name="precio<?php echo $cont_table ?>" value="<?php echo $precios[0]->precio; ?>"></td>
-                                                           <td><input type="text" size='5' name="cbarra<?php echo $cont_table ?>" value="<?php echo $precios[0]->cod_barra; ?>"></td>
+                                                           <td><input type="text" size='10' class='presentacion<?php echo $cont_table ?>'   name="presentacion<?php echo $cont_table ?>" value="<?php echo $precios[0]->presentacion; ?>"></td>
+                                                           <td><input type="text" size='3'  class='factor<?php echo $cont_table ?>'         name="factor<?php echo $cont_table ?>"      value="<?php echo $precios[0]->factor; ?>"></td>
+                                                           <td><input type="text" size='3'  class='unidad<?php echo $cont_table ?>'         name="unidad<?php echo $cont_table ?>"      value="<?php echo $precios[0]->unidad; ?>"></td>
+                                                           <td><input type="text" size='4'  class='precio<?php echo $cont_table ?>'         name="precio<?php echo $cont_table ?>"      value="<?php echo $precios[0]->precio; ?>"></td>
+                                                           <td><input type="text" size='5'  class='cbarra<?php echo $cont_table ?>'         name="cbarra<?php echo $cont_table ?>"      value="<?php echo $precios[0]->cod_barra; ?>"></td>
                                                            <td>
                                                                <select name="cliente<?php echo $cont_table ?>">
                                                                    <?php
@@ -597,7 +875,7 @@
                                                                </select>
                                                            </td>
                                                            
-                                                            <td><input type="text" size='4' name="utilidad<?php echo $cont_table ?>" value="<?php echo $precios[0]->Utilidad; ?>"></td>
+                                                            <td><input type="text" size='4' class='utilidad<?php echo $cont_table ?>' name="utilidad<?php echo $cont_table ?>" value="<?php echo $precios[0]->Utilidad; ?>"></td>
                                                             <td>
                                                                 <div class='btn-group mb-sm'>
                                                                     <a href='#' class='btn btn-danger btn-sm deletePrecio' name='<?php echo $cont_table ?>'><i class='fa fa-trash'></i></a>

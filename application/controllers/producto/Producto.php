@@ -87,6 +87,11 @@ class Producto extends CI_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function get_atributos_producto( $prodcuto_id ){
+		$data['atributos'] = $this->Producto_model->get_producto_atributos( $prodcuto_id );
+		echo json_encode( $data );
+	}
+
 	public function get_clientes(){
 
 		$clientes['cliente'] = $this->Producto_model->get_clientes( );

@@ -60,7 +60,8 @@ class Producto_model extends CI_Model {
 
 		//	Creacion de un nuevo producto
 		function nuevo_producto( $producto , $usuario ){
-
+			var_dump($producto );
+			die;
 			//	Creando cabecera de la tabla producto
 			$data = array(
 	            'name_entidad' => $producto['name_entidad'],
@@ -359,13 +360,14 @@ class Producto_model extends CI_Model {
 		// Buscar un producto para ser mostrado en la editicion de producto
 		function get_producto_atributos( $id_producto ){
 
-			$query = $this->db->query("SELECT *
+			$query = $this->db->query("SELECT *,a.id_prod_atributo as AtributoId
 					FROM `producto` as `p`
 					LEFT JOIN `giros_empresa` as `eg` ON `eg`.`id_giro_empresa`=`p`.`Giro`
 					LEFT JOIN `giro_pantilla` as `gp` ON `gp`.`Giro`=`eg`.`Giro`
 					LEFT JOIN `atributo` as `a` ON `a`.`id_prod_atributo`=`gp`.`Atributo`
 					LEFT JOIN `producto_atributo` as `pa` ON `pa`.`Producto`=`p`.`id_entidad`
 					LEFT JOIN `producto_valor` as `pv` ON `pv`.`id_prod_atributo`=`pa`.`id_prod_atrri`
+					LEFT JOIN `atributos_opciones` as `ao` ON `ao`.`Atributo`=`a`.`id_prod_atributo`
 					WHERE `p`.`id_entidad` = ".$id_producto." and pa.Atributo = a.id_prod_atributo");
 
 		    return $query->result();
