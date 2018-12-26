@@ -19,6 +19,7 @@ class Producto_model extends CI_Model {
 		const producto_detalle = 'prouducto_detalle';
 		const impuestos = 'pos_tipos_impuestos';
 		const producto_img = 'pos_producto_img';
+		const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
 		
 		
         
@@ -60,8 +61,7 @@ class Producto_model extends CI_Model {
 
 		//	Creacion de un nuevo producto
 		function nuevo_producto( $producto , $usuario ){
-			var_dump($producto );
-			die;
+
 			//	Creando cabecera de la tabla producto
 			$data = array(
 	            'name_entidad' => $producto['name_entidad'],
@@ -131,7 +131,6 @@ class Producto_model extends CI_Model {
 
 		function producto_atributos($id_producto, $producto){
 			// Inserta todos los atributos relacionados al producto
-
 			foreach ($producto as $key => $value) {
 	            
 	            $atributo = (int)$key;
@@ -139,7 +138,6 @@ class Producto_model extends CI_Model {
 				$int2 = (int) $atributo;
 
 	            if($int2 != 0){
-	            	
 
                     $data = array(
                         'Producto' => $id_producto,
@@ -153,8 +151,23 @@ class Producto_model extends CI_Model {
 	            }
 	        }
 	        if( $_FILES['11'] ){
+	        	$id = 11;
 	            // Si viene Atribut0 11=Imagen insertemos la imagen blob
 	       		$this->producto_images( $id_producto , $_FILES['11'] );
+
+	       		$data = array(
+                        'Producto' => $id_producto,
+                        'Atributo' => $id
+                    );
+                
+                $this->db->insert(self::producto_atributo, $data ); 
+                $id_producto_atributo = $this->db->insert_id();
+
+                $imageName = getimageSize($_FILES['11']['tmp_name']);
+
+                // llamando el insert de los valores de los atributos del producto
+	        	$this->producto_atributo_valor( $id_producto_atributo , $imageName['mime'] );
+
 	        }
 	       	
 		}
@@ -229,10 +242,24 @@ class Producto_model extends CI_Model {
 
 		}
 
-		function get_sub_categorias(){
+		function get_categorias(){
 			$this->db->select('*');
 	        $this->db->from(self::categoria);
 	        $this->db->where('id_categoria_padre IS NULL' );
+	        $this->db->where('categoria_estado = 1');
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[1];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function get_sub_categorias(){
+			$this->db->select('*');
+	        $this->db->from(self::categoria);
+	        $this->db->where('id_categoria_padre IS NOT NULL' );
 	        $this->db->where('categoria_estado = 1');
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];
@@ -338,16 +365,35 @@ class Producto_model extends CI_Model {
 	            'name_entidad' => $producto['name_entidad'],
 	            'producto_estado' => $producto['producto_estado'],
 	            'Empresa' => $producto['empresa'],
-	            'Giro' => $producto['giro']
+	            'Giro' => $producto['giro'],
+	            'id_producto_relacionado' => $producto['procuto_asociado']	            
 	        );
 
-			$this->db->where('id_entidad', $producto['id_entidad']);
+			//echo $_FILES['11']['tmp_name'];
+			//var_dump($_FILES['11']);
+			//var_dump($producto);
+	        //die;
+
+			$this->db->where('id_entidad', $producto['id_producto']);
 			$update = $this->db->update(self::producto, $data ); 
 			if($update){
-				$this->actualizar_categoria_producto(  $producto['sub_categoria'] , $producto['id_entidad'] );
+				$this->actualizar_categoria_producto(  $producto['sub_categoria'] , $producto['id_producto'] );
+
+				$this->actualizar_proveedor_producto(  $producto['proveedor1'] , $producto['id_producto'] );
+				$this->actualizar_proveedor_producto2(  $producto['proveedor2'] , $producto['id_producto'] );
+
+				$this->producto_atributo_actualizacion($producto['id_producto'] , $producto);
+
+				$this->producto_precios_actualizacion($producto['id_producto'] , $producto);
+
+				if(isset($_FILES['11']) && $_FILES['11']['tmp_name']!=null){
+					$this->producto_imagen_actualizar( $producto['id_producto'], $_FILES['11'] );
+				}
 			}
+			
 		}
 
+		// Actualizar producto
 		function actualizar_categoria_producto($id_sub_categoria , $id_producto ){
 			$data = array(
 	            'id_categoria' => $id_sub_categoria,	            
@@ -355,6 +401,91 @@ class Producto_model extends CI_Model {
 
 			$this->db->where('id_producto', $id_producto);
 			$this->db->update(self::categoria_producto, $data );
+		}
+
+		// Actualizar producto
+		function actualizar_proveedor_producto($id_proveedor , $id_producto ){
+			$data = array(
+	            'proveedor_id_proveedor' => $id_proveedor,
+	        );
+
+			$this->db->where('producto_id_producto', $id_producto);
+			$this->db->where('proveedor_id_proveedor', $id_proveedor);
+			$this->db->update(self::pos_proveedor_has_producto, $data );
+		}
+
+		function actualizar_proveedor_producto2($id_proveedor , $id_producto ){
+			$data = array(
+	            'proveedor_id_proveedor' => $id_proveedor,
+	        );
+
+			$this->db->where('producto_id_producto', $id_producto);
+			$this->db->where('proveedor_id_proveedor', $id_proveedor);
+			$this->db->update(self::pos_proveedor_has_producto, $data );
+		}
+
+		// Actualizar Atributos
+		function producto_atributo_actualizacion( $id_producto , $producto ){
+			
+			$this->db->select('*');
+	        $this->db->from(self::producto_atributo);
+	        $this->db->where('Producto', $id_producto );
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[1];
+	        $datos = $query->result();
+
+	        // Recorrer la lista de producto_atributos
+	        $id_prod_atrri=0;
+	        foreach ($datos as $value) {
+
+	        	$id_prod_atrri 	= $value->id_prod_atrri;
+	        	$Atributo 		= $value->Atributo;
+
+	        	if(isset( $producto[$Atributo] )){
+	        		$this->actualizar_producto_valor($id_prod_atrri, $producto[$Atributo] );
+	        	}
+
+	        }
+	        
+		}
+
+		// Actualizar Precios del producto
+		function producto_precios_actualizacion( $id_producto , $producto ){
+
+			$data = array(
+	            'Producto' => $id_producto,
+	        );
+
+	        $this->db->delete(self::producto_detalle, $data); 
+
+	        $this->producto_precios( $id_producto , $producto );
+		}
+
+		// Actualizar producto valor
+		function actualizar_producto_valor( $id_prod_atrri, $producto_valor ){
+			$data = array(
+	            'valor' => $producto_valor,
+	        );
+
+			$this->db->where('id_prod_atributo', $id_prod_atrri);
+			$this->db->update(self::producto_valor, $data );
+		}
+
+		// Actualizar Imagen del producto
+		function producto_imagen_actualizar( $producto_id , $imagen ){
+
+			$imagen = file_get_contents($_FILES['11']['tmp_name']);
+			$imageProperties = getimageSize($_FILES['11']['tmp_name']);
+
+			$data = array(
+	            'producto_img_blob' => $imagen,
+                'imageType' => $imageProperties['mime'],
+                'estado_producto_img' => 1,
+                'producto_img_actualizado' => date("Y-m-d h:i:s")
+	        );
+
+			$this->db->where('id_producto', $producto_id);
+			$this->db->update(self::producto_img, $data );
 		}
 
 		// Buscar un producto para ser mostrado en la editicion de producto

@@ -2,6 +2,8 @@
 <script>
   $(document).ready(function(){
 
+    $('#producto_asociado_modal').appendTo("body");
+
     var html_cliente2;
     var obj_cliente;
     var obj_sucursales;
@@ -13,17 +15,76 @@
     var contador_precios=0;
     var obj_precios_cont=[];
     var precios_contador =0;
+    var checked=0;
 
     
     // Llamadas de funciones catalogos
     get_cliente(); 
     atributos();
 
+    $(document).on('click', '#procuto_asociado', function(){
+        $('#producto_asociado_modal').modal('show');
+        get_productos_lista();
+    });
+
+
+    function get_productos_lista(){
+        
+        var table = "<table class='table table-hover'>";
+            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
+            table += "<th>#</th><th>Nombre</th><th>Id Producto</th><th>Marca</th><th>Categoria</th><th>Sub Categoria</th><th>Giro</th><th>Empresa</th><th>Action</th>";
+        var table_tr = "<tbody id='list'>";
+        var contador_precios=1;
+
+        $.ajax({
+            url: "../get_productos_lista",  
+            datatype: 'json',      
+            cache : false,                
+
+                success: function(data){
+                    var datos = JSON.parse(data);
+                    var productos = datos["productos"];
+                    
+                    $.each(productos, function(i, item) {   
+
+                        table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.id_entidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary relacionar_producto" id="'+item.id_entidad+'">Relacionar</a></td></tr>';
+                        contador_precios++;
+                    });
+                    table += table_tr;
+                    table += "</tbody></table>";
+
+                    $(".productos_lista_datos").html(table);
+                
+                },
+                error:function(){
+                }
+            });
+    }
+
+    // Agregar el Id del producto al input del producto relacionado
+    $(document).on('click', '.relacionar_producto', function(){
+        var id = $(this).attr("id");
+        $("#procuto_asociado").val(id);
+        $('#producto_asociado_modal').modal('hide');
+    });
+
+    // filtrar producto
+    $(document).on('keyup', '#buscar_producto', function(){
+        var texto_input = $(this).val();
+
+        $("#list tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
+        });
+
+        
+    });
+    
+
     $("#categoria").change(function(){
           $("#sub_categoria").empty();
           var id = $(this).val();
           $.ajax({
-            url: "sub_categoria_byId/"+id,  
+            url: "../sub_categoria_byId/"+id,  
             datatype: 'json',      
             cache : false,                
 
@@ -118,7 +179,6 @@
     // Calculando utilidad de Productos Dinamicamente
     $(document).on('keyup', '.calculoUtilidad' , function(){
         var contador = $(this).attr('id');
-
         // calculando utilidad para el precio especifico
         calculoUtilidad(contador);
 
@@ -134,12 +194,14 @@
         var total  = (factor * unidad);
         var x;
 
-        if( gravado==1 && incluyeIva!=0 ){
+        if( gravado==1 && incluyeIva!=0 && checked==1 ){
             //Remover IVA del precio del producto
             x = ( unidad / incluyeIva );
 
             var utilidad  = x - costo ;
+
         }else{
+
             var utilidad  = ( total / factor ) - costo ;
         }        
 
@@ -164,6 +226,24 @@
         gravado = $('select[name*=24]').val();
     });
 
+    // Capturando el valor del check del iva
+    checked = $('input[name*=26]').val();
+
+        if(checked==1){
+            $('input[name*=26]').val(0);
+            checked=0;
+            gravado = 0;
+            gravado_contador=0;
+            alert(1);
+        }
+        if(checked==0){
+            checked=1;
+            $('input[name*=26]').val(1);
+            gravado = 1;
+            gravado_contador=1;
+            alert(2);
+        }
+
     //Validar si Gravado Y Quitar Iva estan set
     $(document).on('click','.check26', function(){
         
@@ -176,22 +256,33 @@
         }
         //Position [0] es iva        
         incluyeIva = obj_impuesto[0].porcentage;
-        var checked =1;
 
-        $('.check26').attr('checked');
+        //$('.check26').attr('checked');
+
         // Validando si es gravado
-        gravado = $('select[name*=24]').val();
+        var gravado2 = $('select[name*=24]').val();
 
-        if(gravado == 'Gravados' && gravado_contador==0){
+        checked = $('input[name*=26]').val();
+        if(checked==1){
+            $('input[name*=26]').val(0);
+            checked=1;
+            gravado = 0;
+            gravado_contador=0;
+        }else{
+            checked=1;
+            $('input[name*=26]').val(1);
             gravado = 1;
             gravado_contador=1;
+        }
+
+        if(gravado2 == 'Gravados' && gravado_contador==0){
+
             if(obj_precios_cont.length > 0){
                 
                 calcularUtilidadPosPrecios();
             }
         }else{
-            gravado = 0;
-            gravado_contador=0;
+            
             if(obj_precios_cont.length > 0){
                 
                 calcularUtilidadPosPrecios();
@@ -240,6 +331,7 @@
 
     // Remover los precios por presentacion de la tabla
     function html_remove_precios( id_tr ){
+        console.log(obj_precios_cont);
         $('table#preciosTable tr#'+id_tr).remove();
         
         obj_precios_cont.forEach(function(element) {
@@ -392,15 +484,15 @@
         var nombre =  "";
         
         $.each(plantilla, function(i, item) {
-            var checked = "";
+            var checked2 = "";
             if(item.valor == 1){
-                checked = "checked";
+                checked2 = "checked";
                 incluyeIva = obj_impuesto[0].porcentage;
             }
             
             if(id == item.id_prod_atributo){
                 nombre = item.nam_atributo;
-                opciones += '<input type="checkbox" '+checked+' class="check'+item.AtributoId+'" name="'+item.AtributoId+'"/>'+item.attr_valor+'<br>';    
+                opciones += '<input type="hidden" value="'+item.valor+'" name="'+item.AtributoId+'"><input type="checkbox" '+checked2+' class="check'+item.AtributoId+'" name="'+item.AtributoId+'"/>'+item.attr_valor+'<br>';    
             }            
         });
 
@@ -422,6 +514,8 @@
         readURL(this);
     });
 
+    $("#imagen_nueva").hide();
+
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -431,12 +525,16 @@
             }
 
             reader.readAsDataURL(input.files[0]);
+            $("#imagen_nueva").show();
         }
     }
 
-
-
-
+    // Eliminar Nueva Imagen
+    $(document).on('click', '.nueva_imagen', function(){
+        $("input[name*=11]").val(null);
+        $("#imagen_nueva").hide();
+    });
+    
   });
 
 </script>
@@ -455,7 +553,7 @@
     }
 
     .preview_producto{
-
+        width: 100%;
     }
     .alenado-left{
         float: right;
@@ -558,6 +656,7 @@
                                     <hr>
                                     <br>
                                     <div class="col-sm-12">
+                                        <p style="text-align: center">Imagen Actual</p>
                                         <?php
 
                                         if( $producto[0]->producto_img_blob ){
@@ -572,15 +671,24 @@
                                     </div>
                                 </div>
 
+                                <div class="row" id="imagen_nueva">
+                                    <br>
+                                    <hr>
+                                    <div class="col-sm-12">
+                                        <p style="text-align: center">Nueva Imagen (<a href="#" class="nueva_imagen"><i class="fa fa-trash"></i> Eliminar </a>)  </p>
+                                        <img src="" name="" id="" class="preview_producto" />
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
-                        <form class="form-horizontal" action='crear' method="post">
+                        <form class="form-horizontal" enctype="multipart/form-data" action='../actualizar' method="post">
                         
                         <div class="col-lg-9">
                            
                             <div id="" class="panel panel-info">
-                                <div class="panel-heading">Nuevo Producto :  </div>
+                                <div class="panel-heading">Producto General :  </div>
                                     <p>
                                     
                                         <input type="hidden" name="empresa" value="" id="id_empresa">
@@ -622,7 +730,7 @@
                                                     <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Giro</label>
                                                     <div class="col-sm-8">
                                                         <select class="form-control" id="giro" name="giro">
-                                                       <option><?php echo $producto[0]->nombre_giro ?></option>
+                                                       <option value="<?php echo $producto[0]->Giro ?>"><?php echo $producto[0]->nombre_giro ?></option>
                                                     </select>
                                                         
                                                     </div>
@@ -659,6 +767,15 @@
                                                     <div class="col-sm-8">
                                                         <select class="form-control" id="sub_categoria" name="sub_categoria">
                                                             <option value="<?php echo $producto[0]->id_sub_categoria; ?>"><?php echo $producto[0]->SubCategoria; ?></option>
+                                                            <?php
+                                                            foreach ($sub_categorias as $categoria) {
+                                                                if($categoria->id_categoria != $producto[0]->id_sub_categoria){
+                                                                    ?>
+                                                                    <option value="<?php echo $categoria->id_categoria; ?>"><?php echo $categoria->nombre_categoria; ?></option>
+                                                                    <?php
+                                                                }                                                                
+                                                            }
+                                                            ?>
                                                         </select>
                                                         
                                                     </div>
@@ -718,7 +835,7 @@
                                                      <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Proveedor2</label>
                                                     <div class="col-sm-8">
                                                         <select class="form-control" id="proveedor2" name="proveedor2">   
-                                                                                                                        <option value="<?php echo $producto_proveedor[0]->id_proveedor; ?>"><?php echo $producto_proveedor[0]->empresa; ?></option> 
+                                                                <option value="<?php echo $producto_proveedor[0]->id_proveedor; ?>"><?php echo $producto_proveedor[0]->empresa; ?></option> 
                                                             <?php
                                                             foreach ($proveedor as $value) {
                                                                 if( $producto_proveedor[0]->id_proveedor != $value->id_proveedor ){
@@ -759,7 +876,7 @@
                                                 <div class="form-group">
                                                      <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Relacion</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="procuto_asociado" id="procuto_asociado" class="form-control">
+                                                        <input type="text" name="procuto_asociado" value="<?php echo $producto[0]->id_producto_relacionado ?>" id="procuto_asociado" class="form-control">
                                                         
                                                         
                                                     </div>
@@ -786,7 +903,7 @@
                         <div class="col-lg-9">
                            
                             <div id="" class="panel panel-info">
-                                <div class="panel-heading">Atributos Producto :  </div>
+                                <div class="panel-heading">Producto Atributos :  </div>
                                 <div class="row">
                                     <p class="form-horizontal giro_atributos">
                                         
@@ -799,7 +916,7 @@
                         <div class="col-lg-9 alenado-left">
                            
                             <div id="" class="panel panel-info">
-                                <div class="panel-heading">Precios :  </div>
+                                <div class="panel-heading">Producto Precios :  </div>
                                 <div class="row">
                                     <div class="col-lg-12">
                                       <div class="panel panel-default">
@@ -827,45 +944,76 @@
                                                         </th>
                                                      </tr>
                                                   </thead>
-                                                  <tbody class="preciosTable">
+                                                  <tbody class="preciosTable" >
                                                     <?php
                                                     $cont_table =1;
+
+                                                    if($precios)
+                                                    {
+                                                        foreach ($precios as  $precio) 
+                                                        {
+                                                            
                                                     ?>
-                                                       <tr><input type="hidden" name="precios_contador" id="precios_contador" value="<?php echo $cont_table; ?>">
+                                                       <tr id="<?php echo $cont_table ?>">
                                                            <td><?php echo $cont_table; ?></td>
-                                                           <td><input type="text" size='10' class='presentacion<?php echo $cont_table ?>'   name="presentacion<?php echo $cont_table ?>" value="<?php echo $precios[0]->presentacion; ?>"></td>
-                                                           <td><input type="text" size='3'  class='factor<?php echo $cont_table ?>'         name="factor<?php echo $cont_table ?>"      value="<?php echo $precios[0]->factor; ?>"></td>
-                                                           <td><input type="text" size='3'  class='unidad<?php echo $cont_table ?>'         name="unidad<?php echo $cont_table ?>"      value="<?php echo $precios[0]->unidad; ?>"></td>
-                                                           <td><input type="text" size='4'  class='precio<?php echo $cont_table ?>'         name="precio<?php echo $cont_table ?>"      value="<?php echo $precios[0]->precio; ?>"></td>
-                                                           <td><input type="text" size='5'  class='cbarra<?php echo $cont_table ?>'         name="cbarra<?php echo $cont_table ?>"      value="<?php echo $precios[0]->cod_barra; ?>"></td>
+                                                           <td><input type="text" size='10' class='presentacion<?php echo $cont_table ?>'   name="presentacion<?php echo $cont_table ?>" value="<?php echo $precio->presentacion; ?>"></td>
+                                                           <td><input type="text" size='3'  class='factor<?php echo $cont_table ?>'         name="factor<?php echo $cont_table ?>"      value="<?php echo $precio->factor; ?>"></td>
+                                                           <td><input type="text" size='3'  class='unidad<?php echo $cont_table ?> calculoUtilidad'         name="unidad<?php echo $cont_table ?>"      value="<?php echo $precio->unidad; ?>" id="<?php echo $cont_table ?>"></td>
+                                                           <td><input type="text" size='4'  class='precio<?php echo $cont_table ?>'         name="precio<?php echo $cont_table ?>"      value="<?php echo $precio->precio; ?>"></td>
+                                                           <td><input type="text" size='5'  class='cbarra<?php echo $cont_table ?>'         name="cbarra<?php echo $cont_table ?>"      value="<?php echo $precio->cod_barra; ?>"></td>
                                                            <td>
                                                                <select name="cliente<?php echo $cont_table ?>">
                                                                    <?php
+                                                                   if( $precio->Cliente == 0 ){
+                                                                    ?>
+                                                                    <option value="0"> - </option>
+                                                                    <?php
+                                                                   }
+
                                                                    foreach ($clientes as $key => $value) {
-                                                                        if($value->id_cliente == $precios[0]->Cliente)
+                                                                        if($value->id_cliente == $precio->Cliente)
                                                                         {
                                                                             ?>
                                                                            <option value="<?php echo $value->id_cliente; ?>"><?php echo $value->nombre_empresa_o_compania; ?></option>
+                                                                           <option value="0"> - </option>
                                                                            <?php
-                                                                        }else{
+                                                                        }
+                                                                   }
+                                                                   foreach ($clientes as $key => $value) {
+                                                                        if($value->id_cliente != $precio->Cliente)
+                                                                        {
                                                                             ?>
                                                                            <option value="<?php echo $value->id_cliente; ?>"><?php echo $value->nombre_empresa_o_compania; ?></option>
                                                                            <?php
                                                                         }
                                                                    }
+
                                                                    ?>
                                                                </select>
                                                            </td>
                                                            <td>
                                                                <select name="sucursal<?php echo $cont_table ?>">
                                                                    <?php
+
+                                                                   if( $precio->Sucursal == 0 ){
+                                                                    ?>
+                                                                    <option value="0"> - </option>
+                                                                    <?php
+                                                                   }
+
                                                                    foreach ($sucursal as $key => $value) {
-                                                                        if($sucursal->id_sucursal == $precios[0]->Sucursal)
+                                                                        if($value->id_sucursal == $precio->Sucursal)
                                                                         {
                                                                             ?>
                                                                            <option value="<?php echo $value->id_sucursal; ?>"><?php echo $value->nombre_sucursal; ?></option>
+                                                                           <option value="0"> - </option>
                                                                            <?php
-                                                                        }else{
+                                                                        }
+                                                                   }
+
+                                                                   foreach ($sucursal as $key => $value) {
+                                                                        if($value->id_sucursal != $precio->Sucursal)
+                                                                        {
                                                                             ?>
                                                                            <option value="<?php echo $value->id_sucursal; ?>"><?php echo $value->nombre_sucursal; ?></option>
                                                                            <?php
@@ -875,7 +1023,7 @@
                                                                </select>
                                                            </td>
                                                            
-                                                            <td><input type="text" size='4' class='utilidad<?php echo $cont_table ?>' name="utilidad<?php echo $cont_table ?>" value="<?php echo $precios[0]->Utilidad; ?>"></td>
+                                                            <td><input type="text" size='4' class='utilidad<?php echo $cont_table ?>' name="utilidad<?php echo $cont_table ?>" value="<?php echo $precio->Utilidad; ?>"></td>
                                                             <td>
                                                                 <div class='btn-group mb-sm'>
                                                                     <a href='#' class='btn btn-danger btn-sm deletePrecio' name='<?php echo $cont_table ?>'><i class='fa fa-trash'></i></a>
@@ -885,7 +1033,12 @@
                                                        </tr>      
                                                     <?php
                                                         $cont_table +=1;
-                                                    ?>                                        
+                                                        }
+
+                                                    }
+                                                    $cont_table -=1;
+                                                    ?>       
+                                                    <input type="hidden" name="precios_contador" id="precios_contador" value="<?php echo $cont_table; ?>">                                 
                                                   </tbody>
                                                </table>
                                             </div>
@@ -906,133 +1059,17 @@
     </section>
 
 <!-- Modal Large-->
-   <div id="ModalEmpresa2" tabindex="-1" role="dialog" aria-labelledby="ModalEmpresa2" aria-hidden="true" class="modal fade">
+   <div id="producto_asociado_modal" tabindex="-1" role="dialog" aria-labelledby="producto_asociado_modal"  class="modal fade">
       <div class="modal-dialog modal-lg">
          <div class="modal-content">
             <div class="modal-header">
                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                   <span aria-hidden="true">&times;</span>
                </button>
-               <h4 id="myModalLabelLarge" class="modal-title">Giros Empresa</h4>
+               <h4 id="myModalLabelLarge" class="modal-title">Lista de Productos</h4>
             </div>
             <div class="modal-body">
-                
-                    <!-- START panel-->
-            <div class="panel panel-default">
-               <div class="panel-heading" id="giro_nombre2"></div>
-               <!-- START table-responsive-->
-               <div class="table-responsive">
-                    <div class="row">
-                        <div class="col-lg-6">
-                          <!-- START panel-->
-                          <form action="guardar_giro_empresa" method="post" id="guardar_giro_empresa">
-                            <select name="empresa" class="lista_empresa input-sm form-control">
-                                      
-                            </select>
-                            
-                          <div id="panelDemo7" class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-lg-3"> Giros </div>
-                                    <div class="col-lg-6">
-                                        <div class="pull-right label label-danger atributos_total"></div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <input type="button" value="Guardar" id="guardar_giro_empresa" name="" class="input-sm form-control">
-                                    </div>
-                                </div>
-                            </div>
-
-                             <div class="panel-body">
-                                <p>
-                                    <table id="table-ext-1" class="table table-bordered table-hover">
-                                     <thead>
-                                        <tr>
-                                           <th>ID</th>
-                                           <th>Giro</th>
-                                           <th>Tipo</th>                           
-                                           <th>Codigo</th>
-                                           <th>Estado</th>
-                                           <th data-check-all>
-                                              <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
-                                                 <label>
-                                                    <input type="checkbox">
-                                                    <span class="fa fa-check"></span>
-                                                 </label>
-                                              </div>
-                                           </th>
-                                        </tr>
-                                     </thead>
-                                     
-                                     <tbody class="girosLista">
-                                                             
-                                     </tbody>
-                                      
-                                    </table>
-                                </p>
-                             </div>
-                             <div class="panel-footer"></div>
-                          </div>
-                          <!-- END panel-->
-                          </form>
-                       </div>
-
-                       <div class="col-lg-6">
-                        <form action="giro_empresa" method="post" id="giro_empresa">
-                          <select name="empresa" id="empresa_giros" class="lista_empresa input-sm form-control">
-                                      
-                          </select>
-
-                            <div id="panelDemo9" class="panel panel-success">
-                              <input type="hidden" class="giro_id" name="giro" value="">
-                                 <div class="panel-heading">
-                                  <div class="row">
-                                    <div class="col-lg-4"> Empresa Giros </div>
-                                    <div class="col-lg-4">
-                                        <div class="pull-right label label-danger empresa_giro_total"></div>
-                                    </div>
-                                    <div class="col-lg-4">                                        
-                                        <input type="button" value="Eliminar" id="eliminar_giro_empresa" name="" class="input-sm form-control">
-                                    </div>
-                                </div>
-                                 </div>
-                                 <div class="panel-body">
-                                    <p>
-                                        <table id="table-ext-1" class="table table-bordered table-hover">
-                                         <thead>
-                                            <tr>
-                                               <th>Giro</th>
-                                               <th>Atributo</th>                           
-                                               <th>Label</th>
-                                               <th>Estado</th>
-                                               <th data-check-all>
-                                              <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
-                                                 <label>
-                                                    <input type="checkbox">
-                                                    <span class="fa fa-check"></span>
-                                                 </label>
-                                              </div>
-                                           </th>
-                                            </tr>
-                                         </thead>
-                                         <tbody class="girosEmpresa">
-                                                                 
-                                         </tbody>
-                                        </table>
-                                    </p>
-                                 </div>
-                                 
-                            </div>
-                          </form>
-                       </div>   
-
-                    </div>
-               </div>
-               <!-- END table-responsive-->
-               <div class="panel-footer">
-               </div>
-            </div>
-            <!-- END panel-->
+                <p class="productos_lista_datos"></p>                                 
                
             </div>
             <div class="modal-footer">

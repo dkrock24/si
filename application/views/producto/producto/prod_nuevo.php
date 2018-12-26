@@ -2,6 +2,8 @@
 <script>
   $(document).ready(function(){
 
+    $('#producto_asociado_modal').appendTo("body");
+
     var html_cliente2;
     var obj_cliente;
     var obj_sucursales;
@@ -16,6 +18,63 @@
     
     // Llamadas de funciones catalogos
     get_cliente(); 
+
+    $(document).on('click', '#procuto_asociado', function(){
+        $('#producto_asociado_modal').modal('show');
+        get_productos_lista();
+    });
+
+
+    function get_productos_lista(){
+        
+        var table = "<table class='table table-hover'>";
+            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
+            table += "<th>#</th><th>Nombre</th><th>Id Producto</th><th>Marca</th><th>Categoria</th><th>Sub Categoria</th><th>Giro</th><th>Empresa</th><th>Action</th>";
+        var table_tr = "<tbody id='list'>";
+        var contador_precios=1;
+
+        $.ajax({
+            url: "get_productos_lista",  
+            datatype: 'json',      
+            cache : false,                
+
+                success: function(data){
+                    var datos = JSON.parse(data);
+                    var productos = datos["productos"];
+                    
+                    $.each(productos, function(i, item) {   
+
+                        table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.id_entidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary relacionar_producto" id="'+item.id_entidad+'">Relacionar</a></td></tr>';
+                        contador_precios++;
+                    });
+                    table += table_tr;
+                    table += "</tbody></table>";
+
+                    $(".productos_lista_datos").html(table);
+                
+                },
+                error:function(){
+                }
+            });
+    }
+
+    // Agregar el Id del producto al input del producto relacionado
+    $(document).on('click', '.relacionar_producto', function(){
+        var id = $(this).attr("id");
+        $("#procuto_asociado").val(id);
+        $('#producto_asociado_modal').modal('hide');
+    });
+
+    // filtrar producto
+    $(document).on('keyup', '#buscar_producto', function(){
+        var texto_input = $(this).val();
+
+        $("#list tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
+        });
+
+        
+    });
 
     $("#categoria").change(function(){
           $("#sub_categoria").empty();
@@ -165,6 +224,7 @@
         incluyeIva = obj_impuesto[0].porcentage;
         var checked =1;
         $('.check26').attr('checked');
+        $('input[name*=26]').val("1");
         // Validando si es gravado
         gravado = $('select[name*=24]').val();
         if(gravado == 'Gravados' && gravado_contador==0){
@@ -177,6 +237,7 @@
         }else{
             gravado = 0;
             gravado_contador=0;
+            $('input[name*=26]').val("0");
             if(obj_precios_cont.length > 0){
                 
                 calcularUtilidadPosPrecios();
@@ -361,7 +422,7 @@
             
             if(id == item.id_prod_atributo){
                 nombre = item.nam_atributo;
-                opciones += '<input type="checkbox" class="check'+item.id_prod_atributo+'" name="'+item.id_prod_atributo+'"/>'+item.attr_valor+'<br>';    
+                opciones += '<input type="hidden" value="0" name="'+item.id_prod_atributo+'"><input type="checkbox" class="check'+item.id_prod_atributo+'" name="'+item.id_prod_atributo+'"/>'+item.attr_valor+'<br>';    
             }            
         });
 
@@ -527,7 +588,7 @@
                         </div>
                         <!-- FIN MENU IZQUIERDO -->
 
-                        <form class="form-horizontal" enctype="multipart/form-data" action='crear' method="post" >
+                        <form class="form-horizontal" enctype="multipart/form-data" action='crear' name='producto_formulario' method="post" >
 
                         <!-- INICIO PRODUCTO ENCABEZADO -->
                         <div class="col-lg-9">
@@ -543,7 +604,7 @@
                                                 <div class="form-group">
                                                     <label for="inputEmail3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Nombre</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" class="form-control" id="name_entidad" name="name_entidad" placeholder="Nombre Producto" value="">
+                                                        <input type="text" class="form-control" id="name_entidad" required name="name_entidad" placeholder="Nombre Producto" value="">
                                                         
                                                     </div>
                                                     <div class="col-sm-1"></div>
@@ -553,7 +614,7 @@
                                                 <div class="form-group">
                                                     <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Empresa</label>
                                                     <div class="col-sm-8">
-                                                        <select class="form-control" id="empresa" name="empresa">
+                                                        <select class="form-control" id="empresa" name="empresa" required>
                                                             <option value="0">Empresa</option>
                                                             <?php
                                                             foreach ($empresa as $value) {
@@ -573,7 +634,7 @@
                                                 <div class="form-group">
                                                     <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Giro</label>
                                                     <div class="col-sm-8">
-                                                        <select class="form-control" id="giro" name="giro">
+                                                        <select class="form-control" id="giro" name="giro" required>
                                                            
                                                         </select>
                                                         
@@ -588,7 +649,7 @@
                                                 <div class="form-group">
                                                     <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Categoria</label>
                                                     <div class="col-sm-8">
-                                                        <select class="form-control" id="categoria" name="categoria">
+                                                        <select class="form-control" id="categoria" name="categoria" required>
                                                           <option value="0">Seleccione</option>
                                                             <?php
                                                             foreach ($categorias as $value) {
@@ -608,7 +669,7 @@
                                                 <div class="form-group">
                                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Sub Categoria</label>
                                                     <div class="col-sm-8">
-                                                        <select class="form-control" id="sub_categoria" name="sub_categoria">
+                                                        <select class="form-control" id="sub_categoria" name="sub_categoria" required>
                                                         </select>
                                                         
                                                     </div>
@@ -620,7 +681,7 @@
                                                 <div class="form-group">
                                                      <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Marca</label>
                                                     <div class="col-sm-8">                                                        
-                                                        <select class="form-control" id="marca" name="marca">   
+                                                        <select class="form-control" id="marca" name="marca" required>   
                                                             <?php
                                                             foreach ($marcas as $value) {
                                                                 ?>
@@ -642,7 +703,7 @@
                                                 <div class="form-group">
                                                      <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Proveedor1</label>
                                                     <div class="col-sm-8">
-                                                        <select class="form-control" id="proveedor1" name="proveedor1">   
+                                                        <select class="form-control" id="proveedor1" name="proveedor1" required>   
                                                             <?php
                                                             foreach ($proveedor as $value) {
                                                                 ?>
@@ -661,7 +722,7 @@
                                                 <div class="form-group">
                                                      <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Proveedor2</label>
                                                     <div class="col-sm-8">
-                                                        <select class="form-control" id="proveedor2" name="proveedor2">   
+                                                        <select class="form-control" id="proveedor2" name="proveedor2" required>   
                                                             <?php
                                                             foreach ($proveedor as $value) {
                                                                 ?>
@@ -682,7 +743,7 @@
                                                     <div class="col-sm-8">
                                                         
                                                         <label>
-                                                            <select name="producto_estado" class="form-control">
+                                                            <select name="producto_estado" class="form-control" required>
                                                                 <option value="1">Activo</option>
                                                                 <option value="0">Inactivo</option>
                                                             </select>
@@ -700,7 +761,7 @@
                                                 <div class="form-group">
                                                      <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Linea</label>
                                                     <div class="col-sm-8">
-                                                        <select class="form-control" id="linea" name="linea">   
+                                                        <select class="form-control" id="linea" name="linea" required>   
                                                             <?php
                                                             foreach ($lineas as $value) {
                                                                 ?>
@@ -720,7 +781,7 @@
                                                 <div class="form-group">
                                                      <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Relacion</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="procuto_asociado" id="procuto_asociado" class="form-control">
+                                                        <input type="text" name="procuto_asociado" id="procuto_asociado" class="form-control" required>
                                                         
                                                         
                                                     </div>
@@ -813,3 +874,25 @@
         </div>
     </section>
 
+
+<!-- Modal Large-->
+   <div id="producto_asociado_modal" tabindex="-1" role="dialog" aria-labelledby="producto_asociado_modal"  class="modal fade">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               <h4 id="myModalLabelLarge" class="modal-title">Lista de Productos</h4>
+            </div>
+            <div class="modal-body">
+                <p class="productos_lista_datos"></p>                                 
+               
+            </div>
+            <div class="modal-footer">
+               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Modal Small-->

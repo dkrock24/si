@@ -73,7 +73,8 @@ class Producto extends CI_Controller {
 		$data['producto'] = $this->Producto_model->get_producto( $id_producto );
 		$data['precios'] = $this->Producto_model->get_precios( $id_producto );
 		$data['atributos'] = $this->Producto_model->get_producto_atributos( $id_producto );
-		$data['categorias'] = $this->Producto_model->get_sub_categorias();
+		$data['categorias'] = $this->Producto_model->get_categorias();
+		$data['sub_categorias'] = $this->Producto_model->get_sub_categorias();
 		$data['empresa'] = $this->Giros_model->get_empresa();
 		$data['marcas'] = $this->Producto_model->get_marcas();
 		$data['proveedor'] = $this->Producto_model->get_proveedor();
@@ -86,6 +87,11 @@ class Producto extends CI_Controller {
 
 		$this->parser->parse('template', $data);
 	}
+
+	function get_productos_lista(){
+		$data['productos'] = $this->Producto_model->getProd();
+		echo json_encode( $data );
+	} 
 
 	public function get_atributos_producto( $prodcuto_id ){
 		$data['atributos'] = $this->Producto_model->get_producto_atributos( $prodcuto_id );
