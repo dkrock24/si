@@ -259,7 +259,7 @@ class Producto_model extends CI_Model {
 		function get_sub_categorias(){
 			$this->db->select('*');
 	        $this->db->from(self::categoria);
-	        $this->db->where('id_categoria_padre IS NOT NULL' );
+	        $this->db->where('id_categoria_padre IS NULL' );
 	        $this->db->where('categoria_estado = 1');
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];
