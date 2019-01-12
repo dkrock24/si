@@ -20,6 +20,7 @@ class Orden_model extends CI_Model {
 		const impuestos = 'pos_tipos_impuestos';
 		const producto_img = 'pos_producto_img';
 		const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
+		const producto_bodega = 'pos_producto_bodega';
 
 		// Ordenes
 		const pos_tipo_documento = 'pos_tipo_documento';
@@ -36,7 +37,7 @@ class Orden_model extends CI_Model {
 	        }
 		}
 
-		function get_productos_valor(){
+		function get_productos_valor($sucursal){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as cod_barra
@@ -49,9 +50,11 @@ class Orden_model extends CI_Model {
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` 
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
+				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
+				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
-				WHERE pa.Atributo = 4 order by P.id_entidad");
+				WHERE pa.Atributo = 4 and b.Sucursal='".$sucursal."' order by P.id_entidad");
 
 		        //echo $this->db->queries[1];
 		        return $query->result();
@@ -61,7 +64,7 @@ class Orden_model extends CI_Model {
 		function get_producto_completo($producto_id){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor
+	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor, b.nombre_bodega
 
 				FROM `producto` as `P`
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
@@ -73,6 +76,8 @@ class Orden_model extends CI_Model {
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
 				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
+				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
+				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
 				WHERE P.id_entidad = ". $producto_id);
 

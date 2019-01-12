@@ -43,7 +43,9 @@ class Giros_model extends CI_Model {
             'estado_giro' => $nuevo_giro['estado_giro'],
             'fecha_giro_creado' => date("Y-m-d h:i:s")
         );
-		$this->db->insert(self::giros, $data ); 
+		$insert = $this->db->insert(self::giros, $data ); 
+
+        return $insert;
 
 	}
 
@@ -72,7 +74,8 @@ class Giros_model extends CI_Model {
         );
 
         $this->db->where('id_giro', $giro['id_giro']);
-        $this->db->update(self::giros, $data);  
+        $insert = $this->db->update(self::giros, $data);  
+        return $insert;
 	}
 
     function insert_plantilla( $plantilla ){

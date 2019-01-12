@@ -58,7 +58,14 @@ class Giros extends CI_Controller {
 
 	public function crear(){
 		// Insert Nuevo Giro
-		$this->Giros_model->crear_giro( $_POST );
+		$data = $this->Giros_model->crear_giro( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('success', "Giro Fue Creado");
+		}else{
+			$this->session->set_flashdata('warning', "Giro No Fue Creado");
+		}	
+
 
 		redirect(base_url()."admin/giros/index");
 	}
@@ -76,7 +83,13 @@ class Giros extends CI_Controller {
 
 	public function actualizar(){
 		// Actualizar Giro 
-		$this->Giros_model->actualizar_giro( $_POST );
+		$data = $this->Giros_model->actualizar_giro( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('info', " !");
+		}else{
+			$this->session->set_flashdata('warning', "El Registro No Fue Actualizado");
+		}
 
 		redirect(base_url()."admin/giros/index");
 	}
