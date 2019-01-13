@@ -38,7 +38,7 @@ class Pais extends CI_Controller {
 		// GET PAIS
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['pais'] = $this->Pais_model->get_pais();
 		$data['home'] = 'admin/pais/pais';
 
@@ -49,7 +49,7 @@ class Pais extends CI_Controller {
 		// NUEVO PAIS
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['moneda'] = $this->Pais_model->get_moneda();
 		$data['home'] = 'admin/pais/pais_nuevo';
 
@@ -67,7 +67,7 @@ class Pais extends CI_Controller {
 		// EDITAR PAIS
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['pais'] = $this->Pais_model->edit_pais( $id_pais );
 		$data['moneda'] = $this->Pais_model->get_moneda();
 		$data['home'] = 'admin/pais/pais_edit';
@@ -98,7 +98,7 @@ class Pais extends CI_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['depart'] = $this->Pais_model->get_dep( $pais_id );
 		$data['id_departamento'] = $pais_id;
 		$data['home'] = 'admin/pais/dep';
@@ -111,7 +111,7 @@ class Pais extends CI_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['id_pais'] = $id_pais;
 		$data['home'] = 'admin/pais/dep_nuevo';
 
@@ -131,7 +131,7 @@ class Pais extends CI_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['dep'] = $this->Pais_model->editar_dep( $id_dep );
 		$data['home'] = 'admin/pais/dep_editar';
 
@@ -152,7 +152,7 @@ class Pais extends CI_Controller {
 	public function ciu($id_dep){
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['ciu']  = $this->Pais_model->get_ciu_by( $id_dep );
 		$data['home'] = 'admin/pais/ciu';
 
@@ -162,7 +162,7 @@ class Pais extends CI_Controller {
 	public function nuevo_ciu( $id_dep ){
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['dep']  =  $id_dep;
 		$data['home'] = 'admin/pais/ciu_nuevo';
 
@@ -179,7 +179,7 @@ class Pais extends CI_Controller {
 	public function editar_ciu( $id_ciu ){
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['ciu']  =  $this->Pais_model->get_ciu( $id_ciu );
 		$data['home'] = 'admin/pais/ciu_editar';
 

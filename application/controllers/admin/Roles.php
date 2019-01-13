@@ -18,9 +18,9 @@ class Roles extends CI_Controller {
 
 	public function index()
 	{	
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$id_rol = $this->session->roles[0];
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['roles'] = $this->Roles_model->getRoles( );
 		$data['home'] = 'admin/roles/roles_lista';
 
@@ -29,9 +29,9 @@ class Roles extends CI_Controller {
 
 	public function editar_role( $id_role )
 	{	
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$id_rol = $this->session->roles[0];
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['roles'] = $this->Roles_model->getRolesById( $id_role );
 		$data['home'] = 'admin/roles/roles_editar';
 
@@ -47,9 +47,9 @@ class Roles extends CI_Controller {
 
 	public function nuevo(){
 
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$id_rol = $this->session->roles[0];
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 						//$this->Roles_model->nuevo_rol( $_POST );
 		$data['home'] = 'admin/roles/roles_nuevo';
 

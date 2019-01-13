@@ -14,8 +14,10 @@
    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/datatables/media/css/dataTables.bootstrap.css">
    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/dataTables.fontAwesome/index.css">
    
-
+    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/sweetalert/dist/sweetalert.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/bootstrap.css" id="bscss">
+    
+
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/app.css" id="maincss">
 
   </head>
@@ -101,7 +103,7 @@
                            <!-- START list group-->
                            <div class="list-group">
                               <!-- list item-->
-                              <a href="<?php echo base_url(); ?>/login/logout" class="list-group-item">
+                              <a href="<?php echo base_url(); ?>login/logout" class="list-group-item">
                                  <div class="media-box">
                                     <div class="pull-left">
                                        <em class="fa fa-lock fa-2x text-info"></em>

@@ -20,9 +20,9 @@ class Producto extends CI_Controller {
 
 	public function index()
 	{	
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$id_rol = $this->session->roles[0];
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['prod'] = $this->Producto_model->getProd( );
 
 		$data['home'] = 'producto/producto/prod_lista';
@@ -32,9 +32,9 @@ class Producto extends CI_Controller {
 
 	public function nuevo(){
 
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$id_rol = $this->session->roles[0];
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['categorias'] = $this->Producto_model->get_sub_categorias();
 		$data['lineas'] = $this->Producto_model->get_lineas();
 		$data['proveedor'] = $this->Producto_model->get_proveedor();
@@ -67,9 +67,9 @@ class Producto extends CI_Controller {
 
 	public function editar( $id_producto ){
 
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$id_rol = $this->session->roles[0];
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['producto'] = $this->Producto_model->get_producto( $id_producto );
 		$data['precios'] = $this->Producto_model->get_precios( $id_producto );
 		$data['atributos'] = $this->Producto_model->get_producto_atributos( $id_producto );

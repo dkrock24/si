@@ -35,8 +35,19 @@
    <script src="<?php echo base_url(); ?>../asstes/vendor/datatables-responsive/js/responsive.bootstrap.js"></script>
    
    <!-- =============== APP SCRIPTS ===============-->
-<script src="<?php echo base_url(); ?>../asstes/js/app.js"></script>
-        </div>
+   <!--
+   <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+   <script src="<?php echo base_url(); ?>../asstes/vendor/bootstrap/dist/js/bootstrap.js"></script>
+   <script src="<?php echo base_url(); ?>../asstes/vendor/jquery.easing/js/jquery.easing.js"></script>
+   <script src="<?php echo base_url(); ?>../asstes/vendor/animo.js/animo.js"></script>
+   <script src="<?php echo base_url(); ?>../asstes/vendor/slimScroll/jquery.slimscroll.min.js"></script>
+   <script src="<?php echo base_url(); ?>../asstes/vendor/screenfull/dist/screenfull.js"></script>
+   <script src="<?php echo base_url(); ?>../asstes/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
+
+    -->
+   <script src="<?php echo base_url(); ?>../asstes/vendor/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="<?php echo base_url(); ?>../asstes/js/app.js"></script>
+  </div>
 
   </body>
 </html>

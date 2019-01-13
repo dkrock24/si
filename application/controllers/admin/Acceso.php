@@ -47,7 +47,7 @@ class Acceso extends CI_Controller {
 
 			$data['roles'] =  $this->Acceso_model->getRoles();	
 		}		
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );		
+		$data['menu'] = $this->session->menu;		
 		//$acceso['cargos'] =  $this->Acceso_model->getCargos();
 		$data['home'] = 'admin/acceso/Vacceso.php';
 

@@ -35,7 +35,7 @@ class Dashboard extends CI_Controller {
 		$this->load->model('Login_model');
 
 		$data['user'] = $this->Login_model->usuarios();
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 
 		$this->load->view('home', $data);
 	}

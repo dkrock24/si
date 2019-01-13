@@ -205,6 +205,7 @@ echo base_url();
                               <div class="pull-right label label-success">12</div>
                               <div class="panel-title">Team messages</div>
                            </div>
+                           
                            <!-- START list group-->
                            <div data-height="180" data-scrollable="" class="list-group">
                               <!-- START list group item-->

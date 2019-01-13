@@ -38,7 +38,7 @@ class Categorias extends CI_Controller {
 		// GET PAIS
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['lista_categorias'] = $this->Categorias_model->get_categorias();
 		$data['home'] = 'admin/categorias/categorias_lista';
 
@@ -49,7 +49,7 @@ class Categorias extends CI_Controller {
 		// GET PAIS
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );	
+		$data['menu'] = $this->session->menu;	
 		$data['categorias']	= $this->Categorias_model->get_categorias_padres();
 		$data['home'] = 'admin/categorias/categorias_nuevo';
 
@@ -66,7 +66,7 @@ class Categorias extends CI_Controller {
 	public function edit( $id_categoria ){
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );		
+		$data['menu'] = $this->session->menu;		
 		$data['categorias'] = $this->Categorias_model->get_categoria_id( $id_categoria );
 		$data['categorias_padres']	= $this->Categorias_model->get_categorias_padres();
 		$data['home'] = 'admin/categorias/categorias_editar';

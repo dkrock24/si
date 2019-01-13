@@ -3,6 +3,8 @@ class Usuario_model extends CI_Model {
 	const empleado =  'sys_empleado';
     const sucursal = 'pos_sucursal';
     const persona = 'sys_persona';
+    const usuario_roles = 'sys_usuario_roles';
+    const empleado_sucursal = 'sys_empleado_sucursal';
 
 	function get_empleado( $id_usuario ){
 		$this->db->select('*');
@@ -32,6 +34,35 @@ class Usuario_model extends CI_Model {
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function get_usuario_roles( $usuario_id ){
+
+        $this->db->select('*');
+        $this->db->from(self::usuario_roles);  
+        $this->db->where(self::usuario_roles.'.usuario_rol_usuario',$usuario_id);   
+        $query = $this->db->get(); 
+        //echo $this->->queries[0];
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function permiso_empresa( $empleado_id ){
+
+        $this->db->select('*');
+        $this->db->from(self::empleado_sucursal.' as es');  
+        $this->db->join(self::sucursal.' as s',' on s.id_sucursal = es.es_sucursal');
+        $this->db->where('es.es_empleado',$empleado_id);
+        $query = $this->db->get(); 
+        $this->db->queries[0];
+
         if($query->num_rows() > 0 )
         {
             return $query->result();

@@ -29,18 +29,37 @@ class Home extends CI_Controller {
 		$this->load->helper('url');
 
 		$this->load->model('admin/Menu_model');
-		$this->load->model('Login_model');
+		//$this->load->model('Login_model');
+		$this->load->model('admin/Usuario_model');
 	}
 
 	public function index()
 	{		
 		// Construir Menu		
 		$this->load->model('Login_model');
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$usuario_id = $this->session->usuario[0]->id_usuario;
+		$empleado_id = $this->session->usuario[0]->id_empleado;
 
+		$roles = $this->Usuario_model->get_usuario_roles( $usuario_id );
+		
+		$roles_id = array();
+        foreach ($roles as $rol) {
+            $roles_id = $rol->usuario_rol_role;
+        }
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
-		$data['home'] = 'home';
+		$_SESSION['roles'] = $roles_id;
+		$_SESSION['menu'] =  $this->Menu_model->getMenu( $roles_id );
+
+		// Validar Permiso en Empresa - Sucursales 
+		$permisoEmpresa = $this->Usuario_model->permiso_empresa( $empleado_id );
+
+		if(sizeof($permisoEmpresa) > 1){
+			$data['home'] = 'selecionar_empresa';
+		}else{
+			$data['home'] = 'home';
+		}
+		
+		$data['menu'] = $this->session->menu;		
 
 		$this->parser->parse('template', $data);
 	}

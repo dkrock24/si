@@ -8,19 +8,18 @@ class Menu_model extends CI_Model {
     const roles = 'sys_roles';
     const cargos = 'sr_cargos';
 
-    function getMenu( $id_rol ){
+    function getMenu( $roles_id ){
 
         $this->db->select('*');
         $this->db->from(self::menu);
         $this->db->join('sys_menu_acceso as A','on '. self::menu .'.id_menu = A.id_menu');
         $this->db->join('sys_role as R','on R.id_rol = A.id_rol');
         $this->db->join('sys_menu_submenu as S','on '. self::menu .'.id_menu = S.id_menu');
-        $this->db->where('R.id_rol',$id_rol);        
+        $this->db->where_in('R.id_rol',$roles_id);        
         $this->db->where('A.estado',1);     
         $this->db->where('A.estado',1); 
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];
-        //die;   
+        //echo $this->db->queries[1]; 
         
         if($query->num_rows() > 0 )
         {

@@ -22,33 +22,35 @@ class Login extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();    
-		$this->load->database('client', true);
 
-		 
+		// Cargamos la base de datos prefijada client y definida en conf del framework
+		$this->load->database('client', true);
 		@$this->load->library('session');
 		$this->load->helper('url');
 	}
 
 	public function index()
 	{
+		// Este metodo carga la vista del login del sistema
 		$this->load->view('login');
 	}
 
 	public function login(){
-
-		$this->load->model('login_model');
+		// Se autentica el usuario luego de ingresar sus credenciales
+		$this->load->model('Login_model');
 
 		if(isset($_POST['usuario']) and isset($_POST['passwd'])){	
 
 			$usuario = $_POST['usuario'];
 			$passwd  = $_POST['passwd'];
 
-			$user['usuario'] = $this->login_model->login( $usuario , $passwd );	
+			// Autenticamos al usuario respecto a su negocio
+			$user['usuario'] = $this->Login_model->login( $usuario , $passwd );	
 
 			if($user['usuario'] != 0){	
-				//$_SESSION = $user;
 				$_SESSION['db'] = $user;
 				
+				// Usuario encontrado y redireccionado para validarlo a su empresa
 				header("location: validar");
 
 			}else{
@@ -69,10 +71,13 @@ class Login extends CI_Controller {
 		$b = @$_SESSION['db']['usuario'][0]->password_usu;
 
 		$user = array();
-		$user = $this->Login_model->autenticacion( $a , $b );	
+		$user = $this->Login_model->autenticacion( $a , $b );
+
+		//$roles = $this->Usuario_model->get_usuario_roles( $user[0]->id_usuario );
 
 			if($user != 0){	
 				session_start();
+				
 				$_SESSION['usuario'] = $user;
 				
 				header("location:../admin/home/index");

@@ -40,7 +40,7 @@ class Menu extends CI_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['lista_menu'] = $this->Menu_model->lista_menu();
 		$data['home'] = 'admin/menu/menu';
 
@@ -50,7 +50,7 @@ class Menu extends CI_Controller {
 	public function nuevo(){
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['home'] = 'admin/menu/nuevoMenu.php';
 
 		$this->parser->parse('template', $data);
@@ -68,7 +68,7 @@ class Menu extends CI_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['submenus'] = $this->Menu_model->getSubMenu( $id_menu );		
 		$data['home'] = 'admin/menu/submenu';
 
@@ -80,7 +80,7 @@ class Menu extends CI_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['onMenu'] = $this->Menu_model->getOneMenu( $id_menu );
 
 		$data['home'] = 'admin/menu/menueditar';			
@@ -92,7 +92,7 @@ class Menu extends CI_Controller {
 	public function nuevo_submenu( $id_menu ){
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['allMenus'] = $this->Menu_model->getAllMenu();
 		$data['home'] = 'admin/menu/nuevo_sub_menu.php';
 		$data['id_menu'] = $id_menu;
@@ -121,7 +121,7 @@ class Menu extends CI_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['allMenus'] = $this->Menu_model->getAllMenu();
 		$data['onMenu'] = $this->Menu_model->getOneSubMenu( $id_sub_menu );
 

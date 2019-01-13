@@ -39,7 +39,7 @@ class Giros extends CI_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['lista_giros'] = $this->Giros_model->get_giros();
 		$data['home'] = 'admin/giros/giros_lista';
 
@@ -50,7 +50,7 @@ class Giros extends CI_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );		
+		$data['menu'] = $this->session->menu;		
 		$data['home'] = 'admin/giros/giros_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -74,7 +74,7 @@ class Giros extends CI_Controller {
 		
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );		
+		$data['menu'] = $this->session->menu;		
 		$data['giros'] = $this->Giros_model->get_giro_id( $id_giro );
 		$data['home'] = 'admin/giros/giros_editar';
 

@@ -38,7 +38,7 @@ class Atributos extends CI_Controller {
 		// GET PAIS
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['lista_atributos'] = $this->Atributos_model->get_atributos();
 		$data['home'] = 'admin/atributos/atributos_lista';
 
@@ -49,7 +49,7 @@ class Atributos extends CI_Controller {
 		// GET PAIS
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );		
+		$data['menu'] = $this->session->menu;		
 		$data['home'] = 'admin/atributos/atributos_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -65,7 +65,7 @@ class Atributos extends CI_Controller {
 	public function edit( $id_prod_atributo ){
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );		
+		$data['menu'] = $this->session->menu;		
 		$data['atributo'] = $this->Atributos_model->get_atributo_id( $id_prod_atributo );
 		$data['home'] = 'admin/atributos/atributos_editar';
 

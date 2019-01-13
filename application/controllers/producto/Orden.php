@@ -24,10 +24,10 @@ class Orden extends CI_Controller {
 
 	public function index()
 	{	
-		$id_rol = $this->session->usuario[0]->id_rol;
+		$id_rol = $this->session->roles[0];
 		$id_usuario = $this->session->usuario[0]->id_usuario;
 
-		$data['menu'] = $this->Menu_model->getMenu( $id_rol );
+		$data['menu'] = $this->session->menu;
 		$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
 		$data['sucursales'] = $this->Producto_model->get_sucursales();
 		$data['modo_pago'] = $this->ModoPago_model->get_formas_pago();
