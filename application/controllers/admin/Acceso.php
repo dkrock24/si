@@ -38,14 +38,16 @@ class Acceso extends CI_Controller {
 		// Construir Menu
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		if(isset($_POST['role'])){
+		if(isset($_POST['role']) and isset($_POST['menu'])){
 
-			$data['accesos'] =  $this->Acceso_model->get_menu_acceso( $_POST['role'] );
-			$data['roles'] =  $this->Acceso_model->getRoles();	
+			$data['accesos'] =  $this->Acceso_model->get_menu_acceso( $_POST['role'] , $_POST['menu'] );
+			$data['roles'] =  $this->Acceso_model->getRoles();
+			$data['menus'] =  $this->Menu_model->lista_menu();	
 
 		}else{
 
 			$data['roles'] =  $this->Acceso_model->getRoles();	
+			$data['menus'] =  $this->Menu_model->lista_menu();
 		}		
 		$data['menu'] = $this->session->menu;		
 		//$acceso['cargos'] =  $this->Acceso_model->getCargos();

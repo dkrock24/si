@@ -79,8 +79,8 @@ class Login extends CI_Controller {
 				session_start();
 				
 				$_SESSION['usuario'] = $user;
-				
-				header("location:../admin/home/index");
+
+				header("location:../admin/home/seleccionar_empresa");
 
 			}else{
 

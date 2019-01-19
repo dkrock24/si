@@ -16,14 +16,14 @@
                             <div class="col-lg-6">
                                
                                 <div id="" class="panel panel-info">
-                                    <div class="panel-heading">Editar Menu : <?php echo $onMenu[0]->nombre_menu ?> </div>
+                                    <div class="panel-heading">Editar Menu : <?php echo isset( $onMenu[0]->nombre_menu); ?> </div>
                                         <p>
                                         <form class="form-horizontal" action='../update_menu' method="post">
-                                            <input type="hidden" value="<?php echo $onMenu[0]->id_menu; ?>" name="id_menu">
+                                            <input type="hidden" value="<?php echo isset( $onMenu[0]->id_menu); ?>" name="id_menu">
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="nombre_menu" name="nombre_menu" placeholder="Nombre menu" value="<?php echo $onMenu[0]->nombre_menu ?>">
+                                                    <input type="text" class="form-control" id="nombre_menu" name="nombre_menu" placeholder="Nombre menu" value="<?php echo isset( $onMenu[0]->nombre_menu); ?>">
                                                     <p class="help-block">Nombre del menu a crear.</p>
                                                 </div>
                                             </div>
@@ -31,7 +31,7 @@
                                             <div class="form-group">
                                                 <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Url</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="url_menu" name="url_menu" placeholder="URL" value="<?php echo $onMenu[0]->url_menu ?>">
+                                                    <input type="text" class="form-control" id="url_menu" name="url_menu" placeholder="URL" value="<?php echo isset( $onMenu[0]->url_menu); ?>">
                                                     <p class="help-block">Url a mostrar.</p>
                                                 </div>
                                             </div>
@@ -39,7 +39,7 @@
                                             <div class="form-group">
                                                 <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Icono</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="icon_menu" name="icon_menu" placeholder="ICON" value="<?php echo $onMenu[0]->icon_menu ?>">
+                                                    <input type="text" class="form-control" id="icon_menu" name="icon_menu" placeholder="ICON" value="<?php echo isset($onMenu[0]->icon_menu); ?>">
                                                     <p class="help-block">Icono para mostrar.</p>
                                                 </div>
                                             </div>
@@ -47,7 +47,7 @@
                                             <div class="form-group">
                                                 <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">CSS</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="class_menu" name="class_menu" placeholder="Class CSS" value="<?php echo $onMenu[0]->class_menu ?>">
+                                                    <input type="text" class="form-control" id="class_menu" name="class_menu" placeholder="Class CSS" value="<?php echo isset( $onMenu[0]->class_menu); ?>">
                                                     <p class="help-block">Clase CSS.</p>
                                                 </div>
                                             </div>
@@ -58,6 +58,7 @@
                                                         <label>
                                                             <select name="estado_menu" class="form-control">
                                                                 <?php 
+                                                                if(isset($onMenu)){
                                                                     if( $onMenu[0]->estado_menu ==1 ){ 
                                                                         ?>
                                                                         <option value="1">Activo</option>
@@ -69,6 +70,7 @@
                                                                         <option value="1">Activo</option>
                                                                         <?php
                                                                     }
+                                                                }
                                                                 ?>
                                                             </select>
                                                         </label>

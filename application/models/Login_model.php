@@ -47,6 +47,7 @@ class Login_model extends CI_Model {
             $db->select('*');
             $db->from(self::sys_usuario);
             $db->join(self::sys_empleado,' on '. self::sys_empleado .'.id_empleado = '. self::sys_usuario.'.Empleado');
+            $db->join(self::sys_role,' on '. self::sys_role .'.id_rol = '. self::sys_usuario.'.id_rol');
             $db->where(self::sys_usuario.'.nombre_usuario',$usuario);    
             $db->where(self::sys_usuario.'.contrasena_usuario',$passwd);   
             $query = $db->get(); 

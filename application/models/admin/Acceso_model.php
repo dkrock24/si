@@ -10,7 +10,9 @@ class Acceso_model extends CI_Model
     const roles = 'sys_role';
     const cargos = 'sys_cargos';
 
-    
+    const sys_menu_submenu = 'sys_menu_submenu';
+    const submenu_acceso = 'sys_submenu_acceso';
+    const sys_menu = 'sys_menu';  
     
 
     
@@ -73,19 +75,16 @@ class Acceso_model extends CI_Model
             return $query->result();
         }         
     }
-    public function get_menu_acceso($rol)
+    public function get_menu_acceso($rol , $menu)
     {
         $this->db->select('*');
-        $this->db->from(self::menu);
-        $this->db->join('sys_menu_acceso as A','on '. self::menu .'.id_menu = A.id_menu');
-        $this->db->join('sys_role as R','on R.id_rol = A.id_rol');
-        //$this->db->join('sr_submenu as S','on '. self::menu .'.id_menu = S.id_menu');
-        $this->db->where('R.id_rol',$rol);        
-        //$this->db->where('A.estado',1);     
-        //$this->db->where('A.estado',1); 
-        $query = $this->db->get();      
-        //echo $this->db->queries[0];   
-        //exit();
+        $this->db->from(self::submenu_acceso .' as sma');
+        $this->db->join(self::sys_menu_submenu .' as sm ',' on sm.id_submenu = sma.id_submenu');
+        $this->db->join(self::sys_menu .' as m ',' on m.id_menu = sm.id_menu');
+        $this->db->join(self::roles .' as r ',' on r.id_rol = sma.id_role');
+        $this->db->where('sma.id_role',$rol);
+        $this->db->where('m.id_menu',$menu);
+        $query = $this->db->get();
         
         if($query->num_rows() > 0 )
         {
@@ -95,24 +94,23 @@ class Acceso_model extends CI_Model
 
     // Actualizar el Accesos Para el  Rol
     public function update_acceso_menu( $datos ){
-
-        $accesos_rol = $this->get_access_by_rol( $datos['id_rol'] );
+        
+        $accesos_rol = $this->get_menu_acceso( $datos['id_role'] , $datos['id_menu'] );
 
             foreach ($accesos_rol as $ac) 
             {
-                
-                if( array_key_exists( $ac->id_menu, $datos ) ){
-                    $data = array('estado' => 1 );
+                if( array_key_exists( $ac->id_submenu_acceso, $datos ) ){
+                    $data = array('submenu_acceso_estado' => 1 );
                     
-                    $this->db->where('id_rol', $datos['id_rol']);
-                    $this->db->where('id_menu', $ac->id_menu );
-                    $this->db->update('sys_menu_acceso', $data);
+                    $this->db->where('id_role', $datos['id_role']);
+                    $this->db->where('id_submenu_acceso', $ac->id_submenu_acceso );
+                    $this->db->update(self::submenu_acceso, $data);
 
                 }else{
-                    $data = array('estado' => 0 );
-                    $this->db->where('id_rol', $datos['id_rol']);
-                    $this->db->where('id_menu', $ac->id_menu );
-                    $this->db->update('sys_menu_acceso', $data);
+                    $data = array('submenu_acceso_estado' => 0 );
+                    $this->db->where('id_role', $datos['id_role']);
+                    $this->db->where('id_submenu_acceso', $ac->id_submenu_acceso );
+                    $this->db->update(self::submenu_acceso, $data);
                 }
             }
                
@@ -121,8 +119,8 @@ class Acceso_model extends CI_Model
     // Obtener Los Accesos Por Rol
     public function get_access_by_rol( $id_rol ){
         $this->db->select('*');
-        $this->db->from('sys_menu_acceso as a');
-        $this->db->where('a.id_rol ='.$id_rol) ;
+        $this->db->from(self::submenu_acceso. ' as a');
+        $this->db->where('a.id_role ='.$id_rol) ;
         $query = $this->db->get();      
         if($query->num_rows() > 0 )
         {
@@ -178,6 +176,13 @@ class Acceso_model extends CI_Model
         else{
             return 0;
         }       
+    }
+
+    public function delete_acceso($rol_id){
+        $data = array(
+            'id_rol' => $rol_id
+        );
+        $this->db->delete('sys_menu_acceso', $data);
     }
 }
 /*

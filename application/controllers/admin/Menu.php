@@ -33,12 +33,32 @@ class Menu extends CI_Controller {
 
 		$this->load->model('admin/Menu_model');
 		$this->load->model('Login_model');   
+		$this->load->model('admin/Url_model');
+		$this->load->model('admin/Usuario_model');
 	}
 
 	public function index(){
 		// Construir Menu basado en el rol de usuario
 
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
+		//$role_id = $this->session->userdata['usuario'][0]->id_rol;
+
+		$usuario_id = $this->session->usuario[0]->id_usuario;
+		$role_id = $this->Usuario_model->get_usuario_roles( $usuario_id );
+
+		$menu_session = $this->session->menu;		
+		
+		$flag = FALSE;
+		foreach ($menu_session as $key => $menu_url) {
+			//echo "/".$menu_url->url_submenu."/<br>";
+			$url_browser = "/".$menu_url->url_submenu;
+
+			if($url_browser == $_SERVER['PATH_INFO'] ){
+				$flag = TRUE;
+			}
+		}
+		if(!$flag){
+			header("location: ".base_url()."login/index");
+		}
 
 		$data['menu'] = $this->session->menu;
 		$data['lista_menu'] = $this->Menu_model->lista_menu();

@@ -29,12 +29,55 @@ class Home extends CI_Controller {
 		$this->load->helper('url');
 
 		$this->load->model('admin/Menu_model');
-		//$this->load->model('Login_model');
 		$this->load->model('admin/Usuario_model');
+		$this->load->model('admin/Empresa_model');
 	}
 
 	public function index()
 	{		
+		// Construir Menu		
+		$this->load->model('Login_model');
+		$usuario_id = $this->session->usuario[0]->id_usuario;
+
+		$roles = $this->Usuario_model->get_usuario_roles( $usuario_id );
+		$empleado_id = $this->session->usuario[0]->id_empleado;
+		
+		$roles_id = array();
+		if(isset($roles)){
+	        foreach ($roles as $rol) {
+	            $roles_id = $rol->usuario_rol_role;
+	        }
+
+	        $_SESSION['roles'] = $roles_id;
+			$_SESSION['menu'] =  $this->Menu_model->getMenu( $roles_id );
+	    }else{
+	    	$_SESSION['msj'] = "No Existen Menus Asignados";
+			header("location: info");
+	    }
+
+		// Obtener toda la informacion de la empresa en session.
+		$empresa_id = $this->Usuario_model->permiso_empresa( $empleado_id );
+
+		$empresa_session = $this->session->empresa_id[0];
+		if(isset($empresa_id)){
+			if(isset($empresa_session)){
+				$_SESSION['empresa'] = $this->Usuario_model->permiso_empresa( $empresa_session );
+			}else{
+				$_SESSION['empresa'] = $this->Empresa_model->get_empresa_by_id( $empresa_id[0]->id_empresa );				
+			}
+		}else{
+			
+			$_SESSION['msj'] = "No Existen Sucursales Asociadas al Usuario";
+			header("location: info");
+		}
+
+		$data['home'] = 'home';
+		$data['menu'] = $this->session->menu;		
+
+		$this->parser->parse('template', $data);
+	}
+
+	function seleccionar_empresa(){
 		// Construir Menu		
 		$this->load->model('Login_model');
 		$usuario_id = $this->session->usuario[0]->id_usuario;
@@ -43,24 +86,52 @@ class Home extends CI_Controller {
 		$roles = $this->Usuario_model->get_usuario_roles( $usuario_id );
 		
 		$roles_id = array();
-        foreach ($roles as $rol) {
-            $roles_id = $rol->usuario_rol_role;
-        }
+		if(isset($roles)){
+			foreach ($roles as $rol) {
+	            $roles_id = $rol->usuario_rol_role;
+	        }
 
-		$_SESSION['roles'] = $roles_id;
-		$_SESSION['menu'] =  $this->Menu_model->getMenu( $roles_id );
+	        $_SESSION['roles'] = $roles_id;
+			$_SESSION['menu'] =  $this->Menu_model->getMenu( $roles_id );
+		}
 
-		// Validar Permiso en Empresa - Sucursales 
-		$permisoEmpresa = $this->Usuario_model->permiso_empresa( $empleado_id );
+		$data['empresa'] = $this->get_empresa_informacion( $empleado_id );
+		$permisoEmpresa = $data['empresa'];
 
-		if(sizeof($permisoEmpresa) > 1){
-			$data['home'] = 'selecionar_empresa';
-		}else{
+		if(sizeof($permisoEmpresa) <= 1){
+			header("location: index");
 			$data['home'] = 'home';
+		}else{
+			$data['home'] = 'selecionar_empresa';
 		}
 		
 		$data['menu'] = $this->session->menu;		
 
 		$this->parser->parse('template', $data);
 	}
+
+	function set_empresa($empresa_id){
+		$empresa = false;
+		if(isset($empresa_id) and $empresa_id != 0){
+			$_SESSION['empresa_id'] = $empresa_id;
+			$empresa = true;
+		}else{
+			$empresa = false;
+		}
+		echo json_encode($empresa);
+	}
+
+	function get_empresa_informacion( $empleado_id ){
+		// Validar Permiso en Empresa - Sucursales 
+		$permisoEmpresa = $this->Usuario_model->permiso_empresa( $empleado_id );
+		return $permisoEmpresa;
+	}
+
+	function info(){
+		$data['msj'] = $this->session->msj;
+		$data['home'] = 'admin/notificaciones/informacion';
+
+		$this->parser->parse('template', $data);
+	}
+
 }

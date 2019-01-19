@@ -36,7 +36,13 @@
             <div class="navbar-header">
                <a href="#/" class="navbar-brand">
                   <div class="brand-logo">
-                    <h1 style="margin-top: 0px; color: white;">IBS</h1>
+                    <h1 style="margin-top: 0px; color: white;">
+                      <?php
+                      if(isset($this->session->empresa)){
+                        echo $this->session->empresa[0]->nombre_razon_social;
+                      }
+                      ?>
+                    </h1>
                     <!--
                      <img src="<?php echo base_url(); ?>../asstes/img/logo.png" alt="App Logo" class="img-responsive"> -->  
                   </div>
@@ -188,7 +194,7 @@
                <ul class="nav">
                   <!-- START user info-->
                   <li class="has-user-block">
-                     <div id="user-block" class="collapse">
+                     <div id="user-block" class="">
                         <div class="item user-block">
                            <!-- User picture-->
                            <div class="user-block-picture">
@@ -199,12 +205,20 @@
                            </div>
                            <!-- Name and Job-->
                            <div class="user-block-info">
-                              <span class="user-block-name">Hello, 
-                                <?php                        
-                                    echo $this->session->usuario[0]->nombre_usuario;
+                              <span class="user-block-name">Hola, 
+                                <?php 
+                                if(isset($this->session->usuario[0]->nombre_usuario)){
+                                  echo $this->session->usuario[0]->nombre_usuario;
+                                }
                                 ?>
                               </span>
-                              <span class="user-block-role">Designer</span>
+                              <span class="user-block-role">
+                                <?php   
+                                if(isset($this->session->usuario[0]->role))                     {
+                                  echo $this->session->usuario[0]->role;
+                                }
+                                ?>
+                              </span>
                            </div>
                         </div>
                      </div>
@@ -212,11 +226,14 @@
                   <!-- END user info-->
                   <!-- Iterates over all sidebar items-->
                   <li class="nav-heading ">
-                     <span data-localize="sidebar.heading.HEADER">Main Navigation</span>
+                    <!--
+                     <span data-localize="sidebar.heading.HEADER">Menu Principal</span><hr>
+                   --><hr>
                   </li>
                   
                     <?php
                         $id_menu = 0;
+                      if(isset($menu)){
                         foreach ($menu as $menus)
                         {                            
                             if($id_menu != $menus->id_menu)
@@ -253,13 +270,16 @@
                      <?php
                             }
                         }
+                      }else{
+
+                      }
                     ?>
                   
 
                   
 
 
-         
+         <!-- 
                   <li class=" ">
                      <a href="#multilevel" title="Multilevel" data-toggle="collapse">
                         <em class="fa fa-folder-open-o"></em>
@@ -303,7 +323,7 @@
                         </li>
                      </ul>
                   </li>
-
+                  -->
                </ul>
                <!-- END sidebar nav-->
             </nav>

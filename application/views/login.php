@@ -5,9 +5,7 @@
          <!-- START panel-->
          <div class="panel panel-dark panel-flat">
             <div class="panel-heading text-center">
-               <a href="#">
-                  <img src="<?php echo base_url(); ?>../asstes/img/logo.png" alt="Image" class="block-center img-rounded">
-               </a>
+               <h1 style="margin-top: 0px; color: white;">IBS</h1>
             </div>
             <div class="panel-body">
                <p class="text-center pv">Login.</p>
@@ -22,7 +20,7 @@
                   </div>
                   <div class="clearfix">
 
-                     <div class="pull-right"><a href="recover.html" class="text-muted">Forgot your password?</a>
+                     <div class="pull-right"><a href="recover.html" class="text-muted">Olvide Password?</a>
                      </div>
                   </div>
                   
@@ -36,7 +34,7 @@
             <span>&copy;</span>
             <span>2019</span>
             <span>-</span>
-            <span>Sistema ERP Integrado</span>
+            <span>Sistema IBS Integrado</span>
             <br>
             <span>Todos Los Derechos Reservados</span>
          </div>

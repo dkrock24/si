@@ -5,6 +5,7 @@ class Usuario_model extends CI_Model {
     const persona = 'sys_persona';
     const usuario_roles = 'sys_usuario_roles';
     const empleado_sucursal = 'sys_empleado_sucursal';
+    const pos_empresa = 'pos_empresa';
 
 	function get_empleado( $id_usuario ){
 		$this->db->select('*');
@@ -59,9 +60,11 @@ class Usuario_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::empleado_sucursal.' as es');  
         $this->db->join(self::sucursal.' as s',' on s.id_sucursal = es.es_sucursal');
+        $this->db->join(self::pos_empresa.' as e',' on e.id_empresa = s.Empresa_Suc');
         $this->db->where('es.es_empleado',$empleado_id);
+        $this->db->group_by('e.id_empresa');
         $query = $this->db->get(); 
-        $this->db->queries[0];
+        //echo $this->db->queries[2];
 
         if($query->num_rows() > 0 )
         {

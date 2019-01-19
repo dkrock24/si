@@ -10,7 +10,7 @@
                     <div class="col-lg-4">
                       <!-- START panel-->
                       <div id="panelDemo10" class="panel panel-info">
-                         <div class="panel-heading">Roles</div>
+                         <div class="panel-heading">Acceso Menu Roles</div>
                          <div class="panel-body">
                             <p>
                                 <form action="index" method="post">
@@ -23,13 +23,24 @@
                                             <?php
                                         }
                                     ?>
+                                </select><br>
+
+                                <select class="form-control" name="menu">
+                                    <option value="0"> Seleciona Menu</option>
+                                    <?php
+                                        foreach ( $menus as $menu) {
+                                            ?>
+                                            <option value="<?php echo $menu->id_menu; ?>"><?php echo $menu->nombre_menu; ?></option>
+                                            <?php
+                                        }
+                                    ?>
                                 </select>
                                 <br>
                                 <input type="submit" name="" class="btn btn-primary" class="form-control" value="Buscar">
                                 </form>
                             </p>
                         </div>
-                        <div class="panel-footer">Roles Creados En El Sistema</div>
+                        <div class="panel-footer">Administrar Menus Por Rol</div>
                         </div>
                       <!-- END panel-->
                     </div>
@@ -45,7 +56,7 @@
 
                                         <!-- START panel-->
                                         <div class="panel panel-default">
-                                           <div class="panel-heading">Actualizar Permiso : [ <?php echo $accesos[0]->role; ?> ]</div>
+                                           <div class="panel-heading">Actualizar Permiso : [ <?php echo $accesos[0]->role; ?> ] Menu : [ <?php echo $accesos[0]->nombre_menu; ?> ]</div>
                                            <!-- START table-responsive-->
                                            <form action="acceso_guardar" method="post">
                                            <div class="">
@@ -75,7 +86,7 @@
                                                            <td><?php echo $contador; ?></td>
                                                            <td class="" width="50%">
                                                               <div class="">
-                                                                 <?php echo $value->nombre_menu; ?>
+                                                                 <?php echo $value->nombre_submenu; ?>
                                                               </div>
                                                            </td>
                                                            
@@ -97,14 +108,14 @@
                                                                  <label>
                                                                     <?php
                                                                     $check="";
-                                                                    if($value->estado == 1){
+                                                                    if($value->submenu_acceso_estado == 1){
                                                                         $check = "checked";
                                                                     }else{
                                                                         $check="unchecked";
                                                                     }
                                                                     
                                                                     ?>
-                                                                    <input type="checkbox" <?php echo $check; ?> name="<?php echo $value->id_menu; ?>">
+                                                                    <input type="checkbox" <?php echo $check; ?> name="<?php echo $value->id_submenu_acceso; ?>">
                                                                     <span class="fa fa-check"></span>
                                                                  </label>
                                                               </div>
@@ -126,7 +137,8 @@
                                                  <div class="col-lg-10"></div>
                                                  <div class="col-lg-2">                                                  
                                                        <span class=" pull-right">
-                                                        <input type="hidden" name="id_rol" value="<?php echo $accesos[0]->id_rol; ?>">
+                                                        <input type="hidden" name="id_role" value="<?php echo $accesos[0]->id_rol; ?>">
+                                                        <input type="hidden" name="id_menu" value="<?php echo $accesos[0]->id_menu; ?>">
                                                           <button class="btn btn-sm btn-info">Guardar</button>
                                                        </span>
                                                  </div>

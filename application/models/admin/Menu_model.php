@@ -1,23 +1,40 @@
 <?php
 class Menu_model extends CI_Model {
 
-    const menu = 'sys_menu';
-    const submenu = 'sys_menu_submenu';
-    const empresa = 'sys_empresa';
-    const usuarios = 'sr_usuarios';    
-    const roles = 'sys_roles';
-    const cargos = 'sr_cargos';
+    const menu      = 'sys_menu';
+    const submenu   = 'sys_menu_submenu';
+    const empresa   = 'sys_empresa';
+    const usuarios  = 'sr_usuarios';    
+    const roles     = 'sys_roles';
+    const cargos    = 'sr_cargos';
+    const sys_menu_submenu = 'sys_menu_submenu';
+    const submenu_acceso = 'sys_submenu_acceso';
+    const sys_menu = 'sys_menu';
+
 
     function getMenu( $roles_id ){
 
+        /*
         $this->db->select('*');
         $this->db->from(self::menu);
         $this->db->join('sys_menu_acceso as A','on '. self::menu .'.id_menu = A.id_menu');
         $this->db->join('sys_role as R','on R.id_rol = A.id_rol');
         $this->db->join('sys_menu_submenu as S','on '. self::menu .'.id_menu = S.id_menu');
-        $this->db->where_in('R.id_rol',$roles_id);        
+        $this->db->join('sys_submenu_acceso as sma','on sma.id_submenu = sma.id_submenu');
+        $this->db->where_in('sma.id_role',$roles_id);        
         $this->db->where('A.estado',1);     
         $this->db->where('A.estado',1); 
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1]; 
+        */
+
+        $this->db->select('*');
+        $this->db->from(self::submenu_acceso .' as sma');
+        $this->db->join(self::sys_menu_submenu .' as sm ',' on sm.id_submenu = sma.id_submenu');
+        $this->db->join(self::sys_menu .' as m ',' on m.id_menu = sm.id_menu');
+        $this->db->where_in('sma.id_role',$roles_id);
+        $this->db->where('sma.submenu_acceso_estado',1); 
+        $this->db->order_by('m.orden_menu','asc'); 
         $query = $this->db->get(); 
         //echo $this->db->queries[1]; 
         

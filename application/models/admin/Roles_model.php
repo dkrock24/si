@@ -79,7 +79,7 @@ class Roles_model extends CI_Model {
         $this->db->delete('sys_menu_acceso', $data);
         
         $data = array(
-            'role_id' => $role_id
+            'id_rol' => $role_id
         );
         $this->db->delete(self::roles, $data);
 

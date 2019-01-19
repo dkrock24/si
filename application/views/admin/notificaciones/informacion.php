@@ -6,60 +6,30 @@
 
 		$(document).ready(function(){
 			$('#empresa').appendTo("body");
-			var html_opciones;
-			var option_hmtl = '<option value=0>Selecione Empresa</option>';
-			var hml_empresa = "<?php foreach($empresa as $value){ ?><option value='<?php echo $value->id_empresa; ?>'><?php echo $value->nombre_comercial; ?></option><?php } ?>";
-			var html_ = "<select class='form-control' name='empresa' id='empresa'>"+option_hmtl+hml_empresa+"</select>";
+
 			$(window).on('load', function(e){
 	      	e.preventDefault();
 		      swal({
 		      	html:true,
-		        title : "Selecciona Empresa.",
-		        text : html_,
+		        title : "Información.",
+		        text : "<?php echo $msj; ?>",
 		        type : "info",
-		        showCancelButton : true,
 		        confirmButtonColor : "primary",
-		        confirmButtonText : "Iniciar!",
-		        cancelButtonColor : "danger",
-		        cancelButtonText : "No, cancelar!",
-		        closeOnConfirm : false,
-		        closeOnCancel : false
+		        confirmButtonText : "Aceptar!",
+		        closeOnConfirm : false
 		      }, function (isConfirm) {
 		        if (isConfirm) {
-		          swal("Ok!", "Todo Esta Listo.", "success");
+		          swal("Ok!", "Saliendo del Sistema.", "success");
 		          //redirec("index");
-		          window.location.href='index';
+		          window.location.href='<?php echo base_url()."login/index"; ?>';
 		        } else {
 		          swal("Cancelado", "Debes Hacer Login de Nuevo", "error");
 		        }
 		      });
 
 		    });
-
-		    $(document).on('change', '#empresa', function(){
-		    	var id_empresa = $(this).val();
-		      	$.ajax({
-		            url: "set_empresa/"+id_empresa,  
-		            datatype: 'json',      
-		            cache : false,                
-
-		                success: function(data){
-
-		                },
-		                error:function(){
-		                }
-		        });
-		    });
- 			
-		    
-		    
+ 			 
 		});
-
-		function abc(valor){
-			alert(valor);
-		}
-
-		////'<option value="++"></option>'
 		
 	</script>
 <!-- Main section-->

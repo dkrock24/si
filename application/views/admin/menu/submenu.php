@@ -9,7 +9,7 @@
                     <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Sub Menu</button>
                 </h3>
             <div class="panel panel-default">
-                <div class="panel-heading"> <?php echo $submenus[0]->nombre_menu; ?></div>
+                <div class="panel-heading"> <?php if($submenus[0]){ echo $submenus[0]->nombre_menu; }; ?></div>
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
@@ -29,7 +29,7 @@
                                           <span class="sr-only">default</span>
                                        </button>
                                        <ul role="menu" class="dropdown-menu">
-                                          <li><a href="../nuevo_submenu/<?php echo $submenus[0]->id_menu; ?>">Nuevo</a>                </li>
+                                          <li><a href="../nuevo_submenu/<?php echo isset($submenus[0]->id_menu); ?>">Nuevo</a>                </li>
                                           <li><a href="#">Exportar</a>              </li>
                                           <li class="divider"></li>
                                           <li><a href="#">Otros</a>
@@ -43,6 +43,7 @@
                             <?php
                             
                             $contado=1;
+                            if(isset($submenus)){
 
                             foreach ($submenus as $sub) {
                                 //var_dump($sub);
@@ -80,6 +81,7 @@
                                 
                                 
                             }
+                        }
 
                         ?>                      
                                    
