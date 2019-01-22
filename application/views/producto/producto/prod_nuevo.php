@@ -498,81 +498,25 @@
 
                         <!-- INICIO MENU IZQUIERDO -->
                         <div class="col-lg-3">
-                            <div id="" class="panel panel-info">
+                            <div id="" class="panel panel-info" style="height: 550px;">
                                 <div class="panel-heading">Nuevo Producto :  </div>
-                                
-                                <div class="row">
-
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-basket icon-center"></h1>
-                                        <span class="icon-center">Producto</span>
-                                    </div>
-
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-book-open icon-center"></h1>
-                                        <span class="icon-center">Categoria</span>
-                                    </div>
-                                </div>
 
                                 <div class="row">
-
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-social-dropbox icon-center"></h1>
-                                        <span class="icon-center">Cant. Producto</span>
-                                    </div>
-
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-doc icon-center"></h1>
-                                        <span class="icon-center">Sub Categoria</span>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-
+                                <?php
+                                $contador_break=0;
+                                foreach ($acciones as $key => $value) {
+                                    ?>
                                     <div class="col-sm-6 menu-cuadro">
                                         <h1 class="icon-center">
-                                            <i class="fa fa-barcode"></i>
+                                             <i class="<?php echo $value->accion_btn_icon; ?>"></i>
                                         </h1>
-                                        <span class="icon-center">Cod. Barra</span>
+                                        <span class="icon-center">
+                                            <?php echo $value->accion_nombre; ?>
+                                        </span>
                                     </div>
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-center">
-                                            <i class="fa fa-plus-square"></i>
-                                        </h1>
-                                        <span class="icon-center">Combo</span>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-center">
-                                            <i class="icon-note"></i>
-                                        </h1>
-                                        <span class="icon-center">Existencias</span>
-                                    </div>
-
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-center">
-                                            <i class="icon-note"></i>
-                                        </h1>
-                                        <span class="icon-center">Promociones</span>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-social-dropbox icon-center"></h1>
-                                        <span class="icon-center">Kit Producto</span>
-                                    </div>
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-center">                                            
-                                            <i class="fa fa-cubes"></i>
-                                        </h1>
-                                        <span class="icon-center">Promo Detalle</span>
-                                    </div>
-
+                                    <?php
+                                }
+                                ?>
                                 </div>
 
                                 <div class="row">

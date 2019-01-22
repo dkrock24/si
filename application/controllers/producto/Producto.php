@@ -11,20 +11,27 @@ class Producto extends CI_Controller {
 		$this->load->library('parser');
 		@$this->load->library('session');
 		$this->load->helper('url');
+		$this->load->helper('seguridad/url_helper');
 
 		$this->load->model('admin/Menu_model');	
 
 		$this->load->model('producto/Producto_model');	
+		$this->load->model('accion/Accion_model');	
 		$this->load->model('admin/Giros_model');	
 	}
 
 	public function index()
-	{	
+	{
+		// Seguridad :: Validar URL usuario	
+		$menu_session = $this->session->menu;	
+		parametros($menu_session);
+
 		$id_rol = $this->session->roles[0];
+		$vista_id = 9;
 
 		$data['menu'] = $this->session->menu;
 		$data['prod'] = $this->Producto_model->getProd( );
-
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'producto/producto/prod_lista';
 
 		$this->parser->parse('template', $data);
@@ -33,12 +40,14 @@ class Producto extends CI_Controller {
 	public function nuevo(){
 
 		$id_rol = $this->session->roles[0];
+		$vista_id = 12;
 
 		$data['menu'] = $this->session->menu;
 		$data['categorias'] = $this->Producto_model->get_sub_categorias();
 		$data['lineas'] = $this->Producto_model->get_lineas();
 		$data['proveedor'] = $this->Producto_model->get_proveedor();
 		$data['marcas'] = $this->Producto_model->get_marcas();
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['empresa'] = $this->Giros_model->get_empresa();
 
 		$data['home'] = 'producto/producto/prod_nuevo';

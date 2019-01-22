@@ -250,7 +250,7 @@
                             <?php
                                 foreach ($menu as $submenu)
                                 {
-                                    if($submenu->id_menu == $menus->id_menu)
+                                    if($submenu->id_menu == $menus->id_menu && $submenu->estado_referencia !=1)
                                     {
                                 ?>
                                     <li class="sidebar-subnav-header">Dashboard</li>

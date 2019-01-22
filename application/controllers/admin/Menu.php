@@ -24,12 +24,11 @@ class Menu extends CI_Controller {
 		parent::__construct();    
 		$this->load->database(); 
 
-		$this->load->library('parser');
-
-	    
+		$this->load->library('parser');	    
 	    @$this->load->library('session');
 	    
 		$this->load->helper('url');
+		$this->load->helper('seguridad/url_helper');
 
 		$this->load->model('admin/Menu_model');
 		$this->load->model('Login_model');   
@@ -38,29 +37,16 @@ class Menu extends CI_Controller {
 	}
 
 	public function index(){
+		
+		// Seguridad :: Validar URL usuario	
+		$menu_session = $this->session->menu;	
+		parametros($menu_session);
+
 		// Construir Menu basado en el rol de usuario
-
-		//$role_id = $this->session->userdata['usuario'][0]->id_rol;
-
 		$usuario_id = $this->session->usuario[0]->id_usuario;
 		$role_id = $this->Usuario_model->get_usuario_roles( $usuario_id );
 
-		$menu_session = $this->session->menu;		
-		
-		$flag = FALSE;
-		foreach ($menu_session as $key => $menu_url) {
-			//echo "/".$menu_url->url_submenu."/<br>";
-			$url_browser = "/".$menu_url->url_submenu;
-
-			if($url_browser == $_SERVER['PATH_INFO'] ){
-				$flag = TRUE;
-			}
-		}
-		if(!$flag){
-			header("location: ".base_url()."login/index");
-		}
-
-		$data['menu'] = $this->session->menu;
+		$data['menu'] = $menu_session = $this->session->menu;
 		$data['lista_menu'] = $this->Menu_model->lista_menu();
 		$data['home'] = 'admin/menu/menu';
 
@@ -68,6 +54,11 @@ class Menu extends CI_Controller {
 	}
 
 	public function nuevo(){
+
+		// Seguridad :: Validar URL usuario	
+		$menu_session = $this->session->menu;	
+		parametros($menu_session);
+
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;
@@ -78,12 +69,20 @@ class Menu extends CI_Controller {
 
 	public function save_menu(){
 
+		// Seguridad :: Validar URL usuario	
+		$menu_session = $this->session->menu;	
+		parametros($menu_session);
+
 		$this->Menu_model->save_menu( $_POST );
 
 		redirect(base_url()."admin/menu/index");
 	}
 
 	public function submenu( $id_menu ){
+		// Seguridad :: Validar URL usuario	
+		$menu_session = $this->session->menu;	
+		parametros($menu_session);
+
 		// Selecionar todos los submenus de cada menu
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
@@ -96,14 +95,16 @@ class Menu extends CI_Controller {
 	}
 
 	public function editar_menu( $id_menu ){
-		// Cargar menu para editar
+		// Seguridad :: Validar URL usuario	
+		$menu_session = $this->session->menu;	
+		parametros($menu_session);
 
+		// Cargar menu para editar
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;
 		$data['onMenu'] = $this->Menu_model->getOneMenu( $id_menu );
-
-		$data['home'] = 'admin/menu/menueditar';			
+		$data['home'] = 'admin/menu/menueditar';
 
 		$this->parser->parse('template', $data);
 	}

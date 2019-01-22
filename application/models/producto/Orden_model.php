@@ -21,9 +21,24 @@ class Orden_model extends CI_Model {
 		const producto_img = 'pos_producto_img';
 		const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
 		const producto_bodega = 'pos_producto_bodega';
+		const pos_ordenes = 'pos_ordenes';
+
+		
 
 		// Ordenes
 		const pos_tipo_documento = 'pos_tipo_documento';
+
+		function getOrdenes(){
+			$this->db->select('*');
+	        $this->db->from(self::pos_ordenes);
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[1];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
 
 		function get_tipo_documentos(){
 			$this->db->select('*');

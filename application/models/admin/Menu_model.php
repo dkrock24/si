@@ -14,20 +14,6 @@ class Menu_model extends CI_Model {
 
     function getMenu( $roles_id ){
 
-        /*
-        $this->db->select('*');
-        $this->db->from(self::menu);
-        $this->db->join('sys_menu_acceso as A','on '. self::menu .'.id_menu = A.id_menu');
-        $this->db->join('sys_role as R','on R.id_rol = A.id_rol');
-        $this->db->join('sys_menu_submenu as S','on '. self::menu .'.id_menu = S.id_menu');
-        $this->db->join('sys_submenu_acceso as sma','on sma.id_submenu = sma.id_submenu');
-        $this->db->where_in('sma.id_role',$roles_id);        
-        $this->db->where('A.estado',1);     
-        $this->db->where('A.estado',1); 
-        $query = $this->db->get(); 
-        //echo $this->db->queries[1]; 
-        */
-
         $this->db->select('*');
         $this->db->from(self::submenu_acceso .' as sma');
         $this->db->join(self::sys_menu_submenu .' as sm ',' on sm.id_submenu = sma.id_submenu');

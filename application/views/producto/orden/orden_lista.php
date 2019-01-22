@@ -2,9 +2,9 @@
     <section>
         <!-- Page content-->
         <div class="content-wrapper">
-            <h3 style="height: 50px; ">Lista Productos </h3>
+            <h3 style="height: 50px; ">Lista Ordenes </h3>
             <div class="panel panel-default">
-                <div class="panel-heading">Productos</div>
+                <div class="panel-heading">Ordenes</div>
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
@@ -89,14 +89,16 @@
                                                                         ?>
                                                                         <li><a href="<?php echo $value->accion_btn_url;  ?>/<?php echo $p->id_entidad; ?>"><?php echo $value->accion_nombre;  ?></a></li>
                                                                         <?php
+                                                                        }
                                                                         if($value->accion_valor == 'btn_medio' && $value->accion_nombre == 'Eliminar') {
                                                                         ?>
                                                                         <li class="divider"></li>
                                                                         <li><a href="<?php echo $value->accion_btn_url;  ?>/<?php echo $p->id_entidad; ?>"><?php echo $value->accion_nombre;  ?></a></li>
                                                                         <?php
                                                                         }
-                                                                    }}}
-                                                                    ?>          				                                        
+                                                                    }}
+                                                                    ?>                                                                    
+                                                                    <li class="divider"></li>            				                                        
 
             				                                    </ul>
             				                                </div>
