@@ -24,26 +24,11 @@ class Producto_model extends CI_Model {
 		
         
         function getProd(){
-        	/*
-			$this->db->select(' distinct(P.id_entidad ) ,P.*, c.nombre_categoria as "nombre_categoria", sub_c.nombre_categoria as "SubCategoria" ');
-	        $this->db->from(self::producto.' as P');
-	        $this->db->join(self::producto_atributo.' as PA',' on P.id_entidad = PA.id_producto');
-	        $this->db->join(self::atributo.' as A',' on A.id_prod_atributo = PA.id_atributo');
-	        $this->db->join(self::categoria_producto.' as CP',' on CP.id_producto = P.id_entidad');
-	        $this->db->join(self::categoria.' as sub_c',' on sub_c.id_categoria = CP.id_categoria');
-	        $this->db->join(self::categoria.' as c',' on c.id_categoria = sub_c.id_categoria_padre');
-	        $query = $this->db->get();
-	        echo $this->db->queries[1];
-
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }*/
-
 	        
-	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
+	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, CP.cantidad
 	        	,(select pv1.valor from producto_valor as pv1 where pv1.id_prod_atributo=PA.id_prod_atrri ) as Precio
 				FROM `producto` as `P`
+				LEFT JOIN `pos_cantidad_productos` as `CP` ON `P`.`id_entidad` = `CP`.`Producto_Cantidad_Productos`
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
 				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
 				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
@@ -54,7 +39,7 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
 				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 group by P.id_entidad ");
 
-		        //echo $this->db->queries[1];
+		        echo $this->db->queries[2];
 		        return $query->result();
 
 		}

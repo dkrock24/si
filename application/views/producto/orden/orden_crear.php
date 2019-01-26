@@ -3,9 +3,16 @@
 
 var _orden = [];
 var _productos = [];
+var _productos_precio = [];
+var _productos_lista;
 var contador_productos = 0;
 var contador_tabla =1;
 var total_msg = 0;
+var factor_precio = 0;
+var factor_total = 0;
+var producto_cantidad_linea = 1;
+var sucursal = 0;
+var interno_sucursal=0;
 
 $(document).ready(function(){
 
@@ -74,49 +81,74 @@ $(document).ready(function(){
             });
     }   
     
-
     function get_productos_lista(){
 
-        var sucursal = $("#sucursal_id").val();
+        sucursal = $("#sucursal_id").val();
+        
         
         var table = "<table class='table table-sm table-hover'>";
             table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
-            table += "<th>#</th><th>Nombre</th><th>Codigo</th><th>Id Producto</th><th>Marca</th><th>Categoria</th><th>Sub Categoria</th><th>Giro</th><th>Empresa</th><th>Action</th>";
+            table += "<th>#</th><th>Nombre</th><th>Codigo</th><th>Id Producto</th><th>Cantidad</th><th>Marca</th><th>Categoria</th><th>Sub Categoria</th><th>Giro</th><th>Empresa</th><th>Action</th>";
         var table_tr = "<tbody id='list'>";
         var contador_precios=1;
 
         $(".productos_lista_datos").html();
+        
+        if( sucursal != interno_sucursal){
+            
+            interno_sucursal = sucursal;
+            $.ajax({
+                url: "get_productos_lista/"+sucursal,
+                datatype: 'json',      
+                cache : false,                
 
-        $.ajax({
-            url: "get_productos_lista/"+sucursal,
-            datatype: 'json',      
-            cache : false,                
-
-                success: function(data){
-                    var datos = JSON.parse(data);
-                    var productos = datos["productos"];
-                    var producto_id = 0;
-                    
-                    $.each(productos, function(i, item) { 
-
-                    	if(producto_id != item.id_entidad){
-                    		producto_id = item.id_entidad;	
-                    		var precio = 0;
-	                    	
-	                        table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.cod_barra+'</td><td>'+item.id_entidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_producto" id="'+item.id_entidad+'">Agregar</a></td></tr>';
-	                        contador_precios++;
-                        }
+                    success: function(data){
+                        var datos = JSON.parse(data);
+                        var productos = datos["productos"];
+                        var producto_id = 0;
+                        _productos_lista = productos;
                         
-                    });
-                    table += table_tr;
-                    table += "</tbody></table>";
+                        $.each(productos, function(i, item) { 
 
-                    $(".productos_lista_datos").html(table);
-                
-                },
-                error:function(){
+                        	if(producto_id != item.id_entidad){
+                        		producto_id = item.id_entidad;	
+                        		var precio = 0;
+    	                    	
+    	                        table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.cod_barra+'</td><td>'+item.id_entidad+'</td><td>'+item.cantidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_producto" id="'+item.id_entidad+'">Agregar</a></td></tr>';
+    	                        contador_precios++;
+                            }
+                            
+                        });
+                        table += table_tr;
+                        table += "</tbody></table>";
+
+                        $(".productos_lista_datos").html(table);
+                    
+                    },
+                    error:function(){
+                    }
+                });
+        }else{
+            var productos = _productos_lista;
+            var producto_id = 0;
+            interno_sucursal = sucursal;
+            
+            $.each(productos, function(i, item) { 
+
+                if(producto_id != item.id_entidad){
+                    producto_id = item.id_entidad;  
+                    var precio = 0;
+                    
+                    table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.cod_barra+'</td><td>'+item.id_entidad+'</td><td>'+item.cantidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_producto" id="'+item.id_entidad+'">Agregar</a></td></tr>';
+                    contador_precios++;
                 }
+                
             });
+            table += table_tr;
+            table += "</tbody></table>";
+
+            $(".productos_lista_datos").html(table);
+        }
     }
 
     function get_empleados_lista(sucursal){
@@ -213,26 +245,28 @@ $(document).ready(function(){
             success: function(data){
             	var datos = JSON.parse(data);
 
-                    var precio_unidad = datos['producto'][8].valor;
-                    //precio_unidad = ((precio_unidad).toFixed(2));
+                var precio_unidad = datos['producto'][8].valor;
+                var prod_precio = datos["prod_precio"];
+                _productos_precio = prod_precio;
 
-            		$("#producto").val(datos['producto'][12].valor);
-            		$("#presentacion").val(datos['producto'][0].valor);
-            		$("#precioUnidad").val( precio_unidad );
-            		$("#descuento").val(datos['producto'][7].valor);
-                    $("#bodega").val(datos['producto'][0].nombre_bodega);
-                    $("#descripcion").val(datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca  );
+        		$("#producto").val(datos['producto'][12].valor);
+        		$("#presentacion").val(datos['producto'][0].valor);
+        		$("#precioUnidad").val( precio_unidad );
+        		$("#descuento").val(datos['producto'][7].valor);
+                $("#bodega").val(datos['producto'][0].nombre_bodega);
+                $("#descripcion").val(datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca  );
 
-            		var cantidad = $("#cantidad").val();
-            		precioUnidad = datos['producto'][8].valor;
+        		producto_cantidad_linea = 1;
+                $("#cantidad").val(1);
+        		precioUnidad = datos['producto'][8].valor;
 
-            	$("#total").val(calcularTotalProducto(precioUnidad, cantidad));
+            	$("#total").val(calcularTotalProducto(precioUnidad, producto_cantidad_linea));
 
             	_productos["producto"] = datos['producto'][12].valor;
             	_productos["presentacion"] = datos['producto'][0].valor;
             	_productos["precioUnidad"] = datos['producto'][8].valor;
             	_productos["descuento"] = datos['producto'][7].valor;
-            	_productos["cantidad"] = cantidad;
+            	_productos["cantidad"] = producto_cantidad_linea;
             	_productos["total"] = $("#total").val();
                 _productos["bodega"] = datos['producto'][0].nombre_bodega;
                 _productos["descripcion"] = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
@@ -244,14 +278,30 @@ $(document).ready(function(){
     }
 
     $(document).on('change', '#cantidad', function(){
-    	var precion = $("#precioUnidad").val();
-    	var cantidad = $("#cantidad").val();
 
-    	$("#total").val(calcularTotalProducto(precion, cantidad));
+        if( _productos["producto"] != null ){
+            producto_cantidad_linea = $("#cantidad").val();
+            var producto_precio_flag = productos_precios_validacion();
 
-    	var cantidad = $("#cantidad").val();
-    	_productos["cantidad"] = cantidad;
-    	_productos["total"] = $("#total").val();
+            if(producto_precio_flag != true){
+
+                var precion  = $("#precioUnidad").val();
+                var cantidad = producto_cantidad_linea;
+
+                $("#total").val(calcularTotalProducto(_productos["precioUnidad"], cantidad));
+                $("#precioUnidad").val( _productos["precioUnidad"] );
+
+
+                var cantidad = $("#cantidad").val();
+                _productos["cantidad"] = cantidad;
+                _productos["total"] = $("#total").val();
+
+                factor_precio = 0;
+                factor_total = 0;
+
+            }
+        }
+    	
     });
 
     function calcularTotalProducto(precio , cantidad){
@@ -296,10 +346,37 @@ $(document).ready(function(){
         						$("."+_productos['producto']).text(cantidad);
         						_orden[cnt]['cantidad'] = cantidad;
 
-        						//Actualizando total
-        						$(".total"+_orden[cnt]['producto']).text(calcularTotalProducto(_productos['precioUnidad'], cantidad));
-        						
-        						total_msg += parseInt(calcularTotalProducto(_productos['precioUnidad'], _productos['cantidad']));
+                                // Buscar precios validos
+                                if(_productos_precio != null){
+                                    $.each(_productos_precio, function(i, item) {
+                    
+                                        factor = item.factor;
+                                        if( factor == cantidad ){
+
+                                            factor_precio = item.unidad;
+                                            factor_total  = item.precio; 
+
+                                            $(".total"+_orden[cnt]['producto']).text(calcularTotalProducto(factor_precio, cantidad));
+                                            $(".precioUnidad"+_orden[cnt]['precioUnidad']).text(factor_precio);
+                                
+                                            total_msg += parseInt(calcularTotalProducto(factor_precio, _productos['cantidad']));
+                                        }else{
+                                            //Actualizando total
+                                            $(".total"+_orden[cnt]['producto']).text(calcularTotalProducto(_productos['precioUnidad'], cantidad));
+                                            $(".precioUnidad"+_orden[cnt]['precioUnidad']).text(_productos['precioUnidad']);
+                                            
+                                
+                                            total_msg += parseInt(calcularTotalProducto(_productos['precioUnidad'], _productos['cantidad']));
+                                        }
+                                    });
+                                }else{
+                                    //Actualizando total
+                                    $(".total"+_orden[cnt]['producto']).text(calcularTotalProducto(_productos['precioUnidad'], cantidad));
+                                    $(".precioUnidad"+_orden[cnt]['precioUnidad']).text(_productos['precioUnidad']);
+                                
+                                    total_msg += parseInt(calcularTotalProducto(_productos['precioUnidad'], _productos['cantidad']));
+                                }
+
         					}
         					cnt ++;				
         				});
@@ -320,14 +397,47 @@ $(document).ready(function(){
 			}
 		}
 		$(".total_msg").text("$ "+total_msg.toFixed(2));
-
     });
+
+    function productos_precios_validacion(){
+
+        var factor = 0;
+        var precio_unidad = 0;
+        var precio_total = 0;
+        var flag = false;
+
+        if( _productos_precio != null){
+
+            $.each(_productos_precio, function(i, item) {
+                
+                factor = item.factor;
+                if( factor == producto_cantidad_linea ){
+
+                    factor_precio = item.unidad;
+                    factor_total  = item.precio; 
+
+                    $("#total").val( calcularTotalProducto( factor_precio, factor ) );
+                    $("#precioUnidad").val( factor_precio ); 
+                    _productos['cantidad'] = producto_cantidad_linea;
+                    flag = true;
+                }
+            });
+        }
+        return flag;        
+    }
 
     function agregar_producto(){
 
+        //_productos['total']     = $("#total").val();
+        alert(_productos['precioUnidad']);
+        if(factor_total !=0 && factor_precio!=0){
+            _productos['total'] = factor_total;
+            _productos["precioUnidad"] = factor_precio;
+        }
+        alert(_productos['precioUnidad']);
+
         contador_productos++;
         if(_productos != null){
-
     		var tr_html = "<tr class='' style='background-color:#d7e1e8;'>";
     		tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
     		tr_html += "<td class='border-left'>"+_productos['producto']+"</td>";
@@ -335,7 +445,7 @@ $(document).ready(function(){
     		tr_html += "<td class='border-left "+_productos['producto']+"'>"+_productos['cantidad']+"</td>";
     		tr_html += "<td class='border-left'>"+_productos['presentacion']+"</td>";
     		tr_html += "<td class='border-left'></td>";
-    		tr_html += "<td class='border-left'>"+_productos['precioUnidad']+"</td>";
+    		tr_html += "<td class='border-left precioUnidad"+_productos['precioUnidad']+"'>"+_productos['precioUnidad']+"</td>";
     		tr_html += "<td class='border-left'>"+_productos['descuento']+"</td>";
     		tr_html += "<td class='border-left total"+_productos['producto']+"'>"+_productos['total']+"</td>";
             tr_html += "<td class='border-left '>"+_productos['bodega']+"</td>";
@@ -346,6 +456,8 @@ $(document).ready(function(){
     		$(".producto_agregados").append(tr_html);
 
     		_productos = [];
+            factor_total =0; 
+            factor_precio =0;
     		contador_tabla++;
         }
     }
@@ -475,8 +587,8 @@ $(document).ready(function(){
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                  <label>Sucursal</label>
-                                                  <select class="form-control" name="sucursal" id="sucursal_id">
+                                                  <label>Sucursal Destino</label>
+                                                  <select class="form-control" name="sucursal_destino" id="sucursal_id">
                                                     <?php
                                                     $id_sucursal=0;
                                                     foreach ($empleado as $sucursal) {
@@ -564,16 +676,44 @@ $(document).ready(function(){
                                                  <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                                </div>
                                             </div>
+
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
+                                                  <label>Sucursal Origin</label>
+                                                  <select class="form-control" name="sucursal_origin" id="sucursal_id2">
+                                                    <?php
+                                                    $id_sucursal=0;
+                                                    foreach ($empleado as $sucursal) {
+                                                        $id_sucursal = $sucursal->id_sucursal; 
+                                                        ?>
+                                                        <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                                        <?php
+                                                    }
+
+                                                    foreach ($sucursales as $sucursal) {
+                                                        if($sucursal->id_sucursal != $id_sucursal){
+                                                            ?>
+                                                            <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                    </select>
+                                               </div>
+                                            </div>
+
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label>Vendedor</label><br>
                                                     <div class="pull-left">
-                                                        <input type="hidden" name="vendedor" id="vendedor" value="<?php $empleado[0]->id_empleado; ?>">
-                                                       <div class="label bg-gray"><a href="#" class="vendedores_lista" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona." ".$empleado[0]->primer_apellido_persona; ?></a></div>
+                                                        <input type="hidden" name="vendedor" id="vendedor1" value="<?php $empleado[0]->id_empleado; ?>">
+                                                       <div class="label bg-gray"><a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona." ".$empleado[0]->primer_apellido_persona; ?></a></div>
                                                        
                                                     </div>                                                          
                                                </div>
                                             </div>
+
+
                                         </div>
                                      </div>
                                 </p>
@@ -607,7 +747,7 @@ $(document).ready(function(){
                                     <td colspan="2"><input type="text" class="form-control producto_buscar border-input" id="producto" size="2" name="producto">
                                     </td>
                                     <td><input type="text" class="form-control border-input" id="descripcion" name="descripcion"></td>
-                                    <td><input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="0" max="1000"></td>
+                                    <td><input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000"></td>
                                     <td><input type="text" class="form-control border-input" id="presentacion" name="presentacion" size="3px"></td>
                                     <td><input type="text" class="form-control border-input" id="tipo" name="tipo" size="2px"></td>
                                     <td><input type="text" class="form-control border-input" id="precioUnidad" name="precioUnidad" size="2px"></td>

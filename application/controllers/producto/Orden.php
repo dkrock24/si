@@ -61,7 +61,7 @@ class Orden extends CI_Controller {
 		$this->parser->parse('template', $data);
 	}
 
-	function get_productos_lista($sucursal){
+	function get_productos_lista( $sucursal ){
 		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal);
 		echo json_encode( $data );
 	}
@@ -79,6 +79,7 @@ class Orden extends CI_Controller {
 	function get_producto_completo($producto_id){
 		$data['producto'] = $this->Orden_model->get_producto_completo($producto_id);
 		$data['precios'] = $this->Orden_model->get_producto_precios($producto_id);
+		$data['prod_precio'] = $this->Orden_model->get_producto_precios( $producto_id );
 		echo json_encode( $data );
 	}
 
