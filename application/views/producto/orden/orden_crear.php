@@ -21,7 +21,7 @@ $(document).ready(function(){
     $('#vendedores_modal').appendTo("body");
 
     
-    // Buscar Producto
+// 1 - Modal de Productos (Lista de productos dentro del modal )
     $(document).on('click', '.producto_buscar', function(){
       	$('#producto_modal').modal('show');
         $("#codigo_barra_seleccionado").focus();
@@ -40,6 +40,7 @@ $(document).ready(function(){
 
         get_empleados_lista($(this).attr("id"));
     });
+
 
     function get_clientes_lista(){
         
@@ -81,10 +82,10 @@ $(document).ready(function(){
             });
     }   
     
+// 2 - Retornando lista de productos dentro de la tabla
     function get_productos_lista(){
 
         sucursal = $("#sucursal_id").val();
-        
         
         var table = "<table class='table table-sm table-hover'>";
             table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
@@ -201,13 +202,14 @@ $(document).ready(function(){
 
     });
 
+// 3 - Selecionar el producto del Modal de productos
     $(document).on('click', '.seleccionar_producto', function(){
         var producto_id = $(this).attr('id');
         get_producto_completo(producto_id);
         $('#producto_modal').modal('hide');
     });
 
-    // Cliente Selecionado
+    
     $(document).on('click', '.seleccionar_cliente', function(){
 
         $("#cliente_codigo").val($(this).attr('id'));
@@ -216,7 +218,7 @@ $(document).ready(function(){
         $('#cliente_modal').modal('hide');
     });
 
-    // seleccionar_empleado
+    
     $(document).on('click', '.seleccionar_empleado', function(){
 
         $(".vendedores_lista").text($(this).attr('name'));
@@ -225,6 +227,7 @@ $(document).ready(function(){
         $('#vendedores_modal').modal('hide');
     });
 
+// 4 - Buscar producto por Id para agregarlo a la linea
     function get_producto_completo(producto_id){
       $("#grabar").attr('disabled');
 
@@ -248,33 +251,64 @@ $(document).ready(function(){
                 var precio_unidad = datos['producto'][8].valor;
                 var prod_precio = datos["prod_precio"];
                 _productos_precio = prod_precio;
+                
 
-        		$("#producto").val(datos['producto'][12].valor);
-        		$("#presentacion").val(datos['producto'][0].valor);
-        		$("#precioUnidad").val( precio_unidad );
-        		$("#descuento").val(datos['producto'][7].valor);
-                $("#bodega").val(datos['producto'][0].nombre_bodega);
-                $("#descripcion").val(datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca  );
+            		$("#producto").val(datos['producto'][12].valor);
+            		$("#presentacion").val(datos['producto'][0].valor);
+            		$("#precioUnidad").val( precio_unidad );
+            		$("#descuento").val(datos['producto'][7].valor);
+                    $("#bodega").val(datos['producto'][0].nombre_bodega);
+                    $("#descripcion").val(datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca  );
 
-        		producto_cantidad_linea = 1;
-                $("#cantidad").val(1);
-        		precioUnidad = datos['producto'][8].valor;
+            		producto_cantidad_linea = 1;
+                    $("#cantidad").val(1);
+            		precioUnidad = datos['producto'][8].valor;
 
-            	$("#total").val(calcularTotalProducto(precioUnidad, producto_cantidad_linea));
+                	$("#total").val(calcularTotalProducto(precioUnidad, producto_cantidad_linea));
 
-            	_productos["producto"] = datos['producto'][12].valor;
-            	_productos["presentacion"] = datos['producto'][0].valor;
-            	_productos["precioUnidad"] = datos['producto'][8].valor;
-            	_productos["descuento"] = datos['producto'][7].valor;
-            	_productos["cantidad"] = producto_cantidad_linea;
-            	_productos["total"] = $("#total").val();
-                _productos["bodega"] = datos['producto'][0].nombre_bodega;
-                _productos["descripcion"] = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
-
+                	_productos["producto"] = datos['producto'][12].valor;
+                	_productos["presentacion"] = datos['producto'][0].valor;
+                	_productos["precioUnidad"] = datos['producto'][8].valor;
+                	_productos["descuento"] = datos['producto'][7].valor;
+                	_productos["cantidad"] = producto_cantidad_linea;
+                	_productos["total"] = $("#total").val();
+                    _productos["bodega"] = datos['producto'][0].nombre_bodega;
+                    _productos["descripcion"] = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
+                
+                if( parseInt(_productos_precio.length) > 1){
+                    get_presentacio_lista( _productos_precio );
+                    $('#presentacion_modal').modal('show');
+                }else{
+                    
+                }
             },
             error:function(){
             }
         });
+    }
+
+
+    // 5 - Retornando lista de presentaciones dentro de la tabla
+    function get_presentacio_lista( _productos_precio ){
+        
+        var table = "<table class='table table-sm table-hover'>";
+            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
+            table += "<th>#</th><th>Presentacion</th><th>Factor</th><th>Precio</th><th>Unidad</th><th>Cod Barra</th><th>Estado</th><th>Action</th>";
+        var table_tr = "<tbody id='list'>";
+        var contador_precios=1;
+
+        $(".presentacion_lista_datos").html();
+              
+        $.each(_productos_precio, function(i, item) { 
+            
+            table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.presentacion+'</td><td><div class="pull-center label label-success">'+item.factor+'</div></td><td>'+item.precio+'</td><td>'+item.unidad+'</td><td>'+item.cod_barra+'</td><td>'+item.estado_producto_detalle+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_presentacion" id="'+item.id_producto_detalle+'">Agregar</a></td></tr>';
+            contador_precios++;
+            
+        });
+        table += table_tr;
+        table += "</tbody></table>";
+
+        $(".presentacion_lista_datos").html(table);
     }
 
     $(document).on('change', '#cantidad', function(){
@@ -774,6 +808,21 @@ $(document).ready(function(){
     </div>
 </section>
 
+<style type="text/css">
+    .modal-dialog {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-content {
+  height: auto;
+  min-height: 100%;
+  border-radius: 0;
+}
+</style>
+
 <!-- Modal Large PRODUCTOS MODAL-->
    <div id="producto_modal" tabindex="-1" role="dialog" aria-labelledby="producto_modal"  class="modal fade">
       <div class="modal-dialog modal-lg">
@@ -787,6 +836,30 @@ $(document).ready(function(){
             <div class="modal-body">
                 <p class="productos_lista_datos">
                 	
+                </p>                                 
+               
+            </div>
+            <div class="modal-footer">
+               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
+            </div>
+         </div>
+      </div>
+   </div>
+<!-- Modal Small-->
+
+<!-- Modal Large PRESENTACIONES MODAL-->
+   <div id="presentacion_modal" tabindex="-1" role="dialog" aria-labelledby="presentacio_modal"  class="modal fade">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               <h4 id="myModalLabelLarge" class="modal-title">Selecionar Tipo de Presentacion</h4>
+            </div>
+            <div class="modal-body">
+                <p class="presentacion_lista_datos">
+                    
                 </p>                                 
                
             </div>
