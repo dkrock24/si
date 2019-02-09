@@ -77,10 +77,10 @@ $query_builder = TRUE;
 
 $db['client'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => '127.0.0.1',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'db_core',
+	'database' => 'db_core_ibs',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -100,7 +100,7 @@ $db['client'] = array(
 
 				$db['default'] = array(
 				'dsn'	=> '',
-				'hostname' => 'localhost',
+				'hostname' => '127.0.0.1',
 				'username' => @$_SESSION['db']['usuario'][0]->usuario_db,
 				'password' => @$_SESSION['db']['usuario'][0]->password_db,
 				'database' => @$_SESSION['db']['usuario'][0]->nombre_db,

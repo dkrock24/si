@@ -23,6 +23,8 @@ class Orden_model extends CI_Model {
 		const producto_bodega = 'pos_producto_bodega';
 		const pos_ordenes = 'pos_ordenes';
 
+		const pos_ordenes_detalle = 'pos_orden_detalle';
+
 		
 
 		// Ordenes
@@ -80,7 +82,7 @@ class Orden_model extends CI_Model {
 		function get_producto_completo($producto_id){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor, b.nombre_bodega
+	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor, b.nombre_bodega, pinv.id_inventario
 
 				FROM `producto` as `P`
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
@@ -95,6 +97,7 @@ class Orden_model extends CI_Model {
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
+				LEFT JOIN pos_inventario AS pinv on pinv.Producto = P.id_entidad
 				WHERE P.id_entidad = ". $producto_id);
 
 		        //echo $this->db->queries[1];
@@ -111,6 +114,80 @@ class Orden_model extends CI_Model {
 		        return $query->result();
 
 		}
+
+		function guardar_orden( $orden , $id_usuario){
+
+			$data = array(
+	            'id_sucursal' 	=> $orden['sucursal_origin'],
+	            'id_caja' 		=> "0",
+	            'id_cajero' 	=> $orden['vendedor'],
+	            'id_vendedor' 	=> $orden['vendedor'],
+	            'id_condpago' 	=> "0",
+	            'id_tipod' 		=> $orden['modo_pago_id'],
+	            'id_usuario' 	=> $id_usuario,
+	            'num_caja' 		=> "0",
+	            'num_correlativo'=> $orden['numero'],
+	            'fecha' 		=> date("Y-m-d h:i:s"),
+	            'id_cliente' 	=> $orden['cliente_codigo'],
+	            'nombre' 		=> $orden['cliente_nombre'],
+	            'digi_total' 	=> $orden['total'],
+	            'd_inc_imp0' 	=> "0",
+	            'desc_porc' 	=> "0",
+	            'desc_val' 		=> "0",
+	            'total_doc' 	=> "0",
+	            'fh_inicio' 	=> date("Y-m-d h:i:s"),
+	            'fh_final' 		=> date("Y-m-d h:i:s"),
+	            'id_venta' 		=> "0",
+	            'facturado_el' 	=> "0",
+	            'anulado' 		=> "0",
+	            'anulado_el' 	=> "0",
+	            'anulado_conc' 	=> "0",
+	            'estado_el' 	=> "0",
+	            'reserv_producs' => "0",
+	            'reserv_conc' 	=> "0",
+	            'fecha_inglab' 	=> date("Y-m-d h:i:s"),
+	            'fecha_entreg' 	=> date("Y-m-d h:i:s"),
+	            'tiempoproc' 	=> "0",
+	            'creado_el' 	=> "0",
+	            'comentarios' 	=> $orden['comentarios'],
+	            'modi_el' 		=> "0",
+        	);
+
+        	$this->db->insert(self::pos_ordenes, $data ); 
+			$id_orden = $this->db->insert_id();
+				
+			guardar_orden_detalle( $id_orden , $orden );		
+		}
+
+		function guardar_orden_detalle( $id_orden , $datos ){
+			foreach ($datos['orden'] as $key => $orden) {
+				$data = array(
+		            'id_orden' 		=> $id_orden,
+		            'id_item' 		=> $orden['id_entidad'],
+		            'id_inve_prod' 	=> $orden['id_inventario'],
+		            'descripcion' 	=> $orden['descripcion'],
+		            'presenta_ppal' => $orden['presentacion'],
+		            'digi_cant' 	=> $orden['cantidad'],
+		            'presentacion' 	=> $orden['presentacion'],
+		            'cant_factor' 	=> $orden['presentacionFactor'],
+		            'tipoprec' 		=> $orden[''],
+		            'digi_prec' 	=> $orden[''],
+		            'gen' 			=> $orden[''],
+		            'p_inc_imp0' 	=> $orden[''],
+		            'val_desc' 		=> $orden[''],
+		            'por_desc' 		=> $orden[''],
+		            'comenta' 		=> $orden[''],
+		            'id_bomba' 		=> $orden[''],
+		            'id_kit' 		=> $orden[''],
+		            'tp_c' 			=> $orden[''],
+		            'creado_el' 	=> date("Y-m-d h:i:s"),
+		            'modi_el' 		=> date("Y-m-d h:i:s"),
+	        	);
+
+	        	$this->db->insert(self::pos_ordenes_detalle, $data ); 
+			}
+		}
+
 		// Fin ordenes
 		
 		
