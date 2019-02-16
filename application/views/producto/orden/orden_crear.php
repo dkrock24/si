@@ -20,181 +20,85 @@ $(document).ready(function(){
     $('#producto_modal').appendTo("body");
     $('#cliente_modal').appendTo("body");
     $('#vendedores_modal').appendTo("body");
+    $('#presentacion_modal').appendTo("body");
     $('.dataSelect').hide();
-    
-// 1 - Modal de Productos (Lista de productos dentro del modal )
-    $(document).on('keyup', '.producto_buscar', function(){
-      	//$('#producto_modal').modal('show');
-        //$("#codigo_barra_seleccionado").focus();
+    $('.dataSelect2').hide();
+    $(".producto_buscar").focus();
 
-        //get_productos_lista();
+/* 1 - Input Buscar Producto */
+    $(document).on('keyup', '.producto_buscar', function(){
         
-        abc(this.value);
+        search_texto(this.value);
         
     });    
+/* 2 - Filtrado del texto a buscar en productos */
+    function search_texto(texto){
 
-    function abc(texto){
-        //alert(texto);
-        sucursal = 1; //$("#sucursal_id").val();
+        $('.dataSelect').show();
+        sucursal = $("#sucursal_id").val();
         
         var contador_precios=1;
         var table_tr="";
-        //if( sucursal != interno_sucursal){
-        if( sucursal == 1){
+        if( sucursal != interno_sucursal){
+        
             interno_sucursal = sucursal;
             $.ajax({
                 url: "get_productos_lista/"+sucursal+"/"+texto,
                 datatype: 'json',      
                 cache : false,                
 
-                    success: function(data){
-                        var datos = JSON.parse(data);
-                        var productos = datos["productos"];
-                        var producto_id = 0;
-                        _productos_lista = productos;
-                        $('.dataSelect').show();
-                        $.each(productos, function(i, item) { 
-
-                            if(producto_id != item.id_entidad){
-                                producto_id = item.id_entidad;  
-                                var precio = 0;
-                                
-                                table_tr += '<option>'+item.name_entidad+'</option>';
-                                
-                                contador_precios++;
-                            }
-                            
-                        });
-
-                        $(".dataSelect").html(table_tr);
-                    
-                    },
-                    error:function(){
-                    }
-                });
+                success: function(data){
+                    var datos = JSON.parse(data);
+                    var productos = datos["productos"];
+                    var producto_id = 0;
+                    _productos_lista = productos;
+                    $('.dataSelect').show();
+                
+                },
+                error:function(){
+                }
+            });
         }else{
+
             var productos = _productos_lista;
             var producto_id = 0;
             interno_sucursal = sucursal;
             $.each(productos, function(i, item) { 
 
-                if(producto_id != item.id_entidad){
+                var name = item.name_entidad.toUpperCase();
+                var cod_barra = item.cod_barra;
+
+                if(name.includes(texto.toUpperCase()) || cod_barra.includes(texto)){
                     producto_id = item.id_entidad;  
                     var precio = 0;
                     
-                    table_tr += '<option>'+item.name_entidad+'</option>';
+                    table_tr += '<option value="'+item.id_entidad+'">'+item.name_entidad+'</option>';
+                    //table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.cod_barra+'</td><td>'+item.id_entidad+'</td><td>'+item.cantidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_producto" id="'+item.id_entidad+'">Agregar</a></td></tr>';
                     contador_precios++;
                 }
                 
             });
 
-             $("#select2-1").html(table_tr);
+            $(".dataSelect").html(table_tr);
         }
     }
 
+/* 3 - Selecionado Producto de la lista y precionando ENTER */
     $(document).on('keypress', '.dataSelect', function(){
         
         if ( event.which == 13 ) {
+            get_producto_completo(this.value);
             event.preventDefault();
             $("#producto_buscar").val(this.value);
             $('.dataSelect').hide();
+            $('.dataSelect').empty();
         }
         
     });
 
-    
-    
-// 2 - Retornando lista de productos dentro de la tabla
-    function get_productos_lista(){
-
-        sucursal = $("#sucursal_id").val();
-        
-        var table = "<table class='table table-sm table-hover'>";
-            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
-            table += "<th>#</th><th>Nombre</th><th>Codigo</th><th>Id Producto</th><th>Cantidad</th><th>Marca</th><th>Categoria</th><th>Sub Categoria</th><th>Giro</th><th>Empresa</th><th>Action</th>";
-        var table_tr = "<tbody id='list'>";
-        var contador_precios=1;
-
-        $(".productos_lista_datos").html();
-        
-        if( sucursal != interno_sucursal){
-            
-            interno_sucursal = sucursal;
-            $.ajax({
-                url: "get_productos_lista/"+sucursal,
-                datatype: 'json',      
-                cache : false,                
-
-                    success: function(data){
-                        var datos = JSON.parse(data);
-                        var productos = datos["productos"];
-                        var producto_id = 0;
-                        _productos_lista = productos;
-                        
-                        $.each(productos, function(i, item) { 
-
-                        	if(producto_id != item.id_entidad){
-                        		producto_id = item.id_entidad;	
-                        		var precio = 0;
-    	                    	
-    	                        table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.cod_barra+'</td><td>'+item.id_entidad+'</td><td>'+item.cantidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_producto" id="'+item.id_entidad+'">Agregar</a></td></tr>';
-    	                        contador_precios++;
-                            }
-                            
-                        });
-                        table += table_tr;
-                        table += "</tbody></table>";
-
-                        $(".productos_lista_datos").html(table);
-                    
-                    },
-                    error:function(){
-                    }
-                });
-        }else{
-            var productos = _productos_lista;
-            var producto_id = 0;
-            interno_sucursal = sucursal;
-            
-            $.each(productos, function(i, item) { 
-
-                if(producto_id != item.id_entidad){
-                    producto_id = item.id_entidad;  
-                    var precio = 0;
-                    
-                    table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.cod_barra+'</td><td>'+item.id_entidad+'</td><td>'+item.cantidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_producto" id="'+item.id_entidad+'">Agregar</a></td></tr>';
-                    contador_precios++;
-                }
-                
-            });
-            table += table_tr;
-            table += "</tbody></table>";
-
-            $(".productos_lista_datos").html(table);
-        }
-    }
-
-// filtrar producto
-    $(document).on('keyup', '#buscar_producto', function(){
-        var texto_input = $(this).val();
-
-        $("#list tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
-        });
-
-    });
-
-// 3 - Selecionar el producto del Modal de productos
-    $(document).on('click', '.seleccionar_producto', function(){
-        var producto_id = $(this).attr('id');
-        get_producto_completo(producto_id);
-        $('#producto_modal').modal('hide');
-    });
-
-// 4 - Buscar producto por Id para agregarlo a la linea
+/* 4 - Buscar producto por Id para agregarlo a la linea */
     function get_producto_completo(producto_id){
       $("#grabar").attr('disabled');
-
     	var codigo,presentacion,tipo,precioUnidad,descuento,total
 
     	/*
@@ -218,7 +122,7 @@ $(document).ready(function(){
 
                 if( parseInt(_productos_precio.length) > 1){
                     get_presentacio_lista( _productos_precio );
-                    $('#presentacion_modal').modal('show');
+                    //$('#presentacion_modal').modal('show');
                 }else{
                     
                 }
@@ -257,60 +161,57 @@ $(document).ready(function(){
         });
     }
 
-// 5 - Retornando lista de presentaciones dentro de la tabla
+/* 5 - Retornando lista de presentaciones dentro de la tabla */
     function get_presentacio_lista( _productos_precio ){
-        
-        var table = "<table class='table table-sm table-hover'>";
-            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
-            table += "<th>#</th><th>Presentacion</th><th>Factor</th><th>Precio</th><th>Unidad</th><th>Cod Barra</th><th>Estado</th><th>Action</th>";
-        var table_tr = "<tbody id='list'>";
-        var contador_precios=1;
 
-        $(".presentacion_lista_datos").html();
-              
+        var contador_precios=1;
+        var table_tr;
         $.each(_productos_precio, function(i, item) { 
             
-            table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.presentacion+'</td><td><div class="pull-center label label-success">'+item.factor+'</div></td><td>'+item.precio+'</td><td>'+item.unidad+'</td><td>'+item.cod_barra+'</td><td>'+item.estado_producto_detalle+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_presentacion" id="'+item.id_producto_detalle+'">Seleccionar</a></td></tr>';
+            //table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.presentacion+'</td><td><div class="pull-center label label-success">'+item.factor+'</div></td><td>'+item.precio+'</td><td>'+item.unidad+'</td><td>'+item.cod_barra+'</td><td>'+item.estado_producto_detalle+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_presentacion" id="'+item.id_producto_detalle+'">Seleccionar</a></td></tr>';
+            table_tr += '<option value="'+item.id_producto_detalle+'">'+item.presentacion+'</option>';
             contador_precios++;
             
         });
-        table += table_tr;
-        table += "</tbody></table>";
-
-        $(".presentacion_lista_datos").html(table);
+        $(".dataSelect2").html(table_tr);
+        $('.dataSelect2').show();
+        $('.dataSelect2').focus();
+        
     }
 
-// 6 - Poner Precios de producto en Objeto _productos
-    $(document).on('click', '.seleccionar_presentacion', function(){
-        var precio_id = $(this).attr('id');
-        
-        //Set precio to array producto
 
-        $.each(_productos_precio, function(i, item) { 
-            if(precio_id == item.id_producto_detalle){
-                _productos.presentacion = item.presentacion;
-                _productos.presentacionFactor = item.factor;
-                _productos.presentacionPrecio = item.precio;
-                _productos.presentacionUnidad = item.unidad;
-                _productos.presentacionCliente = item.Cliente;
-                _productos.presentacionCliente = item.Sucursal;
-                _productos.presentacionCodBarra = item.cod_barra;
+/* 6 - Selecionado Presentacion de la lista y precionando ENTER */
+    $(document).on('keypress', '.dataSelect2', function(){
 
-                _productos.precioUnidad = item.unidad;
-                _productos.total = item.precio;
-                _productos.producto2 = item.id_producto_detalle
+        if ( event.which == 13 ) {
+            var precio_id = this.value;
+            event.preventDefault();
+            $('.dataSelect2').hide();
+            $('.dataSelect2').empty();
 
-                $("#presentacion").val( _productos.presentacion );
-                $("#precioUnidad").val( _productos.presentacionUnidad );
-                $("#factor").val(item.factor);
+            $.each(_productos_precio, function(i, item) { 
 
+                if(precio_id == item.id_producto_detalle){
+                    _productos.presentacion = item.presentacion;
+                    _productos.presentacionFactor = item.factor;
+                    _productos.presentacionPrecio = item.precio;
+                    _productos.presentacionUnidad = item.unidad;
+                    _productos.presentacionCliente = item.Cliente;
+                    _productos.presentacionCliente = item.Sucursal;
+                    _productos.presentacionCodBarra = item.cod_barra;
 
+                    _productos.precioUnidad = item.unidad;
+                    _productos.total = item.precio;
+                    _productos.producto2 = item.id_producto_detalle
 
-                set_calculo_precio(item.unidad, item.factor);
-            }
-        });
+                    $("#presentacion").val( _productos.presentacion );
+                    $("#precioUnidad").val( _productos.presentacionUnidad );
+                    $("#factor").val(item.factor);
 
-        $('#presentacion_modal').modal('hide');
+                    set_calculo_precio(item.unidad, item.factor);
+                }
+            });
+        }
     });
 
 // 7 - Grabar producto en la orden
@@ -930,6 +831,10 @@ $(document).ready(function(){
                             <div class="col-lg-4">
                                 <input type="text" class="form-control border-input producto_buscar" name="producto_buscar" width="100%">
                                 <select multiple="" class="form-control dataSelect">
+
+                                </select>
+
+                                <select multiple="" class="form-control dataSelect2">
 
                                 </select>
                             </div>
