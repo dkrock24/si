@@ -25,10 +25,10 @@ class Producto_model extends CI_Model {
         
         function getProd(){
 	        
-	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, CP.cantidad
+	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, CPr.cantidad
 	        	,(select pv1.valor from producto_valor as pv1 where pv1.id_prod_atributo=PA.id_prod_atrri ) as Precio
 				FROM `producto` as `P`
-				LEFT JOIN `pos_cantidad_productos` as `CP` ON `P`.`id_entidad` = `CP`.`Producto_Cantidad_Productos`
+				LEFT JOIN `pos_cantidad_productos` as `CPr` ON `P`.`id_entidad` = `CPr`.`Producto_Cantidad_Productos`
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
 				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
 				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
@@ -39,7 +39,7 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
 				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 group by P.id_entidad ");
 
-		        echo $this->db->queries[2];
+		        //echo $this->db->queries[2];
 		        return $query->result();
 
 		}

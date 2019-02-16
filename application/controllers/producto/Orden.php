@@ -35,7 +35,7 @@ class Orden extends CI_Controller {
 		$vista_id = 8; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
-		$data['prod'] = $this->Producto_model->getProd( );
+		$data['ordenes'] = $this->Orden_model->getOrdenes( );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'producto/orden/orden_lista';
 
@@ -46,21 +46,23 @@ class Orden extends CI_Controller {
 		// Seguridad :: Validar URL usuario	
 		$terminal_acceso = FALSE;
 
-		$menu_session = $this->session->menu;	
+		$menu_session 	= $this->session->menu;	
 		parametros($menu_session);
 
-		$id_rol = $this->session->roles[0];
-		$id_usuario = $this->session->usuario[0]->id_usuario;
+		$id_rol 		= $this->session->roles[0];
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$terminal_acceso = $this->validar_usuario_terminal( $id_usuario );
 
-		$data['menu'] = $this->session->menu;
-		IF($terminal_acceso == TRUE){
+		$data['menu'] 	= $this->session->menu;
+
+		IF($terminal_acceso){
 			
 			$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
 			$data['sucursales'] = $this->Producto_model->get_sucursales();
 			$data['modo_pago'] = $this->ModoPago_model->get_formas_pago();
 			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
+			$data['terminal'] = $terminal_acceso;
 			$data['correlativo'] = $this->Correlativo_model->get_correlativo_by_sucursal( $id_usuario);
 
 			$data['home'] = 'producto/orden/orden_crear';
@@ -79,20 +81,34 @@ class Orden extends CI_Controller {
 		$id_usuario = $this->session->usuario[0]->id_usuario;
 
 		// Guardar Orden en Modelo
+		//var_dump($_POST);
+		//die;
 
-		$this->Orden_model->guardar_orden( $_POST , $id_usuario);
+		// Obteniendo informacion del cliente
+		$cliente = $this->get_clientes_id($_POST['encabezado'][6]['value']);
+
+		$this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente );
 
 		redirect(base_url()."producto/orden/nuevo");
 	}
 
-	function get_productos_lista( $sucursal ){
-		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal);
+	function get_productos_lista( $sucursal , $texto ){
+		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal , $texto);
 		echo json_encode( $data );
 	}
 
 	function get_clientes_lista(){
+		// Obteniendo Lista Cliente desde Model Cliente
+
 		$data['clientes'] = $this->Cliente_model->get_cliente();
 		echo json_encode( $data );
+	}
+
+	function get_clientes_id( $cliente_id ){
+		// Obteniendo el cliente by ID desde Model Cliente
+
+		$data = $this->Cliente_model->get_clientes_id( $cliente_id );
+		return $data;
 	}
 
 	function get_empleados_by_sucursal($sucursal){

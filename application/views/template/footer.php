@@ -45,8 +45,10 @@
    <script src="<?php echo base_url(); ?>../asstes/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
 
     -->
-   <script src="<?php echo base_url(); ?>../asstes/vendor/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="<?php echo base_url(); ?>../asstes/js/app.js"></script>
+  <script src="<?php echo base_url(); ?>../asstes/vendor/sweetalert/dist/sweetalert.min.js"></script>
+
+  <script src="<?php echo base_url(); ?>../asstes/vendor/select2/dist/js/select2.js"></script>
+  <script src="<?php echo base_url(); ?>../asstes/js/app.js"></script>
   </div>
 
   </body>

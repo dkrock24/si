@@ -16,10 +16,13 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Nombre</th>
+                                <th>Sub Menu Nombre</th>
                                 <th>Url</th>
                                 <th>Icono</th>
-                                <th>Rol</th>
+                                <th>Tutulo</th>
+                                <th>Vista</th>
+                                <th>Vista Codigo</th>
+                                <th>Tipo</th>
                                 <th>Estado</th>
                                 <th>
                                      <div class="btn-group">
@@ -29,7 +32,7 @@
                                           <span class="sr-only">default</span>
                                        </button>
                                        <ul role="menu" class="dropdown-menu">
-                                          <li><a href="../nuevo_submenu/<?php echo isset($submenus[0]->id_menu); ?>">Nuevo</a>                </li>
+                                          <li><a href="../nuevo_submenu/<?php echo $submenus[0]->id_menu; ?>">Nuevo</a>                </li>
                                           <li><a href="#">Exportar</a>              </li>
                                           <li class="divider"></li>
                                           <li><a href="#">Otros</a>
@@ -46,51 +49,62 @@
                             if(isset($submenus)){
 
                             foreach ($submenus as $sub) {
-                                //var_dump($sub);
                                     
+                            ?>
+                            <tr>
+                                <th scope="row"><?php echo $contado; ?></th>
+                                <td><?php echo $sub->nombre_submenu; ?></td>
+                                <td><?php echo $sub->url_submenu; ?></td>
+                                <td><i class="<?php echo $sub->icon_submenu; ?>"></i> <?php echo $sub->icon_submenu; ?></td>
+                                <td><?php echo $sub->titulo_submenu; ?></td>
+                                <td><?php echo $sub->vista_nombre; ?></td>
+                                <td><?php echo $sub->vista_codigo; ?></td>
+                                <td><?php 
+                                    if($sub->estado_referencia == null){
+                                        ?>
+                                        <span class="label label-primary">Principal</span>
+                                        <?php
+                                    } else{
+                                        ?>
+                                        <span class="label label-warning">Interno</span>
+                                        <?php
+                                    }
                                     ?>
-                                    <tr>
-                                        <th scope="row"><?php echo $contado; ?></th>
-                                        <td><?php echo $sub->nombre_submenu; ?></td>
-                                        <td><?php echo $sub->url_submenu; ?></td>
-                                        <td><i class="<?php echo $sub->icon_submenu; ?>"></i> <?php echo $sub->icon_submenu; ?></td>
-                                        <td>
-                                            <?php 
-                                                if($sub->estado_submen==1){
-                                                    ?>
-                                                    <span class="label label-success">Activo</span>
-                                                    <?php
-                                                }?></td>
-                                        <td><?php echo $sub->titulo_submenu; ?></td>
-                                        <td>
+                                </td>
+                                <td>
+                                <?php 
+                                    if($sub->estado_submen==1){
+                                        ?>
+                                        <span class="label label-success">Activo</span>
+                                        <?php
+                                    }?>
+                                </td>
+                                
+                                <td>
                                                                       
-                                                <div class="btn-group mb-sm">
-                                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs">Opcion
-                              <span class="caret"></span>
-                           </button>
-                                                    <ul role="menu" class="dropdown-menu">
-                                                        <li><a href="../editar_sub_menu/<?php echo $sub->id_submenu; ?>">Editar</a></li>
-                                                        <li><a href="../delete_sub_menu/<?php echo $sub->id_submenu; ?>">Eliminar</a></li>
-                                                    </ul>
-                                                </div>
+                                <div class="btn-group mb-sm">
+                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs">Opcion
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul role="menu" class="dropdown-menu">
+                                        <li><a href="../editar_sub_menu/<?php echo $sub->id_submenu; ?>">Editar</a></li>
+                                        <li><a href="../delete_sub_menu/<?php echo $sub->id_submenu; ?>/<?php echo $submenus[0]->id_menu; ?>">Eliminar</a></li>
+                                    </ul>
+                                </div>
                                           
-                                        </td>
-                                    </tr>
-                                    <?php
-                                    $contado+=1;
-                                
-                                
+                                </td>
+                            </tr>
+                            <?php
+                            $contado+=1;
                             }
                         }
-
                         ?>                      
                                    
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
-
+            </div>
+        </div>
 
     </div>
 </section>

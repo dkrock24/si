@@ -20,14 +20,89 @@ $(document).ready(function(){
     $('#producto_modal').appendTo("body");
     $('#cliente_modal').appendTo("body");
     $('#vendedores_modal').appendTo("body");
+    $('.dataSelect').hide();
     
 // 1 - Modal de Productos (Lista de productos dentro del modal )
-    $(document).on('click', '.producto_buscar', function(){
-      	$('#producto_modal').modal('show');
-        $("#codigo_barra_seleccionado").focus();
+    $(document).on('keyup', '.producto_buscar', function(){
+      	//$('#producto_modal').modal('show');
+        //$("#codigo_barra_seleccionado").focus();
 
-        get_productos_lista();
+        //get_productos_lista();
+        
+        abc(this.value);
+        
+    });    
+
+    function abc(texto){
+        //alert(texto);
+        sucursal = 1; //$("#sucursal_id").val();
+        
+        var contador_precios=1;
+        var table_tr="";
+        //if( sucursal != interno_sucursal){
+        if( sucursal == 1){
+            interno_sucursal = sucursal;
+            $.ajax({
+                url: "get_productos_lista/"+sucursal+"/"+texto,
+                datatype: 'json',      
+                cache : false,                
+
+                    success: function(data){
+                        var datos = JSON.parse(data);
+                        var productos = datos["productos"];
+                        var producto_id = 0;
+                        _productos_lista = productos;
+                        $('.dataSelect').show();
+                        $.each(productos, function(i, item) { 
+
+                            if(producto_id != item.id_entidad){
+                                producto_id = item.id_entidad;  
+                                var precio = 0;
+                                
+                                table_tr += '<option>'+item.name_entidad+'</option>';
+                                
+                                contador_precios++;
+                            }
+                            
+                        });
+
+                        $(".dataSelect").html(table_tr);
+                    
+                    },
+                    error:function(){
+                    }
+                });
+        }else{
+            var productos = _productos_lista;
+            var producto_id = 0;
+            interno_sucursal = sucursal;
+            $.each(productos, function(i, item) { 
+
+                if(producto_id != item.id_entidad){
+                    producto_id = item.id_entidad;  
+                    var precio = 0;
+                    
+                    table_tr += '<option>'+item.name_entidad+'</option>';
+                    contador_precios++;
+                }
+                
+            });
+
+             $("#select2-1").html(table_tr);
+        }
+    }
+
+    $(document).on('keypress', '.dataSelect', function(){
+        
+        if ( event.which == 13 ) {
+            event.preventDefault();
+            $("#producto_buscar").val(this.value);
+            $('.dataSelect').hide();
+        }
+        
     });
+
+    
     
 // 2 - Retornando lista de productos dentro de la tabla
     function get_productos_lista(){
@@ -169,6 +244,10 @@ $(document).ready(function(){
                 	_productos.cantidad = producto_cantidad_linea;
                 	_productos.total = $("#total").val();
                     _productos.bodega = datos['producto'][0].nombre_bodega;
+                    _productos.impuesto_id = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
+                    _productos.impuesto_porcentaje = datos['producto'][0].porcentage;
+                    _productos.incluye_iva = datos['producto'][10].valor;
+                    _productos.iva = datos['producto'][9].valor;
                     _productos.descripcion = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
                 
                 
@@ -520,7 +599,7 @@ $(document).ready(function(){
                             cliente_id = item.id_cliente;   
                             var precio = 0;
                             
-                            table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.id_cliente+'</td><td>'+item.nombre_empresa_o_compania+'</td><td>'+item.nrc_cli+'</td><td>'+item.nit_cliente+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_cliente" id="'+item.id_cliente+'" name="'+item.nombre_empresa_o_compania+'" rel="'+item.direccion_cliente+'">Agregar</a></td></tr>';
+                            table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.id_cliente+'</td><td>'+item.nombre_empresa_o_compania+'</td><td>'+item.nrc_cli+'</td><td>'+item.nit_cliente+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_cliente" id="'+item.id_cliente+'" name="'+item.nombre_empresa_o_compania+'" rel="'+item.direccion_cliente+'" impuesto="'+item.aplica_impuestos+'">Agregar</a></td></tr>';
                             contador_precios++;
                         }
                         
@@ -546,6 +625,7 @@ $(document).ready(function(){
             url: "guardar_orden",
 
             success: function(data){
+                location.reload();
             },
             error:function(){
             } 
@@ -557,6 +637,7 @@ $(document).ready(function(){
         $("#cliente_codigo").val($(this).attr('id'));
         $("#cliente_nombre").val($(this).attr('name'));
         $("#direccion_cliente").val($(this).attr('rel'));
+        $("#impuesto").val($(this).attr('impuesto'));
         $('#cliente_modal').modal('hide');
     });
 
@@ -642,6 +723,10 @@ $(document).ready(function(){
     .border-table-right{
         border-right: 1px solid grey;
     }
+
+    .select2-results__option:hover{
+        background: red;
+    }
 </style>
 
 <!-- Main section-->
@@ -662,6 +747,17 @@ $(document).ready(function(){
 
                  <!-- START panel-->
                 <form name="encabezado_form" id="encabezado_form" method="post" action="">
+
+                    <!-- Campos de la terminal -->
+                    <input type="hidden" name="terminal_id" value="<?php echo $terminal[0]->id_terminal; ?>"/>
+                    <input type="hidden" name="terminal_numero" value="<?php echo $terminal[0]->numero; ?>"/>
+                    <!-- Fin Campos de la terminal -->
+
+                    <!-- Campos del cliente -->
+                    <input type="hidden" name="impuesto" value="" id="impuesto" />
+                    <!-- Fin Campos del cliente -->
+
+
                      <div id="panelDemo1" class="panel panel-default">
                         <div class="panel-heading"><i class="fa fa-arrow-right"></i> Datos Generales
                            <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right">
@@ -831,6 +927,15 @@ $(document).ready(function(){
                     <!-- START table-responsive-->
                         <div class="table-responsive" >
                            <table class="table table-sm table-hover">
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control border-input producto_buscar" name="producto_buscar" width="100%">
+                                <select multiple="" class="form-control dataSelect">
+
+                                </select>
+                            </div>
+  
+                            </span>
+                            
                               <thead>
                                  <tr>
                                     <th>#</th>
@@ -848,7 +953,8 @@ $(document).ready(function(){
                               </thead>
                               <tbody class="uno" style="border-bottom: 3px solid grey">
                               	<tr style="border-bottom: 3px solid grey">
-                                    <td colspan="2"><input type="text" class="form-control producto_buscar border-input" id="producto" size="2" name="producto">
+                                    <td colspan="2">
+                                        <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar">
                                     </td>
                                     <td><input type="text" class="form-control border-input" id="descripcion" name="descripcion"></td>
                                     <td><input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000"></td>

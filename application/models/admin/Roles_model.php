@@ -59,14 +59,14 @@ class Roles_model extends CI_Model {
 
         $ultimo_id = $this->db->insert_id();
 
-        $query = "select distinct id_menu from sys_menu";
+        $query = "select distinct id_submenu from sys_menu_submenu";
         $query = $this->db->query($query);  
         $data_menu = $query->result_array(); 
 
         foreach ($data_menu as $value) {
-            $a = $value['id_menu'];
-            $inset_acceso = "insert into sys_menu_acceso (id_rol,id_menu,id_usuario,estado)
-            values($ultimo_id,$a,0,0)";
+            $a = $value['id_submenu'];
+            $inset_acceso = "insert into sys_submenu_acceso (id_submenu,id_role,submenu_acceso_estado)
+            values($a,$ultimo_id,0)";
             $this->db->query($inset_acceso);
         } 
     }

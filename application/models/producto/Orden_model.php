@@ -31,15 +31,20 @@ class Orden_model extends CI_Model {
 		const pos_tipo_documento = 'pos_tipo_documento';
 
 		function getOrdenes(){
-			$this->db->select('*');
-	        $this->db->from(self::pos_ordenes);
-	        $query = $this->db->get(); 
-	        //echo $this->db->queries[1];
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
+			$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,
+orden.num_correlativo,orden.fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal
+,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago
+
+from pos_ordenes as orden 
+
+left join pos_cliente as cliente on cliente.id_cliente = orden.id_cliente
+left join pos_sucursal as sucursal on sucursal.id_sucursal=orden.id_sucursal
+left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = orden.id_tipod
+left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
+left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago");
+
+		    //echo $this->db->queries[1];
+		    return $query->result();
 		}
 
 		function get_tipo_documentos(){
@@ -54,7 +59,7 @@ class Orden_model extends CI_Model {
 	        }
 		}
 
-		function get_productos_valor($sucursal){
+		function get_productos_valor($sucursal , $texto){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as cod_barra, Cantidad_P.cantidad
@@ -72,9 +77,10 @@ class Orden_model extends CI_Model {
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
-				WHERE pa.Atributo = 4 and b.Sucursal='".$sucursal."' order by P.id_entidad");
+				WHERE pa.Atributo = 4 and b.Sucursal='".$sucursal."' 
+				and (pv2.valor='".$texto."' or P.name_entidad like'%". $texto."%')   order by P.id_entidad");
 
-		        //echo $this->db->queries[1];
+		        //echo $this->db->queries[0];
 		        return $query->result();
 
 		}
@@ -83,6 +89,7 @@ class Orden_model extends CI_Model {
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor, b.nombre_bodega, pinv.id_inventario
+	        		, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, impuestos.porcentage
 
 				FROM `producto` as `P`
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
@@ -97,9 +104,11 @@ class Orden_model extends CI_Model {
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
-				LEFT JOIN pos_inventario AS pinv on pinv.Producto = P.id_entidad
-				WHERE P.id_entidad = ". $producto_id);
+				LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
+				LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
+				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
 
+				WHERE P.id_entidad = ". $producto_id);
 		        //echo $this->db->queries[1];
 		        return $query->result();
 
@@ -115,71 +124,86 @@ class Orden_model extends CI_Model {
 
 		}
 
-		function guardar_orden( $orden , $id_usuario){
+		function guardar_orden( $orden , $id_usuario , $cliente ){
+
+			$total_orden = $orden['orden'][0]['total'];
+
+			//Precio Orden con Impuesto
+			$cliente_aplica_impuesto = $cliente[0]->aplica_impuestos;
+			if($cliente_aplica_impuesto ==1){
+				$total_orden += ($orden['orden'][0]['total'] *$orden['orden'][0]['impuesto_porcentaje']);
+			}
+
+			$desc_val = ($orden['orden'][0]['impuesto_porcentaje'] * $orden['orden'][0]['total']);
+
+			//var_dump($orden);
 
 			$data = array(
-	            'id_sucursal' 	=> $orden['sucursal_origin'],
-	            'id_caja' 		=> "0",
-	            'id_cajero' 	=> $orden['vendedor'],
-	            'id_vendedor' 	=> $orden['vendedor'],
-	            'id_condpago' 	=> "0",
-	            'id_tipod' 		=> $orden['modo_pago_id'],
+				'id_caja' 		=> $orden['encabezado'][0]['value'], //terminal_id
+				'num_caja' 		=> $orden['encabezado'][1]['value'], //terminal_numero
+				'd_inc_imp0' 	=> $orden['encabezado'][2]['value'], //impuesto
+				'num_correlativo'=>$orden['encabezado'][5]['value'], //numero correlativo
+				'id_cliente' 	=> $orden['encabezado'][6]['value'], //cliente_codigo
+				'nombre' 		=> $orden['encabezado'][7]['value'], //cliente_nombre
+				'id_condpago' 	=> $orden['encabezado'][9]['value'], //modo_pago_id
+				'id_tipod' 		=> $orden['encabezado'][9]['value'], //modo_pago_id
+				'comentarios' 	=> $orden['encabezado'][10]['value'],//comentarios
+	            'id_sucursal' 	=> $orden['encabezado'][12]['value'], //sucursal_origin
+	            'id_cajero' 	=> $orden['encabezado'][13]['value'], //vendedor
+	            'id_vendedor' 	=> $orden['encabezado'][13]['value'], //vendedor
+
 	            'id_usuario' 	=> $id_usuario,
-	            'num_caja' 		=> "0",
-	            'num_correlativo'=> $orden['numero'],
-	            'fecha' 		=> date("Y-m-d h:i:s"),
-	            'id_cliente' 	=> $orden['cliente_codigo'],
-	            'nombre' 		=> $orden['cliente_nombre'],
-	            'digi_total' 	=> $orden['total'],
-	            'd_inc_imp0' 	=> "0",
-	            'desc_porc' 	=> "0",
-	            'desc_val' 		=> "0",
-	            'total_doc' 	=> "0",
+	            'fecha' 		=> date("Y-m-d h:i:s"),	            
+	            'digi_total' 	=> $total_orden,
+	            'desc_porc' 	=> $orden['orden'][0]['impuesto_porcentaje'],
+	            'desc_val' 		=> $desc_val,
+	            'total_doc' 	=> $total_orden,
 	            'fh_inicio' 	=> date("Y-m-d h:i:s"),
 	            'fh_final' 		=> date("Y-m-d h:i:s"),
-	            'id_venta' 		=> "0",
-	            'facturado_el' 	=> "0",
-	            'anulado' 		=> "0",
-	            'anulado_el' 	=> "0",
-	            'anulado_conc' 	=> "0",
-	            'estado_el' 	=> "0",
-	            'reserv_producs' => "0",
-	            'reserv_conc' 	=> "0",
+	            'id_venta' 		=> 0, // Actualizara al procesar la venta
+	            'facturado_el' 	=> 0, // Actualizara al procesar la venta
+	            'anulado' 		=> 0, // Actualizara al procesar alguna accion
+	            //'anulado_el' 	=> "", // Actualizara al procesar alguna accion
+	            //'anulado_conc'=> "", // Actualizara al procesar alguna accion
+	            //'cod_estado'	=> "0",
+	            //'estado_el' 	=> "0",
+	            //'reserv_producs' => "0",
+	            //'reserv_conc' 	=> "0",
 	            'fecha_inglab' 	=> date("Y-m-d h:i:s"),
-	            'fecha_entreg' 	=> date("Y-m-d h:i:s"),
-	            'tiempoproc' 	=> "0",
-	            'creado_el' 	=> "0",
-	            'comentarios' 	=> $orden['comentarios'],
-	            'modi_el' 		=> "0",
+	            //'fecha_entreg' 	=> date("Y-m-d h:i:s"),
+	            //'tiempoproc' 	=> "0",
+	            'creado_el' 	=> date("Y-m-d h:i:s"),
+	            //'modi_el' 		=> "0",
         	);
 
         	$this->db->insert(self::pos_ordenes, $data ); 
 			$id_orden = $this->db->insert_id();
-				
-			guardar_orden_detalle( $id_orden , $orden );		
+
+			$this->guardar_orden_detalle( $id_orden , $orden );		
 		}
 
 		function guardar_orden_detalle( $id_orden , $datos ){
 			foreach ($datos['orden'] as $key => $orden) {
+				var_dump($orden);
 				$data = array(
 		            'id_orden' 		=> $id_orden,
-		            'id_item' 		=> $orden['id_entidad'],
-		            'id_inve_prod' 	=> $orden['id_inventario'],
+		            'id_item' 		=> $orden['producto_id'],
+		            'id_inve_prod' 	=> $orden['inventario_id'],
 		            'descripcion' 	=> $orden['descripcion'],
 		            'presenta_ppal' => $orden['presentacion'],
 		            'digi_cant' 	=> $orden['cantidad'],
 		            'presentacion' 	=> $orden['presentacion'],
 		            'cant_factor' 	=> $orden['presentacionFactor'],
-		            'tipoprec' 		=> $orden[''],
-		            'digi_prec' 	=> $orden[''],
-		            'gen' 			=> $orden[''],
-		            'p_inc_imp0' 	=> $orden[''],
-		            'val_desc' 		=> $orden[''],
-		            'por_desc' 		=> $orden[''],
-		            'comenta' 		=> $orden[''],
-		            'id_bomba' 		=> $orden[''],
-		            'id_kit' 		=> $orden[''],
-		            'tp_c' 			=> $orden[''],
+		            'tipoprec' 		=> $orden['presentacion'],
+		            'digi_prec' 	=> $orden['precioUnidad'],
+		            'gen' 			=> $orden['incluye_iva'],
+		            //'p_inc_imp0' 	=> $orden['orden'][0][''],
+		            'val_desc' 		=> $orden['descuento'],
+		            'por_desc' 		=> $orden['descuento'],
+		            'comenta' 		=> $orden['descripcion'],
+		            //'id_bomba' 		=> $orden[''],
+		            //'id_kit' 		=> $orden[''],
+		            //'tp_c' 			=> $orden[''],
 		            'creado_el' 	=> date("Y-m-d h:i:s"),
 		            'modi_el' 		=> date("Y-m-d h:i:s"),
 	        	);

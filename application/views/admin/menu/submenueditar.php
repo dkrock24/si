@@ -77,6 +77,28 @@
                                             </div>
 
                                             <div class="form-group">
+                                                <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Vista</label>
+                                                <div class="col-sm-10">
+                                                    <select name="vista" class="form-control">
+                                                        <?php foreach ($vistas as $vistas) {
+                                                            if( $vistas->id_vista == $onMenu[0]->id_vista){
+                                                            ?>
+                                                            <option value="<?php echo $vistas->id_vista ?>"><?php echo $vistas->vista_nombre ?></option>
+                                                            <?php
+                                                            }
+                                                        } ?>
+                                                        <?php foreach ($vistas2 as $demo) {
+                                                             if( $demo->id_vista != $onMenu[0]->id_vista){
+                                                            ?>
+                                                            <option value="<?php echo $demo->id_vista ?>"><?php echo $demo->vista_nombre ?></option>
+                                                            <?php
+                                                            }
+                                                        } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
                                                     
                                                         <label>

@@ -16,6 +16,9 @@
    
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/sweetalert/dist/sweetalert.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/bootstrap.css" id="bscss">
+
+    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/select2/dist/css/select2.css">
     
 
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/app.css" id="maincss">

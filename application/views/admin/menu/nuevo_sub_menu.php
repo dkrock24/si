@@ -74,6 +74,20 @@
                                             </div>
 
                                             <div class="form-group">
+                                                <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Vista</label>
+                                                <div class="col-sm-10">
+                                                    <select name="vista" class="form-control">
+                                                        <?php foreach ($vistas2 as $demo) {
+                                                            ?>
+                                                            <option value="<?php echo $demo->id_vista ?>"><?php echo $demo->vista_nombre ?></option>
+                                                            <?php
+                                                            
+                                                        } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
                                                     
                                                         <label>

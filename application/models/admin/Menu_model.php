@@ -10,6 +10,7 @@ class Menu_model extends CI_Model {
     const sys_menu_submenu = 'sys_menu_submenu';
     const submenu_acceso = 'sys_submenu_acceso';
     const sys_menu = 'sys_menu';
+    const sys_vistas = 'sys_vistas';
 
 
     function getMenu( $roles_id ){
@@ -48,9 +49,11 @@ class Menu_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::menu);       
-        $this->db->join('sys_menu_submenu as S','on '. self::menu .'.id_menu = S.id_menu');          
+        $this->db->join('sys_menu_submenu as S','on '. self::menu .'.id_menu = S.id_menu');       
+        $this->db->join('sys_vistas as V','on V.id_vista = S.id_vista');
         $this->db->where(self::menu.'.id_menu',$id_menu );     
-        $this->db->where('S.estado_submen',1);             
+        $this->db->where('S.estado_submen',1);
+        //$this->db->where('S.estado_referencia',null);
         $query = $this->db->get();    
         //echo $this->db->queries[2];
         //die;
@@ -79,6 +82,7 @@ class Menu_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::submenu);
+        $this->db->join('sys_vistas as V','on V.id_vista = '.self::sys_menu_submenu.'.id_vista');     
         $this->db->where('id_submenu',$id_sub_menu );             
         $query = $this->db->get();    
         //echo $this->db->queries[2];
@@ -122,6 +126,7 @@ class Menu_model extends CI_Model {
             'titulo_submenu'    => $submenu['titulo_submenu'],
             'icon_submenu'         => $submenu['icon_submenu'],
             'id_menu'           => $submenu['id_menu'],            
+            'id_vista'           => $submenu['vista'],            
             'estado_submen'     => $submenu['estado_menu']            
         );
         $this->db->where('id_submenu', $submenu['id_submenu']);
@@ -176,17 +181,35 @@ class Menu_model extends CI_Model {
             'url_submenu'       => $submenu['url_submenu'],
             'titulo_submenu'    => $submenu['titulo_submenu'],
             'icon_submenu'      => $submenu['icon_submenu'],
-            'id_menu'           => $submenu['id_menu'],            
+            'id_menu'           => $submenu['id_menu'],     
+            'id_vista'           => $submenu['vista'],           
             'estado_submen'     => $submenu['estado_menu']            
         );
         $this->db->insert('sys_menu_submenu', $data ); 
+
+        $ultimo_id = $this->db->insert_id();
+
+        $query = "select distinct id_rol from sys_role";
+        $query = $this->db->query($query);  
+        $data_roles = $query->result_array(); 
+
+        foreach ($data_roles as $value) {
+            $a = $value['id_rol'];
+            $inset_acceso = "insert into sys_submenu_acceso (id_submenu,id_role,submenu_acceso_estado)
+            values($ultimo_id,$a,0)";
+            $this->db->query($inset_acceso);
+        }   
     }
 
     function delete_sub_menu( $id_sub_menu ){
 
+
         $data = array(
             'id_submenu' => $id_sub_menu
         );
+        
+        $this->db->delete('sys_submenu_acceso', $data);
+
         $this->db->delete('sys_menu_submenu', $data);
 
         return 1;

@@ -34,6 +34,7 @@ class Menu extends CI_Controller {
 		$this->load->model('Login_model');   
 		$this->load->model('admin/Url_model');
 		$this->load->model('admin/Usuario_model');
+		$this->load->model('admin/Vistas_model');
 	}
 
 	public function index(){
@@ -115,6 +116,7 @@ class Menu extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['allMenus'] = $this->Menu_model->getAllMenu();
+		$data['vistas2'] = $this->Vistas_model->get_vistas();
 		$data['home'] = 'admin/menu/nuevo_sub_menu.php';
 		$data['id_menu'] = $id_menu;
 
@@ -144,6 +146,8 @@ class Menu extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['allMenus'] = $this->Menu_model->getAllMenu();
+		$data['vistas'] = $this->Vistas_model->get_vistas();
+		$data['vistas2'] = $this->Vistas_model->get_vistas();
 		$data['onMenu'] = $this->Menu_model->getOneSubMenu( $id_sub_menu );
 
 		$data['home'] = 'admin/menu/submenueditar';			
@@ -163,8 +167,8 @@ class Menu extends CI_Controller {
 		redirect(base_url()."admin/menu/index");
 	}
 
-	public function delete_sub_menu( $id_sub_menu ){
+	public function delete_sub_menu( $id_sub_menu , $menu_id){
 		$this->Menu_model->delete_sub_menu( $id_sub_menu );
-		redirect(base_url()."admin/menu/index");
+		redirect(base_url()."admin/menu/submenu/".$menu_id );
 	}
 }
