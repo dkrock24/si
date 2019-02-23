@@ -27,8 +27,9 @@ $(document).ready(function(){
 
 /* 1 - Input Buscar Producto */
     $(document).on('keyup', '.producto_buscar', function(){
-        
-        search_texto(this.value);
+        if($(".producto_buscar").val() != ""){
+            search_texto(this.value);
+        }
         
     });    
 /* 2 - Filtrado del texto a buscar en productos */
@@ -92,6 +93,7 @@ $(document).ready(function(){
             $("#producto_buscar").val(this.value);
             $('.dataSelect').hide();
             $('.dataSelect').empty();
+            $(".producto_buscar").focus();
         }
         
     });
@@ -188,6 +190,7 @@ $(document).ready(function(){
             event.preventDefault();
             $('.dataSelect2').hide();
             $('.dataSelect2').empty();
+            $(".producto_buscar").focus();
 
             $.each(_productos_precio, function(i, item) { 
 
@@ -625,8 +628,9 @@ $(document).ready(function(){
         border-right: 1px solid grey;
     }
 
-    .select2-results__option:hover{
-        background: red;
+    .dataSelect , .dataSelect2{
+        position: relative;
+        display: none;
     }
 </style>
 
@@ -859,7 +863,7 @@ $(document).ready(function(){
                               <tbody class="uno" style="border-bottom: 3px solid grey">
                               	<tr style="border-bottom: 3px solid grey">
                                     <td colspan="2">
-                                        <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar">
+                                        <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar" readonly="1">
                                     </td>
                                     <td><input type="text" class="form-control border-input" id="descripcion" name="descripcion"></td>
                                     <td><input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000"></td>

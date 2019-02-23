@@ -16,8 +16,10 @@ class Producto extends CI_Controller {
 		$this->load->model('admin/Menu_model');	
 
 		$this->load->model('producto/Producto_model');	
+		$this->load->model('producto/Bodega_model');	
 		$this->load->model('accion/Accion_model');	
 		$this->load->model('admin/Giros_model');	
+		$this->load->model('admin/Sucursal_model');	
 	}
 
 	public function index()
@@ -141,5 +143,44 @@ class Producto extends CI_Controller {
 
 		echo json_encode( $data );
 	}
+
+	// PRODUCTO BODEGA
+
+	public function bodega(){
+
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
+		
+		if($_POST){
+			$producto_id = $_POST['producto'];
+			$data['producto_id'] = $producto_id;
+			$data['prod_bodega'] = $this->Bodega_model->getProductoByBodega($_POST);
+			$data['bodega'] = $this->Bodega_model->getBodegas( $id_usuario );
+		}
+
+		
+		$data['prod'] = $this->Producto_model->getProd();
+		$data['menu'] = $this->session->menu;
+
+		$data['home'] = 'producto/producto/prod_bodega';
+
+		$this->parser->parse('template', $data);
+	}
+
+	// Activar / Desactivar - Producto de la Bodega
+	public function producto_activar(){
+
+		$this->Producto_model->producto_activar( $_POST );
+
+		redirect(base_url()."producto/producto/bodega");
+	}
+
+	// Asociar - Producto de la Bodega
+	public function associar_bodega(){
+
+		$this->Producto_model->associar_bodega( $_POST );
+
+		redirect(base_url()."producto/producto/bodega");
+	}
+
 	
 }

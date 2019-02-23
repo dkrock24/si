@@ -20,15 +20,16 @@ class Producto_model extends CI_Model {
 		const impuestos = 'pos_tipos_impuestos';
 		const producto_img = 'pos_producto_img';
 		const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
+		const pos_bodega = 'pos_bodega';
+		const pos_producto_bodega = 'pos_producto_bodega';
 		
 		
         
         function getProd(){
 	        
-	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, CPr.cantidad
+	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        	,(select pv1.valor from producto_valor as pv1 where pv1.id_prod_atributo=PA.id_prod_atrri ) as Precio
-				FROM `producto` as `P`
-				LEFT JOIN `pos_cantidad_productos` as `CPr` ON `P`.`id_entidad` = `CPr`.`Producto_Cantidad_Productos`
+				FROM `producto` as `P`				
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
 				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
 				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
@@ -534,6 +535,7 @@ class Producto_model extends CI_Model {
 		}
 
 		function get_inpuesto(){
+
 			$this->db->select('*');
 	        $this->db->from(self::impuestos);
 	        $this->db->where('id_tipos_impuestos = 1');
@@ -546,4 +548,115 @@ class Producto_model extends CI_Model {
 	        }
 		}
 
+		// Aqui se activa o desactiva producto en bodega
+		function producto_activar( $datos ){
+
+			$bodega_producto = $this->get_bodega_by_producto( $datos['producto_id'] , 1 );
+			$contador = 1;
+			$cantidad = 0;
+            foreach ($bodega_producto as $pb) 
+            {
+
+
+            	if($datos['cantidad'.$contador] != ""){
+                	$cantidad = ($datos['cantidad'.$contador] + $pb->Cantidad );	
+                }else{
+                	$cantidad =  $pb->Cantidad;	
+                }
+                if( array_key_exists( $pb->id_pro_bod, $datos ) ){
+
+                    
+                    $data = array('pro_bod_estado' => 1 ,'Cantidad'=> $cantidad ,'pro_bod_actualizado' => date("Y-m-d h:i:s") );                    
+                    $this->db->where('id_pro_bod', $pb->id_pro_bod );
+                    $this->db->update(self::pos_producto_bodega, $data);
+
+                }else{
+
+                    $data = array('pro_bod_estado' => 0, 'Cantidad'=> $cantidad, 'pro_bod_actualizado' => date("Y-m-d h:i:s") );
+                    $this->db->where('id_pro_bod', $pb->id_pro_bod );                    
+                    $this->db->update(self::pos_producto_bodega, $data);
+                }
+                $contador+=1;
+            }            
+		}
+
+		// Esta funcion es usada para buscar producto y activar o desactivar los productos en bodega
+		function get_bodega_by_producto( $producto , $estado ){
+
+			$this->db->select('*');
+	        $this->db->from(self::pos_bodega.' as b');	        
+	        $this->db->join(self::pos_producto_bodega.' as pb', 'on pb.Bodega = b.id_bodega');
+
+	        $this->db->where('pb.Producto', $producto );
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[1];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		// Aqui se crea nueva vinculacion con producto - bodega
+		function associar_bodega( $bodegas ){
+			var_dump($bodegas);
+			foreach ($bodegas as $key => $b) 
+            {
+            	$Bodega_id = $key;
+            	
+            	if(is_numeric($Bodega_id)){
+
+					$bodega_producto = $this->get_producto_bodega_byId($Bodega_id ,$bodegas['producto'] );
+					
+					if($bodega_producto){
+						foreach ($bodega_producto as $pb) {
+
+						if( array_key_exists( $pb->Bodega, $bodegas ) ){
+		                   
+		                }else{
+		                	
+	                		$data = array(
+		                    	'Producto' => $bodegas['producto'],
+		                    	'Bodega'=> $key,
+		                    	'pro_bod_creado' => date("Y-m-d h:i:s"),
+		                    	'pro_bod_estado' => 1
+		                    );                   
+		                    $this->db->insert(self::pos_producto_bodega, $data);
+		                	}		                    
+		            	}
+					}else{
+						
+						$data = array(
+	                    	'Producto' => $bodegas['producto'],
+	                    	'Bodega'=> $key,
+	                    	'pro_bod_creado' => date("Y-m-d h:i:s"),
+	                    	'pro_bod_estado' => 1
+	                    );                   
+	                    $this->db->insert(self::pos_producto_bodega, $data);
+					}
+				}
+            }
+		}
+
+		/* Esta funcion es usada por associar_bodega en donde
+			el producto es validad en la bodega y si no existe
+			tiene que ser insertado o vinculado */
+		function get_producto_bodega_byId( $id_pro_bod , $producto){
+
+			$this->db->select('*');
+	        $this->db->from(self::pos_bodega.' as b');	        
+	        $this->db->join(self::pos_producto_bodega.' as pb', 'on pb.Bodega = b.id_bodega');
+
+	        $this->db->where('pb.Producto', $producto );
+	        $this->db->where('pb.Bodega', $id_pro_bod );
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[1];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
     }
+

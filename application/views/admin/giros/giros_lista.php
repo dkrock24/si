@@ -108,7 +108,7 @@
     $(".listar_giros").click(function(){
           $(".girosLista").empty();
           $(".lista_empresa").empty();
-          var id = $(this).attr('id');
+//          var id = $(this).attr('id');
           $.ajax({
             url: "listar_giros",  
             datatype: 'json',      

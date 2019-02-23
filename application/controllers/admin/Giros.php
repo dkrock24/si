@@ -130,7 +130,7 @@ class Giros extends CI_Controller {
 
 	public function listar_giros(){
 		$data['lista_giros'] = $this->Giros_model->get_giros();
-		$data['lista_empresa'] = $this->Giros_model->get_empresa();
+		$data['lista_empresa'] = $this->Giros_model->get_empresa2();
 
 		echo json_encode( $data );
 	}

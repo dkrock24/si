@@ -55,7 +55,11 @@
             			                            			?>
             			                            			<span class="label label-success">Activo</span>
             			                            			<?php
-            			                            		}
+            			                            		}else{
+                                                                ?>
+                                                                <span class="label label-warning">Inactivo</span>
+                                                                <?php
+                                                            }
                                                         ?>
                                                     </td>
             			                            <td>

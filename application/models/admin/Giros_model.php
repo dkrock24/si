@@ -33,6 +33,18 @@ class Giros_model extends CI_Model {
         }
     }
 
+    function get_empresa2(){
+        $this->db->select('id_empresa,nombre_razon_social');
+        $this->db->from(self::empresa);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
 	function crear_giro( $nuevo_giro ){
 
 		$data = array(
