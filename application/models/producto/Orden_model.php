@@ -62,9 +62,9 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago");
 		function get_productos_valor($sucursal , $texto){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as cod_barra, Cantidad_P.cantidad
+	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as cod_barra
 				FROM `producto` as `P`
-				LEFT JOIN `pos_cantidad_productos` as `Cantidad_P` ON `P`.`id_entidad` = `Cantidad_P`.`Producto_Cantidad_Productos`
+				
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
 				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
 				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`

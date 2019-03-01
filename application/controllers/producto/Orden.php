@@ -56,7 +56,7 @@ class Orden extends CI_Controller {
 
 		$data['menu'] 	= $this->session->menu;
 
-		IF($terminal_acceso){
+		if($terminal_acceso){
 			
 			$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
 			$data['sucursales'] = $this->Producto_model->get_sucursales();
@@ -92,7 +92,7 @@ class Orden extends CI_Controller {
 		redirect(base_url()."producto/orden/nuevo");
 	}
 
-	function get_productos_lista( $sucursal , $texto ){
+	function get_productos_lista( 1 , $texto ){
 		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal , $texto);
 		echo json_encode( $data );
 	}

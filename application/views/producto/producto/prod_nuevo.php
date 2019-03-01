@@ -456,7 +456,14 @@
         }
     }
 
+    /* Para Combo
+    $(document).on('click', '#combo_class', function(){
 
+        $("#producto_formulario").css("display","none");
+        $(".combos_html").css("display","1");
+        
+    });
+    */
 
   });
 
@@ -480,6 +487,9 @@
     }
     .alenado-left{
         float: right;
+    }
+    .link_btn{
+        text-decoration: none;
     }
 </style>
 <!-- Main section-->
@@ -506,13 +516,16 @@
                                 $contador_break=0;
                                 foreach ($acciones as $key => $value) {
                                     ?>
-                                    <div class="col-sm-6 menu-cuadro">
+                                    <div class="col-sm-6 menu-cuadro " id="<?php echo $value->accion_btn_css; ?>">
+                                        <a href="<?php echo base_url().$value->accion_btn_url; ?>" class="link_btn">
                                         <h1 class="icon-center">
                                              <i class="<?php echo $value->accion_btn_icon; ?>"></i>
                                         </h1>
+                                        </a>
                                         <span class="icon-center">
                                             <?php echo $value->accion_nombre; ?>
                                         </span>
+                                        
                                     </div>
                                     <?php
                                 }
@@ -532,12 +545,12 @@
                         </div>
                         <!-- FIN MENU IZQUIERDO -->
 
-                        <form class="form-horizontal" enctype="multipart/form-data" action='crear' name='producto_formulario' method="post" >
+                        <form class="form-horizontal" enctype="multipart/form-data" action='crear' name='producto_formulario' id="producto_formulario" method="post" >
 
                         <!-- INICIO PRODUCTO ENCABEZADO -->
                         <div class="col-lg-9">
                            
-                            <div id="" class="panel panel-info">
+                            <div id="" class="panel panel-info producto_creacion">
                                 <div class="panel-heading">Producto General:  </div>
                                     <p>
                                     

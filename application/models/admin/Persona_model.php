@@ -4,6 +4,7 @@ class Persona_model extends CI_Model {
 	const sys_persona = 'sys_persona';	
     const sys_ciudad = 'sys_ciudad';
     const sys_sexo = 'sys_sexo';
+    const sys_departamento = 'sys_departamento';
 	
 	function getPersona(){
 
@@ -20,62 +21,66 @@ class Persona_model extends CI_Model {
         }
 	}
 
-	function saveBodegas($datos){
+	function crear($datos){
 
 		$data = array(
-          	'nombre_bodega' 	=> 	$datos['nombre_bodega'],
-            'direccion_bodega' 	=> $datos['direccion_bodega'],
-            'encargado_bodega' 	=> $datos['encargado_bodega'],
-            'predeterminada_bodega' => $datos['predeterminada_bodega'],
-            'Sucursal' 			=> $datos['Sucursal'],
-            'bodega_estado' 	=> $datos['bodega_estado'],
+          	'primer_nombre_persona' 	=> 	$datos['primer_nombre_persona'],
+            'segundo_nombre_persona' 	=> $datos['segundo_nombre_persona'],
+            'primer_apellido_persona' 	=> $datos['primer_apellido_persona'],
+            'segundo_apellido_persona' 	=> $datos['segundo_apellido_persona'],
+            'fecha_cumpleaños_persona' 	=> $datos['fecha_cumpleaños_persona'],
+            'dui'                       => $datos['dui'],
+            'nit'                       => $datos['nit'],
+            'direccion_residencia_persona1'=> $datos['direccion_residencia_persona1'],
+            'direccion_residencia_persona2'=> $datos['direccion_residencia_persona2'],
+            'tel'                       => $datos['tel'],
+            'cel'                       => $datos['cel'],
+            'mail'                      => $datos['mail'],
+            'whatsapp'                  => $datos['whatsapp'],
+            'Sexo'                      => $datos['Sexo'],
+            'Ciudad'                    => $datos['Ciudad'],
+            'comentarios'               => $datos['comentarios'],
+            'persona_estado'            => $datos['persona_estado']
         );
         
-        $this->db->insert(self::pos_bodega, $data);  
+        $this->db->insert(self::sys_persona, $data);  
 
 	}
 
-	function getBodegaById($bodega_id){
-
-		$this->db->select('*');
-        $this->db->from(self::pos_bodega.' as b');
-        $this->db->join(self::pos_sucursal.' as s', 'on b.Sucursal = s.id_sucursal');
-        $this->db->join(self::pos_empresa.' as e', 'on s.Empresa_Suc = e.id_empresa');
-        $this->db->join(self::sys_empleado_sucursal.' as es', 'on es.es_sucursal = s.id_sucursal');
-        $this->db->where('b.id_bodega', $bodega_id );
-        $query = $this->db->get(); 
-        //echo $this->db->queries[1];
-        
-        if($query->num_rows() > 0 )
-        {
-            return $query->result();
-        }
-	}
-
-	function update_bodega($datos){
+	function update($datos){
 
 		$data = array(
-          	'nombre_bodega' 	=> 	$datos['nombre_bodega'],
-            'direccion_bodega' 	=> $datos['direccion_bodega'],
-            'encargado_bodega' 	=> $datos['encargado_bodega'],
-            'predeterminada_bodega' => $datos['predeterminada_bodega'],
-            'Sucursal' 			=> $datos['Sucursal'],
-            'bodega_estado' 	=> $datos['bodega_estado'],
+            'primer_nombre_persona'     =>  $datos['primer_nombre_persona'],
+            'segundo_nombre_persona'    => $datos['segundo_nombre_persona'],
+            'primer_apellido_persona'   => $datos['primer_apellido_persona'],
+            'segundo_apellido_persona'  => $datos['segundo_apellido_persona'],
+            'fecha_cumpleaños_persona'  => $datos['fecha_cumpleaños_persona'],
+            'dui'                       => $datos['dui'],
+            'nit'                       => $datos['nit'],
+            'direccion_residencia_persona1'=> $datos['direccion_residencia_persona1'],
+            'direccion_residencia_persona2'=> $datos['direccion_residencia_persona2'],
+            'tel'                       => $datos['tel'],
+            'cel'                       => $datos['cel'],
+            'mail'                      => $datos['mail'],
+            'whatsapp'                  => $datos['whatsapp'],
+            'Sexo'                      => $datos['Sexo'],
+            'Ciudad'                    => $datos['Ciudad'],
+            'comentarios'               => $datos['comentarios'],
+            'persona_estado'            => $datos['persona_estado']
         );
-        $this->db->where('id_bodega', $datos['id_bodega']);
-        $this->db->update(self::pos_bodega, $data);  
+        $this->db->where('id_persona', $datos['id_persona']);
+        $this->db->update(self::sys_persona, $data);  
 	}
 
-    function getProductoByBodega( $data ){
+    function getPersonaId( $persona_id ){
 
         $this->db->select('*');
-        $this->db->from(self::pos_bodega.' as b');
-        $this->db->join(self::pos_sucursal.' as s', 'on b.Sucursal = s.id_sucursal');
-        $this->db->join(self::pos_producto_bodega.' as pb', 'on pb.Bodega = b.id_bodega');
-        $this->db->join(self::producto.' as p', 'on p.id_entidad = pb.Producto');
-
-        $this->db->where('pb.Producto', $data['producto'] );
-        $query = $this->db->get(); 
+        $this->db->from(self::sys_persona.' as p');
+        $this->db->join(self::sys_ciudad.' as c', 'on p.Ciudad = c.id_ciudad');
+        $this->db->join(self::sys_departamento.' as d', 'on d.id_departamento = c.departamento');
+        $this->db->join(self::sys_sexo.' as s', 'on p.Sexo = s.id_sexo');
+        $this->db->where('p.id_persona', $persona_id );
+        $query = $this->db->get();
         //echo $this->db->queries[1];
         
         if($query->num_rows() > 0 )
@@ -83,4 +88,5 @@ class Persona_model extends CI_Model {
             return $query->result();
         }
     }
+
 }

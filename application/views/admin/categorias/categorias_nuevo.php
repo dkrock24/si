@@ -14,11 +14,11 @@
             <div class="col-lg-12">
                 <div class="panel panel-white">
 
-                    <div class="panel-body">
-                        <div class="col-lg-6">
-                           
-                            <div id="" class="panel panel-info">
-                                <div class="panel-heading">Nueva Categoria </div>
+                
+                        <div class="panel-body">
+                                    <div class="col-lg-6">
+                            <div id="" class="panel panel-default">
+                                <div class="panel-heading">Nueva Categoria <a href="<?php echo base_url().'producto/producto/nuevo' ?>" style='float: right;' class="btn btn-primary"><i class="fa fa-arrow-left"></i> Producto</a></div>
                                     <p>
                                     <form class="form-horizontal" action='crear' method="post">
                                         <input type="hidden" value="<?php //echo $dep; ?>" name="id_departamento">
@@ -77,9 +77,10 @@
                                     </form>
                                     </p>
                             </div>
-                          
                         </div>
                     </div>
+                          
+                       
 
                 </div>
             </div>

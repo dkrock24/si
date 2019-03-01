@@ -9,8 +9,8 @@ class Ciudad_model extends CI_Model {
 
 		$this->db->select('*');
         $this->db->from(self::sys_pais.' as p');
-        $this->db->join(self::sys_departamento.' as d', 'on p.Ciudad = d.id_ciudad');
-        $this->db->join(self::sys_ciudad.' as c', 'on d.Sexo = c.id_sexo');
+        $this->db->join(self::sys_ciudad.' as c', 'on c.id_ciudad = c.id_ciudad');
+        $this->db->join(self::sys_departamento.' as d', 'on d.id_departamento = c.departamento');
         $query = $this->db->get();
         //echo $this->db->queries[1];
         
@@ -19,4 +19,18 @@ class Ciudad_model extends CI_Model {
             return $query->result();
         }
 	}
+
+    function getCiudadId( $departamento_id ){
+        $this->db->select('*');        
+        $this->db->from(self::sys_ciudad);
+        $this->db->where('departamento', $departamento_id);
+        
+        $query = $this->db->get();
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
 }
