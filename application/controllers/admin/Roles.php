@@ -14,15 +14,23 @@ class Roles extends CI_Controller {
 
 		$this->load->model('admin/Roles_model');
 		$this->load->model('admin/Menu_model');	
+		$this->load->model('accion/Accion_model');
 	}
 
 	public function index()
 	{	
 		$id_rol = $this->session->roles[0];
 
+		$id_rol = $this->session->roles[0];
+		$vista_id = 20; // Vista Orden Lista
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
+
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['menu'] = $this->session->menu;
-		$data['roles'] = $this->Roles_model->getRoles( );
-		$data['home'] = 'admin/roles/roles_lista';
+		$data['column'] = $this->column();
+		$data['fields'] = $this->fields();
+		$data['registros'] = $this->Roles_model->getRoles( );
+		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}
@@ -64,6 +72,26 @@ class Roles extends CI_Controller {
 	public function delete( $id_rol ){
 		$this->Roles_model->delete_rol( $id_rol );
 		redirect(base_url()."admin/roles/index");
+	}
+
+	public function column(){
+
+		$column = array(
+			'#','Nombre','Pagina','Creacion','Actualizacion','Estado'
+		);
+		return $column;
+	}
+
+	public function fields(){
+		$fields['field'] = array(
+			'role','pagina','fecha_creacion','fecha_actualizacion','estado'
+		);
+		
+		$fields['id'] = array('id_rol');
+		$fields['estado'] = array('estado_rol');
+		$fields['titulo'] = "Roles Lista";
+
+		return $fields;
 	}
 
 	

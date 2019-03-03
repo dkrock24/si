@@ -3,6 +3,7 @@
         <!-- Page content-->
         <div class="content-wrapper">
             <h3 style="height: 50px; ">Lista Moneda </h3>
+            <?php $this->load->view('notificaciones/success'); ?>
             <div class="panel panel-default">
                 <div class="panel-heading">Moneda</div>
                 <!-- START table-responsive-->
@@ -104,6 +105,7 @@
                                    
                         </tbody>
                     </table>
+                    <button type="button" data-notify="" data-message="Message with status.." data-options="{&quot;status&quot;:&quot;danger&quot;}" class="btn btn-danger">Danger</button>
                 </div>
             </div>
         </div>

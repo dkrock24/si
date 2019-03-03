@@ -38,9 +38,11 @@ class Linea extends CI_Controller {
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
-		$data['lineas'] = $this->Linea_model->getLinea( );
+		$data['registros'] = $this->Linea_model->getLinea( );
+		$data['column'] = $this->column();
+		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['home'] = 'producto/linea/linea_lista';
+		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}
@@ -91,5 +93,25 @@ class Linea extends CI_Controller {
 		$data['bodegas'] = $this->Linea_model->update_linea( $_POST );
 
 		redirect(base_url()."producto/linea/index");
+	}
+
+	public function column(){
+
+		$column = array(
+			'#','Tipo','Descripcion','Estado'
+		);
+		return $column;
+	}
+
+	public function fields(){
+		$fields['field'] = array(
+			'tipo_producto','descripcion_tipo_producto','estado'
+		);
+		
+		$fields['id'] = array('id_linea');
+		$fields['estado'] = array('estado_linea');
+		$fields['titulo'] = "Linea Lista";
+
+		return $fields;
 	}
 }

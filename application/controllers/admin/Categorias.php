@@ -30,6 +30,7 @@ class Categorias extends CI_Controller {
 
 		$this->load->model('admin/Categorias_model');  
 		$this->load->model('admin/Menu_model');
+		$this->load->model('accion/Accion_model');
 	}
 
 // Start PAIS **********************************************************************************
@@ -38,9 +39,16 @@ class Categorias extends CI_Controller {
 		// GET PAIS
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
+		$id_rol = $this->session->roles[0];
+		$vista_id = 20; // Vista Orden Lista
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
+
 		$data['menu'] = $this->session->menu;
-		$data['lista_categorias'] = $this->Categorias_model->get_categorias();
-		$data['home'] = 'admin/categorias/categorias_lista';
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['registros'] = $this->Categorias_model->get_categorias();
+		$data['column'] = $this->column();
+		$data['fields'] = $this->fields();
+		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}
@@ -80,7 +88,25 @@ class Categorias extends CI_Controller {
 
 		redirect(base_url()."admin/categorias/index");
 	}
-	
+	public function column(){
+
+		$column = array(
+			'#','Nombre','Imagen','Padre','Empresa','Creado', 'Actualizado', 'Estado'
+		);
+		return $column;
+	}
+
+	public function fields(){
+		$fields['field'] = array(
+			'nombre_categoria','img_cate','cat_padre','nombre_comercial','creado_categoria','actualizado_categoria','estado'
+		);
+		
+		$fields['id'] = array('id_categoria');
+		$fields['estado'] = array('categoria_estado');
+		$fields['titulo'] = "Categoria Lista";
+
+		return $fields;
+	}
 	
 
 }

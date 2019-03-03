@@ -25,23 +25,56 @@ class Giros extends CI_Controller {
 		$this->load->database(); 
 
 		$this->load->library('parser');	    
-	    @$this->load->library('session');	    
+	    @$this->load->library('session');	
+	    $this->load->library('pagination');    
 		$this->load->helper('url');
+		$this->load->helper('paginacion/paginacion_helper');
 
 		$this->load->model('admin/Giros_model');  
 		$this->load->model('admin/Atributos_model');  
 		$this->load->model('admin/Menu_model');
+		$this->load->model('accion/Accion_model');
 	}
 
 // Start  **********************************************************************************
 
 	public function index(){
 
+		if( isset( $_POST['total_pagina'] )){
+			$per_page = $_POST['total_pagina'];
+		}else{
+			$per_page = 10;
+		}
+		
+		$total_row = $this->Giros_model->record_count();
+		$config = paginacion($total_row, $per_page );
+		$this->pagination->initialize($config);
+		if($this->uri->segment(4)){
+			$page = ($this->uri->segment(4) - 1 ) * $config["per_page"];
+			//$page = $config["per_page"] - $page ;
+		}else{
+			$page = 0;
+		}
+
+		$str_links = $this->pagination->create_links();
+		$data["links"] = explode('&nbsp;',$str_links );
+
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
+		// Seguridad :: Validar URL usuario	
+		$menu_session = $this->session->menu;	
+		//parametros($menu_session);
+
+		$id_rol = $this->session->roles[0];
+		$vista_id = 20; // Vista Orden Lista
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
+
 		$data['menu'] = $this->session->menu;
-		$data['lista_giros'] = $this->Giros_model->get_giros();
-		$data['home'] = 'admin/giros/giros_lista';
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['column'] = $this->column();
+		$data['fields'] = $this->fields();
+		$data['registros'] = $this->Giros_model->get_giros( $config["per_page"], $page );
+		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}
@@ -153,6 +186,26 @@ class Giros extends CI_Controller {
 		$data['empresa_giro_total'] = $this->Giros_model->get_total_empresa_giro( $_POST['empresa'] );
 		
 		echo json_encode( $data );
+	}
+
+	public function column(){
+
+		$column = array(
+			'#','Nombre','Tipo','Descripcion','Codigo','Creado', 'Actualizado', 'Estado'
+		);
+		return $column;
+	}
+
+	public function fields(){
+		$fields['field'] = array(
+			'nombre_giro','tipo_giro','descripcion_giro','codigo_giro','fecha_giro_creado','fecha_giro_actualizado','estado'
+		);
+		
+		$fields['id'] = array('id_giro');
+		$fields['estado'] = array('estado_giro');
+		$fields['titulo'] = "Giros Lista";
+
+		return $fields;
 	}
 	
 

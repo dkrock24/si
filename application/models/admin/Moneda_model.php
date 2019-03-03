@@ -28,7 +28,9 @@ class Moneda_model extends CI_Model {
             'moneda_estado' => $moneda['moneda_estado'],
             'moneda_alias' => $moneda['moneda_alias']
         );
-        $this->db->insert(self::sys_moneda, $data ); 
+        $insert = $this->db->insert(self::sys_moneda, $data ); 
+
+        return $insert;
     }
 
     function getMonedaId( $moneda_id ){
@@ -53,7 +55,9 @@ class Moneda_model extends CI_Model {
             'moneda_alias' => $moneda['moneda_alias']
         );
         $this->db->where('id_moneda', $moneda['id_moneda'] );
-        $this->db->update(self::sys_moneda, $data ); 
+        $insert =  $this->db->update(self::sys_moneda, $data ); 
+
+        return $insert;
     }
 
 }

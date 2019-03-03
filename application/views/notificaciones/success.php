@@ -4,7 +4,7 @@
 	 <button type="button" data-dismiss="alert" aria-label="Close" class="close">
 	    <span aria-hidden="true">&times;</span>
 	 </button>
-	 <strong>El Nuevo ! </strong>  <?php echo $this->session->flashdata("success") ?> </div>
+	 <strong>Registro! </strong>  <?php echo $this->session->flashdata("success") ?> </div>
 
 <?php endif;?>
 
@@ -14,7 +14,7 @@
 	 <button type="button" data-dismiss="alert" aria-label="Close" class="close">
 	    <span aria-hidden="true">&times;</span>
 	 </button>
-	 <strong>El Nuevo ! </strong>  <?php echo $this->session->flashdata("danger") ?> </div>
+	 <strong>Registro! </strong>  <?php echo $this->session->flashdata("danger") ?> </div>
 
 <?php endif;?>
 
@@ -24,7 +24,7 @@
 	 <button type="button" data-dismiss="alert" aria-label="Close" class="close">
 	    <span aria-hidden="true">&times;</span>
 	 </button>
-	 <strong>El Nuevo ! </strong>  <?php echo $this->session->flashdata("warning") ?> </div>
+	 <strong>Registro! </strong>  <?php echo $this->session->flashdata("warning") ?> </div>
 
 <?php endif;?>
 
@@ -34,6 +34,6 @@
 	 <button type="button" data-dismiss="alert" aria-label="Close" class="close">
 	    <span aria-hidden="true">&times;</span>
 	 </button>
-	 <strong></strong> El Registro Fue Actualizado <?php echo $this->session->flashdata("info") ?> </div>
+	 <strong></strong> Registro Actualizado <?php echo $this->session->flashdata("info") ?> </div>
 
 <?php endif;?>

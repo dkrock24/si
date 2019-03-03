@@ -38,9 +38,12 @@ class Combo extends CI_Controller {
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
-		$data['combos'] = $this->Combo_model->getCombo( );
+		$data['column'] = $this->column();
+		$data['registros'] = $this->Combo_model->getCombo( );
+		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['home'] = 'producto/combo/combo_lista';
+		//$data['home'] = 'producto/combo/combo_lista';
+		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}
@@ -98,5 +101,26 @@ class Combo extends CI_Controller {
 	public function get_productos_id( $producto_id ){
 		$data['productos'] = $this->Producto_model->get_productos_id( $producto_id );
 		echo json_encode($data);
+	}
+
+	public function column(){
+
+		$column = array(
+			'#','Producto','Agregados','Cantidad'
+		);
+
+		return $column;
+	}
+
+	public function fields(){
+		$fields['field'] = array(
+			'uno','dos','cantidad'
+		);
+		
+		$fields['id'] = array('Producto_Combo');
+		$fields['estado'] = '';
+		$fields['titulo'] = "Combo Lista";
+
+		return $fields;
 	}
 }

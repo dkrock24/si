@@ -92,7 +92,7 @@ class Orden extends CI_Controller {
 		redirect(base_url()."producto/orden/nuevo");
 	}
 
-	function get_productos_lista( 1 , $texto ){
+	function get_productos_lista( $sucursal , $texto ){
 		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal , $texto);
 		echo json_encode( $data );
 	}

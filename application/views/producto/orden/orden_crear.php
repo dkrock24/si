@@ -17,13 +17,136 @@ var interno_sucursal=0;
 
 $(document).ready(function(){
 
-    $('#producto_modal').appendTo("body");
+    $('#existencias').appendTo("body");
     $('#cliente_modal').appendTo("body");
     $('#vendedores_modal').appendTo("body");
     $('#presentacion_modal').appendTo("body");
     $('.dataSelect').hide();
     $('.dataSelect2').hide();
     $(".producto_buscar").focus();
+
+    $('.1dataSelect').hide();
+    $('.1dataSelect2').hide();
+
+    // Existencia Code
+    $(document).on('keyup', '.existencia_buscar', function(){
+        if($(".existencia_buscar").val() != ""){
+            search_texto2(this.value);
+        }        
+    });
+
+    function search_texto2(texto){
+
+        $('.1dataSelect').show();
+        sucursal = $("#sucursal_id").val();
+        
+        var contador_precios=1;
+        var table_tr="";
+        if( sucursal != interno_sucursal){
+        
+            interno_sucursal = sucursal;
+            $.ajax({
+                url: "get_productos_lista/"+2+"/"+texto,
+                datatype: 'json',      
+                cache : false,                
+
+                success: function(data){
+                    var datos = JSON.parse(data);
+                    var productos = datos["productos"];
+                    var producto_id = 0;
+                    _productos_lista = productos;
+                    $('.1dataSelect').show();
+                
+                },
+                error:function(){
+                }
+            });
+        }else{
+
+            var productos = _productos_lista;
+            var producto_id = 0;
+            interno_sucursal = sucursal;
+            $.each(productos, function(i, item) { 
+
+                var name = item.name_entidad.toUpperCase();
+                var cod_barra = item.cod_barra;
+
+                if(name.includes(texto.toUpperCase()) || cod_barra.includes(texto)){
+                    producto_id = item.id_entidad;  
+                    var precio = 0;
+                    
+                    table_tr += '<option value="'+item.id_entidad+'">'+item.name_entidad+'</option>';
+                    //table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.cod_barra+'</td><td>'+item.id_entidad+'</td><td>'+item.cantidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_producto" id="'+item.id_entidad+'">Agregar</a></td></tr>';
+                    contador_precios++;
+                }
+                
+            });
+
+            $(".1dataSelect").html(table_tr);
+        }
+    }
+
+    $(document).on('keypress', '.1dataSelect', function(){
+        
+        if ( event.which == 13 ) {
+            get_producto_completo2(this.value);
+            event.preventDefault();
+            $("#producto_buscar").val(this.value);
+            $('.1dataSelect').hide();
+            $('.1dataSelect').empty();
+            $(".producto_buscar").focus();
+        }
+        
+    });
+
+
+    function get_producto_completo2(producto_id){
+      $("#grabar").attr('disabled');
+        var codigo,presentacion,tipo,precioUnidad,descuento,total
+
+        /*
+        * Identificadores de valores del producto
+        * 1 = Presentacion / 10 = Modelo / 14 = Costo / 18 = Almacenaje / 19 = Minimos
+        * 20 = Medios / 21= maximos / 22 = Descuento Limite / 23 = Precio Venta
+        * 24 = Iva / 26 = Incluye / 11 = Imagen / 4 = Cod_Barras
+        */
+
+        $.ajax({
+            url: "<?php echo base_url().'producto/existencias/' ?>get_producto_completo/"+producto_id,
+            datatype: 'json',      
+            cache : false,                
+
+            success: function(data){
+                var datos = JSON.parse(data);
+                var contador =1;
+                var existencias_total=0;
+                var html='';
+                console.log(datos);
+                $.each(datos['producto'], function(i, item) { 
+                    console.log(contador);
+                    existencias_total+= parseInt(item.Cantidad);
+                    html +='<tr>';
+                    html +='<td>'+contador+'</td>';
+                    html +='<td>'+item.nombre_sucursal+'</td>';
+                    html +='<td>'+item.nombre_bodega+'</td>';
+                    html +='<td>'+item.Cantidad+'</td>';
+                    html +='<td>'+item.valor+'</td>';
+                    html +='<td>'+0.00+'</td>';
+                    html +='<td>'+item.valor+'</td>';
+                    html +='<td>'+item.Descripcion+'</td>';
+                    html +='</tr>';
+                    contador++;
+                });
+                html += '<tr><td colspan="3"></td><td>'+existencias_total+'</td><td colspan="4"></td></tr>'
+                $('.dos').html(html);
+
+            },
+            error:function(){
+            }
+        });
+    }
+
+    // End Existencia Code
 
 /* 1 - Input Buscar Producto */
     $(document).on('keyup', '.producto_buscar', function(){
@@ -833,14 +956,27 @@ $(document).ready(function(){
                         <div class="table-responsive" >
                            <table class="table table-sm table-hover">
                             <div class="col-lg-4">
-                                <input type="text" class="form-control border-input producto_buscar" name="producto_buscar" width="100%">
+                               
+
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                    <input type="text" placeholder="Buscar Producto" name="producto_buscar" class="form-control producto_buscar">
+                                </div>
+
+
                                 <select multiple="" class="form-control dataSelect">
 
                                 </select>
 
-                                <select multiple="" class="form-control dataSelect2">
+                                <select multiple="" class="form-control dataSelect2" style="display: inline-block;">
 
                                 </select>
+
+                                
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="#" class="btn btn-default" data-toggle='modal' data-target='#existencias'>Existencias</a>                            
+
                             </div>
   
                             </span>
@@ -894,6 +1030,7 @@ $(document).ready(function(){
 </section>
 
 <style type="text/css">
+/*
     .modal-dialog {
   width: 100%;
   height: 100%;
@@ -905,23 +1042,52 @@ $(document).ready(function(){
   height: auto;
   min-height: 100%;
   border-radius: 0;
-}
+}*/
 </style>
 
 <!-- Modal Large PRODUCTOS MODAL-->
-   <div id="producto_modal" tabindex="-1" role="dialog" aria-labelledby="producto_modal"  class="modal fade">
+   <div id="existencias" tabindex="-1" role="dialog" aria-labelledby="existencias"  class="modal fade">
       <div class="modal-dialog modal-lg">
          <div class="modal-content">
             <div class="modal-header">
                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                   <span aria-hidden="true">&times;</span>
                </button>
-               <h4 id="myModalLabelLarge" class="modal-title">Buscar Producto</h4>
+               <div class="input-group m-b">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" placeholder="Buscar Exsitencia" name="existencia_buscar" class="form-control existencia_buscar">
+                </div>
+
+                <select multiple="" class="form-control 1dataSelect">
+
+                </select>
+
+                <select multiple="" class="form-control 1dataSelect2" style="display: inline-block;">
+
+                </select>
+
             </div>
             <div class="modal-body">
-                <p class="productos_lista_datos">
-                	
-                </p>                                 
+                <table class="table table-sm table-hover">
+                    <thead>
+                     <tr>
+                        <th>#</th>
+                        <th>Sucursal</th>
+                        <th>Bodega</th>
+                        <th>Existencia</th>
+                        <th>Costo</th>
+                        <th>Costo Anterior</th>
+                        <th>Costo utilidad</th>
+                        <th>Cod ubicacion</th>                                    
+                     </tr>
+                      </thead>
+                      <tbody class="dos" style="border-bottom: 3px solid grey">
+                        
+                      </tbody>
+                      <tbody class="producto_agregados" style="border-top:  3px solid black" >
+                         
+                      </tbody>
+                </table>                                
                
             </div>
             <div class="modal-footer">
@@ -932,75 +1098,9 @@ $(document).ready(function(){
    </div>
 <!-- Modal Small-->
 
-<!-- Modal Large PRESENTACIONES MODAL-->
-   <div id="presentacion_modal" tabindex="-1" role="dialog" aria-labelledby="presentacio_modal"  class="modal fade">
-      <div class="modal-dialog modal-lg">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
-                  <span aria-hidden="true">&times;</span>
-               </button>
-               <h4 id="myModalLabelLarge" class="modal-title">Selecionar Tipo de Presentacion</h4>
-            </div>
-            <div class="modal-body">
-                <p class="presentacion_lista_datos">
-                    
-                </p>                                 
-               
-            </div>
-            <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
-            </div>
-         </div>
-      </div>
-   </div>
-<!-- Modal Small-->
 
-<!-- Modal Large CLIENTES MODAL-->
-   <div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal"  class="modal fade">
-      <div class="modal-dialog modal-lg">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
-                  <span aria-hidden="true">&times;</span>
-               </button>
-               <h4 id="myModalLabelLarge" class="modal-title">Buscar Cliente</h4>
-            </div>
-            <div class="modal-body">
-                <p class="cliente_lista_datos">
-                	
-                </p>                                 
-               
-            </div>
-            <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
-            </div>
-         </div>
-      </div>
-   </div>
-<!-- Modal Small-->
 
-<!-- Modal Large VENDEDORES MODAL-->
-   <div id="vendedores_modal" tabindex="-1" role="dialog" aria-labelledby="vendedores_modal"  class="modal fade">
-      <div class="modal-dialog modal-lg">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
-                  <span aria-hidden="true">&times;</span>
-               </button>
-               <h4 id="myModalLabelLarge" class="modal-title">Buscar Empleado</h4>
-            </div>
-            <div class="modal-body">
-                <p class="vendedor_lista_datos">
-                	
-                </p>                                 
-               
-            </div>
-            <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
-            </div>
-         </div>
-      </div>
-   </div>
-<!-- Modal Small-->
+
+
+
 

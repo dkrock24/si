@@ -277,7 +277,7 @@
         <div class="content-wrapper">
             <h3 style="height: 50px; ">Lista Giros </h3>
 
-            <?php $this->load->view('notificaciones/success'); ?>            
+            <?php $this->load->view('notificaciones/success'); ?>
 
             <div class="panel panel-default">
                 <div class="panel-heading">Giros</div>
@@ -322,9 +322,9 @@
 		                            <td><?php echo $giros->nombre_giro; ?></td>
 		                            <td><?php echo $giros->tipo_giro; ?></td>
 		                            <td><?php echo $giros->descripcion_giro; ?></td>
-                                    <td><?php echo $giros->codigo_giro; ?></td>
-                                    <td><?php echo $giros->fecha_giro_creado; ?></td>
-                                    <td><?php echo $giros->fecha_giro_actualizado; ?></td>
+                                <td><?php echo $giros->codigo_giro; ?></td>
+                                <td><?php echo $giros->fecha_giro_creado; ?></td>
+                                <td><?php echo $giros->fecha_giro_actualizado; ?></td>
 		                            <td>
 		                            	<?php 
 		                            		if($giros->estado_giro==1){

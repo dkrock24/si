@@ -8,18 +8,21 @@ class Giros_model extends CI_Model {
     const empresa_plantilla = 'giros_empresa';
 
 
-	function get_giros(){
-
+	function get_giros( $limit, $id ){;
 		$this->db->select('*');
         $this->db->from(self::giros);
+        $this->db->limit($limit, $id);
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];
+        //echo $this->db->queries[2];
         
         if($query->num_rows() > 0 )
         {
             return $query->result();
         } 
 	}
+    function record_count(){
+        return $this->db->count_all(self::giros);
+    }
 
     function get_empresa(){
         $this->db->select('*');

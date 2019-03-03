@@ -1189,9 +1189,9 @@ _:-ms-lang(x),
   .topnavbar {
     border: 0;
     background-color: #23b7e5;
-    background-image: -webkit-linear-gradient(left, #23b7e5 0%, #51c6ea 100%);
-    background-image: -o-linear-gradient(left, #23b7e5 0%, #51c6ea 100%);
-    background-image: linear-gradient(to right, #23b7e5 0%, #51c6ea 100%);
+    background-image: -webkit-linear-gradient(left, #535D67 0%, #51c6ea 100%);
+    background-image: -o-linear-gradient(left, #535D67 0%, #51c6ea 100%);
+    background-image: linear-gradient(to right, #535D67 0%, #51c6ea 100%);
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff23b7e5', endColorstr='#ff51c6ea', GradientType=1);
   }

@@ -52,9 +52,11 @@ class Moneda extends CI_Controller {
 		$vista_id = 8; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
-		$data['monedas'] = $this->Moneda_model->getMoneda();
+		$data['registros'] = $this->Moneda_model->getMoneda();
+		$data['column'] = $this->column();
+		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['home'] = 'admin/moneda/moneda_lista';
+		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}
@@ -72,9 +74,18 @@ class Moneda extends CI_Controller {
 	}
 
 	public function save(){
+
 		if(isset($_POST)){
-			$this->Moneda_model->save( $_POST );
+			$data = $this->Moneda_model->save( $_POST );
+
+			if($data){
+				$this->session->set_flashdata('success', "Moneda Fue Creado");
+			}else{
+				$this->session->set_flashdata('danger', "Moneda No Fue Creado");
+			}
 		}
+
+		
 
 		redirect(base_url()."admin/moneda/index");
 	}
@@ -98,9 +109,35 @@ class Moneda extends CI_Controller {
 
 	public function update(){
 		if(isset($_POST)){
-			$this->Moneda_model->update( $_POST );
+			$data = $this->Moneda_model->update( $_POST );
+
+			if($data){
+				$this->session->set_flashdata('warning', "Moneda Fue Actualizado");
+			}else{
+				$this->session->set_flashdata('danger', "Moneda No Fue Creado");
+			}
 		}
 
 		redirect(base_url()."admin/moneda/index");
+	}
+
+	public function column(){
+
+		$column = array(
+			'#','Nombre','Simbolo','Alias','Estado'
+		);
+		return $column;
+	}
+
+	public function fields(){
+		$fields['field'] = array(
+			'moneda_nombre','moneda_simbolo','moneda_alias','estado'
+		);
+		
+		$fields['id'] = array('id_moneda');
+		$fields['estado'] = array('moneda_estado');
+		$fields['titulo'] = "Moneda Lista";
+
+		return $fields;
 	}
 }

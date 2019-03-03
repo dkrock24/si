@@ -90,10 +90,18 @@
                <ul class="nav navbar-nav navbar-right">
                   <!-- Search icon-->
                   <li>
-                     <a href="#" data-search-open="">
+                     <span data-search-open="" style="font-size: 30px; color: white;">
+                        <?php echo date("H:i") ?>
+                     </span>
+                     <span style="top: -10px; position: relative; color: white;"> <?php echo date("A") ?></span>
+                     <span style="font-size: 30px; color: white;"> | </span>
+                  </li>
+                  <li>
+                    <a href="#" data-search-open="">
                         <em class="icon-magnifier"></em>
                      </a>
                   </li>
+                  
                   <!-- Fullscreen (only desktops)-->
                   <li class="visible-lg">
                      <a href="#" data-toggle-fullscreen="">

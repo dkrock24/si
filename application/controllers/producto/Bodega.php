@@ -38,9 +38,11 @@ class Bodega extends CI_Controller {
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
-		$data['bodegas'] = $this->Bodega_model->getBodegas( $id_usuario );
+		$data['registros'] = $this->Bodega_model->getBodegas( $id_usuario );
+		$data['column'] = $this->column();
+		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['home'] = 'producto/bodega/bodega_lista';
+		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}
@@ -91,5 +93,25 @@ class Bodega extends CI_Controller {
 		$data['bodegas'] = $this->Bodega_model->update_bodega( $_POST );
 
 		redirect(base_url()."producto/bodega/index");
+	}
+
+	public function column(){
+
+		$column = array(
+			'#','Nombre','Direccion','Encargado','Predefinida','Empresa', 'Sucursal', 'Estado'
+		);
+		return $column;
+	}
+
+	public function fields(){
+		$fields['field'] = array(
+			'nombre_bodega','direccion_bodega','encargado_bodega','predeterminada_bodega','nombre_comercial','nombre_sucursal','estado'
+		);
+		
+		$fields['id'] = array('id_bodega');
+		$fields['estado'] = array('bodega_estado');
+		$fields['titulo'] = "Bodega Lista";
+
+		return $fields;
 	}
 }

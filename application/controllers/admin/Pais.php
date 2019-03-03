@@ -30,6 +30,7 @@ class Pais extends CI_Controller {
 
 		$this->load->model('admin/Pais_model');  
 		$this->load->model('admin/Menu_model');
+		$this->load->model('accion/Accion_model');
 	}
 
 // Start PAIS **********************************************************************************
@@ -38,9 +39,20 @@ class Pais extends CI_Controller {
 		// GET PAIS
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
+		// Seguridad :: Validar URL usuario	
+		$menu_session = $this->session->menu;	
+		//parametros($menu_session);
+
+		$id_rol = $this->session->roles[0];
+		$vista_id = 20; // Vista Orden Lista
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
+
 		$data['menu'] = $this->session->menu;
-		$data['pais'] = $this->Pais_model->get_pais();
-		$data['home'] = 'admin/pais/pais';
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['registros'] = $this->Pais_model->get_pais();
+		$data['column'] = $this->column();
+		$data['fields'] = $this->fields();
+		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}
@@ -191,6 +203,26 @@ class Pais extends CI_Controller {
 		$this->Pais_model->update_ciu( $_POST );
 		
 		redirect(base_url()."admin/pais/ciu/".$_POST['departamento']);
+	}
+
+	public function column(){
+
+		$column = array(
+			'#','Nombre','Codigo','Moneda','Simbolo','Creado', 'Actualizado', 'Estado'
+		);
+		return $column;
+	}
+
+	public function fields(){
+		$fields['field'] = array(
+			'nombre_pais','zip_code','moneda_nombre','moneda_simbolo','fecha_creacion_pais','fecha_actualizacion_pais','estado'
+		);
+		
+		$fields['id'] = array('id_pais');
+		$fields['estado'] = array('estado_pais');
+		$fields['titulo'] = "Pais Lista";
+
+		return $fields;
 	}
 
 }
