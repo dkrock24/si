@@ -118,6 +118,26 @@
                 error:function(){
                 }
             });
+
+          $.ajax({
+            url: "get_categorias_empresa/"+id,  
+            datatype: 'json',      
+            cache : false,                
+
+                success: function(data){
+                  
+                var datos = JSON.parse(data);
+                  
+                $("#categoria").empty();
+                $("#categoria").append('<option value="0">Selecione Categoria</option>');
+                $.each(JSON.parse(data), function(i, item) {                    
+                    $("#categoria").append('<option value='+item.id_categoria+'>'+item.nombre_categoria+'</option>');
+                });
+                
+                },
+                error:function(){
+                }
+            });
     });
 
     // Busca el Giro para dibujar los inputs del producto

@@ -8,8 +8,21 @@ class Moneda_model extends CI_Model {
     const pos_empresa = 'pos_empresa';
     const sys_moneda = 'sys_moneda';
 
-    function getMoneda(){
+    function getMoneda(  $limit, $id ){
     	$this->db->select('*');
+        $this->db->from(self::sys_moneda);
+        $this->db->limit($limit, $id);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function getAllMoneda(){
+        $this->db->select('*');
         $this->db->from(self::sys_moneda);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -18,6 +31,10 @@ class Moneda_model extends CI_Model {
         {
             return $query->result();
         }
+    }
+
+    function record_count(){
+        return $this->db->count_all(self::sys_moneda);
     }
 
     function save($moneda){

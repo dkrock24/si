@@ -20,6 +20,19 @@ class Giros_model extends CI_Model {
             return $query->result();
         } 
 	}
+
+    function getAllgiros(){;
+        $this->db->select('*');
+        $this->db->from(self::giros);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[2];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
     function record_count(){
         return $this->db->count_all(self::giros);
     }

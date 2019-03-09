@@ -1,9 +1,12 @@
 <?php include_once 'template/libraries.php'; ?>
 
+
  <div class="wrapper">
+   <div style="text-align: center"><?php include_once 'notificaciones/success.php'; ?></div>
       <div class="block-center mt-xl wd-xl">
          <!-- START panel-->
          <div class="panel panel-dark panel-flat">
+
             <div class="panel-heading text-center">
                <h1 style="margin-top: 0px; color: white;">IBS</h1>
             </div>

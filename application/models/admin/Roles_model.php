@@ -9,16 +9,21 @@ class Roles_model extends CI_Model {
     const cargos = 'sr_cargos';
 
 
-    function getRoles(){
+    function getRoles($limit, $id){
 
         $this->db->select('*');
-        $this->db->from(self::roles);            
+        $this->db->from(self::roles);  
+        $this->db->limit($limit, $id);          
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
         {
             return $query->result();
         } 
+    }
+
+    function record_count(){
+        return $this->db->count_all(self::roles);
     }
 
     function getRolesById( $id_role ){

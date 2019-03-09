@@ -8,11 +8,12 @@ class Pais_model extends CI_Model {
 	const sys_departamento = 'sys_departamento';
 
 
-	function get_pais(){
+	function get_pais( $limit, $id  ){
 
 		$this->db->select('*');
         $this->db->from(self::pais.' as p');
         $this->db->join(self::sys_moneda.' as m','on '. 'm.id_moneda = p.id_moneda');
+        $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -21,6 +22,10 @@ class Pais_model extends CI_Model {
             return $query->result();
         } 
 	}
+
+	function record_count(){
+        return $this->db->count_all(self::pais);
+    }
 
 	// EDITAR PAIS //
 	function edit_pais( $id_pais ){

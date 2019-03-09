@@ -25,6 +25,8 @@ class Existencias extends CI_Controller {
 		$this->load->model('producto/Producto_model');				
 		$this->load->model('producto/Existencias_model');
 		$this->load->model('producto/Orden_model');
+		$this->load->model('producto/Codbarra_model');
+		
 	}
 
 	public function index()
@@ -38,7 +40,7 @@ class Existencias extends CI_Controller {
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
-		$data['codbarra'] = $this->Existencias_model->getCodbarra( );
+		$data['codbarra'] = $this->Codbarra_model->getCodbarra( );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'producto/existencias/codbarra_lista';
 

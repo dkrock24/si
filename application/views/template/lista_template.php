@@ -25,6 +25,7 @@
                     <div class="col-lg-1 text-left">
                         <form method="post" id="pagina_x" name="data">
                         <select class="form-control" id="total_pagina" name="total_pagina">
+                            <option class="0">-</option>
                             <option class="10">10</option>
                             <option class="15">15</option>
                             <option class="20">20</option>
@@ -65,8 +66,8 @@
                                         }}}
                                         ?>
                                           <li class="divider"></li>
-                                          <li><a href="#">Otros</a>
-                                          </li>
+                                          <li><a href="#">Otros</a>               </li>
+                                          <li><a href="#" class="listar_giros" id="<?php //echo $giros->id_giro; ?>" data-toggle="modal" data-target="#ModalEmpresa">Empresa</a></li>
                                        </ul>
                                     </div>
                                 </th>                            
@@ -74,7 +75,7 @@
                         </thead>
                         <tbody>
                         <?php
-                            $contador=1;
+                            $contador = $contador_tabla;
                             if($registros){
                                 foreach ($registros as $table) {
                                     $id =  $fields['id'][0];

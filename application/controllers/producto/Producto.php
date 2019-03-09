@@ -10,8 +10,11 @@ class Producto extends CI_Controller {
 
 		$this->load->library('parser');
 		@$this->load->library('session');
+		$this->load->library('pagination'); 
+
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
+		$this->load->helper('paginacion/paginacion_helper');
 
 		$this->load->model('admin/Menu_model');	
 
@@ -20,10 +23,45 @@ class Producto extends CI_Controller {
 		$this->load->model('accion/Accion_model');	
 		$this->load->model('admin/Giros_model');	
 		$this->load->model('admin/Sucursal_model');	
+		$this->load->model('admin/Categorias_model');	
 	}
 
 	public function index()
 	{
+
+		//Paginacion
+		$contador_tabla;
+		if( isset( $_POST['total_pagina'] )){
+			$per_page = $_POST['total_pagina'];
+			$_SESSION['per_page'] = $per_page;
+		}else{
+			if($_SESSION['per_page'] == ''){
+				$_SESSION['per_page'] = 10;
+			}			
+		}
+		
+		$total_row = $this->Producto_model->record_count();
+		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/producto/index");
+		$this->pagination->initialize($config);
+		if($this->uri->segment(4)){
+			if($_SESSION['per_page']!=0){
+				$page = ($this->uri->segment(4) - 1 ) * $_SESSION['per_page'];
+				$contador_tabla = $page+1;
+			}else{
+				$page = 0;
+				$contador_tabla =1;
+			}
+		}else{
+			$page = 0;
+			$contador_tabla =1;
+		}
+
+		$str_links = $this->pagination->create_links();
+		$data["links"] = explode('&nbsp;',$str_links );
+
+		// paginacion End
+
+
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
@@ -32,9 +70,12 @@ class Producto extends CI_Controller {
 		$vista_id = 9;
 
 		$data['menu'] = $this->session->menu;
-		$data['prod'] = $this->Producto_model->getProd();
+		$data['contador_tabla'] = $contador_tabla;
+		$data['registros'] = $this->Producto_model->getProd($config["per_page"], $page   );
+		$data['column'] = $this->column();
+		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['home'] = 'producto/producto/prod_lista';
+		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}
@@ -100,7 +141,7 @@ class Producto extends CI_Controller {
 	}
 
 	function get_productos_lista(){
-		$data['productos'] = $this->Producto_model->getProd();
+		$data['productos'] = $this->Producto_model->getAllProducto();
 		echo json_encode( $data );
 	} 
 
@@ -133,6 +174,13 @@ class Producto extends CI_Controller {
 	public function get_giros_empresa( $id_empresa ){
 
 		$giros = $this->Giros_model->get_giros_empresa( $id_empresa );
+
+		echo json_encode( $giros );
+	}
+
+	public function get_categorias_empresa( $id_empresa ){
+
+		$giros = $this->Categorias_model->get_categorias_empresa( $id_empresa );
 
 		echo json_encode( $giros );
 	}
@@ -180,6 +228,26 @@ class Producto extends CI_Controller {
 		$this->Producto_model->associar_bodega( $_POST );
 
 		redirect(base_url()."producto/producto/bodega");
+	}
+
+	public function column(){
+
+		$column = array(
+			'#','Producto','Categoria','Sub Categoria','Marca','Precio','Giro','Creado','Actualizado','Estado'
+		);
+		return $column;
+	}
+
+	public function fields(){
+		$fields['field'] = array(
+			'name_entidad','nombre_categoria','SubCategoria','nombre_marca','Precio','nombre_giro','creado_producto','actualizado_producto','estado'
+		);
+		
+		$fields['id'] = array('id_entidad');
+		$fields['estado'] = array('producto_estado');
+		$fields['titulo'] = "Producto Lista";
+
+		return $fields;
 	}
 
 	

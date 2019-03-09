@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-function paginacion($total_row , $per_page){
+function paginacion($total_row , $per_page , $url){
 
 	// paginacion
 		$config = array();
-		$config["base_url"] = base_url() . "admin/giros/index";
+		$config["base_url"] = base_url() . $url;
 		
 		$config["total_rows"] = $total_row;
 		$config["per_page"] = $per_page;

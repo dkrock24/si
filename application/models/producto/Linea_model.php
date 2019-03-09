@@ -3,9 +3,10 @@ class Linea_model extends CI_Model {
 
 	const pos_linea = 'pos_linea';
 	
-	function getLinea( ){
+	function getLinea( $limit, $id  ){
 		$this->db->select('*');
         $this->db->from(self::pos_linea);
+        $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -14,6 +15,10 @@ class Linea_model extends CI_Model {
             return $query->result();
         }
 	}
+
+    function record_count(){
+        return $this->db->count_all(self::pos_linea);
+    }
 
     function save_linea( $datos ){
 

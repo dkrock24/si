@@ -8,7 +8,7 @@ class Bodega_model extends CI_Model {
     const pos_producto_bodega = 'pos_producto_bodega';
     const producto = 'producto';
 	
-	function getBodegas( $id_usuario ){
+	function getBodegas( $id_usuario , $limit, $id){
 		$this->db->select('*');
         $this->db->from(self::pos_bodega.' as b');
         $this->db->join(self::pos_sucursal.' as s', 'on b.Sucursal = s.id_sucursal');
@@ -17,6 +17,7 @@ class Bodega_model extends CI_Model {
         $this->db->join(self::producto.' as p', 'on p.id_entidad = pb.Producto');
         $this->db->join(self::sys_empleado_sucursal.' as es', 'on es.es_sucursal = s.id_sucursal');
         $this->db->where('es.es_empleado', $id_usuario );
+        $this->db->limit($limit, $id);
         $this->db->group_by('b.id_bodega');
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -26,6 +27,24 @@ class Bodega_model extends CI_Model {
             return $query->result();
         }
 	}
+
+    function record_count($id_usuario){
+        $this->db->select('count(*) as total');
+        $this->db->from(self::pos_bodega.' as b');
+        $this->db->join(self::pos_sucursal.' as s', 'on b.Sucursal = s.id_sucursal');
+        $this->db->join(self::pos_empresa.' as e', 'on s.Empresa_Suc = e.id_empresa');
+        $this->db->join(self::sys_empleado_sucursal.' as es', 'on es.es_sucursal = s.id_sucursal');
+        $this->db->where('es.es_empleado', $id_usuario );
+        $this->db->group_by('b.id_bodega');
+        $query = $this->db->get();
+        //echo $this->db->queries[0];
+        
+        if($query->num_rows() > 0 )
+        {
+            $total = $query->result();
+            return $total[0]->total;
+        }
+    }
 
 	function saveBodegas($datos){
 

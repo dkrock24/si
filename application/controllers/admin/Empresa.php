@@ -97,7 +97,7 @@ class Empresa extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['empresa'] = $this->Empresa_model->getEmpresaId( $empresa_id );
-		$data['moneda'] = $this->Moneda_model->getMoneda();
+		$data['moneda'] = $this->Moneda_model->getAllMoneda();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'admin/empresa/empresa_editar';
 

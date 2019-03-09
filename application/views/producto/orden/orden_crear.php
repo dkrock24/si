@@ -1,7 +1,7 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script>
 
-var _orden = {};
+var _orden = [];
 var _productos = {};
 var _productos_precio = [];
 var _productos_lista;
@@ -121,9 +121,9 @@ $(document).ready(function(){
                 var contador =1;
                 var existencias_total=0;
                 var html='';
-                console.log(datos);
+
                 $.each(datos['producto'], function(i, item) { 
-                    console.log(contador);
+
                     existencias_total+= parseInt(item.Cantidad);
                     html +='<tr>';
                     html +='<td>'+contador+'</td>';
@@ -548,15 +548,20 @@ $(document).ready(function(){
 // Remover los Productos de la lista.
     $(document).on('click', '.eliminar', function(){
         var producto_id = $(this).attr('name');
+        console.log(producto_id);
+        //$.each(_orden, function(i, element) {
         _orden.forEach(function(element) {
             if(element.producto == producto_id){
 
                 total_msg -= parseInt(calcularTotalProducto(element.precioUnidad, element.cantidad));
                 $(".total_msg").text("$ "+total_msg.toFixed(2));
                 
-                _orden.splice(_orden.indexOf(element), 1);
-                depurar_producto();
+                console.log(_orden.indexOf(element));
+                _orden.splice(_orden.indexOf(element),1);
+                //delete _orden[element];
                 
+                console.log(_orden);
+                depurar_producto();
             }
             
         });
@@ -593,7 +598,7 @@ $(document).ready(function(){
             
         }else{
             contador_productos = 0;
-            _orden = {};
+            _orden = [];
             _productos = {};
 
             total_msg = parseInt(0);
@@ -761,16 +766,21 @@ $(document).ready(function(){
 <section>
     <!-- Page content-->
     <div class="content-wrapper">
-        <h3 style="height: 50px; ">Orden </h3>
+        <h3 style="height: 50px; font-size: 13px;">                
+                <a href="index" style="top: -12px;position: relative; text-decoration: none">
+                    <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Lista Ordenes</button> 
+            </a> 
+            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
+            </h3>
         <div class="row">
            <div class="col-lg-12 col-md-12">
               <!-- Team Panel-->
               <div class="panel panel-default">
-                 <div class="panel-heading" style="background: #8dddf5;">
+                 <div class="panel-heading" style="background: #535D67; color: white;">
                     <div class="pull-right">
-                       <div class="label label-success">Fecha <?php echo Date("Y-m-d"); ?></div>
+                       <div class="label label-success"> Fecha <?php echo Date("Y-m-d"); ?> </div>
                     </div>
-                    <div class="panel-title">Crear Orden <span style="float: right;"><?php echo gethostbyaddr($_SERVER['REMOTE_ADDR'])  ; ?></span> </div>
+                    <div class="panel-title">Crear Orden <span style="float: right;"> <?php echo gethostbyaddr($_SERVER['REMOTE_ADDR'])  ; ?></span> </div>
                  </div>
 
                  <!-- START panel-->

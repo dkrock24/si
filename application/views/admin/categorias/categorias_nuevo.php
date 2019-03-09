@@ -37,7 +37,24 @@
                                                 <input type="text" class="form-control" id="img_cate" name="img_cate" placeholder="Tipo" value="">
                                                 <p class="help-block">Imagen Categoria.</p>
                                             </div>
-                                        </div>  
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Empresa</label>
+                                            <div class="col-sm-10">
+                                                
+                                                <select class="form-control" id="Empresa" name="Empresa" >
+                                                    <?php
+                                                    foreach ($empresa as $key => $value) {
+                                                        ?>
+                                                        <option value="<?php echo $value->id_empresa ?>"><?php echo $value->nombre_comercial ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>  
+                                                </select>
+                                                <p class="help-block">Empresa Nombre</p>
+                                            </div>
+                                        </div>                                        
 
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Categoria2</label>

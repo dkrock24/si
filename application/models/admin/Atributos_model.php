@@ -4,13 +4,11 @@ class Atributos_model extends CI_Model {
 	const atributos =  'atributo';
     const atributos_opciones =  'atributos_opciones';
 
-    
-
-
-	function get_atributos(){
+	function get_atributos( $limit, $id  ){
 
 		$this->db->select('*');
         $this->db->from(self::atributos);
+        $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -19,6 +17,23 @@ class Atributos_model extends CI_Model {
             return $query->result();
         } 
 	}
+
+    function geAllAtributos(){
+
+        $this->db->select('*');
+        $this->db->from(self::atributos);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
+    function record_count(){
+        return $this->db->count_all(self::atributos);
+    }
 
     function get_atributos_total(){
 

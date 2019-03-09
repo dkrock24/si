@@ -54,7 +54,7 @@ class Login extends CI_Controller {
 				header("location: validar");
 
 			}else{
-
+				$this->session->set_flashdata('warning', "Usuario / Password Incorrectos");
 				$this->load->view('login');
 			}
 		}		
@@ -83,7 +83,7 @@ class Login extends CI_Controller {
 				header("location:../admin/home/seleccionar_empresa");
 
 			}else{
-
+				$this->session->set_flashdata('warning', "Usuario / Password Incorrectos");
 				$this->load->view('login');
 			}
 	}
