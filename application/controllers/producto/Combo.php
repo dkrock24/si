@@ -29,6 +29,8 @@ class Combo extends CI_Controller {
 
 	public function index()
 	{
+
+
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
@@ -39,11 +41,11 @@ class Combo extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['column'] = $this->column();
-		$data['registros'] = $this->Combo_model->getCombo( );
+		$data['combos'] = $this->Combo_model->getCombo( );
 		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		//$data['home'] = 'producto/combo/combo_lista';
-		$data['home'] = 'template/lista_template';
+		$data['home'] = 'producto/combo/combo_lista';
 
 		$this->parser->parse('template', $data);
 	}

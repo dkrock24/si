@@ -23,6 +23,8 @@
 
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/app.css" id="maincss">
 
+
+
   </head>
   <title>
       <?php
@@ -90,10 +92,9 @@
                <ul class="nav navbar-nav navbar-right">
                   <!-- Search icon-->
                   <li>
-                     <span data-search-open="" style="font-size: 30px; color: white;">
-                        <?php echo date("H:i") ?>
+                     <span data-search-open="" id="time-part" style="font-size: 30px; color: white;">
                      </span>
-                     <span style="top: -10px; position: relative; color: white;"> <?php echo date("A") ?></span>
+                     <span id="format-date" style="top: -10px; position: relative; color: white;"> </span>
                      <span style="font-size: 30px; color: white;"> | </span>
                   </li>
                   <li>

@@ -70,7 +70,7 @@ class Empresa extends CI_Controller {
 		$vista_id = 8; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
-		$data['moneda'] = $this->Moneda_model->getMoneda();
+		$data['moneda'] = $this->Moneda_model->getAllMoneda();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'admin/empresa/empresa_nuevo';
 

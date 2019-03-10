@@ -85,6 +85,9 @@ class Producto_model extends CI_Model {
 	            'Empresa' => $producto['empresa'],
 	            'Giro' => $producto['giro']
 	        );
+	        if(isset($producto['escala'])){
+				$data += ['Escala' => $producto['escala'] ];
+			}
 			
 
 			$this->db->insert(self::producto, $data ); 

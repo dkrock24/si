@@ -13,6 +13,7 @@ var factor_total = 0;
 var producto_cantidad_linea = 1;
 var sucursal = 0;
 var interno_sucursal=0;
+var producto_escala;
 
 
 $(document).ready(function(){
@@ -242,33 +243,37 @@ $(document).ready(function(){
             	var datos = JSON.parse(data);
 
                 var precio_unidad = datos['producto'][8].valor;
+                producto_escala = datos['producto'][0].Escala;
                 var prod_precio = datos["prod_precio"];
                 _productos_precio = prod_precio;
 
-                if( parseInt(_productos_precio.length) > 1){
+
+                if( parseInt(_productos_precio.length) >= 1 && producto_escala!=1 ){
                     get_presentacio_lista( _productos_precio );
                     //$('#presentacion_modal').modal('show');
                 }else{
-                    
+                    enLinea();
                 }
+
             		$("#producto").val(datos['producto'][12].valor);
-            		$("#presentacion").val(datos['producto'][0].valor);
-            		$("#precioUnidad").val( precio_unidad );
+            		//$("#presentacion").val(_productos_precio[0].presentacion);
+            		$("#precioUnidad").val( _productos_precio[0].unidad );
             		$("#descuento").val(datos['producto'][7].valor);
                     $("#bodega").val(datos['producto'][0].nombre_bodega);
                     $("#descripcion").val(datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca  );
+                    //$("#factor").val(_productos_precio[0].factor);
 
             		producto_cantidad_linea = 1;
                     $("#cantidad").val(1);
-            		precioUnidad = datos['producto'][8].valor;
+            		precioUnidad = _productos_precio[0].unidad;
 
                 	set_calculo_precio(precioUnidad, producto_cantidad_linea);
 
                     _productos.producto_id = datos['producto'][0].id_entidad;
                     _productos.inventario_id = datos['producto'][0].id_inventario;
                 	_productos.producto = datos['producto'][12].valor;
-                	_productos.presentacion = datos['producto'][0].valor;
-                	_productos.precioUnidad = datos['producto'][8].valor;
+                	//_productos.presentacion = datos['producto'][0].valor;
+                	//_productos.precioUnidad = datos['producto'][8].valor;
                 	_productos.descuento = datos['producto'][7].valor;
                 	_productos.cantidad = producto_cantidad_linea;
                 	_productos.total = $("#total").val();
@@ -286,28 +291,63 @@ $(document).ready(function(){
         });
     }
 
-/* 5 - Retornando lista de presentaciones dentro de la tabla */
+    /* 5 - Retornando lista de presentaciones dentro de la tabla */
     function get_presentacio_lista( _productos_precio ){
-
         var contador_precios=1;
         var table_tr;
+        
         $.each(_productos_precio, function(i, item) { 
-            
-            //table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.presentacion+'</td><td><div class="pull-center label label-success">'+item.factor+'</div></td><td>'+item.precio+'</td><td>'+item.unidad+'</td><td>'+item.cod_barra+'</td><td>'+item.estado_producto_detalle+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_presentacion" id="'+item.id_producto_detalle+'">Seleccionar</a></td></tr>';
             table_tr += '<option value="'+item.id_producto_detalle+'">'+item.presentacion+'</option>';
             contador_precios++;
             
         });
         $(".dataSelect2").html(table_tr);
         $('.dataSelect2').show();
-        $('.dataSelect2').focus();
-        
+        $('.dataSelect2').focus();        
+    }
+
+    function enLinea(){       
+        $("#presentacion").val(_productos_precio[0].presentacion);  
+        $("#factor").val(_productos_precio[0].factor);
+        _productos.presentacion = _productos_precio[0].presentacion;
+        _productos.precioUnidad = _productos_precio[0].unidad;
+        _productos.presentacionFactor = _productos_precio[0].factor;
+
+
+    }
+
+    /* Valida las escalas de los productos cuando se aunmenta la cantidad */
+    function validar_escalas( c ){
+        var total_precio_escala = 0;
+
+        $.each(_productos_precio, function(i, item) {
+            
+            pf = parseInt(item.factor);
+            if( c == pf ){
+                total_precio_escala = item.unidad;
+                _productos.presentacion = item.presentacion;
+                _productos.presentacionFactor = item.factor;
+                $("#presentacion").val(item.presentacion);  
+                $("#factor").val(item.factor);
+            }else{
+
+                console.log(typeof(pf));
+                if( c >= pf ){
+                    total_precio_escala = item.unidad;
+                    _productos.presentacionFactor = item.factor;
+                    _productos.presentacion = item.presentacion;
+                    $("#presentacion").val(item.presentacion);  
+                    $("#factor").val(item.factor);
+                }                
+            }
+
+        });
+        return total_precio_escala;
     }
 
 
 /* 6 - Selecionado Presentacion de la lista y precionando ENTER */
     $(document).on('keypress', '.dataSelect2', function(){
-
         if ( event.which == 13 ) {
             var precio_id = this.value;
             event.preventDefault();
@@ -459,14 +499,23 @@ $(document).ready(function(){
                 var cantidad = producto_cantidad_linea;
                 var cantidad = $("#cantidad").val();
 
-                $("#total").val(calcularTotalProducto( _productos.presentacionPrecio, cantidad));
-                $("#precioUnidad").val( _productos.precioUnidad );
+                if(producto_escala == 1){
+                    
+                    var escala_precio = validar_escalas(cantidad);
 
+                    $("#total").val(calcularTotalProducto( escala_precio, cantidad));
+                    $("#precioUnidad").val( escala_precio );
+                    _productos.precioUnidad = escala_precio;
 
-                
+                }else{
+
+                    $("#total").val(calcularTotalProducto( _productos.presentacionPrecio, cantidad));
+                    $("#precioUnidad").val( _productos.precioUnidad );
+                }
+
                 _productos.cantidad = cantidad;
                 _productos.total = $("#total").val();
-
+                
                 factor_precio = 0;
                 factor_total = 0;
 
@@ -478,7 +527,7 @@ $(document).ready(function(){
 // total Producto
     function calcularTotalProducto(precio , cantidad){
     	var total = (precio * cantidad);
-    	return total;
+    	return Number(total).toFixed(2);
     }
 
     function productos_precios_validacion(){
@@ -1054,6 +1103,30 @@ $(document).ready(function(){
   border-radius: 0;
 }*/
 </style>
+
+<!-- Modal Large CLIENTES MODAL-->
+   <div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal"  class="modal fade">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               <h4 id="myModalLabelLarge" class="modal-title">Buscar Cliente</h4>
+            </div>
+            <div class="modal-body">
+                <p class="cliente_lista_datos">
+                    
+                </p>                                 
+               
+            </div>
+            <div class="modal-footer">
+               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
+            </div>
+         </div>
+      </div>
+   </div>
+<!-- Modal Small-->
 
 <!-- Modal Large PRODUCTOS MODAL-->
    <div id="existencias" tabindex="-1" role="dialog" aria-labelledby="existencias"  class="modal fade">

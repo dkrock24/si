@@ -49,7 +49,19 @@
 
   <script src="<?php echo base_url(); ?>../asstes/vendor/select2/dist/js/select2.js"></script>
   <script src="<?php echo base_url(); ?>../asstes/js/app.js"></script>
+  <script src="<?php echo base_url(); ?>../asstes/js/moment.min.js"></script>
   </div>
 
   </body>
 </html>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    var interval = setInterval(function() {
+        var momentNow = moment();
+        $('#time-part').html(momentNow.format('MMMM DD'));
+        $('#format-date').html(momentNow.format('hh:mm A'));
+    }, 100);
+});
+</script>

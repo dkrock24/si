@@ -768,6 +768,7 @@
 
                                             <div class="col-sm-4">
                                                 <div class="form-group">
+                                                    <div class="col-sm-offset-1 col-sm-3">Escala<input type='checkbox' name="escala" class=""></div>
                                                     <div class="col-sm-offset-7 col-sm-3">
                                                         <button type="submit" class="btn btn-primary">Guardar</button>
                                                     </div>
