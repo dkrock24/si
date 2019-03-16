@@ -44,7 +44,7 @@ $(document).ready(function(){
         
             interno_sucursal = sucursal;
             $.ajax({
-                url: "get_productos_lista/"+2+"/"+texto,
+                url: "get_productos_lista/"+texto,
                 datatype: 'json',      
                 cache : false,                
 
@@ -77,7 +77,6 @@ $(document).ready(function(){
                     //table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.cod_barra+'</td><td>'+item.id_entidad+'</td><td>'+item.cantidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_producto" id="'+item.id_entidad+'">Agregar</a></td></tr>';
                     contador_precios++;
                 }
-                
             });
 
             $(".dataSelect").html(table_tr);
@@ -88,6 +87,7 @@ $(document).ready(function(){
     $(document).on('keypress', '.dataSelect', function(){
         
         if ( event.which == 13 ) {
+            loading();
             get_producto_completo(this.value);
             event.preventDefault();
             $("#producto_buscar").val(this.value);
@@ -96,6 +96,13 @@ $(document).ready(function(){
             $(".producto_buscar").focus();
         }
         
+    });
+
+    $(document).on('keydown', '.producto_buscar', function(){
+         if ( event.keyCode == 40 ) {
+            $('.dataSelect').focus();            
+            document.getElementById('dataSelect').selectedIndex = 0;
+         }
     });
 
 /* 4 - Buscar producto por Id para agregarlo a la linea */
@@ -380,7 +387,7 @@ $(document).ready(function(){
 
         contador_productos++;
         if(_productos != null){
-            var tr_html = "<tr class='' style='background-color:#d7e1e8;'>";
+            var tr_html = "<tr class='bg-gray-light' style='background-color:#d7e1e8;'>";
             tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
             tr_html += "<td class='border-left'>"+_productos.producto+"</td>";
             tr_html += "<td class='border-left'>"+_productos.descripcion+"</td>";
@@ -455,16 +462,17 @@ $(document).ready(function(){
 <section>
     <!-- Page content-->
     <div class="content-wrapper">
-        <h3 style="height: 50px; ">Orden </h3>
+        <h3 style="height: 50px; ">Existencias </h3>
         <div class="row">
            <div class="col-lg-12 col-md-12">
               <!-- Team Panel-->
               <div class="panel panel-default">
-                 <div class="panel-heading" style="background: #8dddf5;">
+                 <div class="panel-heading " style="background: #535D67; color: white;">
                     <div class="pull-right">
-                       <div class="label label-success">Fecha <?php echo Date("Y-m-d"); ?></div>
+                        <a href="<?php echo base_url().'producto/producto/nuevo' ?>" style='float: right;' class="btn btn-primary"><i class="fa fa-arrow-left"></i> Producto</a>
                     </div>
-                    <div class="panel-title">Consultar Existencias<span style="float: right;"><?php //echo gethostbyaddr($_SERVER['REMOTE_ADDR'])  ; ?></span> </div>
+                    <div class="panel-title">Consultar Existencias<span style="float: right;"></span> </div>
+
                  </div>
 
                  <!-- START panel-->
@@ -472,13 +480,17 @@ $(document).ready(function(){
                 <!-- END panel-->
 
              
-                 <div class="panel-body">
-                    <!-- START table-responsive-->
+                          <!-- START table-responsive-->
                         <div class="table-responsive" >
                            <table class="table table-sm table-hover">
                             <div class="col-lg-4">
-                                <input type="text" class="form-control border-input producto_buscar" name="producto_buscar" width="100%">
-                                <select multiple="" class="form-control dataSelect">
+                                
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                    <input type="text" placeholder="Buscar Producto" name="producto_buscar" class="form-control producto_buscar">
+                                </div>
+
+                                <select multiple="" class="form-control dataSelect" id="dataSelect">
 
                                 </select>
 
@@ -489,16 +501,16 @@ $(document).ready(function(){
   
                             </span>
                             
-                              <thead>
+                              <thead class="bg-info-dark">
                                  <tr>
-                                    <th>#</th>
-                                    <th>Sucursal</th>
-                                    <th>Bodega</th>
-                                    <th>Existencia</th>
-                                    <th>Costo</th>
-                                    <th>Costo Anterior</th>
-                                    <th>Costo utilidad</th>
-                                    <th>Cod ubicacion</th>                                    
+                                    <th style="color: white;">#</th>
+                                    <th style="color: white;">Sucursal</th>
+                                    <th style="color: white;">Bodega</th>
+                                    <th style="color: white;">Existencia</th>
+                                    <th style="color: white;">Costo</th>
+                                    <th style="color: white;">Costo Anterior</th>
+                                    <th style="color: white;">Costo utilidad</th>
+                                    <th style="color: white;">Cod ubicacion</th>                                    
                                  </tr>
                               </thead>
                               <tbody class="uno" style="border-bottom: 3px solid grey">
@@ -510,8 +522,8 @@ $(document).ready(function(){
                            </table>
                         </div>
                     <!-- END table-responsive-->
-                 </div>
-                 <div class="panel-footer text-center">
+                 
+                 <div class="panel-footer text-center panel-footer bg-gray-light">
                     <a href="#" class="btn btn-primary btn-oval">Seleccionar</a>
                     <a href="#" class="btn btn-success btn-oval">Volver</a>
                     <a href="#" class="btn btn-info btn-oval">kardex</a>

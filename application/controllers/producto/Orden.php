@@ -63,7 +63,6 @@ class Orden extends CI_Controller {
 
 		// paginacion End
 
-
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
@@ -75,8 +74,8 @@ class Orden extends CI_Controller {
 		$data['contador_tabla'] = $contador_tabla;
 		$data['registros'] = $this->Orden_model->getOrdenes( $config["per_page"], $page );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
+		$data['column'] = $this->column();
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -104,6 +103,8 @@ class Orden extends CI_Controller {
 			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
 			$data['terminal'] = $terminal_acceso;
 			$data['correlativo'] = $this->Correlativo_model->get_correlativo_by_sucursal( $id_usuario);
+			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
+		
 
 			$data['home'] = 'producto/orden/orden_crear';
 
@@ -120,10 +121,6 @@ class Orden extends CI_Controller {
 
 		$id_usuario = $this->session->usuario[0]->id_usuario;
 
-		// Guardar Orden en Modelo
-		//var_dump($_POST);
-		//die;
-
 		// Obteniendo informacion del cliente
 		$cliente = $this->get_clientes_id($_POST['encabezado'][6]['value']);
 
@@ -132,8 +129,19 @@ class Orden extends CI_Controller {
 		redirect(base_url()."producto/orden/nuevo");
 	}
 
-	function get_productos_lista( $sucursal , $texto ){
-		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal , $texto);
+	function get_productos_lista( $sucursal ,$bodega, $texto ){
+		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal ,$bodega, $texto);
+		echo json_encode( $data );
+	}
+
+	function get_bodega( ){
+		$id_usuario = $this->session->usuario[0]->id_usuario;
+		$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
+		echo json_encode( $data );
+	}
+
+	function get_bodega_sucursal( $Sucursal ){
+		$data['bodega'] = $this->Orden_model->get_bodega_sucursal( $Sucursal );
 		echo json_encode( $data );
 	}
 
@@ -156,8 +164,8 @@ class Orden extends CI_Controller {
 		echo json_encode( $data );
 	}
 
-	function get_producto_completo($producto_id){
-		$data['producto'] = $this->Orden_model->get_producto_completo($producto_id);
+	function get_producto_completo($producto_id, $id_bodega ){
+		$data['producto'] = $this->Orden_model->get_producto_completo($producto_id, $id_bodega);
 		$data['precios'] = $this->Orden_model->get_producto_precios($producto_id);
 		$data['prod_precio'] = $this->Orden_model->get_producto_precios( $producto_id );
 		echo json_encode( $data );

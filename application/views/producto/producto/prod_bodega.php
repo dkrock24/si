@@ -58,7 +58,7 @@
                                     <em class="fa fa-plus"></em>
                                 </a>
                             </div>
-                            <div class="panel-wrapper collapse">                            
+                            <div class="panel-wrapper collapse ">                            
 
                                 <div class="panel-body">
                                     <?php if(isset($prod_bodega)){ ?>
@@ -73,16 +73,16 @@
                                    <form action="producto_activar" method="post">
                                    <div class="">
                                       <table id="table-ext-1" class="table table-bordered table-hover">
-                                         <thead>
+                                         <thead class="bg-info-dark">
                                             <tr>
-                                               <th>ID</th>
-                                                <th>Producto</th>
-                                                <th>Cantidad</th>
-                                                <th>Sumar</th>
-                                               <th>Sucursal</th>
-                                               <th>Bodega</th>
-                                               <th>Estado</th>
-                                               <th data-check-all>
+                                              <th style="color: white;">ID</th>
+                                              <th style="color: white;">Producto</th>
+                                              <th style="color: white;">Cantidad</th>
+                                              <th style="color: white;">Sumar</th>
+                                              <th style="color: white;">Sucursal</th>
+                                              <th style="color: white;">Bodega</th>
+                                              <th style="color: white;">Estado</th>
+                                              <th data-check-all style="color: white;">
                                                   <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
                                                      <label>
                                                         <input type="checkbox">
@@ -167,10 +167,10 @@
                                       </table>
                                    </div>
                                    <!-- END table-responsive-->
-                                   <div class="panel-footer">
-                                      <div class="row">
+                                   <div class="panel-footer bg-gray-light">
+                                      <div class="row ">
 
-                                         <div class="col-lg-10"><a href="#" class="btn btn-warning btn_cantidad">Cantidad</a></div>
+                                         <div class="col-lg-10"></div>
                                          <div class="col-lg-2">                                                  
                                                <span class=" pull-right">
                                                 <input type="hidden" name="producto_id" value="<?php echo $prod_bodega[0]->Producto; ?>">                                                
@@ -190,7 +190,7 @@
                         </div>
 
                         <div id="panelDemo10" class="panel panel-info">
-                            <div class="panel-heading panel-heading-collapsed"> Vincular Producto a Sucursal
+                            <div class="panel-heading panel-heading-collapsed"> Vincular Producto [ Sucursal - Bodega ]
                                 <a href="#" data-tool="panel-dismiss" data-toggle="tooltip" title="Close Panel" class="pull-right">
                                 <em class="fa fa-times"></em>
                                 </a>
@@ -206,16 +206,17 @@
                                     <section>
                                         <!-- START panel-->
                                         <div class="panel panel-default">
-                                           <div class="panel-heading"> - </div>
+                                           
                                            <!-- START table-responsive-->
                                            <form action="associar_bodega" method="post">
                                            <div class="">
                                               <table id="table-ext-1" class="table table-bordered table-hover">
-                                                 <thead>
+                                                 <thead class="bg-info-dark">
                                                     <tr>
-                                                       <th>ID</th>
-                                                       <th>Nombre Bodega</th>
-                                                       <th>Estado</th>
+                                                       <th style="color: white;">ID</th>
+                                                       <th style="color: white;">Sucursal</th>
+                                                       <th style="color: white;">Nombre Bodega</th>
+                                                       <th style="color: white;">Estado</th>
                                                        <th data-check-all>
                                                           <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
                                                              <label>
@@ -234,7 +235,12 @@
                                                         ?>
                                                         <tr>
                                                            <td><?php echo $contador; ?></td>
-                                                           <td class="" width="50%">
+                                                           <td class="" width="25%">
+                                                              <div class="">
+                                                                 <?php echo $value->nombre_sucursal; ?>
+                                                              </div>
+                                                           </td>
+                                                           <td class="" width="25%">
                                                               <div class="">
                                                                  <?php echo $value->nombre_bodega; ?>
                                                               </div>
@@ -281,7 +287,7 @@
                                               </table>
                                            </div>
                                            <!-- END table-responsive-->
-                                           <div class="panel-footer">
+                                           <div class="panel-footer bg-gray-light">
                                               <div class="row">
 
                                                  <div class="col-lg-10"></div>

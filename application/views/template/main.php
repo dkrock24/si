@@ -23,7 +23,24 @@
 
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/app.css" id="maincss">
 
+    <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/HoldOn.min.css">
 
+    <script type="text/javascript">
+      $(document).ready(function(){
+        loading();
+      });
+
+      function loading(){
+          HoldOn.open({
+            theme:"sk-bounce"
+          });
+          HoldOn.close();
+        }
+
+      
+      
+    </script>
 
   </head>
   <title>
@@ -102,25 +119,53 @@
                         <em class="icon-magnifier"></em>
                      </a>
                   </li>
-                  
+                                    
                   <!-- Fullscreen (only desktops)-->
                   <li class="visible-lg">
                      <a href="#" data-toggle-fullscreen="">
                         <em class="fa fa-expand"></em>
                      </a>
                   </li>
+
+      
                   <!-- START Alert menu-->
                   <li class="dropdown dropdown-list">
-                     <a href="#" data-toggle="dropdown">
-                        <em class="icon-user"></em>
-                        <!--<div class="label label-danger">11</div> -->
-                     </a>
+                     
+                        <div class="user-block-picture" data-toggle="dropdown">
+                              <div class="user-block-status">
+                                 <img src="<?php echo base_url(); ?>../asstes/img/user/02.jpg" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
+                                 <div class="circle circle-success circle-lg"></div>
+                              </div>
+                           </div>
+
+                           
+                     
                      <!-- START Dropdown menu-->
                      <ul class="dropdown-menu animated flipInX">
                         <li>
                            <!-- START list group-->
                            <div class="list-group">
                               <!-- list item-->
+                              <a href="<?php echo base_url(); ?>login/logout" class="list-group-item">
+                                 <div class="user-block-info">
+                              <span class="user-block-name">Hola, 
+                                <?php 
+                                if(isset($this->session->usuario[0]->nombre_usuario)){
+                                  echo $this->session->usuario[0]->nombre_usuario;
+                                }
+                                ?>
+                              </span>
+                              <span class="user-block-role">
+                                <?php   
+                                if(isset($this->session->usuario[0]->role))                     {
+                                  echo $this->session->usuario[0]->role;
+                                }
+                                ?>
+                              </span>
+                           </div>
+                              </a>
+
+
                               <a href="<?php echo base_url(); ?>login/logout" class="list-group-item">
                                  <div class="media-box">
                                     <div class="pull-left">
@@ -204,44 +249,7 @@
             <nav data-sidebar-anyclick-close="" class="sidebar">
                <!-- START sidebar nav-->
                <ul class="nav">
-                  <!-- START user info-->
-                  <li class="has-user-block">
-                     <div id="user-block" class="">
-                        <div class="item user-block">
-                           <!-- User picture-->
-                           <div class="user-block-picture">
-                              <div class="user-block-status">
-                                 <img src="<?php echo base_url(); ?>../asstes/img/user/02.jpg" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
-                                 <div class="circle circle-success circle-lg"></div>
-                              </div>
-                           </div>
-                           <!-- Name and Job-->
-                           <div class="user-block-info">
-                              <span class="user-block-name">Hola, 
-                                <?php 
-                                if(isset($this->session->usuario[0]->nombre_usuario)){
-                                  echo $this->session->usuario[0]->nombre_usuario;
-                                }
-                                ?>
-                              </span>
-                              <span class="user-block-role">
-                                <?php   
-                                if(isset($this->session->usuario[0]->role))                     {
-                                  echo $this->session->usuario[0]->role;
-                                }
-                                ?>
-                              </span>
-                           </div>
-                        </div>
-                     </div>
-                  </li>
-                  <!-- END user info-->
-                  <!-- Iterates over all sidebar items-->
-                  <li class="nav-heading ">
-                    <!--
-                     <span data-localize="sidebar.heading.HEADER">Menu Principal</span><hr>
-                   --><hr>
-                  </li>
+                <br>
                   
                     <?php
                         $id_menu = 0;
@@ -266,7 +274,7 @@
                                     {
                                 ?>
                                     <li class="sidebar-subnav-header">Dashboard</li>
-                                    <li class=" ">
+                                    <li class="holdOn_plugin">
                                        <a href="<?php echo base_url(). $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>">
                                           <span><?php echo $submenu->nombre_submenu; ?></span>
                                        </a>

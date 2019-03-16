@@ -13,6 +13,7 @@ var factor_total = 0;
 var producto_cantidad_linea = 1;
 var sucursal = 0;
 var interno_sucursal=0;
+var interno_bodega= 0;
 var producto_escala;
 
 
@@ -40,14 +41,14 @@ $(document).ready(function(){
 
         $('.1dataSelect').show();
         sucursal = $("#sucursal_id").val();
-        
+        interno_bodega  = $("#bodega_select").val();
         var contador_precios=1;
         var table_tr="";
         if( sucursal != interno_sucursal){
         
             interno_sucursal = sucursal;
             $.ajax({
-                url: "get_productos_lista/"+2+"/"+texto,
+                url: "get_productos_lista/"+sucursal+"/"+interno_bodega+"/"+texto,
                 datatype: 'json',      
                 cache : false,                
 
@@ -95,12 +96,21 @@ $(document).ready(function(){
             $("#producto_buscar").val(this.value);
             $('.1dataSelect').hide();
             $('.1dataSelect').empty();
-            $(".producto_buscar").focus();
+            $(".existencia_buscar").focus();
         }
         
     });
 
 
+    $(document).on('keydown', '.existencia_buscar', function(){
+        // Validar Codigo Flecha Abajo - Modal Existencias
+         if ( event.keyCode == 40 ) {
+            $('.1dataSelect').focus();            
+            document.getElementById('1dataSelect').selectedIndex = 0;
+         }
+    });
+
+    // Mostrar Existencias
     function get_producto_completo2(producto_id){
       $("#grabar").attr('disabled');
         var codigo,presentacion,tipo,precioUnidad,descuento,total
@@ -149,26 +159,29 @@ $(document).ready(function(){
 
     // End Existencia Code
 
-/* 1 - Input Buscar Producto */
+    
     $(document).on('keyup', '.producto_buscar', function(){
+        /* 1 - Input Buscar Producto */
         if($(".producto_buscar").val() != ""){
             search_texto(this.value);
         }
-        
     });    
-/* 2 - Filtrado del texto a buscar en productos */
+    
+    /* 2 - Filtrado del texto a buscar en productos */
     function search_texto(texto){
 
         $('.dataSelect').show();
         sucursal = $("#sucursal_id").val();
+        var bodega = $("#bodega_select").val();
         
         var contador_precios=1;
         var table_tr="";
-        if( sucursal != interno_sucursal){
-        
+        if( bodega != interno_bodega){
+            
             interno_sucursal = sucursal;
+            interno_bodega = bodega;
             $.ajax({
-                url: "get_productos_lista/"+sucursal+"/"+texto,
+                url: "get_productos_lista/"+sucursal+"/"+bodega+"/"+texto,
                 datatype: 'json',      
                 cache : false,                
 
@@ -185,10 +198,9 @@ $(document).ready(function(){
             });
         }else{
 
-            var productos = _productos_lista;
             var producto_id = 0;
             interno_sucursal = sucursal;
-            $.each(productos, function(i, item) { 
+            $.each(_productos_lista, function(i, item) { 
 
                 var name = item.name_entidad.toUpperCase();
                 var cod_barra = item.cod_barra;
@@ -198,7 +210,6 @@ $(document).ready(function(){
                     var precio = 0;
                     
                     table_tr += '<option value="'+item.id_entidad+'">'+item.name_entidad+'</option>';
-                    //table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.cod_barra+'</td><td>'+item.id_entidad+'</td><td>'+item.cantidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_producto" id="'+item.id_entidad+'">Agregar</a></td></tr>';
                     contador_precios++;
                 }
                 
@@ -208,7 +219,14 @@ $(document).ready(function(){
         }
     }
 
-/* 3 - Selecionado Producto de la lista y precionando ENTER */
+    $(document).on('keydown', '.producto_buscar', function(){
+         if ( event.keyCode == 40 ) {
+            $('.dataSelect').focus();            
+            document.getElementById('dataSelect').selectedIndex = 0;
+         }
+    });
+
+    /* 3 - Selecionado Producto de la lista y precionando ENTER */
     $(document).on('keypress', '.dataSelect', function(){
         
         if ( event.which == 13 ) {
@@ -222,9 +240,9 @@ $(document).ready(function(){
         
     });
 
-/* 4 - Buscar producto por Id para agregarlo a la linea */
     function get_producto_completo(producto_id){
-      $("#grabar").attr('disabled');
+        /* 4 - Buscar producto por Id para agregarlo a la linea */
+        $("#grabar").attr('disabled');
     	var codigo,presentacion,tipo,precioUnidad,descuento,total
 
     	/*
@@ -235,7 +253,7 @@ $(document).ready(function(){
     	*/
 
     	$.ajax({
-            url: "get_producto_completo/"+producto_id,
+            url: "get_producto_completo/"+producto_id+"/"+interno_bodega,
             datatype: 'json',      
             cache : false,                
 
@@ -250,7 +268,7 @@ $(document).ready(function(){
 
                 if( parseInt(_productos_precio.length) >= 1 && producto_escala!=1 ){
                     get_presentacio_lista( _productos_precio );
-                    //$('#presentacion_modal').modal('show');
+                    
                 }else{
                     enLinea();
                 }
@@ -284,40 +302,51 @@ $(document).ready(function(){
                     _productos.iva = datos['producto'][9].valor;
                     _productos.descripcion = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
                 
-                
             },
             error:function(){
             }
         });
     }
 
-    /* 5 - Retornando lista de presentaciones dentro de la tabla */
     function get_presentacio_lista( _productos_precio ){
+        /* 5 - Retornando lista de presentaciones dentro de la tabla */
         var contador_precios=1;
         var table_tr;
-        
-        $.each(_productos_precio, function(i, item) { 
-            table_tr += '<option value="'+item.id_producto_detalle+'">'+item.presentacion+'</option>';
-            contador_precios++;
-            
-        });
-        $(".dataSelect2").html(table_tr);
-        $('.dataSelect2').show();
-        $('.dataSelect2').focus();        
+
+        if(_productos_precio.length > 1){
+            // Productos con una lista de presentaciones
+            $.each(_productos_precio, function(i, item) { 
+                table_tr += '<option value="'+item.id_producto_detalle+'">'+item.presentacion+'</option>';
+                contador_precios++;            
+            });
+            $(".dataSelect2").html(table_tr);
+            $('.dataSelect2').show();
+        }else{
+            // Productos con 1 Unica Presentacion 
+            seleccionar_productos_array(_productos_precio[0].id_producto_detalle);
+        }        
+        $('.dataSelect2').focus();  
+
+        document.getElementById('dataSelect2').selectedIndex = 0;     
     }
 
-    function enLinea(){       
+    function enLinea(){
         $("#presentacion").val(_productos_precio[0].presentacion);  
         $("#factor").val(_productos_precio[0].factor);
         _productos.presentacion = _productos_precio[0].presentacion;
         _productos.precioUnidad = _productos_precio[0].unidad;
         _productos.presentacionFactor = _productos_precio[0].factor;
+        _productos.id_producto_detalle = _productos_precio[0].id_producto_detalle;
 
-
+        _productos.presentacionPrecio = _productos_precio[0].precio
+        _productos.presentacionUnidad = _productos_precio[0].unidad;
+        _productos.presentacionCliente = _productos_precio[0].Cliente;
+        _productos.producto2 = _productos_precio[0].id_producto_detalle;
+        _productos.presentacionCodBarra = _productos_precio[0].cod_barra;
     }
-
-    /* Valida las escalas de los productos cuando se aunmenta la cantidad */
+    
     function validar_escalas( c ){
+        /* Valida las escalas de los productos cuando se aunmenta la cantidad */
         var total_precio_escala = 0;
 
         $.each(_productos_precio, function(i, item) {
@@ -327,15 +356,16 @@ $(document).ready(function(){
                 total_precio_escala = item.unidad;
                 _productos.presentacion = item.presentacion;
                 _productos.presentacionFactor = item.factor;
+                _productos.id_producto_detalle = item.id_producto_detalle;
                 $("#presentacion").val(item.presentacion);  
                 $("#factor").val(item.factor);
             }else{
 
-                console.log(typeof(pf));
                 if( c >= pf ){
                     total_precio_escala = item.unidad;
                     _productos.presentacionFactor = item.factor;
                     _productos.presentacion = item.presentacion;
+                    _productos.id_producto_detalle = item.id_producto_detalle;
                     $("#presentacion").val(item.presentacion);  
                     $("#factor").val(item.factor);
                 }                
@@ -345,9 +375,8 @@ $(document).ready(function(){
         return total_precio_escala;
     }
 
-
-/* 6 - Selecionado Presentacion de la lista y precionando ENTER */
     $(document).on('keypress', '.dataSelect2', function(){
+        /* 6 - Selecionado Presentacion de la lista y precionando ENTER */
         if ( event.which == 13 ) {
             var precio_id = this.value;
             event.preventDefault();
@@ -355,54 +384,59 @@ $(document).ready(function(){
             $('.dataSelect2').empty();
             $(".producto_buscar").focus();
 
-            $.each(_productos_precio, function(i, item) { 
-
-                if(precio_id == item.id_producto_detalle){
-                    _productos.presentacion = item.presentacion;
-                    _productos.presentacionFactor = item.factor;
-                    _productos.presentacionPrecio = item.precio;
-                    _productos.presentacionUnidad = item.unidad;
-                    _productos.presentacionCliente = item.Cliente;
-                    _productos.presentacionCliente = item.Sucursal;
-                    _productos.presentacionCodBarra = item.cod_barra;
-
-                    _productos.precioUnidad = item.unidad;
-                    _productos.total = item.precio;
-                    _productos.producto2 = item.id_producto_detalle
-
-                    $("#presentacion").val( _productos.presentacion );
-                    $("#precioUnidad").val( _productos.presentacionUnidad );
-                    $("#factor").val(item.factor);
-
-                    set_calculo_precio(item.unidad, item.factor);
-                }
-            });
+            seleccionar_productos_array(precio_id);
         }
     });
 
-// 7 - Grabar producto en la orden
+    function seleccionar_productos_array( precio_id ){
+        $.each(_productos_precio, function(i, item) { 
+            
+            if(precio_id == item.id_producto_detalle){
+
+                _productos.presentacion = item.presentacion;
+                _productos.id_producto_detalle = item.id_producto_detalle;
+                _productos.presentacionFactor = item.factor;
+                _productos.presentacionPrecio = item.precio;
+                _productos.presentacionUnidad = item.unidad;
+                _productos.presentacionCliente = item.Cliente;
+                _productos.presentacionCliente = item.Sucursal;
+                _productos.presentacionCodBarra = item.cod_barra;
+
+                _productos.precioUnidad = item.unidad;
+                _productos.total = item.precio;
+                _productos.producto2 = item.id_producto_detalle
+
+                $("#presentacion").val( _productos.presentacion );
+                $("#precioUnidad").val( _productos.presentacionUnidad );
+                $("#factor").val(item.factor);
+
+                set_calculo_precio(item.unidad, item.factor);
+            }
+        });
+    }
+
     $(document).on('click', '#grabar', function(){
+        // 7 - Grabar producto en la orden
         
         $('.uno').find('input').each(function(){
             this.value = '';    
             $("#grabar").val("Agregar");        
-            $("#cantidad").val(1);                  
+            $("#cantidad").val(1);     
         });
-        
-        if(_productos != null){
-            if(contador_productos==0){
-                
-                _orden[contador_productos] = _productos;
-                
-                agregar_producto();
+       
+        if(_productos.cantidad != null ){
+            if(contador_productos==0){   
 
+                _orden[contador_productos] = _productos;  
+           
+                agregar_producto();
             }else{  
-                                        
+
                 var existe =0;
                 var cnt = 0;
-
-                if(_productos.length == 0){
-                    
+                
+                if(_productos != ""){
+                   
                     if(_orden.length >= 1){
                         
                         $.each(_orden, function(i, item) {
@@ -413,122 +447,114 @@ $(document).ready(function(){
                                 //Actualizando Cantidad
                                 var cantidad = parseInt(_productos.cantidad) + parseInt($("."+_productos.producto2).text());
                                 
+                                if(producto_escala!=0){
+                                    var c = validar_escalas(cantidad);
+                                    $(".presentacion"+_orden[cnt]['producto2']).text(_productos.presentacion);
+                                    $(".factor"+_orden[cnt]['producto2']).text(_productos.presentacionFactor);
+                                    $(".precioUnidad"+_orden[cnt]['producto2']).text(c);
+                                    var total_temp = calcularTotalProducto(c, cantidad);
+                                }else{
+                                    var total_temp = calcularTotalProducto(_productos.presentacionPrecio, cantidad);
+                                }
                                 $("."+_productos.producto2).text(cantidad);
                                 _orden[cnt]['cantidad'] = cantidad;
 
-                                
+                                $(".total"+_orden[cnt]['producto2']).text(total_temp);
 
-                                $(".total"+_orden[cnt]['producto2']).text(calcularTotalProducto(_productos.presentacionPrecio, cantidad));
-
-                                //total_msg += parseInt(calcularTotalProducto(_productos['presentacionPrecio'], cantidad));
-
-                                // Buscar precios validos
-                                /*
-                                if(_productos_precio != null){
-                                    alert(1);
-                                    $.each(_productos_precio, function(i, item) {
-                    
-                                        factor = item.factor;
-                                        if( factor == cantidad ){
-                                            alert(2);
-                                            factor_precio = item.unidad;
-                                            factor_total  = item.precio; 
-
-                                            $(".total"+_orden[cnt]['producto']).text(calcularTotalProducto(factor_precio, cantidad));
-                                            $(".precioUnidad"+_orden[cnt]['precioUnidad']).text(factor_precio);
+                                _orden[cnt]['total'] = total_temp;
                                 
-                                            
-                                        }else{
-                                            alert(3);
-                                            //Actualizando total
-                                            $(".total"+_orden[cnt]['producto']).text(calcularTotalProducto(_productos['precioUnidad'], cantidad));
-                                            $(".precioUnidad"+_orden[cnt]['precioUnidad']).text(_productos['precioUnidad']);
-                                            
-                                
-                                            total_msg += parseInt(calcularTotalProducto(_productos['precioUnidad'], _productos['cantidad']));
-                                        }
-                                    });
-                                }else{
-                                    alert(4);
-                                    //Actualizando total
-                                    $(".total"+_orden[cnt]['producto']).text(calcularTotalProducto(_productos['precioUnidad'], cantidad));
-                                    $(".precioUnidad"+_orden[cnt]['precioUnidad']).text(_productos['precioUnidad']);
-                                
-                                    total_msg += parseInt(calcularTotalProducto(_productos['precioUnidad'], _productos['cantidad']));
-                                }*/
+                                calculo_totales();
+
+                                console.log(_productos);
 
                             }
                             cnt ++;             
                         });
                     }else{
+
                         _orden[contador_productos] = _productos;
-                        
-                        //total_msg += parseInt(_productos['precioUnidad']);
                         agregar_producto();
                     }
                 }
                 if(existe==0)
                 {
+
                     _orden[contador_productos] = _productos;
-                    
-                    //total_msg += parseInt(_productos['precioUnidad']);
                     agregar_producto();
                     existe=0;
                 }
-
             }
-        
         }
     });
 
-// General - Set Calculo Precio
     function set_calculo_precio(precioUnidad, producto_cantidad_linea){
+        // General - Set Calculo Precio
         $("#total").val(calcularTotalProducto(precioUnidad, producto_cantidad_linea));
     }
 
-// Actualizar la cantidad
+
     $(document).on('change', '#cantidad', function(){
+        // Actualizar la cantidad
 
         if( _productos.producto != null ){
             producto_cantidad_linea = $("#cantidad").val();
             var producto_precio_flag = productos_precios_validacion();
 
-            //if(producto_precio_flag != true){
+            var precion  = $("#precioUnidad").val();
+            var cantidad = producto_cantidad_linea;
+            var cantidad = $("#cantidad").val();
 
-                var precion  = $("#precioUnidad").val();
-                var cantidad = producto_cantidad_linea;
-                var cantidad = $("#cantidad").val();
-
-                if(producto_escala == 1){
-                    
-                    var escala_precio = validar_escalas(cantidad);
-
-                    $("#total").val(calcularTotalProducto( escala_precio, cantidad));
-                    $("#precioUnidad").val( escala_precio );
-                    _productos.precioUnidad = escala_precio;
-
-                }else{
-
-                    $("#total").val(calcularTotalProducto( _productos.presentacionPrecio, cantidad));
-                    $("#precioUnidad").val( _productos.precioUnidad );
-                }
-
-                _productos.cantidad = cantidad;
-                _productos.total = $("#total").val();
+            if(producto_escala == 1){
                 
-                factor_precio = 0;
-                factor_total = 0;
+                var escala_precio = validar_escalas(cantidad);
 
-            //}
+                $("#total").val(calcularTotalProducto( escala_precio, cantidad));
+                $("#precioUnidad").val( escala_precio );
+                _productos.precioUnidad = escala_precio;
+
+            }else{
+
+                $("#total").val(calcularTotalProducto( _productos.presentacionPrecio, cantidad));
+                $("#precioUnidad").val( _productos.precioUnidad );
+            }
+
+            _productos.cantidad = cantidad;
+            _productos.total = $("#total").val();
+            
+            factor_precio = 0;
+            factor_total = 0;
         }
     	
     });
 
-// total Producto
     function calcularTotalProducto(precio , cantidad){
+        // total Producto
     	var total = (precio * cantidad);
     	return Number(total).toFixed(2);
     }
+ 
+    $(document).on('change', '#sucursal_id', function(){
+        // Cambiar Bodega
+        $("#bodega_select").empty();
+        var select_option;
+        $.ajax({
+            url: "get_bodega_sucursal/"+ $(this).val(),
+            datatype: 'json',      
+            cache : false,                
+
+                success: function(data){
+                    var datos = JSON.parse(data);
+                    var bodega = datos["bodega"];
+                    $.each(bodega, function(i, item) { 
+                        select_option += '<option value="'+item.id_bodega+'">'+item.nombre_bodega+'</option>';            
+                    });
+
+                    $("#bodega_select").html(select_option);                
+                },
+                error:function(){
+                }
+            });     
+    });
 
     function productos_precios_validacion(){
 
@@ -566,24 +592,26 @@ $(document).ready(function(){
 
         total_msg += parseFloat(_productos.total);
 
-        $(".total_msg").text("$ "+total_msg);        
+        $(".total_msg").text("$ "+total_msg.toFixed(2));   
 
         contador_productos++;
         if(_productos != null){
-    		var tr_html = "<tr class='' style='background-color:#d7e1e8;'>";
+    		var tr_html = "<tr class='' style=''>";
     		tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
     		tr_html += "<td class='border-left'>"+_productos.producto+"</td>";
     		tr_html += "<td class='border-left'>"+_productos.descripcion+"</td>";
     		tr_html += "<td class='border-left "+_productos.producto2+"'>"+_productos.cantidad+"</td>";
-    		tr_html += "<td class='border-left'>"+_productos.presentacion+"</td>";
-    		tr_html += "<td class='border-left'>"+_productos.presentacionFactor+"</td>";
-    		tr_html += "<td class='border-left precioUnidad"+_productos.precioUnidad+"'>"+_productos.precioUnidad+"</td>";
+    		tr_html += "<td class='border-left presentacion"+_productos.producto2+"'>"+_productos.presentacion+"</td>";
+    		tr_html += "<td class='border-left factor"+_productos.producto2+"'>"+_productos.presentacionFactor+"</td>";
+    		tr_html += "<td class='border-left precioUnidad"+_productos.producto2+"'>"+_productos.precioUnidad+"</td>";
     		tr_html += "<td class='border-left'>"+_productos.descuento+"</td>";
     		tr_html += "<td class='border-left total"+_productos.producto2+"'>"+_productos.total+"</td>";
             tr_html += "<td class='border-left '>"+_productos.bodega+"</td>";
-    		tr_html += "<td class='border-left'><input type='button' class='btn btn-primary btn-xs eliminar' name='"+_productos.producto+"' id='eliminar' value='Eliminar'/></td>";
+    		tr_html += "<td class='border-left'><input type='button' class='btn btn-primary btn-xs eliminar' name='"+_productos.id_producto_detalle+"' id='eliminar' value='Eliminar'/></td>";
     		
     		tr_html += "</tr>";
+
+            calculo_totales();         
 
     		$(".producto_agregados").append(tr_html);
 
@@ -594,38 +622,52 @@ $(document).ready(function(){
         }
     }
 
-// Remover los Productos de la lista.
+    function calculo_totales(){
+
+        var t = 0;
+        var t2 = 0;
+        if(_orden !=null){
+            _orden.forEach(function(element) {
+                t +=parseInt(element.cantidad);
+                t2 +=parseFloat(element.total);
+            });
+        }else{
+            t = 0;
+        }     
+
+        
+        $(".total_msg").text(t2.toFixed(2));
+
+        $(".cantidad_tabla").text(t);
+        $(".total_tabla").text(t2);
+    }
+
     $(document).on('click', '.eliminar', function(){
+        // Remover los Productos de la lista.
         var producto_id = $(this).attr('name');
-        console.log(producto_id);
-        //$.each(_orden, function(i, element) {
+
         _orden.forEach(function(element) {
-            if(element.producto == producto_id){
+            if(element.id_producto_detalle == producto_id){
 
                 total_msg -= parseInt(calcularTotalProducto(element.precioUnidad, element.cantidad));
                 $(".total_msg").text("$ "+total_msg.toFixed(2));
                 
-                console.log(_orden.indexOf(element));
                 _orden.splice(_orden.indexOf(element),1);
-                //delete _orden[element];
-                
-                console.log(_orden);
                 depurar_producto();
             }
             
         });
     });
 
-// Remueve los productos selecionados
     function depurar_producto(){
-
+        // Remueve los productos selecionados
         contador_tabla=1;
 
         if(_orden.length >= 1){
             var tr_html = "";
             
             _orden.forEach(function(element) {
-                tr_html += "<tr class='' style='background-color:#d7e1e8;'>";
+                tr_html += "<tr class='' style=''>";
                 tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
                 tr_html += "<td class='border-left'>"+element.producto+"</td>";
                 tr_html += "<td class='border-left'>"+element.descripcion+"</td>";
@@ -636,12 +678,16 @@ $(document).ready(function(){
                 tr_html += "<td class='border-left'>"+element.descuento+"</td>";
                 tr_html += "<td class='border-left total'>"+element.total+"</td>";
                 tr_html += "<td class='border-left '>"+element.bodega+"</td>";
-                tr_html += "<td class='border-left'><input type='button' class='btn btn-primary btn-xs eliminar' name='"+element.producto+"' id='eliminar' value='Eliminar'/></td>";
+                tr_html += "<td class='border-left'><input type='button' class='btn btn-primary btn-xs eliminar' name='"+element.id_producto_detalle+"' id='eliminar' value='Eliminar'/></td>";
                 
                 tr_html += "</tr>";
 
                 contador_tabla++;
             });
+            $(".cantidad_tabla").val(4);
+            $(".total_tabla").val(4);
+
+            calculo_totales();
 
             $(".producto_agregados").html(tr_html);
             
@@ -653,6 +699,7 @@ $(document).ready(function(){
             total_msg = parseInt(0);
             $(".total_msg").text("$ "+total_msg.toFixed(2));
             $(".producto_agregados").empty();
+            calculo_totales();
         }
     }
 
@@ -669,35 +716,36 @@ $(document).ready(function(){
             datatype: 'json',      
             cache : false,                
 
-                success: function(data){
-                    var datos = JSON.parse(data);
-                    var clientes = datos["clientes"];
-                    var cliente_id = 0;
-                    
-                    $.each(clientes, function(i, item) { 
-
-                        if(cliente_id != item.id_cliente){
-                            cliente_id = item.id_cliente;   
-                            var precio = 0;
-                            
-                            table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.id_cliente+'</td><td>'+item.nombre_empresa_o_compania+'</td><td>'+item.nrc_cli+'</td><td>'+item.nit_cliente+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_cliente" id="'+item.id_cliente+'" name="'+item.nombre_empresa_o_compania+'" rel="'+item.direccion_cliente+'" impuesto="'+item.aplica_impuestos+'">Agregar</a></td></tr>';
-                            contador_precios++;
-                        }
-                        
-                    });
-                    table += table_tr;
-                    table += "</tbody></table>";
-
-                    $(".cliente_lista_datos").html(table);
+            success: function(data){
+                var datos = JSON.parse(data);
+                var clientes = datos["clientes"];
+                var cliente_id = 0;
                 
-                },
-                error:function(){
-                }
-            });
+                $.each(clientes, function(i, item) { 
+
+                    if(cliente_id != item.id_cliente){
+                        cliente_id = item.id_cliente;   
+                        var precio = 0;
+                        
+                        table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.id_cliente+'</td><td>'+item.nombre_empresa_o_compania+'</td><td>'+item.nrc_cli+'</td><td>'+item.nit_cliente+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_cliente" id="'+item.id_cliente+'" name="'+item.nombre_empresa_o_compania+'" rel="'+item.direccion_cliente+'" impuesto="'+item.aplica_impuestos+'">Agregar</a></td></tr>';
+                        contador_precios++;
+                    }
+                    
+                });
+                table += table_tr;
+                table += "</tbody></table>";
+
+                $(".cliente_lista_datos").html(table);
+            
+            },
+            error:function(){
+            }
+        });
     }  
 
-// Guardar Orden en la DB
+
     $(document).on('click', '#guardar', function(){
+        // Guardar Orden en la DB
         var formulario = $('#encabezado_form').serializeArray();
         
         $.ajax({
@@ -726,8 +774,6 @@ $(document).ready(function(){
     $(document).on('click', '.seleccionar_empleado', function(){
 
         $(".vendedores_lista").text($(this).attr('name'));
-        //$("#cliente_nombre").val($(this).attr('name'));
-        //$("#direccion_cliente").val($(this).attr('rel'));
         $('#vendedores_modal').modal('hide');
     });
 
@@ -744,46 +790,47 @@ $(document).ready(function(){
             datatype: 'json',      
             cache : false,                
 
-                success: function(data){
-                    var datos = JSON.parse(data);
-                    var clientes = datos["empleados"];
-                    var cliente_id = 0;
-                    
-                    $.each(clientes, function(i, item) { 
-
-                        if(cliente_id != item.id_empleado){
-                            cliente_id = item.id_empleado;  
-                            var precio = 0;
-                            
-                            table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.id_empleado+'</td><td>'+item.primer_nombre_persona+'</td><td>'+item.segundo_nombre_persona+'</td><td>'+item.primer_apellido_persona+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_empleado" id="'+item.id_empleado+'" name="'+item.primer_nombre_persona+' '+item.primer_apellido_persona+'">Agregar</a></td></tr>';
-                            contador_precios++;
-                        }
-                        
-                    });
-                    table += table_tr;
-                    table += "</tbody></table>";
-
-                    $(".vendedor_lista_datos").html(table);
+            success: function(data){
+                var datos = JSON.parse(data);
+                var clientes = datos["empleados"];
+                var cliente_id = 0;
                 
-                },
-                error:function(){
-                }
-            });
+                $.each(clientes, function(i, item) { 
+
+                    if(cliente_id != item.id_empleado){
+                        cliente_id = item.id_empleado;  
+                        var precio = 0;
+                        
+                        table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.id_empleado+'</td><td>'+item.primer_nombre_persona+'</td><td>'+item.segundo_nombre_persona+'</td><td>'+item.primer_apellido_persona+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_empleado" id="'+item.id_empleado+'" name="'+item.primer_nombre_persona+' '+item.primer_apellido_persona+'">Agregar</a></td></tr>';
+                        contador_precios++;
+                    }
+                    
+                });
+                table += table_tr;
+                table += "</tbody></table>";
+
+                $(".vendedor_lista_datos").html(table);
+            
+            },
+            error:function(){
+            }
+        });
     }
 
     $(document).on('click', '.cliente_codigo', function(){
         $('#cliente_modal').modal('show');
-
         get_clientes_lista();
     });
 
     $(document).on('click', '.vendedores_lista', function(){
         $('#vendedores_modal').modal('show');
-
         get_empleados_lista($(this).attr("id"));
     }); 
 
-    
+    $(document).on('click', '#btn_existencias', function(){
+        $(".existencia_buscar").focus();
+    });
+
 });
 </script>
 
@@ -898,9 +945,18 @@ $(document).ready(function(){
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                  <label>Numero</label>
-
-                                                  <input type="text" name="numero" value="<?php echo $correlativo[0]->siguiente_valor; ?>" class="form-control">
+                                                  <label>Bodega</label>
+                                                  <select class="form-control" name="bodega" id="bodega_select">
+                                                  <?php
+                                                  foreach ($bodega as $b) {
+                                                    if($b->Sucursal == $id_sucursal){
+                                                    ?>
+                                                    <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
+                                                    <?php
+                                                     }   
+                                                    }
+                                                    ?>
+                                                    </select>
                                                </div>
                                             </div>
 
@@ -990,6 +1046,14 @@ $(document).ready(function(){
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
+                                                  <label>Numero</label>
+
+                                                  <input type="text" name="numero" value="<?php echo $correlativo[0]->siguiente_valor; ?>" class="form-control">
+                                               </div>
+                                            </div>
+                                            <!--
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
                                                     <label>Vendedor</label><br>
                                                     <div class="pull-left">
                                                         <input type="hidden" name="vendedor" id="vendedor1" value="<?php $empleado[0]->id_empleado; ?>">
@@ -998,6 +1062,7 @@ $(document).ready(function(){
                                                     </div>                                                          
                                                </div>
                                             </div>
+                                            -->
 
 
                                         </div>
@@ -1019,55 +1084,55 @@ $(document).ready(function(){
 
                                 <div class="input-group m-b">
                                     <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                    <input type="text" placeholder="Buscar Producto" name="producto_buscar" class="form-control producto_buscar">
+                                    <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
                                 </div>
 
 
-                                <select multiple="" class="form-control dataSelect">
+                                <select multiple="" class="form-control dataSelect" id="dataSelect">
 
                                 </select>
 
-                                <select multiple="" class="form-control dataSelect2" style="display: inline-block;">
+                                <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="display: inline-block;">
 
                                 </select>
 
                                 
                             </div>
                             <div class="col-lg-4">
-                                <a href="#" class="btn btn-default" data-toggle='modal' data-target='#existencias'>Existencias</a>                            
+                                <a href="#" class="btn btn-default" id="btn_existencias" data-toggle='modal' data-target='#existencias'>Existencias</a>                            
 
                             </div>
   
                             </span>
                             
-                              <thead>
+                              <thead class="bg-info-dark">
                                  <tr>
-                                    <th>#</th>
-                                    <th>Producto</th>
-                                    <th>Descripción</th>
-                                    <th>Cantidad</th>
-                                    <th>Presentación</th>
-                                    <th>Factor</th>
-                                    <th>Precío Unidad</th>
-                                    <th>Descuento</th>
-                                    <th>Total</th>
-                                    <th>Bodega</th>
-                                    <th><input type="button" class="form-control border-input btn btn-success" name="" id="guardar" value="Guardar"/></th>
+                                    <th style="color: white;">#</th>
+                                    <th style="color: white;">Producto</th>
+                                    <th style="color: white;">Descripción</th>
+                                    <th style="color: white;">Cantidad</th>
+                                    <th style="color: white;">Presentación</th>
+                                    <th style="color: white;">Factor</th>
+                                    <th style="color: white;">P Unidad</th>
+                                    <th style="color: white;">Descuento</th>
+                                    <th style="color: white;">Total</th>
+                                    <th style="color: white;">Bodega</th>
+                                    <th style="color: white;"><input type="button" class="form-control border-input btn btn-success" name="" id="guardar" value="Guardar"/></th>
                                  </tr>
                               </thead>
-                              <tbody class="uno" style="border-bottom: 3px solid grey">
-                              	<tr style="border-bottom: 3px solid grey">
+                              <tbody class="uno bg-gray-light" style="border-bottom: 5px solid grey">
+                              	<tr style="border-bottom: 1px solid grey">
                                     <td colspan="2">
-                                        <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar" readonly="1">
+                                        <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar" readonly="1" style="width: 100px;">
                                     </td>
-                                    <td><input type="text" class="form-control border-input" id="descripcion" name="descripcion"></td>
-                                    <td><input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000"></td>
-                                    <td><input type="text" class="form-control border-input" id="presentacion" name="presentacion" size="3px"></td>
-                                    <td><input type="text" class="form-control border-input" id="factor" name="factor" size="2px"></td>
-                                    <td><input type="text" class="form-control border-input" id="precioUnidad" name="precioUnidad" size="2px"></td>
-                                    <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px"></td>
-                                    <td><input type="text" class="form-control border-input" id="total" name="total" size="2px"></td>
-                                    <td><input type="text" class="form-control border-input" id="bodega" name="bodega" size="5px"></td>
+                                    <td><input type="text" class="form-control border-input" id="descripcion" name="descripcion" readonly="1"></td>
+                                    <td><input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;"></td>
+                                    <td><input type="text" class="form-control border-input" id="presentacion" name="presentacion" size="3px" readonly="1"></td>
+                                    <td><input type="text" class="form-control border-input" id="factor" name="factor" size="2px" readonly="1" style="width: 50px;"></td>
+                                    <td><input type="text" class="form-control border-input" id="precioUnidad" name="precioUnidad" size="2px" readonly="1" style="width: 70px;"></td>
+                                    <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" readonly="1" style="width: 80px;"></td>
+                                    <td><input type="text" class="form-control border-input" id="total" name="total" size="2px" readonly="1"></td>
+                                    <td><input type="text" class="form-control border-input" id="bodega" name="bodega" size="5px" readonly="1"></td>
                                     <td><input type="button" class="form-control border-input" name="" id="grabar" value="Agregar"/></td>
                                     
                                  </tr>
@@ -1075,6 +1140,7 @@ $(document).ready(function(){
                               <tbody class="producto_agregados" style="border-top:  3px solid black" >
                                  
                               </tbody>
+                              <tr class="panel-footer bg-gray-light"><td colspan='3'></td><td><span class="cantidad_tabla"></span></td><td colspan='4'></td><td><span class="total_tabla"></span></td><td colspan='2'></td></tr>
                            </table>
                         </div>
                     <!-- END table-responsive-->
@@ -1141,7 +1207,7 @@ $(document).ready(function(){
                     <input type="text" placeholder="Buscar Exsitencia" name="existencia_buscar" class="form-control existencia_buscar">
                 </div>
 
-                <select multiple="" class="form-control 1dataSelect">
+                <select multiple="" class="form-control 1dataSelect" id="1dataSelect">
 
                 </select>
 
@@ -1153,22 +1219,19 @@ $(document).ready(function(){
             <div class="modal-body">
                 <table class="table table-sm table-hover">
                     <thead>
-                     <tr>
-                        <th>#</th>
-                        <th>Sucursal</th>
-                        <th>Bodega</th>
-                        <th>Existencia</th>
-                        <th>Costo</th>
-                        <th>Costo Anterior</th>
-                        <th>Costo utilidad</th>
-                        <th>Cod ubicacion</th>                                    
+                     <tr class="bg-info-dark" style="color: black;">
+                        <th style="color: white;">#</th>
+                        <th style="color: white;">Sucursal</th>
+                        <th style="color: white;">Bodega</th>
+                        <th style="color: white;">Existencia</th>
+                        <th style="color: white;">Costo</th>
+                        <th style="color: white;">Costo Anterior</th>
+                        <th style="color: white;">Costo utilidad</th>
+                        <th style="color: white;">Cod ubicacion</th>                                    
                      </tr>
                       </thead>
                       <tbody class="dos" style="border-bottom: 3px solid grey">
                         
-                      </tbody>
-                      <tbody class="producto_agregados" style="border-top:  3px solid black" >
-                         
                       </tbody>
                 </table>                                
                

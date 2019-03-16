@@ -4,18 +4,18 @@
         <div class="content-wrapper">
             <h3 style="height: 50px; ">Lista Combos </h3>
             <div class="panel panel-default">
-                <div class="panel-heading">Combos</div>
+                <div class="panel-heading"><h2 style="display: inline-block;"><i class="fa fa-home"></i></h2>Combos</div>
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
-                        <thead>
+                        <thead class="bg-info-dark">
                             <tr>
-                                <th>#</th>
-                                <th>Producto</th> 
-                                <th>Agregados</th>
-                                <th>Cantidad</th>
+                                <th style="color: white;">#</th>
+                                <th style="color: white;">Producto</th> 
+                                <th style="color: white;">Agregados</th>
+                                <th style="color: white;">Cantidad</th>
                                 
-                                <th>
+                                <th style="color: white;">
                                     <div class="btn-group">
                                        <button type="button" class="btn btn-default">Opcion</button>
                                        <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-default">
@@ -55,7 +55,7 @@
 		                            <td>
 		                            	                                
 		                                <div class="btn-group mb-sm">
-		                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs">Opcion
+		                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs bg-gray-dark">Opcion
                                                 <span class="caret"></span>
                                             </button>
 		                                    <ul role="menu" class="dropdown-menu">

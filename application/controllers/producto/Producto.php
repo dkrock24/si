@@ -202,11 +202,10 @@ class Producto extends CI_Controller {
 			$producto_id = $_POST['producto'];
 			$data['producto_id'] = $producto_id;
 			$data['prod_bodega'] = $this->Bodega_model->getProductoByBodega($_POST);
-			$data['bodega'] = $this->Bodega_model->getBodegas( $id_usuario );
+			$data['bodega'] = $this->Bodega_model->getAllBodegas( $id_usuario );
 		}
-
 		
-		$data['prod'] = $this->Producto_model->getProd();
+		$data['prod'] = $this->Producto_model->getAllProducto();
 		$data['menu'] = $this->session->menu;
 
 		$data['home'] = 'producto/producto/prod_bodega';

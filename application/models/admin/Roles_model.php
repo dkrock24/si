@@ -22,6 +22,18 @@ class Roles_model extends CI_Model {
         } 
     }
 
+    function getAllRoles(){
+
+        $this->db->select('*');
+        $this->db->from(self::roles);        
+        $query = $this->db->get();    
+                
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
     function record_count(){
         return $this->db->count_all(self::roles);
     }

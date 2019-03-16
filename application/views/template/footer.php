@@ -50,6 +50,9 @@
   <script src="<?php echo base_url(); ?>../asstes/vendor/select2/dist/js/select2.js"></script>
   <script src="<?php echo base_url(); ?>../asstes/js/app.js"></script>
   <script src="<?php echo base_url(); ?>../asstes/js/moment.min.js"></script>
+  <script src="<?php echo base_url(); ?>../asstes/js/HoldOn.min.js"></script>
+
+  
   </div>
 
   </body>

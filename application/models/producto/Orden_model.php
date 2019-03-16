@@ -63,10 +63,10 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago Limit
 	        }
 		}
 
-		function get_productos_valor($sucursal , $texto){
+		function get_productos_valor($sucursal ,$bodega, $texto){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as cod_barra
+	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as cod_barra, b.nombre_bodega
 				FROM `producto` as `P`
 				
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
@@ -81,15 +81,38 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago Limit
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
-				WHERE pa.Atributo = 4 and b.Sucursal='".$sucursal."' 
+				WHERE pa.Atributo = 4 and pb.Cantidad>1 and b.id_bodega='".$bodega."' and b.Sucursal='".$sucursal."' 
 				  order by P.id_entidad");
 
 		        //echo $this->db->queries[0];
 		        return $query->result();
-
 		}
 
-		function get_producto_completo($producto_id){
+		function get_productos_existencias($texto){
+	        
+	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
+	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as cod_barra, b.nombre_bodega
+				FROM `producto` as `P`
+				
+				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
+				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
+				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
+				LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
+				LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
+				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
+				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
+				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
+				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
+				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
+				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
+				WHERE pa.Atributo = 4 group by P.id_entidad order by P.id_entidad");
+
+		        //echo $this->db->queries[0];
+		        return $query->result();
+		}
+
+		function get_producto_completo($producto_id , $id_bodega ){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor, b.nombre_bodega, pinv.id_inventario
@@ -112,7 +135,7 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago Limit
 				LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
 				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
 
-				WHERE P.id_entidad = ". $producto_id);
+				WHERE P.id_entidad = ". $producto_id ." and b.id_bodega =". $id_bodega);
 		        //echo $this->db->queries[1];
 		        return $query->result();
 
@@ -126,6 +149,30 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago Limit
 		        //echo $this->db->queries[1];
 		        return $query->result();
 
+		}
+
+		function get_bodega($usuario){
+
+			$query = $this->db->query("
+				SELECT b.* FROM sys_empleado_sucursal es 
+				left join sys_usuario as u on u.id_usuario = es.es_empleado
+				left join pos_bodega as b on b.Sucursal = es.es_sucursal
+				where u.id_usuario= ". $usuario );
+
+		        //echo $this->db->queries[1];
+		        return $query->result();
+		}
+
+		function get_bodega_sucursal($Sucursal){
+
+			$query = $this->db->query("
+				SELECT b.* FROM sys_empleado_sucursal es 
+				left join sys_usuario as u on u.id_usuario = es.es_empleado
+				left join pos_bodega as b on b.Sucursal = es.es_sucursal
+				where b.Sucursal= ". $Sucursal );
+
+		        //echo $this->db->queries[1];
+		        return $query->result();
 		}
 
 		function guardar_orden( $orden , $id_usuario , $cliente ){
@@ -200,6 +247,8 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago Limit
 		            'cant_factor' 	=> $orden['presentacionFactor'],
 		            'tipoprec' 		=> $orden['presentacion'],
 		            'digi_prec' 	=> $orden['precioUnidad'],
+		            'factor' 		=> $orden['presentacionFactor'],
+		            'total' 		=> $orden['total'],
 		            'gen' 			=> $orden['incluye_iva'],
 		            //'p_inc_imp0' 	=> $orden['orden'][0][''],
 		            'val_desc' 		=> $orden['descuento'],

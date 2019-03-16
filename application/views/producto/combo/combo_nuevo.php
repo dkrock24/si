@@ -82,7 +82,7 @@
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
             </h3>
             <div class="panel panel-default">
-                <div class="panel-heading">Nuevo Combo <a href="<?php echo base_url().'producto/producto/nuevo' ?>" style='float: right;' class="btn btn-primary"><i class="fa fa-arrow-left"></i> Producto</a></div>
+                <div class="panel-heading" style="background: #535D67; color: white;">Nuevo Combo <a href="<?php echo base_url().'producto/producto/nuevo' ?>" style='float: right;' class="btn btn-primary"><i class="fa fa-arrow-left"></i> Producto</a></div>
                 <!-- START table-responsive-->
 
                 <div class="">

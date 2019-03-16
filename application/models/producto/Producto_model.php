@@ -585,15 +585,12 @@ class Producto_model extends CI_Model {
 			$cantidad = 0;
             foreach ($bodega_producto as $pb) 
             {
-
-
             	if($datos['cantidad'.$contador] != ""){
                 	$cantidad = ($datos['cantidad'.$contador] + $pb->Cantidad );	
                 }else{
                 	$cantidad =  $pb->Cantidad;	
                 }
                 if( array_key_exists( $pb->id_pro_bod, $datos ) ){
-
                     
                     $data = array('pro_bod_estado' => 1 ,'Cantidad'=> $cantidad ,'pro_bod_actualizado' => date("Y-m-d h:i:s") );                    
                     $this->db->where('id_pro_bod', $pb->id_pro_bod );
@@ -606,7 +603,7 @@ class Producto_model extends CI_Model {
                     $this->db->update(self::pos_producto_bodega, $data);
                 }
                 $contador+=1;
-            }            
+            }          
 		}
 
 		// Esta funcion es usada para buscar producto y activar o desactivar los productos en bodega
@@ -617,6 +614,7 @@ class Producto_model extends CI_Model {
 	        $this->db->join(self::pos_producto_bodega.' as pb', 'on pb.Bodega = b.id_bodega');
 
 	        $this->db->where('pb.Producto', $producto );
+	        $this->db->order_by('b.Sucursal');
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];
 	        

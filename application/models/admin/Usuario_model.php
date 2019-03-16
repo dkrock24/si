@@ -6,6 +6,23 @@ class Usuario_model extends CI_Model {
     const usuario_roles = 'sys_usuario_roles';
     const empleado_sucursal = 'sys_empleado_sucursal';
     const pos_empresa = 'pos_empresa';
+    const sys_usuario = 'sys_usuario';
+
+    function get_usuarios( $limit, $id ){;
+        $this->db->select('*');
+        $this->db->from(self::sys_usuario);
+        $this->db->limit($limit, $id);
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
+    function record_count(){
+        return $this->db->count_all(self::sys_usuario);
+    }
 
 	function get_empleado( $id_usuario ){
 		$this->db->select('*');

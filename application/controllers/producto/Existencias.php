@@ -64,8 +64,8 @@ class Existencias extends CI_Controller {
 		$this->parser->parse('template', $data);
 	}
 
-	function get_productos_lista( $sucursal , $texto ){
-		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal , $texto);
+	function get_productos_lista( $texto ){
+		$data['productos'] = $this->Orden_model->get_productos_existencias( $texto);
 		echo json_encode( $data );
 	}
 
