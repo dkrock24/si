@@ -40,6 +40,7 @@ class Cargos_model extends CI_Model {
             'cargo_laboral'    => $datos['cargo_laboral'],
             'descripcion_cargo_laboral'=> $datos['descripcion_cargo_laboral'],
             'salario_mensual_cargo_laboral'       => $datos['salario_mensual_cargo_laboral'],
+            'Empresa' => $this->session->empresa[0]->Empresa_Suc,
             'estado'            => $datos['estado'],
         );
         

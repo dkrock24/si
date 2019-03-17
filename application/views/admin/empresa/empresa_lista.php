@@ -8,19 +8,19 @@
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
-                        <thead>
+                        <thead class="bg-info-dark">
                             <tr>
-                                <th>#</th>
-                                <th>Nombre</th> 
-                                <th>NRC</th>
-                                <th>NIT</th>
-                                <th>Cliente</th>
-                                <th>Giro</th>
-                                <th>Tel</th>
-                                <th>Moneda</th>                                                   
-                                <th>Creado</th>                                
-                                <th>Actualizado</th>
-                                <th>Estado</th>
+                                <th style="color: white;">#</th>
+                                <th style="color: white;">Nombre</th> 
+                                <th style="color: white;">NRC</th>
+                                <th style="color: white;">NIT</th>
+                                <th style="color: white;">Cliente</th>
+                                <th style="color: white;">Giro</th>
+                                <th style="color: white;">Tel</th>
+                                <th style="color: white;">Moneda</th>                                                   
+                                <th style="color: white;">Creado</th>                                
+                                <th style="color: white;">Actualizado</th>
+                                <th style="color: white;">Estado</th>
                                 
                                 <th>
                                     <div class="btn-group">
@@ -119,6 +119,13 @@
                                    
                         </tbody>
                     </table>
+
+                    <div class="text-right  panel-footer bg-gray-light">
+                        <ul class="pagination pagination-md">
+                          
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>

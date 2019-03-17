@@ -109,7 +109,7 @@ class Usuario extends CI_Controller {
 	}
 
 	function get_empleado(){
-		$data['empleado'] = $this->Empleado_model->get_empleados();
+		$data['empleado'] = $this->Empleado_model->get_empleados2();
 		echo json_encode($data);
 	}
 

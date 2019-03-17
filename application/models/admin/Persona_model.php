@@ -6,12 +6,14 @@ class Persona_model extends CI_Model {
     const sys_sexo = 'sys_sexo';
     const sys_departamento = 'sys_departamento';
 	
-	function getPersona(){
+	function getPersona( $limit, $id  ){
 
 		$this->db->select('*');
         $this->db->from(self::sys_persona.' as p');
         $this->db->join(self::sys_ciudad.' as c', 'on p.Ciudad = c.id_ciudad');
         $this->db->join(self::sys_sexo.' as s', 'on p.Sexo = s.id_sexo');
+        $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->limit($limit, $id);
         $query = $this->db->get();
         //echo $this->db->queries[1];
         
@@ -20,6 +22,10 @@ class Persona_model extends CI_Model {
             return $query->result();
         }
 	}
+
+    function record_count(){
+        return $this->db->count_all(self::sys_persona);
+    }
 
     function get_encargado(){
 

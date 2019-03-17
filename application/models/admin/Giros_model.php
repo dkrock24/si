@@ -40,6 +40,7 @@ class Giros_model extends CI_Model {
     function get_empresa(){
         $this->db->select('*');
         $this->db->from(self::empresa);
+        $this->db->where('id_empresa', $this->session->empresa[0]->Empresa_Suc);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

@@ -282,7 +282,7 @@
    <div id="persona_modal" tabindex="-1" role="dialog" aria-labelledby="persona_modal"  class="modal fade">
       <div class="modal-dialog modal-lg">
          <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-info-dark">
                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                   <span aria-hidden="true">&times;</span>
                </button>
@@ -294,7 +294,7 @@
                 </p>                                 
                
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer bg-gray-light">
                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
             </div>
          </div>
