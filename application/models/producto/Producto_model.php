@@ -38,7 +38,7 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 and P.Empresa = '".$this->session->empresa[0]->Empresa_Suc."'  
 				group by P.id_entidad Limit ".$id.','.$limit );
 
 		        //echo $this->db->queries[1];

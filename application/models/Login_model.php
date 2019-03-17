@@ -13,6 +13,7 @@ class Login_model extends CI_Model {
         const sys_usuario = 'sys_usuario';
         const sys_role = 'sys_role';
         const sys_empleado = 'sys_empleado';
+        const sys_sucursal = 'pos_sucursal';
         
         public function login( $usuario , $passwd )
         {   
@@ -48,6 +49,8 @@ class Login_model extends CI_Model {
             $db->from(self::sys_usuario);
             $db->join(self::sys_empleado,' on '. self::sys_empleado .'.id_empleado = '. self::sys_usuario.'.Empleado');
             $db->join(self::sys_role,' on '. self::sys_role .'.id_rol = '. self::sys_usuario.'.id_rol');
+            $db->join(self::sys_sucursal,' on '. self::sys_sucursal .'.id_sucursal = '. self::sys_empleado.'.Sucursal');
+
             $db->where(self::sys_usuario.'.nombre_usuario',$usuario);    
             $db->where(self::sys_usuario.'.contrasena_usuario',$passwd);   
             $query = $db->get(); 

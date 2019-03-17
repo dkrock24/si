@@ -35,11 +35,10 @@ class Existencias_model extends CI_Model {
                                 left join pos_sucursal as s on s.id_sucursal = b.Sucursal
                                 left join producto_atributo pa on pa.Producto = p.id_entidad
                                 left join producto_valor pv on pv.id_prod_atributo = pa.id_prod_atrri
-                                where pa.Atributo =14
+                                where pa.Atributo =14 
                 and p.id_entidad = ". $producto_id);
                 //echo $this->db->queries[1];
                 return $query->result();
-
         }
 
         function get_producto_completo2($producto_id){

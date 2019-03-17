@@ -70,6 +70,8 @@ class Home extends CI_Controller {
 			$_SESSION['msj'] = "No Existen Sucursales Asociadas al Usuario";
 			header("location: info");
 		}
+		//echo $_SESSION['empresa'][0]->Empresa_Suc;
+		
 
 		$data['home'] = 'home';
 		$data['menu'] = $this->session->menu;		

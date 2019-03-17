@@ -23,6 +23,7 @@ class Proveedor_model extends CI_Model {
         $this->db->from(self::pos_proveedor.' as pro');
         $this->db->join(self::sys_persona.' as p',' on p.id_persona = pro.Persona_Proveedor');
         $this->db->join(self::pos_linea.' as l',' on l.id_linea = pro.lineas');
+        $this->db->where('pro.Empresa_id', $this->session->empresa[0]->Empresa_Suc);
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];

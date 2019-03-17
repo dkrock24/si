@@ -79,6 +79,7 @@ class Login extends CI_Controller {
 				session_start();
 				
 				$_SESSION['usuario'] = $user;
+				//Empresa_Suc
 
 				header("location:../admin/home/seleccionar_empresa");
 

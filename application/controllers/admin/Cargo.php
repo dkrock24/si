@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Usuario extends CI_Controller {
+class Cargo extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -30,7 +30,7 @@ class Usuario extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
 
-		$this->load->model('admin/Giros_model');  
+		$this->load->model('admin/Cargos_model');  
 		$this->load->model('admin/Atributos_model');  
 		$this->load->model('admin/Menu_model');
 		$this->load->model('admin/Usuario_model');
@@ -55,8 +55,8 @@ class Usuario extends CI_Controller {
 			}			
 		}
 		
-		$total_row = $this->Usuario_model->record_count();
-		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/usuario/index");
+		$total_row = $this->Cargos_model->record_count();
+		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/cargo/index");
 		$this->pagination->initialize($config);
 		if($this->uri->segment(4)){
 			if($_SESSION['per_page']!=0){
@@ -91,7 +91,7 @@ class Usuario extends CI_Controller {
 		$data['fields'] = $this->fields();
 		$data['contador_tabla'] = $contador_tabla;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['registros'] = $this->Usuario_model->get_usuarios( $config["per_page"], $page );
+		$data['registros'] = $this->Cargos_model->get_all_cargo( $config["per_page"], $page );
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -102,56 +102,41 @@ class Usuario extends CI_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;	
-		$data['roles']	= $this->Roles_model->getAllRoles();
-		$data['home'] = 'admin/usuario/u_nuevo';
+		$data['home'] = 'admin/cargo/c_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
 
-	function get_empleado(){
-		$data['empleado'] = $this->Empleado_model->get_empleados();
-		echo json_encode($data);
-	}
-
 	public function crear(){
 		// Insert Nuevo Usuario
-		$data = $this->Usuario_model->crear_usuario( $_POST );
+		$data = $this->Cargos_model->crear_cargo( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('success', "Usuario Fue Creado");
+			$this->session->set_flashdata('success', "Cargo Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Usuario No Fue Creado");
+			$this->session->set_flashdata('warning', "Cargo No Fue Creado");
 		}	
-		redirect(base_url()."admin/usuario/index");
+		redirect(base_url()."admin/cargo/index");
 	}
 
-	public function validar_usuario( $id_empleado ){
 
-		$data = 0;
-		$data = $this->Usuario_model->validar_usuario( $id_empleado );
-		if($data){
-			$data = 1;
-		}
-		echo $data;
-	}
-
-	public function editar( $usuario_id ){
+	public function editar( $cargo_id ){
 		
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;	
-		$data['roles']	= $this->Roles_model->getAllRoles();	
-		$data['usuario'] = $this->Usuario_model->get_usuario_id( $usuario_id );
-		$data['home'] = 'admin/usuario/u_editar';
+		
+		$data['cargo'] = $this->Cargos_model->get_cargo_id( $cargo_id );
+		$data['home'] = 'admin/cargo/c_editar';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function update(){
 		if(isset($_POST)){
-			$data = $this->Usuario_model->update( $_POST );
+			$data = $this->Cargos_model->update( $_POST );
 		}
-		redirect(base_url()."admin/usuario/index");
+		redirect(base_url()."admin/cargo/index");
 	}
 
 	public function actualizar(){
@@ -231,19 +216,19 @@ class Usuario extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Usuario','Password','Hora Inicio','Hora fin','Encargado', 'Rol','Id' ,'Empleado', 'Estado'
+			'#','Cargo','Descripcion','Salario','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_usuario','contrasena_usuario','hora_inicio','hora_salida','usuario_encargado','role','Empleado','alias','estado'
+			'cargo_laboral','descripcion_cargo_laboral','salario_mensual_cargo_laboral','estado'
 		);
 		
-		$fields['id'] = array('id_usuario');
+		$fields['id'] = array('id_cargo_laboral');
 		$fields['estado'] = array('estado');
-		$fields['titulo'] = "Usuario Lista";
+		$fields['titulo'] = "Cargos Laborales Lista";
 
 		return $fields;
 	}

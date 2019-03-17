@@ -287,7 +287,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class=
+                                                
                                                 <input type="text" class="form-control encargado_codigo" id="encargado" name="encargado" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                                 
                                             </div>

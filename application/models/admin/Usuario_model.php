@@ -7,10 +7,15 @@ class Usuario_model extends CI_Model {
     const empleado_sucursal = 'sys_empleado_sucursal';
     const pos_empresa = 'pos_empresa';
     const sys_usuario = 'sys_usuario';
+    const sys_role = 'sys_role';
 
     function get_usuarios( $limit, $id ){;
         $this->db->select('*');
-        $this->db->from(self::sys_usuario);
+        $this->db->from(self::sys_usuario.' as u');
+        $this->db->join(self::sys_role.' as r', 'u.id_rol = r.id_rol');
+        $this->db->join(self::empleado.' as e', 'e.id_empleado = u.Empleado');
+        $this->db->join(self::sucursal.' as s', 's.id_sucursal = e.Sucursal');
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc);
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         

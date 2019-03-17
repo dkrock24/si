@@ -8,7 +8,8 @@ class Empleado_model extends CI_Model {
     const pos_sucursal = 'pos_sucursal';
     const sys_cargo_laboral = 'sys_cargo_laboral';
     const pos_empresa = 'pos_empresa';
-	
+
+
 	function get_empleados(){
 
 		$this->db->select('*');
@@ -41,6 +42,9 @@ class Empleado_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::sys_persona.' as p');
         $this->db->join(self::sys_empleado.' as e', 'on p.id_persona = e.Persona_E');
+        $this->db->join(self::pos_sucursal.' as s', 'on s.id_sucursal = e.Sucursal');
+        $this->db->join(self::sys_cargo_laboral.' as c', 'on c.id_cargo_laboral = e.Cargo_Laboral_E');
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc);
         $this->db->limit($limit, $id);
         $query = $this->db->get();
         //echo $this->db->queries[1];

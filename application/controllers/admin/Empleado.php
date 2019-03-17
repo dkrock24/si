@@ -173,7 +173,7 @@ class Empleado extends CI_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'fecha_contratacion_empleado','horas_laborales_mensuales_empleado','turno','alias','seccion','puesto','encargado','Sucursal','Cargo_Laboral_E','estado'
+			'fecha_contratacion_empleado','horas_laborales_mensuales_empleado','turno','alias','seccion','puesto','encargado','nombre_sucursal','cargo_laboral','estado'
 		);
 		
 		$fields['id'] = array('id_empleado');
