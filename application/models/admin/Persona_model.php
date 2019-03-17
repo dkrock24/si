@@ -21,6 +21,22 @@ class Persona_model extends CI_Model {
         }
 	}
 
+    function get_encargado(){
+
+        $this->db->select('*');
+        $this->db->from(self::sys_persona.' as p');
+        $this->db->join(self::sys_ciudad.' as c', 'on p.Ciudad = c.id_ciudad');
+        $this->db->join(self::sys_sexo.' as s', 'on p.Sexo = s.id_sexo');
+        $this->db->where(self::sys_persona.' as p.id_persona', 1);
+        $query = $this->db->get();
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
 	function crear($datos){
 
 		$data = array(

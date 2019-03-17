@@ -37,6 +37,7 @@ class Usuario extends CI_Controller {
 		$this->load->model('accion/Accion_model');
 		$this->load->model('admin/Roles_model');
 		$this->load->model('admin/Persona_model');
+		$this->load->model('admin/Empleado_model');
 	}
 
 // Start  **********************************************************************************
@@ -107,34 +108,50 @@ class Usuario extends CI_Controller {
 		$this->parser->parse('template', $data);
 	}
 
-	function get_persona(){
-		$data['persona'] = $this->Persona_model->getPersona();
+	function get_empleado(){
+		$data['empleado'] = $this->Empleado_model->get_empleados();
 		echo json_encode($data);
 	}
 
 	public function crear(){
-		// Insert Nuevo Giro
-		$data = $this->Giros_model->crear_giro( $_POST );
+		// Insert Nuevo Usuario
+		$data = $this->Usuario_model->crear_usuario( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('success', "Giro Fue Creado");
+			$this->session->set_flashdata('success', "Usuario Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Giro No Fue Creado");
+			$this->session->set_flashdata('warning', "Usuario No Fue Creado");
 		}	
-
-
-		redirect(base_url()."admin/giros/index");
+		redirect(base_url()."admin/usuario/index");
 	}
 
-	public function editar( $id_giro ){
+	public function validar_usuario( $id_empleado ){
+
+		$data = 0;
+		$data = $this->Usuario_model->validar_usuario( $id_empleado );
+		if($data){
+			$data = 1;
+		}
+		echo $data;
+	}
+
+	public function editar( $usuario_id ){
 		
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;		
-		$data['giros'] = $this->Giros_model->get_giro_id( $id_giro );
-		$data['home'] = 'admin/giros/giros_editar';
+		$data['menu'] = $this->session->menu;	
+		$data['roles']	= $this->Roles_model->getAllRoles();	
+		$data['usuario'] = $this->Usuario_model->get_usuario_id( $usuario_id );
+		$data['home'] = 'admin/usuario/u_editar';
 
 		$this->parser->parse('template', $data);
+	}
+
+	public function update(){
+		if(isset($_POST)){
+			$data = $this->Usuario_model->update( $_POST );
+		}
+		redirect(base_url()."admin/usuario/index");
 	}
 
 	public function actualizar(){

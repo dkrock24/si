@@ -88,4 +88,79 @@ class Usuario_model extends CI_Model {
             return $query->result();
         }
     }
+
+    function crear_usuario($datos){
+
+        $imagen="";
+        $imagen = file_get_contents($_FILES['foto']['tmp_name']);
+        $imageProperties = getimageSize($_FILES['foto']['tmp_name']);
+
+        $data = array(
+            'nombre_usuario'    => $datos['nombre_usuario'],
+            'contrasena_usuario'=> sha1( $datos['contrasena_usuario']),
+            'img'               => $imagen,
+            'img_type'          => $imageProperties['mime'],
+            'hora_inicio'       => $datos['hora_inicio'],
+            'hora_salida'       => $datos['hora_salida'],
+            'encargado'         => $datos['encargado'],
+            'id_rol'            => $datos['id_rol'],
+            'Empleado'          => $datos['persona'],
+            'estado'            => $datos['estado'],
+        );
+        
+        $insert = $this->db->insert(self::sys_usuario, $data);  
+        return $insert;
+    }
+
+    function validar_usuario( $id_empleado ){
+
+        $this->db->select('*');
+        $this->db->from(self::sys_usuario);  
+        $this->db->where('Empleado',$id_empleado);
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function get_usuario_id( $usuario_id ){
+         $this->db->select('*');
+        $this->db->from(self::sys_usuario);  
+        $this->db->where('id_usuario',$usuario_id);
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function update($datos){
+        $imagen="";
+
+        $imageProperties = getimageSize($_FILES['foto']['tmp_name']);
+
+        $data = array(
+            'nombre_usuario'    => $datos['nombre_usuario'],
+            'contrasena_usuario'=> sha1( $datos['contrasena_usuario']),
+            'hora_inicio'       => $datos['hora_inicio'],
+            'hora_salida'       => $datos['hora_salida'],
+            'encargado'         => $datos['encargado'],
+            'id_rol'            => $datos['id_rol'],
+            'Empleado'          => $datos['persona'],
+            'estado'            => $datos['estado'],
+        );
+
+        if(isset($_FILES['foto']) && $_FILES['foto']['tmp_name']!=null){
+            
+            $imagen = file_get_contents($_FILES['foto']['tmp_name']);
+
+            $data = array_merge( $data,array('img' => $imagen, 'img_type'=> $imageProperties['mime'] ));
+        }
+                $this->db->where('id_usuario', $datos['id_usuario']);  
+        $insert = $this->db->update(self::sys_usuario, $data);  
+        return $insert;
+    }
 }

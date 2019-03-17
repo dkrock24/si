@@ -25,7 +25,7 @@
         var contador_precios=1;
 
         $.ajax({
-            url: "get_empleado",
+            url: "../get_empleado",
             datatype: 'json',      
             cache : false,                
 
@@ -66,13 +66,13 @@
         var name = $(this).attr("name");
 
         $.ajax({
-            url: "validar_usuario/"+id,
+            url: "../validar_usuario/"+id,
             datatype: 'json',      
             cache : false,                
 
             success: function(data){
                 if(data){
-                    $(".notificacion_texto").text("Empleado ya vinculado a un usuario existente.");
+                     $(".notificacion_texto").text("Empleado ya vinculado a un usuario existente.");
                     $('#error').modal('show');
 
                 }else{
@@ -86,18 +86,18 @@
         });
     });
 
+    //Compar password
     $(document).on('click','#btn_save',function(){
         var password = $("#password").val();
         var password2 = $("#password2").val();
 
-        if( (password == password2) && (password!='' && password2!='') ){
+        if( (password == password2) ){
             $('form#crear').submit();
         }else{
             $(".notificacion_texto").text("Password Diferente.");
             $('#error').modal('show');
         }
     });
-
 
     $("#imagen_nueva").hide();
 
@@ -114,8 +114,6 @@
             }
         }
     });
-
-
 </script>
 <!-- Main section-->
 <style type="text/css">
@@ -127,10 +125,10 @@
     <!-- Page content-->
     <div class="content-wrapper">  
         <h3 style="height: 50px; font-size: 13px;">  
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
+            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
                 <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Usuario</button> 
             </a> 
-            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
+            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
             
         </h3>
         <div class="row">
@@ -141,18 +139,18 @@
 
                         <div id="panelDemo10" class="panel panel-info">    
                                                 
-                            <div class="panel-heading">Nuevo Usuario : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
+                            <div class="panel-heading">Editar Usuario : <?php //echo $usuario[0]->nombre_submenu ?> </div>
                              <div class="panel-body">        
                             <p> 
-                            <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="usuario" action='crear' method="post">
-                                <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
+                            <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="usuario" action='../update' method="post">
+                                <input type="hidden" value="<?php echo $usuario[0]->id_usuario; ?>" name="id_usuario">
                                 <div class="row">
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Usuario</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" placeholder="Empresa" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                                <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" placeholder="Empresa" value="<?php echo $usuario[0]->nombre_usuario ?>">
                                                 
                                             </div>
                                         </div>
@@ -160,7 +158,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Hora Inicio</label>
                                             <div class="col-sm-9">
-                                                <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" placeholder="Hora Inicio" value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                                <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" placeholder="Hora Inicio" value="<?php echo $usuario[0]->hora_inicio ?>">
                                                 
                                             </div>
                                         </div>
@@ -168,14 +166,14 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Hora Fin</label>
                                             <div class="col-sm-9">
-                                                <input type="time" class="form-control" id="hora_salida" name="hora_salida" placeholder="Hora Fin" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                                <input type="time" class="form-control" id="hora_salida" name="hora_salida" placeholder="Hora Fin" value="<?php echo $usuario[0]->hora_salida ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="encargado" name="encargado" placeholder="Encargado" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" class="form-control" id="encargado" name="encargado" placeholder="Encargado" value="<?php echo $usuario[0]->encargado ?>">
                                                 
                                             </div>
                                         </div>
@@ -183,7 +181,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Password</label>
                                             <div class="col-sm-9">
-                                                <input type="password" class="form-control" id="password" name="contrasena_usuario" placeholder="*******" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="password" class="form-control" id="password" name="contrasena_usuario" placeholder="*******" value="<?php //echo $usuario[0]->contrasena_usuario ?>">
                                                 
                                             </div>
                                         </div>
@@ -191,7 +189,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Repetir Password</label>
                                             <div class="col-sm-9">
-                                                <input type="password" class="form-control" id="password2" name="password2" placeholder="*******" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="password" class="form-control" id="password2" name="password2" placeholder="*******" value="<?php //echo $usuario[0]->contrasena_usuario ?>">
                                                 
                                             </div>
                                         </div>
@@ -202,9 +200,20 @@
                                                 <select id="id_rol" name="id_rol" class="form-control">
                                                     <?php
                                                     foreach ($roles as $key => $p) {
+                                                        if($p->id_rol == $usuario[0]->id_rol ){
                                                         ?>
                                                         <option value="<?php echo $p->id_rol; ?>"><?php echo $p->role; ?></option>
                                                         <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                    <?php
+                                                    foreach ($roles as $key => $p) {
+                                                        if($p->id_rol != $usuario[0]->id_rol ){
+                                                        ?>
+                                                        <option value="<?php echo $p->id_rol; ?>"><?php echo $p->role; ?></option>
+                                                        <?php
+                                                        }
                                                     }
                                                     ?>
                                                 </select>
@@ -214,7 +223,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fotografia</label>
                                             <div class="col-sm-9">
-                                                <input type="file" class="form-control Imagen" id="img" name="foto" placeholder="Foto" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="file" class="form-control Imagen" id="img" name="foto" placeholder="Foto" value="<?php //echo $usuario[0]->titulo_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -222,8 +231,8 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control persona_codigo" id="nombre_persona" name="nombre_persona" placeholder="Nombre Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                <input type="hidden" class="form-control persona_codigo" id="persona" name="persona" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" class="form-control persona_codigo" id="nombre_persona" name="nombre_persona" placeholder="Nombre Persona" value="<?php echo $usuario[0]->Empleado ?>">
+                                                <input type="hidden" class="form-control persona_codigo" id="persona" name="persona" placeholder="Persona" value="<?php echo $usuario[0]->Empleado ?>">
                                                 
                                             </div>
                                         </div>
@@ -239,7 +248,7 @@
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
                                                 
-                                                <img src="" name="" id="imagen_nueva" class="preview_producto" />
+                                                <img id="" class="preview_producto"  src="data: <?php echo $usuario[0]->img_type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode( $usuario[0]->img ) ?>" style="width:100%" />
                                             </div>
                                         </div>
                                         
@@ -248,8 +257,19 @@
                                                 
                                                 <label>
                                                     <select name="estado" class="form-control">
-                                                        <option value="1">Activo</option>
-                                                        <option value="0">Inactivo</option>
+                                                        <?php 
+                                                            if( $usuario[0]->estado ==1 ){ 
+                                                                ?>
+                                                                <option value="1">Activo</option>
+                                                                <option value="0">Inactivo</option>
+                                                                <?php
+                                                            } else{
+                                                                 ?>
+                                                                <option value="0">Inactivo</option>
+                                                                <option value="1">Activo</option>
+                                                                <?php
+                                                            }
+                                                        ?>  
                                                     </select>
                                                 </label>
                                             </div>
