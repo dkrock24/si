@@ -8,7 +8,7 @@ class Categorias_model extends CI_Model {
         $query = $this->db->query('
                 SELECT c1.*, c2.nombre_categoria as "cat_padre", e.nombre_comercial FROM categoria AS c1 
                 LEFT JOIN categoria AS c2 on c1.id_categoria_padre = c2.id_categoria
-                LEFT JOIN pos_empresa as e on e.id_empresa = c1.Empresa order by c1.nombre_categoria, c2.id_categoria_padre asc Limit '.  $id.','.$limit);
+                LEFT JOIN pos_empresa as e on e.id_empresa = c1.Empresa where c1.Empresa='.$this->session->empresa[0]->Empresa_Suc.' order by c1.nombre_categoria, c2.id_categoria_padre asc Limit '.  $id.','.$limit);
         //echo $this->db->queries[2];
         return $query->result();
 	}
@@ -52,7 +52,7 @@ class Categorias_model extends CI_Model {
                 SELECT c1.*, c2.id_categoria as "id_padre", c2.nombre_categoria as "nombre_padre",  e.nombre_comercial FROM categoria AS c1 
                 LEFT JOIN categoria AS c2 on c1.id_categoria_padre = c2.id_categoria
                 LEFT JOIN pos_empresa as e on e.id_empresa = c1.Empresa
-                WHERE c1.id_categoria='.$id_categoria);
+                WHERE c1.id_categoria='.$id_categoria. ' and e.id_empresa= '. $this->session->empresa[0]->Empresa_Suc);
          //echo $this->db->queries[0];
         return $query->result();
 	}
@@ -88,6 +88,7 @@ class Categorias_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::categorias);
         $this->db->where('id_categoria_padre IS NULL' );
+        $this->db->where('Empresa ',$this->session->empresa[0]->Empresa_Suc );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

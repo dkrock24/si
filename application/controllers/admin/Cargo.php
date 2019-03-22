@@ -27,6 +27,7 @@ class Cargo extends CI_Controller {
 		$this->load->library('parser');	    
 	    @$this->load->library('session');	
 	    $this->load->library('pagination');    
+	    $this->load->library('../controllers/general');
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
 
@@ -128,6 +129,8 @@ class Cargo extends CI_Controller {
 		
 		$data['cargo'] = $this->Cargos_model->get_cargo_id( $cargo_id );
 		$data['home'] = 'admin/cargo/c_editar';
+
+		$this->general->editar_valido($data['cargo'], "admin/cargo/index");
 
 		$this->parser->parse('template', $data);
 	}

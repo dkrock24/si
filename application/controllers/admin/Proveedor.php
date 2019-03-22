@@ -26,7 +26,8 @@ class Proveedor extends CI_Controller {
 
 		$this->load->library('parser');	    
 	    @$this->load->library('session');	
-	    $this->load->library('pagination');    
+	    $this->load->library('pagination');   
+	    $this->load->library('../controllers/general'); 
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
 
@@ -132,9 +133,11 @@ class Proveedor extends CI_Controller {
 		$data['menu'] = $this->session->menu;		
 		$data['proveedor'] = $this->Proveedor_model->get_proveedor_id( $proveedor_id );
 		$data['linea'] = $this->Linea_model->getAllLinea();
-		$data['persona'] = $this->Persona_model->getPersona();
+		$data['persona'] = $this->Persona_model->getAllPersona();
 
 		$data['home'] = 'admin/proveedor/proveedor_editar';
+
+		$this->general->editar_valido($data['proveedor'], "admin/proveedor/index");
 
 		$this->parser->parse('template', $data);
 	}

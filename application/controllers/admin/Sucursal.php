@@ -26,7 +26,8 @@ class Sucursal extends CI_Controller {
 
 		$this->load->library('parser');	    
 	    @$this->load->library('session');	
-	    $this->load->library('pagination');    
+	    $this->load->library('pagination');   
+	    $this->load->library('../controllers/general'); 
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
 
@@ -131,6 +132,8 @@ class Sucursal extends CI_Controller {
 		$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['ciudad'] = $this->Ciudad_model->getCiudad();
 		$data['home'] = 'admin/sucursal/sucursal_editar';
+
+		$this->general->editar_valido($data['sucursal'], "admin/sucursal/index");
 
 		$this->parser->parse('template', $data);
 	}

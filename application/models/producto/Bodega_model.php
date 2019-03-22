@@ -89,6 +89,7 @@ class Bodega_model extends CI_Model {
         $this->db->from(self::pos_bodega.' as b');
         $this->db->join(self::pos_sucursal.' as s', 'on b.Sucursal = s.id_sucursal');
         $this->db->join(self::pos_empresa.' as e', 'on s.Empresa_Suc = e.id_empresa');
+        $this->db->where('e.id_empresa', $this->session->empresa[0]->Empresa_Suc);
         //$this->db->join(self::sys_empleado_sucursal.' as es', 'on es.es_sucursal = s.id_sucursal');
         $this->db->where('b.id_bodega', $bodega_id );
         $query = $this->db->get(); 

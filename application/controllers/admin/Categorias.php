@@ -26,7 +26,8 @@ class Categorias extends CI_Controller {
 
 		$this->load->library('parser');	    
 	    @$this->load->library('session');	
-	    $this->load->library('pagination');    
+	    $this->load->library('pagination');
+	    $this->load->library('../controllers/general');    
 
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
@@ -118,6 +119,8 @@ class Categorias extends CI_Controller {
 		$data['categorias_padres']	= $this->Categorias_model->get_categorias_padres();
 		$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['home'] = 'admin/categorias/categorias_editar';
+
+		$this->general->editar_valido($data['categorias'], "admin/categorias/index");
 
 		$this->parser->parse('template', $data);
 	}

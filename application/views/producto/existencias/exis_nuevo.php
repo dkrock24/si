@@ -487,7 +487,7 @@ $(document).ready(function(){
                                 
                                 <div class="input-group m-b">
                                     <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                    <input type="text" placeholder="Buscar Producto" name="producto_buscar" class="form-control producto_buscar">
+                                    <input type="text" placeholder="Buscar Producto" name="producto_buscar" class="form-control producto_buscar" autocomplete="off">
                                 </div>
 
                                 <select multiple="" class="form-control dataSelect" id="dataSelect">

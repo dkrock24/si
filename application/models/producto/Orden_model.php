@@ -41,7 +41,7 @@ left join pos_cliente as cliente on cliente.id_cliente = orden.id_cliente
 left join pos_sucursal as sucursal on sucursal.id_sucursal=orden.id_sucursal
 left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = orden.id_tipod
 left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
-left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago Limit ". $id.','.$limit);
+left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". $id.','.$limit);
 
 		    //echo $this->db->queries[1];
 		    return $query->result();

@@ -924,6 +924,7 @@ $(document).ready(function(){
                                                   <select class="form-control" name="sucursal_destino" id="sucursal_id">
                                                     <?php
                                                     $id_sucursal=0;
+                                                    
                                                     foreach ($empleado as $sucursal) {
                                                         $id_sucursal = $sucursal->id_sucursal; 
                                                         ?>

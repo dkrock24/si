@@ -184,16 +184,12 @@
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Departmento</label>
                                             <div class="col-sm-9">
                                                 <select id="departamento" name="departamento" class="form-control">
+                                                    <option value="0">Selecionar Departamento</option>
                                                     <?php
-                                                    $id_anterior = 0;
                                                     foreach ($ciudad as $key => $value) {
-
-                                                        if($id_anterior != $value->id_departamento ){
                                                         ?>
                                                         <option value="<?php echo $value->id_departamento; ?>"><?php echo $value->nombre_departamento; ?></option>
                                                         <?php
-                                                        }
-                                                        $id_anterior = $value->id_departamento;
                                                     }
                                                     ?>
                                                 </select>

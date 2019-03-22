@@ -8,12 +8,12 @@
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
-                        <thead>
+                        <thead class="bg-info-dark">
                             <tr>
-                                <th>#</th>
-                                <th>Producto</th> 
-                                <th>Nombre</th>
-                                <th>Codigo</th>
+                                <th style="color: white;">#</th>
+                                <th style="color: white;">Producto</th> 
+                                <th style="color: white;">Nombre</th>
+                                <th style="color: white;">Codigo</th>
                                 
                                 <th>
                                     <div class="btn-group">
@@ -90,6 +90,9 @@
                                    
                         </tbody>
                     </table>
+                    <div class="text-right  panel-footer bg-gray-light">
+                        
+                    </div>
                 </div>
             </div>
         </div>

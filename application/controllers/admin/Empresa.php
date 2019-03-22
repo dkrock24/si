@@ -27,6 +27,7 @@ class Empresa extends CI_Controller {
 		$this->load->library('parser');
 		@$this->load->library('session');
 		$this->load->helper('url');
+		$this->load->library('../controllers/general');
 		$this->load->helper('seguridad/url_helper');
 		$this->load->model('accion/Accion_model');	
 
@@ -100,6 +101,8 @@ class Empresa extends CI_Controller {
 		$data['moneda'] = $this->Moneda_model->getAllMoneda();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'admin/empresa/empresa_editar';
+
+		$this->general->editar_valido($data['empresa'], "admin/empresa/index");
 
 		$this->parser->parse('template', $data);
 

@@ -4,12 +4,13 @@ class Vistas_model extends CI_Model {
     const sys_vistas      = 'sys_vistas';
     const sys_vistas_componentes      = 'sys_vistas_componentes';
 
-	function get_vistas( ){
+	function get_vistas( $limit, $id ){
 
         $this->db->select('v.*,  count(c.Vista) as total');
         $this->db->from(self::sys_vistas.' as v');
         $this->db->join(self::sys_vistas_componentes.' as c', ' on c.Vista = v.id_vista','left');
         $this->db->group_by('v.id_vista');
+        $this->db->limit($limit, $id);
         //$this->db->where('vista_estado', 1);
         $query = $this->db->get();   
         //echo $this->db->queries[2];
@@ -18,6 +19,10 @@ class Vistas_model extends CI_Model {
         {
             return $query->result();
         } 
+    }
+
+    function record_count(){
+        return $this->db->count_all(self::sys_vistas);
     }
 
     function vistas_componente_by_id( $vista_id ){

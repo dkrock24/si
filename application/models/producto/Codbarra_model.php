@@ -8,6 +8,7 @@ class Codbarra_model extends CI_Model {
 		$this->db->select('*');
         $this->db->from(self::pos_agregar_code_barr.' as c');
         $this->db->join(self::producto.' as p', ' on c.Producto= p.id_entidad');
+        $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

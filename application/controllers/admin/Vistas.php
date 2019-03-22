@@ -10,7 +10,10 @@ class Vistas extends CI_Controller {
 
 		$this->load->library('parser');
 		@$this->load->library('session');
+		$this->load->library('pagination');   
+
 		$this->load->helper('url');
+		$this->load->helper('paginacion/paginacion_helper');
 
 		$this->load->model('admin/Acceso_model');
 		$this->load->model('admin/Menu_model');
@@ -19,6 +22,40 @@ class Vistas extends CI_Controller {
 
 	public function index()
 	{
+
+		//Paginacion
+		$contador_tabla;
+		if( isset( $_POST['total_pagina'] )){
+			$per_page = $_POST['total_pagina'];
+			$_SESSION['per_page'] = $per_page;
+		}else{
+			if($_SESSION['per_page'] == ''){
+				$_SESSION['per_page'] = 10;
+			}			
+		}
+		
+		$total_row = $this->Vistas_model->record_count();
+		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/vistas/index");
+		$this->pagination->initialize($config);
+		if($this->uri->segment(4)){
+			if($_SESSION['per_page']!=0){
+				$page = ($this->uri->segment(4) - 1 ) * $_SESSION['per_page'];
+				$contador_tabla = $page+1;
+			}else{
+				$page = 0;
+				$contador_tabla =1;
+			}
+		}else{
+			$page = 0;
+			$contador_tabla =1;
+		}
+
+		$str_links = $this->pagination->create_links();
+		$data["links"] = explode('&nbsp;',$str_links );
+
+		// paginacion End
+
+
 		// Construir Menu
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
@@ -30,15 +67,19 @@ class Vistas extends CI_Controller {
 			$data['roles'] =  $this->Acceso_model->getRoles();
 			$data['menus'] =  $this->Menu_model->lista_menu();	
 
+
 		}else{
 
 			$data['roles'] =  $this->Acceso_model->getRoles();	
 			$data['menus'] =  $this->Menu_model->lista_menu();
 		}		
 		$data['menu'] = $this->session->menu;		
-		$data['vistas'] =  $this->Vistas_model->get_vistas();
+		$data['registros'] =  $this->Vistas_model->get_vistas(  $config["per_page"], $page );
+		$data['column'] = $this->column();
+		$data['fields'] = $this->fields();
+		$data['contador_tabla'] = $contador_tabla;
 		//$data['vistas_componentes'] =  $this->Vistas_model->get_vistas_componentes();
-		$data['home'] = 'admin/vistas/vistas_lista';
+		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}
@@ -95,5 +136,25 @@ class Vistas extends CI_Controller {
 		$this->Vistas_model->vistas_componente_crear($_POST);
 		$data['vista_id'] = $_POST['vista_id'];
 		redirect(base_url()."admin/vistas/componentes/".$data['vista_id']  );
+	}
+
+	public function column(){
+
+		$column = array(
+			'#','Nombre','Codigo','Metodo','Url','Descripcion', 'Botones','Estado'
+		);
+		return $column;
+	}
+
+	public function fields(){
+		$fields['field'] = array(
+			'vista_nombre','vista_codigo','vista_accion','vista_url','vista_descripcion','total','estado'
+		);
+		
+		$fields['id'] = array('id_vista');
+		$fields['estado'] = array('vista_estado');
+		$fields['titulo'] = "Vistas Lista";
+
+		return $fields;
 	}
 }

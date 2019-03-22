@@ -23,6 +23,22 @@ class Persona_model extends CI_Model {
         }
 	}
 
+    function getAllPersona(){
+
+        $this->db->select('*');
+        $this->db->from(self::sys_persona.' as p');
+        $this->db->join(self::sys_ciudad.' as c', 'on p.Ciudad = c.id_ciudad');
+        $this->db->join(self::sys_sexo.' as s', 'on p.Sexo = s.id_sexo');
+        $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $query = $this->db->get();
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function record_count(){
         return $this->db->count_all(self::sys_persona);
     }
@@ -102,6 +118,7 @@ class Persona_model extends CI_Model {
         $this->db->join(self::sys_departamento.' as d', 'on d.id_departamento = c.departamento');
         $this->db->join(self::sys_sexo.' as s', 'on p.Sexo = s.id_sexo');
         $this->db->where('p.id_persona', $persona_id );
+        $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
         $query = $this->db->get();
         //echo $this->db->queries[1];
         

@@ -20,7 +20,7 @@
                                 <div class="panel-body">
                                     <div class="col-lg-6">
                                         <div id="" class="panel panel-info">
-                                            <div class="panel-heading">Editar Rol : <?php //echo $roles[0]->role ?> </div>
+                                            <div class="panel-heading">Nuevo Rol : <?php //echo $roles[0]->role ?> </div>
                                             <p>
       
                                             <div class="panel-body">

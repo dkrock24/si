@@ -9,6 +9,7 @@ class Combo_model extends CI_Model {
         $this->db->from(self::pos_combo.' as c');
         $this->db->join(self::producto.' as p', ' on c.Producto_Combo= p.id_entidad');
         $this->db->join(self::producto.' as p2', ' on c.producto_a_descargar_Combo= p2.id_entidad');
+        $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

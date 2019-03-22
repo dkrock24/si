@@ -28,6 +28,7 @@ class Empleado extends CI_Controller {
 	    @$this->load->library('session');	
 	    $this->load->library('pagination');    
 		$this->load->helper('url');
+		$this->load->library('../controllers/general');
 		$this->load->helper('paginacion/paginacion_helper');
 
 		$this->load->model('admin/Giros_model');  
@@ -133,6 +134,8 @@ class Empleado extends CI_Controller {
 		$data['cargos']	= $this->Cargos_model->get_cargos();
 		$data['empresa']	= $this->Empresa_model->getEmpresas();
 		$data['home'] = 'admin/empleado/e_editar';
+
+		$this->general->editar_valido($data['empleado'], "admin/empleado/index");
 		$this->parser->parse('template', $data);
 	}
 

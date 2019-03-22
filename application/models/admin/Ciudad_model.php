@@ -33,4 +33,15 @@ class Ciudad_model extends CI_Model {
             return $query->result();
         }
     }
+
+    function getDepartamento( ){
+        $this->db->select('*');        
+        $this->db->from(self::sys_departamento);
+        $query = $this->db->get();
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
 }

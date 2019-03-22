@@ -11,6 +11,7 @@ class Producto extends CI_Controller {
 		$this->load->library('parser');
 		@$this->load->library('session');
 		$this->load->library('pagination'); 
+		$this->load->library('../controllers/general');
 
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
@@ -133,9 +134,9 @@ class Producto extends CI_Controller {
 		$data['producto_proveedor'] = $this->Producto_model->get_producto_proveedor( $id_producto  );
 		$data['clientes'] = $this->Producto_model->get_clientes();
 		$data['sucursal'] = $this->Producto_model->get_sucursales();
-
-		
 		$data['home'] = 'producto/producto/prod_editar';
+
+		$this->general->editar_valido($data['producto'], "producto/producto/index");
 
 		$this->parser->parse('template', $data);
 	}

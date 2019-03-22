@@ -19,7 +19,7 @@
     <section>
         <!-- Page content-->
         <div class="content-wrapper">
-            <h3 style="height: 50px; "><?php echo $fields['titulo']; ?> </h3>
+            <h3 style="height: 50px; "><i class="icon-arrow-right"></i> <?php echo $fields['titulo']; ?> </h3>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="col-lg-1 text-left">

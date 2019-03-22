@@ -555,6 +555,7 @@ class Producto_model extends CI_Model {
 			$this->db->select('*');
 	        $this->db->from(self::sucursal);
 	        $this->db->where('estado = 1');
+	        $this->db->where('Empresa_Suc', $this->session->empresa[0]->Empresa_Suc );
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];
 	        
@@ -691,6 +692,7 @@ class Producto_model extends CI_Model {
 			$this->db->select('*');
 	        $this->db->from(self::producto);	        
 	        $this->db->where('producto_estado', 1 );
+	        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc );
 	        $this->db->order_by('name_entidad', 'asc');
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];

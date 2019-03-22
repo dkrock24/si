@@ -10,7 +10,8 @@ class Bodega extends CI_Controller {
 
 		$this->load->library('parser');
 		@$this->load->library('session');
-		$this->load->library('pagination');   
+		$this->load->library('pagination');
+		$this->load->library('../controllers/general');
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');
@@ -120,6 +121,8 @@ class Bodega extends CI_Controller {
 		$data['bodega'] = $this->Bodega_model->getBodegaById($bodega_id);
 		$data['sucursal'] = $this->Sucursal_model->getSucursal();
 		$data['home'] = 'producto/bodega/bodega_editar';
+
+		$this->general->editar_valido($data['bodega'], "producto/bodega/index");
 
 		$this->parser->parse('template', $data);
 	}

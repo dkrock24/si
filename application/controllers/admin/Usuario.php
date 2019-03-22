@@ -27,6 +27,7 @@ class Usuario extends CI_Controller {
 		$this->load->library('parser');	    
 	    @$this->load->library('session');	
 	    $this->load->library('pagination');    
+	    $this->load->library('../controllers/general');
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
 
@@ -143,6 +144,8 @@ class Usuario extends CI_Controller {
 		$data['roles']	= $this->Roles_model->getAllRoles();	
 		$data['usuario'] = $this->Usuario_model->get_usuario_id( $usuario_id );
 		$data['home'] = 'admin/usuario/u_editar';
+
+		$this->general->editar_valido($data['usuario'], "admin/usuario/index");
 
 		$this->parser->parse('template', $data);
 	}

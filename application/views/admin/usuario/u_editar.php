@@ -173,7 +173,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="encargado" name="encargado" placeholder="Encargado" value="<?php echo $usuario[0]->encargado ?>">
+                                                <input type="text" class="form-control" id="encargado" name="encargado" placeholder="Encargado" value="<?php echo $usuario[0]->usuario_encargado ?>">
                                                 
                                             </div>
                                         </div>

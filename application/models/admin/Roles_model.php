@@ -13,6 +13,7 @@ class Roles_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::roles);  
+        $this->db->where(self::roles.'.Empresa', $this->session->empresa[0]->Empresa_Suc);  
         $this->db->limit($limit, $id);          
         $query = $this->db->get();    
                 
@@ -25,7 +26,8 @@ class Roles_model extends CI_Model {
     function getAllRoles(){
 
         $this->db->select('*');
-        $this->db->from(self::roles);        
+        $this->db->from(self::roles);   
+        $this->db->where(self::roles.'.Empresa', $this->session->empresa[0]->Empresa_Suc);       
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -42,7 +44,8 @@ class Roles_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::roles);   
-        $this->db->where('id_rol', $id_role );    
+        $this->db->where('id_rol', $id_role );   
+        $this->db->where(self::roles.'.Empresa', $this->session->empresa[0]->Empresa_Suc);   
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -69,6 +72,7 @@ class Roles_model extends CI_Model {
            'role' => $nuevo_rol['role'],
             'pagina' => $nuevo_rol['pagina'],
             'fecha_actualizacion' => date('Y-m-d'),
+            'Empresa'=> $this->session->empresa[0]->Empresa_Suc,
             'estado_rol' => $nuevo_rol['estado_rol'],
         );
 
@@ -99,8 +103,6 @@ class Roles_model extends CI_Model {
             'id_rol' => $role_id
         );
         $this->db->delete(self::roles, $data);
-
-        
 
         return 1;
     }

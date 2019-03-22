@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Roles extends CI_Controller {
+class Marca extends CI_Controller {
 
 	function __construct()
 	{
@@ -16,9 +16,9 @@ class Roles extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
 
-		$this->load->model('admin/Roles_model');
 		$this->load->model('admin/Menu_model');	
 		$this->load->model('accion/Accion_model');
+		$this->load->model('admin/Marca_model');
 	}
 
 	public function index()
@@ -34,8 +34,8 @@ class Roles extends CI_Controller {
 			}			
 		}
 		
-		$total_row = $this->Roles_model->record_count();
-		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/roles/index");
+		$total_row = $this->Marca_model->record_count();
+		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/documento/index");
 		$this->pagination->initialize($config);
 		if($this->uri->segment(4)){
 			if($_SESSION['per_page']!=0){
@@ -67,30 +67,30 @@ class Roles extends CI_Controller {
 		$data['contador_tabla'] = $contador_tabla;
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
-		$data['registros'] = $this->Roles_model->getRoles( $config["per_page"], $page );
+		$data['registros'] = $this->Marca_model->getMarca( $config["per_page"], $page );
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}
 
-	public function editar( $id_role )
+	public function editar( $marca_id )
 	{	
 		$id_rol = $this->session->roles[0];
 
 		$data['menu'] = $this->session->menu;
-		$data['roles'] = $this->Roles_model->getRolesById( $id_role );
-		$data['home'] = 'admin/roles/roles_editar';
+		$data['marca'] = $this->Marca_model->getMarcaById( $marca_id );
+		$data['home'] = 'admin/marca/m_editar';
 
-		$this->general->editar_valido($data['roles'], "admin/roles/index");
+		$this->general->editar_valido($data['marca'], "admin/marca/index");
 
 		$this->parser->parse('template', $data);
 	}
 
-	public function update_roles()
+	public function update()
 	{	
-		$data['roles'] = $this->Roles_model->setRoles( $_POST );	
+		$data['documento'] = $this->Marca_model->setMarca( $_POST );	
 		
-		redirect(base_url()."admin/roles/index");
+		redirect(base_url()."admin/marca/index");
 	}
 
 	public function nuevo(){
@@ -98,15 +98,14 @@ class Roles extends CI_Controller {
 		$id_rol = $this->session->roles[0];
 
 		$data['menu'] = $this->session->menu;
-						//$this->Roles_model->nuevo_rol( $_POST );
-		$data['home'] = 'admin/roles/roles_nuevo';
+		$data['home'] = 'admin/marca/m_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
 
-	public function save_rol(){
-		$this->Roles_model->nuevo_rol( $_POST );
-		redirect(base_url()."admin/roles/index");
+	public function save(){
+		$this->Marca_model->nuevo_marca( $_POST );
+		redirect(base_url()."admin/marca/index");
 	}
 
 	public function delete( $id_rol ){
@@ -117,19 +116,19 @@ class Roles extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Pagina','Creacion','Actualizacion','Estado'
+			'#','Nombre','Descripcion','Creado','Actualizado','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'role','pagina','fecha_creacion','fecha_actualizacion','estado'
+			'nombre_marca','descripcion_marca','fecha_creado_marca','fecha_atualizado_marca','estado'
 		);
 		
-		$fields['id'] = array('id_rol');
-		$fields['estado'] = array('estado_rol');
-		$fields['titulo'] = "Roles Lista";
+		$fields['id'] = array('id_marca');
+		$fields['estado'] = array('estado_marca');
+		$fields['titulo'] = "Marcas Lista";
 
 		return $fields;
 	}

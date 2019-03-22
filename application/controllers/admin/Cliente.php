@@ -26,7 +26,8 @@ class Cliente extends CI_Controller {
 
 		$this->load->library('parser');	    
 	    @$this->load->library('session');	
-	    $this->load->library('pagination');    
+	    $this->load->library('pagination');  
+	    $this->load->library('../controllers/general');  
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
 
@@ -129,13 +130,15 @@ class Cliente extends CI_Controller {
 		
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;		
+		$data['menu'] = $this->session->menu;
 		$data['cliente'] = $this->Cliente_model->get_clientes_id( $cliente_id );
 		$data['documento'] = $this->Cliente_model->getTipoDocumento();
 		$data['pago'] = $this->Cliente_model->getTipoPago();
-		$data['persona'] = $this->Persona_model->getPersona();
+		$data['persona'] = $this->Persona_model->getAllPersona();
 
 		$data['home'] = 'admin/cliente/cliente_editar';
+
+		$this->general->editar_valido($data['cliente'], "admin/cliente/index");
 
 		$this->parser->parse('template', $data);
 	}

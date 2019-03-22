@@ -11,12 +11,13 @@ class Orden extends CI_Controller {
 		$this->load->library('parser');
 		@$this->load->library('session');
 		$this->load->library('pagination');
+		$this->load->library('../controllers/general');
 
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');
-		$this->load->model('accion/Accion_model');	
 
+		$this->load->model('accion/Accion_model');
 		$this->load->model('admin/Menu_model');
 		$this->load->model('admin/Terminal_model');
 		$this->load->model('admin/Giros_model');

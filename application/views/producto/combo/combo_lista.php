@@ -2,9 +2,9 @@
     <section>
         <!-- Page content-->
         <div class="content-wrapper">
-            <h3 style="height: 50px; ">Lista Combos </h3>
+            <h3 style="height: 50px; "><i class="icon-arrow-right"></i>  Lista Combos </h3>
             <div class="panel panel-default">
-                <div class="panel-heading"><h2 style="display: inline-block;"><i class="fa fa-home"></i></h2>Combos</div>
+                <div class="panel-heading"><i class="icon-list"></i> Combos</div>
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
@@ -55,7 +55,7 @@
 		                            <td>
 		                            	                                
 		                                <div class="btn-group mb-sm">
-		                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs bg-gray-dark">Opcion
+		                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs ">Opcion
                                                 <span class="caret"></span>
                                             </button>
 		                                    <ul role="menu" class="dropdown-menu">
@@ -90,6 +90,10 @@
                                    
                         </tbody>
                     </table>
+
+                    <div class="text-right  panel-footer bg-gray-light">
+                       
+                    </div>
                 </div>
             </div>
         </div>

@@ -9,6 +9,7 @@ class Cargos_model extends CI_Model {
 
 		$this->db->select('*');
         $this->db->from(self::sys_cargo_laboral.' as p');
+        $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
         $query = $this->db->get();
         
         if($query->num_rows() > 0 )
@@ -52,6 +53,7 @@ class Cargos_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::sys_cargo_laboral);
         $this->db->where('id_cargo_laboral', $cargo_id);
+        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc );
         $query = $this->db->get(); 
         
         if($query->num_rows() > 0 )

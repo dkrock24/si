@@ -13,6 +13,7 @@ class Empresa_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::pos_empresa.' e');
         $this->db->join(self::sys_moneda.' m', 'on e.Moneda = m.id_moneda');
+        $this->db->where('e.id_empresa', $this->session->empresa[0]->Empresa_Suc);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -72,6 +73,7 @@ class Empresa_model extends CI_Model {
         $this->db->select('*');
         $this->db->from( self::pos_empresa.' e' );
         $this->db->join( self::sys_moneda.' m', 'on e.Moneda = m.id_moneda' );
+        $this->db->where('e.id_empresa', $this->session->empresa[0]->Empresa_Suc);
         $this->db->where( 'e.id_empresa', $empresa_id );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];

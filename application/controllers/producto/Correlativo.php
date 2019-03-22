@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Persona extends CI_Controller {
+class Correlativo extends CI_Controller {
 
 	function __construct()
 	{
@@ -10,30 +10,31 @@ class Persona extends CI_Controller {
 
 		$this->load->library('parser');
 		@$this->load->library('session');
-		$this->load->library('pagination');    
-
+		$this->load->library('pagination');
+		
 		$this->load->helper('url');
-		$this->load->library('../controllers/general');
 		$this->load->helper('seguridad/url_helper');
-		$this->load->model('accion/Accion_model');	
 		$this->load->helper('paginacion/paginacion_helper');
+		$this->load->library('../controllers/general');
 
+		$this->load->model('accion/Accion_model');	
 		$this->load->model('admin/Menu_model');
 		$this->load->model('admin/Terminal_model');
 		$this->load->model('admin/Giros_model');
 		$this->load->model('admin/Cliente_model');
 		$this->load->model('admin/Usuario_model');
 		$this->load->model('admin/ModoPago_model');
-		$this->load->model('admin/Ciudad_model');
-		$this->load->model('admin/Sexo_model');
-		$this->load->model('admin/Persona_model');
+		$this->load->model('admin/Correlativo_model');
+		$this->load->model('admin/Sucursal_model');
 		$this->load->model('producto/Producto_model');				
 		$this->load->model('producto/Orden_model');
-		$this->load->model('producto/Bodega_model');
+		$this->load->model('producto/Linea_model');
+		$this->load->model('admin/Documento_model');
 	}
 
 	public function index()
 	{
+
 		//Paginacion
 		$contador_tabla;
 		if( isset( $_POST['total_pagina'] )){
@@ -45,8 +46,8 @@ class Persona extends CI_Controller {
 			}			
 		}
 		
-		$total_row = $this->Persona_model->record_count();
-		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/persona/index");
+		$total_row = $this->Correlativo_model->record_count();
+		$config = paginacion($total_row, $_SESSION['per_page'] , "producto/correlativo/index");
 		$this->pagination->initialize($config);
 		if($this->uri->segment(4)){
 			if($_SESSION['per_page']!=0){
@@ -68,17 +69,17 @@ class Persona extends CI_Controller {
 
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		//parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
+		$data['registros'] = $this->Correlativo_model->getCorrelativos(  $config["per_page"], $page );
+		$data['contador_tabla'] = $contador_tabla;
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
-		$data['contador_tabla'] = $contador_tabla;
-		$data['registros'] = $this->Persona_model->getPersona( $config["per_page"], $page );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'template/lista_template';
 
@@ -93,76 +94,68 @@ class Persona extends CI_Controller {
 
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
+		$data['sucursal'] = $this->Sucursal_model->getSucursal();
+		$data['documento'] = $this->Documento_model->getAllDocumento();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		
-		$data['sexo'] = $this->Sexo_model->getSexo();
-		$data['ciudad'] = $this->Ciudad_model->getDepartamento();
-
-		$data['home'] = 'admin/persona/persona_nuevo';
+		$data['home'] = 'producto/correlativo/c_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
 
-	public function crear(){
+	public function save(){
+		$data['bodegas'] = $this->Correlativo_model->save( $_POST );
 
-		$this->Persona_model->crear( $_POST );
-
-		redirect(base_url()."admin/persona/index");
+		redirect(base_url()."producto/correlativo/index");
 	}
 
-	public function editar( $persona_id ){
+	public function editar( $correlatiov_id ){
+
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
 
-		//$id_rol = $this->session->roles[0];
-		//$vista_id = 8; // Vista Orden Lista
-		//$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$id_rol = $this->session->roles[0];
+		$vista_id = 20; // Vista Orden Lista
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
-		$data['menu'] 	= $this->session->menu;		
-		$data['persona']= $this->Persona_model->getPersonaId( $persona_id );
-		$data['sexo'] 	= $this->Sexo_model->getSexo();
-		$data['ciudad'] = $this->Ciudad_model->getCiudad();
-		$data['ciudad2'] = $this->Ciudad_model->getCiudadId( $data['persona'][0]->id_departamento );
+		$data['menu'] = $this->session->menu;
+		$data['correlativo'] = $this->Correlativo_model->editar( $correlatiov_id );
+		$data['sucursal'] = $this->Sucursal_model->getSucursal();
+		$data['documento'] = $this->Documento_model->getAllDocumento();
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['home'] = 'producto/correlativo/c_editar';
 
-		$data['home'] 	= 'admin/persona/persona_editar';
-
-		$this->general->editar_valido($data['persona'], "admin/persona/index");
+		$this->general->editar_valido($data['correlativo'], "producto/correlativo/index");
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function update(){
 
-		$data['bodegas'] = $this->Persona_model->update( $_POST );
+		$data['bodegas'] = $this->Correlativo_model->update( $_POST );
 
-		redirect(base_url()."admin/persona/index");
-	}
-
-	public function getCiudadId( $departamento_id ){
-
-		$data['ciudad'] = $this->Ciudad_model->getCiudadId( $departamento_id );
-		echo json_encode($data);
+		redirect(base_url()."producto/correlativo/index");
 	}
 
 	public function column(){
 
 		$column = array(
-			'#','P.Nombre','S.Nombre','P.Apellido','S.Apellido','DUI','NIT','Direccion','Tel', 'Whatsapp' ,'Sexo','Ciudad', 'Estado'
+			'#','Inicial','Final','Siguiente','Prefix','Sucursal','Documento','Serie','Creado','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'primer_nombre_persona','segundo_nombre_persona','primer_apellido_persona','segundo_apellido_persona','dui','nit','direccion_residencia_persona1','tel','whatsapp','sexo','nombre_ciudad','estado'
+			'valor_inical','valor_final','siguiente_valor','prefix','nombre_sucursal','nombre','numero_de_serire','fecha_creacion','estado'
 		);
 		
-		$fields['id'] = array('id_persona');
-		$fields['estado'] = array('persona_estado');
-		$fields['titulo'] = "Persona Lista";
+		$fields['id'] = array('id_correlativos');
+		$fields['estado'] = array('correlativo_estado');
+		$fields['titulo'] = "Correlativos Lista";
 
 		return $fields;
 	}
