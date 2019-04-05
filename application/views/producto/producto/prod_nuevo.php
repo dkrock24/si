@@ -356,6 +356,7 @@
                     obj_sucursales = datos['sucursal'];
                     obj_impuesto = datos['impuesto'];
 
+
                 },
                 error:function(){
                 }

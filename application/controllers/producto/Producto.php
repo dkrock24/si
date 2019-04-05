@@ -153,7 +153,7 @@ class Producto extends CI_Controller {
 
 	public function get_clientes(){
 
-		$clientes['cliente'] = $this->Producto_model->get_clientes( );
+		$clientes['cliente'] = $this->Producto_model->get_clientes2( );
 		$clientes['sucursal'] = $this->Producto_model->get_sucursales( );
 		$clientes['impuesto'] = $this->Producto_model->get_inpuesto( );
 

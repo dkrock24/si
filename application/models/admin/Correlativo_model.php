@@ -8,20 +8,30 @@ class Correlativo_model extends CI_Model {
 
     
 
-	function get_correlativo_by_sucursal( $id_usuario ){
-		$this->db->select('*');
-        $this->db->from(self::correlativos);
-        $this->db->join(self::empleado,' on '.self::empleado.'.Sucursal='.self::correlativos.'.Sucursal');
-        $this->db->where(self::empleado.'.Persona_E = ', $id_usuario);        
-        $this->db->where(self::correlativos.'.estado = 1');
+	function get_correlativo_sucursal(){
+        $this->db->select('*');
+        $this->db->from(self::correlativos.' as c');
+        $this->db->join(self::sucursal.' as s', 'on c.Sucursal = s.id_sucursal');
+        //$this->db->where('s.Empresa_Suc',$this->session->empresa[0]->Empresa_Suc);
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];
-        
+
         if($query->num_rows() > 0 )
         {
             return $query->result();
         }
-	}
+    }
+
+    function get_by_id( $sucursal ){
+        $this->db->select('*');
+        $this->db->from(self::correlativos.' as c');
+        $this->db->where('c.Sucursal', $sucursal);
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
 
     function getCorrelativos( $limit, $id ){
         $this->db->select('*');

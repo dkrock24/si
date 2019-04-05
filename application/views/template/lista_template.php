@@ -86,8 +86,28 @@
                                     foreach ($fields['field'] as $key => $field) {
 
                                     if($field != 'estado'){
+                                        
                                     ?>
-                                      <td><?php echo $table->$field; ?></td>
+                                      <td><?php
+                                      $a = substr($table->$field, 0,1);
+                                      /*
+                                       if(is_numeric($a) && strlen($a)==1 && $a='2'){
+                                            
+                                            $date = new DateTime($table->$field);
+                                            if($date){
+                                                echo $date->format('M-d-Y / H:i');    
+                                            }else{
+                                                //echo $date->format('M-d-Y / H:i');
+                                            }
+                                            
+                                        }
+                                        else{
+                                            echo $table->$field;     
+                                        }*/
+                                         echo $table->$field;  
+
+                                       ?>                                           
+                                       </td>
                                     <?php
                                     }
                                         if($field == 'estado'){

@@ -2,6 +2,7 @@
 class Correlativo_model extends CI_Model {
 
 	const correlativo = 'pos_correlativos';
+    const pos_sucursal = 'pos_sucursal';
 	
 	function getLinea( $limit, $id  ){
 		$this->db->select('*');
@@ -15,6 +16,8 @@ class Correlativo_model extends CI_Model {
             return $query->result();
         }
 	}
+
+    
 
     function getAllLinea(  ){
         $this->db->select('*');

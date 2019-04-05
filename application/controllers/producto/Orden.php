@@ -27,12 +27,15 @@ class Orden extends CI_Controller {
 		$this->load->model('admin/Correlativo_model');
 		$this->load->model('producto/Producto_model');				
 		$this->load->model('producto/Orden_model');
+		$this->load->model('admin/Moneda_model');
+		
 	}
 
 	public function index()
 	{	
 
 		//Paginacion
+		$_SESSION['per_page']='';
 		$contador_tabla;
 		if( isset( $_POST['total_pagina'] )){
 			$per_page = $_POST['total_pagina'];
@@ -82,6 +85,11 @@ class Orden extends CI_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function get_correlativo_by_sucursal($sucursal_id){
+		$data['correlativo'] = $this->Correlativo_model->get_by_id($sucursal_id);
+		echo json_encode($data);
+	}
+
 	public function nuevo(){
 		// Seguridad :: Validar URL usuario	
 		$terminal_acceso = FALSE;
@@ -103,10 +111,10 @@ class Orden extends CI_Controller {
 			$data['modo_pago'] = $this->ModoPago_model->get_formas_pago();
 			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
 			$data['terminal'] = $terminal_acceso;
-			$data['correlativo'] = $this->Correlativo_model->get_correlativo_by_sucursal( $id_usuario);
+			$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal();
 			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
+			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
 		
-
 			$data['home'] = 'producto/orden/orden_crear';
 
 			$this->parser->parse('template', $data);
@@ -114,8 +122,65 @@ class Orden extends CI_Controller {
 			$data['home'] = 'producto/orden/orden_denegado';
 			$this->parser->parse('template', $data);
 		}
-
 		
+	}
+
+	public function editar($order_id){
+
+		// Seguridad :: Validar URL usuario	
+		$terminal_acceso = FALSE;
+
+		$menu_session 	= $this->session->menu;	
+		parametros($menu_session);
+
+		$id_rol 		= $this->session->roles[0];
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
+
+		$terminal_acceso = $this->validar_usuario_terminal( $id_usuario );
+
+		$data['menu'] 	= $this->session->menu;
+
+		if($terminal_acceso){
+
+			$data['orden'] = $this->Orden_model->get_orden($order_id);
+			$data['orden_detalle'] = $this->Orden_model->get_orden_detalle($order_id);
+			
+			$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
+			$data['sucursales'] = $this->Producto_model->get_sucursales();
+			$data['modo_pago'] = $this->ModoPago_model->get_formas_pago();
+			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
+			$data['terminal'] = $terminal_acceso;
+			$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal();
+			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
+			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
+
+			$data['cliente'] = $this->get_clientes_id($data['orden'][0]->id_cliente);
+
+			$this->general->editar_valido($data['orden'], "producto/orden/index");
+
+			$data['home'] = 'producto/orden/orden_editar';
+
+			$this->parser->parse('template', $data);
+		}else{
+			$data['home'] = 'producto/orden/orden_editar';
+			$this->parser->parse('template', $data);
+		}
+	}
+
+	public function update(){
+		$id_usuario = $this->session->usuario[0]->id_usuario;
+
+		// Obteniendo informacion del cliente
+		$cliente = $this->get_clientes_id($_POST['encabezado'][7]['value']);
+
+		$this->Orden_model->update( $_POST , $id_usuario ,$cliente );
+
+		redirect(base_url()."producto/orden/index");
+	}
+
+	public function autoload_orden($order_id){
+		$data['orden_detalle'] = $this->Orden_model->get_orden_detalle($order_id);
+		echo json_encode($data);
 	}
 
 	public function guardar_orden(){
@@ -143,6 +208,7 @@ class Orden extends CI_Controller {
 
 	function get_bodega_sucursal( $Sucursal ){
 		$data['bodega'] = $this->Orden_model->get_bodega_sucursal( $Sucursal );
+		$data['correlativo'] = $this->Correlativo_model->get_by_id($Sucursal);
 		echo json_encode( $data );
 	}
 
@@ -150,6 +216,14 @@ class Orden extends CI_Controller {
 		// Obteniendo Lista Cliente desde Model Cliente
 
 		$data['clientes'] = $this->Cliente_model->get_cliente();
+		echo json_encode( $data );
+	}
+
+	function get_clientes_documento($id){
+		$data['cliente_tipo_pago'] = $this->Cliente_model->get_cliente_by_id2($id);
+		$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
+		$data['tipoPago'] = $this->Cliente_model->getTipoPago();
+
 		echo json_encode( $data );
 	}
 
@@ -166,7 +240,17 @@ class Orden extends CI_Controller {
 	}
 
 	function get_producto_completo($producto_id, $id_bodega ){
+
 		$data['producto'] = $this->Orden_model->get_producto_completo($producto_id, $id_bodega);
+
+		$contador=0;
+		$atributos= array();
+		foreach ($data['producto'] as $key => $value) {
+			$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
+			$contador+=1;
+		}
+
+		$data['atributos'] = $atributos;
 		$data['precios'] = $this->Orden_model->get_producto_precios($producto_id);
 		$data['prod_precio'] = $this->Orden_model->get_producto_precios( $producto_id );
 		echo json_encode( $data );
@@ -188,18 +272,18 @@ class Orden extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Correlativo','Sucursal','Terminal','Cliente','F. Pago','Tipo Doc.','Cajero','Creado','Actualizado','Estado'
+			'#','Correlativo','Sucursal','Terminal','Cliente','F. Pago','Tipo Doc.','Cajero','Creado','Actual','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'num_correlativo','nombre_sucursal','num_caja','nombre_empresa_o_compania','nombre_modo_pago','tipo_documento','nombre_usuario','fecha','modi_el','estado'
+			'num_correlativo','nombre_sucursal','num_caja','nombre_empresa_o_compania','nombre_modo_pago','tipo_documento','nombre_usuario','fecha','orden_estado_nombre','estado'
 		);
 		
 		$fields['id'] = array('id');
-		$fields['estado'] = array('anulado');
+		$fields['estado'] = array('orden_estado');
 		$fields['titulo'] = "Orden Lista";
 
 		return $fields;

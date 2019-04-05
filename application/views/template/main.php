@@ -24,17 +24,22 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/app.css" id="maincss">
 
     <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+    <script src="<?php echo base_url(); ?>../asstes/js/HoldOn.min.js"></script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/HoldOn.min.css">
 
     <script type="text/javascript">
-      $(document).ready(function(){
-        loading();
+
+      window.addEventListener("load", function(){
+        
+        HoldOn.open({
+            theme:"sk-bounce"
+          });
+
+         loading();
       });
 
       function loading(){
-          HoldOn.open({
-            theme:"sk-bounce"
-          });
+          
           HoldOn.close();
         }
 

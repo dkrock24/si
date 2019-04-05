@@ -22,6 +22,7 @@ class Orden_model extends CI_Model {
 		const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
 		const producto_bodega = 'pos_producto_bodega';
 		const pos_ordenes = 'pos_ordenes';
+		const pos_correlativos = 'pos_correlativos';
 
 		const pos_ordenes_detalle = 'pos_orden_detalle';
 
@@ -32,8 +33,8 @@ class Orden_model extends CI_Model {
 
 		function getOrdenes($limit, $id ){
 			$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,
-orden.num_correlativo,orden.fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal
-,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago
+orden.num_correlativo,orden.fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
+,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
 
 from pos_ordenes as orden 
 
@@ -41,7 +42,9 @@ left join pos_cliente as cliente on cliente.id_cliente = orden.id_cliente
 left join pos_sucursal as sucursal on sucursal.id_sucursal=orden.id_sucursal
 left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = orden.id_tipod
 left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
-left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". $id.','.$limit);
+left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago 
+left join pos_orden_estado as oe  on oe.id_orden_estado= orden.orden_estado
+where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". $id.','.$limit);
 
 		    //echo $this->db->queries[1];
 		    return $query->result();
@@ -115,7 +118,7 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago where
 		function get_producto_completo($producto_id , $id_bodega ){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor, b.nombre_bodega, pinv.id_inventario
+	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor,b.id_bodega, b.nombre_bodega, pinv.id_inventario
 	        		, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, impuestos.porcentage
 
 				FROM `producto` as `P`
@@ -136,7 +139,7 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago where
 				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
 
 				WHERE P.id_entidad = ". $producto_id ." and b.id_bodega =". $id_bodega);
-		        //echo $this->db->queries[1];
+		        //echo $this->db->queries[0];
 		        return $query->result();
 
 		}
@@ -177,6 +180,8 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago where
 
 		function guardar_orden( $orden , $id_usuario , $cliente ){
 
+			//var_dump($orden['encabezado'][14]);
+			//die;
 			$total_orden = $orden['orden'][0]['total'];
 
 			//Precio Orden con Impuesto
@@ -185,28 +190,31 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago where
 				$total_orden += ($orden['orden'][0]['total'] *$orden['orden'][0]['impuesto_porcentaje']);
 			}
 
-			$desc_val = ($orden['orden'][0]['impuesto_porcentaje'] * $orden['orden'][0]['total']);
+			$desc_val = ($orden['orden'][0]['por_desc'] * $orden['orden'][0]['total']);
 
-			//var_dump($orden);
+			$siguiente_correlativo = $this->get_siguiente_correlativo($orden['encabezado'][12]['value']);
 
 			$data = array(
 				'id_caja' 		=> $orden['encabezado'][0]['value'], //terminal_id
 				'num_caja' 		=> $orden['encabezado'][1]['value'], //terminal_numero
 				'd_inc_imp0' 	=> $orden['encabezado'][2]['value'], //impuesto
-				'num_correlativo'=>$orden['encabezado'][5]['value'], //numero correlativo
+				'id_tipod' 		=> $orden['encabezado'][3]['value'], //modo_pago_id
+				'id_sucursal' 	=> $orden['encabezado'][4]['value'], //sucursal_destino
+				'num_correlativo'=>$siguiente_correlativo[0]->siguiente_valor,//$orden['encabezado'][5]['value'], //numero correlativo
 				'id_cliente' 	=> $orden['encabezado'][6]['value'], //cliente_codigo
 				'nombre' 		=> $orden['encabezado'][7]['value'], //cliente_nombre
+				'direccion' 		=> $orden['encabezado'][8]['value'], //cliente_direccion
 				'id_condpago' 	=> $orden['encabezado'][9]['value'], //modo_pago_id
-				'id_tipod' 		=> $orden['encabezado'][9]['value'], //modo_pago_id
 				'comentarios' 	=> $orden['encabezado'][10]['value'],//comentarios
-	            'id_sucursal' 	=> $orden['encabezado'][12]['value'], //sucursal_origin
-	            'id_cajero' 	=> $orden['encabezado'][13]['value'], //vendedor
-	            'id_vendedor' 	=> $orden['encabezado'][13]['value'], //vendedor
+				'id_sucursal_origin' 	=> $orden['encabezado'][12]['value'], //sucursal_origin	
+	            //'id_cajero' 	=> $orden['encabezado'][13]['value'], //vendedor
+	            'id_vendedor' 	=> $orden['encabezado'][14]['value'], //vendedor
 
 	            'id_usuario' 	=> $id_usuario,
 	            'fecha' 		=> date("Y-m-d h:i:s"),	            
 	            'digi_total' 	=> $total_orden,
-	            'desc_porc' 	=> $orden['orden'][0]['impuesto_porcentaje'],
+	            'desc_porc' 	=> $orden['orden'][0]['por_desc'],
+	            'id_bodega' 	=> $orden['orden'][0]['bodega'],
 	            'desc_val' 		=> $desc_val,
 	            'total_doc' 	=> $total_orden,
 	            'fh_inicio' 	=> date("Y-m-d h:i:s"),
@@ -225,33 +233,43 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago where
 	            //'tiempoproc' 	=> "0",
 	            'creado_el' 	=> date("Y-m-d h:i:s"),
 	            //'modi_el' 		=> "0",
+	            'orden_estado'	=> $orden['estado']
         	);
 
         	$this->db->insert(self::pos_ordenes, $data ); 
 			$id_orden = $this->db->insert_id();
 
 			$this->guardar_orden_detalle( $id_orden , $orden );		
+			$this->incremento_correlativo($siguiente_correlativo);
 		}
 
 		function guardar_orden_detalle( $id_orden , $datos ){
+			//var_dump($datos['orden']);
+			//die;
 			foreach ($datos['orden'] as $key => $orden) {
-				var_dump($orden);
+				
 				$data = array(
 		            'id_orden' 		=> $id_orden,
-		            'id_item' 		=> $orden['producto_id'],
-		            'id_inve_prod' 	=> $orden['inventario_id'],
+		            'producto' 		=> $orden['producto'],
+		            'producto_id' 		=> $orden['producto_id'],
+		            'producto2' 		=> $orden['producto2'],
+		            'id_inve_prod' 	=> $orden['id_inve_prod'],
+
+		            'id_bodega' 	=> $orden['id_bodega'],
+		            'bodega' 		=> $orden['bodega'],
+
 		            'descripcion' 	=> $orden['descripcion'],
 		            'presenta_ppal' => $orden['presentacion'],
-		            'digi_cant' 	=> $orden['cantidad'],
+		            'cantidad' 	=> $orden['cantidad'],
 		            'presentacion' 	=> $orden['presentacion'],
-		            'cant_factor' 	=> $orden['presentacionFactor'],
+		            'presentacionFactor' 	=> $orden['presentacionFactor'],
 		            'tipoprec' 		=> $orden['presentacion'],
-		            'digi_prec' 	=> $orden['precioUnidad'],
+		            'precioUnidad' 	=> $orden['precioUnidad'],
 		            'factor' 		=> $orden['presentacionFactor'],
 		            'total' 		=> $orden['total'],
 		            'gen' 			=> $orden['incluye_iva'],
 		            //'p_inc_imp0' 	=> $orden['orden'][0][''],
-		            'val_desc' 		=> $orden['descuento'],
+		            'descuento' 		=> $orden['descuento'],
 		            'por_desc' 		=> $orden['descuento'],
 		            'comenta' 		=> $orden['descripcion'],
 		            //'id_bomba' 		=> $orden[''],
@@ -263,6 +281,107 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago where
 
 	        	$this->db->insert(self::pos_ordenes_detalle, $data ); 
 			}
+		}
+
+		function update($orden , $id_usuario , $cliente){
+
+			//var_dump($orden['encabezado'][15]);
+			//die;
+			$total_orden = $orden['orden'][0]['total'];
+
+			//Precio Orden con Impuesto
+			$cliente_aplica_impuesto = $cliente[0]->aplica_impuestos;
+			if($cliente_aplica_impuesto ==1){
+				$total_orden += ($orden['orden'][0]['total'] *$orden['orden'][0]['impuesto_porcentaje']);
+			}
+
+			$desc_val = ($orden['orden'][0]['por_desc'] * $orden['orden'][0]['total']);
+
+			$siguiente_correlativo = $orden['encabezado'][14]['value'];
+
+			$data = array(
+				'id_caja' 		=> $orden['encabezado'][0]['value'], //terminal_id
+				'num_caja' 		=> $orden['encabezado'][1]['value'], //terminal_numero
+				'd_inc_imp0' 	=> $orden['encabezado'][2]['value'], //impuesto
+				'id_tipod' 		=> $orden['encabezado'][4]['value'], //modo_pago_id
+				'id_sucursal' 	=> $orden['encabezado'][5]['value'], //sucursal_destino
+				'num_correlativo'=>$siguiente_correlativo,//$orden['encabezado'][5]['value'], //numero correlativo
+				'id_cliente' 	=> $orden['encabezado'][7]['value'], //cliente_codigo
+				'nombre' 		=> $orden['encabezado'][8]['value'], //cliente_nombre
+				'direccion' 		=> $orden['encabezado'][9]['value'], //cliente_direccion
+				'id_condpago' 	=> $orden['encabezado'][10]['value'], //modo_pago_id
+				'comentarios' 	=> $orden['encabezado'][11]['value'],//comentarios
+				'id_sucursal_origin' 	=> $orden['encabezado'][13]['value'], //sucursal_origin	
+	            //'id_cajero' 	=> $orden['encabezado'][13]['value'], //vendedor
+	            //'id_vendedor' 	=> $orden['encabezado'][15]['value'], //vendedor
+
+	            'id_usuario' 	=> $id_usuario,
+	            'fecha' 		=> date("Y-m-d h:i:s"),	            
+	            'digi_total' 	=> $total_orden,
+	            'desc_porc' 	=> $orden['orden'][0]['por_desc'],
+	            'id_bodega' 	=> $orden['orden'][0]['bodega'],
+	            'desc_val' 		=> $desc_val,
+	            'total_doc' 	=> $total_orden,
+	            'fh_inicio' 	=> date("Y-m-d h:i:s"),
+	            'fh_final' 		=> date("Y-m-d h:i:s"),
+	            'id_venta' 		=> 0, // Actualizara al procesar la venta
+	            'facturado_el' 	=> 0, // Actualizara al procesar la venta
+	            'anulado' 		=> 0, // Actualizara al procesar alguna accion
+	            //'anulado_el' 	=> "", // Actualizara al procesar alguna accion
+	            //'anulado_conc'=> "", // Actualizara al procesar alguna accion
+	            //'cod_estado'	=> "0",
+	            //'estado_el' 	=> "0",
+	            //'reserv_producs' => "0",
+	            //'reserv_conc' 	=> "0",
+	            //'fecha_inglab' 	=> date("Y-m-d h:i:s"),
+	            //'fecha_entreg' 	=> date("Y-m-d h:i:s"),
+	            //'tiempoproc' 	=> "0",
+	            //'creado_el' 	=> date("Y-m-d h:i:s"),
+	            'modi_el' 		=> date("Y-m-d h:i:s"),
+	            'orden_estado'	=> $orden['estado']
+        	);
+
+			$orden_id = $orden['orden'][0]['id_orden'];
+
+			$this->db->where('id', $orden_id );
+        	$this->db->update(self::pos_ordenes, $data );
+
+        	$this->delete_orden_detalle( $orden_id );		
+        	$this->guardar_orden_detalle( $orden_id , $orden );		
+		}
+
+		function delete_orden_detalle( $ordern_id ){
+			$data = array(
+	            'id_orden' => $ordern_id,
+	        );
+
+        	$this->db->delete(self::pos_ordenes_detalle, $data);
+
+		}
+
+		function get_siguiente_correlativo($sucursal){
+			$this->db->select('*');
+	        $this->db->from(self::pos_correlativos);
+	        $this->db->where('Sucursal',$sucursal);
+	        $query = $this->db->get(); 
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function incremento_correlativo($siguiente_correlativo){
+			//Aunmentar la Secuencia.
+	        $id_correlativo = $siguiente_correlativo[0]->id_correlativos;
+	        $correlativo = $siguiente_correlativo[0]->siguiente_valor;
+	        $correlativo = $correlativo+1;
+
+	        $data = array(
+	            'siguiente_valor' => $correlativo
+	        );
+			$this->db->where('id_correlativos', $id_correlativo );
+			$this->db->update(self::pos_correlativos, $data );
 		}
 
 		// Fin ordenes
@@ -764,6 +883,38 @@ left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago where
 			$this->db->select('*');
 	        $this->db->from(self::impuestos);
 	        $this->db->where('id_tipos_impuestos = 1');
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[0];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		// Orden Editar
+
+		function get_orden( $order_id ){
+
+			$this->db->select('*');
+	        $this->db->from(self::pos_ordenes.' as o');
+	        $this->db->join(self::sucursal.' as s', 'on s.id_sucursal = o.id_sucursal');
+	        $this->db->where('o.id', $order_id );
+	        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc);
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[0];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function get_orden_detalle( $order_id ){
+
+			$this->db->select('*');
+	        $this->db->from(self::pos_ordenes_detalle.' as do');
+	        $this->db->where('do.id_orden', $order_id );	        
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[0];
 	        

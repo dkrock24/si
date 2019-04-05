@@ -22,6 +22,7 @@ class Producto_model extends CI_Model {
 		const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
 		const pos_bodega = 'pos_bodega';
 		const pos_producto_bodega = 'pos_producto_bodega';
+		const correlativos =  'pos_correlativos';
 		
 		
         
@@ -86,7 +87,7 @@ class Producto_model extends CI_Model {
 	            'Giro' => $producto['giro']
 	        );
 	        if(isset($producto['escala'])){
-				$data += ['Escala' => $producto['escala'] ];
+				$data += ['Escala' => 1 ];
 			}
 			
 
@@ -542,7 +543,20 @@ class Producto_model extends CI_Model {
 			$this->db->select('*');
 	        $this->db->from(self::cliente);
 	        $this->db->where('estado = 1');
-	        $query = $this->db->get(); 
+	        $query = $this->db->get();
+	        //echo $this->db->queries[1];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function get_clientes2(){
+			$this->db->select('nombre_empresa_o_compania, id_cliente');
+	        $this->db->from(self::cliente);
+	        $this->db->where('estado = 1');
+	        $query = $this->db->get();
 	        //echo $this->db->queries[1];
 	        
 	        if($query->num_rows() > 0 )
@@ -553,7 +567,8 @@ class Producto_model extends CI_Model {
 
 		function get_sucursales(){
 			$this->db->select('*');
-	        $this->db->from(self::sucursal);
+	        $this->db->from(self::correlativos.' as c');
+        	$this->db->join(self::sucursal.' as s', 'on c.Sucursal = s.id_sucursal');
 	        $this->db->where('estado = 1');
 	        $this->db->where('Empresa_Suc', $this->session->empresa[0]->Empresa_Suc );
 	        $query = $this->db->get(); 

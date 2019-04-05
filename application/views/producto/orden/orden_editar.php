@@ -33,6 +33,33 @@ $(document).ready(function(){
     $('.1dataSelect').hide();
     $('.1dataSelect2').hide();
 
+    autoload_orden();
+
+    function autoload_orden(){
+        $.ajax({
+            url: "../autoload_orden/"+<?php echo $orden[0]->id; ?>,
+            datatype: 'json',      
+            cache : false,                
+
+            success: function(data){
+                var datos = JSON.parse(data);
+                var orden = datos["orden_detalle"];   
+
+                var contador=0;
+                orden.forEach(function(element) {
+                    contador++;
+                });
+
+                contador_productos = contador;
+                
+                _orden = orden;
+                depurar_producto();
+            },
+            error:function(){
+            }
+        });
+    }
+
     // Existencia Code
     $(document).on('keyup', '.existencia_buscar', function(){
         if($(".existencia_buscar").val() != ""){
@@ -51,7 +78,7 @@ $(document).ready(function(){
         
             interno_sucursal = sucursal;
             $.ajax({
-                url: "get_productos_lista/"+sucursal+"/"+interno_bodega+"/"+texto,
+                url: "../get_productos_lista/"+sucursal+"/"+interno_bodega+"/"+texto,
                 datatype: 'json',      
                 cache : false,                
 
@@ -184,7 +211,7 @@ $(document).ready(function(){
             interno_sucursal = sucursal;
             interno_bodega = bodega;
             $.ajax({
-                url: "get_productos_lista/"+sucursal+"/"+bodega+"/"+texto,
+                url: "../get_productos_lista/"+sucursal+"/"+bodega+"/"+texto,
                 datatype: 'json',      
                 cache : false,                
 
@@ -256,7 +283,7 @@ $(document).ready(function(){
     	*/
 
     	$.ajax({
-            url: "get_producto_completo/"+producto_id+"/"+interno_bodega,
+            url: "../get_producto_completo/"+producto_id+"/"+interno_bodega,
             datatype: 'json',      
             cache : false,                
 
@@ -268,8 +295,6 @@ $(document).ready(function(){
                 var prod_precio = datos["prod_precio"];
                 _productos_precio = prod_precio;
 
-                //console.log(datos);
-
 
                 if( parseInt(_productos_precio.length) >= 1 && producto_escala!=1 ){
                     get_presentacio_lista( _productos_precio );
@@ -279,11 +304,12 @@ $(document).ready(function(){
                 }
 
             		$("#producto").val(datos['producto'][12].valor);
-                    $("#descuento").val(datos['producto'][7].valor);
-                    $("#bodega").val(datos['producto'][0].nombre_bodega);
+            		//$("#presentacion").val(_productos_precio[0].presentacion);
             		$("#precioUnidad").val( _productos_precio[0].unidad );
-                    
+            		$("#descuento").val(datos['producto'][7].valor);
+                    $("#bodega").val(datos['producto'][0].nombre_bodega);
                     $("#descripcion").val(datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca  );
+                    //$("#factor").val(_productos_precio[0].factor);
 
             		producto_cantidad_linea = 1;
                     $("#cantidad").val(1);
@@ -291,20 +317,22 @@ $(document).ready(function(){
 
                 	set_calculo_precio(precioUnidad, producto_cantidad_linea);
 
-                    _productos.producto_id  = datos['producto'][0].id_entidad;
-                    _productos.inventario_id= datos['producto'][0].id_inventario;
-                	_productos.producto     = datos['atributos'].Cod_Barras;
-                	_productos.descuento    = datos['producto'][7].valor;
-                	_productos.cantidad     = producto_cantidad_linea;
-                	_productos.total        = $("#total").val();
-                    _productos.bodega       = datos['producto'][0].nombre_bodega;
-                    _productos.id_bodega    = datos['producto'][0].id_bodega;
-                    _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
-                    _productos.por_desc     = datos['producto'][0].porcentage;
-                    _productos.incluye_iva  = datos['producto'][10].valor;
-                    _productos.iva          = datos['producto'][9].valor;
-                    _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
-
+                    _productos.producto_id = datos['producto'][0].id_entidad;
+                    _productos.id_inve_prod = datos['producto'][0].id_inventario;
+                	_productos.producto = datos['producto'][12].valor;
+                	//_productos.presentacion = datos['producto'][0].valor;
+                	//_productos.precioUnidad = datos['producto'][8].valor;
+                	_productos.descuento = datos['producto'][7].valor;
+                	_productos.cantidad = producto_cantidad_linea;
+                	_productos.total = $("#total").val();
+                    _productos.bodega = datos['producto'][0].nombre_bodega;
+                    _productos.id_bodega = datos['producto'][0].id_bodega;
+                    _productos.impuesto_id = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
+                    _productos.desc_porc = datos['producto'][0].porcentage;
+                    _productos.incluye_iva = datos['producto'][10].valor;
+                    _productos.iva = datos['producto'][9].valor;
+                    _productos.descripcion = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
+                
             },
             error:function(){
             }
@@ -456,6 +484,7 @@ $(document).ready(function(){
                                     $(".factor"+_orden[cnt]['producto2']).text(_productos.presentacionFactor);
                                     $(".precioUnidad"+_orden[cnt]['producto2']).text(c);
                                     var total_temp = calcularTotalProducto(c, cantidad);
+
                                 }else{
                                     var total_temp = calcularTotalProducto(_productos.presentacionPrecio, cantidad);
                                 }
@@ -547,7 +576,7 @@ $(document).ready(function(){
         $("#bodega_select").empty();
         var select_option;
         $.ajax({
-            url: "get_bodega_sucursal/"+ sucursal,
+            url: "../get_bodega_sucursal/"+ sucursal,
             datatype: 'json',      
             cache : false,                
 
@@ -601,7 +630,6 @@ $(document).ready(function(){
             _productos.total = factor_total;
             _productos.precioUnidad = factor_precio;
         }
-        alert(_productos.producto);
 
         total_msg += parseFloat(_productos.total);
 
@@ -668,7 +696,7 @@ $(document).ready(function(){
         var producto_id = $(this).attr('name');
 
         _orden.forEach(function(element) {
-            if(element.id_producto_detalle == producto_id){
+            if(element.producto2 == producto_id){
 
                 total_msg -= parseInt(calcularTotalProducto(element.precioUnidad, element.cantidad));
                 $(".total_msg").text("$ "+total_msg.toFixed(2));
@@ -676,7 +704,6 @@ $(document).ready(function(){
                 _orden.splice(_orden.indexOf(element),1);
                 depurar_producto();
             }
-            
         });
     });
 
@@ -692,14 +719,14 @@ $(document).ready(function(){
                 tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
                 tr_html += "<td class='border-left'>"+element.producto+"</td>";
                 tr_html += "<td class='border-left'>"+element.descripcion+"</td>";
-                tr_html += "<td class='border-left'>"+element.cantidad+"</td>";
-                tr_html += "<td class='border-left'>"+element.presentacion+"</td>";
-                tr_html += "<td class='border-left'></td>";
+                tr_html += "<td class='border-left "+element.producto2+"'>"+element.cantidad+"</td>";
+                tr_html += "<td class='border-left presentacion"+element.producto2+"'>"+element.presentacion+"</td>";
+                tr_html += "<td class='border-left factor"+element.producto2+"'>"+element.factor+"</td>";
                 tr_html += "<td class='border-left'>"+element.precioUnidad+"</td>";
                 tr_html += "<td class='border-left'>"+element.descuento+"</td>";
-                tr_html += "<td class='border-left total'>"+element.total+"</td>";
+                tr_html += "<td class='border-left total"+element.producto2+"'>"+element.total+"</td>";
                 tr_html += "<td class='border-left '>"+element.bodega+"</td>";
-                tr_html += "<td class='border-left'><input type='button' class='btn btn-primary btn-xs eliminar' name='"+element.id_producto_detalle+"' id='eliminar' value='Eliminar'/></td>";
+                tr_html += "<td class='border-left'><input type='button' class='btn btn-primary btn-xs eliminar' name='"+element.producto2+"' id='eliminar' value='Eliminar'/></td>";
                 
                 tr_html += "</tr>";
 
@@ -733,7 +760,7 @@ $(document).ready(function(){
         var contador_precios=1;
 
         $.ajax({
-            url: "get_clientes_lista",
+            url: "../get_clientes_lista",
             datatype: 'json',      
             cache : false,                
 
@@ -787,7 +814,7 @@ $(document).ready(function(){
             $.ajax({
                 type: 'POST',
                 data: {orden :_orden, encabezado : formulario, estado:orden_estado },
-                url: "guardar_orden",
+                url: "../update",
 
                 success: function(data){
                     //location.reload();
@@ -809,7 +836,7 @@ $(document).ready(function(){
 
         // Poniendo Tipo Documento a cliente.
         $.ajax({
-            url: "get_clientes_documento/"+id,
+            url: "../get_clientes_documento/"+id,
             datatype: 'json',      
             cache : false,                
 
@@ -877,7 +904,7 @@ $(document).ready(function(){
         var contador_precios=1;
 
         $.ajax({
-            url: "get_empleados_by_sucursal/"+sucursal,
+            url: "../get_empleados_by_sucursal/"+sucursal,
             datatype: 'json',      
             cache : false,                
 
@@ -954,7 +981,7 @@ $(document).ready(function(){
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">                
-                <a href="index" style="top: -12px;position: relative; text-decoration: none">
+                <a href="../index" style="top: -12px;position: relative; text-decoration: none">
                     <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Lista Ordenes</button> 
             </a> 
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
@@ -967,7 +994,7 @@ $(document).ready(function(){
                     <div class="pull-right">
                        <div class="label label-success"> Fecha <?php echo Date("Y-m-d"); ?> </div>
                     </div>
-                    <div class="panel-title">Crear Orden <span style="float: right;"> <?php echo gethostbyaddr($_SERVER['REMOTE_ADDR'])  ; ?></span> </div>
+                    <div class="panel-title">Editar Orden <span style="float: right;"> <?php echo gethostbyaddr($_SERVER['REMOTE_ADDR'])  ; ?></span> </div>
                  </div>
 
                  <!-- START panel-->
@@ -976,6 +1003,7 @@ $(document).ready(function(){
                     <!-- Campos de la terminal -->
                     <input type="hidden" name="terminal_id" value="<?php echo $terminal[0]->id_terminal; ?>"/>
                     <input type="hidden" name="terminal_numero" value="<?php echo $terminal[0]->numero; ?>"/>
+                    <input type="hidden" name="orden_id" value="<?php echo $orden[0]->id; ?>"/>
                     <!-- Fin Campos de la terminal -->
 
                     <!-- Campos del cliente -->
@@ -1000,9 +1028,18 @@ $(document).ready(function(){
                                                   <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
                                                         <?php
                                                         foreach ($tipoDocumento as $documento) {
+                                                            if($orden[0]->id_tipod == $documento->id_tipo_documento){
                                                             ?>
                                                             <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
                                                             <?php
+                                                            }
+                                                        }
+                                                        foreach ($tipoDocumento as $documento) {
+                                                            if($orden[0]->id_tipod != $documento->id_tipo_documento){
+                                                            ?>
+                                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                                            <?php
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -1015,21 +1052,25 @@ $(document).ready(function(){
                                                   <select class="form-control" name="sucursal_destino" id="sucursal_id">
                                                     <?php
                                                     $id_sucursal=0;
-                                                    
-                                                    foreach ($empleado as $sucursal) {
-                                                        $id_sucursal = $sucursal->id_sucursal; 
-                                                        ?>
-                                                        <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                        <?php
-                                                    }
 
                                                     foreach ($sucursales as $sucursal) {
-                                                        if($sucursal->id_sucursal != $id_sucursal){
+                                                        if($orden[0]->id_sucursal == $sucursal->id_sucursal){
+                                                        //if($sucursal->id_sucursal != $id_sucursal){
                                                             ?>
                                                             <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
                                                             <?php
                                                         }
                                                     }
+
+                                                    foreach ($sucursales as $sucursal) {
+                                                        
+                                                        if($orden[0]->id_sucursal != $sucursal->id_sucursal){
+                                                            ?>
+                                                            <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                                            <?php
+                                                        }
+                                                    }                                                    
+                                                    
                                                     ?>
                                                     </select>
                                                </div>
@@ -1039,15 +1080,22 @@ $(document).ready(function(){
                                                 <div class="form-group has-success">
                                                   <label>Bodega</label>
                                                   <select class="form-control" name="bodega" id="bodega_select">
-                                                  <?php
-                                                  foreach ($bodega as $b) {
-                                                    if($b->Sucursal == $id_sucursal){
+                                                <?php
+                                                foreach ($bodega as $b) {
+                                                    if($b->id_bodega == $orden[0]->id_bodega){
                                                     ?>
-                                                    <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
+                                                        <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
                                                     <?php
-                                                     }   
-                                                    }
+                                                    }   
+                                                }
+                                                foreach ($bodega as $b) {
+                                                    if($b->Sucursal == $orden[0]->id_sucursal && $b->id_bodega != $orden[0]->id_bodega ){
                                                     ?>
+                                                        <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
+                                                    <?php
+                                                    }   
+                                                }
+                                                ?>
                                                     </select>
                                                </div>
                                             </div>
@@ -1066,19 +1114,19 @@ $(document).ready(function(){
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label>Cliente Codigo</label>
-                                                    <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="0">
+                                                    <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php if( isset($cliente[0]->id_cliente)){ echo $cliente[0]->id_cliente; }else{ echo 0;} ?>">
                                                </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                   <label>Cliente Nombre</label>
-                                                 <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre">
+                                                 <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $orden[0]->nombre; ?>">
                                                </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                   <label>Cliente Direccion</label>
-                                                 <input type="text" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente">
+                                                 <input type="text" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $orden[0]->direccion; ?>">
                                                </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3">
@@ -1087,7 +1135,18 @@ $(document).ready(function(){
                                                 <select class="form-control" id="modo_pago_id" name="modo_pago_id">
                                                 <?php
                                                 foreach ($modo_pago as $value) {
-                                                    ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
+                                                    if($orden[0]->id_condpago == $value->id_modo_pago){
+                                                    ?>
+                                                    <option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option>
+                                                    <?php
+                                                    }
+                                                }
+                                                foreach ($modo_pago as $value) {
+                                                    if($orden[0]->id_condpago != $value->id_modo_pago){
+                                                    ?>
+                                                    <option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option>
+                                                    <?php
+                                                    }
                                                 }
                                                 ?>      
                                                 </select>
@@ -1101,13 +1160,13 @@ $(document).ready(function(){
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                   <label>Comentarios</label>
-                                                 <input type="text" name="comentarios" class="form-control">
+                                                 <input type="text" name="comentarios" class="form-control" value="<?php echo $orden[0]->comentarios; ?>">
                                                </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                   <label>Fecha</label>
-                                                 <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
+                                                 <input type="date" name="fecha" value="<?php $date = new DateTime($orden[0]->fecha); echo $date->format('Y-m-d'); ?>" class="form-control">
                                                </div>
                                             </div>
 
@@ -1116,22 +1175,23 @@ $(document).ready(function(){
                                                   <label>Sucursal Origin</label>
                                                   <select class="form-control" name="sucursal_origin" id="sucursal_id2">
                                                     <?php
-                                                    $id_sucursal=0;
-                                                    $id_sucursal = $empleado[0]->id_sucursal;
-                                                    foreach ($empleado as $sucursal) {
-                                                         
-                                                        ?>
-                                                        <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                        <?php
-                                                    }
-
                                                     foreach ($sucursales as $sucursal) {
-                                                        if($sucursal->id_sucursal != $id_sucursal){
+                                                        if($orden[0]->id_sucursal_origin == $sucursal->id_sucursal){
                                                             ?>
                                                             <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
                                                             <?php
                                                         }
                                                     }
+
+                                                    foreach ($sucursales as $sucursal) {
+                                                        
+                                                        if($orden[0]->id_sucursal_origin != $sucursal->id_sucursal){
+                                                            ?>
+                                                            <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                                            <?php
+                                                        }
+                                                    }                                                    
+                                                    
                                                     ?>
                                                     </select>
                                                </div>
@@ -1140,32 +1200,10 @@ $(document).ready(function(){
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                   <label>Numero</label>
-                                                  <?php
-                                                  
-                                                  foreach ($correlativo as $key => $value) {
-                                                    
-                                                      if($id_sucursal == $value->id_sucursal ){
-                                                        $secuencia = $value->siguiente_valor;
-                                                      }
-                                                  }
-                                                  ?>
 
-                                                  <input type="text" name="numero" value="<?php echo $secuencia; ?>" class="form-control" id="c_numero">
+                                                  <input type="text" name="numero" value="<?php echo $orden[0]->num_correlativo; ?>" class="form-control" id="c_numero" readonly>
                                                </div>
                                             </div>
-                                            
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Vendedor</label><br>
-                                                    <div class="pull-left">
-                                                        <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo $empleado[0]->id_empleado; ?>">
-                                                        <div class="label bg-gray"><a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona." ".$empleado[0]->primer_apellido_persona; ?></a></div>
-                                                       
-                                                    </div>                                                          
-                                               </div>
-                                            </div>
-                                            
-
 
                                         </div>
                                      </div>
@@ -1307,7 +1345,7 @@ $(document).ready(function(){
                </button>
                <div class="input-group m-b">
                     <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                    <input type="text" placeholder="Buscar Exsitencia" name="existencia_buscar" class="form-control existencia_buscar">
+                    <input type="text" placeholder="Buscar Exsitencia" autocomplete="off" name="existencia_buscar" class="form-control existencia_buscar">
                 </div>
 
                 <select multiple="" class="form-control 1dataSelect" id="1dataSelect">
