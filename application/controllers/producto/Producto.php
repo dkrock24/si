@@ -31,6 +31,7 @@ class Producto extends CI_Controller {
 	{
 
 		//Paginacion
+		$_SESSION['per_page']='';
 		$contador_tabla;
 		if( isset( $_POST['total_pagina'] )){
 			$per_page = $_POST['total_pagina'];
@@ -68,7 +69,7 @@ class Producto extends CI_Controller {
 		parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 9;
+		$vista_id = 2;//9;
 
 		$data['menu'] = $this->session->menu;
 		$data['contador_tabla'] = $contador_tabla;

@@ -173,7 +173,7 @@ $(document).ready(function(){
     /* 2 - Filtrado del texto a buscar en productos */
     function search_texto(texto){
 
-        $('.dataSelect').show();
+        //$('.dataSelect').show();
         sucursal = $("#sucursal_id").val();
         var bodega = $("#bodega_select").val();
         
@@ -193,7 +193,7 @@ $(document).ready(function(){
                     var productos = datos["productos"];
                     var producto_id = 0;
                     _productos_lista = productos;
-                    $('.dataSelect').show();
+                    
                 
                 },
                 error:function(){
@@ -215,8 +215,8 @@ $(document).ready(function(){
                     table_tr += '<option value="'+item.id_entidad+'">'+item.name_entidad+'</option>';
                     contador_precios++;
                 }
-                
-            });
+                $('.dataSelect').show();    
+            });            
 
             $(".dataSelect").html(table_tr);
         }
@@ -224,21 +224,23 @@ $(document).ready(function(){
 
     $(document).on('keydown', '.producto_buscar', function(){
          if ( event.keyCode == 40 ) {
-            $('.dataSelect').focus();            
+            $('.dataSelect').focus();
             document.getElementById('dataSelect').selectedIndex = 0;
          }
     });
 
     /* 3 - Selecionado Producto de la lista y precionando ENTER */
     $(document).on('keypress', '.dataSelect', function(){
-        
+
         if ( event.which == 13 ) {
             get_producto_completo(this.value);
             event.preventDefault();
+            
             $("#producto_buscar").val(this.value);
-            $('.dataSelect').hide();
-            $('.dataSelect').empty();
+            $('#dataSelect').hide();
+            $('#dataSelect').empty();
             $(".producto_buscar").focus();
+
         }
         
     });
@@ -268,8 +270,6 @@ $(document).ready(function(){
                 var prod_precio = datos["prod_precio"];
                 _productos_precio = prod_precio;
 
-                //console.log(datos);
-
 
                 if( parseInt(_productos_precio.length) >= 1 && producto_escala!=1 ){
                     get_presentacio_lista( _productos_precio );
@@ -279,7 +279,7 @@ $(document).ready(function(){
                 }
 
             		$("#producto").val(datos['producto'][12].valor);
-                    $("#descuento").val(datos['producto'][7].valor);
+                    //$("#descuento").val(datos['producto'][7].valor);
                     $("#bodega").val(datos['producto'][0].nombre_bodega);
             		$("#precioUnidad").val( _productos_precio[0].unidad );
                     
@@ -294,7 +294,8 @@ $(document).ready(function(){
                     _productos.producto_id  = datos['producto'][0].id_entidad;
                     _productos.inventario_id= datos['producto'][0].id_inventario;
                 	_productos.producto     = datos['atributos'].Cod_Barras;
-                	_productos.descuento    = datos['producto'][7].valor;
+                    _productos.descuento_limite     = datos['atributos'].Descuento_Limite;
+                	_productos.descuento    = 0.00;// datos['producto'][7].valor;
                 	_productos.cantidad     = producto_cantidad_linea;
                 	_productos.total        = $("#total").val();
                     _productos.bodega       = datos['producto'][0].nombre_bodega;
@@ -421,16 +422,13 @@ $(document).ready(function(){
     $(document).on('click', '#grabar', function(){
         // 7 - Grabar producto en la orden
         
-        $('.uno').find('input').each(function(){
-            this.value = '';    
-            $("#grabar").val("Agregar");        
-            $("#cantidad").val(1);     
-        });
-       
         if(_productos.cantidad != null ){
-            if(contador_productos==0){   
+            if(contador_productos==0){
 
                 _orden[contador_productos] = _productos;  
+
+                _productos.descuento = $("#descuento").val();
+                _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
            
                 agregar_producto();
             }else{  
@@ -440,10 +438,12 @@ $(document).ready(function(){
                 
                 if(_productos != ""){
                    
+                   contador_productos = _orden.length;
+
                     if(_orden.length >= 1){
                         
                         $.each(_orden, function(i, item) {
-
+                            console.log(item);
                             if(item.producto2 == _productos.producto2 ){
                                 existe = 1;
 
@@ -455,6 +455,7 @@ $(document).ready(function(){
                                     $(".presentacion"+_orden[cnt]['producto2']).text(_productos.presentacion);
                                     $(".factor"+_orden[cnt]['producto2']).text(_productos.presentacionFactor);
                                     $(".precioUnidad"+_orden[cnt]['producto2']).text(c);
+
                                     var total_temp = calcularTotalProducto(c, cantidad);
                                 }else{
                                     var total_temp = calcularTotalProducto(_productos.presentacionPrecio, cantidad);
@@ -465,13 +466,17 @@ $(document).ready(function(){
                                 $(".total"+_orden[cnt]['producto2']).text(total_temp);
 
                                 _orden[cnt]['total'] = total_temp;
-                                
-                                calculo_totales();
 
+                                _orden[cnt].descuento_calculado = calcular_descuento(_orden[cnt].descuento , _orden[cnt].total, _orden[cnt].descuento_limite);
+                                
+
+                                calculo_totales();
                             }
                             cnt ++;             
                         });
                     }else{
+                        _productos.descuento = $("#descuento").val();
+                        _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
 
                         _orden[contador_productos] = _productos;
                         agregar_producto();
@@ -479,20 +484,27 @@ $(document).ready(function(){
                 }
                 if(existe==0)
                 {
-
+                    _productos.descuento = $("#descuento").val();
+                    _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total , _productos.descuento_limite);
+                        
                     _orden[contador_productos] = _productos;
                     agregar_producto();
                     existe=0;
                 }
             }
         }
+
+        $('.uno').find('input').each(function(){
+            this.value = '';    
+            $("#grabar").val("Agregar");        
+            $("#cantidad").val(1);     
+        });
     });
 
     function set_calculo_precio(precioUnidad, producto_cantidad_linea){
         // General - Set Calculo Precio
         $("#total").val(calcularTotalProducto(precioUnidad, producto_cantidad_linea));
     }
-
 
     $(document).on('change', '#cantidad', function(){
         // Actualizar la cantidad
@@ -575,6 +587,8 @@ $(document).ready(function(){
         var precio_total = 0;
         var flag = false;
 
+        var descuento_digitado = $("descuento").val();
+
         if( _productos_precio != null){
 
             $.each(_productos_precio, function(i, item) {
@@ -592,7 +606,67 @@ $(document).ready(function(){
                 }
             });
         }
+
+
         return flag;        
+    }
+
+    function calcular_descuento( descuento, total , descuento_limite){
+        var valor = 0;
+
+        var primer_digito = descuento.substring(0,1);
+        var tipo_descuento_limite = descuento_limite.substring(0,1);
+        //alert(descuento_limite);
+        if(descuento){
+
+            if(primer_digito == 0 ){
+
+                if(tipo_descuento_limite == 0){
+                    // Limite en %   
+                    //alert(1);
+                    if(descuento <= parseInt(descuento_limite)  ){
+                        valor = descuento * total;
+                    }else{
+                        valor = descuento_limite * total;
+                    }
+                }else{
+                    // Limite #
+                    //alert(2);
+                    valor = ( parseInt(descuento_limite) / 100 );
+                    if(descuento <= valor  ){
+                        valor = descuento * total;
+                    }else {
+                        valor = (parseInt(descuento_limite) / 100 ) * total;
+                    }
+                }
+            }else{
+                if(tipo_descuento_limite == 0){
+                    // Limite en %  y descuento %
+                    //alert(3);
+                    valor = ( descuento / 100 );                 
+                    if(valor <= parseInt(descuento_limite)  ){
+                        valor = valor * total;
+                    }else{
+                        valor = descuento_limite * total;
+                    }
+                }else{                   
+                    // Limite # y descuento # 
+                    //alert(4);
+                    valor = ( descuento / 100 );
+                    if(valor <= (descuento_limite / 100)  ){
+                        valor = valor * total ;
+                    }else{
+                        valor = total * (descuento_limite / 100);
+                    }
+                }
+
+            }
+            _productos.descuento = valor.toFixed(2);
+        }else{
+            _productos.descuento = valor.toFixed(2);
+        }
+        
+        return valor;
     }
 
     function agregar_producto(){
@@ -601,13 +675,13 @@ $(document).ready(function(){
             _productos.total = factor_total;
             _productos.precioUnidad = factor_precio;
         }
-        alert(_productos.producto);
 
         total_msg += parseFloat(_productos.total);
 
         $(".total_msg").text("$ "+total_msg.toFixed(2));   
 
-        contador_productos++;
+        contador_productos = _orden.length;
+
         if(_productos != null){
     		var tr_html = "<tr class='' style=''>";
     		tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
@@ -645,28 +719,34 @@ $(document).ready(function(){
             _orden.forEach(function(element) {
                 t +=parseInt(element.cantidad);
                 t2 +=parseFloat(element.total);
+                descuento += parseFloat(element.descuento_calculado);
+
             });
         }else{
             t = 0;
         }
         
+        /*
         if(clientes_lista){
             descuento = clientes_lista[0].porcentage_descuentos;
             descuento = descuento*t2;
-        }
+        }*/
+        var total_msg = (t2 - descuento);
 
-        $(".total_msg").text(t2.toFixed(2));
-
-        $(".cantidad_tabla").text(t);
-        $(".total_tabla").text(t2);
+        $(".total_msg").text(total_msg.toFixed(2) );
+        $(".cantidad_tabla").text(t.toFixed(2) );
+        $(".sub_total_tabla").text(t2.toFixed(2) );
+        $(".total_tabla").text(total_msg.toFixed(2) );
         $(".descuento_tabla").text(descuento.toFixed(2));
         
     }
 
     $(document).on('click', '.eliminar', function(){
         // Remover los Productos de la lista.
+        var x = 0;
+        var _orden_temp = [];
         var producto_id = $(this).attr('name');
-
+        
         _orden.forEach(function(element) {
             if(element.id_producto_detalle == producto_id){
 
@@ -677,7 +757,7 @@ $(document).ready(function(){
                 depurar_producto();
             }
             
-        });
+        });        
     });
 
     function depurar_producto(){
@@ -694,7 +774,7 @@ $(document).ready(function(){
                 tr_html += "<td class='border-left'>"+element.descripcion+"</td>";
                 tr_html += "<td class='border-left'>"+element.cantidad+"</td>";
                 tr_html += "<td class='border-left'>"+element.presentacion+"</td>";
-                tr_html += "<td class='border-left'></td>";
+                tr_html += "<td class='border-left'>"+element.presentacionFactor+"</td>";
                 tr_html += "<td class='border-left'>"+element.precioUnidad+"</td>";
                 tr_html += "<td class='border-left'>"+element.descuento+"</td>";
                 tr_html += "<td class='border-left total'>"+element.total+"</td>";
@@ -706,7 +786,7 @@ $(document).ready(function(){
                 contador_tabla++;
             });
             $(".cantidad_tabla").val(4);
-            $(".total_tabla").val(4);
+            $(".sub_total_tabla").val(4);
 
             calculo_totales();
 
@@ -722,6 +802,7 @@ $(document).ready(function(){
             $(".producto_agregados").empty();
             calculo_totales();
         }
+
     }
 
     function get_clientes_lista(){
@@ -779,6 +860,7 @@ $(document).ready(function(){
 
     $(document).on('click', '.guardar', function(){
         // Guardar Orden en la DB
+        alert(1);
         var formulario = $('#encabezado_form').serializeArray();
         var orden_estado = $(this).attr('name');
 
@@ -790,7 +872,7 @@ $(document).ready(function(){
                 url: "guardar_orden",
 
                 success: function(data){
-                    //location.reload();
+                    location.reload();
                 },
                 error:function(){
                 } 
@@ -1233,7 +1315,7 @@ $(document).ready(function(){
                                     <td><input type="text" class="form-control border-input" id="presentacion" name="presentacion" size="3px" readonly="1"></td>
                                     <td><input type="text" class="form-control border-input" id="factor" name="factor" size="2px" readonly="1" style="width: 50px;"></td>
                                     <td><input type="text" class="form-control border-input" id="precioUnidad" name="precioUnidad" size="2px" readonly="1" style="width: 70px;"></td>
-                                    <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" readonly="1" style="width: 80px;"></td>
+                                    <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;"></td>
                                     <td><input type="text" class="form-control border-input" id="total" name="total" size="2px" readonly="1"></td>
                                     <td><input type="text" class="form-control border-input" id="bodega" name="bodega" size="5px" readonly="1"></td>
                                     <td><input type="button" class="form-control border-input" name="" id="grabar" value="Agregar"/></td>
@@ -1243,7 +1325,21 @@ $(document).ready(function(){
                               <tbody class="producto_agregados" style="border-top:  3px solid black" >
                                  
                               </tbody>
-                              <tr class="panel-footer bg-gray-light"><td colspan='3'></td><td><span class="cantidad_tabla"></span></td><td colspan='3'></td><td><?php echo $moneda[0]->moneda_simbolo; ?><span class="descuento_tabla"></span></td><td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td><td colspan='2'></td></tr>
+                              <tr class="panel-footer ">
+                                <td colspan='3'></td>
+                                <td><span class="cantidad_tabla"></span></td>
+                                <td colspan='3' style="text-align: right;">Sub Total</td>
+                                <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="descuento_tabla"></span></td>
+                                <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="sub_total_tabla"></span></td>
+                                <td colspan='2'></td>
+                               </tr>
+                               <tr class="panel-footer">
+                                    <td colspan='6'></td>
+                                    <td colspan='1' style="text-align: right;">Total</td>
+                                    <td></td>
+                                    <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td>
+                                    <td colspan="2"></td>
+                               </tr>
                            </table>
                         </div>
                     <!-- END table-responsive-->

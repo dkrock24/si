@@ -90,6 +90,31 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Vista ID</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="vista_id" name="vista_id" readonly="1" value="<?php echo $vista_id ?>">
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Rol</label>
+                                    <div class="col-sm-9">
+                                        <select name="role" class="form-control">
+                                            <option value="0">Todos</option>
+                                            <?php
+                                            foreach ($roles as $key => $value) {
+                                                ?>
+                                                <option value="<?php echo $value->id_rol ?>"><?php echo $value->role ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
                                         
                                             <label>
@@ -111,6 +136,23 @@
                             </p>                                    
                         </div>
                         </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <table class="table">
+                            <?php
+                            foreach ($componentes as $key => $value) {
+                                ?>
+                                <tr>
+                                    <td><?php echo $value->accion_nombre ?></td>
+                                    <td><?php echo $value->accion_btn_url ?></td>
+                                    <td><?php echo $value->accion_valor ?></td>
+                                    <td><a href="../copiar/<?php echo $vista_id.'/'.$value->id_vista_componente ?>" class="btn btn-success">Copiar</a></td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                        </table>
                     </div>
             
                 </div>

@@ -304,34 +304,32 @@ $(document).ready(function(){
                 }
 
             		$("#producto").val(datos['producto'][12].valor);
-            		//$("#presentacion").val(_productos_precio[0].presentacion);
-            		$("#precioUnidad").val( _productos_precio[0].unidad );
-            		$("#descuento").val(datos['producto'][7].valor);
+                    //$("#descuento").val(datos['producto'][7].valor);
                     $("#bodega").val(datos['producto'][0].nombre_bodega);
+                    $("#precioUnidad").val( _productos_precio[0].unidad );
+                    
                     $("#descripcion").val(datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca  );
-                    //$("#factor").val(_productos_precio[0].factor);
 
-            		producto_cantidad_linea = 1;
+                    producto_cantidad_linea = 1;
                     $("#cantidad").val(1);
-            		precioUnidad = _productos_precio[0].unidad;
+                    precioUnidad = _productos_precio[0].unidad;
 
-                	set_calculo_precio(precioUnidad, producto_cantidad_linea);
+                    set_calculo_precio(precioUnidad, producto_cantidad_linea);
 
-                    _productos.producto_id = datos['producto'][0].id_entidad;
-                    _productos.id_inve_prod = datos['producto'][0].id_inventario;
-                	_productos.producto = datos['producto'][12].valor;
-                	//_productos.presentacion = datos['producto'][0].valor;
-                	//_productos.precioUnidad = datos['producto'][8].valor;
-                	_productos.descuento = datos['producto'][7].valor;
-                	_productos.cantidad = producto_cantidad_linea;
-                	_productos.total = $("#total").val();
-                    _productos.bodega = datos['producto'][0].nombre_bodega;
-                    _productos.id_bodega = datos['producto'][0].id_bodega;
-                    _productos.impuesto_id = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
-                    _productos.desc_porc = datos['producto'][0].porcentage;
-                    _productos.incluye_iva = datos['producto'][10].valor;
-                    _productos.iva = datos['producto'][9].valor;
-                    _productos.descripcion = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
+                    _productos.producto_id  = datos['producto'][0].id_entidad;
+                    _productos.inventario_id= datos['producto'][0].id_inventario;
+                    _productos.producto     = datos['atributos'].Cod_Barras;
+                    _productos.descuento_limite     = datos['atributos'].Descuento_Limite;
+                    _productos.descuento    = 0.00;// datos['producto'][7].valor;
+                    _productos.cantidad     = producto_cantidad_linea;
+                    _productos.total        = $("#total").val();
+                    _productos.bodega       = datos['producto'][0].nombre_bodega;
+                    _productos.id_bodega    = datos['producto'][0].id_bodega;
+                    _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
+                    _productos.por_desc     = datos['producto'][0].porcentage;
+                    _productos.incluye_iva  = datos['producto'][10].valor;
+                    _productos.iva          = datos['producto'][9].valor;
+                    _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
                 
             },
             error:function(){
@@ -449,16 +447,15 @@ $(document).ready(function(){
     $(document).on('click', '#grabar', function(){
         // 7 - Grabar producto en la orden
         
-        $('.uno').find('input').each(function(){
-            this.value = '';    
-            $("#grabar").val("Agregar");        
-            $("#cantidad").val(1);     
-        });
+        
        
         if(_productos.cantidad != null ){
             if(contador_productos==0){   
 
                 _orden[contador_productos] = _productos;  
+
+                _productos.descuento = $("#descuento").val();
+                _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
            
                 agregar_producto();
             }else{  
@@ -467,11 +464,13 @@ $(document).ready(function(){
                 var cnt = 0;
                 
                 if(_productos != ""){
+
+                    contador_productos = _orden.length;
                    
                     if(_orden.length >= 1){
                         
                         $.each(_orden, function(i, item) {
-
+                            console.log(_orden);
                             if(item.producto2 == _productos.producto2 ){
                                 existe = 1;
 
@@ -494,6 +493,8 @@ $(document).ready(function(){
                                 $(".total"+_orden[cnt]['producto2']).text(total_temp);
 
                                 _orden[cnt]['total'] = total_temp;
+
+                                _orden[cnt].descuento_calculado = calcular_descuento(_orden[cnt].descuento , _orden[cnt].total, _orden[cnt].descuento_limite);
                                 
                                 calculo_totales();
 
@@ -502,12 +503,17 @@ $(document).ready(function(){
                         });
                     }else{
 
+                        _productos.descuento = $("#descuento").val();
+                        _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
+
                         _orden[contador_productos] = _productos;
                         agregar_producto();
                     }
                 }
                 if(existe==0)
                 {
+                    _productos.descuento = $("#descuento").val();
+                    _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
 
                     _orden[contador_productos] = _productos;
                     agregar_producto();
@@ -515,6 +521,14 @@ $(document).ready(function(){
                 }
             }
         }
+
+        $('.uno').find('input').each(function(){
+            this.value = '';    
+            $("#grabar").val("Agregar");        
+            $("#cantidad").val(1);     
+        });
+
+
     });
 
     function set_calculo_precio(precioUnidad, producto_cantidad_linea){
@@ -624,6 +638,64 @@ $(document).ready(function(){
         return flag;        
     }
 
+    function calcular_descuento( descuento, total , descuento_limite){
+        var valor = 0;
+
+        var primer_digito = descuento.substring(0,1);
+        var tipo_descuento_limite = descuento_limite.substring(0,1);
+        //alert(descuento_limite);
+        if(descuento){
+
+            if(primer_digito == 0 ){
+
+                if(tipo_descuento_limite == 0){
+                    // Limite en %   
+                    //alert(1);
+                    if(descuento <= parseInt(descuento_limite)  ){
+                        valor = descuento * total;
+                    }else{
+                        valor = descuento_limite * total;
+                    }
+                }else{
+                    // Limite #
+                    //alert(2);
+                    valor = ( parseInt(descuento_limite) / 100 );
+                    if(descuento <= valor  ){
+                        valor = descuento * total;
+                    }else {
+                        valor = (parseInt(descuento_limite) / 100 ) * total;
+                    }
+                }
+            }else{
+                if(tipo_descuento_limite == 0){
+                    // Limite en %  y descuento %
+                    //alert(3);
+                    valor = ( descuento / 100 );                 
+                    if(valor <= parseInt(descuento_limite)  ){
+                        valor = valor * total;
+                    }else{
+                        valor = descuento_limite * total;
+                    }
+                }else{                   
+                    // Limite # y descuento # 
+                    //alert(4);
+                    valor = ( descuento / 100 );
+                    if(valor <= (descuento_limite / 100)  ){
+                        valor = valor * total ;
+                    }else{
+                        valor = total * (descuento_limite / 100);
+                    }
+                }
+
+            }
+            _productos.descuento = valor.toFixed(2);
+        }else{
+            _productos.descuento = valor.toFixed(2);
+        }
+        
+        return valor;
+    }
+
     function agregar_producto(){
 
         if(factor_total !=0 && factor_precio!=0){
@@ -635,7 +707,8 @@ $(document).ready(function(){
 
         $(".total_msg").text("$ "+total_msg.toFixed(2));   
 
-        contador_productos++;
+        contador_productos = _orden.length;
+
         if(_productos != null){
     		var tr_html = "<tr class='' style=''>";
     		tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
@@ -673,20 +746,24 @@ $(document).ready(function(){
             _orden.forEach(function(element) {
                 t +=parseInt(element.cantidad);
                 t2 +=parseFloat(element.total);
+                descuento += parseFloat(element.descuento);
+
             });
         }else{
             t = 0;
         }
         
+        /*
         if(clientes_lista){
             descuento = clientes_lista[0].porcentage_descuentos;
             descuento = descuento*t2;
-        }
+        }*/
+        var total_msg = (t2 - descuento);
 
-        $(".total_msg").text(t2.toFixed(2));
-
-        $(".cantidad_tabla").text(t);
-        $(".total_tabla").text(t2);
+        $(".total_msg").text(total_msg.toFixed(2) );
+        $(".cantidad_tabla").text(t.toFixed(2) );
+        $(".sub_total_tabla").text(t2.toFixed(2) );
+        $(".total_tabla").text(total_msg.toFixed(2) );
         $(".descuento_tabla").text(descuento.toFixed(2));
         
     }
@@ -1271,7 +1348,7 @@ $(document).ready(function(){
                                     <td><input type="text" class="form-control border-input" id="presentacion" name="presentacion" size="3px" readonly="1"></td>
                                     <td><input type="text" class="form-control border-input" id="factor" name="factor" size="2px" readonly="1" style="width: 50px;"></td>
                                     <td><input type="text" class="form-control border-input" id="precioUnidad" name="precioUnidad" size="2px" readonly="1" style="width: 70px;"></td>
-                                    <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" readonly="1" style="width: 80px;"></td>
+                                    <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;"></td>
                                     <td><input type="text" class="form-control border-input" id="total" name="total" size="2px" readonly="1"></td>
                                     <td><input type="text" class="form-control border-input" id="bodega" name="bodega" size="5px" readonly="1"></td>
                                     <td><input type="button" class="form-control border-input" name="" id="grabar" value="Agregar"/></td>
@@ -1281,7 +1358,21 @@ $(document).ready(function(){
                               <tbody class="producto_agregados" style="border-top:  3px solid black" >
                                  
                               </tbody>
-                              <tr class="panel-footer bg-gray-light"><td colspan='3'></td><td><span class="cantidad_tabla"></span></td><td colspan='3'></td><td><?php echo $moneda[0]->moneda_simbolo; ?><span class="descuento_tabla"></span></td><td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td><td colspan='2'></td></tr>
+                              <tr class="panel-footer ">
+                                <td colspan='3'></td>
+                                <td><span class="cantidad_tabla"></span></td>
+                                <td colspan='3' style="text-align: right;">Sub Total</td>
+                                <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="descuento_tabla"></span></td>
+                                <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="sub_total_tabla"></span></td>
+                                <td colspan='2'></td>
+                               </tr>
+                               <tr class="panel-footer">
+                                    <td colspan='6'></td>
+                                    <td colspan='1' style="text-align: right;">Total</td>
+                                    <td></td>
+                                    <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td>
+                                    <td colspan="2"></td>
+                               </tr>
                            </table>
                         </div>
                     <!-- END table-responsive-->

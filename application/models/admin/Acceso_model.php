@@ -16,7 +16,7 @@ class Acceso_model extends CI_Model
 
     const sys_vistas = 'sys_vistas';
     const sys_vistas_acceso = 'sys_vistas_acceso';
-    const sys_vistas_componentes = 'sys_vistas_componentes';
+    const sys_vistas_componentes = 'sys_componentes';
     
     public function __construct()
     {

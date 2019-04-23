@@ -78,7 +78,7 @@ class Categorias extends CI_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 20; // Vista Orden Lista
+		$vista_id = 2; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;

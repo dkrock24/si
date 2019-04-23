@@ -44,14 +44,14 @@
                                                         foreach ($moneda as $value) {
                                                             if($pais[0]->id_moneda == $value->id_moneda){
                                                             ?>
-                                                            <option value="<?php echo  $value->id_moneda; ?>"><?php echo $value->nombre .' '.$value->alias; ?></option>
+                                                            <option value="<?php echo  $value->id_moneda; ?>"><?php echo $value->moneda_nombre .' '.$value->moneda_alias; ?></option>
                                                             <?php
                                                             }
                                                         }
                                                         foreach ($moneda as $value) {
                                                             if($pais[0]->id_moneda != $value->id_moneda){
                                                             ?>
-                                                            <option value="<?php echo  $value->id_moneda; ?>"><?php echo $value->nombre .' '.$value->alias; ?></option>
+                                                            <option value="<?php echo  $value->id_moneda; ?>"><?php echo $value->moneda_nombre .' '.$value->moneda_alias; ?></option>
                                                             <?php
                                                             }
                                                         }

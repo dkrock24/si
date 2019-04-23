@@ -145,7 +145,7 @@
                                                 foreach ($acciones as $key => $value) {
                                                     if($value->accion_valor == 'btn_medio' && $value->accion_nombre != 'Eliminar') {
                                                     ?>
-                                                    <li><a href="<?php echo $value->accion_btn_url;  ?>/<?php echo $table->$id; ?>"><?php echo $value->accion_nombre;  ?></a></li>
+                                                    <li><a href="<?php echo  $value->accion_btn_url;  ?>/<?php echo $table->$id; ?>"><?php echo $value->accion_nombre;  ?></a></li>
                                                     <?php
                                                     }
                                                     if($value->accion_valor == 'btn_medio' && $value->accion_nombre == 'Eliminar') {

@@ -68,7 +68,7 @@ class Empresa extends CI_Controller {
 		parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 8; // Vista Orden Lista
+		$vista_id = 2; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
 		$data['moneda'] = $this->Moneda_model->getAllMoneda();

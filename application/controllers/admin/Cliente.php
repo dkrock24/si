@@ -85,7 +85,7 @@ class Cliente extends CI_Controller {
 		//parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 20; // Vista Orden Lista
+		$vista_id = 2; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -107,7 +107,7 @@ class Cliente extends CI_Controller {
 		$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['documento'] = $this->Cliente_model->getTipoDocumento();
 		$data['pago'] = $this->Cliente_model->getTipoPago();
-		$data['persona'] = $this->Persona_model->getPersona();
+		$data['persona'] = $this->Persona_model->getAllPersona();
 		$data['home'] = 'admin/cliente/cliente_nuevo';
 
 		$this->parser->parse('template', $data);

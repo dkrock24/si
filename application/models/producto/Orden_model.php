@@ -119,7 +119,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor,b.id_bodega, b.nombre_bodega, pinv.id_inventario
-	        		, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, impuestos.porcentage
+	        		, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, impuestos.porcentage 
 
 				FROM `producto` as `P`
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
@@ -253,7 +253,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 		            'producto' 		=> $orden['producto'],
 		            'producto_id' 		=> $orden['producto_id'],
 		            'producto2' 		=> $orden['producto2'],
-		            'id_inve_prod' 	=> $orden['id_inve_prod'],
+		            'inventario_id' 	=> $orden['inventario_id'],
 
 		            'id_bodega' 	=> $orden['id_bodega'],
 		            'bodega' 		=> $orden['bodega'],

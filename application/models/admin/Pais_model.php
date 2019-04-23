@@ -192,7 +192,7 @@ class Pais_model extends CI_Model {
 	function get_moneda(){
 		$this->db->select('*');
 	        $this->db->from(self::sys_moneda);
-	        $this->db->where('estado =1'); 
+	        $this->db->where('moneda_estado =1'); 
 
 	        $query = $this->db->get(); 
 	        
