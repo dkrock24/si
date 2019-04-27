@@ -2,6 +2,11 @@
 
 
  <div class="wrapper">
+   
+   <div class="container" style="background: grey; width: 100%; height: 60px;">
+      <div class="row">hola</div>
+   </div>
+
    <div style="text-align: center"><?php include_once 'notificaciones/success.php'; ?></div>
       <div class="block-center mt-xl wd-xl">
          <!-- START panel-->

@@ -179,9 +179,9 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 		}
 
 		function guardar_orden( $orden , $id_usuario , $cliente ){
+			
+			$order_estado = $orden['estado'];
 
-			//var_dump($orden['encabezado'][14]);
-			//die;
 			$total_orden = $orden['orden'][0]['total'];
 
 			//Precio Orden con Impuesto
@@ -241,6 +241,11 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 
 			$this->guardar_orden_detalle( $id_orden , $orden );		
 			$this->incremento_correlativo($siguiente_correlativo);
+
+			if($order_estado == 2){
+				$this->descontar_de_bodega($orden);	
+			}
+
 		}
 
 		function guardar_orden_detalle( $id_orden , $datos ){
@@ -281,6 +286,41 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 
 	        	$this->db->insert(self::pos_ordenes_detalle, $data ); 
 			}
+		}
+
+		function descontar_de_bodega( $orden ){
+
+			$cantidad = 0;
+			foreach ($orden['orden'] as $key => $productos) {
+
+				$cantidad = $this->get_cantidad_bodega($productos['producto_id'], $productos['id_bodega']);
+				
+				$cantidad_nueva = ($cantidad[0]->Cantidad - $productos['cantidad']);
+				
+				$data = array(
+					'Cantidad'	=>  $cantidad_nueva
+				);
+
+				$this->db->where('Producto', $productos['producto_id'] );
+				$this->db->where('Bodega', $productos['id_bodega'] );
+				$this->db->update(self::producto_bodega, $data ); 
+
+			}
+		}
+
+		function get_cantidad_bodega( $id_producto , $id_bodega ){
+
+			$this->db->select('*');
+	        $this->db->from(self::producto_bodega);
+	        $this->db->where('Producto', $id_producto );
+	        $this->db->where('Bodega', $id_bodega );
+	        $query = $this->db->get(); 
+
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+
 		}
 
 		function update($orden , $id_usuario , $cliente){

@@ -24,7 +24,10 @@ $(document).ready(function(){
     $('#cliente_modal').appendTo("body");
     $('#vendedores_modal').appendTo("body");
     $('#presentacion_modal').appendTo("body");
+
+    
     $('#en_proceso').appendTo("body");
+    $('#en_reserva').appendTo("body");
     
     $('.dataSelect').hide();
     $('.dataSelect2').hide();
@@ -860,7 +863,7 @@ $(document).ready(function(){
 
     $(document).on('click', '.guardar', function(){
         // Guardar Orden en la DB
-        alert(1);
+        
         var formulario = $('#encabezado_form').serializeArray();
         var orden_estado = $(this).attr('name');
 
@@ -1283,8 +1286,11 @@ $(document).ready(function(){
                                 
                             </div>
                             <div class="col-lg-4">
-                                <a href="#" class="btn btn-default" id="btn_existencias" data-toggle='modal' data-target='#existencias'>Existencias</a>                            
-                                <a href="#" class="btn btn-default" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'>En Espera</a>
+
+                                <a href="#" class="btn btn-primary" id="btn_existencias" data-toggle='modal' data-target='#existencias'>Existencias</a>                            
+                                <a href="#" class="btn btn-success" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'>En Espera</a>
+
+                                <a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'>En Reserva</a>
 
                             </div>
   
@@ -1302,7 +1308,7 @@ $(document).ready(function(){
                                     <th style="color: white;">Descuento</th>
                                     <th style="color: white;">Total</th>
                                     <th style="color: white;">Bodega</th>
-                                    <th style="color: white;"><input type="button" class="form-control border-input btn btn-success guardar" name="1" id="" value="Guardar"/></th>
+                                    <th style="color: white;"><input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/></th>
                                  </tr>
                               </thead>
                               <tbody class="uno bg-gray-light" style="border-bottom: 5px solid grey">
@@ -1318,7 +1324,7 @@ $(document).ready(function(){
                                     <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;"></td>
                                     <td><input type="text" class="form-control border-input" id="total" name="total" size="2px" readonly="1"></td>
                                     <td><input type="text" class="form-control border-input" id="bodega" name="bodega" size="5px" readonly="1"></td>
-                                    <td><input type="button" class="form-control border-input" name="" id="grabar" value="Agregar"/></td>
+                                    <td><input type="button" style="background: #ffc107" class="form-control btn border-input" name="" id="grabar" value="Agregar"/></td>
                                     
                                  </tr>
                               </tbody>
@@ -1465,6 +1471,28 @@ $(document).ready(function(){
    </div>
 <!-- Modal Small-->
 
+
+<!-- Modal Large PRODUCTOS MODAL-->
+   <div id="en_reserva" tabindex="-1" role="dialog" aria-labelledby="en_reserva"  class="modal fade">
+      <div class="modal-dialog modal-sm">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               Notificacion
+            </div>
+            <div class="modal-body">
+                Cambiar Orden a Reservado ?
+            </div>
+            <div class="modal-footer">
+               <button type="button" data-dismiss="modal" class="btn btn-success guardar" name="2">Si</button>               
+               <button type="button" data-dismiss="modal" class="btn btn-warning">No</button>               
+            </div>
+         </div>
+      </div>
+   </div>
+<!-- Modal Small-->
 
 
 
