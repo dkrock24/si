@@ -308,6 +308,26 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 			}
 		}
 
+		function regreso_a_bodega( $orden ){
+
+			$cantidad = 0;
+			foreach ($orden['orden'] as $key => $productos) {
+
+				$cantidad = $this->get_cantidad_bodega($productos['producto_id'], $productos['id_bodega']);
+				
+				$cantidad_nueva = ($cantidad[0]->Cantidad + $productos['cantidad']);
+				
+				$data = array(
+					'Cantidad'	=>  $cantidad_nueva
+				);
+
+				$this->db->where('Producto', $productos['producto_id'] );
+				$this->db->where('Bodega', $productos['id_bodega'] );
+				$this->db->update(self::producto_bodega, $data ); 
+
+			}
+		}
+
 		function get_cantidad_bodega( $id_producto , $id_bodega ){
 
 			$this->db->select('*');
@@ -325,8 +345,6 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 
 		function update($orden , $id_usuario , $cliente){
 
-			//var_dump($orden['encabezado'][15]);
-			//die;
 			$total_orden = $orden['orden'][0]['total'];
 
 			//Precio Orden con Impuesto
@@ -382,6 +400,17 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
         	);
 
 			$orden_id = $orden['orden'][0]['id_orden'];
+
+			/* 1.0 Si Orden es reservada Y se esta eliminado se regresara productos a bodega */
+
+			$estado_orden = $this->get_orden($orden_id);
+
+			if($estado_orden[0]->orden_estado == 2){
+
+				$this->regreso_a_bodega($orden);
+			}
+			// 1.0 End
+
 
 			$this->db->where('id', $orden_id );
         	$this->db->update(self::pos_ordenes, $data );

@@ -24,7 +24,7 @@ $(document).ready(function(){
     $('#cliente_modal').appendTo("body");
     $('#vendedores_modal').appendTo("body");
     $('#presentacion_modal').appendTo("body");
-    $('#en_proceso').appendTo("body");
+    $('#cancelar').appendTo("body");
     
     $('.dataSelect').hide();
     $('.dataSelect2').hide();
@@ -1315,9 +1315,11 @@ $(document).ready(function(){
 
                                 
                             </div>
-                            <div class="col-lg-4">
-                                <a href="#" class="btn btn-default" id="btn_existencias" data-toggle='modal' data-target='#existencias'>Existencias</a>                            
-                                <a href="#" class="btn btn-default" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'>En Espera</a>
+                            <div class="col-lg-6">
+
+                                <a href="#" class="btn btn-success" id="btn_existencias" data-toggle='modal' data-target='#existencias'>( 1 ) Existencias</a>
+
+                                <a href="#" class="btn btn-success" id="btn_cancelar" data-toggle='modal' data-target='#cancelar'>( 2 ) Cancelar</a>
 
                             </div>
   
@@ -1335,7 +1337,7 @@ $(document).ready(function(){
                                     <th style="color: white;">Descuento</th>
                                     <th style="color: white;">Total</th>
                                     <th style="color: white;">Bodega</th>
-                                    <th style="color: white;"><input type="button" class="form-control border-input btn btn-success guardar" name="1" id="" value="Guardar"/></th>
+                                    <th style="color: white;"><input type="button" class="form-control border-input btn btn-success guardar" name="<?php echo $orden[0]->orden_estado ?>" id="" value="Guardar"/></th>
                                  </tr>
                               </thead>
                               <tbody class="uno bg-gray-light" style="border-bottom: 5px solid grey">
@@ -1477,7 +1479,7 @@ $(document).ready(function(){
 <!-- Modal Small-->
 
 <!-- Modal Large PRODUCTOS MODAL-->
-   <div id="en_proceso" tabindex="-1" role="dialog" aria-labelledby="en_proceso"  class="modal fade">
+   <div id="cancelar" tabindex="-1" role="dialog" aria-labelledby="cancelar"  class="modal fade">
       <div class="modal-dialog modal-sm">
          <div class="modal-content">
             <div class="modal-header">
@@ -1487,10 +1489,10 @@ $(document).ready(function(){
                Notificacion
             </div>
             <div class="modal-body">
-                Cambiar Orden a Espera ?
+                Cancelar Orden ?
             </div>
             <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-success guardar" name="5">Si</button>               
+               <button type="button" data-dismiss="modal" class="btn btn-success guardar" name="6">Si</button>               
                <button type="button" data-dismiss="modal" class="btn btn-warning">No</button>               
             </div>
          </div>

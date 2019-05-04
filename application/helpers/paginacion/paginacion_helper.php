@@ -12,8 +12,8 @@ function paginacion($total_row , $per_page , $url){
 		$config['num_links'] = $total_row;
 		$config['cur_tag_open'] = '&nbsp;<a class="active" style="background:#007bff; color:white;">';
 		$config['cur_tag_close'] = '</a>';
-		$config['next_link'] = 'Next';
-		$config['prev_link'] = 'Previous';
+		$config['next_link'] = 'Siguiente';
+		$config['prev_link'] = 'Anterior';
 
 		
 		return $config;

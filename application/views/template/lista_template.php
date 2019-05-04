@@ -34,13 +34,16 @@
                         </select>
                         </form>
                     </div>
+
                 </div>
                 <!-- START table-responsive-->
                 
                     <table id="datatable1" class="table table-striped table-hover">
+
                         <thead class="bg-info-dark">
                             <tr>
                               <?php
+                              
                               foreach ($column as $key => $combo) {
                                 ?>
                                 <th style="color: white;"><?php echo $combo; ?></th>
@@ -141,20 +144,39 @@
                                             </button>
                                         <ul role="menu" class="dropdown-menu">
                                                 <?php
+
                                                 if($acciones){
+
                                                 foreach ($acciones as $key => $value) {
+
+                                                    $url = base_url();
+                                                    $num = is_numeric(substr($_SERVER['PATH_INFO'], -1, 1));
+
+                                                    if($num){
+                                                        $url = $url.'\..'.$_SERVER['PATH_INFO'].'\../../'.$value->accion_btn_url;
+                                                    }else{
+                                                        $url = $value->accion_btn_url;
+                                                    }                                                
+
                                                     if($value->accion_valor == 'btn_medio' && $value->accion_nombre != 'Eliminar') {
                                                     ?>
-                                                    <li><a href="<?php echo  $value->accion_btn_url;  ?>/<?php echo $table->$id; ?>"><?php echo $value->accion_nombre;  ?></a></li>
+
+                                                    <li><a href="<?php echo  $url;  ?>/<?php echo $table->$id; ?>"><?php echo $value->accion_nombre;  ?></a></li>
+                                                    
                                                     <?php
                                                     }
+
                                                     if($value->accion_valor == 'btn_medio' && $value->accion_nombre == 'Eliminar') {
                                                     ?>
+
                                                     <li class="divider"></li>
                                                     <li><a href="<?php echo $value->accion_btn_url;  ?>/<?php echo $table->$id; ?>"><?php echo $value->accion_nombre;  ?></a></li>
+                                                    
                                                     <?php
+
                                                     }
                                                 }}
+
                                                 ?>                                                                    
                                                 <li class="divider"></li>                                                           
 

@@ -36,6 +36,15 @@ $(document).ready(function(){
     $('.1dataSelect').hide();
     $('.1dataSelect2').hide();
 
+    /* GLOBAL BOTTON FUNCTION */
+    $(document).on('keypress','body', function(){
+        
+        alert(event.which);
+        if(event.which == '49'){
+           
+        }
+    });
+
     // Existencia Code
     $(document).on('keyup', '.existencia_buscar', function(){
         if($(".existencia_buscar").val() != ""){
@@ -242,7 +251,8 @@ $(document).ready(function(){
             $("#producto_buscar").val(this.value);
             $('#dataSelect').hide();
             $('#dataSelect').empty();
-            $(".producto_buscar").focus();
+            //$(".producto_buscar").focus();
+            $("#cantidad").focus();
 
         }
         
@@ -1285,12 +1295,12 @@ $(document).ready(function(){
 
                                 
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
 
-                                <a href="#" class="btn btn-primary" id="btn_existencias" data-toggle='modal' data-target='#existencias'>Existencias</a>                            
-                                <a href="#" class="btn btn-success" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'>En Espera</a>
+                                <a href="#" class="btn btn-success" id="btn_existencias" data-toggle='modal' data-target='#existencias'>( 1 ) Existencias</a>                            
+                                <a href="#" class="btn btn-success" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'>( 2 ) En Espera</a>
 
-                                <a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'>En Reserva</a>
+                                <a href="#" class="btn btn-success" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'>( 3 ) En Reserva</a>
 
                             </div>
   
