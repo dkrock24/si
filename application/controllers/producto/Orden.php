@@ -28,6 +28,7 @@ class Orden extends CI_Controller {
 		$this->load->model('producto/Producto_model');				
 		$this->load->model('producto/Orden_model');
 		$this->load->model('admin/Moneda_model');
+		$this->load->model('admin/Template_model');
 		
 	}
 
@@ -156,6 +157,8 @@ class Orden extends CI_Controller {
 
 			$data['cliente'] = $this->get_clientes_id($data['orden'][0]->id_cliente);
 
+			$data['temp'] = $this->Template_model->printer( $order_id , $data['orden'][0]->id_sucursal , $data['orden'][0]->id_tipod);
+
 			$this->general->editar_valido($data['orden'], "producto/orden/index");
 
 			$data['home'] = 'producto/orden/orden_editar';
@@ -163,6 +166,7 @@ class Orden extends CI_Controller {
 			$this->parser->parse('template', $data);
 		}else{
 			$data['home'] = 'producto/orden/orden_editar';
+			$data['temp'] = $this->Template_model->printer( $orden_id );
 			$this->parser->parse('template', $data);
 		}
 	}

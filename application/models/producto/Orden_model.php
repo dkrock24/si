@@ -8,7 +8,9 @@ class Orden_model extends CI_Model {
 		const producto_valor =  'producto_valor';
 		const categoria_producto =  'categoria_producto';		
 		const producto_atributo =  'producto_atributo';
+		const pos_giros =  'pos_giros';
 		const empresa_giro =  'giros_empresa';
+		const pos_empresa = 'pos_empresa';
 		const giro_plantilla =  'giro_pantilla';
 		const pos_linea = 'pos_linea';
 		const proveedor = 'pos_proveedor';
@@ -23,8 +25,9 @@ class Orden_model extends CI_Model {
 		const producto_bodega = 'pos_producto_bodega';
 		const pos_ordenes = 'pos_ordenes';
 		const pos_correlativos = 'pos_correlativos';
-
+		const sys_empleado = 'sys_empleado';
 		const pos_ordenes_detalle = 'pos_orden_detalle';
+
 
 		
 
@@ -968,6 +971,13 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 			$this->db->select('*');
 	        $this->db->from(self::pos_ordenes.' as o');
 	        $this->db->join(self::sucursal.' as s', 'on s.id_sucursal = o.id_sucursal');
+	        $this->db->join(self::sys_empleado.' as e', 'on e.id_empleado = o.id_cajero', 'left');
+	        $this->db->join(self::pos_empresa.' as em', 'on em.id_empresa = s.Empresa_Suc', 'left');
+	        $this->db->join(self::empresa_giro.' as eg', 'on eg.Empresa = em.id_empresa', 'left');
+	        $this->db->join(self::pos_giros.' as pg', 'on pg.id_giro = eg.Giro', 'left');
+	        
+
+
 	        $this->db->where('o.id', $order_id );
 	        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc);
 	        $query = $this->db->get(); 

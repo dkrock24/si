@@ -25,6 +25,8 @@ $(document).ready(function(){
     $('#vendedores_modal').appendTo("body");
     $('#presentacion_modal').appendTo("body");
     $('#cancelar').appendTo("body");
+    $('#imprimir').appendTo("body");
+    
     
     $('.dataSelect').hide();
     $('.dataSelect2').hide();
@@ -1051,6 +1053,10 @@ $(document).ready(function(){
         position: relative;
         display: none;
     }
+    .vista_ticket{
+        font-size: 12px;
+        font-family: 'Times New Roman';
+    }
 </style>
 
 <!-- Main section-->
@@ -1319,7 +1325,23 @@ $(document).ready(function(){
 
                                 <a href="#" class="btn btn-success" id="btn_existencias" data-toggle='modal' data-target='#existencias'>( 1 ) Existencias</a>
 
-                                <a href="#" class="btn btn-success" id="btn_cancelar" data-toggle='modal' data-target='#cancelar'>( 2 ) Cancelar</a>
+                                
+
+                                <div class="btn-group">
+                                   <button type="button" class="btn btn-default">Opcion</button>
+                                   <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-default">
+                                      <span class="caret"></span>
+                                      <span class="sr-only">default</span>
+                                   </button>
+                                   <ul role="menu" class="dropdown-menu">
+                                        <li><a href="#" data-toggle='modal' data-target='#imprimir'><i class="icon-printer"></i> Imprimir</a></li>
+                                      
+                                      <li class="divider"></li>
+                                      <li>
+                                        <li><a href="#" class="" id="btn_cancelar" data-toggle='modal' data-target='#cancelar'><i class="icon-trash"></i> Cancelar Orden</a>
+                                      </li>
+                                   </ul>
+                                </div>
 
                             </div>
   
@@ -1501,6 +1523,47 @@ $(document).ready(function(){
 <!-- Modal Small-->
 
 
+<!-- Modal Large PRODUCTOS MODAL-->
+   <div id="imprimir" tabindex="-1" role="dialog" aria-labelledby="imprimir"  class="modal fade">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header" style="background: #2c71b5;color: white;">
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               <i class="icon-printer"></i> Imprimir
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 vista_ticket">
+                        
+                        <?php
+                            if($temp){
+                                foreach ($temp as $t) {
+                                    $data = $t->factura_template;
+                                    try {
+                                        eval($data);    
+                                    } catch (Exception $e) {
+                                        echo "Error";
+                                    }
+                                    
+                                }
+                            }else{
+                                echo "<h5> Documento Sin Template Para Impresion.</h5>";
+                            }
+                        ?>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+         </div>
+      </div>
+   </div>
+<!-- Modal Small-->
 
 
 

@@ -195,4 +195,28 @@ class Vistas_model extends CI_Model {
         );
         $this->db->insert(self::sys_vistas_acceso, $data );
     }
+
+    function copiar_componente( $vista_id , $componente_id , $role ){
+        // Insertar componente copiado
+
+        $last_order =1;
+
+        $last = $this->get_last_order_number($vista_id);
+        
+        if($last){
+            $last_order = $last[0]->ultimo+1;
+        }
+
+        $data = array(
+            'Vista' => $vista_id,
+            'Componente' =>  $componente_id,
+            'order' => $last_order,
+            'vista_componente_estado' => 1
+        );
+        $this->db->insert(self::sys_vistas_componentes, $data );
+        $id_componente = $this->db->insert_id();
+
+        $this->vista_acceso_crear( $id_componente , $role );
+    }
+
 }

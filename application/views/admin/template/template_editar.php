@@ -186,10 +186,10 @@ ul li{
     <!-- Page content-->
     <div class="content-wrapper">  
         <h3 style="height: 50px; font-size: 13px;">  
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
+            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
                 <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Template</button> 
             </a> 
-            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
+            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
             
         </h3>
         <div class="row">
@@ -278,14 +278,12 @@ ul li{
 							
 										<div class="col-md-6 content">
 												<div class="panel panel-info">
-													<?php
-														$data = [1,2,3,4,5];
-													?>
+	
 													<div class="panel-heading">
 														EDITOR  <span><input type="submit" class="btn btn-default" name="enviar" value="Guardar" style="float: right;" /></span>
 													</div>
 													<div class="panel-body">
-														<textarea name="template_html" id="template_html" cols="30" rows="10" class="form-control"></textarea>
+														<textarea name="template_html" id="template_html" cols="30" rows="10" class="form-control" value="<?php echo $formato[0]->factura_template ?>"></textarea>
 													</div>
 												</div>
 										</div>

@@ -208,6 +208,11 @@ class Vistas extends CI_Controller {
 
 	public function copiar( $vista_id , $componente_id ){
 
+		$id_rol = $this->session->roles[0];
+
+		$this->Vistas_model->copiar_componente($vista_id , $componente_id , $id_rol );
+		redirect(base_url()."admin/vistas/componentes_nuevo/".  $vista_id  );
+
 	}
 
 	public function columnC(){

@@ -32,7 +32,7 @@ class Template extends CI_Controller {
 		$this->load->helper('paginacion/paginacion_helper');
 
 		$this->load->model('admin/Giros_model');  
-		$this->load->model('admin/Atributos_model');  
+		$this->load->model('producto/Producto_model');  
 		$this->load->model('admin/Menu_model');
 		$this->load->model('accion/Accion_model');
 		$this->load->model('admin/Sucursal_model');
@@ -41,6 +41,7 @@ class Template extends CI_Controller {
 		$this->load->model('admin/Cliente_model');
 		$this->load->model('admin/Persona_model');
 		$this->load->model('admin/Template_model');
+		$this->load->model('producto/Orden_model');
 	}
 
 // Start  **********************************************************************************
@@ -87,7 +88,7 @@ class Template extends CI_Controller {
 		//parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 24; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -106,13 +107,6 @@ class Template extends CI_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;		
-		$data['empresa'] = $this->Empresa_model->getEmpresas();
-		$data['documento'] = $this->Cliente_model->getTipoDocumento();
-		$data['pago'] = $this->Cliente_model->getTipoPago();
-		$data['persona'] = $this->Persona_model->getAllPersona();
-		$data['cliente'] = $this->Cliente_model->get_cliente();
-		$data['sucursal'] = $this->Sucursal_model->getSucursal();
-		
 		$data['home'] = 'admin/template/template_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -129,26 +123,61 @@ class Template extends CI_Controller {
 			$this->session->set_flashdata('warning', "Template No Fue Creado");
 		}	
 
-		redirect(base_url()."admin/template/index");
+		redirect(base_url()."admin/template/asociar");
 	}
-	/*
 
-	public function editar( $cliente_id ){
-		
+	public function asociar(){
+
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
+		$data['result'] = null;
+		$data['documento_id'] = 0;
+		$data['factura_id'] = 0;
+		$data['result'] = 0;
+
+		if(isset($_POST['documento']) && isset($_POST['factura_id'])){
+			$data['documento_id'] = $_POST['documento'];
+			$data['factura_id'] = $_POST['factura_id'];
+			$factura_id = $_POST['factura_id'];
+			$data['factura_id'] = $factura_id;
+			$data['result'] = $this->Template_model->getTemplateBySucursal($factura_id);
+			
+		}
 
 		$data['menu'] = $this->session->menu;
-		$data['cliente'] = $this->Cliente_model->get_clientes_id( $cliente_id );
-		$data['documento'] = $this->Cliente_model->getTipoDocumento();
-		$data['pago'] = $this->Cliente_model->getTipoPago();
-		$data['persona'] = $this->Persona_model->getAllPersona();
-
-		$data['home'] = 'admin/cliente/cliente_editar';
-
-		$this->general->editar_valido($data['cliente'], "admin/cliente/index");
+		$data['template'] = $this->Template_model->get_template();
+		$data['sucursales'] = $this->Producto_model->get_sucursales();
+		$data['documento'] = $this->Template_model->getTipoDocumento();
+		$data['home'] = 'admin/template/template_asociar';
 
 		$this->parser->parse('template', $data);
 	}
+
+	public function associar_sucursal(){
+		$this->Template_model->associar_sucursal( $_POST  );
+
+		redirect(base_url()."admin/template/asociar");
+	}
+
+	public function activacion(){
+		$this->Template_model->activacion_sucursal( $_POST  );
+
+		redirect(base_url()."admin/template/asociar");
+	}
+	
+
+	public function editar( $formato_id ){
+		
+		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
+
+		$data['menu'] = $this->session->menu;		
+		
+		$data['formato'] = $this->Template_model->getFormatoId($formato_id);
+
+		$data['home'] = 'admin/template/template_editar';
+
+		$this->parser->parse('template', $data);
+	}
+	/*
 
 	public function update(){
 		// Actualizar Giro 
@@ -166,14 +195,14 @@ class Template extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Documento','Sucursal','Cliente','Descripcion','Estado'
+			'#','Nombre','Documento','Sucursal','Lineas','Descripcion','Creado','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'factura_nombre','factura_tipo_documento','factura_sucursal','factura_cliente','factura_descripcion','estado'
+			'factura_nombre','nombre','nombre_sucursal','factura_lineas','factura_descripcion','factura_creado','estado'
 		);
 		
 		$fields['id'] = array('id_factura');
@@ -181,6 +210,27 @@ class Template extends CI_Controller {
 		$fields['titulo'] = "Template Lista";
 
 		return $fields;
+	}
+
+	function printer( $orden_id ){
+		
+		// Get ordern
+		$data['productos'] = $this->Orden_model->get_orden_detalle( $orden_id );
+		$data['temp'] = $this->Template_model->printer( $orden_id );
+		$data['home'] = 'admin/printer/printer';
+
+		$info = [];
+		$data['orden'] = $data['productos'] ;
+		foreach ($data['productos'] as $key => $value) {
+			$info['cantidad'] = $value->cantidad;
+			$info['descripcion '] = $value->descripcion ;
+			$info['precioUnidad'] = $value->precioUnidad;
+			$info['total'] = $value->total;
+
+			
+		}
+
+		$this->parser->parse('template', $data);
 	}
 	
 

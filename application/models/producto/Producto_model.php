@@ -643,7 +643,7 @@ class Producto_model extends CI_Model {
 
 		// Aqui se crea nueva vinculacion con producto - bodega
 		function associar_bodega( $bodegas ){
-			var_dump($bodegas);
+			
 			foreach ($bodegas as $key => $b) 
             {
             	$Bodega_id = $key;
