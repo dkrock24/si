@@ -8,9 +8,10 @@ class Vistas_model extends CI_Model {
 
 	function get_vistas( $limit, $id ){
 
-        $this->db->select('v.*,  count(c.Vista) as total');
+        $this->db->select('v.*,  count(vc.Vista) as total');
         $this->db->from(self::sys_vistas.' as v');
-        $this->db->join(self::sys_componentes.' as c', ' on c.Vista = v.id_vista','left');
+        $this->db->join(self::sys_vistas_componentes.' as vc', ' on vc.Vista = v.id_vista','left');
+         $this->db->join(self::sys_componentes.' as c', ' on c.id_vista_componente = vc.Componente','left');
         $this->db->group_by('v.id_vista');
         $this->db->limit($limit, $id);
         //$this->db->where('vista_estado', 1);
@@ -44,8 +45,9 @@ class Vistas_model extends CI_Model {
         } 
     }
 
-    function record_count_componente( $vista_id){
-        return $this->db->count_all(self::sys_vistas_componentes, ' where Vista = '.$vista_id);
+    function record_count_componente( $vista_id ){
+        $query = $this->db->where('Vista', $vista_id )->get('sys_vistas_componentes');
+        return $query->num_rows();
     }
 
     function crear($data){
@@ -153,6 +155,36 @@ class Vistas_model extends CI_Model {
 
         $this->vista_componente_crear($id_componente , $componente['vista_id'] , $componente['role']);
         
+    }
+
+    function getVistaId($id){
+        $this->db->select('Vista');
+        $this->db->from(self::sys_vistas_componentes);
+        $this->db->where('id',$id);
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
+    function componente_eliminar($componente_vista_id){
+
+        // Retornar Vista Id
+        
+        $Vista_id = $this->getVistaId($componente_vista_id);
+
+        // eliminando Acceso a compoente vista
+        $this->db->where('id_vista_componente', $componente_vista_id);
+        $this->db->delete(self::sys_vistas_acceso); 
+
+        // Eliminando Componente de la vista
+        $this->db->where('id', $componente_vista_id);
+        $this->db->delete(self::sys_vistas_componentes);
+        
+        return $Vista_id[0]->Vista;
+
     }
 
     function vista_componente_crear( $id_componente , $vista_id ,$role ){

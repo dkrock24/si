@@ -27,6 +27,7 @@ class Orden_model extends CI_Model {
 		const pos_correlativos = 'pos_correlativos';
 		const sys_empleado = 'sys_empleado';
 		const pos_ordenes_detalle = 'pos_orden_detalle';
+		const pos_combo = 'pos_combo';
 
 
 		
@@ -996,6 +997,21 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 	        $this->db->where('do.id_orden', $order_id );	        
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[0];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function producto_combo( $producto_id ){
+
+			// Validar si Producto es combo para llevar todos los productos relacionados.
+
+			$this->db->select('*');
+	        $this->db->from(self::pos_combo.' as c');
+	        $this->db->where('c.Producto_Combo', $producto_id );
+	        $query = $this->db->get();
 	        
 	        if($query->num_rows() > 0 )
 	        {

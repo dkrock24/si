@@ -141,9 +141,9 @@ class Vistas extends CI_Controller {
 	/* Funciones para la seccion de componentes de vistas - CRUD */
 
 	public function componentes( $vista_id ){
-
+		$vista_id;
 		//Paginacion
-		$contador_tabla;
+		$contador_tabla = 0;
 		if( isset( $_POST['total_pagina'] )){
 			$per_page = $_POST['total_pagina'];
 			$_SESSION['per_page'] = $per_page;
@@ -152,14 +152,16 @@ class Vistas extends CI_Controller {
 				$_SESSION['per_page'] = 10;
 			}			
 		}
-		
+
 		$total_row = $this->Vistas_model->record_count_componente($vista_id);
+		
 		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/vistas/componentes");
 		$this->pagination->initialize($config);
 		if($this->uri->segment(4)){
 			if($_SESSION['per_page']!=0){
 				$page = ($this->uri->segment(4) - 1 ) * $_SESSION['per_page'];
-				$contador_tabla = $page+1;
+				//$contador_tabla = $page+1;
+				$contador_tabla =1;
 			}else{
 				$page = 0;
 				$contador_tabla =1;
@@ -168,6 +170,7 @@ class Vistas extends CI_Controller {
 			$page = 0;
 			$contador_tabla =1;
 		}
+		
 
 		$str_links = $this->pagination->create_links();
 		$data["links"] = explode('&nbsp;',$str_links );
@@ -181,7 +184,7 @@ class Vistas extends CI_Controller {
 		$data['column'] = $this->columnC();
 		$data['fields'] = $this->fieldsC();
 		$data['contador_tabla'] = $contador_tabla;
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( 23 , $id_rol );
 		$data['home'] = 'template/lista_template';
 		$data['vista_id'] = $vista_id;
 
@@ -195,7 +198,9 @@ class Vistas extends CI_Controller {
 		$data['componentes'] = $this->Vistas_model->get_all_componentes();
 		$data['roles'] = $this->Roles_model->getAllRoles();
 		$data['home'] = 'admin/vistas/componentes_nuevo';
-		$data['vista_id'] = $vista_id;
+
+		//$vista_id = $this->Vistas_model->getVistaId($vista_id);
+		$data['vista_id'] = $vista_id;//$vista_id[0]->Vista;
 
 		$this->parser->parse('template', $data);
 	}
@@ -206,12 +211,18 @@ class Vistas extends CI_Controller {
 		redirect(base_url()."admin/vistas/componentes/".$data['vista_id']  );
 	}
 
-	public function copiar( $vista_id , $componente_id ){
+	public function componente_eliminar( $componente_vista_id ){
+
+		$Vista_id = $this->Vistas_model->componente_eliminar($componente_vista_id);
+		redirect(base_url()."admin/vistas/componentes/". $Vista_id  );
+	}
+
+	public function copiar( $id , $componente_id ){
 
 		$id_rol = $this->session->roles[0];
 
-		$this->Vistas_model->copiar_componente($vista_id , $componente_id , $id_rol );
-		redirect(base_url()."admin/vistas/componentes_nuevo/".  $vista_id  );
+		$this->Vistas_model->copiar_componente($id , $componente_id , $id_rol );
+		redirect(base_url()."admin/vistas/componentes/".  $id );
 
 	}
 
@@ -228,7 +239,7 @@ class Vistas extends CI_Controller {
 			'vista_nombre','accion_nombre','accion_btn_nombre','accion_btn_css','accion_btn_icon','accion_btn_url','accion_btn_codigo','accion_valor','estado'
 		);
 		
-		$fields['id'] = array('id_vista_componente');
+		$fields['id'] = array('id');
 		$fields['estado'] = array('accion_estado');
 		$fields['titulo'] = "Componente Lista";
 

@@ -157,7 +157,7 @@
                                                     }else{
                                                         $url = $value->accion_btn_url;
                                                     }                                                
-
+                                                    $vista = $value->Vista;
                                                     if($value->accion_valor == 'btn_medio' && $value->accion_nombre != 'Eliminar') {
                                                     ?>
 

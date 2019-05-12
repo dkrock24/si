@@ -68,10 +68,10 @@ class Template_model extends CI_Model {
         $this->db->join(self::pos_temp_sucursal.' as ts',' on td.id_factura=ts.Template');
         $this->db->join(self::tipos_documentos.' dt',' on dt.id_tipo_documento=ts.Documento');
         $this->db->join(self::pos_sucursal.' s',' on ts.Sucursal=s.id_sucursal','left');
-        
-        //$this->db->where(self::pos_sucursal.'.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('td.Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->order_by('td.id_factura','desc');       
         $this->db->limit($limit, $id);
-        $query = $this->db->get(); 
+        $query = $this->db->get();
         //echo $this->db->queries[1];
         
         if($query->num_rows() > 0 )
@@ -278,36 +278,19 @@ class Template_model extends CI_Model {
 
     function update($datos){
 
+        $html = addslashes($datos['template_html']);
+        
         $data = array(
-            'website_cli'     =>  $datos['website_cli'],
-            'nrc_cli'    => $datos['nrc_cli'],
-            'nit_cliente'   => $datos['nit_cliente'],
-            'clase_cli'  => $datos['clase_cli'],
-            'mail_cli'  => $datos['mail_cli'],
-            'TipoPago'                       => $datos['TipoPago'],
-            'TipoDocumento'=> $datos['TipoDocumento'],
-            'nombre_empresa_o_compania'=> $datos['nombre_empresa_o_compania'],
-            'numero_cuenta'                       => $datos['numero_cuenta'],
-            'aplica_impuestos'                       => $datos['aplica_impuestos'],
-            'direccion_cliente'                      => $datos['direccion_cliente'],
-            'porcentage_descuentos'                  => $datos['porcentage_descuentos'],
-            'estado'                      => $datos['estado'],
-            'creado'                    => date("Y-m-d h:i:s"),
-            'Persona'               => $datos['Persona'],
-            'natural_juridica'            => $datos['natural_juridica']
-        );
+            'factura_nombre'        =>  $datos['factura_nombre'],
+            'factura_descripcion'   => $datos['factura_descripcion'],
+            'factura_template'      => $datos['template_html'],
+            'factura_lineas'        => $datos['factura_lineas'],
+            'factura_estatus'       => $datos['factura_estatus'],
+            'factura_update'        => date("Y-m-d h:i:s")
+        ); 
 
-        if(isset($_FILES['logo_cli']) && $_FILES['logo_cli']['tmp_name']!=null){
-             // Insertando Imagenes Empresa
-            $imagen="";
-            $imagen = file_get_contents($_FILES['logo_cli']['tmp_name']);
-            $imageProperties = getimageSize($_FILES['logo_cli']['tmp_name']);
-
-            $data = array_merge( $data,array('logo_cli' => $imagen, 'logo_type'=> $imageProperties['mime'] ));
-        }
-
-        $this->db->where('id_cliente', $datos['id_cliente'] ); 
-        $this->db->update(self::cliente, $data ); 
+        $this->db->where('id_factura', $datos['id_factura'] );
+        $this->db->update(self::pos_doc_temp, $data );
     }
 
     //Test Printer

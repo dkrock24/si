@@ -39,7 +39,7 @@ $(document).ready(function(){
     /* GLOBAL BOTTON FUNCTION */
     $(document).on('keypress','body', function(){
         
-        alert(event.which);
+        //alert(event.which);
         if(event.which == '49'){
            
         }
@@ -438,72 +438,12 @@ $(document).ready(function(){
         if(_productos.cantidad != null ){
             if(contador_productos==0){
 
-                _orden[contador_productos] = _productos;  
-
-                _productos.descuento = $("#descuento").val();
-                _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
-           
-                agregar_producto();
+                grabar_primeraves();
+                producto_combo( _productos.producto_id, _productos.id_bodega );
+                
             }else{  
 
-                var existe =0;
-                var cnt = 0;
-                
-                if(_productos != ""){
-                   
-                   contador_productos = _orden.length;
-
-                    if(_orden.length >= 1){
-                        
-                        $.each(_orden, function(i, item) {
-                            console.log(item);
-                            if(item.producto2 == _productos.producto2 ){
-                                existe = 1;
-
-                                //Actualizando Cantidad
-                                var cantidad = parseInt(_productos.cantidad) + parseInt($("."+_productos.producto2).text());
-                                
-                                if(producto_escala!=0){
-                                    var c = validar_escalas(cantidad);
-                                    $(".presentacion"+_orden[cnt]['producto2']).text(_productos.presentacion);
-                                    $(".factor"+_orden[cnt]['producto2']).text(_productos.presentacionFactor);
-                                    $(".precioUnidad"+_orden[cnt]['producto2']).text(c);
-
-                                    var total_temp = calcularTotalProducto(c, cantidad);
-                                }else{
-                                    var total_temp = calcularTotalProducto(_productos.presentacionPrecio, cantidad);
-                                }
-                                $("."+_productos.producto2).text(cantidad);
-                                _orden[cnt]['cantidad'] = cantidad;
-
-                                $(".total"+_orden[cnt]['producto2']).text(total_temp);
-
-                                _orden[cnt]['total'] = total_temp;
-
-                                _orden[cnt].descuento_calculado = calcular_descuento(_orden[cnt].descuento , _orden[cnt].total, _orden[cnt].descuento_limite);
-                                
-
-                                calculo_totales();
-                            }
-                            cnt ++;             
-                        });
-                    }else{
-                        _productos.descuento = $("#descuento").val();
-                        _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
-
-                        _orden[contador_productos] = _productos;
-                        agregar_producto();
-                    }
-                }
-                if(existe==0)
-                {
-                    _productos.descuento = $("#descuento").val();
-                    _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total , _productos.descuento_limite);
-                        
-                    _orden[contador_productos] = _productos;
-                    agregar_producto();
-                    existe=0;
-                }
+                grabar_mas();
             }
         }
 
@@ -513,6 +453,108 @@ $(document).ready(function(){
             $("#cantidad").val(1);     
         });
     });
+
+    function grabar_primeraves(){        
+
+        _orden[contador_productos] = _productos;
+        _productos.descuento = $("#descuento").val();
+        _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
+   
+        agregar_producto();
+    }
+
+    function grabar_mas(){
+        var existe =0;
+        var cnt = 0;
+        
+        if(_productos != ""){
+           
+           contador_productos = _orden.length;
+
+            if(_orden.length >= 1){
+                
+                $.each(_orden, function(i, item) {
+                    
+                    if(item.producto2 == _productos.producto2 ){
+                        existe = 1;
+
+                        //Actualizando Cantidad
+                        var cantidad = parseInt(_productos.cantidad) + parseInt($("."+_productos.producto2).text());
+                        
+                        if(producto_escala!=0){
+                            var c = validar_escalas(cantidad);
+                            $(".presentacion"+_orden[cnt]['producto2']).text(_productos.presentacion);
+                            $(".factor"+_orden[cnt]['producto2']).text(_productos.presentacionFactor);
+                            $(".precioUnidad"+_orden[cnt]['producto2']).text(c);
+
+                            var total_temp = calcularTotalProducto(c, cantidad);
+                        }else{
+                            var total_temp = calcularTotalProducto(_productos.presentacionPrecio, cantidad);
+                        }
+                        $("."+_productos.producto2).text(cantidad);
+                        _orden[cnt]['cantidad'] = cantidad;
+
+                        $(".total"+_orden[cnt]['producto2']).text(total_temp);
+
+                        _orden[cnt]['total'] = total_temp;
+
+                        _orden[cnt].descuento_calculado = calcular_descuento(_orden[cnt].descuento , _orden[cnt].total, _orden[cnt].descuento_limite);
+                        
+
+                        calculo_totales();
+                    }
+                    cnt ++;             
+                });
+            }else{
+                _productos.descuento = $("#descuento").val();
+                _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
+
+                _orden[contador_productos] = _productos;
+                agregar_producto();
+            }
+        }
+        if(existe==0)
+        {
+            _productos.descuento = $("#descuento").val();
+            _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total , _productos.descuento_limite);
+                
+            _orden[contador_productos] = _productos;
+            agregar_producto();
+            existe=0;
+        }
+    }
+
+    /*
+    * COMBOS INICIO ***************************************************************************
+    */
+
+    function producto_combo( producto_id , id_bodega){
+        
+        $.ajax({
+            type: 'POST',
+            data: { producto_id :producto_id, id_bodega:id_bodega },
+            url: "producto_combo",
+
+            success: function(data){
+                var productoX = JSON.parse(data);
+                console.log(productoX);
+
+                /*_orden.forEach(function(element) {
+                    agregar_directo();
+                }*/
+            },
+            error:function(){
+            } 
+        });
+    }
+
+    function agregar_directo(){
+
+    }
+
+    /*
+    * COMBOS FIN ***************************************************************************
+    */
 
     function set_calculo_precio(precioUnidad, producto_cantidad_linea){
         // General - Set Calculo Precio

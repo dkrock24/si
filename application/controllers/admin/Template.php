@@ -173,15 +173,16 @@ class Template extends CI_Controller {
 		
 		$data['formato'] = $this->Template_model->getFormatoId($formato_id);
 
+
+
 		$data['home'] = 'admin/template/template_editar';
 
 		$this->parser->parse('template', $data);
 	}
-	/*
 
 	public function update(){
 		// Actualizar Giro 
-		$data = $this->Cliente_model->update( $_POST );
+		$data = $this->Template_model->update( $_POST );
 
 		if($data){
 			$this->session->set_flashdata('info', " !");
@@ -189,13 +190,13 @@ class Template extends CI_Controller {
 			$this->session->set_flashdata('warning', "El Registro No Fue Actualizado");
 		}
 
-		redirect(base_url()."admin/cliente/index");
+		redirect(base_url()."admin/template/index");
 	}
-	*/
+	
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Documento','Sucursal','Lineas','Descripcion','Creado','Estado'
+			'#','Formato','Documento','Sucursal','Lineas','Descripcion','Creado','Estado'
 		);
 		return $column;
 	}
@@ -206,7 +207,7 @@ class Template extends CI_Controller {
 		);
 		
 		$fields['id'] = array('id_factura');
-		$fields['estado'] = array('factura_estatus');
+		$fields['estado'] = array('estado_suc_tem');
 		$fields['titulo'] = "Template Lista";
 
 		return $fields;

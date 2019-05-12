@@ -126,6 +126,44 @@ class Orden extends CI_Controller {
 		
 	}
 
+	public function producto_combo(){
+		
+		$producto_id = $_POST['producto_id'];
+		$id_bodega = $_POST['id_bodega'];
+
+		$data['p_combos'] = $this->Orden_model->producto_combo( $producto_id );
+		$data['productos'] = array();
+
+		$cnt = 0;
+		foreach ($data['p_combos'] as $key => $value) {
+			
+			$data['productos'][$cnt] = $this->get_producto_completo2($value->producto_a_descargar_Combo , $id_bodega );
+			$cnt +=1;
+		}
+		//var_dump($data['productos']);
+
+		echo json_encode($data['productos']);
+		
+	}
+
+	function get_producto_completo2( $producto_id, $id_bodega ){
+		$data['producto'] = $this->Orden_model->get_producto_completo($producto_id, $id_bodega);
+
+		$contador=0;
+		$atributos= array();
+		foreach ($data['producto'] as $key => $value) {
+			$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
+			$contador+=1;
+		}
+
+		$data['atributos'] = $atributos;
+		$data['precios'] = $this->Orden_model->get_producto_precios($producto_id);
+		$data['prod_precio'] = $this->Orden_model->get_producto_precios( $producto_id );
+
+		return $data;
+		//echo json_encode( $data );
+	}
+
 	public function editar($order_id){
 
 		// Seguridad :: Validar URL usuario	

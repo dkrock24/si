@@ -27,8 +27,9 @@
                 $string_lenght  = strlen($_SERVER['PATH_INFO']);
                 $strin_final    = substr($_SERVER['PATH_INFO'], 0 , ($string_lenght - ($last_part_cantidad + 1) ) );
                 $url = $url.$strin_final;
-                
-            }  
+            }else{
+              $url = $url.$_SERVER['PATH_INFO'];
+            }
         ?>
             <h3 style="height: 50px; ">
              <a href="<?php echo $url; ?>/../index" style="top: -12px;position: relative; text-decoration: none">
@@ -46,7 +47,7 @@
                          <div class="panel-heading">Filtros</div>
                          <div class="panel-body">
                             <p>
-                                <form action="asociar" method="post">
+                                <form action="<?php echo $url ?>" method="post">
                                 <select class="form-control" name="factura_id">
                                     <option value="0"> Formato Documento</option>
                                     <?php

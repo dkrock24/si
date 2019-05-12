@@ -138,8 +138,24 @@
 		            console.log(x);
 		           $('#template_html').html( x );
 			}
+
+			function copyFunction() {
+			 	const copyText = document.getElementById("myData").textContent;
+			 	const textArea = document.getElementById('template_html');
+			 	textArea.textContent = copyText;
+				
+			 	$('.html').html( textArea.textContent );
+			 	document.execCommand("copy");
+			 	$('.html').select();
+			 	//textArea.select();
+			}
+
+			document.getElementById('button').addEventListener('click', copyFunction);
+
 	    	
 		});
+
+	
 
 
 
@@ -174,11 +190,13 @@ ul li{
 	background: #1aacda;
 }
 
-
-
 .btn-left{
 	width: 100%;
     
+}
+
+#myData{
+	display: none;
 }
 </style>
 <!-- Main section-->
@@ -272,31 +290,36 @@ ul li{
 				                <div class="panel-heading">
 				                    Modelador
 				                </div>
-				                <form action="crear" method="post">
+				                <form action="../update" method="post">
+				                	<input type="hidden" name="id_factura" value="<?php echo $formato[0]->id_factura ?>">
 				                <div class="panel-body"><br>
 				                    <div class="container-fluid main-container">
 							
 										<div class="col-md-6 content">
-												<div class="panel panel-info">
-	
-													<div class="panel-heading">
-														EDITOR  <span><input type="submit" class="btn btn-default" name="enviar" value="Guardar" style="float: right;" /></span>
-													</div>
-													<div class="panel-body">
-														<textarea name="template_html" id="template_html" cols="30" rows="10" class="form-control" value="<?php echo $formato[0]->factura_template ?>"></textarea>
-													</div>
+											<div class="panel panel-info">
+
+												<div class="panel-heading">
+													EDITOR  <span><input type="submit" class="btn btn-default" name="enviar" value="Guardar" style="float: right;" /></span>
 												</div>
+												<div class="panel-body">
+													
+													<textarea name="template_html" id="template_html" cols="30" rows="10" class="form-control" value=""></textarea>
+													<a href="#" class="btn btn-primary" id="button">Copiar</a>
+													
+												</div>
+											</div>
 										</div>
 										<div class="col-md-6 content">
-												<div class="panel panel-success">
-													<div class="panel-heading">
-														VISTA PREVIA
-													</div>
-													<div class="panel-body">
-														<span class="html" style="width:100%; height:100px; "></span>
-													</div>
+											<div class="panel panel-success">
+												<div class="panel-heading">
+													VISTA PREVIA
 												</div>
+												<div class="panel-body">
+													<span class="html" style="width:100%; height:100px; "></span>
+												</div>
+											</div>
 										</div>
+										
 									</div>
 
 
@@ -310,10 +333,10 @@ ul li{
 													</div>
 													<div class="panel-body">
 														<div class="row">
-															<div class="col-md-6"><b>Nombre</b> <input type="text" name="factura_nombre" value="" class="form-control"></div>
-															<div class="col-md-6"><b>Descripcion</b> <input type="text" name="factura_descripcion" value="" class="form-control"><br></div>
-															<div class="col-md-6"><b>Lineas</b> <input type="text" name="factura_lineas" value="" class="form-control"></div>
-															<div class="col-md-6"><b>Estado</b> <input type="text" name="factura_estatus" value="1" class="form-control"></div>
+															<div class="col-md-6"><b>Nombre</b> <input type="text" name="factura_nombre" value="<?php echo $formato[0]->factura_nombre ?>" class="form-control"></div>
+															<div class="col-md-6"><b>Descripcion</b> <input type="text" name="factura_descripcion" value="<?php echo $formato[0]->factura_descripcion ?>" class="form-control"><br></div>
+															<div class="col-md-6"><b>Lineas</b> <input type="text" name="factura_lineas" value="<?php echo $formato[0]->factura_lineas ?>" class="form-control"></div>
+															<div class="col-md-6"><b>Estado</b> <input type="text" name="factura_estatus" value="<?php echo $formato[0]->factura_estatus ?>" class="form-control"></div>
 														</div>
 
 													</div>
@@ -331,6 +354,12 @@ ul li{
 										</div>
 
 									</div>
+									<div class="row">
+										<div class="col-md-12 content" >
+											<xmp id="myData"> <?php echo $formato[0]->factura_template; ?> </xmp>
+										</div>
+									</div>
+
 				                </div>
 				                </form>
 				            </div>
