@@ -138,8 +138,10 @@ class Orden extends CI_Controller {
 		foreach ($data['p_combos'] as $key => $value) {
 			
 			$data['productos'][$cnt] = $this->get_producto_completo2($value->producto_a_descargar_Combo , $id_bodega );
+			$data['productos'][$cnt]['combo_cantidad'] = $value->cantidad;
 			$cnt +=1;
 		}
+		//$data['productos'][0] += $data['p_combos'];
 		//var_dump($data['productos']);
 
 		echo json_encode($data['productos']);

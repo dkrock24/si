@@ -1,4 +1,5 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+<script src="<?php echo base_url(); ?>../asstes/js/orden/search.js"></script>
 <script>
 
 var _orden = [];
@@ -16,6 +17,8 @@ var interno_sucursal=0;
 var interno_bodega= 0;
 var producto_escala;
 var clientes_lista;
+var combo_total = 0.00;
+var combo_descuento = 0.00;
 
 
 $(document).ready(function(){
@@ -278,6 +281,8 @@ $(document).ready(function(){
             success: function(data){
             	var datos = JSON.parse(data);
 
+                //console.log(datos['producto'][0].Combo);
+
                 var precio_unidad = datos['producto'][8].valor;
                 producto_escala = datos['producto'][0].Escala;
                 var prod_precio = datos["prod_precio"];
@@ -305,6 +310,7 @@ $(document).ready(function(){
                 	set_calculo_precio(precioUnidad, producto_cantidad_linea);
 
                     _productos.producto_id  = datos['producto'][0].id_entidad;
+                    _productos.combo        = datos['producto'][0].Combo;
                     _productos.inventario_id= datos['producto'][0].id_inventario;
                 	_productos.producto     = datos['atributos'].Cod_Barras;
                     _productos.descuento_limite     = datos['atributos'].Descuento_Limite;
@@ -319,6 +325,7 @@ $(document).ready(function(){
                     _productos.iva          = datos['producto'][9].valor;
                     _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
 
+                    //console.log(_productos);
             },
             error:function(){
             }
@@ -436,16 +443,19 @@ $(document).ready(function(){
         // 7 - Grabar producto en la orden
         
         if(_productos.cantidad != null ){
+
+            if(_productos.combo ==1){      
+                combo_descuento = $("#descuento").val();          
+                producto_combo( _productos.producto_id, _productos.id_bodega , _productos.id_producto_detalle );
+            }
+
             if(contador_productos==0){
-
                 grabar_primeraves();
-                producto_combo( _productos.producto_id, _productos.id_bodega );
-                
-            }else{  
-
+            }else{ 
                 grabar_mas();
             }
         }
+
 
         $('.uno').find('input').each(function(){
             this.value = '';    
@@ -524,12 +534,10 @@ $(document).ready(function(){
         }
     }
 
-    /*
-    * COMBOS INICIO ***************************************************************************
-    */
+    // ------------------  COMBO
 
-    function producto_combo( producto_id , id_bodega){
-        
+
+    function producto_combo( producto_id , id_bodega , id_producto_detalle){
         $.ajax({
             type: 'POST',
             data: { producto_id :producto_id, id_bodega:id_bodega },
@@ -537,24 +545,92 @@ $(document).ready(function(){
 
             success: function(data){
                 var productoX = JSON.parse(data);
-                console.log(productoX);
+                agregar_directo(id_producto_detalle,productoX);
 
-                /*_orden.forEach(function(element) {
-                    agregar_directo();
-                }*/
             },
             error:function(){
+                alert("Error En Combo");
             } 
         });
     }
 
-    function agregar_directo(){
+    function agregar_directo(id_producto_detalle, p){
+        
 
+        p.forEach(function(datos) {
+         
+            _productos.descuento_calculado = 0;
+            _productos.id_producto_combo = id_producto_detalle;
+            _productos.producto_id  = datos['producto'][0].id_entidad;
+            _productos.combo        = datos['producto'][0].Combo;
+            _productos.inventario_id= datos['producto'][0].id_inventario;
+            _productos.producto     = datos['atributos'].Cod_Barras;
+            _productos.descuento_limite     = datos['atributos'].Descuento_Limite;
+            _productos.descuento    = 0.00;// datos['producto'][7].valor;
+            _productos.cantidad     = datos['combo_cantidad'];
+            _productos.precioUnidad = datos['prod_precio'][0].precio;
+            _productos.bodega       = datos['producto'][0].nombre_bodega;
+            _productos.id_bodega    = datos['producto'][0].id_bodega;
+            _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
+            _productos.por_desc     = datos['producto'][0].porcentage;
+            _productos.incluye_iva  = datos['producto'][10].valor;
+            _productos.iva          = datos['producto'][9].valor;
+            _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
+            _productos.presentacion = datos['producto'][0].valor;
+            _productos.total        = (datos['prod_precio'][0].precio * _productos.cantidad);
+
+            if(combo_descuento){
+                combo_total +=  _productos.total;    
+            }
+
+            //_productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
+
+            if(datos != null){
+                var tr_html = "<tr class='' style=''>";
+                tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
+                tr_html += "<td class='border-left'>"+_productos.producto+"</td>";
+                tr_html += "<td class='border-left'>"+_productos.descripcion+"</td>";
+                tr_html += "<td class='border-left "+_productos.producto2+"'>"+_productos.cantidad+"</td>";
+                tr_html += "<td class='border-left presentacion"+_productos.producto2+"'>"+_productos.presentacion+"</td>";
+                tr_html += "<td class='border-left factor"+_productos.producto2+"'>"+_productos.presentacionFactor+"</td>";
+                tr_html += "<td class='border-left precioUnidad"+_productos.producto2+"'>"+_productos.precioUnidad+"</td>";
+                tr_html += "<td class='border-left'>"+_productos.descuento+"</td>";
+                tr_html += "<td class='border-left total"+_productos.producto2+"'>"+_productos.total+"</td>";
+                tr_html += "<td class='border-left '>"+_productos.bodega+"</td>";
+                if(_productos.combo){
+                    tr_html += "<td class='border-left'><input type='button' class='btn btn-primary btn-xs eliminar' name='"+_productos.id_producto_detalle+"' id='eliminar' value='Eliminar'/></td>";
+                }
+                
+                tr_html += "</tr>";      
+
+                $(".producto_agregados").append(tr_html);
+            }
+
+            contador_productos = _orden.length;
+            _orden[contador_productos] = _productos;
+            _productos = {};
+
+            calculo_totales();
+
+        });
+        if(combo_total){
+            recalcular_descuento_combo(id_producto_detalle, combo_total , combo_descuento);
+        }
     }
 
-    /*
-    * COMBOS FIN ***************************************************************************
-    */
+    function recalcular_descuento_combo(id_producto_detalle, combo_total, combo_descuento ){
+        
+        _orden.forEach(function(element) {
+            if(element.id_producto_detalle == id_producto_detalle ){
+                
+                _orden[_orden.indexOf(element)].descuento = combo_descuento;
+                _orden[_orden.indexOf(element)].descuento_calculado = calcular_descuento(combo_descuento , combo_total, element.descuento_limite);
+            }
+        });
+        depurar_producto();
+    }
+
+    // ------------------ END COMBO
 
     function set_calculo_precio(precioUnidad, producto_cantidad_linea){
         // General - Set Calculo Precio
@@ -781,11 +857,6 @@ $(document).ready(function(){
             t = 0;
         }
         
-        /*
-        if(clientes_lista){
-            descuento = clientes_lista[0].porcentage_descuentos;
-            descuento = descuento*t2;
-        }*/
         var total_msg = (t2 - descuento);
 
         $(".total_msg").text(total_msg.toFixed(2) );
@@ -801,19 +872,36 @@ $(document).ready(function(){
         var x = 0;
         var _orden_temp = [];
         var producto_id = $(this).attr('name');
+
+        remover_combo(producto_id);
         
         _orden.forEach(function(element) {
+            
             if(element.id_producto_detalle == producto_id){
 
                 total_msg -= parseInt(calcularTotalProducto(element.precioUnidad, element.cantidad));
                 $(".total_msg").text("$ "+total_msg.toFixed(2));
                 
-                _orden.splice(_orden.indexOf(element),1);
+                _orden.splice(_orden.indexOf(element),1);                
                 depurar_producto();
-            }
-            
-        });        
+            }            
+        });    
     });
+
+    function remover_combo(producto_id){
+        var L = 1;
+        while(L <= _orden.length){
+            _orden.forEach(function(element) {
+                
+                if(element.id_producto_combo == producto_id){
+                    
+                    _orden.splice(_orden.indexOf(element),1);
+                    depurar_producto();
+                }
+            });
+            L++;
+        }
+    }
 
     function depurar_producto(){
         // Remueve los productos selecionados
@@ -834,7 +922,9 @@ $(document).ready(function(){
                 tr_html += "<td class='border-left'>"+element.descuento+"</td>";
                 tr_html += "<td class='border-left total'>"+element.total+"</td>";
                 tr_html += "<td class='border-left '>"+element.bodega+"</td>";
-                tr_html += "<td class='border-left'><input type='button' class='btn btn-primary btn-xs eliminar' name='"+element.id_producto_detalle+"' id='eliminar' value='Eliminar'/></td>";
+                if(element.combo == 1 || !element.id_producto_combo){
+                    tr_html += "<td class='border-left'><input type='button' class='btn btn-primary btn-xs eliminar' name='"+element.id_producto_detalle+"' id='eliminar' value='Eliminar'/></td>";
+                }                
                 
                 tr_html += "</tr>";
 
