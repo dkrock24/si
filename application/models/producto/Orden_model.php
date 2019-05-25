@@ -28,9 +28,7 @@ class Orden_model extends CI_Model {
 		const sys_empleado = 'sys_empleado';
 		const pos_ordenes_detalle = 'pos_orden_detalle';
 		const pos_combo = 'pos_combo';
-
-
-		
+		const sys_conf = 'sys_conf';		
 
 		// Ordenes
 		const pos_tipo_documento = 'pos_tipo_documento';
@@ -266,6 +264,8 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 
 		            'id_bodega' 	=> $orden['id_bodega'],
 		            'bodega' 		=> $orden['bodega'],
+		            'combo' 		=> $orden['combo'],
+		            'id_producto_combo' =>$orden['id_producto_combo'],
 
 		            'descripcion' 	=> $orden['descripcion'],
 		            'presenta_ppal' => $orden['presentacion'],
@@ -279,7 +279,8 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 		            'gen' 			=> $orden['incluye_iva'],
 		            //'p_inc_imp0' 	=> $orden['orden'][0][''],
 		            'descuento' 		=> $orden['descuento'],
-		            'por_desc' 		=> $orden['descuento'],
+		            'por_desc' 		=> ($orden['descuento'] / $orden['total']) ,
+		            'descuento_limite' 		=> $orden['descuento_limite'],
 		            'comenta' 		=> $orden['descripcion'],
 		            //'id_bomba' 		=> $orden[''],
 		            //'id_kit' 		=> $orden[''],
@@ -1019,5 +1020,17 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 	        }
 		}
 
+		function getConfg($componente_conf){
 
+			$this->db->select('*');
+	        $this->db->from(self::sys_conf.' as c');
+	        $this->db->where('c.modulo_conf', 1 ); // 1 = ordenes modulo
+	        $this->db->where('c.componente_conf', $componente_conf ); // 1 = ordenes modulo
+	        $query = $this->db->get();
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
     }

@@ -285,6 +285,8 @@ class Orden extends CI_Controller {
 
 	function get_producto_completo($producto_id, $id_bodega ){
 
+		$componente_conf = "combo";
+
 		$data['producto'] = $this->Orden_model->get_producto_completo($producto_id, $id_bodega);
 
 		$contador=0;
@@ -297,6 +299,7 @@ class Orden extends CI_Controller {
 		$data['atributos'] = $atributos;
 		$data['precios'] = $this->Orden_model->get_producto_precios($producto_id);
 		$data['prod_precio'] = $this->Orden_model->get_producto_precios( $producto_id );
+		$data['conf'] = $this->Orden_model->getConfg($componente_conf);
 		echo json_encode( $data );
 	}
 
