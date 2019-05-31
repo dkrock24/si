@@ -254,18 +254,28 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 			//var_dump($datos['orden']);
 			//die;
 			foreach ($datos['orden'] as $key => $orden) {
+
+				if($orden['descuento']){
+					$descuento_porcentaje = $orden['descuento'];
+				}else{
+					$descuento_porcentaje = 0.00;
+				}
+				
 				
 				$data = array(
 		            'id_orden' 		=> $id_orden,
 		            'producto' 		=> $orden['producto'],
-		            'producto_id' 		=> $orden['producto_id'],
-		            'producto2' 		=> $orden['producto2'],
-		            'inventario_id' 	=> $orden['inventario_id'],
+		            'producto_id' 	=> $orden['producto_id'],
+		            'producto2' 	=> $orden['producto2'],
+		            'inventario_id' => $orden['inventario_id'],
 
 		            'id_bodega' 	=> $orden['id_bodega'],
 		            'bodega' 		=> $orden['bodega'],
 		            'combo' 		=> $orden['combo'],
+		            'combo_total'	=> $orden['combo_total'],
 		            'id_producto_combo' =>$orden['id_producto_combo'],
+		            'id_producto_detalle' => $orden['id_producto_detalle'],
+		            'invisible' 	=> $orden['invisible'],
 
 		            'descripcion' 	=> $orden['descripcion'],
 		            'presenta_ppal' => $orden['presentacion'],
@@ -279,8 +289,9 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 		            'gen' 			=> $orden['incluye_iva'],
 		            //'p_inc_imp0' 	=> $orden['orden'][0][''],
 		            'descuento' 		=> $orden['descuento'],
-		            'por_desc' 		=> ($orden['descuento'] / $orden['total']) ,
+		            'por_desc' 		=> $descuento_porcentaje ,
 		            'descuento_limite' 		=> $orden['descuento_limite'],
+		            'descuento_calculado' => $orden['descuento_calculado'],
 		            'comenta' 		=> $orden['descripcion'],
 		            //'id_bomba' 		=> $orden[''],
 		            //'id_kit' 		=> $orden[''],

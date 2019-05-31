@@ -223,7 +223,11 @@ class Orden extends CI_Controller {
 	}
 
 	public function autoload_orden($order_id){
+		$componente_conf = "combo";
+
 		$data['orden_detalle'] = $this->Orden_model->get_orden_detalle($order_id);
+		$data['conf'] = $this->Orden_model->getConfg($componente_conf);
+		
 		echo json_encode($data);
 	}
 
