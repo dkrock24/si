@@ -577,41 +577,67 @@ $(document).ready(function(){
                 
                 $.each(_orden, function(i, item) {
 
-                    if(item.producto2 == _productos.producto2 ){
+                    if(item.producto2 == _productos.producto2 && item.id_producto_combo==null){
                         existe = 1;
 
                         //Actualizando Cantidad
                         var cantidad = parseInt(_productos.cantidad) + parseInt(item.cantidad);
                         
                         if(producto_escala!=0){
+
                             var c = validar_escalas(cantidad);
-                            $(".presentacion"+_orden[cnt]['producto2']).text(_productos.presentacion);
-                            $(".factor"+_orden[cnt]['producto2']).text(_productos.presentacionFactor);
-                            $(".precioUnidad"+_orden[cnt]['producto2']).text(c);
+                            
+                            _orden[cnt].presentacion        = _productos.presentacion;
+                            _orden[cnt].presentacionFactor  = _productos.presentacionFactor;
+                            _orden[cnt].precioUnidad        = c;                            
+                            
                             var total_temp = calcularTotalProducto(c, cantidad);
+                            $(".total"+_orden[cnt]['producto2']).text(total_temp);
+
 
                         }else{
+                            
                             var total_temp = calcularTotalProducto(_productos.presentacionPrecio, cantidad);
+
                         }
-                        $("."+_productos.producto2).text(cantidad);
+                        _orden[cnt]['total'] = total_temp;
+                        
                         _orden[cnt]['cantidad'] = cantidad;
 
-                        $(".total"+_orden[cnt]['producto2']).text(total_temp);
-
-                        _orden[cnt]['total'] = total_temp;
+                        if( $("#descuento").val() != ""){
+                            _orden[cnt].descuento = $("#descuento").val();
+                        }
 
                         _orden[cnt].descuento_calculado = calcular_descuento(_orden[cnt].descuento , _orden[cnt].total, _orden[cnt].descuento_limite);
                         
                         if(item.combo == 1){
-                            recalcular_factor_combo( item.id_producto_detalle , cantidad  );
+
+                            var t = (_orden[cnt].precioUnidad * cantidad);
+
+                            if(_conf.comboAgrupado == 1){
+
+                                _orden[cnt].descuento_calculado = calcular_descuento(_orden[cnt].descuento , t , _orden[cnt].descuento_limite);
+                                
+                            }else{
+                                var x = _orden[cnt].combo_total * _orden[cnt].cantidad;
+
+                                _orden[cnt].descuento_calculado = calcular_descuento(_orden[cnt].descuento , x, _orden[cnt].descuento_limite);
+                            }
+                            
+                            _orden[cnt].total =  _orden[cnt].precioUnidad * _orden[cnt].cantidad;
+                            
+                            //recalcular_factor_combo( item.id_producto_detalle , cantidad  );
                         }
 
+
                         calculo_totales();
+                        depurar_producto();
 
                     }
                     cnt ++;             
                 });
             }else{
+                grabar_combo();
 
                 _productos.descuento = $("#descuento").val();
                 _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
@@ -622,6 +648,8 @@ $(document).ready(function(){
         }
         if(existe==0)
         {
+            grabar_combo();
+
             _productos.descuento = $("#descuento").val();
             _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
 
@@ -648,9 +676,8 @@ $(document).ready(function(){
 
             success: function(data){
                 var productoX = JSON.parse(data);
-                //agregar_directo(id_producto_detalle,productoX);
-                console.log(productoX);
-                if(_conf.comboAgrupado ==1){
+                                
+                if(_conf.comboAgrupado ==0){
                     
                     agregar_directo(id_producto_detalle,productoX);
                 }else{
@@ -881,13 +908,15 @@ $(document).ready(function(){
     $(document).on('change', '#cantidad', function(){
         // Actualizar la cantidad
 
-        if( _productos.producto != null ){
+        var cantidad = $("#cantidad").val();
+
+        if( _productos.producto != null &&  _productos.combo!=1){
             producto_cantidad_linea = $("#cantidad").val();
             var producto_precio_flag = productos_precios_validacion();
 
             var precion  = $("#precioUnidad").val();
             var cantidad = producto_cantidad_linea;
-            var cantidad = $("#cantidad").val();
+            
 
             if(producto_escala == 1){
                 
@@ -898,14 +927,20 @@ $(document).ready(function(){
                 _productos.precioUnidad = escala_precio;
 
             }else{
-
+                
                 $("#total").val(calcularTotalProducto( _productos.presentacionPrecio, cantidad));
                 $("#precioUnidad").val( _productos.precioUnidad );
             }
 
             _productos.cantidad = cantidad;
             _productos.total = $("#total").val();
-            
+            factor_precio = 0;
+            factor_total = 0;
+        }else{
+            $("#total").val(calcularTotalProducto( _productos.presentacionPrecio, cantidad));
+                $("#precioUnidad").val( _productos.precioUnidad );
+            _productos.cantidad = cantidad;
+            //_productos.total = $("#total").val();
             factor_precio = 0;
             factor_total = 0;
         }
@@ -1062,7 +1097,7 @@ $(document).ready(function(){
     		tr_html += "<td class='border-left'>"+_productos.descuento+"</td>";
     		tr_html += "<td class='border-left total"+_productos.producto2+"'>"+_productos.total+"</td>";
             tr_html += "<td class='border-left '>"+_productos.bodega+"</td>";
-    		//tr_html += "<td class='border-left'><input type='button' class='btn btn-primary btn-xs eliminar' name='"+_productos.id_producto_detalle+"' id='eliminar' value='Eliminar'/></td>";
+    		
             tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled btn-danger eliminar' name='"+_productos.id_producto_detalle+"' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
     		
     		tr_html += "</tr>";
@@ -1079,7 +1114,7 @@ $(document).ready(function(){
     }
 
     function calculo_totales(){
-        
+         
         var descuento = 0;
         var t  = 0;
         var t2 = 0;
@@ -1088,18 +1123,13 @@ $(document).ready(function(){
             _orden.forEach(function(element) {
                 t +=parseInt(element.cantidad);
                 t2 +=parseFloat(element.total);
-                descuento += parseFloat(element.descuento);
+                descuento += parseFloat(element.descuento_calculado);
 
             });
         }else{
             t = 0;
         }
         
-        /*
-        if(clientes_lista){
-            descuento = clientes_lista[0].porcentage_descuentos;
-            descuento = descuento*t2;
-        }*/
         var total_msg = (t2 - descuento);
 
         $(".total_msg").text(total_msg.toFixed(2) );
@@ -1112,29 +1142,34 @@ $(document).ready(function(){
 
     $(document).on('click', '.eliminar', function(){
         // Remover los Productos de la lista.
+
+        var x = 0;
+        var _orden_temp = [];
         var producto_id = $(this).attr('name');
 
         remover_combo(producto_id);
-
+        
         _orden.forEach(function(element) {
-            if(element.producto2 == producto_id){
+            
+            if(element.id_producto_detalle == producto_id && (element.id_producto_combo == 0 ||element.id_producto_combo == null) ){
 
                 total_msg -= parseInt(calcularTotalProducto(element.precioUnidad, element.cantidad));
                 $(".total_msg").text("$ "+total_msg.toFixed(2));
                 
                 _orden.splice(_orden.indexOf(element),1);
                 depurar_producto();
-            }
-        });
+            }            
+        });    
     });
 
     function remover_combo(producto_id){
         var L = 1;
+        
         while(L <= _orden.length){
             _orden.forEach(function(element) {
                 
                 if(element.id_producto_combo == producto_id){
-                    
+
                     _orden.splice(_orden.indexOf(element),1);
                     depurar_producto();
                 }
@@ -1146,11 +1181,12 @@ $(document).ready(function(){
     function depurar_producto(){
         // Remueve los productos selecionados
         contador_tabla=1;
-
+        var tc = 0; 
         if(_orden.length >= 1){
             var tr_html = "";
             console.log("data", _orden);
             _orden.forEach(function(element) {
+
                 if(_conf.comboAgrupado == 0){ //element.invisible
                     // Cambo total
                     tr_html += "<tr class='' style=''>";
@@ -1165,7 +1201,6 @@ $(document).ready(function(){
                     tr_html += "<td class='border-left total"+element.producto2+"'>"+element.total+"</td>";
                     tr_html += "<td class='border-left '>"+element.bodega+"</td>";
                     if(element.combo == 1 || element.id_producto_combo == 0 ||element.id_producto_combo==null){
-                        //tr_html += "<td class='border-left'><input type='button' class='btn btn-primary btn-xs eliminar' name='"+element.producto2+"' id='eliminar' value='Eliminar'/></td>";
                         tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled btn-danger eliminar' name='"+element.producto2+"' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
                     }else{
                         tr_html += "<td class='border-left'> - </td>";
@@ -1174,9 +1209,19 @@ $(document).ready(function(){
 
                     contador_tabla++;
                 }else{
+                    var unidad_1 = 0;
+                    if(element.total != 0){
+                        
+                        tc =  parseFloat(element.total) ;
+                        unidad_1 = element.precioUnidad;
+                    }else{
+                        
+                        tc = parseFloat(element.cantidad) * parseFloat(element.combo_total);
+                        unidad_1 = element.combo_total;
+                    } 
 
                     if(element.id_producto_combo == 0){
-                        alert(2);
+
                         tr_html += "<tr class='' style=''>";
                         tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
                         tr_html += "<td class='border-left'>"+element.producto+"</td>";
@@ -1184,9 +1229,9 @@ $(document).ready(function(){
                         tr_html += "<td class='border-left "+element.producto2+"'>"+element.cantidad+"</td>";
                         tr_html += "<td class='border-left presentacion"+element.producto2+"'>"+element.presentacion+"</td>";
                         tr_html += "<td class='border-left factor"+element.producto2+"'>"+element.presentacionFactor+"</td>";
-                        tr_html += "<td class='border-left'>"+element.precioUnidad+"</td>";
+                        tr_html += "<td class='border-left'>"+unidad_1+"</td>";
                         tr_html += "<td class='border-left'>"+element.descuento+"</td>";
-                        tr_html += "<td class='border-left total"+element.producto2+"'>"+element.total+"</td>";
+                        tr_html += "<td class='border-left total"+element.producto2+"'>"+tc+"</td>";
                         tr_html += "<td class='border-left '>"+element.bodega+"</td>";
                         if(element.combo == 1 || element.id_producto_combo == 0 ||element.id_producto_combo==null){
                             //tr_html += "<td class='border-left'><input type='button' class='btn btn-primary btn-xs eliminar' name='"+element.producto2+"' id='eliminar' value='Eliminar'/></td>";

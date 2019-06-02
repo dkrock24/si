@@ -602,8 +602,8 @@ $(document).ready(function(){
                                 var total_temp = calcularTotalProducto(_productos.presentacionPrecio, cantidad);    
                             }                            
                         }
+                         _orden[cnt]['total'] = total_temp;
 
-                        //$("."+_productos.producto2).text(cantidad);
                         _orden[cnt]['cantidad'] = cantidad;
 
                         if( $("#descuento").val() != ""){
@@ -616,7 +616,7 @@ $(document).ready(function(){
 
                             var t = (_orden[cnt].precioUnidad * cantidad);
 
-                            if(_conf.comboAgrupado == 0){
+                            if(_conf.comboAgrupado == 1){
 
                                 _orden[cnt].descuento_calculado = calcular_descuento(_orden[cnt].descuento , t , _orden[cnt].descuento_limite);
                                 
@@ -628,14 +628,13 @@ $(document).ready(function(){
                             
                             _orden[cnt].total =  _orden[cnt].precioUnidad * _orden[cnt].cantidad;
                             
-                            //_orden[cnt].combo_total =  _orden[cnt].total ;
-                            //sumar_combo_total(t ,item.id_producto_detalle);
-                            recalcular_factor_combo( item.id_producto_detalle , cantidad  );
+                            //recalcular_factor_combo( item.id_producto_detalle , cantidad  );
                         }
 
                         calculo_totales();
                         depurar_producto();
                     }
+                    
                     cnt ++;             
                 });
             }else{
@@ -646,6 +645,7 @@ $(document).ready(function(){
 
                 _orden[contador_productos] = _productos;
                 agregar_producto();
+                
             }
         }
         if(existe==0)
@@ -658,6 +658,7 @@ $(document).ready(function(){
             _orden[contador_productos] = _productos;
             agregar_producto();
             existe=0;
+
         }
     }
 
@@ -680,8 +681,8 @@ $(document).ready(function(){
 
             success: function(data){
                 var productoX = JSON.parse(data);
-                console.log(productoX);
-                if(_conf.comboAgrupado ==1){
+                
+                if(_conf.comboAgrupado ==0){
                     
                     agregar_directo(id_producto_detalle,productoX);
                 }else{
@@ -785,7 +786,7 @@ $(document).ready(function(){
             recalcular_descuento_combo(id_producto_detalle, combo_total , combo_descuento);
         }
         sumar_combo_total(combo_padre_total , id_producto_detalle);
-        console.log(_orden);
+        
     }
 
     function sumar_combo_total(combo_padre_total , id_producto_detalle){
@@ -799,6 +800,7 @@ $(document).ready(function(){
     function agregar_agrupado(id_producto_detalle, p){
         var sub_total;
         var unidad;
+
         p.forEach(function(datos) {
 
             _orden.forEach(function(element) {
@@ -811,6 +813,8 @@ $(document).ready(function(){
                     
                     _orden[id].precioUnidad = parseFloat(_orden[id].precioUnidad) + parseFloat(sub_total);
 
+                    _orden[id].combo_total = parseInt( _orden[id].total) + ( parseFloat(sub_total) * _orden[id].cantidad);
+
                     recalcular_descuento_combo(id_producto_detalle, _orden[id].total , _orden[id].descuento);
                     
                     _orden[id].descuento_calculado = calcular_descuento(_orden[id].descuento , _orden[id].total , _orden[id].descuento_limite);
@@ -820,7 +824,7 @@ $(document).ready(function(){
             calculo_totales();
 
         });
-
+        console.log(_orden);
         depurar_producto();
     }
 
@@ -881,7 +885,7 @@ $(document).ready(function(){
             recalcular_descuento_combo(id_producto_detalle, combo_total , combo_descuento);
         }
         sumar_combo_total(combo_padre_total , id_producto_detalle);
-        console.log(_orden);
+        
     }
 
     function recalcular_descuento_combo(id_producto_detalle, combo_total, combo_descuento ){
@@ -1123,7 +1127,7 @@ $(document).ready(function(){
     		tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled btn-danger eliminar' name='"+_productos.id_producto_detalle+"' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
     		
     		tr_html += "</tr>";
-
+            
             calculo_totales();
 
     		$(".producto_agregados").append(tr_html);
@@ -1164,6 +1168,7 @@ $(document).ready(function(){
 
     $(document).on('click', '.eliminar', function(){
         // Remover los Productos de la lista.
+
         var x = 0;
         var _orden_temp = [];
         var producto_id = $(this).attr('name');
@@ -1185,7 +1190,7 @@ $(document).ready(function(){
 
     function remover_combo(producto_id){
         var L = 1;
-        console.log(_orden);
+        
         while(L <= _orden.length){
             _orden.forEach(function(element) {
                 
@@ -1202,7 +1207,7 @@ $(document).ready(function(){
     function depurar_producto(){
         // Remueve los productos selecionados
         contador_tabla=1;
-        console.log(_orden);
+        
         if(_orden.length >= 1){
             var tr_html = "";
             
