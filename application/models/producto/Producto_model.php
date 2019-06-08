@@ -88,6 +88,13 @@ class Producto_model extends CI_Model {
 	        );
 	        if(isset($producto['escala'])){
 				$data += ['Escala' => 1 ];
+			}else{
+				$data += ['Escala' => 0 ];
+			}
+			if(isset($producto['combo'])){
+				$data += ['combo' => 1 ];
+			}else{
+				$data += ['combo' => 0 ];
 			}
 			
 
@@ -106,6 +113,27 @@ class Producto_model extends CI_Model {
 
 			// Insertando los detalles de los precios
 			$this->producto_precios( $id_producto, $producto );
+
+			// Asociar Producto a Sucursales
+			return $id_producto;
+		}
+
+		function save_producto_bodega( $producto_id , $bodegas ){
+			// Asociar nuevo producto a bodega
+
+			foreach ($bodegas as $key => $value) {
+				
+				$data = array(
+		          	'Producto' 		=> 	$producto_id ,
+		            'Bodega' 		=> $value->id_bodega,
+		            'Cantidad' 		=> 100,
+		            'Descripcion' 	=> "",
+		            'pro_bod_creado' 	=> date("Y-m-d H:i:s"),
+		            'pro_bod_estado' 	=> 1
+		        );
+		        
+		        $this->db->insert(self::pos_producto_bodega, $data);
+			}
 		}
 
 		function producto_categoria($id_producto , $sub_categoria){
@@ -385,6 +413,16 @@ class Producto_model extends CI_Model {
 	            'Giro' => $producto['giro'],
 	            'id_producto_relacionado' => $producto['procuto_asociado']	            
 	        );
+	        if(isset($producto['escala'])){
+				$data += ['Escala' => 1 ];
+			}else{
+				$data += ['Escala' => 0 ];
+			}
+			if(isset($producto['combo'])){
+				$data += ['combo' => 1 ];
+			}else{
+				$data += ['combo' => 0 ];
+			}
 
 			//echo $_FILES['11']['tmp_name'];
 			//var_dump($_FILES['11']);
@@ -702,11 +740,12 @@ class Producto_model extends CI_Model {
 	        }
 		}
 
-		function get_producto_tabla(){
-
+		function get_producto_tabla($param){
+			
 			$this->db->select('*');
 	        $this->db->from(self::producto);	        
 	        $this->db->where('producto_estado', 1 );
+	        $this->db->where('combo', $param['combo'] );
 	        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc );
 	        $this->db->order_by('name_entidad', 'asc');
 	        $query = $this->db->get(); 

@@ -61,7 +61,7 @@ $(document).ready(function(){
                 
                 _orden = orden;
                 depurar_producto();
-                console.log(_orden);
+                
             },
             error:function(){
             }
@@ -327,6 +327,8 @@ $(document).ready(function(){
 
                     set_calculo_precio(precioUnidad, producto_cantidad_linea);
 
+
+
                     _productos.producto_id  = datos['producto'][0].id_entidad;
                     _productos.combo        = datos['producto'][0].combo;
                     _productos.inventario_id= datos['producto'][0].id_inventario;
@@ -336,11 +338,13 @@ $(document).ready(function(){
                     _productos.cantidad     = producto_cantidad_linea;
                     _productos.total        = $("#total").val();
                     _productos.id_producto_combo = null;
+                    _productos.combo_total  = null;
+                    _productos.invisible    = 0;
                     _productos.bodega       = datos['producto'][0].nombre_bodega;
                     _productos.id_bodega    = datos['producto'][0].id_bodega;
                     _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
                     _productos.por_desc     = datos['producto'][0].porcentage;
-                    _productos.incluye_iva  = datos['producto'][10].valor;
+                    _productos.gen  = datos['producto'][10].valor;
                     _productos.iva          = datos['producto'][9].valor;
                     _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
                 
@@ -577,7 +581,7 @@ $(document).ready(function(){
                 
                 $.each(_orden, function(i, item) {
 
-                    if(item.producto2 == _productos.producto2 && item.id_producto_combo==null){
+                    if(item.producto2 == _productos.producto2 && (item.id_producto_combo==null ||item.id_producto_combo==0 )){
                         existe = 1;
 
                         //Actualizando Cantidad
@@ -612,7 +616,15 @@ $(document).ready(function(){
                         
                         if(item.combo == 1){
 
-                            var t = (_orden[cnt].precioUnidad * cantidad);
+                            var t = 0;
+                            
+                            if( _orden[cnt].precioUnidad !=0.00 ||_orden[cnt].precioUnidad !=0){
+                                
+                                t = (_orden[cnt].precioUnidad * cantidad);
+                            }else{
+                                
+                                t = (_orden[cnt].combo_total * cantidad);
+                            }
 
                             if(_conf.comboAgrupado == 1){
 
@@ -623,15 +635,21 @@ $(document).ready(function(){
 
                                 _orden[cnt].descuento_calculado = calcular_descuento(_orden[cnt].descuento , x, _orden[cnt].descuento_limite);
                             }
-                            
-                            _orden[cnt].total =  _orden[cnt].precioUnidad * _orden[cnt].cantidad;
-                            
+                            if( _orden[cnt].precioUnidad !=0.00 ||_orden[cnt].precioUnidad !=0){
+                                
+                                _orden[cnt].total =  _orden[cnt].precioUnidad * _orden[cnt].cantidad;
+                            }else{
+                                
+                                _orden[cnt].total =  _orden[cnt].combo_total * _orden[cnt].cantidad;
+                                console.log(_orden[cnt].total);
+                            }                            
                             //recalcular_factor_combo( item.id_producto_detalle , cantidad  );
                         }
 
 
                         calculo_totales();
                         depurar_producto();
+                        
 
                     }
                     cnt ++;             
@@ -728,7 +746,7 @@ $(document).ready(function(){
             _productos.id_bodega    = datos['producto'][0].id_bodega;
             _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
             _productos.por_desc     = datos['producto'][0].porcentage;
-            _productos.incluye_iva  = datos['producto'][10].valor;
+            _productos.gen  = datos['producto'][10].valor;
             _productos.iva          = datos['producto'][9].valor;
             _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
             _productos.presentacion = datos['producto'][0].valor;
@@ -839,7 +857,7 @@ $(document).ready(function(){
             _productos.id_bodega    = datos['producto'][0].id_bodega;
             _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
             _productos.por_desc     = datos['producto'][0].porcentage;
-            _productos.incluye_iva  = datos['producto'][10].valor;
+            _productos.gen  = datos['producto'][10].valor;
             _productos.iva          = datos['producto'][9].valor;
             _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
             _productos.presentacion = datos['producto'][0].valor;
@@ -1118,17 +1136,30 @@ $(document).ready(function(){
         var descuento = 0;
         var t  = 0;
         var t2 = 0;
-
+        
         if(_orden !=null){
             _orden.forEach(function(element) {
                 t +=parseInt(element.cantidad);
-                t2 +=parseFloat(element.total);
+
+                if(element.combo ==1 ){
+                    if(element.total == 0){
+                        t2 +=parseFloat(element.combo_total);    
+                    }else{
+                        t2 +=parseFloat(element.total);    
+                    }                    
+                    
+                }else{
+                    if(element.id_producto_combo == 0 || element.id_producto_combo == null){
+                        t2 +=parseFloat(element.total);    
+                    }
+                }                
                 descuento += parseFloat(element.descuento_calculado);
 
             });
         }else{
             t = 0;
         }
+        console.log(_orden);
         
         var total_msg = (t2 - descuento);
 
@@ -1184,7 +1215,7 @@ $(document).ready(function(){
         var tc = 0; 
         if(_orden.length >= 1){
             var tr_html = "";
-            console.log("data", _orden);
+            
             _orden.forEach(function(element) {
 
                 if(_conf.comboAgrupado == 0){ //element.invisible

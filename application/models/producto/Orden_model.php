@@ -180,6 +180,17 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 		        return $query->result();
 		}
 
+		function correlativo_final($correlativo , $ingresado){
+			
+			$valor = 0;
+			if($correlativo==$ingresado){
+				$valor = $correlativo;
+			}else{
+				$valor = $ingresado;
+			}
+			return $valor;
+		}
+
 		function guardar_orden( $orden , $id_usuario , $cliente ){
 			
 			$order_estado = $orden['estado'];
@@ -194,7 +205,11 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 
 			$desc_val = ($orden['orden'][0]['por_desc'] * $orden['orden'][0]['total']);
 
+			
+
 			$siguiente_correlativo = $this->get_siguiente_correlativo($orden['encabezado'][12]['value']);
+
+			$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $orden['encabezado'][13]['value']);
 
 			$data = array(
 				'id_caja' 		=> $orden['encabezado'][0]['value'], //terminal_id
@@ -202,7 +217,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 				'd_inc_imp0' 	=> $orden['encabezado'][2]['value'], //impuesto
 				'id_tipod' 		=> $orden['encabezado'][3]['value'], //modo_pago_id
 				'id_sucursal' 	=> $orden['encabezado'][4]['value'], //sucursal_destino
-				'num_correlativo'=>$siguiente_correlativo[0]->siguiente_valor,//$orden['encabezado'][5]['value'], //numero correlativo
+				'num_correlativo'=>$correlativo_final,//$orden['encabezado'][5]['value'], //numero correlativo
 				'id_cliente' 	=> $orden['encabezado'][6]['value'], //cliente_codigo
 				'nombre' 		=> $orden['encabezado'][7]['value'], //cliente_nombre
 				'direccion' 		=> $orden['encabezado'][8]['value'], //cliente_direccion
@@ -286,7 +301,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 		            'precioUnidad' 	=> $orden['precioUnidad'],
 		            'factor' 		=> $orden['presentacionFactor'],
 		            'total' 		=> $orden['total'],
-		            'gen' 			=> $orden['incluye_iva'],
+		            'gen' 			=> $orden['gen'],
 		            //'p_inc_imp0' 	=> $orden['orden'][0][''],
 		            'descuento' 		=> $orden['descuento'],
 		            'por_desc' 		=> $descuento_porcentaje ,

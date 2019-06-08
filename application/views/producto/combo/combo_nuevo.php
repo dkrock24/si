@@ -106,7 +106,7 @@
                                                             <select class="form-control" name="producto" id="producto" readonly>
                                                                 <option value="0">Selecionar</option>
                                                                 <?php
-                                                                foreach ($productos as $key => $value) {
+                                                                foreach ($productos_combo as $key => $value) {
                                                                     ?>
                                                                     <option value="<?php echo $value->id_entidad ?>"><?php echo $value->name_entidad ?></option>
                                                                     <?php
@@ -137,6 +137,10 @@
                                                                                                                         
                                                         </div>
                                                     </div> 
+
+                                                    <br><br>
+
+                                                    
                                                                                     
                                                     <br><br>
                                                     <div class="form-group">
@@ -156,9 +160,7 @@
                                             <p>
       
                                             <div class="panel-body">
-                                                <form class="form-horizontal" action='save' method="post" id="lista_productos">
-                                                    
-                                                    
+                                                <form class="form-horizontal" action='save' method="post" id="lista_productos">                                                    
 
                                                         <input type="hidden" id="produto_principal" name="produto_principal" value="">
                                                      <input type='submit' class='btn btn-default' value='Crear'>   

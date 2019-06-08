@@ -11,9 +11,11 @@
                         <thead class="bg-info-dark">
                             <tr>
                                 <th style="color: white;">#</th>
-                                <th style="color: white;">Producto</th> 
-                                <th style="color: white;">Agregados</th>
-                                <th style="color: white;">Cantidad</th>
+                                <th style="color: white;">Combo</th> 
+                                <th style="color: white;">Categoria</th>                                                               
+                                <th style="color: white;">Sub Categoria</th>
+                                <th style="color: white;">Creado</th>
+                                <th style="color: white;">Estado</th>
                                 
                                 <th style="color: white;">
                                     <div class="btn-group">
@@ -43,15 +45,32 @@
                         <tbody>
                             <?php
                                 $contado=1;
+                                $id_producto = 0;
                                 if($combos){
             	               foreach ($combos as $combo) {
-            	               ?>
+                                
+                                   
+                                ?>
                     			<tr>
 		                            <th scope="row"><?php echo $contado; ?></th>
-                                    <td><?php echo $combo->uno; ?></td>
-                                    <td><?php echo $combo->dos; ?></td>		
-                                    <td><?php echo $combo->cantidad; ?></td>
-		                            
+                                    <td><?php echo $combo->name_entidad; ?></td>
+                                     <td><?php echo $combo->nombre_categoria; ?></td>
+                                     <td><?php echo $combo->SubCategoria; ?></td>
+                                     <td><?php echo $combo->creado_producto; ?></td>
+                                     <td>
+                                        <?php 
+                                        if($combo->producto_estado==0){
+                                            ?>
+                                            <span class="label label-warning">Inactivo</span>
+                                            <?php
+                                        }else{
+                                            ?>
+                                            <span class="label label-success">Activo</span>
+                                            <?php
+                                        }
+                                    ?>
+                                    </td>
+
 		                            <td>
 		                            	                                
 		                                <div class="btn-group mb-sm">
@@ -64,13 +83,13 @@
                                                 foreach ($acciones as $key => $value) {
                                                     if($value->accion_valor == 'btn_medio' && $value->accion_nombre != 'Eliminar') {
                                                     ?>
-                                                    <li><a href="<?php echo $value->accion_btn_url;  ?>/<?php echo $combo->Producto_Combo; ?>"><?php echo $value->accion_nombre;  ?></a></li>
+                                                    <li><a href="<?php echo $value->accion_btn_url;  ?>/<?php echo $combo->id_entidad; ?>"><?php echo $value->accion_nombre;  ?></a></li>
                                                     <?php
                                                     }
                                                     if($value->accion_valor == 'btn_medio' && $value->accion_nombre == 'Eliminar') {
                                                     ?>
                                                     <li class="divider"></li>
-                                                    <li><a href="<?php echo $value->accion_btn_url;  ?>/<?php echo $combo->Producto_Combo; ?>"><?php echo $value->accion_nombre;  ?></a></li>
+                                                    <li><a href="<?php echo $value->accion_btn_url;  ?>/<?php echo $combo->id_entidad; ?>"><?php echo $value->accion_nombre;  ?></a></li>
                                                     <?php
                                                     }
                                                 }}
@@ -83,7 +102,8 @@
 		                            </td>
 		                        </tr>
                                 <?php
-                            $contado+=1;
+                                 $contado+=1;
+                            
 	                    	}
                         }
                     	?>                       

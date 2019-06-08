@@ -324,7 +324,7 @@ $(document).ready(function(){
                     _productos.id_bodega    = datos['producto'][0].id_bodega;
                     _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
                     _productos.por_desc     = datos['producto'][0].porcentage;
-                    _productos.incluye_iva  = datos['producto'][10].valor;
+                    _productos.gen  = datos['producto'][10].valor;
                     _productos.iva          = datos['producto'][9].valor;
                     _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
                     //_productos.total = $("#total").val();
@@ -738,7 +738,7 @@ $(document).ready(function(){
             _productos.id_bodega    = datos['producto'][0].id_bodega;
             _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
             _productos.por_desc     = datos['producto'][0].porcentage;
-            _productos.incluye_iva  = datos['producto'][10].valor;
+            _productos.gen  = datos['producto'][10].valor;
             _productos.iva          = datos['producto'][9].valor;
             _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
             _productos.presentacion = datos['producto'][0].valor;
@@ -857,7 +857,7 @@ $(document).ready(function(){
             _productos.id_bodega    = datos['producto'][0].id_bodega;
             _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
             _productos.por_desc     = datos['producto'][0].porcentage;
-            _productos.incluye_iva  = datos['producto'][10].valor;
+            _productos.gen  = datos['producto'][10].valor;
             _productos.iva          = datos['producto'][9].valor;
             _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
             _productos.presentacion = datos['producto'][0].valor;

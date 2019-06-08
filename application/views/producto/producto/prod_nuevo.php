@@ -440,10 +440,17 @@
         var nombre =  "";
         
         $.each(plantilla, function(i, item) {
-            
+
             if(id == item.id_prod_atributo){
                 nombre = item.nam_atributo;
-                opciones += '<input type="hidden" value="0" name="'+item.id_prod_atributo+'"><input type="checkbox" class="check'+item.id_prod_atributo+'" name="'+item.id_prod_atributo+'"/>'+item.attr_valor+'<br>';    
+                opciones += '<input type="hidden" value="0" name="'+item.id_prod_atributo+'">'+ item.attr_valor+" "+
+
+                '<span class="inline checkbox c-checkbox">'+
+                '<label>'+
+                '<input type="checkbox" id="todo-item-1" class="check'+item.id_prod_atributo+'" name="'+item.id_prod_atributo+'"/>'+
+                '<span class="fa fa-check"></span>'+
+                '</label></span>';
+
             }            
         });
 
@@ -769,7 +776,27 @@
 
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <div class="col-sm-offset-1 col-sm-3">Escala<input type='checkbox' name="escala" class=""></div>
+                                                    <div class="col-sm-offset-1 col-sm-3">
+                                                        Escala
+                                                        <span class="inline checkbox c-checkbox">
+                                                            <label>
+                                                            <input type='checkbox' id="todo-item-1" name="escala" class="">
+                                                            <span class="fa fa-check"></span>
+                                                             </label>
+                                                        </span>
+
+                                                        Combo
+                                                        <span class="inline checkbox c-checkbox">
+                                                            <label>
+                                                            <input type='checkbox' id="todo-item-1" name="combo" class="">
+                                                            <span class="fa fa-check"></span>
+                                                             </label>
+                                                        </span>
+
+                                                    </div>
+                                                   
+                                               
+
                                                     <div class="col-sm-offset-7 col-sm-3">
                                                         <button type="submit" class="btn btn-primary">Guardar</button>
                                                     </div>

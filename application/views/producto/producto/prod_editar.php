@@ -492,7 +492,16 @@
             
             if(id == item.id_prod_atributo){
                 nombre = item.nam_atributo;
-                opciones += '<input type="hidden" value="'+item.valor+'" name="'+item.AtributoId+'"><input type="checkbox" '+checked2+' class="check'+item.AtributoId+'" name="'+item.AtributoId+'"/>'+item.attr_valor+'<br>';    
+                opciones += '<input type="hidden" value="'+item.valor+'" name="'+item.AtributoId+'">'+
+                            //'<input type="checkbox" '+checked2+' class="check'+item.AtributoId+'" name="'+item.AtributoId+'"/>'+item.attr_valor+'<br>';    
+
+                '<span class="inline checkbox c-checkbox">'+
+                '<label>'+
+                '<input type="checkbox" id="todo-item-1" '+checked2+' class="check'+item.AtributoId+'" name="'+item.AtributoId+'"/>'+
+                '<span class="fa fa-check"></span>'+
+                '</label></span>';
+
+                
             }            
         });
 
@@ -506,6 +515,7 @@
                             '<span class="col-sm-1 control-label no-padding-right"></span>'+
                             '</div>'+
                             '</div>';
+
         return html_template;
     }
 
@@ -558,6 +568,10 @@
     .alenado-left{
         float: right;
     }
+    .right{
+        text-align: right;
+        
+    }
 </style>
 <!-- Main section-->
     <section>
@@ -575,81 +589,32 @@
 
                         <div class="col-lg-3">
                             <div id="" class="panel panel-info">
-                                <div class="panel-heading">Nuevo Producto :  </div>
+                                <div class="panel-heading"><i class="fa fa-pencil right"></i> Editar Producto :</div>
                                 
                                 <div class="row">
 
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-basket icon-center"></h1>
-                                        <a href="#"><span class="icon-center">Producto</span></a>
-                                    </div>
-
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-book-open icon-center"></h1>
-                                        <span class="icon-center">Categoria</span>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-social-dropbox icon-center"></h1>
-                                        <span class="icon-center">Cant. Producto</span>
-                                    </div>
-
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-doc icon-center"></h1>
-                                        <span class="icon-center">Sub Categoria</span>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-
-                                    <div class="col-sm-6 menu-cuadro">
+                                    <?php
+                                $contador_break=0;
+                                foreach ($acciones as $key => $value) {
+                                    ?>
+                                    <div class="col-sm-6 menu-cuadro " id="<?php echo $value->accion_btn_css; ?>">
+                                        <a href="<?php echo base_url().$value->accion_btn_url; ?>" class="link_btn">
                                         <h1 class="icon-center">
-                                            <i class="fa fa-barcode"></i>
+                                             <i class="<?php echo $value->accion_btn_icon; ?>"></i>
                                         </h1>
-                                        <span class="icon-center">Cod. Barra</span>
+                                        </a>
+                                        <span class="icon-center">
+                                            <?php echo $value->accion_nombre; ?>
+                                        </span>
+                                        
                                     </div>
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-center">
-                                            <i class="fa fa-plus-square"></i>
-                                        </h1>
-                                        <span class="icon-center">Combo</span>
-                                    </div>
+                                    <?php
+                                }
+                                ?>
 
-                                </div>
-                                <div class="row">
 
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-center">
-                                            <i class="icon-note"></i>
-                                        </h1>
-                                        <span class="icon-center">Existencias</span>
-                                    </div>
-
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-center">
-                                            <i class="icon-note"></i>
-                                        </h1>
-                                        <span class="icon-center">Promociones</span>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-social-dropbox icon-center"></h1>
-                                        <span class="icon-center">Kit Producto</span>
-                                    </div>
-                                    <div class="col-sm-6 menu-cuadro">
-                                        <h1 class="icon-center">                                            
-                                            <i class="fa fa-cubes"></i>
-                                        </h1>
-                                        <span class="icon-center">Promo Detalle</span>
-                                    </div>
-
-                                </div>
+                                  
+                                </div>                                
 
                                 <div class="row">
                                     <br>
@@ -884,9 +849,48 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-8">
+                                            <?php
+                                            $check_escala ="";
+                                            $check_combo  ="";
+
+                                            if($producto[0]->Escala){
+                                                $check_escala ='checked';
+                                            }
+                                            if($producto[0]->combo){
+                                                $check_combo ='checked';
+                                            }
+                                            ?>
+
+                                            <div class="col-sm-2">
+                                                <div class="col-sm-offset-1 col-sm-3">
+                                                        Escala
+                                                        <span class="inline checkbox c-checkbox">
+                                                            <label>
+                                                            <input type='checkbox' id="todo-item-1" <?php echo $check_escala; ?> name="escala" class="">
+                                                            <span class="fa fa-check"></span>
+                                                             </label>
+                                                        </span>
+
+                                                    </div>
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <div class="col-sm-offset-1 col-sm-3">
+
+                                                        Combo
+                                                        <span class="inline checkbox c-checkbox">
+                                                            <label>
+                                                            <input type='checkbox' id="todo-item-1" <?php echo $check_combo; ?> name="combo" class="">
+                                                            <span class="fa fa-check"></span>
+                                                             </label>
+                                                        </span>
+
+                                                    </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <div class="col-sm-offset-7 col-sm-3">
+                                                    <div class="col-sm-offset-3 col-sm-3">
                                                         <button type="submit" class="btn btn-primary">Guardar</button>
                                                     </div>
                                                     

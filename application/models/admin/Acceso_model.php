@@ -16,7 +16,8 @@ class Acceso_model extends CI_Model
 
     const sys_vistas = 'sys_vistas';
     const sys_vistas_acceso = 'sys_vistas_acceso';
-    const sys_vistas_componentes = 'sys_componentes';
+    const sys_vistas_componentes = 'sys_vistas_componentes';
+    const sys_componentes = 'sys_componentes';
     
     public function __construct()
     {
@@ -119,8 +120,9 @@ class Acceso_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from(self::sys_vistas .' as v');
-        $this->db->join(self::sys_vistas_componentes .' as vc ',' on v.id_vista = vc.Vista');
-        $this->db->join(self::sys_vistas_acceso .' as va ',' on va.id_vista_componente = vc.id_vista_componente');
+        $this->db->join(self::sys_vistas_componentes .' as vc ',' on vc.Vista = v.id_vista');
+        $this->db->join(self::sys_componentes .' as c ',' on c.id_vista_componente = vc.Componente');
+        $this->db->join(self::sys_vistas_acceso .' as va ',' on va.id_vista_componente = c.id_vista_componente');
         $this->db->join(self::sys_menu_submenu .' as submenu ',' on submenu.id_vista = v.id_vista');
         $this->db->join(self::menu .' as menu ',' on menu.id_menu = submenu.id_menu');
         $this->db->join(self::roles .' as r ',' on r.id_rol = va.id_role');

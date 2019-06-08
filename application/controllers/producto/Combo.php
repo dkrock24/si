@@ -21,10 +21,13 @@ class Combo extends CI_Controller {
 		$this->load->model('admin/Usuario_model');
 		$this->load->model('admin/ModoPago_model');
 		$this->load->model('admin/Correlativo_model');
+		$this->load->model('admin/Moneda_model');
 		$this->load->model('admin/Sucursal_model');
 		$this->load->model('producto/Producto_model');				
 		$this->load->model('producto/Combo_model');
+		$this->load->model('producto/Orden_model');
 		$this->load->model('producto/Linea_model');
+
 	}
 
 	public function index()
@@ -41,7 +44,10 @@ class Combo extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['column'] = $this->column();
-		$data['combos'] = $this->Combo_model->getCombo( );
+		//$data['combos'] = $this->Combo_model->getCombo( );
+		$param = ['combo'=>1];
+		$data['combos'] = $this->Combo_model->get_producto_combo( $param );
+
 		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		//$data['home'] = 'producto/combo/combo_lista';
@@ -61,7 +67,10 @@ class Combo extends CI_Controller {
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
-		$data['productos'] = $this->Producto_model->get_producto_tabla();
+		$param1 = ['combo'=>1];
+		$param2 = ['combo'=>0];
+		$data['productos_combo'] = $this->Producto_model->get_producto_tabla($param1);
+		$data['productos'] = $this->Producto_model->get_producto_tabla($param2);
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'producto/combo/combo_nuevo';
 
@@ -89,6 +98,30 @@ class Combo extends CI_Controller {
 		$data['productos'] = $this->Producto_model->get_producto_tabla();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'producto/combo/combo_editar';
+
+		$this->parser->parse('template', $data);
+	}
+
+	public function ver($combo_id){
+		// Seguridad :: Validar URL usuario	
+		$menu_session = $this->session->menu;	
+		parametros($menu_session);
+
+		$id_rol = $this->session->roles[0];
+		$vista_id = 2; // Vista Orden Lista
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
+
+		$data['menu'] = $this->session->menu;
+		$data['column'] = $this->column();
+		$data['combos'] = $this->Combo_model->getComboId( $combo_id );
+		$data['precio'] = $this->Orden_model->get_producto_precios( $combo_id );
+		$data['moneda'] = $this->Moneda_model->get_modena_by_user();
+		
+
+		$data['fields'] = $this->fields();
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		//$data['home'] = 'producto/combo/combo_lista';
+		$data['home'] = 'producto/combo/combo_ver';
 
 		$this->parser->parse('template', $data);
 	}

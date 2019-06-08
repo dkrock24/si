@@ -50,6 +50,20 @@ class Bodega_model extends CI_Model {
         }
     }
 
+    function getBodegaProducto(){
+        $this->db->select('*');
+        $this->db->from(self::pos_bodega.' as b');
+        $this->db->join(self::pos_sucursal.' as s', 'on b.Sucursal = s.id_sucursal');
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc );
+
+        $query = $this->db->get();
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function record_count($id_usuario){
         $this->db->select('count(*) as total');
         $this->db->from(self::pos_bodega.' as b');

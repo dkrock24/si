@@ -43,7 +43,7 @@ class Producto extends CI_Controller {
 		}
 		
 		$total_row = $this->Producto_model->record_count();
-		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/producto/index");
+		$config = paginacion($total_row, $_SESSION['per_page'] , "producto/producto/index");
 		$this->pagination->initialize($config);
 		if($this->uri->segment(4)){
 			if($_SESSION['per_page']!=0){
@@ -69,7 +69,7 @@ class Producto extends CI_Controller {
 		parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2;//9;
+		$vista_id = 9;
 
 		$data['menu'] = $this->session->menu;
 		$data['contador_tabla'] = $contador_tabla;
@@ -106,22 +106,30 @@ class Producto extends CI_Controller {
 
 	public function crear(){
 		
-		$this->Producto_model->nuevo_producto( $_POST , $this->session->usuario );
-
+		$producto_id = $this->Producto_model->nuevo_producto( $_POST , $this->session->usuario );
+		$this->save_producto_bodega($producto_id);
 		redirect(base_url()."producto/producto/index");
+
+	}
+
+	public function save_producto_bodega( $producto_id ){
+		
+		$id_rol = $this->session->roles[0];
+		$data = $this->Bodega_model->getBodegaProducto();
+		$this->Producto_model->save_producto_bodega( $producto_id , $data );
+
 	}
 
 	public function sub_categoria_byId($id_categoria){
 
 		$subcategorias = $this->Producto_model->sub_categoria( $id_categoria );
-		//var_dump($subcategorias);
-
 		echo json_encode( $subcategorias );
 	}
 
 	public function editar( $id_producto ){
 
 		$id_rol = $this->session->roles[0];
+		$vista_id = 12;
 
 		$data['menu'] = $this->session->menu;
 		$data['producto'] = $this->Producto_model->get_producto( $id_producto );
@@ -135,6 +143,7 @@ class Producto extends CI_Controller {
 		$data['producto_proveedor'] = $this->Producto_model->get_producto_proveedor( $id_producto  );
 		$data['clientes'] = $this->Producto_model->get_clientes();
 		$data['sucursal'] = $this->Producto_model->get_sucursales();
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'producto/producto/prod_editar';
 
 		$this->general->editar_valido($data['producto'], "producto/producto/index");
