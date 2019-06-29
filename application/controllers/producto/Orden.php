@@ -29,6 +29,7 @@ class Orden extends CI_Controller {
 		$this->load->model('producto/Orden_model');
 		$this->load->model('admin/Moneda_model');
 		$this->load->model('admin/Template_model');
+		$this->load->model('admin/Impuesto_model');
 		
 	}
 
@@ -245,6 +246,10 @@ class Orden extends CI_Controller {
 
 	function get_productos_lista( $sucursal ,$bodega, $texto ){
 		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal ,$bodega, $texto);
+		$data['impuesto_categoria'] = $this->Impuesto_model->getAllImpCat();
+		$data['impuesto_cliente'] = $this->Impuesto_model->getAllImpCli();
+		$data['impuesto_documento'] = $this->Impuesto_model->getAllImpDoc();
+		$data['impuesto_proveedor'] = $this->Impuesto_model->getAllImpProv();
 		echo json_encode( $data );
 	}
 
@@ -289,7 +294,8 @@ class Orden extends CI_Controller {
 
 	function get_producto_completo($producto_id, $id_bodega ){
 
-		$componente_conf = "combo";
+		$combo_conf = "combo";
+		$impuesto_conf = "impuestos";
 
 		$data['producto'] = $this->Orden_model->get_producto_completo($producto_id, $id_bodega);
 
@@ -303,7 +309,9 @@ class Orden extends CI_Controller {
 		$data['atributos'] = $atributos;
 		$data['precios'] = $this->Orden_model->get_producto_precios($producto_id);
 		$data['prod_precio'] = $this->Orden_model->get_producto_precios( $producto_id );
-		$data['conf'] = $this->Orden_model->getConfg($componente_conf);
+		$data['conf'] = $this->Orden_model->getConfg($combo_conf);
+		$data['impuesto'] = $this->Orden_model->getConfgImpuesto($impuesto_conf);
+		
 		echo json_encode( $data );
 	}
 

@@ -20,6 +20,7 @@ var clientes_lista;
 var combo_total = 0.00;
 var combo_descuento = 0.00;
 var _conf = [];
+var _impuestos = [];
 
 
 $(document).ready(function(){
@@ -208,6 +209,12 @@ $(document).ready(function(){
 
                 success: function(data){
                     var datos = JSON.parse(data);
+                    
+                    _impuestos['cat']=datos["impuesto_categoria"];
+                    _impuestos['cli']=datos["impuesto_cliente"];
+                    _impuestos['doc']=datos["impuesto_documento"];
+                    _impuestos['pro']=datos["impuesto_proveedor"];
+
                     var productos = datos["productos"];
                     var producto_id = 0;
                     _productos_lista = productos;
@@ -289,6 +296,7 @@ $(document).ready(function(){
                 var prod_precio = datos["prod_precio"];
                 _productos_precio = prod_precio;
                 _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
+                _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);
 
                 if( parseInt(_productos_precio.length) >= 1 && producto_escala!=1 ){
                     get_presentacio_lista( _productos_precio );
@@ -824,7 +832,6 @@ $(document).ready(function(){
             calculo_totales();
 
         });
-        console.log(_orden);
         depurar_producto();
     }
 
@@ -918,6 +925,15 @@ $(document).ready(function(){
 
     // ------------------ END COMBO
 
+    function impuestos(){
+        /*
+         * Calcular los impuestos a productos en la orden
+         */
+
+         
+
+    }
+
     function set_calculo_precio(precioUnidad, producto_cantidad_linea){
         // General - Set Calculo Precio
         $("#total").val(calcularTotalProducto(precioUnidad, producto_cantidad_linea));
@@ -961,8 +977,7 @@ $(document).ready(function(){
             //_productos.total = $("#total").val();
             factor_precio = 0;
             factor_total = 0;
-        }
-    	
+        }    	
     });
 
     function calcularTotalProducto(precio , cantidad){
@@ -988,21 +1003,21 @@ $(document).ready(function(){
             datatype: 'json',      
             cache : false,                
 
-                success: function(data){
-                    var datos = JSON.parse(data);
-                    var bodega = datos["bodega"];
-                    $.each(bodega, function(i, item) { 
-                        select_option += '<option value="'+item.id_bodega+'">'+item.nombre_bodega+'</option>';            
-                    });
+            success: function(data){
+                var datos = JSON.parse(data);
+                var bodega = datos["bodega"];
+                $.each(bodega, function(i, item) { 
+                    select_option += '<option value="'+item.id_bodega+'">'+item.nombre_bodega+'</option>';            
+                });
 
-                    $("#bodega_select").html(select_option);   
-                    
-                    var correlativo = datos['correlativo'];
-                    $("#c_numero").val(correlativo[0].siguiente_valor);
-                },
-                error:function(){
-                }
-            });  
+                $("#bodega_select").html(select_option);   
+                
+                var correlativo = datos['correlativo'];
+                $("#c_numero").val(correlativo[0].siguiente_valor);
+            },
+            error:function(){
+            }
+        });
     }
 
     function productos_precios_validacion(){
@@ -1031,8 +1046,6 @@ $(document).ready(function(){
                 }
             });
         }
-
-
         return flag;        
     }
 
@@ -1041,59 +1054,53 @@ $(document).ready(function(){
         
         if(descuento){
 
-        var primer_digito = descuento.substring(0,1);
-        var tipo_descuento_limite = descuento_limite.substring(0,1);
-        //alert(descuento_limite);
-        if(descuento){
+            var primer_digito = descuento.substring(0,1);
+            var tipo_descuento_limite = descuento_limite.substring(0,1);
+            //alert(descuento_limite);
+            if(descuento){
 
-            if(primer_digito == 0 ){
+                if(primer_digito == 0 ){
 
-                if(tipo_descuento_limite == 0){
-                    // Limite en %   
-                    //alert(1);
-                    if(descuento <= parseInt(descuento_limite)  ){
-                        valor = descuento * total;
+                    if(tipo_descuento_limite == 0){
+                        // Limite en %   
+                        if(descuento <= parseInt(descuento_limite)  ){
+                            valor = descuento * total;
+                        }else{
+                            valor = descuento_limite * total;
+                        }
                     }else{
-                        valor = descuento_limite * total;
+                        // Limite #
+                        valor = ( parseInt(descuento_limite) / 100 );
+                        if(descuento <= valor  ){
+                            valor = descuento * total;
+                        }else {
+                            valor = (parseInt(descuento_limite) / 100 ) * total;
+                        }
                     }
                 }else{
-                    // Limite #
-                    //alert(2);
-                    valor = ( parseInt(descuento_limite) / 100 );
-                    if(descuento <= valor  ){
-                        valor = descuento * total;
-                    }else {
-                        valor = (parseInt(descuento_limite) / 100 ) * total;
+                    if(tipo_descuento_limite == 0){
+                        // Limite en %  y descuento %
+                        valor = ( descuento / 100 );                 
+                        if(valor <= parseInt(descuento_limite)  ){
+                            valor = valor * total;
+                        }else{
+                            valor = descuento_limite * total;
+                        }
+                    }else{                   
+                        // Limite # y descuento # 
+                        valor = ( descuento / 100 );
+                        if(valor <= (descuento_limite / 100)  ){
+                            valor = valor * total ;
+                        }else{
+                            valor = total * (descuento_limite / 100);
+                        }
                     }
                 }
+                _productos.descuento_calculado = valor.toFixed(2);
             }else{
-                if(tipo_descuento_limite == 0){
-                    // Limite en %  y descuento %
-                    //alert(3);
-                    valor = ( descuento / 100 );                 
-                    if(valor <= parseInt(descuento_limite)  ){
-                        valor = valor * total;
-                    }else{
-                        valor = descuento_limite * total;
-                    }
-                }else{                   
-                    // Limite # y descuento # 
-                    //alert(4);
-                    valor = ( descuento / 100 );
-                    if(valor <= (descuento_limite / 100)  ){
-                        valor = valor * total ;
-                    }else{
-                        valor = total * (descuento_limite / 100);
-                    }
-                }
-
+                _productos.descuento_calculado = valor.toFixed(2);
             }
-            _productos.descuento_calculado = valor.toFixed(2);
-        }else{
-            _productos.descuento_calculado = valor.toFixed(2);
-        }
-        }
-        
+        }        
         return valor;
     }
 
@@ -1163,7 +1170,6 @@ $(document).ready(function(){
         $(".sub_total_tabla").text(t2.toFixed(2) );
         $(".total_tabla").text(total_msg.toFixed(2) );
         $(".descuento_tabla").text(descuento.toFixed(2));
-        
     }
 
     $(document).on('click', '.eliminar', function(){
@@ -1302,11 +1308,8 @@ $(document).ready(function(){
 
         $("#list tr").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
-        });
-
-        
+        }); 
     });
-
 
     $(document).on('click', '.guardar', function(){
         // Guardar Orden en la DB
@@ -1388,12 +1391,8 @@ $(document).ready(function(){
             error:function(){
             }
         });
-
-        
-
     });
 
-    
     $(document).on('click', '.seleccionar_empleado', function(){
 
         $(".vendedores_lista").text($(this).attr('name'));

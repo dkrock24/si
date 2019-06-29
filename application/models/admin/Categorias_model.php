@@ -98,6 +98,21 @@ class Categorias_model extends CI_Model {
         }
     }
 
+    function get_categorias_hija( $id_categoria ){
+
+        $this->db->select('*');
+        $this->db->from(self::categorias);
+        $this->db->where('id_categoria_padre', $id_categoria );
+        $this->db->where('Empresa ',$this->session->empresa[0]->Empresa_Suc );
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function get_categorias_empresa($id_empresa){
         $this->db->select('*');
         $this->db->from(self::categorias);
