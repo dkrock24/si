@@ -303,8 +303,12 @@ class Orden extends CI_Controller {
 		$atributos= array();
 		foreach ($data['producto'] as $key => $value) {
 			$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
+			//var_dump($value->nam_atributo );
+			//var_dump( $data['producto'][$contador]->valor);
+
 			$contador+=1;
 		}
+		//var_dump($atributos);
 
 		$data['atributos'] = $atributos;
 		$data['precios'] = $this->Orden_model->get_producto_precios($producto_id);

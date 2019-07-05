@@ -1,5 +1,7 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
-<script src="<?php echo base_url(); ?>../asstes/js/orden/search.js"></script>
+
+<script src="<?php echo base_url(); ?>../asstes/general.js"></script>
+
 <script>
 
 var _orden = [];
@@ -24,6 +26,7 @@ var _impuestos = [];
 
 
 $(document).ready(function(){
+
 
     $('#existencias').appendTo("body");
     $('#cliente_modal').appendTo("body");
@@ -290,6 +293,7 @@ $(document).ready(function(){
 
             success: function(data){
             	var datos = JSON.parse(data);
+//                console.log("X -> ",datos['producto']);
 
                 var precio_unidad = datos['producto'][8].valor;
                 producto_escala = datos['producto'][0].Escala;
@@ -304,6 +308,8 @@ $(document).ready(function(){
                 }else{
                     enLinea();
                 }
+
+
 
             		$("#producto").val(datos['producto'][12].valor);
                     $("#bodega").val(datos['producto'][0].nombre_bodega);
@@ -333,7 +339,7 @@ $(document).ready(function(){
                     _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
                     _productos.por_desc     = datos['producto'][0].porcentage;
                     _productos.gen  = datos['producto'][10].valor;
-                    _productos.iva          = datos['producto'][9].valor;
+                    _productos.iva          = datos['atributos']['Incluye Iva'];//datos['producto'][9].valor;
                     _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
                     //_productos.total = $("#total").val();
                     _productos.total = datos['prod_precio'][0].precio
@@ -536,7 +542,15 @@ $(document).ready(function(){
     }
 
     $(document).on('click', '#grabar', function(){
-        grabar();
+        
+        grabar();  
+
+        //console.log("xc", _orden[0].precioUnidad);
+
+        if(_conf.impuesto == 1){
+                    _config_impuestos();
+                    depurar_producto();
+                }     
         
     });
 
@@ -552,8 +566,14 @@ $(document).ready(function(){
                 
                 grabar_combo();
                 grabar_primeraves();
+
             }else{ 
                 grabar_mas();
+
+                if(_conf.impuesto == 1){
+                    _config_impuestos();
+                    depurar_producto();
+                }                   
             }
         }
 
@@ -564,6 +584,8 @@ $(document).ready(function(){
             $("#cantidad").val(1);     
         });
 
+
+
     }
 
     function grabar_primeraves(){        
@@ -573,7 +595,7 @@ $(document).ready(function(){
         _productos.descuento_calculado = calcular_descuento(_productos.descuento , _productos.total, _productos.descuento_limite);
         
         agregar_producto();
-
+        
     }
 
     function grabar_mas(){
@@ -675,7 +697,7 @@ $(document).ready(function(){
         if(_productos.combo ==1 ){
             combo_descuento = $("#descuento").val();                     
             producto_combo( _productos.producto_id, _productos.id_bodega , _productos.id_producto_detalle );
-        }
+        }    
     }
 
     // ------------------  COMBO
@@ -747,7 +769,7 @@ $(document).ready(function(){
             _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
             _productos.por_desc     = datos['producto'][0].porcentage;
             _productos.gen  = datos['producto'][10].valor;
-            _productos.iva          = datos['producto'][9].valor;
+            _productos.iva          = datos['atributos']['Incluye Iva'];//datos['producto'][9].valor;
             _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
             _productos.presentacion = datos['producto'][0].valor;
             _productos.total        = (datos['prod_precio'][0].precio * _productos.cantidad);
@@ -793,16 +815,20 @@ $(document).ready(function(){
         if(combo_total){
             recalcular_descuento_combo(id_producto_detalle, combo_total , combo_descuento);
         }
-        sumar_combo_total(combo_padre_total , id_producto_detalle);
-        
+        sumar_combo_total(combo_padre_total , id_producto_detalle);     
+        impuestos();  
+        depurar_producto(); 
     }
 
     function sumar_combo_total(combo_padre_total , id_producto_detalle){
         _orden.forEach(function(element) {
             if(element.id_producto_detalle == id_producto_detalle ){
                 _orden[_orden.indexOf(element)].combo_total = combo_padre_total;
+
             }
+
         });
+
     }
 
     function agregar_agrupado(id_producto_detalle, p){
@@ -832,7 +858,9 @@ $(document).ready(function(){
             calculo_totales();
 
         });
-        depurar_producto();
+        //depurar_producto();
+        impuestos();  
+        depurar_producto(); 
     }
 
     function agregar_invisible(id_producto_detalle, p){
@@ -865,7 +893,7 @@ $(document).ready(function(){
             _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
             _productos.por_desc     = datos['producto'][0].porcentage;
             _productos.gen  = datos['producto'][10].valor;
-            _productos.iva          = datos['producto'][9].valor;
+            _productos.iva          = datos['atributos']['Incluye Iva'];// datos['producto'][9].valor;
             _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
             _productos.presentacion = datos['producto'][0].valor;
             _productos.total        = 0.00;
@@ -921,18 +949,10 @@ $(document).ready(function(){
             }
         });
         depurar_producto();
+
     }
 
     // ------------------ END COMBO
-
-    function impuestos(){
-        /*
-         * Calcular los impuestos a productos en la orden
-         */
-
-         
-
-    }
 
     function set_calculo_precio(precioUnidad, producto_cantidad_linea){
         // General - Set Calculo Precio
@@ -1155,7 +1175,14 @@ $(document).ready(function(){
         if(_orden !=null){
             _orden.forEach(function(element) {
                 t +=parseInt(element.cantidad);
-                t2 +=parseFloat(element.total);
+                if(_conf.comboAgrupado == 0 && element.combo ==1){
+                    
+                    t2 +=parseFloat(element.total);
+                }else{
+                    if(element.id_producto_combo == 0 || element.id_producto_combo== null){
+                        t2 +=parseFloat(element.total);        
+                    }
+                }                
                 descuento += parseFloat(element.descuento_calculado);
 
             });
@@ -1170,6 +1197,7 @@ $(document).ready(function(){
         $(".sub_total_tabla").text(t2.toFixed(2) );
         $(".total_tabla").text(total_msg.toFixed(2) );
         $(".descuento_tabla").text(descuento.toFixed(2));
+
     }
 
     $(document).on('click', '.eliminar', function(){
@@ -1452,6 +1480,13 @@ $(document).ready(function(){
     $(document).on('click', '#btn_existencias', function(){
         $(".existencia_buscar").focus();
     });
+
+    $(document).on('click', '#btn_impuestos', function(){
+        _config_impuestos();
+        depurar_producto();
+    });
+
+    
 
 });
 </script>
@@ -1750,11 +1785,13 @@ $(document).ready(function(){
                                       <span class="sr-only">default</span>
                                    </button>
                                    <ul role="menu" class="dropdown-menu">
-                                        <li><a href="#" class="" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
+                                     <li><a href="#" class="btn btn-warning" id="btn_impuestos" data-toggle='modal'><i class="fa fa-money"></i> Impuestos</a></li>
+
+                                        <li><a href="#" class="btn btn-warning" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
                                       
                                       <li class="divider"></li>
                                       <li>
-                                        <li><a href="#" class="" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a>
+                                        <li><a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a>
                                       </li>
                                    </ul>
                                 </div>
