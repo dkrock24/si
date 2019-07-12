@@ -31,51 +31,60 @@ function impuestos(){
      */
 
     docVal = imp_doc_val(_impuestos.doc , _tipo_documento);
-   //console.log(_orden);
-    _orden.forEach(function(element) {
+    
+    if(docVal){
 
-    	if(element.combo == 1){
+    	_orden.forEach(function(element) {
 
-    		if((element.iva != "on" || element.iva != 1)  ){
+    		var exist_cat = imp_cat_val(element.categoria);
+    		
+    		if(exist_cat){
 
-    			if(_conf.comboAgrupado == 0){ // referencia combo_total
-    				console.log("A");
+		    	if(element.combo == 1){
 
-    				_orden[_orden.indexOf(element)].impA = 0;
-    				_orden[_orden.indexOf(element)].total_anterior = (element.combo_total * element.cantidad);
+		    		if((element.iva != "on" || element.iva != 1)  ){
 
-    			}else{ // referencia total
-    				console.log("B");
-    				
-    				_orden[_orden.indexOf(element)].impA = 0;
-    				_orden[_orden.indexOf(element)].total_anterior = (element.precioUnidad * element.cantidad);
-    			}
-				
-				aplicar_imp_combo(_docVal , element );	    		
+		    			if(_conf.comboAgrupado == 0){ // referencia combo_total
+		    				console.log("A");
 
-    		}else{
-    			// No hacer nada
-    			aplicar_imp_duplicado(_docVal , element );
-    		}
-    	}else{
-    		if((element.iva ==0) && element.id_producto_combo == null  ){
+		    				_orden[_orden.indexOf(element)].impA = 0;
+		    				_orden[_orden.indexOf(element)].total_anterior = (element.combo_total * element.cantidad);
 
-	    		if((element.id_producto_combo == null || element.id_producto_combo==0)){
-					console.log("C");
-					// Doc Aplica Impuesta.
-	    			_orden[_orden.indexOf(element)].impA = 0;
-	    			_orden[_orden.indexOf(element)].total_anterior = (element.presentacionPrecio * element.cantidad);
-	    			aplicar_imp(_docVal , element );
+		    			}else{ // referencia total
+		    				console.log("B");
+		    				
+		    				_orden[_orden.indexOf(element)].impA = 0;
+		    				_orden[_orden.indexOf(element)].total_anterior = (element.precioUnidad * element.cantidad);
+		    			}
+						
+						aplicar_imp_combo( element );	    		
 
-	    		}else{
-	    			console.log("D");
-	    			// No hacer nada
-	    			//_orden[_orden.indexOf(element)].total_anterior = (element.presentacionPrecio * element.cantidad);
-	    			//aplicar_imp_duplicado(_docVal , element);
-	    		}
+		    		}else{
+		    			// No hacer nada
+		    			aplicar_imp_duplicado( element );
+		    		}
+		    	}else{
+
+		    		if((element.iva ==0) && element.id_producto_combo == null  ){
+
+			    		if((element.id_producto_combo == null || element.id_producto_combo==0)){
+							console.log("C");
+							// Doc Aplica Impuesta.
+			    			_orden[_orden.indexOf(element)].impA = 0;
+			    			_orden[_orden.indexOf(element)].total_anterior = (element.presentacionPrecio * element.cantidad);
+			    			aplicar_imp( element );
+
+			    		}else{
+			    			console.log("D");
+			    			// No hacer nada
+			    			//_orden[_orden.indexOf(element)].total_anterior = (element.presentacionPrecio * element.cantidad);
+			    			//aplicar_imp_duplicado(_docVal , element);
+			    		}
+			    	}
+		    	}
 	    	}
-    	}
-    });
+	    });
+    }
 }
 
 function imp_doc_val(imp_doc , doc){
@@ -85,55 +94,74 @@ function imp_doc_val(imp_doc , doc){
 
 	$.each(imp_doc, function(i, item) {
 
-    	if(item.Documento == doc && item.aplicar_a_producto == 1 ){
+    	if(item.Documento == doc && item.estado != 0 ){
+    		
+    		_docVal[c] = {'entidad' : item.nombre, 'valor' : item.porcentage};
 
-    		_docVal[c] = item.porcentage;
     		x = true;
     		c+=1;
     	}
-
     });
+	return x;
+}
+
+
+function imp_cat_val(categoria){
+
+	var x = false;
+	var c = 0;
+
+	$.each(_impuestos.cat, function(i, item) {
+    	
+    	// Categoria de producto sea igual
+    	if(item.Categoria == categoria)
+		{
+
+			//Que no exista impuesto para agregarlo
+			$.each(_docVal, function(i, item2) {
+				
+				if(item2.entidad != item.nombre){
+					_docVal[_docVal.length] = {'entidad' : item.nombre, 'valor' : item.porcentage};
+				}
+				
+			});
+			
+			x = true;	
+			c+=1;
+		}
+	});
 
 	return x;
 }
 
-/*
-	function imp_cat_val(){
 
-	}
-
-	function imp_pro_val(){
-
-	}
-
-	function imp_cli_val(){
-
-	}
-
-	function impuesto_excento(){
-
-	}
-
-*/
-
-function aplicar_imp(imp , prod){
+function aplicar_imp( prod){
 	
 	var total = 0;
-	console.log(_orden);
+	var sub_total = 0;
+	
 	_orden.forEach(function(element) {
 
 		if(element.producto2 == prod.producto2 && element.id_producto_combo == null){
-			console.log("xxxx ",element.id_producto_detalle);
-			total = (element.total_anterior * imp);
+
+			$.each(_docVal, function(i, item) {
+
+				total += (element.total_anterior * item.valor);
+			});
+			console.log(total);
 			
-			_orden[_orden.indexOf(element)].total = total.toFixed(2);
+			sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
+			
+			console.log(sub_total);
+			
+			_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
 			_orden[_orden.indexOf(element)].impA = 1;
 
 		}
 	});
 }
 
-function aplicar_imp_combo(imp , prod){
+function aplicar_imp_combo( prod){
 	
 	var total = 0;
 
@@ -141,7 +169,7 @@ function aplicar_imp_combo(imp , prod){
 
 		if(element.producto2 == prod.id_producto_detalle && prod.combo == 1){
 			console.log("3",element.descripcion);
-			total = (element.total_anterior * imp);
+			total = (element.total_anterior * _catVal);
 			_orden[_orden.indexOf(element)].total = total.toFixed(2);
 			_orden[_orden.indexOf(element)].impA = 1;
 			
@@ -149,12 +177,12 @@ function aplicar_imp_combo(imp , prod){
 	});	
 }
 
-function aplicar_imp_duplicado(imp , prod){
+function aplicar_imp_duplicado( prod){
 	_orden.forEach(function(element) {
 		//console.log("3",element.total_anterior , imp);
 		if(element.producto2 == prod.producto2){
 			
-			total = (element.total_anterior * imp);
+			total = (element.total_anterior * _catVal);
 			
 			_orden[_orden.indexOf(element)].total = total.toFixed(2);
 		}
@@ -162,5 +190,6 @@ function aplicar_imp_duplicado(imp , prod){
 }
 
 function quitar_imp(imp, prod){
+	// Remover Impuesto de la orden
 
 }

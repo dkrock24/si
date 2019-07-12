@@ -161,7 +161,7 @@ var columna1 = 'Impuesto';
         var tabla = table_intermedia;
         var data;
         var num =1;
-        var html='<thead><tr><th scope="col"></th><th>Entidad</th> <th>Impuesto</th> <th>Porcentage</th> <th>SRN</th> <th>A_P</th> <th>A_C</th> <th>A_P</th> <th>A_GBE</th> <th>Opciones</th> </tr></thead>';
+        var html='<thead><tr><th scope="col"></th><th>Entidad</th> <th>Impuesto</th> <th>Porcentage</th> <th>SRN</th> <th>A_P</th> <th>A_C</th> <th>A_P</th> <th>A_GBE</th><th>Estado</th> <th>Opciones</th> </tr></thead>';
         $.each(datos['impuesto_option'], function(i, item) { 
             
             html += "<tr class='line'>";  
@@ -174,10 +174,11 @@ var columna1 = 'Impuesto';
             html += "<td>"+item.aplicar_a_cliente +"</td>";
             html += "<td>"+item.aplicar_a_proveedor +"</td>";
             html += "<td>"+item.aplicar_a_grab_brut_exent +"</td>";
+            html += "<td><span>"+item.estado+"</span></td>";
 
             data = {"entidad":item.eId , "impuesto":item.iId, "columna":entidad, "tabla":tabla};
             
-            html += "<td> <button type='button' class='btn btn-danger' onclick='myFunction("+JSON.stringify(data)+")'><i class='fa fa-trash'></i></button> </td> ";
+            html += "<td><button type='button' class='btn btn-success' onclick='disable("+JSON.stringify(data)+")'><i class='fa fa-pencil'></i></button> <button type='button' class='btn btn-danger' onclick='myFunction("+JSON.stringify(data)+")'><i class='fa fa-trash'></i></button> </td> ";
             
             html += "</tr>";
             num++;
@@ -237,8 +238,13 @@ var columna1 = 'Impuesto';
         });
     }
 
-     function myFunction(data){
+    function myFunction(data){
         var metodo = "deleteImpuesto";
+        asociarImpuesto( data, metodo );
+    }
+
+    function disable(data){
+        var metodo = "updateImpuesto";
         asociarImpuesto( data, metodo );
     }
 

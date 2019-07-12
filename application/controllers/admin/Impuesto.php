@@ -158,6 +158,10 @@ class Impuesto extends CI_Controller {
 		$this->Impuesto_model->deleteImpuesto($_GET);
 	}
 
+	public function updateImpuesto(){
+		$this->Impuesto_model->updateImpuesto2($_GET);	
+	}
+
 	public function get_sub_categoria($id_categoria){
 		
 		$data['subcategoria'] = $this->Categorias_model->get_categorias_hija($id_categoria);

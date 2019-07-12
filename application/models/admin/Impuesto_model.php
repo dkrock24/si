@@ -88,7 +88,7 @@ class Impuesto_model extends CI_Model {
     }
 
     function getImpuestoDatos( $table_intermedia ,$tabla_destino , $columna1, $columna2 , $columna3 , $field){
-        $this->db->select('i.* , destino.'.$field.' as valor_field  ,inter.'.$columna2.' as eId, inter.'.$columna1.' as iId');
+        $this->db->select('i.* , destino.'.$field.' as valor_field  ,inter.'.$columna2.' as eId, inter.'.$columna1.' as iId , inter.estado');
         $this->db->from(self::impuesto .' as i');
         $this->db->join($table_intermedia . ' as inter', 'on inter.'.$columna1.' = i.id_tipos_impuestos');
         $this->db->join($tabla_destino . ' as destino', 'on destino.'.$columna3.' = inter.'.$columna2);
@@ -134,6 +134,7 @@ class Impuesto_model extends CI_Model {
     }
 
     function deleteImpuesto($info){
+
         // Delete genrico
         $data = array(
             $info['columna'] => $info['entidad'],
@@ -142,12 +143,45 @@ class Impuesto_model extends CI_Model {
         $this->db->delete($info['tabla'], $data);
     }
 
+    function updateImpuesto2($info){
+        var_dump($info);
+        $entero = 0;
+        $val = $this->selectImpCatStatus($info);
+        
+        if( $val[0]->estado == 0 ){
+            $entero = 1;
+        }else{
+            $entero = 0;
+        }
+        
+        $data = array(
+            'estado' => $entero
+        );
+        $this->db->where($info['columna'], $info['entidad']);
+        $this->db->where('impuesto', $info['impuesto']);
+        $this->db->update($info['tabla'], $data);
+    }
+
+    function selectImpCatStatus( $info ){
+
+        $this->db->select('*');
+        $this->db->from($info['tabla']);
+        $this->db->where($info['columna'], $info['entidad']);
+        $this->db->where('impuesto', $info['impuesto']);
+        $query = $this->db->get();
+                
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
     function getAllImpCat(){
         $this->db->select('*');
         $this->db->from(self::impuesto .' as i');
         $this->db->join(self::impuesto_categoria.' as c',' on i.id_tipos_impuestos = c.Impuesto');
         $this->db->where('i.imp_estado',1);
-        $this->db->where('c.estado_impuesto_categoria',1);
+        $this->db->where('c.estado',1);
         $query = $this->db->get();
         //$this->db->queries[0];
                 
