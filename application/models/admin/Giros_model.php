@@ -24,6 +24,7 @@ class Giros_model extends CI_Model {
     function getAllgiros(){;
         $this->db->select('*');
         $this->db->from(self::giros);
+        $this->db->where(self::giros.'.Empresa', $this->session->empresa[0]->Empresa_Suc);
         $query = $this->db->get(); 
         //echo $this->db->queries[2];
         
@@ -53,6 +54,7 @@ class Giros_model extends CI_Model {
     function get_empresa2(){
         $this->db->select('id_empresa,nombre_razon_social');
         $this->db->from(self::empresa);
+        $this->db->where('id_empresa', $this->session->empresa[0]->Empresa_Suc);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -69,6 +71,7 @@ class Giros_model extends CI_Model {
             'descripcion_giro' => $nuevo_giro['descripcion_giro'],
             'tipo_giro' => $nuevo_giro['tipo_giro'],
             'codigo_giro' => $nuevo_giro['codigo_giro'],
+            'Empresa' => $this->session->empresa[0]->Empresa_Suc,
             'estado_giro' => $nuevo_giro['estado_giro'],
             'fecha_giro_creado' => date("Y-m-d h:i:s")
         );
@@ -236,7 +239,7 @@ class Giros_model extends CI_Model {
                     $data = array(
                         'Empresa' => $empresa,
                         'Giro' => $key,
-                        'nombre_plantilla' => "Demo" ,
+                        'nombre_plantilla' => "General" ,
                         'creado_giro_empresa' => date("Y-m-d h:i:s")
                     );
                     $this->db->insert(self::empresa_plantilla, $data ); 

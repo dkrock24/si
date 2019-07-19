@@ -107,7 +107,7 @@ class Proveedor extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;		
 		$data['linea'] = $this->Linea_model->getAllLinea();
-		$data['persona'] = $this->Persona_model->getPersona();
+		$data['persona'] = $this->Persona_model->getAllPersona();
 		$data['home'] = 'admin/proveedor/proveedor_nuevo';
 
 		$this->parser->parse('template', $data);

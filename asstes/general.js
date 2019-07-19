@@ -1,10 +1,12 @@
 
 var _tipo_documento;
+var total_orden = 0;
 var docVal, catVal, proVal, cliVal;
 var _docVal = [];
 var _catVal = [];
 var _proVal = [];
 var _cliVal = [];
+
 
 $(document).ready(function(){
 
@@ -13,25 +15,29 @@ $(document).ready(function(){
 	_tipo_documento = $("#id_tipo_documento").val();
 	$("#id_tipo_documento").change(function(){
 		tipo_documento($(this).val());
+
+		
 	});
 
 });
 
 function tipo_documento(tipo_documento){
 	_tipo_documento = tipo_documento;
+
 }
 
 function _config_impuestos(){
 	impuestos();
 }
 
+
+
 function impuestos(){
     /*
      * Calcular los impuestos a productos en la orden
      */
-
     docVal = imp_doc_val(_impuestos.doc , _tipo_documento);
-    
+
     if(docVal){
 
     	_orden.forEach(function(element) {
@@ -80,6 +86,11 @@ function impuestos(){
 			    			//_orden[_orden.indexOf(element)].total_anterior = (element.presentacionPrecio * element.cantidad);
 			    			//aplicar_imp_duplicado(_docVal , element);
 			    		}
+			    	}else{
+			    		console.log("E");
+			    		_orden[_orden.indexOf(element)].impA = 0;
+		    			_orden[_orden.indexOf(element)].total_anterior = (element.presentacionPrecio * element.cantidad);
+			    		aplicar_imp_especial(element);
 			    	}
 		    	}
 	    	}
@@ -91,12 +102,20 @@ function imp_doc_val(imp_doc , doc){
 	
 	var x = false;
 	var c = 0;
+	_docVal = [];
 
 	$.each(imp_doc, function(i, item) {
 
     	if(item.Documento == doc && item.estado != 0 ){
     		
-    		_docVal[c] = {'entidad' : item.nombre, 'valor' : item.porcentage};
+    		_docVal[c] = {
+    			'entidad' : item.nombre, 
+    			'valor' : item.porcentage, 
+    			'especial': item.especial, 
+    			'excluyente': item.excluyente,
+    			'condicion' : item.condicion,
+    			'condicion_valor': item.condicion_valor
+    		};
 
     		x = true;
     		c+=1;
@@ -110,18 +129,25 @@ function imp_cat_val(categoria){
 
 	var x = false;
 	var c = 0;
+	_catVal = [];
 
 	$.each(_impuestos.cat, function(i, item) {
     	
     	// Categoria de producto sea igual
-    	if(item.Categoria == categoria)
+    	if(item.Categoria == categoria && item.estado !=0 )
 		{
-
 			//Que no exista impuesto para agregarlo
 			$.each(_docVal, function(i, item2) {
 				
-				if(item2.entidad != item.nombre){
-					_docVal[_docVal.length] = {'entidad' : item.nombre, 'valor' : item.porcentage};
+				if(item2.entidad == item.nombre){					
+					_catVal[_catVal.length] = {
+						'entidad' : item.nombre, 
+						'valor' : item.porcentage, 
+						'especial': item.especial, 
+						'excluyente': item.excluyente,
+						'condicion' : item.condicion,
+    					'condicion_valor': item.condicion_valor
+					};
 				}
 				
 			});
@@ -134,29 +160,30 @@ function imp_cat_val(categoria){
 	return x;
 }
 
-
 function aplicar_imp( prod){
 	
 	var total = 0;
 	var sub_total = 0;
+	var aplicable = false;
 	
 	_orden.forEach(function(element) {
 
 		if(element.producto2 == prod.producto2 && element.id_producto_combo == null){
 
-			$.each(_docVal, function(i, item) {
-
-				total += (element.total_anterior * item.valor);
+			$.each(_catVal, function(i, item) {
+				if( item.condicion == 0 ){
+					aplicable = true;
+					total += (element.total_anterior * item.valor);
+				}				
 			});
-			console.log(total);
-			
-			sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
-			
-			console.log(sub_total);
-			
-			_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
-			_orden[_orden.indexOf(element)].impA = 1;
 
+			if(aplicable){
+				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
+			
+				_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
+				_orden[_orden.indexOf(element)].impA = 1;
+
+			}
 		}
 	});
 }
@@ -164,13 +191,20 @@ function aplicar_imp( prod){
 function aplicar_imp_combo( prod){
 	
 	var total = 0;
-
+	var sub_total = 0;
+	
 	_orden.forEach(function(element) {
 
 		if(element.producto2 == prod.id_producto_detalle && prod.combo == 1){
 			console.log("3",element.descripcion);
-			total = (element.total_anterior * _catVal);
-			_orden[_orden.indexOf(element)].total = total.toFixed(2);
+			
+			$.each(_catVal, function(i, item) {
+				total += (element.total_anterior * item.valor);
+			});
+
+			sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
+
+			_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
 			_orden[_orden.indexOf(element)].impA = 1;
 			
 		}
@@ -187,6 +221,45 @@ function aplicar_imp_duplicado( prod){
 			_orden[_orden.indexOf(element)].total = total.toFixed(2);
 		}
 	});
+}
+
+function aplicar_imp_especial(prod){
+
+	var total = 0;
+	var sub_total = 0;
+	var aplicable = false;
+
+	_orden.forEach(function(element) {
+
+		if(element.producto2 == prod.producto2 && element.id_producto_combo == null){
+
+			$.each(_catVal, function(i, item) {
+				if( item.especial == 1 ){
+					aplicable = true;
+					total += (element.total_anterior * item.valor);
+				}				
+			});
+
+			if(aplicable){
+				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
+			
+				_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
+				_orden[_orden.indexOf(element)].impA = 1;
+
+			}
+		}
+	});
+}
+
+function get_total_orden(){
+
+	total_orden = 0;
+
+	_orden.forEach(function(element) {
+		total_orden += parseFloat(element.total);
+	});
+
+	return total_orden;
 }
 
 function quitar_imp(imp, prod){

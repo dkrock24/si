@@ -291,6 +291,7 @@ class Producto_model extends CI_Model {
 	        $this->db->from(self::categoria);
 	        $this->db->where('id_categoria_padre IS NULL' );
 	        $this->db->where('categoria_estado = 1');
+	        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc);
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];
 	        
@@ -406,12 +407,15 @@ class Producto_model extends CI_Model {
 
 		function actualizar_producto( $producto ){
 
+			
 			$data = array(
 	            'name_entidad' => $producto['name_entidad'],
 	            'producto_estado' => $producto['producto_estado'],
 	            'Empresa' => $producto['empresa'],
 	            'Giro' => $producto['giro'],
-	            'id_producto_relacionado' => $producto['procuto_asociado']	            
+	            'Marca' => $producto['marca'],
+	            'id_producto_relacionado' => $producto['procuto_asociado'],
+	            'actualizado_producto' => date('Y-m-d h:i:s')
 	        );
 	        if(isset($producto['escala'])){
 				$data += ['Escala' => 1 ];
@@ -491,6 +495,7 @@ class Producto_model extends CI_Model {
 
 	        // Recorrer la lista de producto_atributos
 	        $id_prod_atrri=0;
+
 	        foreach ($datos as $value) {
 
 	        	$id_prod_atrri 	= $value->id_prod_atrri;

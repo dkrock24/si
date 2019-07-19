@@ -59,6 +59,7 @@ class Proveedor_model extends CI_Model {
             'cel_empresa'=> $datos['cel_empresa'],
             'website' => $datos['website'],
             'lineas' => $datos['lineas'],
+            'Empresa_id' => $this->session->empresa[0]->Empresa_Suc,
             'Persona_Proveedor' => $datos['Persona_Proveedor'],
             'natural_juridica' => $datos['natural_juridica'],
             'estado' => $datos['estado'],

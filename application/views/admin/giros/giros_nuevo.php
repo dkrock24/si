@@ -6,8 +6,8 @@
             <h3 style="height: 50px; font-size: 13px;">                
                 <a href="index" style="top: -12px;position: relative; text-decoration: none">
                     <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Giros</button> </a> 
-                <a href="" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info btn-outline">/ Nuevo</button></a>
+                
+                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Nuevo</button></a>
                 </h3>
             <div class="row">
                 <div class="col-lg-12">
@@ -25,30 +25,30 @@
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="nombre_giro" name="nombre_giro" placeholder="Nombre" value="">
-                                                    <p class="help-block">Nombre Giro.</p>
+                                                    
                                                 </div>
                                             </div>   
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Tipo</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="tipo_giro" name="tipo_giro" placeholder="Tipo" value="">
-                                                    <p class="help-block">Tipo Giro.</p>
+                                                    
                                                 </div>
                                             </div>    
 
                                             <div class="form-group">
-                                                <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Descri.</label>
+                                                <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Descripcion</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="descripcion_giro" name="descripcion_giro" placeholder="Tipo" value="">
-                                                    <p class="help-block">Descripcion Giro.</p>
+                                                    <input type="text" class="form-control" id="descripcion_giro" name="descripcion_giro" placeholder="Descripcion" value="">
+                                                    
                                                 </div>
                                             </div>  
 
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Codigo</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="codigo_giro" name="codigo_giro" placeholder="Tipo" value="">
-                                                    <p class="help-block">Codigo Giro.</p>
+                                                    <input type="text" class="form-control" id="codigo_giro" name="codigo_giro" placeholder="Codigo" value="">
+                                                    
                                                 </div>
                                             </div>                                       
 

@@ -8,7 +8,7 @@
           $.ajax({
             url: "get_atributos/"+id,  
             datatype: 'json',      
-            cache : false,                
+            cache : false,
 
                 success: function(data){
 
@@ -309,12 +309,12 @@
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
-                        <thead>
+                        <thead class="bg-info-dark">
                             <tr>
                               <?php
                               foreach ($column as $key => $combo) {
                                 ?>
-                                <th><?php echo $combo; ?></th>
+                                <th style="color: white;"><?php echo $combo; ?></th>                                
                                 <?php
                               }
                               ?>
@@ -422,12 +422,10 @@
                       ?>                       
                                    
                         </tbody>
+
                     </table>
 
-                </div>
-                <div class="row">
-                    
-                    <div class="col-lg-12 text-right">
+                    <div class="col-lg-12 text-right  panel-footer bg-gray-light">
                         <ul class="pagination pagination-md">
                            <?php foreach ($links as $link) {
                             echo "<li class='page-item '>". $link ."</li>";
@@ -436,7 +434,7 @@
                     </div>
 
                 </div>
-                
+
             </div>
         </div>
 

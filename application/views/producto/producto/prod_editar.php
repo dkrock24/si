@@ -104,7 +104,7 @@
           $("#giro").empty();
           var id = $(this).val();
           $.ajax({
-            url: "get_giros_empresa/"+id,  
+            url: "../get_giros_empresa/"+id,  
             datatype: 'json',      
             cache : false,                
 
@@ -485,7 +485,8 @@
         
         $.each(plantilla, function(i, item) {
             var checked2 = "";
-            if(item.valor == 1){
+
+            if(item.valor == 1 || item.valor=='on'){
                 checked2 = "checked";
                 incluyeIva = obj_impuesto[0].porcentage;
             }
@@ -824,8 +825,20 @@
                                                         
                                                         <label>
                                                             <select name="producto_estado" class="form-control">
-                                                                <option value="1">Activo</option>
-                                                                <option value="0">Inactivo</option>
+                                                                <?php
+                                                                if($producto[0]->producto_estado == 1){
+                                                                    ?>
+                                                                    <option value="1">Activo</option>
+                                                                    <option value="0">Inactivo</option>
+                                                                    <?php
+                                                                }else{
+                                                                    ?>
+                                                                    <option value="0">Inactivo</option>
+                                                                    <option value="1">Activo</option>                                                                    
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                                
                                                             </select>
                                                         </label>
                                                         

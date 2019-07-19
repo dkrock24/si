@@ -51,7 +51,7 @@ class Giros extends CI_Controller {
 			}			
 		}
 		
-		$total_row = $this->Atributos_model->record_count();
+		$total_row = $this->Giros_model->record_count();
 		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/giros/index");
 		$this->pagination->initialize($config);
 		if($this->uri->segment(4)){
