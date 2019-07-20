@@ -80,7 +80,42 @@
                                                 <input type="text" class="form-control" id="aplicar_a_grab_brut_exent" name="aplicar_a_grab_brut_exent" placeholder="Grab Bruto Exent" value="<?php echo $impuesto[0]->aplicar_a_grab_brut_exent ?>">
                                                 
                                             </div>
-                                        </div>                                        
+                                        </div>      
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Especial</label>
+                                            <div class="col-sm-8">
+                                                <input type="number" class="form-control" id="especial" name="especial" min="0" max="1" value="<?php echo $impuesto[0]->especial ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Excluyente</label>
+                                            <div class="col-sm-8">
+                                                <input type="number" class="form-control" id="excluyente" name="excluyente" min="0" max="1" value="<?php echo $impuesto[0]->excluyente ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Condicion</label>
+                                            <div class="col-sm-8">
+                                                <input type="number" class="form-control" id="condicion" name="condicion" min="0" max="1" value="<?php echo $impuesto[0]->condicion ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Condicion Valor</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="c_valor" name="c_valor" value="<?php echo $impuesto[0]->condicion_valor ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Mensaje</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="mensaje" name="mensaje" value="<?php echo $impuesto[0]->mensaje ?>">
+                                            </div>
+                                        </div>                                  
 
                                         <div class="form-group">
                                             <div class="col-sm-offset-4 col-sm-8">

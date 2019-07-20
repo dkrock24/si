@@ -6,6 +6,7 @@ var _docVal = [];
 var _catVal = [];
 var _proVal = [];
 var _cliVal = [];
+var _impuestos_orden = [];
 
 
 $(document).ready(function(){
@@ -48,7 +49,7 @@ function impuestos(){
 
 		    	if(element.combo == 1){
 
-		    		if((element.iva != "on" || element.iva != 1)  ){
+		    		if((element.iva != "on" && element.iva != 1)  ){
 
 		    			if(_conf.comboAgrupado == 0){ // referencia combo_total
 		    				console.log("A");
@@ -67,7 +68,7 @@ function impuestos(){
 
 		    		}else{
 		    			// No hacer nada
-		    			aplicar_imp_duplicado( element );
+		    			//aplicar_imp_duplicado( element );
 		    		}
 		    	}else{
 
@@ -90,12 +91,15 @@ function impuestos(){
 			    		console.log("E");
 			    		_orden[_orden.indexOf(element)].impA = 0;
 		    			_orden[_orden.indexOf(element)].total_anterior = (element.presentacionPrecio * element.cantidad);
-			    		aplicar_imp_especial(element);
+			    		//aplicar_imp_especial(element);
 			    	}
 		    	}
 	    	}
 	    });
     }
+    
+    get_total_orden();
+    aplicar_imp_especial();
 }
 
 function imp_doc_val(imp_doc , doc){
@@ -114,7 +118,8 @@ function imp_doc_val(imp_doc , doc){
     			'especial': item.especial, 
     			'excluyente': item.excluyente,
     			'condicion' : item.condicion,
-    			'condicion_valor': item.condicion_valor
+    			'condicion_valor': item.condicion_valor,
+    			'condicion_simbolo': item.condicion_simbolo
     		};
 
     		x = true;
@@ -123,7 +128,6 @@ function imp_doc_val(imp_doc , doc){
     });
 	return x;
 }
-
 
 function imp_cat_val(categoria){
 
@@ -146,7 +150,8 @@ function imp_cat_val(categoria){
 						'especial': item.especial, 
 						'excluyente': item.excluyente,
 						'condicion' : item.condicion,
-    					'condicion_valor': item.condicion_valor
+    					'condicion_valor': item.condicion_valor,
+    					'condicion_simbolo' : item.condicion_simbolo
 					};
 				}
 				
@@ -192,20 +197,26 @@ function aplicar_imp_combo( prod){
 	
 	var total = 0;
 	var sub_total = 0;
+	var aplicable = false;
 	
 	_orden.forEach(function(element) {
 
 		if(element.producto2 == prod.id_producto_detalle && prod.combo == 1){
-			console.log("3",element.descripcion);
 			
 			$.each(_catVal, function(i, item) {
-				total += (element.total_anterior * item.valor);
+				if( item.especial == 0 && item.condicion!=1){
+					aplicable = true;
+					total += (element.total_anterior * item.valor);
+				}
 			});
 
-			sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
+			if(aplicable){
+				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
 
-			_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
-			_orden[_orden.indexOf(element)].impA = 1;
+				_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
+				_orden[_orden.indexOf(element)].impA = 1;
+				aplicable = false;
+			}
 			
 		}
 	});	
@@ -226,29 +237,37 @@ function aplicar_imp_duplicado( prod){
 function aplicar_imp_especial(prod){
 
 	var total = 0;
-	var sub_total = 0;
-	var aplicable = false;
 
-	_orden.forEach(function(element) {
+	$.each(_catVal, function(i, item) {
 
-		if(element.producto2 == prod.producto2 && element.id_producto_combo == null){
+		if( item.condicion == 1 ){
 
-			$.each(_catVal, function(i, item) {
-				if( item.especial == 1 ){
-					aplicable = true;
-					total += (element.total_anterior * item.valor);
-				}				
-			});
-
-			if(aplicable){
-				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
-			
-				_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
-				_orden[_orden.indexOf(element)].impA = 1;
-
+			if(item.condicion_simbolo == '>='){
+				if(eval(total_orden >= item.condicion_valor) ){
+					_impuestos_orden[i] = {
+						ordenImpName : item.entidad,
+						ordenImpVal  : item.valor,
+						ordenImpTotal: (total_orden * item.valor)
+					}
+				}
 			}
-		}
+
+			if(item.condicion_simbolo == '<='){
+				if(eval(total_orden <= item.condicion_valor) ){
+					_impuestos_orden[i] = {
+						ordenImpName : item.entidad,
+						ordenImpVal  : item.valor,
+						ordenImpTotal: (total_orden * item.valor)
+					}
+				}
+			}
+
+		}				
 	});
+}
+
+function aplicar_imp_condicional(){
+
 }
 
 function get_total_orden(){

@@ -29,12 +29,17 @@ class Impuesto_model extends CI_Model {
 
         $data = array(
             'nombre' => $impuesto['nombre'],
-            'porcentage' => $impuesto['porcentage'],
+            'porcentage' => $impuesto['porcentaje'],
             'suma_resta_nada' => $impuesto['suma_resta_nada'],
             'aplicar_a_producto' => $impuesto['aplicar_a_producto'],
             'aplicar_a_cliente' => $impuesto['aplicar_a_cliente'],
             'aplicar_a_proveedor' => $impuesto['aplicar_a_proveedor'],
             'aplicar_a_grab_brut_exent' => $impuesto['aplicar_a_grab_brut_exent'],
+            'especial' => $impuesto['especial'],
+            'excluyente' => $impuesto['excluyente'],
+            'condicion' => $impuesto['condicion'],
+            'condicion_valor' => $impuesto['c_valor'],
+            'mensaje' => $impuesto['mensaje'],
             'imp_empresa'=> $this->session->empresa[0]->Empresa_Suc,
             'imp_estado' => $impuesto['imp_estado'],
         );
@@ -66,6 +71,11 @@ class Impuesto_model extends CI_Model {
             'aplicar_a_cliente' => $impuesto['aplicar_a_cliente'],
             'aplicar_a_proveedor' => $impuesto['aplicar_a_proveedor'],
             'aplicar_a_grab_brut_exent' => $impuesto['aplicar_a_grab_brut_exent'],
+            'especial' => $impuesto['especial'],
+            'excluyente' => $impuesto['excluyente'],
+            'condicion' => $impuesto['condicion'],
+            'condicion_valor' => $impuesto['c_valor'],
+            'mensaje' => $impuesto['mensaje'],
             'imp_empresa'=> $this->session->empresa[0]->Empresa_Suc,
             'imp_estado' => $impuesto['imp_estado'],
         );

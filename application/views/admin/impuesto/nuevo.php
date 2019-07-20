@@ -36,9 +36,9 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Porcentage</label>
+                                            <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Porcentaje</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="porcentage" name="porcentage" placeholder="Porcentage" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                                <input type="text" class="form-control" id="porcentaje" name="porcentaje" placeholder="Porcentaje" value="0.00<?php //echo $onMenu[0]->nombre_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -54,7 +54,7 @@
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Aplicar a Producto</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="aplicar_a_producto" name="aplicar_a_producto" placeholder="Aplicar a producto" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                                <input type="number" class="form-control" id="aplicar_a_producto" name="aplicar_a_producto" min="0" max="1" placeholder="Aplicar a producto" value="0<?php //echo $onMenu[0]->nombre_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -62,7 +62,7 @@
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Aplicar a Cliente</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="aplicar_a_cliente" name="aplicar_a_cliente" placeholder="Aplicar a Cliente" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                                <input type="number" class="form-control" id="aplicar_a_cliente" name="aplicar_a_cliente" min="0" max="1" placeholder="Aplicar a Cliente" value="0<?php //echo $onMenu[0]->nombre_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -70,7 +70,7 @@
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Aplicar a Proveedor</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="aplicar_a_proveedor" name="aplicar_a_proveedor" placeholder="Aplicar a proveedor" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                                <input type="number" class="form-control" id="aplicar_a_proveedor" name="aplicar_a_proveedor" min="0" max="1" placeholder="Aplicar a proveedor" value="0<?php //echo $onMenu[0]->nombre_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -81,7 +81,42 @@
                                                 <input type="text" class="form-control" id="aplicar_a_grab_brut_exent" name="aplicar_a_grab_brut_exent" placeholder="Grab Bruto Exent" value="<?php //echo $onMenu[0]->url_submenu ?>">
                                                 
                                             </div>
-                                        </div>                                        
+                                        </div>   
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Especial</label>
+                                            <div class="col-sm-8">
+                                                <input type="number" class="form-control" id="especial" name="especial" min="0" max="1" value="0<?php //echo $onMenu[0]->url_submenu ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Excluyente</label>
+                                            <div class="col-sm-8">
+                                                <input type="number" class="form-control" id="excluyente" name="excluyente" min="0" max="1" value="0<?php //echo $onMenu[0]->url_submenu ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Condicion</label>
+                                            <div class="col-sm-8">
+                                                <input type="number" class="form-control" id="condicion" name="condicion" min="0" max="1" value="0<?php //echo $onMenu[0]->url_submenu ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Condicion Valor</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="c_valor" name="c_valor"value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Mensaje</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="mensaje" name="mensaje"value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                            </div>
+                                        </div>
 
                                         <div class="form-group">
                                             <div class="col-sm-offset-4 col-sm-8">

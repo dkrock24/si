@@ -116,7 +116,7 @@ class Impuesto extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Porcentaje','SRN','A_producto','A_cliente','A_proveedor','A_G_B_E','Estado'
+			'#','Nombre','Porcentaje','SRN','A_producto','A_cliente','A_proveedor','A_G_B_E','Es','Ex','Co','Valor','Estado'
 		);
 		return $column;
 	}
@@ -124,7 +124,7 @@ class Impuesto extends CI_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'nombre','porcentage','suma_resta_nada','aplicar_a_producto','aplicar_a_cliente','aplicar_a_proveedor','aplicar_a_grab_brut_exent','estado'
+			'nombre','porcentage','suma_resta_nada','aplicar_a_producto','aplicar_a_cliente','aplicar_a_proveedor','aplicar_a_grab_brut_exent','especial','excluyente','condicion','condicion_valor','estado'
 		);
 		
 		$fields['id'] = array('id_tipos_impuestos');
