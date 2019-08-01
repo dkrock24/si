@@ -116,6 +116,7 @@ class Orden extends CI_Controller {
 			$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal();
 			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
+			$data['cliente'] = $this->Cliente_model->get_cliente();
 		
 			$data['home'] = 'producto/orden/orden_crear';
 
@@ -315,6 +316,8 @@ class Orden extends CI_Controller {
 		$data['prod_precio'] = $this->Orden_model->get_producto_precios( $producto_id );
 		$data['conf'] = $this->Orden_model->getConfg($combo_conf);
 		$data['impuesto'] = $this->Orden_model->getConfgImpuesto($impuesto_conf);
+		//$data['producto_imagen'] = $this->Producto_model->get_productos_imagen($producto_id);
+		//var_dump($data['producto_imagen']);
 		
 		echo json_encode( $data );
 	}
@@ -330,6 +333,55 @@ class Orden extends CI_Controller {
 		}
 
 		return $terminal_datos;
+	}
+
+	/************ Venta Rapida *********/
+	public function venta_rapida(){
+		// Seguridad :: Validar URL usuario	
+		$terminal_acceso = FALSE;
+
+		$menu_session 	= $this->session->menu;	
+		parametros($menu_session);
+
+		$id_rol 		= $this->session->roles[0];
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
+
+		$terminal_acceso = $this->validar_usuario_terminal( $id_usuario );
+
+		$data['menu'] 	= $this->session->menu;
+
+		if($terminal_acceso){
+			
+			$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
+			$data['sucursales'] = $this->Producto_model->get_sucursales();
+			$data['modo_pago'] = $this->ModoPago_model->get_formas_pago();
+			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
+			$data['terminal'] = $terminal_acceso;
+			$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal();
+			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
+			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
+			$data['cliente'] = $this->Cliente_model->get_cliente();
+		
+			$data['home'] = 'producto/orden/venta_rapida';
+
+			$this->load->view('producto/orden/venta_rapida',$data);
+		}else{
+			$data['home'] = 'producto/orden/orden_denegado';
+			$this->parser->parse('template', $data);
+		}
+	}
+
+	public function get_productos_imagen($producto_id){
+		$data['producto_imagen'] = $this->Producto_model->get_productos_imagen($producto_id);
+
+		$info['imagen'] = base64_encode($data['detalle'][0]->producto_img_blob);
+		$info['type'] = $data['detalle'][0]->imageType;
+
+		return json_encode($info);
+	}
+
+	public function table(){
+		$this->load->view('producto/orden/table.html');
 	}
 
 	public function column(){

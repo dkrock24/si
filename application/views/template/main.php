@@ -280,9 +280,22 @@
                                 ?>
                                     <li class="sidebar-subnav-header">Dashboard</li>
                                     <li class="holdOn_plugin">
-                                       <a href="<?php echo base_url(). $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>">
+                                      <?php
+                                      if($submenu->nueva_pagina ==1){
+                                        ?>
+                                        <a href="<?php echo base_url(). $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>" target="_blank">
                                           <span><?php echo $submenu->nombre_submenu; ?></span>
                                        </a>
+                                        <?php
+                                      }else{
+                                        ?>
+                                        <a href="<?php echo base_url(). $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>">
+                                          <span><?php echo $submenu->nombre_submenu; ?></span>
+                                       </a>
+                                        <?php
+                                      }
+                                      ?>
+                                       
                                     </li>
 
                                 <?php

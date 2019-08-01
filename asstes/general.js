@@ -1,43 +1,45 @@
 
 var _tipo_documento;
+var _tipo_cliente;
 var total_orden = 0;
+var total_iva = 0;
 var docVal, catVal, proVal, cliVal;
+var _ImpList = [];
 var _docVal = [];
 var _catVal = [];
 var _proVal = [];
 var _cliVal = [];
 var _impuestos_orden = [];
+var _impuestos_total = [];
 
+/* Impuestos Acumulados */
 
 $(document).ready(function(){
-
-	// Cambiar Tipo Documento
 
 	_tipo_documento = $("#id_tipo_documento").val();
 	$("#id_tipo_documento").change(function(){
 		tipo_documento($(this).val());
 
-		
 	});
 
 });
 
-function tipo_documento(tipo_documento){
-	_tipo_documento = tipo_documento;
-
+function tipo_cliente(){
+	var id = $("#cliente_codigo").val();
+	return id;
 }
 
 function _config_impuestos(){
+	_impuestos_total = [];
 	impuestos();
 }
-
-
 
 function impuestos(){
     /*
      * Calcular los impuestos a productos en la orden
      */
-    docVal = imp_doc_val(_impuestos.doc , _tipo_documento);
+    docVal = imp_list(_impuestos.doc , _tipo_documento);
+    imp_cli_val();
 
     if(docVal){
 
@@ -91,7 +93,7 @@ function impuestos(){
 			    		console.log("E");
 			    		_orden[_orden.indexOf(element)].impA = 0;
 		    			_orden[_orden.indexOf(element)].total_anterior = (element.presentacionPrecio * element.cantidad);
-			    		//aplicar_imp_especial(element);
+			    		separar_iva(element);
 			    	}
 		    	}
 	    	}
@@ -100,32 +102,29 @@ function impuestos(){
     
     get_total_orden();
     aplicar_imp_especial();
+    ivaTotal();
+    
 }
 
-function imp_doc_val(imp_doc , doc){
+function imp_list(imp_doc , doc){
 	
 	var x = false;
 	var c = 0;
-	_docVal = [];
+	_ImpList = [];
 
-	$.each(imp_doc, function(i, item) {
+	$.each(_impuestos.doc, function(i, item) {
 
     	if(item.Documento == doc && item.estado != 0 ){
     		
-    		_docVal[c] = {
-    			'entidad' : item.nombre, 
-    			'valor' : item.porcentage, 
-    			'especial': item.especial, 
-    			'excluyente': item.excluyente,
-    			'condicion' : item.condicion,
-    			'condicion_valor': item.condicion_valor,
-    			'condicion_simbolo': item.condicion_simbolo
-    		};
+    		_ImpList[c] = item;
+    		_ImpList[c].nombre = item.nombre;
+    		_ImpList[c].nombres = item.nombre;
 
     		x = true;
     		c+=1;
     	}
     });
+
 	return x;
 }
 
@@ -139,23 +138,8 @@ function imp_cat_val(categoria){
     	
     	// Categoria de producto sea igual
     	if(item.Categoria == categoria && item.estado !=0 )
-		{
-			//Que no exista impuesto para agregarlo
-			$.each(_docVal, function(i, item2) {
-				
-				if(item2.entidad == item.nombre){					
-					_catVal[_catVal.length] = {
-						'entidad' : item.nombre, 
-						'valor' : item.porcentage, 
-						'especial': item.especial, 
-						'excluyente': item.excluyente,
-						'condicion' : item.condicion,
-    					'condicion_valor': item.condicion_valor,
-    					'condicion_simbolo' : item.condicion_simbolo
-					};
-				}
-				
-			});
+		{			
+			_catVal[_catVal.length] = item;
 			
 			x = true;	
 			c+=1;
@@ -163,6 +147,35 @@ function imp_cat_val(categoria){
 	});
 
 	return x;
+}
+
+function imp_cli_val(){
+	var x = false;
+	var c = 0;
+	_cliVal = [];
+
+	_tipo_cliente = tipo_cliente();
+
+	if(_tipo_cliente == 0){
+		alert("Cliente es 0. Seleccione cliente");
+		return;
+	}
+
+	$.each(_impuestos.cli, function(i, item) {
+    	
+    	if(item.Cliente == _tipo_cliente && item.estado !=0 )
+		{
+			$.each(_ImpList, function(i, item2) {
+				
+				if(item2.nombre == item.nombre){					
+					_cliVal[_cliVal.length] = item;
+				}				
+			});
+			
+			x = true;	
+			c+=1;
+		}
+	});
 }
 
 function aplicar_imp( prod){
@@ -174,23 +187,56 @@ function aplicar_imp( prod){
 	_orden.forEach(function(element) {
 
 		if(element.producto2 == prod.producto2 && element.id_producto_combo == null){
-
+			
 			$.each(_catVal, function(i, item) {
-				if( item.condicion == 0 ){
-					aplicable = true;
-					total += (element.total_anterior * item.valor);
-				}				
-			});
 
+				var yes = check_aplicable(item.nombre);
+				
+				if( item.condicion == 0 && yes == true){
+					
+					aplicable = true;
+					total += (element.total_anterior * item.porcentage);
+				}
+				
+			});
 			if(aplicable){
 				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
-			
-				_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
+				
+				_orden[_orden.indexOf(element)].impSuma = total;
+				//_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
 				_orden[_orden.indexOf(element)].impA = 1;
 
+				aplicable = false;
+
 			}
+
+			
 		}
 	});
+}
+
+function check_aplicable( imp_categoria ){
+
+	var flag1 = false;
+	var flag2 = false;
+	var flag3 = false;
+
+	$.each(_ImpList, function(i, item) {
+		if( item.nombres = imp_categoria ){
+			flag1 = true;
+		}
+	});
+
+	$.each(_cliVal, function(i, item) {
+		if( item.nombres = imp_categoria ){
+			flag2 = true;
+		}
+	});
+
+	if(flag1 == true && flag2==true){
+		flag3 = true;
+	}
+	return flag3;
 }
 
 function aplicar_imp_combo( prod){
@@ -204,19 +250,21 @@ function aplicar_imp_combo( prod){
 		if(element.producto2 == prod.id_producto_detalle && prod.combo == 1){
 			
 			$.each(_catVal, function(i, item) {
-				if( item.especial == 0 && item.condicion!=1){
+				var yes = check_aplicable(item.nombre);
+				if( item.especial == 0 && item.condicion!=1 && yes == true ){
 					aplicable = true;
-					total += (element.total_anterior * item.valor);
+					total += (element.total_anterior * item.porcentage);
 				}
-			});
-
+				
+			});		
 			if(aplicable){
 				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
-
-				_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
+				
+				_orden[_orden.indexOf(element)].impSuma = total;
+				//_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
 				_orden[_orden.indexOf(element)].impA = 1;
 				aplicable = false;
-			}
+			}	
 			
 		}
 	});	
@@ -224,7 +272,7 @@ function aplicar_imp_combo( prod){
 
 function aplicar_imp_duplicado( prod){
 	_orden.forEach(function(element) {
-		//console.log("3",element.total_anterior , imp);
+		
 		if(element.producto2 == prod.producto2){
 			
 			total = (element.total_anterior * _catVal);
@@ -237,37 +285,38 @@ function aplicar_imp_duplicado( prod){
 function aplicar_imp_especial(prod){
 
 	var total = 0;
+	var contador = 0;
+	_impuestos_orden = [];
 
-	$.each(_catVal, function(i, item) {
-
-		if( item.condicion == 1 ){
-
+	$.each(_ImpList, function(i, item) {
+		
+		if( item.condicion == 1  ){
+			
 			if(item.condicion_simbolo == '>='){
+
 				if(eval(total_orden >= item.condicion_valor) ){
-					_impuestos_orden[i] = {
-						ordenImpName : item.entidad,
-						ordenImpVal  : item.valor,
-						ordenImpTotal: (total_orden * item.valor)
-					}
+
+					_impuestos_orden[contador] = {
+						ordenImpName : item.nombre,
+						ordenImpVal  : item.porcentage,
+						ordenImpTotal: (total_orden * item.porcentage)
+					};
+					contador++;	
 				}
 			}
 
 			if(item.condicion_simbolo == '<='){
 				if(eval(total_orden <= item.condicion_valor) ){
-					_impuestos_orden[i] = {
-						ordenImpName : item.entidad,
-						ordenImpVal  : item.valor,
-						ordenImpTotal: (total_orden * item.valor)
-					}
+					_impuestos_orden[contador] = {
+						ordenImpName : item.nombre,
+						ordenImpVal  : item.porcentage,
+						ordenImpTotal: (total_orden * item.porcentage)
+					};
+					contador++;	
 				}
 			}
-
-		}				
+		}
 	});
-}
-
-function aplicar_imp_condicional(){
-
 }
 
 function get_total_orden(){
@@ -285,3 +334,70 @@ function quitar_imp(imp, prod){
 	// Remover Impuesto de la orden
 
 }
+
+function separar_iva(prod){
+	var total = 0;
+	var sub_total = 0;
+	
+	_orden.forEach(function(element) {
+
+		if(element.producto2 == prod.producto2 && element.id_producto_combo == null){
+
+			$.each(_catVal, function(i, item) {
+				if( item.nombre == 'IVA'){
+					total += (element.total_anterior / (1 + item.porcentage));
+					//console.log(item.nombre , item.porcentage, total );
+				}				
+			});
+			
+			sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) - parseFloat(total.toFixed(2));
+			
+			_orden[_orden.indexOf(element)].impSuma = total;
+			_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
+			_orden[_orden.indexOf(element)].impA = 1;
+		}
+	});
+}
+
+function ivaTotal(){
+	total_iva = 0;
+	var c = 1;
+	
+	$.each(_orden, function(i, item) {
+
+		if(item.impSuma){
+
+			var tmp = item.impSuma.toFixed(2);
+			total_iva += parseFloat(tmp);
+
+		}
+		c++;
+		
+	});	
+
+}
+
+/*********** Orden  ************/
+
+function getImagen(producto_id){
+	$.ajax({
+        url: "get_productos_imagen/"+producto_id,
+        datatype: 'json',      
+        cache : false,                
+
+        success: function(data){
+
+            var datos = JSON.parse(data);
+            html = '<img src="data: '+datos['type']+' ;<?php echo 'base64'; ?>,'+datos['imagen']+'" class="preview_producto" style="width:400px" />';
+            $('.producto_imagen').html(html);
+        
+        },
+        error:function(){
+        }
+    });
+}
+
+/*********** select product grid **********/
+
+
+

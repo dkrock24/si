@@ -302,6 +302,8 @@ $(document).ready(function(){
                 _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
                 _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);
 
+                //console.log(datos['producto_imagen']);
+
                 if( parseInt(_productos_precio.length) >= 1 && producto_escala!=1 ){
                     get_presentacio_lista( _productos_precio );
                     
@@ -439,7 +441,7 @@ $(document).ready(function(){
             $(".producto_buscar").focus();
             break;
         case 38:
-            
+            //alert('up');
             break;
         case 39:
             //alert('right');
@@ -780,7 +782,7 @@ $(document).ready(function(){
             }
 
             if(datos != null){
-                var tr_html = "<tr class='' style=''>";
+                var tr_html = "<tr class='yxy' style=''>";
                 tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
                 tr_html += "<td class='border-left'>"+_productos.producto+"</td>";
                 tr_html += "<td class='border-left'>"+_productos.descripcion+"</td>";
@@ -1214,14 +1216,14 @@ $(document).ready(function(){
                 imp_espeical_total += parseFloat(sub);
                 //t2 += parseFloat(sub);
                
-                impuestos_nombre += "<p style='text-align: right;'>"+element.ordenImpName+"</p>";                
-                impuestos_valor += "<p><?php echo $moneda[0]->moneda_simbolo; ?>"+element.ordenImpVal+"</p>";
-                impuestos_total += "<p><?php echo $moneda[0]->moneda_simbolo; ?>"+sub+"</p>";
+                impuestos_nombre += "<i style='text-align: right;'>"+element.ordenImpName+"("+element.ordenImpVal+")</i><br>";                
+                
+                impuestos_total += "<i><?php echo $moneda[0]->moneda_simbolo; ?>"+sub+"</i><br>";
                
             });
 
             $(".impuestos_nombre").html(impuestos_nombre);
-            $(".impuestos_valor").html(impuestos_valor);
+            //$(".impuestos_valor").html(impuestos_valor);
             $(".impuestos_total").html(impuestos_total);
         }
 
@@ -1234,11 +1236,11 @@ $(document).ready(function(){
             total_msg += parseFloat(total_iva);
 
             iva_nombre += "<p style='text-align: right;'>IVA</p>";                
-            iva_valor += "<p><?php echo $moneda[0]->moneda_simbolo; ?>"+total_iva.toFixed(2)+"</p>";
+            iva_valor += "<?php echo $moneda[0]->moneda_simbolo; ?>"+total_iva.toFixed(2);
             iva_total += "<p><?php echo $moneda[0]->moneda_simbolo; ?>"+total_msg.toFixed(2)+"</p>";
 
             $(".iva_nombre").html(iva_nombre);
-            $(".iva_valor").html(iva_valor);
+            $(".iva_valor").text(iva_valor);
             $(".iva_total").html(iva_total);
         }
         total_msg += parseFloat(imp_espeical_total);
@@ -1547,6 +1549,9 @@ $(document).ready(function(){
 });
 </script>
 
+<?php $this->load->view('styles_files.php'); ?>
+   
+
 <style type="text/css">
 	
 	.border-left {
@@ -1573,243 +1578,154 @@ $(document).ready(function(){
         background: #6964bb;
         color: white;
     }
+
+    #dataSelect, #dataSelect2{
+        position: absolute;
+        margin-left: 0px;
+        float: left;
+        z-index: 100;
+    }
+
+    /* Productos Tabla Seleccion */
+    * {
+            font-size: 12px;
+            font-family: 'Helvetica', Arial, Sans-Serif;
+            box-sizing: border-box;
+            }
+
+            table, th, td {
+                border-collapse:collapse;
+                border: solid 1px #ccc;
+                padding: 10px 20px;
+                text-align: center;
+            }
+
+            th {
+                background: #0f4871;
+                color: #fff;
+            }
+
+            tr:nth-child(2n) {
+                background: #f1f1f1;
+            }
+            tr:hover {
+                color: black;
+                background: #CA293E;
+            }
+            td:focus {
+                color:red;
+                background: #f44;
+            }
+
+            .editing {
+                border: 2px dotted #c9c9c9;
+            }
+
+            #edit { 
+                display: none;
+            }
 </style>
 
+<script type="text/javascript">
+
+    jQuery(document).ready(function(){
+
+        var currCell = $('tr').first();
+        var editing = false;
+
+
+        $(document).on("click","tr",function(){
+           $('tr').css('background','none');
+            currCell = $(this);
+            currCell.focus();
+        });
+
+        document.onkeydown = function(e) {
+            var c = "";
+            if (e.keyCode == 39) {
+                // Right Arrow
+                c = currCell.next();
+            } else if (e.keyCode == 37) { 
+                // Left Arrow
+                c = currCell.prev();
+            } else if (e.keyCode == 38) { 
+                // Up Arrow
+                c = currCell.closest('tr').prev().find('td:eq(' + 
+                  currCell.index() + ')');
+            } else if (e.keyCode == 40) { 
+                // Down Arrow
+                c = currCell.closest('tr').next().find('td:eq(' + 
+                  currCell.index() + ')');
+            } else if (!editing && (e.keyCode == 13 || e.keyCode == 32)) { 
+                // Enter or Spacebar - edit cell
+                //e.preventDefault();
+                //edit();
+            } else if (!editing && (e.keyCode == 9 && !e.shiftKey)) { 
+                // Tab
+                e.preventDefault();
+                c = currCell.next();
+            } else if (!editing && (e.keyCode == 9 && e.shiftKey)) { 
+                // Shift + Tab
+                e.preventDefault();
+                c = currCell.prev();
+            } 
+            
+            // If we didn't hit a boundary, update the current cell
+            if (c.length > 0) {
+                currCell.parent().css('background','none');
+                currCell = c;
+                console.log(currCell.parent().index());
+                var x = currCell.parent().index();
+                currCell.focus();
+                currCell.parent().css('background','blue');
+            }
+        }
+
+        $('#edit').keydown(function (e) {
+            if (editing && e.which == 27) { 
+                 editing = false;
+                $('#edit').hide();
+                currCell.toggleClass("editing");
+                currCell.focus();
+            }
+        });
+
+    });
+
+
+</script>
+
 <!-- Main section-->
+
+
 <section>
-    <!-- Page content-->
-    <div class="content-wrapper">
-        <h3 style="height: 50px; font-size: 13px;">                
-                <a href="index" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Lista Ordenes</button> 
-            </a> 
-            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
-            </h3>
-        <div class="row">
-           <div class="col-lg-12 col-md-12">
-              <!-- Team Panel-->
-              <div class="panel panel-default">
-                 <div class="panel-heading" style="background: #535D67; color: white;">
-                    <div class="pull-right">
-                       <div class="label label-success"> Fecha <?php echo Date("Y-m-d"); ?> </div>
-                    </div>
-                    <div class="panel-title">Crear Orden <span style="float: right;"> <?php echo gethostbyaddr($_SERVER['REMOTE_ADDR'])  ; ?></span> </div>
-                 </div>
-
-                 <!-- START panel-->
-                <form name="encabezado_form" id="encabezado_form" method="post" action="">
-
-                    <!-- Campos de la terminal -->
-                    <input type="hidden" name="terminal_id" value="<?php echo $terminal[0]->id_terminal; ?>"/>
-                    <input type="hidden" name="terminal_numero" value="<?php echo $terminal[0]->numero; ?>"/>
-                    <!-- Fin Campos de la terminal -->
-
-                    <!-- Campos del cliente -->
-                    <input type="hidden" name="impuesto" value="" id="impuesto" />
-                    <!-- Fin Campos del cliente -->
+<div id="edit">
+            <form class="prueba">
+                <input type="text" id="text" value="To edit..." />
+                <input type="submit" value="Save" />
+            </form>
+        </div>
 
 
-                     <div id="panelDemo1" class="panel panel-default">
-                        <div class="panel-heading"><i class="fa fa-arrow-right"></i> Datos Generales
-                           <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right btn-pre">
-                              <em class="fa fa-minus"></em>
-                           </a>
-                        </div>
-                        <div class="panel-wrapper collapse in">
-                           <div class="panel-body">
-                                <p>
-                                    <div class="panel-body bt">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                  <label>Tipo Documento</label>
-                                                  <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
-                                                        <?php
-                                                        foreach ($tipoDocumento as $documento) {
-                                                            ?>
-                                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
-                                                            <?php
-                                                        }
-                                                        ?>
-                                                    </select>
-                                               </div>
-                                            </div>
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                  <label>Sucursal Destino</label>
-                                                  <select class="form-control" name="sucursal_destino" id="sucursal_id">
-                                                    <?php
-                                                    $id_sucursal=0;
-                                                    
-                                                    foreach ($empleado as $sucursal) {
-                                                        $id_sucursal = $sucursal->id_sucursal; 
-                                                        ?>
-                                                        <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                        <?php
-                                                    }
-
-                                                    foreach ($sucursales as $sucursal) {
-                                                        if($sucursal->id_sucursal != $id_sucursal){
-                                                            ?>
-                                                            <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                            <?php
-                                                        }
-                                                    }
-                                                    ?>
-                                                    </select>
-                                               </div>
-                                            </div>
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                  <label>Bodega</label>
-                                                  <select class="form-control" name="bodega" id="bodega_select">
-                                                  <?php
-                                                  foreach ($bodega as $b) {
-                                                    if($b->Sucursal == $id_sucursal){
-                                                    ?>
-                                                    <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
-                                                    <?php
-                                                     }   
-                                                    }
-                                                    ?>
-                                                    </select>
-                                               </div>
-                                            </div>
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                  <label>Total a Pagar</label>                                                  
-                                                  <h2><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_msg"></span></h2>
-                                               </div>
-                                            </div>
-                                        </div>
-                                     </div>
-                                    
-                                    <div class="panel-body bt">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Cliente Codigo</label>
-                                                    <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $cliente[0]->id_cliente ?>">
-                                               </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                  <label>Cliente Nombre</label>
-                                                 <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania ?>">
-                                               </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                  <label>Cliente Direccion</label>
-                                                 <input type="text" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $cliente[0]->direccion_cliente ?>">
-                                               </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                <label>Forma Pago</label>
-                                                <select class="form-control" id="modo_pago_id" name="modo_pago_id">
-                                                <?php
-                                                foreach ($modo_pago as $value) {
-                                                    ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
-                                                }
-                                                ?>      
-                                                </select>
-                                               </div>
-                                            </div>
-                                        </div>
-                                     </div>
-                                
-                                     <div class="panel-body bt">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                  <label>Comentarios</label>
-                                                 <input type="text" name="comentarios" class="form-control">
-                                               </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                  <label>Fecha</label>
-                                                 <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
-                                               </div>
-                                            </div>
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                  <label>Sucursal Origin</label>
-                                                  <select class="form-control" name="sucursal_origin" id="sucursal_id2">
-                                                    <?php
-                                                    $id_sucursal=0;
-                                                    $id_sucursal = $empleado[0]->id_sucursal;
-                                                    foreach ($empleado as $sucursal) {
-                                                         
-                                                        ?>
-                                                        <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                        <?php
-                                                    }
-
-                                                    foreach ($sucursales as $sucursal) {
-                                                        if($sucursal->id_sucursal != $id_sucursal){
-                                                            ?>
-                                                            <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                            <?php
-                                                        }
-                                                    }
-                                                    ?>
-                                                    </select>
-                                               </div>
-                                            </div>
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                  <label>Numero</label>
-                                                  <?php
-                                                  
-                                                  foreach ($correlativo as $key => $value) {
-                                                    
-                                                      if($id_sucursal == $value->id_sucursal ){
-                                                        $secuencia = $value->siguiente_valor;
-                                                      }
-                                                  }
-                                                  ?>
-
-                                                  <input type="text" name="numero" value="<?php echo $secuencia; ?>" class="form-control" id="c_numero">
-                                               </div>
-                                            </div>
-                                            
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Vendedor</label><br>
-                                                    <div class="pull-left">
-                                                        <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo $empleado[0]->id_empleado; ?>">
-                                                        <div class="label bg-gray"><a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona." ".$empleado[0]->primer_apellido_persona; ?></a></div>
-                                                       
-                                                    </div>                                                          
-                                               </div>
-                                            </div>
-                                            
-
-
-                                        </div>
-                                     </div>
-                                </p>
-                           </div>
-                        </div>
-                     </div>
-                </form>
-                <!-- END panel-->
-
-             
-                 <div class="panel-body">
+    <div class="row">
+        <div class="col-lg-9 col-md-9">
+           
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                  <!-- Team Panel-->
+                    <div class="panel panel-default" style="height: 70px; width: 100%; background: #e04c4c;text-align: center;color: white;font-size: 30px;">
+                        <div class="panel-heading" style="background: #535D67; color: white;">
+                            <div class="pull-right">
+                                <div class="label label-success"> Fecha <?php echo Date("Y-m-d"); ?> </div>
+                            </div>
+                            <div class="panel-title">Ventas Rapidas <span style="float: right;"> <?php echo gethostbyaddr($_SERVER['REMOTE_ADDR'])  ; ?></span> </div>
+                        </div><br>
+                     
                     <!-- START table-responsive-->
                         <div class="table-responsive" >
                            <table class="table table-sm table-hover">
                             <div class="col-lg-4">
                                
-
                                 <div class="input-group m-b">
                                     <span class="input-group-addon btn-pre"><i class="fa fa-search"></i></span>
                                     <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
@@ -1872,7 +1788,7 @@ $(document).ready(function(){
                                  </tr>
                               </thead>
                               <tbody class="uno bg-gray-light" style="border-bottom: 0px solid grey">
-                              	<tr style="border-bottom: 1px dashed grey">
+                                <tr style="border-bottom: 1px dashed grey">
                                     <td colspan="2">
                                         <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar" readonly="1" style="width: 100px;">
                                     </td>
@@ -1888,68 +1804,239 @@ $(document).ready(function(){
                                     
                                  </tr>
                               </tbody>
-                              <tbody class="producto_agregados" style="border-top:  0px solid black" >
+                              <tbody class="producto_agregados" style="border-top:  0px solid black; background: white;" >
 
                               </tbody>
-                              <tr class="panel-footer " style="border-top: 3px solid grey; font-size: 22px;">
-                                <td colspan='3'></td>
-                                <td><span class="cantidad_tabla"></span></td>
-                                <td colspan='3' style="text-align: right;">Sub Total</td>
-                                <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="descuento_tabla"></span></td>
-                                <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="sub_total_tabla"></span></td>
-                                <td colspan='2'></td>
-                               </tr>
-                               <tr>
-                                   <td colspan='3'></td>
-                                    <td><span class=""></span></td>
-                                    <td colspan='3' style="text-align: right;" class="iva_nombre">Iva</td>
-                                    <td><span class="iva_valor"></span></td>
-                                    <td><span class="iva_total"></span></td>
-                                    <td colspan='2'></td>
-                               </tr>
-                               <tr>
-                                   <td colspan='3'></td>
-                                    <td><span class=""></span></td>
-                                    <td colspan='3' style="text-align: right;" class="impuestos_nombre">Impuestos</td>
-                                    <td><span class="impuestos_valor"></span></td>
-                                    <td><span class="impuestos_total"></span></td>
-                                    <td colspan='2'></td>
-                               </tr>
-                               <tr class="panel-footer" style="font-size: 22px;">
-                                    <td colspan='6'></td>
-                                    <td colspan='1' style="text-align: right;">Total</td>
-                                    <td></td>
-                                    <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td>
-                                    <td colspan="2"></td>
-                               </tr>
+
                            </table>
                         </div>
                     <!-- END table-responsive-->
-                 </div>
-                 <div class="panel-footer text-center"><a href="#" class="btn btn-default btn-oval">Manage Team</a>
-                 </div>
-              </div>
-              <!-- end Team Panel-->
-           </div>
+                     
+                  </div>
+                  <!-- end Team Panel-->
+               </div>
+            </div>
+            
+        </div>
+        <div class="col-lg-3 col-md-3">
+            <div style="border:0px solid black">
+                <form name="encabezado_form" id="encabezado_form" method="post" action="">
+
+                <!-- Campos de la terminal -->
+                <input type="hidden" name="terminal_id" value="<?php echo $terminal[0]->id_terminal; ?>"/>
+                <input type="hidden" name="terminal_numero" value="<?php echo $terminal[0]->numero; ?>"/>
+                <!-- Fin Campos de la terminal -->
+
+                <!-- Campos del cliente -->
+                <input type="hidden" name="impuesto" value="" id="impuesto" />
+                <!-- Fin Campos del cliente -->
+
+                
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12" style="height: 70px; width: 100%; background: #e04c4c;text-align: center;color: white;font-size: 30px;">
+                        <span style="margin-top: 10px;">
+                            <h2><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_msg"></span></h2>
+                        </span>    
+                    </div>                    
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12" style="width: 100%; background: white;">
+
+                        <table class="table">
+                            <tr>
+                                <td style="color:red">Sub total</td>
+                                <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="sub_total_tabla"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Iva</td>
+                                <td><span class="iva_valor"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="impuestos_nombre"></span></td>
+                                <td><span class="impuestos_total"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="color:red">Total</td>
+                                <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                
+                <div id="panelDemo1" class="panel panel-default">
+
+                    <div class="panel-heading">Facturacion
+                       <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right btn-pre">
+                          <em class="fa fa-minus"></em>
+                       </a>
+                    </div>
+
+
+                    <div class="panel-wrapper collapse in">
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group has-success">
+                                        <label>Tipo Documento</label>
+                                        <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
+                                        <?php
+                                        foreach ($tipoDocumento as $documento) {
+                                            ?>
+                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                        </select>
+                                    </div>
+                                </div>                    
+                                <div class="col-lg-6 col-md-6">
+
+                                    <div class="form-group has-success">
+                                        <label>Cliente Codigo</label>
+                                        <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $cliente[0]->id_cliente ?>">
+                                   </div>
+                                                                
+                                </div>                    
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group has-success">
+                                        <label>Forma Pago</label>
+                                        <select class="form-control" id="modo_pago_id" name="modo_pago_id">
+                                        <?php
+                                        foreach ($modo_pago as $value) {
+                                            ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
+                                        }
+                                        ?>      
+                                        </select>
+                                   </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                      <div class="form-group has-success">
+                                          <label>Cliente Nombre</label>
+                                         <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania ?>">
+                                         <input type="hidden" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $cliente[0]->direccion_cliente ?>">
+                                       </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group has-success">
+                                      <label>Sucursal Destino</label>
+                                      <select class="form-control" name="sucursal_destino" id="sucursal_id">
+                                        <?php
+                                        $id_sucursal=0;
+                                        
+                                        foreach ($empleado as $sucursal) {
+                                            $id_sucursal = $sucursal->id_sucursal; 
+                                            ?>
+                                            <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                            <?php
+                                        }
+
+                                        foreach ($sucursales as $sucursal) {
+                                            if($sucursal->id_sucursal != $id_sucursal){
+                                                ?>
+                                                <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                        </select>
+                                   </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group has-success">
+                                        <label>Bodega</label>
+                                        <select class="form-control" name="bodega" id="bodega_select">
+                                        <?php
+                                            foreach ($bodega as $b) {
+                                                if($b->Sucursal == $id_sucursal){
+                                        ?>
+                                        <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
+                                        <?php
+                                                }   
+                                            }
+                                        ?>
+                                        </select>
+                                   </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                   <div class="form-group has-success">
+                                      <label>Fecha</label>
+                                     <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
+                                   </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group has-success">
+                                        <label>Sucursal Origin</label>
+                                        <select class="form-control" name="sucursal_origin" id="sucursal_id2">
+                                        <?php
+                                        $id_sucursal=0;
+                                        $id_sucursal = $empleado[0]->id_sucursal;
+                                        foreach ($empleado as $sucursal) {
+                                             
+                                            ?>
+                                            <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                            <?php
+                                        }
+
+                                        foreach ($sucursales as $sucursal) {
+                                            if($sucursal->id_sucursal != $id_sucursal){
+                                                ?>
+                                                <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                        </select>
+                                   </div>
+                                   <?php
+                                                                      
+                                      foreach ($correlativo as $key => $value) {
+                                        
+                                          if($id_sucursal == $value->id_sucursal ){
+                                            $secuencia = $value->siguiente_valor;
+                                          }
+                                      }
+                                      ?>
+                                      <input type="hidden" name="numero" value="<?php echo $secuencia; ?>" class="form-control" id="c_numero">
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo $empleado[0]->id_empleado; ?>">
+                            <div class="label bg-gray"><a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona." ".$empleado[0]->primer_apellido_persona; ?></a></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12" style="width: 100%; background: white;">
+                        Imagen Producto.<br>
+                        <span class="producto_imagen"></span>
+                    </div>
+                </div>
+                
+            </div>
+        </form>
         </div>
     </div>
 </section>
 
-<style type="text/css">
-/*
-    .modal-dialog {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
 
-.modal-content {
-  height: auto;
-  min-height: 100%;
-  border-radius: 0;
-}*/
-</style>
 
 <!-- Modal Large CLIENTES MODAL-->
    <div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal"  class="modal fade">
@@ -2071,8 +2158,4 @@ $(document).ready(function(){
 <!-- Modal Small-->
 
 
-
-
-
-
-
+<?php $this->load->view('scripts_files.php'); ?>
