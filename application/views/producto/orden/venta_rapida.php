@@ -1305,7 +1305,7 @@ $(document).ready(function(){
             
             _orden.forEach(function(element) {
                 if(element.invisible == 0){
-                tr_html += "<tr class='' style=''>";
+                tr_html += "<tr class='' style='' id='"+element.producto_id+"'>";
                 tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
                 tr_html += "<td class='border-left'>"+element.producto+"</td>";
                 tr_html += "<td class='border-left'>"+element.descripcion+"</td>";
@@ -1638,7 +1638,14 @@ $(document).ready(function(){
            $('tr').css('background','none');
             currCell = $(this);
             currCell.focus();
+            var producto_imagen_id = $(this).attr('id');
+            //imagen(producto_imagen_id);
         });
+
+        function imagen(producto_imagen_id){
+            console.log("Id - ", producto_imagen_id);
+            getImagen(producto_imagen_id);
+        }
 
         document.onkeydown = function(e) {
             var c = "";
@@ -1652,10 +1659,21 @@ $(document).ready(function(){
                 // Up Arrow
                 c = currCell.closest('tr').prev().find('td:eq(' + 
                   currCell.index() + ')');
+
+                if($(currCell.closest('tr')).attr('id')){
+                    imagen($(currCell.closest('tr').prev()).attr('id'));
+                }
+                
+
             } else if (e.keyCode == 40) { 
                 // Down Arrow
                 c = currCell.closest('tr').next().find('td:eq(' + 
                   currCell.index() + ')');
+
+                if($(currCell.closest('tr')).attr('id')){
+                    imagen($(currCell.closest('tr').next()).attr('id'));
+                }
+
             } else if (!editing && (e.keyCode == 13 || e.keyCode == 32)) { 
                 // Enter or Spacebar - edit cell
                 //e.preventDefault();
@@ -1677,6 +1695,7 @@ $(document).ready(function(){
                 console.log(currCell.parent().index());
                 var x = currCell.parent().index();
                 currCell.focus();
+                
                 currCell.parent().css('background','blue');
             }
         }
@@ -2025,8 +2044,23 @@ $(document).ready(function(){
 
                 <div class="row">
                     <div class="col-lg-12 col-md-12" style="width: 100%; background: white;">
-                        Imagen Producto.<br>
-                        <span class="producto_imagen"></span>
+                        
+                        
+
+                        
+                              <div class="panel b m0">
+                               
+                                 <div class="panel-body">
+                                    <p>
+                                       <a href="#">
+                                          <span class="producto_imagen"></span>
+                                       </a>
+                                    </p>
+                                    
+                                 </div>
+                              </div>
+                           
+
                     </div>
                 </div>
                 

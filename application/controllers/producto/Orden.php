@@ -374,10 +374,10 @@ class Orden extends CI_Controller {
 	public function get_productos_imagen($producto_id){
 		$data['producto_imagen'] = $this->Producto_model->get_productos_imagen($producto_id);
 
-		$info['imagen'] = base64_encode($data['detalle'][0]->producto_img_blob);
-		$info['type'] = $data['detalle'][0]->imageType;
+		$info['imagen'] = base64_encode($data['producto_imagen'][0]->producto_img_blob);
+		$info['type'] = $data['producto_imagen'][0]->imageType;
 
-		return json_encode($info);
+		echo json_encode($info);
 	}
 
 	public function table(){

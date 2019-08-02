@@ -778,6 +778,7 @@ class Producto_model extends CI_Model {
 		}
 
 		function get_productos_imagen( $producto_id ){
+			
 			$this->db->select('*');
 	        $this->db->from(self::producto_img);	        
 	        $this->db->where('id_producto', $producto_id );

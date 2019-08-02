@@ -388,7 +388,8 @@ function getImagen(producto_id){
         success: function(data){
 
             var datos = JSON.parse(data);
-            html = '<img src="data: '+datos['type']+' ;<?php echo 'base64'; ?>,'+datos['imagen']+'" class="preview_producto" style="width:400px" />';
+
+            html = '<img src="data: '+datos['type']+' ; base64 ,'+datos['imagen']+'" class="preview_producto img-responsive img-thumbnail" style="" />';
             $('.producto_imagen').html(html);
         
         },
