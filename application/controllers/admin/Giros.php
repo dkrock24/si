@@ -89,6 +89,7 @@ class Giros extends CI_Controller {
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['registros'] = $this->Giros_model->get_giros( $config["per_page"], $page );
 		$data['home'] = 'admin/giros/giros_lista';
+		$data['title'] = 'Lista Giros';
 
 		$this->parser->parse('template', $data);
 	}
@@ -99,6 +100,7 @@ class Giros extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;		
 		$data['home'] = 'admin/giros/giros_nuevo';
+		$data['title'] = 'Nuevo Giros';
 
 		$this->parser->parse('template', $data);
 	}
@@ -113,7 +115,6 @@ class Giros extends CI_Controller {
 			$this->session->set_flashdata('warning', "Giro No Fue Creado");
 		}	
 
-
 		redirect(base_url()."admin/giros/index");
 	}
 
@@ -124,6 +125,7 @@ class Giros extends CI_Controller {
 		$data['menu'] = $this->session->menu;		
 		$data['giros'] = $this->Giros_model->get_giro_id( $id_giro );
 		$data['home'] = 'admin/giros/giros_editar';
+		$data['title'] = 'Editar Giros';
 
 		$this->parser->parse('template', $data);
 	}
@@ -133,9 +135,23 @@ class Giros extends CI_Controller {
 		$data = $this->Giros_model->actualizar_giro( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('info', " !");
+			$this->session->set_flashdata('warning', "Giro Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('warning', "El Registro No Fue Actualizado");
+			$this->session->set_flashdata('danger', "Giro No Fue Creado");
+		}
+
+		redirect(base_url()."admin/giros/index");
+	}
+
+	public function eliminar($id){
+		
+		$data = $this->Giros_model->eliminar_giro( $id );
+
+		
+		if($data){
+			$this->session->set_flashdata('warning', "Giro Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('danger', "Giro No Fue Eliminado");
 		}
 
 		redirect(base_url()."admin/giros/index");
@@ -205,7 +221,7 @@ class Giros extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Tipo','Descripcion','Codigo','Creado', 'Actualizado', 'Estado'
+			'Nombre','Tipo','Descripcion','Codigo','Creado', 'Actualizado', 'Estado'
 		);
 		return $column;
 	}

@@ -13,7 +13,7 @@ class Cliente_model extends CI_Model {
         $this->db->from(self::cliente);
         $this->db->join(self::tipos_documentos,' on '.self::cliente.'.TipoDocumento='.self::tipos_documentos.'.id_tipo_documento');
         $this->db->join(self::formas_pago,' on '.self::cliente.'.TipoPago='.self::formas_pago.'.id_modo_pago');
-        $this->db->where(self::cliente.'.estado = 1');
+        $this->db->where(self::cliente.'.estado_cliente = 1');
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -141,18 +141,17 @@ class Cliente_model extends CI_Model {
             'aplica_impuestos'                       => $datos['aplica_impuestos'],
             'direccion_cliente'                      => $datos['direccion_cliente'],
             'porcentage_descuentos'                  => $datos['porcentage_descuentos'],
-            'estado'                      => $datos['estado'],
+            'estado_cliente'                      => $datos['estado'],
             'creado'                    => date("Y-m-d h:i:s"),
             'Persona'               => $datos['Persona'],
             'natural_juridica'            => $datos['natural_juridica']
         );
         
-        $this->db->insert(self::cliente, $data);  
+        $result = $this->db->insert(self::cliente, $data);  
+        return $result;
     }
 
     function update($datos){
-
-       
 
         $data = array(
             'website_cli'     =>  $datos['website_cli'],
@@ -167,7 +166,7 @@ class Cliente_model extends CI_Model {
             'aplica_impuestos'                       => $datos['aplica_impuestos'],
             'direccion_cliente'                      => $datos['direccion_cliente'],
             'porcentage_descuentos'                  => $datos['porcentage_descuentos'],
-            'estado'                      => $datos['estado'],
+            'estado_cliente'                      => $datos['estado'],
             'creado'                    => date("Y-m-d h:i:s"),
             'Persona'               => $datos['Persona'],
             'natural_juridica'            => $datos['natural_juridica']
@@ -183,6 +182,7 @@ class Cliente_model extends CI_Model {
         }
 
         $this->db->where('id_cliente', $datos['id_cliente'] ); 
-        $this->db->update(self::cliente, $data ); 
+        $result = $this->db->update(self::cliente, $data ); 
+        return $result;
     }
 }

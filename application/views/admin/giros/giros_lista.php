@@ -290,11 +290,15 @@
     <section>
         <!-- Page content-->
         <div class="content-wrapper">
-            <h3 style="height: 50px; "><?php echo $fields['titulo']; ?> </h3>
+            <h3 style="height: 50px; "><?php echo $fields['titulo']; ?> 
+            <?php $this->load->view('notificaciones/success'); ?>
+            </h3>
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="col-lg-1 text-left">
-                        <form method="post" id="pagina_x" name="data">
+                    <table id="datatable1" class="table table-striped table-hover">
+                        <thead class="">
+                            <tr>
+                              <th>
+                                <form method="post" id="pagina_x" name="data">
                         <select class="form-control" id="total_pagina" name="total_pagina">
                             <option class="0">-</option>
                             <option class="10">10</option>
@@ -304,17 +308,11 @@
                             <option class="100">100</option>
                         </select>
                         </form>
-                    </div>
-                </div>
-                <!-- START table-responsive-->
-                <div class="">
-                    <table id="datatable1" class="table table-striped table-hover">
-                        <thead class="bg-info-dark">
-                            <tr>
+                              </th>
                               <?php
                               foreach ($column as $key => $combo) {
                                 ?>
-                                <th style="color: white;"><?php echo $combo; ?></th>                                
+                                <th style="color: black;"><?php echo $combo; ?></th>                                
                                 <?php
                               }
                               ?>
@@ -433,7 +431,7 @@
                         </ul>
                     </div>
 
-                </div>
+                
 
             </div>
         </div>
@@ -468,8 +466,8 @@
                                       
                             </select>
                             
-                          <div id="panelDemo7" class="panel panel-primary">
-                            <div class="panel-heading">
+                          <div id="panelDemo7" class="panel panel-default">
+                            <div class="panel-heading" style="background: #0f4871; color: white;">
                                 <div class="row">
                                     <div class="col-lg-3"> Giros </div>
                                     <div class="col-lg-6">
@@ -521,9 +519,9 @@
                                       
                           </select>
 
-                            <div id="panelDemo9" class="panel panel-success">
+                            <div id="panelDemo9" class="panel panel-default">
                               <input type="hidden" class="giro_id" name="giro" value="">
-                                 <div class="panel-heading">
+                                 <div class="panel-heading" style="background: #0f4871; color: white;">
                                   <div class="row">
                                     <div class="col-lg-4"> Empresa Giros </div>
                                     <div class="col-lg-4">

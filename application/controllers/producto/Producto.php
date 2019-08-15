@@ -20,7 +20,8 @@ class Producto extends CI_Controller {
 		$this->load->model('admin/Menu_model');	
 
 		$this->load->model('producto/Producto_model');	
-		$this->load->model('producto/Bodega_model');	
+		$this->load->model('producto/Bodega_model');
+		$this->load->model('admin/Marca_model');
 		$this->load->model('accion/Accion_model');	
 		$this->load->model('admin/Giros_model');	
 		$this->load->model('admin/Sucursal_model');	
@@ -108,6 +109,13 @@ class Producto extends CI_Controller {
 		
 		$producto_id = $this->Producto_model->nuevo_producto( $_POST , $this->session->usuario );
 		$this->save_producto_bodega($producto_id);
+
+		if($producto_id){
+			$this->session->set_flashdata('success', "Producto Fue Creado");
+		}else{
+			$this->session->set_flashdata('danger', "Producto No Fue Creado");
+		}
+
 		redirect(base_url()."producto/producto/index");
 
 	}
@@ -122,8 +130,9 @@ class Producto extends CI_Controller {
 
 	public function sub_categoria_byId($id_categoria){
 
-		$subcategorias = $this->Producto_model->sub_categoria( $id_categoria );
-		echo json_encode( $subcategorias );
+		$data['subcategorias'] = $this->Producto_model->sub_categoria( $id_categoria );
+		$data['marcas'] = $this->Marca_model->get_marca_categoria( $id_categoria );
+		echo json_encode( $data );
 	}
 
 	public function editar( $id_producto ){
@@ -177,7 +186,13 @@ class Producto extends CI_Controller {
 
 	public function actualizar(){
 
-		$this->Producto_model->actualizar_producto( $_POST );
+		$data = $this->Producto_model->actualizar_producto( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('success', "Producto Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Producto No Fue Actualizado");
+		}
 
 		redirect(base_url()."producto/producto/index");
 	}
@@ -243,7 +258,7 @@ class Producto extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Producto','Categoria','Sub Categoria','Marca','Precio','Giro','Creado','Actualizado','Estado'
+			'Producto','Categoria','Sub Categoria','Marca','Precio','Giro','Creado','Actualizado','Estado'
 		);
 		return $column;
 	}

@@ -19,15 +19,13 @@
         </h3>
         <div class="row">
             <div class="col-lg-12">
-                <div class="row">
-            
-                    <div class="col-lg-12">
 
-                        <div id="panelDemo10" class="panel panel-info">    
+
+                        <div id="panelDemo10" class="panel ">    
                                                 
-                            <div class="panel-heading">Nuevo Proveedor : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
-                             <div class="panel-body">        
-                            <p> 
+                            <div class="panel-heading menuTop">Nuevo Proveedor </div>
+                             <div class="panel-body menuContent">        
+                            
                             <form class="form-horizontal" enctype="multipart/form-data" name="cliente" action='crear' method="post">
                                 <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
                                 <div class="row">
@@ -171,7 +169,7 @@
 
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                                <button type="submit" class="btn btn-info">Guardar</button>
                                             </div>
                                         </div>
 
@@ -181,10 +179,9 @@
                                 
                             
                             </form>
-                            </p>                                    
+                                                             
                         </div>
-                        </div>
-                    </div>
+                   
             
                 </div>
             </div>

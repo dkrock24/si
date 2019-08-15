@@ -84,7 +84,7 @@ class Cargo extends CI_Controller {
 		//parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 30; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -138,6 +138,11 @@ class Cargo extends CI_Controller {
 	public function update(){
 		if(isset($_POST)){
 			$data = $this->Cargos_model->update( $_POST );
+			if($data){
+				$this->session->set_flashdata('success', "Cargo Fue Actualizado");
+			}else{
+				$this->session->set_flashdata('warning', "Cargo No Fue Actualizado");
+			}
 		}
 		redirect(base_url()."admin/cargo/index");
 	}
@@ -153,6 +158,19 @@ class Cargo extends CI_Controller {
 		}
 
 		redirect(base_url()."admin/giros/index");
+	}
+
+	public function eliminar($id){
+		// Actualizar Giro 
+		$data = $this->Cargos_model->eliminar( $id );
+
+		if($data){
+			$this->session->set_flashdata('success', "Cargo Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('warning', "Cargo Fue Eliminado");
+		}
+
+		redirect(base_url()."admin/cargo/index");
 	}
 
 	public function get_atributos( $id_giro ){
@@ -219,7 +237,7 @@ class Cargo extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Cargo','Descripcion','Salario','Estado'
+			'Cargo','Descripcion','Salario','Estado'
 		);
 		return $column;
 	}

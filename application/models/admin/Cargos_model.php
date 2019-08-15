@@ -76,6 +76,16 @@ class Cargos_model extends CI_Model {
         return $insert;
     }
 
+    function eliminar($id){
+         $data = array(
+            'id_cargo_laboral'    => $id
+        );
+        
+        $this->db->where('id_cargo_laboral', $id );  
+        $insert = $this->db->delete(self::sys_cargo_laboral, $data);  
+        return $insert;
+    }
+
 
 
 }

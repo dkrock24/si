@@ -90,4 +90,16 @@ class Moneda_model extends CI_Model {
         return $insert;
     }
 
+    function eliminar( $id ){
+        
+        $data = array(
+            'id_moneda' => $id
+        );
+
+        $this->db->where('id_moneda', $id);
+        $data =  $this->db->delete(self::sys_moneda, $data );
+
+        return $data;
+    }
+
 }

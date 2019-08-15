@@ -74,7 +74,7 @@ class Orden extends CI_Controller {
 		parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 8; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
 		$data['contador_tabla'] = $contador_tabla;
@@ -117,6 +117,7 @@ class Orden extends CI_Controller {
 			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] = $this->Cliente_model->get_cliente();
+			$data['title'] = "Nueva Orden";
 		
 			$data['home'] = 'producto/orden/orden_crear';
 
@@ -361,6 +362,7 @@ class Orden extends CI_Controller {
 			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] = $this->Cliente_model->get_cliente();
+			$data['title']	= "Ventas Rapidas";
 		
 			$data['home'] = 'producto/orden/venta_rapida';
 
@@ -372,12 +374,13 @@ class Orden extends CI_Controller {
 	}
 
 	public function get_productos_imagen($producto_id){
-		$data['producto_imagen'] = $this->Producto_model->get_productos_imagen($producto_id);
 
-		$info['imagen'] = base64_encode($data['producto_imagen'][0]->producto_img_blob);
-		$info['type'] = $data['producto_imagen'][0]->imageType;
-
-		echo json_encode($info);
+		if($producto_id){
+			$data['producto_imagen'] = $this->Producto_model->get_productos_imagen($producto_id);
+			$info['imagen'] = base64_encode($data['producto_imagen'][0]->producto_img_blob);
+			$info['type'] = $data['producto_imagen'][0]->imageType;
+			echo json_encode($info);
+		}
 	}
 
 	public function table(){
@@ -387,7 +390,7 @@ class Orden extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Correlativo','Sucursal','Terminal','Cliente','F. Pago','Tipo Doc.','Cajero','Creado','Actual','Estado'
+			'Correlativo','Sucursal','Terminal','Cliente','F. Pago','Tipo Doc.','Cajero','Creado','Actual','Estado'
 		);
 		return $column;
 	}

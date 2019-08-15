@@ -65,7 +65,7 @@ class Impuesto extends CI_Controller {
 		$id_rol = $this->session->roles[0];
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 25; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
@@ -75,6 +75,7 @@ class Impuesto extends CI_Controller {
 		$data['fields'] = $this->fields();
 		$data['registros'] = $this->Impuesto_model->getImpuesto( $config["per_page"], $page );
 		$data['home'] = 'template/lista_template';
+		$data['title'] = "Impuestos";
 
 		$this->parser->parse('template', $data);
 	}
@@ -90,7 +91,13 @@ class Impuesto extends CI_Controller {
 	}
 
 	public function save(){
-		$this->Impuesto_model->nuevo_impuesto( $_POST );
+		$data = $this->Impuesto_model->nuevo_impuesto( $_POST );
+		if($data){
+			$this->session->set_flashdata('danger', "Impuesto Fue Creado");
+		}else{
+			$this->session->set_flashdata('warning', "Impuesto No Fue Creado");
+		}
+
 		redirect(base_url()."admin/impuesto/index");
 	}
 
@@ -100,6 +107,7 @@ class Impuesto extends CI_Controller {
 		$data['menu'] = $this->session->menu;
 		$data['impuesto'] = $this->Impuesto_model->getImpuestoById( $impuesto_id );
 		$data['home'] = 'admin/impuesto/editar';
+		$data['title'] = "Impuestos - Editar";
 
 		$this->general->editar_valido($data['impuesto'], "admin/impuesto/index");
 
@@ -108,7 +116,25 @@ class Impuesto extends CI_Controller {
 
 	public function update(){	
 
-		$data['impuesto'] = $this->Impuesto_model->updateImpuesto( $_POST );	
+		$data['impuesto'] = $this->Impuesto_model->updateImpuesto( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('danger', "Impuesto Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('warning', "Impuesto No Fue Actualizado");
+		}	
+		
+		redirect(base_url()."admin/impuesto/index");
+	}
+
+	public function eliminar($id){
+		$data['impuesto'] = $this->Impuesto_model->eliminar( $id );
+
+		if($data){
+			$this->session->set_flashdata('danger', "Impuesto Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('warning', "Impuesto No Fue Eliminado");
+		}	
 		
 		redirect(base_url()."admin/impuesto/index");
 	}
@@ -116,7 +142,7 @@ class Impuesto extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Porcentaje','SRN','A_producto','A_cliente','A_proveedor','A_G_B_E','Es','Ex','Co','Valor','Estado'
+			'Nombre','Porcentaje','SRN','A_producto','A_cliente','A_proveedor','A_G_B_E','Es','Ex','Co','Valor','Estado'
 		);
 		return $column;
 	}
@@ -145,6 +171,7 @@ class Impuesto extends CI_Controller {
 		$data['documentos'] = $this->Documento_model->getAllDocumento();
 		$data['proveedor'] = $this->Proveedor_model->getAllProveedor();
 		$data['home'] = 'admin/impuesto/config';
+		$data['title'] = "Impuestos - Config";
 
 		$this->parser->parse('template', $data);
 	}

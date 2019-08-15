@@ -5,6 +5,8 @@ class Persona_model extends CI_Model {
     const sys_ciudad = 'sys_ciudad';
     const sys_sexo = 'sys_sexo';
     const sys_departamento = 'sys_departamento';
+    const pos_empresa = 'pos_empresa';
+    const sucursal = 'pos_sucursal';
 	
 	function getPersona( $limit, $id  ){
 
@@ -76,13 +78,15 @@ class Persona_model extends CI_Model {
             'mail'                      => $datos['mail'],
             'whatsapp'                  => $datos['whatsapp'],
             'Sexo'                      => $datos['Sexo'],
-            'Ciudad'                    => $datos['Ciudad'],
+            'Ciudad'                    => $datos['ciudad'],
             'comentarios'               => $datos['comentarios'],
-            'persona_estado'            => $datos['persona_estado']
+            'persona_estado'            => $datos['persona_estado'],
+            'Ciudad'                    => $datos['ciudad'],
+            'Empresa'                   => $this->session->empresa[0]->Empresa_Suc
         );
         
-        $this->db->insert(self::sys_persona, $data);  
-
+        $result = $this->db->insert(self::sys_persona, $data);  
+        return $result;
 	}
 
 	function update($datos){
@@ -104,11 +108,22 @@ class Persona_model extends CI_Model {
             'Sexo'                      => $datos['Sexo'],
             'Ciudad'                    => $datos['Ciudad'],
             'comentarios'               => $datos['comentarios'],
+            'Ciudad'                    => $datos['ciudad'],
             'persona_estado'            => $datos['persona_estado']
         );
         $this->db->where('id_persona', $datos['id_persona']);
-        $this->db->update(self::sys_persona, $data);  
+        $result = $this->db->update(self::sys_persona, $data);  
+        return $result;
 	}
+
+    function eliminar($id){
+        $data = array(
+            'id_persona'     =>  $id
+        );
+        $this->db->where('id_persona', $id);
+        $result = $this->db->delete(self::sys_persona, $data);
+        return $result;
+    }
 
     function getPersonaId( $persona_id ){
 
@@ -118,7 +133,7 @@ class Persona_model extends CI_Model {
         $this->db->join(self::sys_departamento.' as d', 'on d.id_departamento = c.departamento');
         $this->db->join(self::sys_sexo.' as s', 'on p.Sexo = s.id_sexo');
         $this->db->where('p.id_persona', $persona_id );
-        $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('p.nrc', $this->session->empresa[0]->nrc);
         $query = $this->db->get();
         //echo $this->db->queries[1];
         

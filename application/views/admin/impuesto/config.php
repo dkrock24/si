@@ -161,7 +161,7 @@ var columna1 = 'Impuesto';
         var tabla = table_intermedia;
         var data;
         var num =1;
-        var html='<thead><tr><th scope="col"></th><th>Entidad</th> <th>Impuesto</th> <th>Porcentaje</th> <th>SRN</th> <th>A_P</th> <th>A_C</th> <th>A_P</th> <th>A_GBE</th><th>Es</th><th>Ex</th><th>Co</th><th>Valor</th><th>Estado</th> <th>Opciones</th> </tr></thead>';
+        var html='<thead style="background:#cfdbe2"><tr><th scope="col"></th><th>Entidad</th> <th>Impuesto</th> <th>Porcentaje</th> <th>SRN</th> <th>A_P</th> <th>A_C</th> <th>A_P</th> <th>A_GBE</th><th>Es</th><th>Ex</th><th>Co</th><th>Valor</th><th>Estado</th> <th>Opciones</th> </tr></thead>';
         $.each(datos['impuesto_option'], function(i, item) { 
             
             html += "<tr class='line'>";  
@@ -296,8 +296,10 @@ var columna1 = 'Impuesto';
 
 <style>
     .cliente:hover{
-        background: #d4d0d0;
+        background: #0f4871;
         color: white;
+        border-radius: 5px;
+        cursor: pointer;
     }
     .line:hover{
         background: red;
@@ -404,23 +406,22 @@ var columna1 = 'Impuesto';
                                                     </div>
                                                     <div class="row">
                                                         <?php
+                                                         $contador =1;
                                                         foreach($clientes as $cliente){
                                                             ?>
                                                             
                                                             <div class="col-lg-3 clienteId" name="<?php echo $cliente->id_cliente ?>" >
                                                                 <div class="row row-table row-flush">
-                                                                    <div class="col-xs-4 bg-info text-center">
-                                                                    <em class="fa fa-users fa-4x"></em>
+                                                                    <div class="col-xs-12 text-center cliente" style="text-align: left; padding: 5px;">
+                                                                        
+                                                                        <h5 class="mt0"><?php  echo $contador.' - '. $cliente->nombre_empresa_o_compania ?>:</h5>
+                                                                        
                                                                     </div>
-                                                                    <div class="col-xs-8">
-                                                                    <div class="panel-body text-center cliente">
-                                                                        <h4 class="mt0"><?php echo $cliente->nombre_empresa_o_compania ?>:</h4>
-                                                                        <p class="mb0 text-muted">click</p>
-                                                                    </div>
-                                                                    </div>
+                                                                   
                                                                 </div>                
                                                             </div>                                        
                                                             <?php
+                                                             $contador++;
                                                         }
                                                         ?>      
                                                     </div>    
@@ -445,26 +446,27 @@ var columna1 = 'Impuesto';
                                                     </div>
 
                                                     <div class="row">
+                                                        
                                                         <?php
+                                                        $contador =1;
                                                         foreach ($documentos as $documento) {
                                                             ?>
                                                             
                                                             <div class="col-lg-3 documentId" name="<?php echo $documento->id_tipo_documento ?>" >
-                                                                <div class="row row-table row-flush">
-                                                                    <div class="col-xs-4 bg-info text-center">
-                                                                    <em class="fa fa-folder fa-3x"></em>
-                                                                    </div>
-                                                                    <div class="col-xs-8">
-                                                                    <div class="panel-body text-center cliente">
-                                                                        <h4 class="mt0"><?php echo $documento->nombre ?></h4>
-                                                                        <p class="mb0 text-muted">click</p>
-                                                                    </div>
+
+                                                                <div class="row ">
+                                                                    <div class="col-xs-12 text-center cliente" style="text-align: left; padding: 5px;">
+                                                                        
+                                                                        <h5 class="mt0"><?php echo $contador.' - '.$documento->nombre ?></h5>
+                                                                    
                                                                     </div>
                                                                 </div>                
                                                             </div>                                        
                                                             <?php
+                                                            $contador++;
                                                         }
                                                         ?>      
+                                                        
                                                     </div>  
                                                 </div>
                                                 <div id="settings" role="tabpanel" class="tab-pane">
@@ -476,7 +478,7 @@ var columna1 = 'Impuesto';
                                                                 <?php
                                                                 foreach ($impuesto as $value) {
                                                                     ?>
-                                                                    <option value="<?php echo $value->id_tipos_impuestos; ?>"><?php echo $value->nombre; ?></option>
+                                                                    <option value="<?php echo  $value->id_tipos_impuestos; ?>"><?php echo $value->nombre; ?></option>
                                                                     <?php
                                                                 }
                                                                 ?>
@@ -486,23 +488,21 @@ var columna1 = 'Impuesto';
 
                                                     <div class="row">
                                                         <?php
+                                                        $contador =1;
                                                         foreach ($proveedor as $p) {
                                                             ?>
                                                             
                                                             <div class="col-lg-3 proveedorId" name="<?php echo $p->id_proveedor ?>" >
                                                                 <div class="row row-table row-flush">
-                                                                    <div class="col-xs-4 bg-info text-center">
-                                                                    <em class="fa fa-folder fa-3x"></em>
+                                                                    <div class="col-xs-12 text-center cliente" style="text-align: left; padding: 5px;">
+                                                                        <h5 class="mt0"><?php echo $contador.' - '. $p->empresa ?></h5>
+
                                                                     </div>
-                                                                    <div class="col-xs-8">
-                                                                    <div class="panel-body text-center cliente">
-                                                                        <h4 class="mt0"><?php echo $p->empresa ?></h4>
-                                                                        <p class="mb0 text-muted">click</p>
-                                                                    </div>
-                                                                    </div>
+                                                                    
                                                                 </div>                
                                                             </div>                                        
                                                             <?php
+                                                            $contador++;
                                                         }
                                                         ?>      
                                                     </div>  
@@ -511,23 +511,15 @@ var columna1 = 'Impuesto';
                                             </div>
                                         </div>
 
-                                          <div class="panel-body">
-                                             <p> <i class="fa fa-info-circle"></i>
-                                                <span>Seleciona el impuesto para asociarlo a la categoria</span>
-                                             </p>
-
-                                             <br>
-                                             
-                                          </div>
                                        </div>
 
                                        <div class="panel b">
-                                          <div class="panel-heading bg-info text-bold">Impuestos</div>
-                                          <div class="panel-body bt">
+                                          <div class="panel-heading text-bold" style="background: #0f4871; color: white;">Impuestos</div>
+                                          
                                             <table class="table table-sm table-striped table-condensed table-hover datos">
                                               
                                              </table>                                            
-                                          </div>
+                                          
                                        </div>
 
                                     </div>

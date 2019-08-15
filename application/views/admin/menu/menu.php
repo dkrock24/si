@@ -52,14 +52,14 @@
             			                            	<?php 
             			                            		if($menus->estado_menu==1){
             			                            			?>
-            			                            			<span class="label label-success">Activo</span>
+            			                            			<span class="label label-success" style="background: #39b2d6">Activo</span>
             			                            			<?php
             			                            		}?></td>
             			                            <td><?php echo $menus->class_menu; ?></td>
             			                            <td>
             			                            	                                
             				                                <div class="btn-group mb-sm">
-            				                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs">Opcion
+            				                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs" style="background: #dde6e9; color: black;">Opcion
                                                                     <span class="caret"></span>
                                                                 </button>
             				                                    <ul role="menu" class="dropdown-menu">

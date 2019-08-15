@@ -196,7 +196,7 @@ class Template extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Formato','Documento','Sucursal','Lineas','Descripcion','Creado','Estado'
+			'Formato','Documento','Sucursal','Lineas','Descripcion','Creado','Estado'
 		);
 		return $column;
 	}

@@ -85,7 +85,7 @@ class Cliente extends CI_Controller {
 		//parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 21; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -148,9 +148,9 @@ class Cliente extends CI_Controller {
 		$data = $this->Cliente_model->update( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('info', " !");
+			$this->session->set_flashdata('success', "Cliente Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('warning', "El Registro No Fue Actualizado");
+			$this->session->set_flashdata('warning', "Cliente No Fue Actualizado");
 		}
 
 		redirect(base_url()."admin/cliente/index");
@@ -159,7 +159,7 @@ class Cliente extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Nombre','Apellido','NRC','NIT','Clase','T. Pago','T. Documento', 'Descuento', 'Estado'
+			'Nombre','Nombre','Apellido','NRC','NIT','Clase','T. Pago','T. Documento', 'Descuento', 'Estado'
 		);
 		return $column;
 	}
@@ -170,7 +170,7 @@ class Cliente extends CI_Controller {
 		);
 		
 		$fields['id'] = array('id_cliente');
-		$fields['estado'] = array('estado');
+		$fields['estado'] = array('estado_cliente');
 		$fields['titulo'] = "Cliente Lista";
 
 		return $fields;

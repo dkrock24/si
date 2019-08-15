@@ -72,4 +72,6 @@ class Correlativo_model extends CI_Model {
         $this->db->where('id_linea', $datos['id_linea']);
         $this->db->update(self::correlativo, $data);
     }
+
+    
 }

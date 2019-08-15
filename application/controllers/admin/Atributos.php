@@ -76,7 +76,7 @@ class Atributos extends CI_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 10; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -127,7 +127,7 @@ class Atributos extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Tipo','Creado','Actualizado','Estado'
+			'Nombre','Tipo','Creado','Actualizado','Estado'
 		);
 		return $column;
 	}

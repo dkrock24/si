@@ -32,7 +32,8 @@ class Categorias extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
 
-		$this->load->model('admin/Categorias_model');  
+		$this->load->model('admin/Categorias_model');
+		$this->load->model('admin/Marca_model');
 		$this->load->model('admin/Empresa_model');  
 		$this->load->model('admin/Menu_model');
 		$this->load->model('accion/Accion_model');
@@ -78,7 +79,7 @@ class Categorias extends CI_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id =11; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -88,6 +89,7 @@ class Categorias extends CI_Controller {
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
 		$data['home'] = 'template/lista_template';
+		$data['title'] = "Categorias";
 
 		$this->parser->parse('template', $data);
 	}
@@ -98,16 +100,24 @@ class Categorias extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;	
 		$data['categorias']	= $this->Categorias_model->get_categorias_padres();
+		$data['marcas'] = $this->Marca_model->getAllMarca();
 		$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['home'] = 'admin/categorias/categorias_nuevo';
+		$data['title'] = "Crear Categoria";
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function crear(){
 
-		// Crear Categoria y Sub Categoria
-		$this->Categorias_model->crear_categoria( $_POST );
+		$data['info'] = $this->Categorias_model->crear_categoria( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Categoria Fue Creado");
+		}else{
+			$this->session->set_flashdata('danger', "Categoria No Fue Creado");
+		}
+
 		redirect(base_url()."admin/categorias/index");
 	}
 
@@ -119,6 +129,7 @@ class Categorias extends CI_Controller {
 		$data['categorias_padres']	= $this->Categorias_model->get_categorias_padres();
 		$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['home'] = 'admin/categorias/categorias_editar';
+		$data['title'] = "Editar Categoria";
 
 		$this->general->editar_valido($data['categorias'], "admin/categorias/index");
 
@@ -127,21 +138,39 @@ class Categorias extends CI_Controller {
 
 	public function actualizar(){
 		// Insert pais
-		$this->Categorias_model->actualizar_categoria( $_POST );
+		$data['info'] = $this->Categorias_model->actualizar_categoria( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Categoria Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Categoria No Fue Actualizado");
+		}
 
 		redirect(base_url()."admin/categorias/index");
 	}
+
+	public function eliminar($id){
+		
+		$data['info'] =$this->Categorias_model->delete_categoria( $id );
+		if($data){
+			$this->session->set_flashdata('warning', "Categoria Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('danger', "Categoria No Fue Eliminado");
+		}
+		redirect(base_url()."admin/categorias/index");
+	}
+
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Imagen','Padre','Empresa','Creado', 'Actualizado', 'Estado'
+			'Categoria','Sub Categoria','Empresa','Creado', 'Actualizado', 'Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_categoria','img_cate','cat_padre','nombre_comercial','creado_categoria','actualizado_categoria','estado'
+			'nombre_categoria','cat_padre','nombre_comercial','creado_categoria','actualizado_categoria','estado'
 		);
 		
 		$fields['id'] = array('id_categoria');

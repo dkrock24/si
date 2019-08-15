@@ -87,7 +87,7 @@ class Proveedor extends CI_Controller {
 		//parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 32; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -114,13 +114,13 @@ class Proveedor extends CI_Controller {
 	}
 
 	public function crear(){
-		// Insert Nuevo Giro
+		
 		$data = $this->Proveedor_model->crear( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('success', "Cliente Fue Creado");
+			$this->session->set_flashdata('success', "Proveedor Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Cliente No Fue Creado");
+			$this->session->set_flashdata('warning', "Proveedor No Fue Creado");
 		}	
 
 		redirect(base_url()."admin/proveedor/index");
@@ -143,13 +143,13 @@ class Proveedor extends CI_Controller {
 	}
 
 	public function update(){
-		// Actualizar Giro 
+		
 		$data = $this->Proveedor_model->update( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('info', " !");
+			$this->session->set_flashdata('success', "Proveedor Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('warning', "El Registro No Fue Actualizado");
+			$this->session->set_flashdata('warning', "Proveedor No Fue Actualizado");
 		}
 
 		redirect(base_url()."admin/proveedor/index");
@@ -158,7 +158,7 @@ class Proveedor extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','EMPRESA','TITULAR','NRC','GIRO','TEL','CEL', 'LINEA','NOMBRE','APELLIDO', 'Estado'
+			'EMPRESA','TITULAR','NRC','GIRO','TEL','CEL', 'LINEA','NOMBRE','APELLIDO', 'Estado'
 		);
 		return $column;
 	}

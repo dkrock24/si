@@ -2,25 +2,26 @@
     <section>
         <!-- Page content-->
         <div class="content-wrapper">
-            <h3 style="height: 50px; ">Lista Empresas </h3>
+            <h3 style="height: 50px; ">Lista Empresas 
+                <?php $this->load->view('notificaciones/success'); ?>
+            </h3>
             <div class="panel panel-default">
-                <div class="panel-heading">Empresas</div>
-                <!-- START table-responsive-->
+  
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
-                        <thead class="bg-info-dark">
+                        <thead class="">
                             <tr>
-                                <th style="color: white;">#</th>
-                                <th style="color: white;">Nombre</th> 
-                                <th style="color: white;">NRC</th>
-                                <th style="color: white;">NIT</th>
-                                <th style="color: white;">Cliente</th>
-                                <th style="color: white;">Giro</th>
-                                <th style="color: white;">Tel</th>
-                                <th style="color: white;">Moneda</th>                                                   
-                                <th style="color: white;">Creado</th>                                
-                                <th style="color: white;">Actualizado</th>
-                                <th style="color: white;">Estado</th>
+                                <th style="color: black;">#</th>
+                                <th style="color: black;">Nombre</th> 
+                                <th style="color: black;">NRC</th>
+                                <th style="color: black;">NIT</th>
+                                <th style="color: black;">Cliente</th>
+                                <th style="color: black;">Giro</th>
+                                <th style="color: black;">Tel</th>
+                                <th style="color: black;">Moneda</th>                                                   
+                                <th style="color: black;">Creado</th>                                
+                                <th style="color: black;">Actualizado</th>
+                                <th style="color: black;">Estado</th>
                                 
                                 <th>
                                     <div class="btn-group">
@@ -71,11 +72,11 @@
                                         <?php 
                                             if($empresa->empresa_estado==1){
                                                 ?>
-                                                <span class="label label-success">Activo</span>
+                                                <span class="label label-success" style="background: #39b2d6">Activo</span>
                                                 <?php
                                             }else{
                                                 ?>
-                                                <span class="label label-warning">Inactivo</span>
+                                                <span class="label label-warning" style="background: #d26464">Inactivo</span>
                                                 <?php
                                             }
                                         ?>
@@ -84,7 +85,7 @@
 		                            <td>
 		                            	                                
 			                                <div class="btn-group mb-sm">
-			                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs">Opcion
+			                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-xs" style="background: #dde6e9; color: black;">Opcion
                                                     <span class="caret"></span>
                                                 </button>
 			                                    <ul role="menu" class="dropdown-menu">

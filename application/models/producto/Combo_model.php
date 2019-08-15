@@ -3,6 +3,26 @@ class Combo_model extends CI_Model {
 
 	const pos_combo = 'pos_combo';
     const producto = 'producto';
+
+    function getAllCombo( $limit, $id ){
+         $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', sub_c.id_categoria as 'id_sub_categoria', c.id_categoria as 'id_categoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, img.producto_img_blob,img.imageType,cli.nombre_empresa_o_compania,cli.id_cliente 
+                FROM `producto` as `P`
+                LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`id_prod_atrri`
+                LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
+                LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
+                LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
+                LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
+                LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
+                LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
+                LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
+                LEFT JOIN `pos_marca` as `m` ON `m`.`id_marca` = `P`.`Marca`
+                LEFT JOIN `pos_producto_img` as `img` ON `img`.`id_producto` = `P`.`id_entidad`
+                LEFT JOIN `pos_cliente` as `cli` ON `cli`.`id_cliente` = `img`.`id_producto`
+                where P.id_entidad Limit ".$id.','.$limit );
+                 //echo $this->db->queries[0];
+                return $query->result();
+    }
+
 	
 	function getCombo( ){
 		$this->db->select(' c.*,p.*');
@@ -19,6 +39,10 @@ class Combo_model extends CI_Model {
             return $query->result();
         }
 	}
+
+    function record_count(){
+        return $this->db->count_all(self::pos_combo);
+    }
 
     function get_producto_combo( $param ){
 

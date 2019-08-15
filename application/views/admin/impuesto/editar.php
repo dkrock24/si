@@ -11,15 +11,12 @@
         </h3>
         <div class="row">
             <div class="col-lg-12">
-                <div class="row">
-            
-                    <div class="col-lg-12">
-
-                        <div id="panelDemo10" class="panel panel-info">    
+                
+                    <div id="panelDemo10" class="panel">     
                                                 
-                            <div class="panel-heading">Editar Tipo Impuesto : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
-                             <div class="panel-body">        
-                            <p> 
+                        <div class="panel-heading menuTop">Editar Impuesto : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
+                             <div class="panel-body menuContent">        
+                            
                             <form class="form-horizontal" name="editar" action='../update' method="post">
                                 <input type="hidden" value="<?php echo $impuesto[0]->id_tipos_impuestos; ?>" name="id_tipos_impuestos">
                                 <div class="row">
@@ -82,6 +79,10 @@
                                             </div>
                                         </div>      
 
+                                        
+
+                                    </div>
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Especial</label>
                                             <div class="col-sm-8">
@@ -142,22 +143,20 @@
 
                                         <div class="form-group">
                                             <div class="col-sm-offset-4 col-sm-8">
-                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                                <button type="submit" class="btn btn-info">Guardar</button>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                                 
                             
                             </form>
-                            </p>                                    
+                                                               
                         </div>
                         </div>
-                    </div>
+                    
             
-                </div>
+                
             </div>
         </div>
     </div>

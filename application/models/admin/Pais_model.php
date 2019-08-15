@@ -94,13 +94,14 @@ class Pais_model extends CI_Model {
 	function crear_dep( $departamento ){
 
 		$data = array(
-            'nombre_depa' 	=> $departamento['nombre_depa'],
-            'estado_depa' 	=> $departamento['estado_depa'],
+            'nombre_departamento' 	=> $departamento['nombre_depa'],
+            'estado_departamento' 	=> $departamento['estado_depa'],
             'fecha_creacion_depa' => date("Y-m-d"),
-            'id_pais' 		=> $departamento['id_pais']
+            'pais' 		=> $departamento['id_pais']
         );
 
-		$this->db->insert(self::pais_d, $data ); 
+		$result = $this->db->insert(self::pais_d, $data ); 
+		return $result;
 	}
 
 	function editar_dep( $id_dep ){
@@ -127,7 +128,20 @@ class Pais_model extends CI_Model {
         );
 
         $this->db->where('id_depa', $departamento['id_depa']);
-		$this->db->update(self::pais_d, $data ); 
+		$result = $this->db->update(self::pais_d, $data ); 
+
+		return $result;
+	}
+
+	function eliminar_dep($id){
+		$data = array(
+           'id_departamento' 	=> $id
+        );
+
+        $this->db->where('id_departamento', $id);
+		$result = $this->db->delete(self::sys_departamento, $data ); 
+
+		return $result;
 	}
 
 // END
@@ -152,39 +166,51 @@ class Pais_model extends CI_Model {
 
 	function crear_ciu( $ciudad ){
 
-			$data = array(
-	           'nombre_ciudad' 		=> $ciudad['nombre_ciu'],
-	            'departamento' 	=> $ciudad['id_departamento'],
-	            'estado_ciudad' 		=> $ciudad['estado_ciu'],
-	            'fecha_ciudad_creacion'=> date("Y-m-d"),
-	        );
-			$this->db->insert(self::pais_d_c, $data );
+		$data = array(
+           'nombre_ciudad' 		=> $ciudad['nombre_ciu'],
+            'departamento' 	=> $ciudad['id_departamento'],
+            'estado_ciudad' 		=> $ciudad['estado_ciu'],
+            'fecha_ciudad_creacion'=> date("Y-m-d"),
+        );
+		$result = $this->db->insert(self::pais_d_c, $data );
+		return $result;
 	}
 
 	function get_ciu( $id_ciu ){
 
-			$this->db->select('*');
-	        $this->db->from(self::pais_d_c.' as c');
-	        $this->db->where('c.id_ciudad',$id_ciu ); 
+		$this->db->select('*');
+        $this->db->from(self::pais_d_c.' as c');
+        $this->db->where('c.id_ciudad',$id_ciu ); 
 
-	        $query = $this->db->get(); 
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        } 
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
 	}
 
 	function update_ciu( $ciudad ){
 
-			$data = array(
-	           'nombre_ciudad' 	=> $ciudad['nombre_ciu'],
-	            'estado_ciudad' 	=> $ciudad['estado_ciu'],
-	            'fecha_ciudad_actualizacion' => date("Y-m-d h:i:s"),
-	        );
+		$data = array(
+           'nombre_ciudad' 	=> $ciudad['nombre_ciu'],
+            'estado_ciudad' 	=> $ciudad['estado_ciu'],
+            'fecha_ciudad_actualizacion' => date("Y-m-d h:i:s"),
+        );
 
-	        $this->db->where('id_ciudad', $ciudad['id_ciu']);
-			$this->db->update(self::pais_d_c, $data );
+        $this->db->where('id_ciudad', $ciudad['id_ciu']);
+		$result = $this->db->update(self::pais_d_c, $data );
+		return $result;
+	}
+
+	function eliminar_ciu($id){
+		$data = array(
+           'id_ciudad' 	=> $id
+        );
+
+        $this->db->where('id_ciudad', $id);
+		$result = $this->db->delete(self::pais_d_c, $data );
+		return $result;
 	}
 
 // END

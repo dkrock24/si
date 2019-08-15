@@ -107,7 +107,7 @@ class Usuario_model extends CI_Model {
             'img_type'          => $imageProperties['mime'],
             'hora_inicio'       => $datos['hora_inicio'],
             'hora_salida'       => $datos['hora_salida'],
-            'encargado'         => $datos['encargado'],
+            'usuario_encargado'         => $datos['encargado'],
             'id_rol'            => $datos['id_rol'],
             'Empleado'          => $datos['persona'],
             'estado'            => $datos['estado'],
@@ -145,14 +145,16 @@ class Usuario_model extends CI_Model {
     function update($datos){
         $imagen="";
 
-        $imageProperties = getimageSize($_FILES['foto']['tmp_name']);
+        if($_FILES['foto']['tmp_name']){
+            $imageProperties = getimageSize($_FILES['foto']['tmp_name']);    
+        }        
 
         $data = array(
             'nombre_usuario'    => $datos['nombre_usuario'],
             'contrasena_usuario'=> sha1( $datos['contrasena_usuario']),
             'hora_inicio'       => $datos['hora_inicio'],
             'hora_salida'       => $datos['hora_salida'],
-            'encargado'         => $datos['encargado'],
+            'usuario_encargado'         => $datos['encargado'],
             'id_rol'            => $datos['id_rol'],
             'Empleado'          => $datos['persona'],
             'estado'            => $datos['estado'],

@@ -21,15 +21,13 @@
         </h3>
         <div class="row">
             <div class="col-lg-12">
-                <div class="row">
-            
-                    <div class="col-lg-12">
 
-                        <div id="panelDemo10" class="panel panel-info">    
+
+                        <div id="panelDemo10" class="panel">    
                                                 
-                            <div class="panel-heading">Editar Correlativo : <?php //echo $correlativo[0]->nombre_submenu ?> </div>
-                             <div class="panel-body">        
-                            <p> 
+                            <div class="panel-heading menuTop">Editar Correlativo : <?php //echo $correlativo[0]->nombre_submenu ?> </div>
+                             <div class="panel-body menuContent">        
+                            
                             <form class="form-horizontal" enctype="multipart/form-data" id="save" name="correlativo" action='../update' method="post">
                                 <input type="hidden" value="<?php echo $correlativo[0]->id_correlativos; ?>" name="id_correlativos">
                                 <div class="row">
@@ -147,7 +145,7 @@
 
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="submit" id="btn_save" class="btn btn-primary">Guardar</button>
+                                                <button type="submit" id="btn_save" class="btn btn-info">Guardar</button>
                                             </div>
                                         </div>
 
@@ -165,11 +163,8 @@
                                 
                             
                             </form>
-                            </p>                                    
-                        </div>
-                        </div>
-                    </div>
-            
+                                                              
+                        </div>            
                 </div>
             </div>
         </div>

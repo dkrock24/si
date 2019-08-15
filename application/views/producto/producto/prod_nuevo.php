@@ -85,10 +85,20 @@
             cache : false,                
 
                 success: function(data){
-                  //console.log(data);
-                  $.each(JSON.parse(data), function(i, item) {                    
-                    $("#sub_categoria").append('<option value='+item.id_categoria+'>'+item.nombre_categoria+'</option>');
-                });
+
+                    var datos = JSON.parse(data);
+                    var subcategorias = datos["subcategorias"];
+                    var marcas = datos['marcas'];
+
+                    $("#sub_categoria").empty();
+                    $.each(subcategorias, function(i, item) {                    
+                        $("#sub_categoria").append('<option value='+item.id_categoria+'>'+item.nombre_categoria+'</option>');
+                    });
+
+                    $("#marca").empty();
+                    $.each(marcas, function(i, item) {                 
+                        $("#marca").append('<option value='+item.id_marca+'>'+item.nombre_marca+'</option>');
+                    });
                 
                 },
                 error:function(){
@@ -532,13 +542,13 @@
                 </h3>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-white">
+                    
 
                         <!-- INICIO MENU IZQUIERDO -->
                         <div class="col-lg-3">
-                            <div id="" class="panel panel-info" style="height: 550px;">
-                                <div class="panel-heading">Nuevo Producto :  </div>
-
+                            <div id="" class="panel" style="height: 550px;">
+                                <div class="panel-heading menuTop">Nuevo Producto :  </div>
+                                <div class="panel-body menuContent">
                                 <div class="row">
                                 <?php
                                 $contador_break=0;
@@ -558,7 +568,7 @@
                                     <?php
                                 }
                                 ?>
-                                </div>
+                                </div></div>  
 
                                 <div class="row">
                                     <br>
@@ -578,9 +588,9 @@
                         <!-- INICIO PRODUCTO ENCABEZADO -->
                         <div class="col-lg-9">
                            
-                            <div id="" class="panel panel-info producto_creacion">
-                                <div class="panel-heading">Producto General:  </div>
-                                    <p>
+                            <div id="" class="panel producto_creacion">
+                                <div class="panel-heading menuTop">Producto General:  </div>
+                                    <div class="panel-body menuContent">  
                                     
                                         <input type="hidden" name="empresa" value="" id="id_empresa">
                                         
@@ -806,7 +816,7 @@
                                         </div>
 
                                     
-                                    </p>
+                                    </div>
                             </div>
                           
                         </div>
@@ -815,11 +825,13 @@
                         <!-- INICIO PRODUCTO ATRIBUTOS -->
                         <div class="col-lg-9">
                            
-                            <div id="" class="panel panel-info">
-                                <div class="panel-heading">Producto Atributos:  </div>
+                            <div id="" class="panel">
+                                <div class="panel-heading menuTop">Producto Atributos:  </div>
+                                <div class="panel-body menuContent">  
                                 <div class="row">
                                     <p class="form-horizontal giro_atributos">
                                     </p>
+                                </div>
                                 </div>
                             </div>
                           
@@ -829,43 +841,42 @@
                         <!-- INICIO PRODUCTO PRECIOS -->
                         <div class="col-lg-9 alenado-left">
                            
-                            <div id="" class="panel panel-info">
-                                <div class="panel-heading">Producto Precios :  </div>
+                            <div id="" class="panel">
+                                <div class="panel-heading menuTop">Producto Precios :  </div>
+                                <div class="panel-body menuContent"> 
                                 <div class="row">
                                     <div class="col-lg-12">
-                                      <div class="panel panel-default">
-                                         
-                                         <div class="panel-body">
-                                            <div class="table-responsive">
-                                               <table class="table table-hover" id="preciosTable">
-                                                  <thead>
-                                                     <tr>
-                                                        <th>#</th>
-                                                        <th>Presentacion</th>
-                                                        <th>Factor</th>
-                                                        <th>Unidad</th>
-                                                        <th>Precio</th>                                                        
-                                                        <th>Code Barra</th>
-                                                        <th>Cliente</th>
-                                                        <th>Sucursal</th>
-                                                        <th>Utilidad</th>
-                                                        <th>
-                                                            <div class="btn-group">
-                                                            
-                                                                <a href="#" id="AgregarPrecios" class="btn btn-default">Agregar</a>
-                                                          
-                                                            </div>  
-                                                        </th>
-                                                     </tr>
-                                                  </thead>
-                                                  <tbody class="preciosTable">
-                                                                                                     
-                                                  </tbody>
-                                               </table>
-                                            </div>
-                                         </div>
-                                      </div>
+
+                                        <div class="table-responsive">
+                                           <table class="table table-hover" id="preciosTable">
+                                              <thead>
+                                                 <tr>
+                                                    <th>#</th>
+                                                    <th>Presentacion</th>
+                                                    <th>Factor</th>
+                                                    <th>Unidad</th>
+                                                    <th>Precio</th>                                                        
+                                                    <th>Code Barra</th>
+                                                    <th>Cliente</th>
+                                                    <th>Sucursal</th>
+                                                    <th>Utilidad</th>
+                                                    <th>
+                                                        <div class="btn-group">
+                                                        
+                                                            <a href="#" id="AgregarPrecios" class="btn btn-default">Agregar</a>
+                                                      
+                                                        </div>  
+                                                    </th>
+                                                 </tr>
+                                              </thead>
+                                              <tbody class="preciosTable">
+                                                                                                 
+                                              </tbody>
+                                           </table>
+                                        </div>
+                                      
                                    </div>
+                                </div>
                                 </div>
                             </div>
                           
@@ -874,7 +885,7 @@
 
                         </form>
 
-                    </div>
+                    
                 </div>
             </div>
         </div>

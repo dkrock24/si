@@ -11,15 +11,13 @@
         </h3>
         <div class="row">
             <div class="col-lg-12">
-                <div class="row">
-            
-                    <div class="col-lg-12">
 
-                        <div id="panelDemo10" class="panel panel-info">    
+
+                        <div id="panelDemo10" class="panel">    
                                                 
-                            <div class="panel-heading">Editar Marca : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
-                             <div class="panel-body">        
-                            <p> 
+                            <div class="panel-heading menuTop">Editar Marca : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
+                             <div class="panel-body menuContent">        
+                            
                             <form class="form-horizontal" name="marca" action='../update' method="post">
                                 <input type="hidden" value="<?php echo $marca[0]->id_marca; ?>" name="id_marca">
                                 <div class="row">
@@ -72,7 +70,7 @@
 
                                         <div class="form-group">
                                             <div class="col-sm-offset-2 col-sm-10">
-                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                                <button type="submit" class="btn btn-info">Guardar</button>
                                             </div>
                                         </div>
 
@@ -82,11 +80,8 @@
                                 
                             
                             </form>
-                            </p>                                    
-                        </div>
-                        </div>
-                    </div>
-            
+                                                              
+                        </div>            
                 </div>
             </div>
         </div>

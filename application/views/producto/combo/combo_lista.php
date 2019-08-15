@@ -3,21 +3,21 @@
         <!-- Page content-->
         <div class="content-wrapper">
             <h3 style="height: 50px; "><i class="icon-arrow-right"></i>  Lista Combos </h3>
-            <div class="panel panel-default">
-                <div class="panel-heading"><i class="icon-list"></i> Combos</div>
-                <!-- START table-responsive-->
-                <div class="">
+            <div class="panel">
+                
+                
+                
                     <table id="datatable1" class="table table-striped table-hover">
-                        <thead class="bg-info-dark">
+                        <thead class="">
                             <tr>
-                                <th style="color: white;">#</th>
-                                <th style="color: white;">Combo</th> 
-                                <th style="color: white;">Categoria</th>                                                               
-                                <th style="color: white;">Sub Categoria</th>
-                                <th style="color: white;">Creado</th>
-                                <th style="color: white;">Estado</th>
+                                <th style="color: black;">#</th>
+                                <th style="color: black;">Combo</th> 
+                                <th style="color: black;">Categoria</th>                                                               
+                                <th style="color: black;">Sub Categoria</th>
+                                <th style="color: black;">Creado</th>
+                                <th style="color: black;">Estado</th>
                                 
-                                <th style="color: white;">
+                                <th style="color: black;">
                                     <div class="btn-group">
                                        <button type="button" class="btn btn-default">Opcion</button>
                                        <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-default">
@@ -111,10 +111,9 @@
                         </tbody>
                     </table>
 
-                    <div class="text-right  panel-footer bg-gray-light">
-                       
-                    </div>
-                </div>
+    
+                
+                
             </div>
         </div>
 

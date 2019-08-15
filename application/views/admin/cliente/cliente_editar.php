@@ -41,14 +41,12 @@
         </h3>
         <div class="row">
             <div class="col-lg-12">
-                <div class="row">
-            
-                    <div class="col-lg-12">
+        
 
-                        <div id="panelDemo10" class="panel panel-info">    
+                        <div id="panelDemo10" class="panel">    
                                                 
-                            <div class="panel-heading">Nuevo Cliente : <?php //echo $cliente[0]->nombre_submenu ?> </div>
-                             <div class="panel-body">        
+                            <div class="panel-heading menuTop">Nuevo Cliente : <?php //echo $cliente[0]->nombre_submenu ?> </div>
+                             <div class="panel-body menuContent">        
                             <p> 
                             <form class="form-horizontal" enctype="multipart/form-data" name="cliente" action='../update' method="post">
                                 <input type="hidden" value="<?php echo $cliente[0]->id_cliente; ?>" name="id_cliente">
@@ -277,8 +275,7 @@
                             </form>
                             </p>                                    
                         </div>
-                        </div>
-                    </div>
+                       
             
                 </div>
             </div>

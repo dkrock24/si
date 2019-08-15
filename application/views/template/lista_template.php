@@ -19,34 +19,38 @@
     <section>
         <!-- Page content-->
         <div class="content-wrapper">
-            <h3 style="height: 50px; "><i class="icon-arrow-right"></i> <?php echo $fields['titulo']; ?> </h3>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="col-lg-1 text-left">
-                        <form method="post" id="pagina_x" name="data">
-                        <select class="form-control" id="total_pagina" name="total_pagina">
-                            <option class="0">-</option>
-                            <option class="10">10</option>
-                            <option class="15">15</option>
-                            <option class="20">20</option>
-                            <option class="50">50</option>
-                            <option class="100">100</option>
-                        </select>
-                        </form>
-                    </div>
+            <h3 style="height: 50px; "><i class="icon-arrow-right"></i> <?php echo $fields['titulo']; ?>   
+            <?php $this->load->view('notificaciones/success'); ?>
+            </h3>
+           
 
-                </div>
+            
+            <div class="panel panel-default">
                 <!-- START table-responsive-->
                 
-                    <table id="datatable1" class="table table-striped table-hover">
+                    <table id="datatable1" class="table table-striped table-hover" width="100%">
 
-                        <thead class="bg-info-dark">
+                        <thead class="" style="">
                             <tr>
+                                <th width="5%">
+                                    
+                                        <form method="post" id="pagina_x" name="data">
+                                        <select class="form-control" id="total_pagina" name="total_pagina">
+                                            <option class="0">-</option>
+                                            <option class="10">10</option>
+                                            <option class="15">15</option>
+                                            <option class="20">20</option>
+                                            <option class="50">50</option>
+                                            <option class="100">100</option>
+                                        </select>
+                                        </form>
+                                    
+                                </th>
                               <?php
                               
                               foreach ($column as $key => $combo) {
                                 ?>
-                                <th style="color: white;"><?php echo $combo; ?></th>
+                                <th style="color: black;"><?php echo $combo; ?></th>
                                 <?php
                               }
                               ?>
@@ -62,9 +66,18 @@
                                         <?php
                                         if($acciones){
                                         foreach ($acciones as $key => $value) {
+                                            $url = base_url();
+                                            $num = is_numeric(substr($_SERVER['PATH_INFO'], -1, 1));
+
+                                            if($num){
+                                                $url = $url.'\..'.$_SERVER['PATH_INFO'].'\../../'.$value->accion_btn_url;
+                                            }else{
+                                                $url = $value->accion_btn_url;
+                                            }   
+                                                    
                                             if($value->accion_valor == 'btn_superior'){
                                             ?>
-                                            <li><a href="<?php echo $value->accion_btn_url;  ?>"><?php echo $value->accion_nombre;  ?></a></li>
+                                            <li><a href="<?php echo $url;  ?>"><?php echo $value->accion_nombre;  ?></a></li>
                                             <?php
                                         }}}
                                         ?>
@@ -83,7 +96,7 @@
                                 foreach ($registros as $table) {
                                     $id =  $fields['id'][0];
                                 ?>
-                                <tr>
+                                <tr >
                                     <th scope="row"><?php echo $contador; ?></th>
                                     <?php
                                     foreach ($fields['field'] as $key => $field) {
@@ -93,20 +106,7 @@
                                     ?>
                                       <td><?php
                                       $a = substr($table->$field, 0,1);
-                                      /*
-                                       if(is_numeric($a) && strlen($a)==1 && $a='2'){
-                                            
-                                            $date = new DateTime($table->$field);
-                                            if($date){
-                                                echo $date->format('M-d-Y / H:i');    
-                                            }else{
-                                                //echo $date->format('M-d-Y / H:i');
-                                            }
-                                            
-                                        }
-                                        else{
-                                            echo $table->$field;     
-                                        }*/
+        
                                          echo $table->$field;  
 
                                        ?>                                           
@@ -120,11 +120,11 @@
                                                 <?php 
                                                     if($table->$estado == 1){
                                                         ?>
-                                                        <span class="label label-success">Activo</span>
+                                                        <span class="label label-success" style="background: #39b2d6">Activo</span>
                                                         <?php
                                                     }else{
                                                         ?>
-                                                        <span class="label label-warning">Inactivo</span>
+                                                        <span class="label label-warning" style="background: #d26464">Inactivo</span>
                                                         <?php
                                                     }
                                                 ?>
@@ -139,7 +139,7 @@
                                 <td>
                                                                   
                                     <div class="btn-group mb-sm">
-                                        <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs">Opcion
+                                        <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-xs" style="background: #dde6e9">Opcion
                                                 <span class="caret"></span>
                                             </button>
                                         <ul role="menu" class="dropdown-menu">
@@ -161,7 +161,7 @@
                                                     if($value->accion_valor == 'btn_medio' && $value->accion_nombre != 'Eliminar') {
                                                     ?>
 
-                                                    <li><a href="<?php echo  $url;  ?>/<?php echo $table->$id; ?>"><?php echo $value->accion_nombre;  ?></a></li>
+                                                    <li><a href="<?php echo  $url;  ?>/<?php echo $table->$id; ?>"><i class="<?php echo $value->accion_btn_icon; ?>"></i> <?php echo $value->accion_nombre;  ?></a></li>
                                                     
                                                     <?php
                                                     }
@@ -170,10 +170,10 @@
                                                     ?>
 
                                                     <li class="divider"></li>
-                                                    <li><a href="<?php echo $value->accion_btn_url;  ?>/<?php echo $table->$id; ?>"><?php echo $value->accion_nombre;  ?></a></li>
-                                                    
+                                                    <li><a href="<?php echo $url;  ?>/<?php echo $table->$id; ?>">
+                                                        <i class="<?php echo $value->accion_btn_icon; ?>"></i> 
+                                                        <?php echo $value->accion_nombre;  ?></a></li>
                                                     <?php
-
                                                     }
                                                 }}
 

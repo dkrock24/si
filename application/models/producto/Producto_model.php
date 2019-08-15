@@ -60,7 +60,7 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 and P.Empresa=".$this->session->empresa[0]->Empresa_Suc." 
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 and P.producto_estado=1 and P.Empresa=".$this->session->empresa[0]->Empresa_Suc." 
 				group by P.id_entidad");
 
 		        //echo $this->db->queries[1];
@@ -434,7 +434,7 @@ class Producto_model extends CI_Model {
 	        //die;
 
 			$this->db->where('id_entidad', $producto['id_producto']);
-			$update = $this->db->update(self::producto, $data ); 
+			$result = $update = $this->db->update(self::producto, $data ); 
 			if($update){
 				$this->actualizar_categoria_producto(  $producto['sub_categoria'] , $producto['id_producto'] );
 
@@ -449,6 +449,8 @@ class Producto_model extends CI_Model {
 					$this->producto_imagen_actualizar( $producto['id_producto'], $_FILES['11'] );
 				}
 			}
+
+			return $result;
 			
 		}
 
@@ -585,7 +587,7 @@ class Producto_model extends CI_Model {
 		function get_clientes(){
 			$this->db->select('*');
 	        $this->db->from(self::cliente);
-	        $this->db->where('estado = 1');
+	        $this->db->where('estado_cliente = 1');
 	        $query = $this->db->get();
 	        //echo $this->db->queries[1];
 	        
@@ -598,7 +600,7 @@ class Producto_model extends CI_Model {
 		function get_clientes2(){
 			$this->db->select('nombre_empresa_o_compania, id_cliente');
 	        $this->db->from(self::cliente);
-	        $this->db->where('estado = 1');
+	        $this->db->where('estado_cliente = 1');
 	        $query = $this->db->get();
 	        //echo $this->db->queries[1];
 	        

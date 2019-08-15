@@ -44,7 +44,8 @@ class Impuesto_model extends CI_Model {
             'imp_estado' => $impuesto['imp_estado'],
         );
 
-        $this->db->insert(self::impuesto, $data );
+        $result = $this->db->insert(self::impuesto, $data );
+        return $result;
     }
 
     function getImpuestoById( $documento_id ){
@@ -80,7 +81,17 @@ class Impuesto_model extends CI_Model {
             'imp_estado' => $impuesto['imp_estado'],
         );
         $this->db->where('id_tipos_impuestos', $impuesto['id_tipos_impuestos']);
-        $this->db->update(self::impuesto, $data);
+        $result = $this->db->update(self::impuesto, $data);
+        return $result;
+    }
+
+    function eliminar($id){
+         $data = array(
+            'id_tipos_impuestos' => $id
+        );
+        $this->db->where('id_tipos_impuestos', $id);
+        $result = $this->db->delete(self::impuesto, $data);
+        return $result;
     }
 
     function getAllImpuesto(){

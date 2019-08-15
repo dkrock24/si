@@ -5,12 +5,13 @@
             <h3 style="height: 50px; font-size: 13px;">                
                 <a href="../index" style="top: -12px;position: relative; text-decoration: none">
                     <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Pais</button> </a> 
-                <a href="../dep/<?php echo $ciu[0]->id_departamento;  ?>" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info btn-outline">/ Depart</button></a>
-                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Ciudades</button>
+                <a href="../dep/<?php echo $ciu[0]->id_departamento;  ?>" style="top: 0px;position: relative; text-decoration: none">
+                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info btn-outline">Departamento</button></a>
+                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Ciudades</button>
+                    <?php $this->load->view('notificaciones/success'); ?>
                 </h3>
+
             <div class="panel panel-default">
-                <div class="panel-heading">Lista Ciudades</div>
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
@@ -76,7 +77,7 @@
             				                                    <ul role="menu" class="dropdown-menu">
             				                                        <li><a href="../editar_ciu/<?php echo $ciudad->id_ciudad; ?>">Editar</a></li>
                                                                     <li class="divider"></li>
-            				                                        <li><a href="delete/<?php echo $ciudad->id_ciudad; ?>">Eliminar</a></li>
+            				                                        <li><a href="../eliminar_ciu/<?php echo $ciudad->id_ciudad; ?>/<?php echo $ciudad->id_departamento; ?>">Eliminar</a></li>
 
             				                                    </ul>
             				                                </div>

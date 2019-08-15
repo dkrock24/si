@@ -24,6 +24,21 @@ class Vistas_model extends CI_Model {
         } 
     }
 
+    function get_all_vistas(){
+
+        $this->db->select('v.*,  count(vc.Vista) as total');
+        $this->db->from(self::sys_vistas.' as v');
+        $this->db->join(self::sys_vistas_componentes.' as vc', ' on vc.Vista = v.id_vista','left');
+         $this->db->join(self::sys_componentes.' as c', ' on c.id_vista_componente = vc.Componente','left');
+        $this->db->group_by('v.id_vista');
+        $query = $this->db->get();           
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
     function record_count(){
         return $this->db->count_all(self::sys_vistas);
     }

@@ -81,23 +81,17 @@
             </a> 
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
             </h3>
-            <div class="panel panel-default">
-                <div class="panel-heading" style="background: #535D67; color: white;">Nuevo Combo <a href="<?php echo base_url().'producto/producto/nuevo' ?>" style='float: right;' class="btn btn-primary"><i class="fa fa-arrow-left"></i> Producto</a></div>
+
+            <div class="row">
+            <div class="col-lg-12">
+                <div id="panelDemo10" class="panel">    
                 <!-- START table-responsive-->
-
-                <div class="">
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="panel panel-white">
-
-                                <div class="panel-body">
+                                <div class="row">
                                     <div class="col-lg-6">
-                                        <div id="" class="panel panel-info">
-                                            <div class="panel-heading">Combo Formulario : <?php //echo $roles[0]->role ?> </div>
-                                            <p>
-      
-                                            <div class="panel-body">
+                                        <div id="" class="panel">
+                                            <div class="panel-heading menuTop">Combo Formulario : <?php //echo $roles[0]->role ?> </div>
+                                                  
+                                            <div class="panel-body menuContent">
                                                 
                                                     
                                                     <div class="form-group">
@@ -150,30 +144,30 @@
                                                     </div>
                                                 
                                             </div>
-                                            </p>
+                                            
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6">
-                                        <div id="" class="panel panel-info">
-                                            <div class="panel-heading">Productos en Combo : <?php //echo $roles[0]->role ?> </div>
-                                            <p>
+                                        <div id="" class="panel">
+                                            <div class="panel-heading menuTop">Productos en Combo : <?php //echo $roles[0]->role ?> </div>
+                                            
       
-                                            <div class="panel-body">
+                                            <div class="panel-body menuContent">
                                                 <form class="form-horizontal" action='save' method="post" id="lista_productos">                                                    
 
                                                         <input type="hidden" id="produto_principal" name="produto_principal" value="">
                                                      <input type='submit' class='btn btn-default' value='Crear'>   
                                                 </form>
                                             </div>
-                                            </p>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                
             </div>
-        </div>
+        
     </section>

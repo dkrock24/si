@@ -101,4 +101,15 @@ class Correlativo_model extends CI_Model {
         $this->db->where('id_correlativos', $correlativos['id_correlativos'] );
         $this->db->update(self::correlativos, $data );
     }
+
+    function delete( $id_correlativos ){
+
+        $data = array(
+            'id_correlativos'     =>  $id_correlativos
+        );
+        
+        $this->db->where('id_correlativos', $id_correlativos );
+        $result = $this->db->delete(self::correlativos, $data);
+        return $result;
+    }
 }

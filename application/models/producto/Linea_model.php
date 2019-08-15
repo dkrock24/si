@@ -40,8 +40,8 @@ class Linea_model extends CI_Model {
             'estado_linea'     => $datos['estado_linea'],
         );
         
-        $this->db->insert(self::pos_linea, $data);
-
+        $result = $this->db->insert(self::pos_linea, $data);
+        return $result;
     }
 
     function getLineaId( $linea_id ){
@@ -67,6 +67,18 @@ class Linea_model extends CI_Model {
         );
         
         $this->db->where('id_linea', $datos['id_linea']);
-        $this->db->update(self::pos_linea, $data);
+        $result = $this->db->update(self::pos_linea, $data);
+        return $result;
+    }
+
+    function eliminar_linea( $id ){
+
+        $data = array(
+            'id_linea'     =>  $id
+        );
+        
+        $this->db->where('id_linea', $id);
+        $result = $this->db->delete(self::pos_linea, $data);
+        return $result;
     }
 }

@@ -85,7 +85,7 @@ class Moneda extends CI_Controller {
 		parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 6; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
 		$data['registros'] = $this->Moneda_model->getMoneda(  $config["per_page"], $page  );
@@ -94,6 +94,7 @@ class Moneda extends CI_Controller {
 		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'template/lista_template';
+		$data['title'] = "Monedas";
 
 		$this->parser->parse('template', $data);
 	}
@@ -106,6 +107,7 @@ class Moneda extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['home'] = 'admin/moneda/moneda_nuevo';
+		$data['title'] = "Crear Moneda";
 
 		$this->parser->parse('template', $data);
 	}
@@ -121,8 +123,6 @@ class Moneda extends CI_Controller {
 				$this->session->set_flashdata('danger', "Moneda No Fue Creado");
 			}
 		}
-
-		
 
 		redirect(base_url()."admin/moneda/index");
 	}
@@ -140,6 +140,7 @@ class Moneda extends CI_Controller {
 		$data['monedas'] = $this->Moneda_model->getMonedaId($moneda_id);
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'admin/moneda/moneda_editar';
+		$data['title'] = "Editar Moneda";
 
 		$this->parser->parse('template', $data);
 	}
@@ -151,17 +152,28 @@ class Moneda extends CI_Controller {
 			if($data){
 				$this->session->set_flashdata('warning', "Moneda Fue Actualizado");
 			}else{
-				$this->session->set_flashdata('danger', "Moneda No Fue Creado");
+				$this->session->set_flashdata('danger', "Moneda No Fue Actualizado");
 			}
 		}
 
 		redirect(base_url()."admin/moneda/index");
 	}
 
+	public function eliminar($id){
+		$data = $this->Moneda_model->eliminar( $id );
+
+		if($data){
+			$this->session->set_flashdata('danger', "Moneda Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('warning', "Moneda No Fue Eliminado");
+		}
+		redirect(base_url()."admin/moneda/index");
+	}
+
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Simbolo','Alias','Estado'
+			'Nombre','Simbolo','Alias','Estado'
 		);
 		return $column;
 	}

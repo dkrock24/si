@@ -13,7 +13,7 @@ class Empresa_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::pos_empresa.' e');
         $this->db->join(self::sys_moneda.' m', 'on e.Moneda = m.id_moneda');
-        $this->db->where('e.id_empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('e.nrc', $this->session->empresa[0]->nrc);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -66,7 +66,8 @@ class Empresa_model extends CI_Model {
             'empresa_creado' => date("Y-m-d h:i:s"),
             'empresa_estado' => $empresa['empresa_estado']
         );
-        $this->db->insert(self::pos_empresa, $data ); 
+        $result = $this->db->insert(self::pos_empresa, $data ); 
+        return $result;
     }
 
     function getEmpresaId( $empresa_id ){
@@ -118,6 +119,17 @@ class Empresa_model extends CI_Model {
         }
 
         $this->db->where('id_empresa', $empresa['id_empresa'] ); 
-        $this->db->update(self::pos_empresa, $data ); 
+        $result = $this->db->update(self::pos_empresa, $data ); 
+        return $result;
+    }
+
+    function eliminar($id){
+        $data = array(
+            'id_empresa' => $id
+        );
+
+        $this->db->where('id_empresa', $id); 
+        $result = $this->db->delete(self::pos_empresa, $data ); 
+        return $result;
     }
 }

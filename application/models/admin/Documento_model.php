@@ -63,7 +63,8 @@ class Documento_model extends CI_Model {
             'estado' => $documento['estado'],
         );
         $this->db->where('id_tipo_documento', $documento['id_tipo_documento']);
-        $this->db->update(self::documento, $data);  
+        $result = $this->db->update(self::documento, $data);  
+        return $result;
     }
 
     function nuevo_documento( $documento ){
@@ -81,22 +82,19 @@ class Documento_model extends CI_Model {
             'estado' => $documento['estado'],
         );
 
-        $this->db->insert(self::documento, $data );
+        $result = $this->db->insert(self::documento, $data );
+        return $result;
     }
 
     function delete_documento( $role_id ){
-
-        $data = array(
-            'id_rol' => $role_id
-        );
-        $this->db->delete('sys_menu_acceso', $data);
         
         $data = array(
-            'id_rol' => $role_id
+            'id_tipo_documento' => $role_id
         );
-        $this->db->delete(self::documento, $data);
 
-        return 1;
+        $result = $this->db->delete(self::documento, $data);
+
+        return $result;
     }
 }
 

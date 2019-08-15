@@ -63,7 +63,7 @@
                 <a href="../index" style="top: -12px;position: relative; text-decoration: none">
                     <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Atributos</button> </a> 
                 <a href="../dep/<?php //echo $dep;  ?>" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info btn-outline">/ Editar</button></a>
+                    <button type="button" style="top: 0px; position: relative;" class="mb-sm btn btn-info btn-outline">/ Editar</button></a>
                 </h3>
             <div class="row">
                 <div class="col-lg-12">
@@ -118,7 +118,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                                    <button type="submit" class="btn btn-info">Guardar</button>
                                                 </div>
                                             </div>
                                         

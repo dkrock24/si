@@ -3,6 +3,7 @@ class Roles_model extends CI_Model {
 
     const menu = 'sys_menu';
     const submenu = 'sys_menu_submenu';
+    const sub_men_acceso = 'sys_submenu_acceso';
     const empresa = 'sys_empresa';
     const usuarios = 'sr_usuarios';    
     const roles = 'sys_role';
@@ -63,7 +64,7 @@ class Roles_model extends CI_Model {
             'estado_rol' => $roles['estado_rol'],
         );
         $this->db->where('id_rol', $roles['role_id']);
-        $this->db->update(self::roles, $data);  
+        $this->db->update(self::roles, $data);
     }
 
     function nuevo_rol( $nuevo_rol ){
@@ -76,7 +77,7 @@ class Roles_model extends CI_Model {
             'estado_rol' => $nuevo_rol['estado_rol'],
         );
 
-        $this->db->insert(self::roles, $data );
+        $result = $this->db->insert(self::roles, $data );
 
         $ultimo_id = $this->db->insert_id();
 
@@ -90,21 +91,27 @@ class Roles_model extends CI_Model {
             values($a,$ultimo_id,0)";
             $this->db->query($inset_acceso);
         } 
+        return $result;
     }
 
     function delete_rol( $role_id ){
 
         $data = array(
+            'id_role' => $role_id
+        );
+        $result =$this->db->delete('sys_submenu_acceso', $data);
+
+         $data = array(
             'id_rol' => $role_id
         );
-        $this->db->delete('sys_menu_acceso', $data);
+        $result = $this->db->delete('sys_menu_acceso', $data);
         
         $data = array(
             'id_rol' => $role_id
         );
-        $this->db->delete(self::roles, $data);
+        $result = $this->db->delete(self::roles, $data);
 
-        return 1;
+        return $result;
     }
 }
 

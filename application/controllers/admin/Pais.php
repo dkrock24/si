@@ -81,7 +81,7 @@ class Pais extends CI_Controller {
 		//parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 5; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -91,6 +91,7 @@ class Pais extends CI_Controller {
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
 		$data['home'] = 'template/lista_template';
+		$data['title'] = 'Paises';
 
 		$this->parser->parse('template', $data);
 	}
@@ -108,7 +109,13 @@ class Pais extends CI_Controller {
 
 	public function crear(){
 		// Insert pais
-		$this->Pais_model->crear_pais( $_POST );
+		$data['info'] = $this->Pais_model->crear_pais( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Pais Fue Creado");
+		}else{
+			$this->session->set_flashdata('danger', "Pais No Fue Creado");
+		}
 
 		redirect(base_url()."admin/pais/index");
 	}
@@ -121,6 +128,7 @@ class Pais extends CI_Controller {
 		$data['pais'] = $this->Pais_model->edit_pais( $id_pais );
 		$data['moneda'] = $this->Pais_model->get_moneda();
 		$data['home'] = 'admin/pais/pais_edit';
+		$data['title'] = 'Editar Pais';
 
 		$this->parser->parse('template', $data);
 	}
@@ -128,13 +136,25 @@ class Pais extends CI_Controller {
 	public function update( ){
 		// UPDATE PAIS //
 		$data['pais'] = $this->Pais_model->update_pais( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Pais Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Pais No Fue Actualizado");
+		}
 		
 		redirect(base_url()."admin/pais/index");
 	}
 	
-	public function delete( $id_pais ){
+	public function eliminar( $id_pais ){
 		// DELETE PAIS //
 		$data['pais'] = $this->Pais_model->pais_delete( $id_pais );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Pais Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('danger', "Pais No Fue Eliminado");
+		}		
 		
 		redirect(base_url()."admin/pais/index");
 	}
@@ -152,6 +172,7 @@ class Pais extends CI_Controller {
 		$data['depart'] = $this->Pais_model->get_dep( $pais_id );
 		$data['id_departamento'] = $pais_id;
 		$data['home'] = 'admin/pais/dep';
+		$data['title'] = 'Departamento';
 
 		$this->parser->parse('template', $data);
 	}
@@ -164,6 +185,7 @@ class Pais extends CI_Controller {
 		$data['menu'] = $this->session->menu;
 		$data['id_pais'] = $id_pais;
 		$data['home'] = 'admin/pais/dep_nuevo';
+		$data['title'] = 'Nuevo Departamento';
 
 		$this->parser->parse('template', $data);
 	}
@@ -171,7 +193,13 @@ class Pais extends CI_Controller {
 	public function crear_dep(){
 		// Guardar el nuevo departamento
 
-		$this->Pais_model->crear_dep( $_POST );
+		$data['info'] = $this->Pais_model->crear_dep( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Departamento Fue Creado");
+		}else{
+			$this->session->set_flashdata('danger', "Departamento No Fue Creado");
+		}
 
 		redirect(base_url()."admin/pais/dep/".$_POST['id_pais']);
 	}
@@ -190,9 +218,27 @@ class Pais extends CI_Controller {
 
 	public function update_dep(){
 
-		$this->Pais_model->update_dep( $_POST );
+		$data['info'] = $this->Pais_model->update_dep( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Departamento Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Departamento No Fue Actualizado");
+		}
 		
 		redirect(base_url()."admin/pais/dep/".$_POST['id_pais']);
+	}
+
+	public function eliminar_dep($id_dep , $id_pais){
+		$data['info'] = $this->Pais_model->eliminar_dep( $id_dep );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Departamento Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('danger', "Departamento No Fue Eliminado");
+		}
+		
+		redirect(base_url()."admin/pais/dep/".$id_pais);
 	}
 
 // End Departamento
@@ -205,6 +251,7 @@ class Pais extends CI_Controller {
 		$data['menu'] = $this->session->menu;
 		$data['ciu']  = $this->Pais_model->get_ciu_by( $id_dep );
 		$data['home'] = 'admin/pais/ciu';
+		$data['title'] = 'Lista Ciudad';
 
 		$this->parser->parse('template', $data);
 	}
@@ -215,13 +262,20 @@ class Pais extends CI_Controller {
 		$data['menu'] = $this->session->menu;
 		$data['dep']  =  $id_dep;
 		$data['home'] = 'admin/pais/ciu_nuevo';
+		$data['title'] = 'Nueva Ciudad';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function crear_ciu(){
 
-		$this->Pais_model->crear_ciu( $_POST );
+		$data['info'] = $this->Pais_model->crear_ciu( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Ciudad Fue Creado");
+		}else{
+			$this->session->set_flashdata('danger', "Ciudad No Fue Creado");
+		}
 		
 		redirect(base_url()."admin/pais/ciu/".$_POST['id_departamento']);
 	}
@@ -238,15 +292,33 @@ class Pais extends CI_Controller {
 
 	public function update_ciu(){
 
-		$this->Pais_model->update_ciu( $_POST );
+		$data['info'] = $this->Pais_model->update_ciu( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Ciudad Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Ciudad No Fue Actualizado");
+		}
 		
 		redirect(base_url()."admin/pais/ciu/".$_POST['departamento']);
+	}
+
+	public function eliminar_ciu($id_ciu , $id_dep){
+		$data['info'] = $this->Pais_model->eliminar_ciu( $id_ciu );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Ciudad Fue Eliminada");
+		}else{
+			$this->session->set_flashdata('danger', "Ciudad No Fue Eliminada");
+		}
+		
+		redirect(base_url()."admin/pais/ciu/".$id_dep);
 	}
 
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Codigo','Moneda','Simbolo','Creado', 'Actualizado', 'Estado'
+			'Nombre','Codigo','Moneda','Simbolo','Creado', 'Actualizado', 'Estado'
 		);
 		return $column;
 	}

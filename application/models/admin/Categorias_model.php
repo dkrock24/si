@@ -28,7 +28,7 @@ class Categorias_model extends CI_Model {
                 'img_cate' => $categorias['img_cate'],
                 'id_categoria_padre' => $categorias['categoria_padre'],
                 'categoria_estado' => $categorias['categoria_estado'],
-                'Empresa' => $categorias['Empresa'],
+                'Empresa' => $this->session->empresa[0]->Empresa_Suc,
                 'creado_categoria' => date("Y-m-d h:i:s")
             );
 
@@ -37,12 +37,13 @@ class Categorias_model extends CI_Model {
                 'nombre_categoria' => $categorias['nombre_categoria'],
                 'img_cate' => $categorias['img_cate'],                
                 'categoria_estado' => $categorias['categoria_estado'],
-                'Empresa' => $categorias['Empresa'],
+                'Empresa' => $this->session->empresa[0]->Empresa_Suc,
                 'creado_categoria' => date("Y-m-d h:i:s")
             );
         }
 	
-		$this->db->insert(self::categorias, $data ); 
+		$result = $this->db->insert(self::categorias, $data ); 
+        return $result;
 
 	}
 
@@ -81,8 +82,19 @@ class Categorias_model extends CI_Model {
         }
 
         $this->db->where('id_categoria', $categorias['id_categoria']);
-        $this->db->update(self::categorias, $data);  
+        $result = $this->db->update(self::categorias, $data);  
+        return $result;
 	}
+
+    function delete_categoria($id){
+         
+         $data = array(
+            'id_categoria' => $id,
+        );
+
+        $result = $this->db->delete(self::categorias, $data); 
+        return $result;
+    }
 
     function get_categorias_padres(){
         $this->db->select('*');

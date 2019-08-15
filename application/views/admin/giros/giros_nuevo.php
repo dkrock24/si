@@ -11,14 +11,14 @@
                 </h3>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-white">
-
-                        <div class="panel-body">
-                            <div class="col-lg-6">
+                    <div id="panelDemo10" class="panel">  
                                
-                                <div id="" class="panel panel-info">
-                                    <div class="panel-heading">Nueva Giro </div>
-                                        <p>
+
+                        <div class="panel-heading menuTop">Nueva Giro </div>
+                            <div class="panel-body menuContent">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        
                                         <form class="form-horizontal" action='crear' method="post">
                                             
                                             <div class="form-group">
@@ -67,16 +67,17 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                                    <button type="submit" class="btn btn-info">Guardar</button>
                                                 </div>
                                             </div>
                                         </form>
-                                        </p>
+                                    </div>
                                 </div>
-                              
                             </div>
+                                        
+                                
+                         
                         </div>
-
                     </div>
                 </div>
             </div>

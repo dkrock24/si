@@ -7,17 +7,17 @@
                     <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Pais</button> </a> 
                     <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Departamentos</button>
                 </h3>
+                <?php $this->load->view('notificaciones/success'); ?>
             <div class="panel panel-default">
-                <div class="panel-heading">Lista Departmentos</div>
-                <!-- START table-responsive-->
+                
+                
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Pais</th>
-                                <th>Departamento</th>
-                                <th>Estado</th>                               
+                                <th>Departamento</th>                            
                                 <th>Creado</th>
                                 <th>Actualizado</th>
                                 <th>Estado</th>
@@ -49,7 +49,7 @@
             			                            <th scope="row"><?php echo $contado; ?></th>
             			                            <td><?php echo $departamento->nombre_pais; ?></td>
             			                            <td><?php echo $departamento->nombre_departamento; ?></td>
-            			                            <td><?php echo $departamento->estado_departamento; ?></td>
+            			                            
                                                     <td><?php echo $departamento->fecha_creacion_depa; ?></td>
                                                     <td><?php echo $departamento->fecha_actualizacion_depa; ?></td>
             			                            <td>
@@ -72,7 +72,7 @@
             				                                        <li><a href="../editar_dep/<?php echo $departamento->id_departamento; ?>">Editar</a></li>
                                                                     
                                                                     <li class="divider"></li>
-            				                                        <li><a href="delete/<?php echo $departamento->id_departamento; ?>">Eliminar</a></li>
+            				                                        <li><a href="../eliminar_dep/<?php echo $departamento->id_departamento; ?>/<?php echo $departamento->pais; ?>">Eliminar</a></li>
 
             				                                    </ul>
             				                                </div>

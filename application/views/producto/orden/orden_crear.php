@@ -1,64 +1,42 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
-
+<script type="text/javascript">
+    var _orden = [];
+    var _productos = {};
+    var _productos_precio = [];
+    var _productos_lista;
+    var contador_productos = 0;
+    var contador_tabla =1;
+    var total_msg = 0.00;
+    var factor_precio = 0;
+    var factor_total = 0;
+    var producto_cantidad_linea = 1;
+    var sucursal = 0;
+    var interno_sucursal=0;
+    var interno_bodega= 0;
+    var producto_escala;
+    var clientes_lista;
+    var combo_total = 0.00;
+    var combo_descuento = 0.00;
+    var _conf = [];
+    var _impuestos = [];
+</script>
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
 <script>
 
-var _orden = [];
-var _productos = {};
-var _productos_precio = [];
-var _productos_lista;
-var contador_productos = 0;
-var contador_tabla =1;
-var total_msg = 0.00;
-var factor_precio = 0;
-var factor_total = 0;
-var producto_cantidad_linea = 1;
-var sucursal = 0;
-var interno_sucursal=0;
-var interno_bodega= 0;
-var producto_escala;
-var clientes_lista;
-var combo_total = 0.00;
-var combo_descuento = 0.00;
-var _conf = [];
-var _impuestos = [];
-
-
 $(document).ready(function(){
-
 
     $('#existencias').appendTo("body");
     $('#cliente_modal').appendTo("body");
     $('#vendedores_modal').appendTo("body");
     $('#presentacion_modal').appendTo("body");
-
-    
     $('#en_proceso').appendTo("body");
     $('#en_reserva').appendTo("body");
-    
     $('.dataSelect').hide();
     $('.dataSelect2').hide();
     $(".producto_buscar").focus();
-
     $('.1dataSelect').hide();
     $('.1dataSelect2').hide();
-
-    /* GLOBAL BOTTON FUNCTION */
-    $(document).on('keypress','body', function(){
-        
-        //alert(event.which);
-        if(event.which == '49'){
-           
-        }
-    });
-
-    // Existencia Code
-    $(document).on('keyup', '.existencia_buscar', function(){
-        if($(".existencia_buscar").val() != ""){
-            search_texto2(this.value);
-        }        
-    });
 
     function search_texto2(texto){
 
@@ -487,7 +465,7 @@ $(document).ready(function(){
     });
 
     $("input[type=text]").focus(function(){
-        $(this).css("background","#27c24c");
+        $(this).css("background","#0f4871");
         $(this).css("color","white");
 
         $('.dataSelect2').hide();
@@ -498,7 +476,7 @@ $(document).ready(function(){
     });
 
     $("input[type=number]").focus(function(){
-        $(this).css("background","#27c24c");
+        $(this).css("background","#0f4871");
     });
 
     $("input[type=number]").blur(function(){
@@ -1202,26 +1180,38 @@ $(document).ready(function(){
         }
 
         /* ------------Impuestos Especial Dibujados  -----------*/
-        if(_impuestos_orden){
+        if(_impuestos_orden_condicion){
 
             var impuestos_nombre = "";
             var impuestos_valor = "";
             var impuestos_total = "";
             
-            _impuestos_orden.forEach(function(element){
+            _impuestos_orden_condicion.forEach(function(element){
                 
                 sub = element.ordenImpTotal.toFixed(2);
                 imp_espeical_total += parseFloat(sub);
                 //t2 += parseFloat(sub);
                
-                impuestos_nombre += "<p style='text-align: right;'>"+element.ordenImpName+"</p>";                
-                impuestos_valor += "<p><?php echo $moneda[0]->moneda_simbolo; ?>"+element.ordenImpVal+"</p>";
-                impuestos_total += "<p><?php echo $moneda[0]->moneda_simbolo; ?>"+sub+"</p>";
+                impuestos_nombre += "<i style='text-align: right;'>"+element.ordenImpName+"("+element.ordenImpVal+")</i><br>";                
+                
+                impuestos_total += "<i><?php echo $moneda[0]->moneda_simbolo; ?>"+sub+"</i><br>";
+               
+            });
+
+            _impuestos_orden_especial.forEach(function(element){
+                
+                sub = element.ordenImpTotal.toFixed(2);
+                imp_espeical_total += parseFloat(sub);
+                //t2 += parseFloat(sub);
+               
+                impuestos_nombre += "<i style='text-align: right;'>"+element.ordenImpName+"("+element.ordenImpVal+")</i><br>";                
+                
+                impuestos_total += "<i><?php echo $moneda[0]->moneda_simbolo; ?>"+sub+"</i><br>";
                
             });
 
             $(".impuestos_nombre").html(impuestos_nombre);
-            $(".impuestos_valor").html(impuestos_valor);
+            //$(".impuestos_valor").html(impuestos_valor);
             $(".impuestos_total").html(impuestos_total);
         }
 
@@ -1234,12 +1224,12 @@ $(document).ready(function(){
             total_msg += parseFloat(total_iva);
 
             iva_nombre += "<p style='text-align: right;'>IVA</p>";                
-            iva_valor += "<p><?php echo $moneda[0]->moneda_simbolo; ?>"+total_iva.toFixed(2)+"</p>";
+            iva_valor += "<?php echo $moneda[0]->moneda_simbolo; ?>"+total_iva.toFixed(2)+"";
             iva_total += "<p><?php echo $moneda[0]->moneda_simbolo; ?>"+total_msg.toFixed(2)+"</p>";
 
             $(".iva_nombre").html(iva_nombre);
-            $(".iva_valor").html(iva_valor);
-            $(".iva_total").html(iva_total);
+            //$(".iva_valor").html(iva_valor);
+            $(".iva_total").html(iva_valor);
         }
         total_msg += parseFloat(imp_espeical_total);
 
@@ -1305,15 +1295,15 @@ $(document).ready(function(){
                 if(element.invisible == 0){
                 tr_html += "<tr class='' style=''>";
                 tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
-                tr_html += "<td class='border-left'>"+element.producto+"</td>";
-                tr_html += "<td class='border-left'>"+element.descripcion+"</td>";
-                tr_html += "<td class='border-left'>"+element.cantidad+"</td>";
-                tr_html += "<td class='border-left'>"+element.presentacion+"</td>";
-                tr_html += "<td class='border-left'>"+element.presentacionFactor+"</td>";
-                tr_html += "<td class='border-left'>"+element.precioUnidad+"</td>";
-                tr_html += "<td class='border-left'>"+element.descuento_calculado+"</td>";
-                tr_html += "<td class='border-left total'>"+element.total+"</td>";
-                tr_html += "<td class='border-left '>"+element.bodega+"</td>";
+                tr_html += "<td class=''>"+element.producto+"</td>";
+                tr_html += "<td class=''>"+element.descripcion+"</td>";
+                tr_html += "<td class=''>"+element.cantidad+"</td>";
+                tr_html += "<td class=''>"+element.presentacion+"</td>";
+                tr_html += "<td class=''>"+element.presentacionFactor+"</td>";
+                tr_html += "<td class=''>"+element.precioUnidad+"</td>";
+                tr_html += "<td class=''>"+element.descuento_calculado+"</td>";
+                tr_html += "<td class=' total'>"+element.total+"</td>";
+                tr_html += "<td class=' '>"+element.bodega+"</td>";
                 if(element.combo == 1 || !element.id_producto_combo){
                     tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled btn-danger eliminar' name='"+element.id_producto_detalle+"' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
                 }else{
@@ -1566,11 +1556,14 @@ $(document).ready(function(){
     }
 
     .dataSelect , .dataSelect2{
-        position: relative;
-        display: none;
+        position: absolute;
+        margin-left: 0px;
+        display: inline-block;
+        float: left;
+        z-index: 100;
     }
     .btn-pre{
-        background: #6964bb;
+        background: #CA293E;
         color: white;
     }
 </style>
@@ -1578,22 +1571,21 @@ $(document).ready(function(){
 <!-- Main section-->
 <section>
     <!-- Page content-->
-    <div class="content-wrapper">
-        <h3 style="height: 50px; font-size: 13px;">                
-                <a href="index" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Lista Ordenes</button> 
-            </a> 
-            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
-            </h3>
+    
+
         <div class="row">
            <div class="col-lg-12 col-md-12">
               <!-- Team Panel-->
               <div class="panel panel-default">
-                 <div class="panel-heading" style="background: #535D67; color: white;">
+                 <div class="panel-heading" style="background: #2D3B48; color: white;">
                     <div class="pull-right">
-                       <div class="label label-success"> Fecha <?php echo Date("Y-m-d"); ?> </div>
+                        <div class="" style="font-size: 20px;"> Crear Orden / <?php echo Date("Y-m-d"); ?>  </div>
                     </div>
-                    <div class="panel-title">Crear Orden <span style="float: right;"> <?php echo gethostbyaddr($_SERVER['REMOTE_ADDR'])  ; ?></span> </div>
+                    <div class="panel-title">
+                        <a href="index" style="top: 0px;position: relative; text-decoration: none">
+                            <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Lista Ordenes</button> 
+                        </a> 
+                    </div>
                  </div>
 
                  <!-- START panel-->
@@ -1856,19 +1848,19 @@ $(document).ready(function(){
   
                             </span>
                             
-                              <thead class="bg-info-dark">
+                              <thead class="bg-info-dark" style="background: #cfdbe2;">
                                  <tr>
-                                    <th style="color: white;">#</th>
-                                    <th style="color: white;">Producto</th>
-                                    <th style="color: white;">Descripción</th>
-                                    <th style="color: white;">Cantidad</th>
-                                    <th style="color: white;">Presentación</th>
-                                    <th style="color: white;">Factor</th>
-                                    <th style="color: white;">Unidad</th>
-                                    <th style="color: white;">Descuento</th>
-                                    <th style="color: white;">Total</th>
-                                    <th style="color: white;">Bodega</th>
-                                    <th style="color: white;"><!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>--></th>
+                                    <th style="color: black;">#</th>
+                                    <th style="color: black;">Producto</th>
+                                    <th style="color: black;">Descripción</th>
+                                    <th style="color: black;">Cantidad</th>
+                                    <th style="color: black;">Presentación</th>
+                                    <th style="color: black;">Factor</th>
+                                    <th style="color: black;">Unidad</th>
+                                    <th style="color: black;">Descuento</th>
+                                    <th style="color: black;">Total</th>
+                                    <th style="color: black;">Bodega</th>
+                                    <th style="color: black;"><!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>--></th>
                                  </tr>
                               </thead>
                               <tbody class="uno bg-gray-light" style="border-bottom: 0px solid grey">
@@ -1891,10 +1883,10 @@ $(document).ready(function(){
                               <tbody class="producto_agregados" style="border-top:  0px solid black" >
 
                               </tbody>
-                              <tr class="panel-footer " style="border-top: 3px solid grey; font-size: 22px;">
+                              <tr class="panel-footer " style="border-top: 3px dashed grey; font-size: 22px;">
                                 <td colspan='3'></td>
                                 <td><span class="cantidad_tabla"></span></td>
-                                <td colspan='3' style="text-align: right;">Sub Total</td>
+                                <td colspan='3' style="text-align: right;color:#0f4871;">Sub Total</td>
                                 <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="descuento_tabla"></span></td>
                                 <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="sub_total_tabla"></span></td>
                                 <td colspan='2'></td>
@@ -1902,7 +1894,7 @@ $(document).ready(function(){
                                <tr>
                                    <td colspan='3'></td>
                                     <td><span class=""></span></td>
-                                    <td colspan='3' style="text-align: right;" class="iva_nombre">Iva</td>
+                                    <td colspan='3' style="text-align: right; " class="iva_nombre">Iva</td>
                                     <td><span class="iva_valor"></span></td>
                                     <td><span class="iva_total"></span></td>
                                     <td colspan='2'></td>
@@ -1917,7 +1909,7 @@ $(document).ready(function(){
                                </tr>
                                <tr class="panel-footer" style="font-size: 22px;">
                                     <td colspan='6'></td>
-                                    <td colspan='1' style="text-align: right;">Total</td>
+                                    <td colspan='1' style="text-align: right;color:#0f4871;">Total</td>
                                     <td></td>
                                     <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td>
                                     <td colspan="2"></td>
@@ -1926,13 +1918,12 @@ $(document).ready(function(){
                         </div>
                     <!-- END table-responsive-->
                  </div>
-                 <div class="panel-footer text-center"><a href="#" class="btn btn-default btn-oval">Manage Team</a>
-                 </div>
+                 
               </div>
               <!-- end Team Panel-->
            </div>
         </div>
-    </div>
+    
 </section>
 
 <style type="text/css">

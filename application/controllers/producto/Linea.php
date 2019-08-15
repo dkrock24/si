@@ -71,7 +71,7 @@ class Linea extends CI_Controller {
 		//parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 26; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -81,6 +81,7 @@ class Linea extends CI_Controller {
 		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'template/lista_template';
+		$data['title'] = 'Lineas';
 
 		$this->parser->parse('template', $data);
 	}
@@ -98,12 +99,19 @@ class Linea extends CI_Controller {
 		$data['menu'] = $this->session->menu;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'producto/linea/linea_nuevo';
+		$data['title'] = 'Crear Linea';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function save_linea(){
 		$data['bodegas'] = $this->Linea_model->save_linea( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Linea Fue Creada");
+		}else{
+			$this->session->set_flashdata('danger', "Linea No Fue Creada");
+		}
 
 		redirect(base_url()."producto/linea/index");
 	}
@@ -122,6 +130,7 @@ class Linea extends CI_Controller {
 		$data['lineas'] = $this->Linea_model->getLineaId( $linea_id );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'producto/linea/linea_editar';
+		$data['title'] = 'Editar Linea';
 
 		$this->parser->parse('template', $data);
 	}
@@ -130,13 +139,32 @@ class Linea extends CI_Controller {
 
 		$data['bodegas'] = $this->Linea_model->update_linea( $_POST );
 
+		if($data){
+			$this->session->set_flashdata('warning', "Linea Fue Actualizada");
+		}else{
+			$this->session->set_flashdata('danger', "Linea No Fue Actualizada");
+		}
+
+		redirect(base_url()."producto/linea/index");
+	}
+
+	public function eliminar($id){
+
+		$data['info'] = $data['bodegas'] = $this->Linea_model->eliminar_linea( $id );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Linea Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('danger', "Linea No Fue Eliminado");
+		}
+
 		redirect(base_url()."producto/linea/index");
 	}
 
 	public function column(){
 
 		$column = array(
-			'#','Tipo','Descripcion','Estado'
+			'Tipo','Descripcion','Estado'
 		);
 		return $column;
 	}

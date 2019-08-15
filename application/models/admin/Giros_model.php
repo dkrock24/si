@@ -110,6 +110,16 @@ class Giros_model extends CI_Model {
         return $insert;
 	}
 
+    function eliminar_giro($id){
+        $data = array(
+            'id_giro' => $id
+        );
+
+        $this->db->where('id_giro', $id);
+        $insert = $this->db->delete(self::giros, $data);  
+        return $insert;
+    }
+
     function insert_plantilla( $plantilla ){
 
         $msj = "";

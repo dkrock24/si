@@ -11,14 +11,13 @@
             </h3>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-white">
 
-                        <div class="panel-body">
-                            <div class="col-lg-6">
 
-                                <div id="" class="panel panel-info">                                    
-                                    <div class="panel-heading">Nuevo Sub Menu : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
-                                    <p> 
+                    <div id="" class="panel">                                    
+                        <div class="panel-heading menuTop">Nuevo Sub Menu : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
+                            <div class="panel-body menuContent"> 
+                                <div class="row">
+                                    <div class="col-lg-6">
                                         <form class="form-horizontal" action='../save_sub_menu/<?php echo $id_menu; ?>' method="post">
                                             <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
                                             <div class="form-group">
@@ -101,16 +100,16 @@
                                             
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                                    <button type="submit" class="btn btn-info">Guardar</button>
                                                 </div>
                                             </div>
-                                        </div>
                                         </form>
-                                    </p>                                    
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
+                                                                     
+                           
                 </div>
             </div>
         </div>

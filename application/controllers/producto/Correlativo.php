@@ -72,7 +72,7 @@ class Correlativo extends CI_Controller {
 		//parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 28; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -108,6 +108,12 @@ class Correlativo extends CI_Controller {
 	public function save(){
 		$data['bodegas'] = $this->Correlativo_model->save( $_POST );
 
+		if($data){
+			$this->session->set_flashdata('warning', "Correlativo Fue Creado");
+		}else{
+			$this->session->set_flashdata('danger', "Correlativo No Fue Creado");
+		}
+
 		redirect(base_url()."producto/correlativo/index");
 	}
 
@@ -137,13 +143,32 @@ class Correlativo extends CI_Controller {
 
 		$data['bodegas'] = $this->Correlativo_model->update( $_POST );
 
+		if($data){
+			$this->session->set_flashdata('warning', "Correlativo Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Correlativo No Fue Actualizado");
+		}
+
+		redirect(base_url()."producto/correlativo/index");
+	}
+
+	public function eliminar($id){
+
+		$data['correlativo'] = $this->Correlativo_model->delete( $id );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Correlativo Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('danger', "Correlativo No Fue Eliminado");
+		}
+
 		redirect(base_url()."producto/correlativo/index");
 	}
 
 	public function column(){
 
 		$column = array(
-			'#','Inicial','Final','Siguiente','Prefix','Sucursal','Documento','Serie','Creado','Estado'
+			'Inicial','Final','Siguiente','Prefix','Sucursal','Documento','Serie','Creado','Estado'
 		);
 		return $column;
 	}

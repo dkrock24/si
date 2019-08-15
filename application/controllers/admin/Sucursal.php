@@ -83,7 +83,7 @@ class Sucursal extends CI_Controller {
 		//parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 31; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -110,7 +110,7 @@ class Sucursal extends CI_Controller {
 	}
 
 	public function crear(){
-		// Insert Nuevo Giro
+
 		$data = $this->Sucursal_model->crear_sucursal( $_POST );
 
 		if($data){
@@ -139,22 +139,20 @@ class Sucursal extends CI_Controller {
 	}
 
 	public function update(){
-		// Actualizar Giro 
 		$data = $this->Sucursal_model->actualizar_giro( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('info', " !");
+			$this->session->set_flashdata('success', "Sucursal Fue Actualizada");
 		}else{
-			$this->session->set_flashdata('warning', "El Registro No Fue Actualizado");
+			$this->session->set_flashdata('warning', "Sucursal No Fue Actualizada");
 		}
-
 		redirect(base_url()."admin/sucursal/index");
 	}
 
 	public function column(){
 
 		$column = array(
-			'#','Empresa','Sucursal','Direccion','Tel','Cel','Encargado',  'Estado'
+			'Empresa','Sucursal','Direccion','Tel','Cel','Encargado',  'Estado'
 		);
 		return $column;
 	}

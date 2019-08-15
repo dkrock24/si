@@ -17,6 +17,7 @@ class Marca extends CI_Controller {
 		$this->load->helper('paginacion/paginacion_helper');
 
 		$this->load->model('admin/Menu_model');	
+		$this->load->model('admin/Categorias_model');	
 		$this->load->model('accion/Accion_model');
 		$this->load->model('admin/Marca_model');
 	}
@@ -35,7 +36,7 @@ class Marca extends CI_Controller {
 		}
 		
 		$total_row = $this->Marca_model->record_count();
-		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/documento/index");
+		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/marca/index");
 		$this->pagination->initialize($config);
 		if($this->uri->segment(4)){
 			if($_SESSION['per_page']!=0){
@@ -59,7 +60,7 @@ class Marca extends CI_Controller {
 		$id_rol = $this->session->roles[0];
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 29; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
@@ -89,6 +90,12 @@ class Marca extends CI_Controller {
 	public function update()
 	{	
 		$data['documento'] = $this->Marca_model->setMarca( $_POST );	
+
+		if($data){
+			$this->session->set_flashdata('success', "Marca Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Marca No Fue Actualizado");
+		}
 		
 		redirect(base_url()."admin/marca/index");
 	}
@@ -98,13 +105,43 @@ class Marca extends CI_Controller {
 		$id_rol = $this->session->roles[0];
 
 		$data['menu'] = $this->session->menu;
+		$data['categoria'] = $this->Marca_model->get_marcas();
+		$data['marca'] = $this->Marca_model->getAllMarca();
+		$data['marca_categoria'] = $this->Marca_model->marca_categoria();
 		$data['home'] = 'admin/marca/m_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function save(){
-		$this->Marca_model->nuevo_marca( $_POST );
+		$data = $this->Marca_model->nuevo_marca( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('success', "Marca Fue Creado");
+		}else{
+			$this->session->set_flashdata('danger', "Marca No Fue Creado");
+		}
+		redirect(base_url()."admin/marca/index");
+	}
+
+	public function save_categoria_marca(){
+		$val = $this->Marca_model->save_categoria_marca( $_POST );
+		echo json_encode($val);
+	}
+
+	public function delete_categoria_marca($id){
+		$this->Marca_model->delete_categoria_marca( $id );
+	}
+
+	public function eliminar($id){
+		$data = $this->Marca_model->eliminar_marca( $id );
+
+		if($data){
+			$this->session->set_flashdata('success', "Marca Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('danger', "Marca No Fue Eliminado");
+		}
+
 		redirect(base_url()."admin/marca/index");
 	}
 
@@ -116,7 +153,7 @@ class Marca extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Descripcion','Creado','Actualizado','Estado'
+			'Nombre','Descripcion','Creado','Actualizado','Estado'
 		);
 		return $column;
 	}

@@ -66,7 +66,8 @@ class Proveedor_model extends CI_Model {
             'creado' => date("Y-m-d h:i:s")
         );
         
-        $this->db->insert(self::pos_proveedor, $data);  
+        $result = $this->db->insert(self::pos_proveedor, $data);  
+        return $result;
     }
 
     function get_proveedor_id( $proveedor_id ){
@@ -115,6 +116,7 @@ class Proveedor_model extends CI_Model {
         }
 
         $this->db->where('id_proveedor', $datos['id_proveedor'] ); 
-        $this->db->update(self::pos_proveedor, $data ); 
+        $result = $this->db->update(self::pos_proveedor, $data ); 
+        return $result;
     }
 }

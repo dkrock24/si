@@ -88,7 +88,7 @@ class Empleado extends CI_Controller {
 		//parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id =33; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -142,12 +142,19 @@ class Empleado extends CI_Controller {
 	public function update(){
 		if(isset($_POST)){
 			$data = $this->Empleado_model->update( $_POST );
+
+			if($data){
+				$this->session->set_flashdata('success', "Empleado Fue Actualizado");
+			}else{
+				$this->session->set_flashdata('danger', "Empleado No Fue Actualizado");
+			}
+
 		}
 		redirect(base_url()."admin/empleado/index");
 	}
 
 	public function get_persona(){
-		$data['persona']	= $this->Persona_model->getPersona();
+		$data['persona']	= $this->Persona_model->getAllPersona();
 		echo json_encode($data);
 	}
 
@@ -162,21 +169,21 @@ class Empleado extends CI_Controller {
 	}
 
 	public function get_sucursal( $id_empresa ){
-		$data['sucursal']	= $this->Sucursal_model->getSucursalId( $id_empresa );
+		$data['sucursal']	= $this->Sucursal_model->getSucursal();
 		echo json_encode($data);
 	}
 
 	public function column(){
 
 		$column = array(
-			'#','Contratacion','Horas','Turno','Alias','Seccion', 'Puesto', 'Encargado','Sucursal','Cargo', 'Estado'
+			'Apellido','Nombre','Horas','Turno','Alias','Seccion', 'Puesto', 'Encargado','Sucursal','Cargo', 'Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'fecha_contratacion_empleado','horas_laborales_mensuales_empleado','turno','alias','seccion','puesto','encargado','nombre_sucursal','cargo_laboral','estado'
+			'primer_apellido_persona','primer_nombre_persona','horas_laborales_mensuales_empleado','turno','alias','seccion','puesto','encargado','nombre_sucursal','cargo_laboral','estado'
 		);
 		
 		$fields['id'] = array('id_empleado');

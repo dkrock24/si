@@ -59,7 +59,7 @@ class Documento extends CI_Controller {
 		$id_rol = $this->session->roles[0];
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 27; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
@@ -88,7 +88,13 @@ class Documento extends CI_Controller {
 
 	public function update()
 	{	
-		$data['documento'] = $this->Documento_model->setDocumento( $_POST );	
+		$data['documento'] = $this->Documento_model->setDocumento( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Documento Fue Actializado");
+		}else{
+			$this->session->set_flashdata('danger', "Documento No Fue Actializado");
+		}	
 		
 		redirect(base_url()."admin/documento/index");
 	}
@@ -104,19 +110,32 @@ class Documento extends CI_Controller {
 	}
 
 	public function save(){
-		$this->Documento_model->nuevo_documento( $_POST );
+		$data = $this->Documento_model->nuevo_documento( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Documento Fue Creado");
+		}else{
+			$this->session->set_flashdata('danger', "Documento No Fue Creado");
+		}
+
 		redirect(base_url()."admin/documento/index");
 	}
 
-	public function delete( $id_rol ){
-		$this->Roles_model->delete_rol( $id_rol );
-		redirect(base_url()."admin/roles/index");
+	public function eliminar( $id ){
+		$data = $this->Documento_model->delete_documento( $id );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Documento Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('danger', "Documento No Fue Eliminado");
+		}
+		redirect(base_url()."admin/documento/index");
 	}
 
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Inventario','Iva','Cuentas','Caja','Ventas','Automatico','Emitir','Estado'
+			'Nombre','Inventario','Iva','Cuentas','Caja','Ventas','Automatico','Emitir','Estado'
 		);
 		return $column;
 	}

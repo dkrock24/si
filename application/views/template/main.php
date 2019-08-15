@@ -30,12 +30,12 @@
     <script type="text/javascript">
 
       window.addEventListener("load", function(){
-        
+        /*
         HoldOn.open({
             theme:"sk-bounce"
           });
-
-         loading();
+*/
+         //loading();
       });
 
       function loading(){
@@ -46,6 +46,17 @@
       
       
     </script>
+
+    <style type="text/css">
+      .menuTop{
+        background: #cfdbe2; color: black;
+        
+      }
+      .menuContent{
+        border-top:1px solid grey;
+        border-bottom: 3px solid grey;
+      }
+    </style>
 
   </head>
   <title>
@@ -278,7 +289,7 @@
                                     if($submenu->id_menu == $menus->id_menu && $submenu->estado_referencia !=1)
                                     {
                                 ?>
-                                    <li class="sidebar-subnav-header">Dashboard</li>
+                                    
                                     <li class="holdOn_plugin">
                                       <?php
                                       if($submenu->nueva_pagina ==1){

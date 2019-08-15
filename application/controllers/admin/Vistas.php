@@ -121,7 +121,7 @@ class Vistas extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Codigo','Metodo','Url','Descripcion', 'Botones','Estado'
+			'Nombre','Codigo','Metodo','Url','Descripcion', 'Botones','Estado'
 		);
 		return $column;
 	}
@@ -229,7 +229,7 @@ class Vistas extends CI_Controller {
 	public function columnC(){
 
 		$column = array(
-			'#','Vista','Accion','btn Nombre','btn Css','btn Icon', 'btn Url','btn Codigo','btn Posicion','Estado'
+			'Vista','Accion','btn Nombre','btn Css','btn Icon', 'btn Url','btn Codigo','btn Posicion','Estado'
 		);
 		return $column;
 	}

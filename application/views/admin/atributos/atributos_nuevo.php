@@ -68,7 +68,7 @@
                 <a href="index" style="top: -12px;position: relative; text-decoration: none">
                     <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Atributos</button> </a> 
                 <a href="" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info btn-outline">/ Nuevo</button></a>
+                    <button type="button" style="top: 0px; position: relative;" class="mb-sm btn btn-info btn-outline">/ Nuevo</button></a>
                 </h3>
             <div class="row">
                 <form class="form-horizontal" action='crear' method="post">
@@ -77,9 +77,9 @@
 
                         <div class="col-lg-6">
                             <!-- START panel-->
-                            <div id="panelDemo10" class="panel panel-info">
-                                <div class="panel-heading">Nueva Atributo </div>
-                                <div class="panel-body">
+                            <div id="panelDemo10" class="panel">
+                                <div class="panel-heading menuTop">Nueva Atributo </div>
+                                <div class="panel-body menuContent">
                                     <p>
                                         
 
@@ -124,7 +124,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-sm-offset-2 col-sm-10">
-                                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                                        <button type="submit" class="btn btn-info">Guardar</button>
                                                     </div>
                                                 </div>
                                             
@@ -135,9 +135,9 @@
 
                         <div class="col-lg-6">
                             <!-- START panel-->
-                            <div id="panelDemo10" class="panel panel-info">
-                                <div class="panel-heading">Opciones <span class='btn btn-default agregar' name="">Agregar</span> </div>
-                                <div class="panel-body">
+                            <div id="panelDemo10" class="panel">
+                                <div class="panel-heading menuTop">Opciones <span class='btn btn-default agregar' name="">Agregar</span> </div>
+                                <div class="panel-body menuContent">
                                     <div id="atributosOptios">
                                         
                                     </div>

@@ -71,7 +71,7 @@ class Bodega extends CI_Controller {
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 20; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
 		$data['contador_tabla'] = $contador_tabla;
@@ -80,6 +80,7 @@ class Bodega extends CI_Controller {
 		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'template/lista_template';
+		$data['title'] = "Bodegas";
 
 		$this->parser->parse('template', $data);
 	}
@@ -97,18 +98,25 @@ class Bodega extends CI_Controller {
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['sucursal'] = $this->Sucursal_model->getSucursal();
 		$data['home'] = 'producto/bodega/bodega_nuevo';
+		$data['title'] = "Nueva Bodega";
 
 		$this->parser->parse('template', $data);
 	}
 
-	function save_bodega(){
+	public function save_bodega(){
 
 		$data['bodegas'] = $this->Bodega_model->saveBodegas( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('success', "Bodega Fue Creado");
+		}else{
+			$this->session->set_flashdata('danger', "Bodega No Fue Creado");
+		}
 
 		redirect(base_url()."producto/bodega/index");
 	}
 
-	function editar($bodega_id){
+	public function editar($bodega_id){
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
@@ -121,23 +129,41 @@ class Bodega extends CI_Controller {
 		$data['bodega'] = $this->Bodega_model->getBodegaById($bodega_id);
 		$data['sucursal'] = $this->Sucursal_model->getSucursal();
 		$data['home'] = 'producto/bodega/bodega_editar';
+		$data['title'] = "Editar Bodega";
 
 		$this->general->editar_valido($data['bodega'], "producto/bodega/index");
 
 		$this->parser->parse('template', $data);
 	}
 
-	function update_bodega(){
+	public function update_bodega(){
 
 		$data['bodegas'] = $this->Bodega_model->update_bodega( $_POST );
 
+		if($data){
+			$this->session->set_flashdata('warning', "Bodega Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Bodega No Fue Actualizado");
+		}
+
+		redirect(base_url()."producto/bodega/index");
+	}
+
+	public function eliminar($id){
+		$data = $this->Bodega_model->eliminar( $id );
+
+		if($data){
+			$this->session->set_flashdata('danger', "Eliminado Exitosamente");
+		}else{
+			$this->session->set_flashdata('warning', "No Fue Eliminada");
+		}
 		redirect(base_url()."producto/bodega/index");
 	}
 
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Direccion','Encargado','Predefinida','Empresa', 'Sucursal', 'Estado'
+			'Nombre','Direccion','Encargado','Predefinida','Empresa', 'Sucursal', 'Estado'
 		);
 		return $column;
 	}

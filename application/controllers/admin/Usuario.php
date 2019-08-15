@@ -153,6 +153,12 @@ class Usuario extends CI_Controller {
 	public function update(){
 		if(isset($_POST)){
 			$data = $this->Usuario_model->update( $_POST );
+
+			if($data){
+				$this->session->set_flashdata('success', "Usuario Fue Actualizado");
+			}else{
+				$this->session->set_flashdata('warning', "Usuario No Fue Actualizado");
+			}
 		}
 		redirect(base_url()."admin/usuario/index");
 	}
@@ -234,7 +240,7 @@ class Usuario extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','Usuario','Password','Hora Inicio','Hora fin','Encargado', 'Rol','Id' ,'Empleado', 'Estado'
+			'Usuario','Password','Hora Inicio','Hora fin','Encargado', 'Rol','Id' ,'Empleado', 'Estado'
 		);
 		return $column;
 	}

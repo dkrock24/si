@@ -129,6 +129,15 @@ class Bodega_model extends CI_Model {
         $this->db->update(self::pos_bodega, $data);  
 	}
 
+    function eliminar($id){
+        $data = array(
+            'id_bodega'     =>  $id,
+        );
+        $this->db->where('id_bodega', $id);
+        $retuslt = $this->db->delete(self::pos_bodega, $data);
+        return $retuslt;
+    }
+
     function getProductoByBodega( $data ){
 
         $this->db->select('*');

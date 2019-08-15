@@ -35,7 +35,7 @@
                 
                 $.each(clientes, function(i, item) { 
                         
-                        table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.primer_nombre_persona+' '+item.segundo_nombre_persona+' '+item.primer_apellido_persona+' '+item.segundo_apellido_persona+'</td><td>'+item.dui+'</td><td>'+item.nit+'</td><td>'+item.cel+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_persona" id="'+item.id_persona+'" name="'+item.primer_nombre_persona+' '+item.segundo_nombre_persona+' '+item.primer_apellido_persona+' '+item.segundo_apellido_persona+'">Agregar</a></td></tr>';
+                        table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.primer_nombre_persona+' '+item.segundo_nombre_persona+' '+item.primer_apellido_persona+' '+item.segundo_apellido_persona+'</td><td>'+item.dui+'</td><td>'+item.nit+'</td><td>'+item.cel+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_persona" id="'+item.id_empleado+'" name="'+item.primer_nombre_persona+' '+item.segundo_nombre_persona+' '+item.primer_apellido_persona+' '+item.segundo_apellido_persona+'">Agregar</a></td></tr>';
                         contador_precios++;
                     
                     
@@ -135,15 +135,13 @@
         </h3>
         <div class="row">
             <div class="col-lg-12">
-                <div class="row">
-            
-                    <div class="col-lg-12">
+         
 
-                        <div id="panelDemo10" class="panel panel-info">    
+                        <div id="panelDemo10" class="panel">    
                                                 
-                            <div class="panel-heading">Nuevo Usuario : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
-                             <div class="panel-body">        
-                            <p> 
+                            <div class="panel-heading menuTop">Nuevo Usuario : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
+                             <div class="panel-body menuContent">        
+                           
                             <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="usuario" action='crear' method="post">
                                 <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
                                 <div class="row">
@@ -196,6 +194,16 @@
                                             </div>
                                         </div>
 
+                                        
+
+
+
+                                    </div>
+
+
+                                    <div class="col-lg-6">
+                                        <!-- Otro -->
+
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Rol</label>
                                             <div class="col-sm-9">
@@ -223,18 +231,10 @@
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control persona_codigo" id="nombre_persona" name="nombre_persona" placeholder="Nombre Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                <input type="hidden" class="form-control persona_codigo" id="persona" name="persona" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" class="form-control persona_codigo" id="persona" name="persona" placeholder="Persona" value="">
                                                 
                                             </div>
                                         </div>
-
-
-
-                                    </div>
-
-
-                                    <div class="col-lg-6">
-                                        <!-- Otro -->
                                         
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
@@ -257,7 +257,7 @@
 
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="button" id="btn_save" class="btn btn-primary">Guardar</button>
+                                                <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
                                             </div>
                                         </div>
 
@@ -267,10 +267,9 @@
                                 
                             
                             </form>
-                            </p>                                    
+                                                           
                         </div>
-                        </div>
-                    </div>
+                       
             
                 </div>
             </div>

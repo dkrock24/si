@@ -81,6 +81,7 @@ class Persona extends CI_Controller {
 		$data['registros'] = $this->Persona_model->getPersona( $config["per_page"], $page );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'template/lista_template';
+		$data['title'] = 'Lista Personas';
 
 		$this->parser->parse('template', $data);
 	}
@@ -96,18 +97,23 @@ class Persona extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		
 		$data['sexo'] = $this->Sexo_model->getSexo();
 		$data['ciudad'] = $this->Ciudad_model->getDepartamento();
-
 		$data['home'] = 'admin/persona/persona_nuevo';
+		$data['title'] = 'Crear Personas';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function crear(){
 
-		$this->Persona_model->crear( $_POST );
+		$data = $this->Persona_model->crear( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Persona Fue Creado");
+		}else{
+			$this->session->set_flashdata('danger', "Persona No Fue Creado");
+		}
 
 		redirect(base_url()."admin/persona/index");
 	}
@@ -117,15 +123,12 @@ class Persona extends CI_Controller {
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
 
-		//$id_rol = $this->session->roles[0];
-		//$vista_id = 8; // Vista Orden Lista
-		//$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-
 		$data['menu'] 	= $this->session->menu;		
 		$data['persona']= $this->Persona_model->getPersonaId( $persona_id );
 		$data['sexo'] 	= $this->Sexo_model->getSexo();
 		$data['ciudad'] = $this->Ciudad_model->getCiudad();
 		$data['ciudad2'] = $this->Ciudad_model->getCiudadId( $data['persona'][0]->id_departamento );
+		$data['title'] = 'Editar Personas';
 
 		$data['home'] 	= 'admin/persona/persona_editar';
 
@@ -137,6 +140,25 @@ class Persona extends CI_Controller {
 	public function update(){
 
 		$data['bodegas'] = $this->Persona_model->update( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Persona Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Persona No Fue Actualizado");
+		}
+
+		redirect(base_url()."admin/persona/index");
+	}
+
+	function eliminar($id){
+
+		$data['bodegas'] = $this->Persona_model->eliminar( $id );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Persona Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('danger', "Persona No Fue Eliminado");
+		}
 
 		redirect(base_url()."admin/persona/index");
 	}
@@ -150,7 +172,7 @@ class Persona extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'#','P.Nombre','S.Nombre','P.Apellido','S.Apellido','DUI','NIT','Direccion','Tel', 'Whatsapp' ,'Sexo','Ciudad', 'Estado'
+			'P.Nombre','S.Nombre','P.Apellido','S.Apellido','DUI','NIT','Direccion','Tel', 'Whatsapp' ,'Sexo','Ciudad', 'Estado'
 		);
 		return $column;
 	}

@@ -11,14 +11,12 @@
         </h3>
         <div class="row">
             <div class="col-lg-12">
-                <div class="row">
-            
-                    <div class="col-lg-12">
+          
 
-                        <div id="panelDemo10" class="panel panel-info">    
+                        <div id="panelDemo10" class="panel">    
                                                 
-                            <div class="panel-heading">Editar Moneda : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
-                             <div class="panel-body">        
+                            <div class="panel-heading menuTop"><i class="fa fa-pencil" style="font-size: 20px;"></i>  Editar Moneda : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
+                             <div class="panel-body menuContent">        
                             <p> 
                             <form class="form-horizontal" name="moneda" action='../update' method="post">
                                 <input type="hidden" value="<?php echo $monedas[0]->id_moneda; ?>" name="id_moneda">
@@ -93,8 +91,7 @@
                         </div>
                     </div>
             
-                </div>
-            </div>
+                
         </div>
     </div>
 </section>

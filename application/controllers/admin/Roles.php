@@ -59,7 +59,7 @@ class Roles extends CI_Controller {
 		$id_rol = $this->session->roles[0];
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 3; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
@@ -69,6 +69,7 @@ class Roles extends CI_Controller {
 		$data['fields'] = $this->fields();
 		$data['registros'] = $this->Roles_model->getRoles( $config["per_page"], $page );
 		$data['home'] = 'template/lista_template';
+		$data['title'] = 'Roles';
 
 		$this->parser->parse('template', $data);
 	}
@@ -80,6 +81,7 @@ class Roles extends CI_Controller {
 		$data['menu'] = $this->session->menu;
 		$data['roles'] = $this->Roles_model->getRolesById( $id_role );
 		$data['home'] = 'admin/roles/roles_editar';
+		$data['title'] = 'Editar Role';
 
 		$this->general->editar_valido($data['roles'], "admin/roles/index");
 
@@ -89,6 +91,12 @@ class Roles extends CI_Controller {
 	public function update_roles()
 	{	
 		$data['roles'] = $this->Roles_model->setRoles( $_POST );	
+
+		if($data){
+			$this->session->set_flashdata('warning', "Rol Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Rol No Fue Actualizado");
+		}
 		
 		redirect(base_url()."admin/roles/index");
 	}
@@ -100,24 +108,39 @@ class Roles extends CI_Controller {
 		$data['menu'] = $this->session->menu;
 						//$this->Roles_model->nuevo_rol( $_POST );
 		$data['home'] = 'admin/roles/roles_nuevo';
+		$data['title'] = 'Nuevo Role';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function save_rol(){
-		$this->Roles_model->nuevo_rol( $_POST );
+		$data['role'] = $this->Roles_model->nuevo_rol( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Rol Fue Creado");
+		}else{
+			$this->session->set_flashdata('danger', "Rol No Fue Creado");
+		}
+
 		redirect(base_url()."admin/roles/index");
 	}
 
-	public function delete( $id_rol ){
-		$this->Roles_model->delete_rol( $id_rol );
+	public function eliminar( $id_rol ){
+		$data['role'] = $this->Roles_model->delete_rol( $id_rol );
+
+		if($data){
+			$this->session->set_flashdata('danger', "Eliminado Exitosamente");
+		}else{
+			$this->session->set_flashdata('warning', "No Fue Eliminada");
+		}
+
 		redirect(base_url()."admin/roles/index");
 	}
 
 	public function column(){
 
 		$column = array(
-			'#','Nombre','Pagina','Creacion','Actualizacion','Estado'
+			'Nombre','Pagina','Creacion','Actualizacion','Estado'
 		);
 		return $column;
 	}

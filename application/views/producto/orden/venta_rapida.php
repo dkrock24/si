@@ -1,254 +1,45 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
-
+<script type="text/javascript">
+    var _orden = [];
+    var _productos = {};
+    var _productos_precio = [];
+    var _productos_lista;
+    var contador_productos = 0;
+    var contador_tabla =1;
+    var total_msg = 0.00;
+    var factor_precio = 0;
+    var factor_total = 0;
+    var producto_cantidad_linea = 1;
+    var sucursal = 0;
+    var interno_sucursal=0;
+    var interno_bodega= 0;
+    var producto_escala;
+    var clientes_lista;
+    var combo_total = 0.00;
+    var combo_descuento = 0.00;
+    var _conf = [];
+    var _impuestos = [];
+</script>
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
+<script src="<?php echo base_url(); ?>../asstes/pos_funciones.js"></script>
 
 <script>
 
-var _orden = [];
-var _productos = {};
-var _productos_precio = [];
-var _productos_lista;
-var contador_productos = 0;
-var contador_tabla =1;
-var total_msg = 0.00;
-var factor_precio = 0;
-var factor_total = 0;
-var producto_cantidad_linea = 1;
-var sucursal = 0;
-var interno_sucursal=0;
-var interno_bodega= 0;
-var producto_escala;
-var clientes_lista;
-var combo_total = 0.00;
-var combo_descuento = 0.00;
-var _conf = [];
-var _impuestos = [];
-
-
 $(document).ready(function(){
-
 
     $('#existencias').appendTo("body");
     $('#cliente_modal').appendTo("body");
     $('#vendedores_modal').appendTo("body");
     $('#presentacion_modal').appendTo("body");
-
-    
     $('#en_proceso').appendTo("body");
     $('#en_reserva').appendTo("body");
-    
     $('.dataSelect').hide();
     $('.dataSelect2').hide();
     $(".producto_buscar").focus();
-
     $('.1dataSelect').hide();
-    $('.1dataSelect2').hide();
-
-    /* GLOBAL BOTTON FUNCTION */
-    $(document).on('keypress','body', function(){
-        
-        //alert(event.which);
-        if(event.which == '49'){
-           
-        }
-    });
-
-    // Existencia Code
-    $(document).on('keyup', '.existencia_buscar', function(){
-        if($(".existencia_buscar").val() != ""){
-            search_texto2(this.value);
-        }        
-    });
-
-    function search_texto2(texto){
-
-        $('.1dataSelect').show();
-        sucursal = $("#sucursal_id").val();
-        interno_bodega  = $("#bodega_select").val();
-        var contador_precios=1;
-        var table_tr="";
-        if( sucursal != interno_sucursal){
-        
-            interno_sucursal = sucursal;
-            $.ajax({
-                url: "get_productos_lista/"+sucursal+"/"+interno_bodega+"/"+texto,
-                datatype: 'json',      
-                cache : false,                
-
-                success: function(data){
-                    var datos = JSON.parse(data);
-                    var productos = datos["productos"];
-                    var producto_id = 0;
-                    _productos_lista = productos;
-                    $('.1dataSelect').show();
-                
-                },
-                error:function(){
-                }
-            });
-        }else{
-
-            var productos = _productos_lista;
-            var producto_id = 0;
-            interno_sucursal = sucursal;
-            $.each(productos, function(i, item) { 
-
-                var name = item.name_entidad.toUpperCase();
-                var cod_barra = item.cod_barra;
-
-                if(name.includes(texto.toUpperCase()) || cod_barra.includes(texto)){
-                    producto_id = item.id_entidad;  
-                    var precio = 0;
-                    
-                    table_tr += '<option value="'+item.id_entidad+'">'+item.name_entidad+'</option>';
-                    //table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.cod_barra+'</td><td>'+item.id_entidad+'</td><td>'+item.cantidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_producto" id="'+item.id_entidad+'">Agregar</a></td></tr>';
-                    contador_precios++;
-                }
-                
-            });
-
-            $(".1dataSelect").html(table_tr);
-        }
-        $("#grabar").focus();
-    }
-
-    $(document).on('keypress', '.1dataSelect', function(){
-        
-        if ( event.which == 13 ) {
-            get_producto_completo2(this.value);
-            event.preventDefault();
-            //$("#producto_buscar").val(this.value);
-            $(".producto_buscar").empty();
-            $('.1dataSelect').hide();
-            $('.1dataSelect').empty();
-            $(".existencia_buscar").focus();
-        }
-        
-    });
-
-
-    $(document).on('keydown', '.existencia_buscar', function(){
-        // Validar Codigo Flecha Abajo - Modal Existencias
-         if ( event.keyCode == 40 ) {
-            $('.1dataSelect').focus();            
-            document.getElementById('1dataSelect').selectedIndex = 0;
-         }
-    });
-
-    // Mostrar Existencias
-    function get_producto_completo2(producto_id){
-      $("#grabar").attr('disabled');
-        var codigo,presentacion,tipo,precioUnidad,descuento,total
-
-        /*
-        * Identificadores de valores del producto
-        * 1 = Presentacion / 10 = Modelo / 14 = Costo / 18 = Almacenaje / 19 = Minimos
-        * 20 = Medios / 21= maximos / 22 = Descuento Limite / 23 = Precio Venta
-        * 24 = Iva / 26 = Incluye / 11 = Imagen / 4 = Cod_Barras
-        */
-
-        $.ajax({
-            url: "<?php echo base_url().'producto/existencias/' ?>get_producto_completo/"+producto_id,
-            datatype: 'json',      
-            cache : false,                
-
-            success: function(data){
-                var datos = JSON.parse(data);
-                var contador =1;
-                var existencias_total=0;
-                var html='';
-
-                $.each(datos['producto'], function(i, item) { 
-
-                    existencias_total+= parseInt(item.Cantidad);
-                    html +='<tr>';
-                    html +='<td>'+contador+'</td>';
-                    html +='<td>'+item.nombre_sucursal+'</td>';
-                    html +='<td>'+item.nombre_bodega+'</td>';
-                    html +='<td>'+item.Cantidad+'</td>';
-                    html +='<td>'+item.valor+'</td>';
-                    html +='<td>'+0.00+'</td>';
-                    html +='<td>'+item.valor+'</td>';
-                    html +='<td>'+item.Descripcion+'</td>';
-                    html +='</tr>';
-                    contador++;
-                });
-                html += '<tr><td colspan="3"></td><td>'+existencias_total+'</td><td colspan="4"></td></tr>'
-                $('.dos').html(html);
-
-            },
-            error:function(){
-            }
-        });
-    }
-
-    // End Existencia Code
-
+    $('.1dataSelect2').hide();    
     
-    $(document).on('keyup', '.producto_buscar', function(){
-        /* 1 - Input Buscar Producto */
-        if($(".producto_buscar").val() != ""){
-            search_texto(this.value);
-        }
-    });    
     
-    /* 2 - Filtrado del texto a buscar en productos */
-    function search_texto(texto){
-
-        //$('.dataSelect').show();
-        sucursal = $("#sucursal_id").val();
-        var bodega = $("#bodega_select").val();
-        
-        var contador_precios=1;
-        var table_tr="";
-        if( bodega != interno_bodega){
-            
-            interno_sucursal = sucursal;
-            interno_bodega = bodega;
-            $.ajax({
-                url: "get_productos_lista/"+sucursal+"/"+bodega+"/"+texto,
-                datatype: 'json',      
-                cache : false,                
-
-                success: function(data){
-                    var datos = JSON.parse(data);
-                    
-                    _impuestos['cat']=datos["impuesto_categoria"];
-                    _impuestos['cli']=datos["impuesto_cliente"];
-                    _impuestos['doc']=datos["impuesto_documento"];
-                    _impuestos['pro']=datos["impuesto_proveedor"];
-
-                    var productos = datos["productos"];
-                    var producto_id = 0;
-                    _productos_lista = productos;
-                    
-                
-                },
-                error:function(){
-                }
-            });
-        }else{
-
-            var producto_id = 0;
-            interno_sucursal = sucursal;
-            $.each(_productos_lista, function(i, item) { 
-
-                var name = item.name_entidad.toUpperCase();
-                var cod_barra = item.cod_barra;
-
-                if(name.includes(texto.toUpperCase()) || cod_barra.includes(texto)){
-                    producto_id = item.id_entidad;  
-                    var precio = 0;
-                    
-                    table_tr += '<option value="'+item.id_entidad+'">'+item.name_entidad+'</option>';
-                    contador_precios++;
-                }
-                $('.dataSelect').show();    
-            });            
-
-            $(".dataSelect").html(table_tr);
-        }
-    }
 
     $(document).on('keydown', '.producto_buscar', function(){
          if ( event.keyCode == 40 ) {
@@ -489,7 +280,7 @@ $(document).ready(function(){
     });
 
     $("input[type=text]").focus(function(){
-        $(this).css("background","#27c24c");
+        $(this).css("background","#0f4871");
         $(this).css("color","white");
 
         $('.dataSelect2').hide();
@@ -500,7 +291,7 @@ $(document).ready(function(){
     });
 
     $("input[type=number]").focus(function(){
-        $(this).css("background","#27c24c");
+        $(this).css("background","#0f4871");
     });
 
     $("input[type=number]").blur(function(){
@@ -1204,13 +995,14 @@ $(document).ready(function(){
         }
 
         /* ------------Impuestos Especial Dibujados  -----------*/
-        if(_impuestos_orden){
-
+        
+        if(_impuestos_orden_condicion.length !=0){
+            
             var impuestos_nombre = "";
             var impuestos_valor = "";
             var impuestos_total = "";
             
-            _impuestos_orden.forEach(function(element){
+            _impuestos_orden_condicion.forEach(function(element){
                 
                 sub = element.ordenImpTotal.toFixed(2);
                 imp_espeical_total += parseFloat(sub);
@@ -1222,19 +1014,52 @@ $(document).ready(function(){
                
             });
 
+            _impuestos_orden_especial.forEach(function(element){
+                
+                sub = element.ordenImpTotal.toFixed(2);
+                imp_espeical_total += parseFloat(sub);
+               
+                impuestos_nombre += "<i style='text-align: right;'>"+element.ordenImpName+"("+element.ordenImpVal+")</i><br>";                
+                
+                impuestos_total += "<i><?php echo $moneda[0]->moneda_simbolo; ?>"+sub+"</i><br>";
+               
+            });
+
+            _impuestos_orden_excluyentes.forEach(function(element){
+                
+                sub = element.ordenImpTotal.toFixed(2);
+                if(element.condicion_simbolo == "+"){
+                    imp_espeical_total += parseFloat(sub);
+                }else if(element.condicion_simbolo == " - "){
+                    imp_espeical_total -= parseFloat(sub);
+                }
+                
+               
+                impuestos_nombre += "<i style='text-align: right;'>"+element.ordenImpName+"("+element.ordenImpVal+")</i><br>";                
+                
+                impuestos_total += "<i><?php echo $moneda[0]->moneda_simbolo; ?> "+sub+"</i><br>";
+               
+            });
+
             $(".impuestos_nombre").html(impuestos_nombre);
-            //$(".impuestos_valor").html(impuestos_valor);
             $(".impuestos_total").html(impuestos_total);
+        }else{
+            $(".impuestos_nombre").empty();
+            $(".impuestos_total").empty();
         }
 
         /* ------------Impuestos - IVA -----------*/
 
         var total_msg = (t2 - descuento);
 
-        if(total_iva != 0 ){
-            var temp = 0;
-            total_msg += parseFloat(total_iva);
-
+        $(".iva_nombre").empty();
+        $(".iva_valor").empty();
+        $(".iva_total").empty();
+        var temp = 0;
+        if(total_iva != 0 && _orden.length!=0 ){
+            total_msg += parseFloat(total_iva_suma);
+        }
+            
             iva_nombre += "<p style='text-align: right;'>IVA</p>";                
             iva_valor += "<?php echo $moneda[0]->moneda_simbolo; ?>"+total_iva.toFixed(2);
             iva_total += "<p><?php echo $moneda[0]->moneda_simbolo; ?>"+total_msg.toFixed(2)+"</p>";
@@ -1242,7 +1067,7 @@ $(document).ready(function(){
             $(".iva_nombre").html(iva_nombre);
             $(".iva_valor").text(iva_valor);
             $(".iva_total").html(iva_total);
-        }
+        
         total_msg += parseFloat(imp_espeical_total);
 
         // --------------- * -----------------------------
@@ -1299,6 +1124,7 @@ $(document).ready(function(){
     function depurar_producto(){
         // Remueve los productos selecionados
         contador_tabla=1;
+
         
         if(_orden.length >= 1){
             var tr_html = "";
@@ -1307,15 +1133,15 @@ $(document).ready(function(){
                 if(element.invisible == 0){
                 tr_html += "<tr class='' style='' id='"+element.producto_id+"'>";
                 tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
-                tr_html += "<td class='border-left'>"+element.producto+"</td>";
-                tr_html += "<td class='border-left'>"+element.descripcion+"</td>";
-                tr_html += "<td class='border-left'>"+element.cantidad+"</td>";
-                tr_html += "<td class='border-left'>"+element.presentacion+"</td>";
-                tr_html += "<td class='border-left'>"+element.presentacionFactor+"</td>";
-                tr_html += "<td class='border-left'>"+element.precioUnidad+"</td>";
-                tr_html += "<td class='border-left'>"+element.descuento_calculado+"</td>";
-                tr_html += "<td class='border-left total'>"+element.total+"</td>";
-                tr_html += "<td class='border-left '>"+element.bodega+"</td>";
+                tr_html += "<td class=''>"+element.producto+"</td>";
+                tr_html += "<td class=''>"+element.descripcion+"</td>";
+                tr_html += "<td class=''>"+element.cantidad+"</td>";
+                tr_html += "<td class=''>"+element.presentacion+"</td>";
+                tr_html += "<td class=''>"+element.presentacionFactor+"</td>";
+                tr_html += "<td class=''>"+element.precioUnidad+"</td>";
+                tr_html += "<td class=''>"+element.descuento_calculado+"</td>";
+                tr_html += "<td class=' total'>"+element.total+"</td>";
+                tr_html += "<td class=' '>"+element.bodega+"</td>";
                 if(element.combo == 1 || !element.id_producto_combo){
                     tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled btn-danger eliminar' name='"+element.id_producto_detalle+"' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
                 }else{
@@ -1338,8 +1164,11 @@ $(document).ready(function(){
             contador_productos = 0;
             _orden = [];
             _productos = {};
+            _impuestos_orden_condicion = [];
+            _impuestos_orden_especial = [];
+            _impuestos_orden_excluyentes = [];
 
-            total_msg = parseInt(0);
+            total_msg = parseFloat(0.00);
             $(".total_msg").text("$ "+total_msg.toFixed(2));
             $(".producto_agregados").empty();
             calculo_totales();
@@ -1550,6 +1379,7 @@ $(document).ready(function(){
 </script>
 
 <?php $this->load->view('styles_files.php'); ?>
+<title><?php echo $title; ?></title>
    
 
 <style type="text/css">
@@ -1575,55 +1405,23 @@ $(document).ready(function(){
         display: none;
     }
     .btn-pre{
-        background: #6964bb;
+        background: #CA293E;
         color: white;
     }
 
     #dataSelect, #dataSelect2{
         position: absolute;
         margin-left: 0px;
+        display: inline-block;
         float: left;
         z-index: 100;
     }
 
     /* Productos Tabla Seleccion */
     * {
-            font-size: 12px;
-            font-family: 'Helvetica', Arial, Sans-Serif;
-            box-sizing: border-box;
-            }
-
-            table, th, td {
-                border-collapse:collapse;
-                border: solid 1px #ccc;
-                padding: 10px 20px;
-                text-align: center;
-            }
-
-            th {
-                background: #0f4871;
-                color: #fff;
-            }
-
-            tr:nth-child(2n) {
-                background: #f1f1f1;
-            }
-            tr:hover {
-                color: black;
-                background: #CA293E;
-            }
-            td:focus {
-                color:red;
-                background: #f44;
-            }
-
-            .editing {
-                border: 2px dotted #c9c9c9;
-            }
-
-            #edit { 
-                display: none;
-            }
+        
+        font-family: 'Helvetica', Arial, Sans-Serif;
+        }
 </style>
 
 <script type="text/javascript">
@@ -1633,17 +1431,20 @@ $(document).ready(function(){
         var currCell = $('tr').first();
         var editing = false;
 
-
         $(document).on("click","tr",function(){
            $('tr').css('background','none');
+           $('tr').css('color','black');
+
+           $(this).css('background','#0f4871');
+           $(this).css('color','#fff');
+        
             currCell = $(this);
             currCell.focus();
             var producto_imagen_id = $(this).attr('id');
-            //imagen(producto_imagen_id);
+            imagen(producto_imagen_id);
         });
 
         function imagen(producto_imagen_id){
-            console.log("Id - ", producto_imagen_id);
             getImagen(producto_imagen_id);
         }
 
@@ -1660,6 +1461,9 @@ $(document).ready(function(){
                 c = currCell.closest('tr').prev().find('td:eq(' + 
                   currCell.index() + ')');
 
+                $('tr').css('background','none');
+                $('tr').css('color','black');
+
                 if($(currCell.closest('tr')).attr('id')){
                     imagen($(currCell.closest('tr').prev()).attr('id'));
                 }
@@ -1669,6 +1473,9 @@ $(document).ready(function(){
                 // Down Arrow
                 c = currCell.closest('tr').next().find('td:eq(' + 
                   currCell.index() + ')');
+
+                $('tr').css('background','none');
+                $('tr').css('color','black');
 
                 if($(currCell.closest('tr')).attr('id')){
                     imagen($(currCell.closest('tr').next()).attr('id'));
@@ -1691,12 +1498,16 @@ $(document).ready(function(){
             // If we didn't hit a boundary, update the current cell
             if (c.length > 0) {
                 currCell.parent().css('background','none');
+                currCell.parent().css('color','#131e26');
+
+                //$('tr').css('color','#131e26');
                 currCell = c;
                 console.log(currCell.parent().index());
                 var x = currCell.parent().index();
                 currCell.focus();
                 
-                currCell.parent().css('background','blue');
+                currCell.parent().css('background','#0f4871');
+                currCell.parent().css('color','#fff');
             }
         }
 
@@ -1710,21 +1521,12 @@ $(document).ready(function(){
         });
 
     });
-
-
 </script>
 
 <!-- Main section-->
 
 
 <section>
-<div id="edit">
-            <form class="prueba">
-                <input type="text" id="text" value="To edit..." />
-                <input type="submit" value="Save" />
-            </form>
-        </div>
-
 
     <div class="row">
         <div class="col-lg-9 col-md-9">
@@ -1732,78 +1534,78 @@ $(document).ready(function(){
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                   <!-- Team Panel-->
-                    <div class="panel panel-default" style="height: 70px; width: 100%; background: #e04c4c;text-align: center;color: white;font-size: 30px;">
-                        <div class="panel-heading" style="background: #535D67; color: white;">
-                            <div class="pull-right">
-                                <div class="label label-success"> Fecha <?php echo Date("Y-m-d"); ?> </div>
-                            </div>
-                            <div class="panel-title">Ventas Rapidas <span style="float: right;"> <?php echo gethostbyaddr($_SERVER['REMOTE_ADDR'])  ; ?></span> </div>
-                        </div><br>
+                    <div class="panel panel-default" style="height: 70px; width: 100%; background: white;text-align: center;color: white;font-size: 30px;">
+                        <div class="panel-heading" style="background: #2D3B48; color: white;">
+                            <div class="row">
+
+                                <div class="col-lg-4">
+                               
+                                    <div class="input-group m-b">
+                                        <span class="input-group-addon btn-pre"><i class="fa fa-search"></i></span>
+                                        <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
+                                    </div>
+
+                                    <select multiple="" class="form-control dataSelect" id="dataSelect">
+
+                                    </select>
+
+                                    <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="display: inline-block;">
+
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-8">
+                                    <button type="button" class="btn btn-pre" name="" id="grabar" value=""><span class='btn-label'><i class='icon-plus'></i></span>[ . ]</button>
+
+                                    <button type="button" class="btn btn-pre guardar" name="1" id="" value=""><span class='btn-label'><i class='fa fa-save'></i></span></button>
+
+                                    <a href="#" class="btn btn-pre" id="btn_existencias" data-toggle='modal' data-target='#existencias'><i class="icon-menu"></i> Existencias</a>                            
+                                    
+                                    <div class="btn-group">
+                                       <button type="button" class="btn btn-pre">Opcion</button>
+                                       <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-pre">
+                                          <span class="caret"></span> 
+                                          <span class="sr-only">default</span>
+                                       </button>
+                                       <ul role="menu" class="dropdown-menu">
+                                         <li><a href="#" class="btn btn-warning" id="btn_impuestos" data-toggle='modal'><i class="fa fa-money"></i> Impuestos</a></li>
+
+                                            <li><a href="#" class="btn btn-warning" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
+                                          
+                                          <li class="divider"></li>
+                                          <li>
+                                            <li><a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a>
+                                          </li>
+                                       </ul>
+                                    </div>
+
+                                    <div class="pull-right">
+                                        <div class="" style="font-size: 20px;">  <?php echo Date("Y-m-d"); ?>  </div>
+                                        <?php //echo gethostbyaddr($_SERVER['REMOTE_ADDR'])  ; ?>
+                                    </div>
+                                </div>  
+                            </div>                            
+                        </div>
                      
                     <!-- START table-responsive-->
-                        <div class="table-responsive" >
-                           <table class="table table-sm table-hover">
-                            <div class="col-lg-4">
-                               
-                                <div class="input-group m-b">
-                                    <span class="input-group-addon btn-pre"><i class="fa fa-search"></i></span>
-                                    <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
-                                </div>
-
-
-                                <select multiple="" class="form-control dataSelect" id="dataSelect">
-
-                                </select>
-
-                                <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="display: inline-block;">
-
-                                </select>
-
-                                
-                            </div>
-                            <div class="col-lg-6">
-
-                                <button type="button" class="btn btn-labeled btn-pre" name="" id="grabar" value=""><span class='btn-label'><i class='icon-plus'></i></span>[ . ]</button>
-
-                                <button type="button" class="btn btn-labeled btn-pre guardar" name="1" id="" value=""><span class='btn-label'><i class='fa fa-save'></i></span></button>
-
-                                <a href="#" class="btn btn-pre" id="btn_existencias" data-toggle='modal' data-target='#existencias'><i class="icon-menu"></i> Existencias</a>                            
-                                
-                                <div class="btn-group ">
-                                   <button type="button" class="btn btn-pre">Opcion</button>
-                                   <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-pre">
-                                      <span class="caret"></span>
-                                      <span class="sr-only">default</span>
-                                   </button>
-                                   <ul role="menu" class="dropdown-menu">
-                                     <li><a href="#" class="btn btn-warning" id="btn_impuestos" data-toggle='modal'><i class="fa fa-money"></i> Impuestos</a></li>
-
-                                        <li><a href="#" class="btn btn-warning" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
-                                      
-                                      <li class="divider"></li>
-                                      <li>
-                                        <li><a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a>
-                                      </li>
-                                   </ul>
-                                </div>
-
-                            </div>
-  
-                            </span>
+                        <div class="table-responsive" style="width: 100%;">
+                           <table class="table table-sm table-hover" >
                             
-                              <thead class="bg-info-dark">
+                            
+                            
+                              <thead class="bg-info-dark" style="background: #cfdbe2;">
                                  <tr>
-                                    <th style="color: white;">#</th>
-                                    <th style="color: white;">Producto</th>
-                                    <th style="color: white;">Descripción</th>
-                                    <th style="color: white;">Cantidad</th>
-                                    <th style="color: white;">Presentación</th>
-                                    <th style="color: white;">Factor</th>
-                                    <th style="color: white;">Unidad</th>
-                                    <th style="color: white;">Descuento</th>
-                                    <th style="color: white;">Total</th>
-                                    <th style="color: white;">Bodega</th>
-                                    <th style="color: white;"><!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>--></th>
+                                    <th style="color: black;">#</th>
+                                    <th style="color: black;">Producto</th>
+                                    <th style="color: black;">Descripción</th>
+                                    <th style="color: black;">Cantidad</th>
+                                    <th style="color: black;">Presentación</th>
+                                    <th style="color: black;">Factor</th>
+                                    <th style="color: black;">Unidad</th>
+                                    <th style="color: black;">Descuento</th>
+                                    <th style="color: black;">Total</th>
+                                    <th style="color: black;">Bodega</th>
+                                    <th style="color: black;"><!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>--></th>
                                  </tr>
                               </thead>
                               <tbody class="uno bg-gray-light" style="border-bottom: 0px solid grey">
@@ -1853,23 +1655,24 @@ $(document).ready(function(){
                 
 
                 <div class="row">
-                    <div class="col-lg-12 col-md-12" style="height: 70px; width: 100%; background: #e04c4c;text-align: center;color: white;font-size: 30px;">
-                        <span style="margin-top: 10px;">
-                            <h2><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_msg"></span></h2>
+                    <div class="col-lg-12 col-md-12" style="width: 100%; background: #0f4871;text-align: center;color: white;">
+                        
+                        <span style="font-size: 50px;">
+                            <?php echo $moneda[0]->moneda_simbolo; ?> <span class="total_msg">0.00</span>
                         </span>    
-                    </div>                    
+                    </div>
                 </div>
 
                 <div class="row">
                     <div class="col-lg-12 col-md-12" style="width: 100%; background: white;">
 
-                        <table class="table">
+                        <table class="table table-sm table-hover">
                             <tr>
-                                <td style="color:red">Sub total</td>
+                                <td style="color:#0f4871"><b>Sub total</b></td>
                                 <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="sub_total_tabla"></span></td>
                             </tr>
                             <tr>
-                                <td>Iva</td>
+                                <td><b>Iva</b></td>
                                 <td><span class="iva_valor"></span></td>
                             </tr>
                             <tr>
@@ -1877,7 +1680,7 @@ $(document).ready(function(){
                                 <td><span class="impuestos_total"></span></td>
                             </tr>
                             <tr>
-                                <td style="color:red">Total</td>
+                                <td style="color:#0f4871"><b>Total</b></td>
                                 <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td>
                             </tr>
                         </table>

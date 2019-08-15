@@ -22,94 +22,88 @@
         </h3>
         <div class="row">
             <div class="col-lg-12">
-                <div class="row">
-            
-                    <div class="col-lg-12">
+                  <div id="panelDemo10" class="panel">    
+                                          
+                      <div class="panel-heading menuTop">Editar Cargo Laboral : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
+                       <div class="panel-body menuContent">        
+                      <p> 
+                      <form class="form-horizontal" enctype="multipart/form-data" id="../update" name="cargo" action='../update' method="post">
+                          <input type="hidden" value="<?php echo $cargo[0]->id_cargo_laboral; ?>" name="id_cargo_laboral">
+                          <div class="row">
 
-                        <div id="panelDemo10" class="panel panel-info">    
-                                                
-                            <div class="panel-heading">Editar Cargo Laboral : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
-                             <div class="panel-body">        
-                            <p> 
-                            <form class="form-horizontal" enctype="multipart/form-data" id="../update" name="cargo" action='../update' method="post">
-                                <input type="hidden" value="<?php echo $cargo[0]->id_cargo_laboral; ?>" name="id_cargo_laboral">
-                                <div class="row">
+                              <div class="col-lg-6">
+                                  <div class="form-group">
+                                      <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Nombre</label>
+                                      <div class="col-sm-9">
+                                          <input type="text" class="form-control" id="cargo_laboral" name="cargo_laboral" placeholder="Nombre" value="<?php echo $cargo[0]->cargo_laboral ?>">
+                                          
+                                      </div>
+                                  </div>
 
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Nombre</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="cargo_laboral" name="cargo_laboral" placeholder="Nombre" value="<?php echo $cargo[0]->cargo_laboral ?>">
-                                                
-                                            </div>
-                                        </div>
+                                  <div class="form-group">
+                                      <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Descripcion</label>
+                                      <div class="col-sm-9">
+                                          <input type="text" class="form-control" id="descripcion_cargo_laboral" name="descripcion_cargo_laboral" placeholder="Descripcion" value="<?php echo $cargo[0]->descripcion_cargo_laboral ?>">
+                                          
+                                      </div>
+                                  </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Descripcion</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="descripcion_cargo_laboral" name="descripcion_cargo_laboral" placeholder="Descripcion" value="<?php echo $cargo[0]->descripcion_cargo_laboral ?>">
-                                                
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Salario</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="salario_mensual_cargo_laboral" name="salario_mensual_cargo_laboral" placeholder="Salario" value="<?php echo $cargo[0]->salario_mensual_cargo_laboral ?>">
-                                            </div>
-                                        </div>
+                                  <div class="form-group">
+                                      <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Salario</label>
+                                      <div class="col-sm-9">
+                                          <input type="text" class="form-control" id="salario_mensual_cargo_laboral" name="salario_mensual_cargo_laboral" placeholder="Salario" value="<?php echo $cargo[0]->salario_mensual_cargo_laboral ?>">
+                                      </div>
+                                  </div>
 
 
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                
-                                                <label>
-                                                    <select name="estado" class="form-control">
-                                                        <?php 
-                                                            if( $cargo[0]->estado ==1 ){ 
-                                                                ?>
-                                                                <option value="1">Activo</option>
-                                                                <option value="0">Inactivo</option>
-                                                                <?php
-                                                            } else{
-                                                                 ?>
-                                                                <option value="0">Inactivo</option>
-                                                                <option value="1">Activo</option>
-                                                                <?php
-                                                            }
-                                                        ?>  
-                                                    </select>
-                                                </label>
-                                            </div>
-                                        </div>
+                                  <div class="form-group">
+                                      <div class="col-sm-offset-3 col-sm-9">
+                                          
+                                          <label>
+                                              <select name="estado" class="form-control">
+                                                  <?php 
+                                                      if( $cargo[0]->estado ==1 ){ 
+                                                          ?>
+                                                          <option value="1">Activo</option>
+                                                          <option value="0">Inactivo</option>
+                                                          <?php
+                                                      } else{
+                                                           ?>
+                                                          <option value="0">Inactivo</option>
+                                                          <option value="1">Activo</option>
+                                                          <?php
+                                                      }
+                                                  ?>  
+                                              </select>
+                                          </label>
+                                      </div>
+                                  </div>
 
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="submit" id="btn_save" class="btn btn-primary">Guardar</button>
-                                            </div>
-                                        </div>
+                                  <div class="form-group">
+                                      <div class="col-sm-offset-3 col-sm-9">
+                                          <button type="submit" id="btn_save" class="btn btn-info">Guardar</button>
+                                      </div>
+                                  </div>
 
-                                    </div>
-
-
-                                    <div class="col-lg-6">
-                                        <!-- Otro -->
-                                        
-                                    
-                                        
+                              </div>
 
 
-                                    </div>
-                                </div>
-                                
-                            
-                            </form>
-                            </p>                                    
-                        </div>
-                        </div>
-                    </div>
-            
-                </div>
+                              <div class="col-lg-6">
+                                  <!-- Otro -->
+                                  
+                              
+                                  
+
+
+                              </div>
+                          </div>
+                          
+                      
+                      </form>
+                      </p>                                    
+                  </div>
+                  </div>
+        
             </div>
         </div>
     </div>

@@ -10,21 +10,18 @@
                 </h3>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-white">
-
-                        <div class="panel-body">
-                            <div class="col-lg-6">
-                               
-                                <div id="" class="panel panel-info">
-                                    <div class="panel-heading">Editar Pais : <?php echo $pais[0]->nombre_pais ?> </div>
-                                        <p>
+                    <div id="panelDemo10" class="panel">    
+                        <div class="panel-heading menuTop">Editar Pais : <?php echo $pais[0]->nombre_pais ?> </div>
+                            <div class="panel-body menuContent">  
+                                <div class="row">
+                                    <div class="col-lg-6">
                                         <form class="form-horizontal" action='../update' method="post">
                                             <input type="hidden" value="<?php echo $pais[0]->id_pais; ?>" name="id_pais">
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="nombre_pais" name="nombre_pais" placeholder="Nombre menu" value="<?php echo $pais[0]->nombre_pais ?>">
-                                                    <p class="help-block">Nombre Pais.</p>
+                                                    
                                                 </div>
                                             </div>
                                             
@@ -32,7 +29,7 @@
                                                 <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Codigo</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="URL" value="<?php echo $pais[0]->zip_code ?>">
-                                                    <p class="help-block">Codigo Pais.</p>
+                                                    
                                                 </div>
                                             </div>
 
@@ -57,7 +54,7 @@
                                                         }
                                                         ?>
                                                     </select>                                                    
-                                                    <p class="help-block">Moneda Pais.</p>
+                                                    
                                                 </div>
                                             </div>
 
@@ -86,16 +83,13 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                                    <button type="submit" class="btn btn-info">Guardar</button>
                                                 </div>
                                             </div>
                                         </form>
-                                        </p>
+                                    </div>                            
                                 </div>
-                              
                             </div>
-                        </div>
-
                     </div>
                 </div>
             </div>

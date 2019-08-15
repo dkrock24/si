@@ -41,14 +41,12 @@
         </h3>
         <div class="row">
             <div class="col-lg-12">
-                <div class="row">
-            
-                    <div class="col-lg-12">
 
-                        <div id="panelDemo10" class="panel panel-info">    
+
+                        <div id="panelDemo10" class="panel">    
                                                 
-                            <div class="panel-heading">Nuevo Cliente : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
-                             <div class="panel-body">        
+                            <div class="panel-heading menuTop">Nuevo Cliente : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
+                             <div class="panel-body menuContent">        
                             <p> 
                             <form class="form-horizontal" enctype="multipart/form-data" name="cliente" action='crear' method="post">
                                 <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
@@ -222,7 +220,7 @@
 
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                                <button type="submit" class="btn btn-info">Guardar</button>
                                             </div>
                                         </div>
 
@@ -237,8 +235,7 @@
                         </div>
                     </div>
             
-                </div>
-            </div>
+                
         </div>
     </div>
 </section>

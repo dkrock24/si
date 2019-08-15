@@ -52,7 +52,7 @@ class Menu_model extends CI_Model {
         $this->db->join('sys_menu_submenu as S','on '. self::menu .'.id_menu = S.id_menu');       
         $this->db->join('sys_vistas as V','on V.id_vista = S.id_vista');
         $this->db->where(self::menu.'.id_menu',$id_menu );     
-        $this->db->where('S.estado_submen',1);
+        //$this->db->where('S.estado_submen',1);
         //$this->db->where('S.estado_referencia',null);
         $query = $this->db->get();    
         //echo $this->db->queries[2];

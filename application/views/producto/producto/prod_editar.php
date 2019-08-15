@@ -90,8 +90,22 @@
 
                 success: function(data){
                   //console.log(data);
-                  $.each(JSON.parse(data), function(i, item) {                    
-                    $("#sub_categoria").append('<option value='+item.id_categoria+'>'+item.nombre_categoria+'</option>');
+                  $.each(JSON.parse(data), function(i, item) {
+
+                    var datos = JSON.parse(data);
+                    var subcategorias = datos["subcategorias"];
+                    var marcas = datos['marcas'];
+
+                    $("#sub_categoria").empty();
+                    $.each(subcategorias, function(i, item) {                    
+                        $("#sub_categoria").append('<option value='+item.id_categoria+'>'+item.nombre_categoria+'</option>');
+                    });
+
+                    $("#marca").empty();
+                    $.each(marcas, function(i, item) {                 
+                        $("#marca").append('<option value='+item.id_marca+'>'+item.nombre_marca+'</option>');
+                    });
+
                 });
                 
                 },
@@ -586,12 +600,12 @@
                 </h3>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-white">
+                    
 
                         <div class="col-lg-3">
-                            <div id="" class="panel panel-info">
-                                <div class="panel-heading"><i class="fa fa-pencil right"></i> Editar Producto :</div>
-                                
+                            <div id="" class="panel">
+                                <div class="panel-heading menuTop"><i class="fa fa-pencil right"></i> Editar Producto :</div>
+                                <div class="panel-body menuContent">
                                 <div class="row">
 
                                     <?php
@@ -613,9 +627,7 @@
                                 }
                                 ?>
 
-
-                                  
-                                </div>                                
+                                </div>  </div>                                
 
                                 <div class="row">
                                     <br>
@@ -653,9 +665,9 @@
                         
                         <div class="col-lg-9">
                            
-                            <div id="" class="panel panel-info">
-                                <div class="panel-heading">Producto General :  </div>
-                                    <p>
+                            <div id="" class="panel">
+                                <div class="panel-heading menuTop">Producto General :  </div>
+                                    <div class="panel-body menuContent">
                                     
                                         <input type="hidden" name="empresa" value="" id="id_empresa">
                                         <input type="hidden" name="id_producto" value="<?php echo $producto[0]->id_entidad; ?>" id="id_producto">
@@ -912,16 +924,16 @@
                                         </div>
 
                                     
-                                    </p>
+                                    </div>
                             </div>
                           
                         </div>
 
                         <div class="col-lg-9">
                            
-                            <div id="" class="panel panel-info">
-                                <div class="panel-heading">Producto Atributos :  </div>
-                                <div class="row">
+                            <div id="" class="panel">
+                                <div class="panel-heading menuTop">Producto Atributos :  </div>
+                                <div class="panel-body menuContent">
                                     <p class="form-horizontal giro_atributos">
                                         
                                     </p>
@@ -932,13 +944,14 @@
 
                         <div class="col-lg-9 alenado-left">
                            
-                            <div id="" class="panel panel-info">
-                                <div class="panel-heading">Producto Precios :  </div>
-                                <div class="row">
+                            <div id="" class="panel">
+                                <div class="panel-heading menuTop">Producto Precios :  </div>
+                                <div class="panel-body menuContent">
+                                    <div class="row">
                                     <div class="col-lg-12">
-                                      <div class="panel panel-default">
+                                      
                                          
-                                         <div class="panel-body">
+                                         
                                             <div class="table-responsive">
                                                 <table class="table table-hover" id="preciosTable">
                                                   <thead>
@@ -1059,8 +1072,9 @@
                                                   </tbody>
                                                </table>
                                             </div>
-                                         </div>
-                                      </div>
+                                         
+                                      
+                                   </div>
                                    </div>
                                 </div>
                             </div>
@@ -1069,7 +1083,7 @@
 
                         </form>
 
-                    </div>
+                    
                 </div>
             </div>
         </div>

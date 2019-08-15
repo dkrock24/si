@@ -26,7 +26,7 @@ class Empleado_model extends CI_Model {
 
     function get_empleados2(){
 
-        $this->db->select('p.primer_nombre_persona, p.segundo_nombre_persona,p.primer_apellido_persona,p.segundo_apellido_persona,p.dui,p.nit,p.tel,p.id_persona');
+        $this->db->select('p.primer_nombre_persona, p.segundo_nombre_persona,p.primer_apellido_persona,p.segundo_apellido_persona,p.dui,p.nit,p.tel,p.id_persona,e.id_empleado');
         $this->db->from(self::sys_persona.' as p');
         $this->db->join(self::sys_empleado.' as e', 'on p.id_persona = e.Persona_E');
         $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
@@ -102,7 +102,8 @@ class Empleado_model extends CI_Model {
             $data = array_merge( $data,array('img_empleado' => $imagen, 'img_type'=> $imageProperties['mime'] ));
         }
         
-        $this->db->insert(self::sys_empleado, $data);  
+        $result = $this->db->insert(self::sys_empleado, $data);  
+        return $result;
 
 	}
 
@@ -134,7 +135,8 @@ class Empleado_model extends CI_Model {
             $data = array_merge( $data,array('img_empleado' => $imagen, 'img_type'=> $imageProperties['mime'] ));
         }
         $this->db->where('id_empleado', $datos['id_empleado']);  
-        $this->db->update(self::sys_empleado, $data);  
+        $result = $this->db->update(self::sys_empleado, $data);  
+        return $result;
  
 	}
 

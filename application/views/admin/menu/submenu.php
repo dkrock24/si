@@ -6,7 +6,7 @@
             <h3 style="height: 50px; font-size: 13px;">                
                 <a href="../index" style="top: -12px;position: relative; text-decoration: none">
                     <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Menus</button> </a> 
-                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Sub Menu</button>
+                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Sub Menu</button>
                 </h3>
             <div class="panel panel-default">
                 <div class="panel-heading"> <?php if($submenus[0]){ echo $submenus[0]->nombre_menu; }; ?></div>
@@ -32,7 +32,7 @@
                                           <span class="sr-only">default</span>
                                        </button>
                                        <ul role="menu" class="dropdown-menu">
-                                          <li><a href="../nuevo_submenu/<?php echo $submenus[0]->id_menu; ?>">Nuevo</a>                </li>
+                                          <li><a href="../nuevo_submenu/<?php echo @$submenus[0]->id_menu; ?> ">Nuevo</a>                </li>
                                           <li><a href="#">Exportar</a>              </li>
                                           <li class="divider"></li>
                                           <li><a href="#">Otros</a>
@@ -75,15 +75,21 @@
                                 <?php 
                                     if($sub->estado_submen==1){
                                         ?>
-                                        <span class="label label-success">Activo</span>
+                                        <span class="label label-success" style="background: #39b2d6">Activo</span>
                                         <?php
-                                    }?>
+                                    }
+                                    else{
+                                         ?>
+                                        <span class="label label-warning" style="background: #d26464">Activo</span>
+                                        <?php
+                                    }
+                                    ?>
                                 </td>
                                 
                                 <td>
                                                                       
                                 <div class="btn-group mb-sm">
-                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs">Opcion
+                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs"  style="background: #dde6e9; color: black;">Opcion
                                         <span class="caret"></span>
                                     </button>
                                     <ul role="menu" class="dropdown-menu">

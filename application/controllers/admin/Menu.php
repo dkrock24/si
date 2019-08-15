@@ -146,8 +146,8 @@ class Menu extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['allMenus'] = $this->Menu_model->getAllMenu();
-		$data['vistas'] = $this->Vistas_model->get_vistas();
-		$data['vistas2'] = $this->Vistas_model->get_vistas();
+		$data['vistas'] = $this->Vistas_model->get_all_vistas();
+		$data['vistas2'] = $this->Vistas_model->get_all_vistas();
 		$data['onMenu'] = $this->Menu_model->getOneSubMenu( $id_sub_menu );
 
 		$data['home'] = 'admin/menu/submenueditar';			
