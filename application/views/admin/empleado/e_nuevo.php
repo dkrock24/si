@@ -166,190 +166,231 @@
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
             
         </h3>
+        <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="usuario" action='crear' method="post">
         <div class="row">
             <div class="col-lg-12">
 
+                <div id="panelDemo10" class="panel ">    
+                                        
+                    <div class="panel-heading menuTop">Nuevo Empleado </div>
+                     <div class="panel-body menuContent">        
+                    
+                        <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
+                        <div class="row">
 
-                        <div id="panelDemo10" class="panel ">    
-                                                
-                            <div class="panel-heading menuTop">Nuevo Empleado </div>
-                             <div class="panel-body menuContent">        
-                            
-                            <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="usuario" action='crear' method="post">
-                                <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
-                                <div class="row">
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Contratacion</label>
-                                            <div class="col-sm-9">
-                                                <input type="date" class="form-control" id="fecha_contratacion_empleado" name="fecha_contratacion_empleado" placeholder="Empresa" value="<?php //echo $onMenu[0]->fecha_contratacion_empleado ?>">
-                                                
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Horas</label>
-                                            <div class="col-sm-9">
-                                                <input type="number" class="form-control" id="horas_laborales_mensuales_empleado" name="horas_laborales_mensuales_empleado" placeholder="Hora laborales" value="<?php //echo $onMenu[0]->horas_laborales_mensuales_empleado ?>">
-                                                
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Turno</label>
-                                            <div class="col-sm-9">
-                                                <input type="number" class="form-control" id="turno" name="turno" placeholder="Turno" value="<?php //echo $onMenu[0]->turno ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Alias</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="alias" name="alias" placeholder="Alias" value="<?php //echo $onMenu[0]->alias ?>">
-                                                
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Nivel</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="nivel" name="nivel" placeholder="Nivel" value="<?php //echo $onMenu[0]->alias ?>">
-                                                
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puesto</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="puesto" name="puesto" placeholder="Puesto" value="<?php //echo $onMenu[0]->puesto ?>">
-                                                
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Seccion</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="seccion" name="seccion" placeholder="" value="<?php //echo $onMenu[0]->seccion ?>">
-                                                
-                                            </div>
-                                        </div>
-
-                              
-
-
-
-
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Contratacion</label>
+                                    <div class="col-sm-9">
+                                        <input type="date" class="form-control" id="fecha_contratacion_empleado" name="fecha_contratacion_empleado" placeholder="Empresa" value="<?php //echo $onMenu[0]->fecha_contratacion_empleado ?>">
+                                        
                                     </div>
+                                </div>
 
-
-                                    <div class="col-lg-6">
-                                        <!-- Otro -->
-
-                                                  <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Cargo</label>
-                                            <div class="col-sm-9">
-                                                <select id="Cargo_Laboral_E" name="Cargo_Laboral_E" class="form-control">
-                                                    <?php
-                                                    foreach ($cargos as $key => $p) {
-                                                        ?>
-                                                        <option value="<?php echo $p->id_cargo_laboral; ?>"><?php echo $p->cargo_laboral; ?></option>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empresa</label>
-                                            <div class="col-sm-9">
-                                                <select id="Empresa" name="Empresa" class="form-control">
-                                                    <?php
-                                                    foreach ($empresa as $key => $p) {
-                                                        ?>
-                                                        <option value="<?php echo $p->id_empresa; ?>"><?php echo $p->nombre_comercial; ?></option>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Sucursal</label>
-                                            <div class="col-sm-9">
-                                                <select id="Sucursal" name="Sucursal" class="form-control">
-                                                    
-                                                </select>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fotografia</label>
-                                            <div class="col-sm-9">
-                                                <input type="file" class="form-control Imagen" id="img" name="img_empleado" placeholder="Foto" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
-                                            <div class="col-sm-9">
-                                                
-                                                <input type="text" class="form-control encargado_codigo" id="encargado" name="encargado" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control seleccionar_encargado" id="persona_nombre" name="persona" placeholder="Encargado" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                <input type="hidden" class="form-control persona_codigo" id="Persona_E" name="Persona_E" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                
-                                            </div>
-                                        </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Horas</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" id="horas_laborales_mensuales_empleado" name="horas_laborales_mensuales_empleado" placeholder="Hora laborales" value="<?php //echo $onMenu[0]->horas_laborales_mensuales_empleado ?>">
                                         
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                
-                                                <img src="" name="" id="imagen_nueva" class="preview_producto" />
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Turno</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" id="turno" name="turno" placeholder="Turno" value="<?php //echo $onMenu[0]->turno ?>">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Alias</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="alias" name="alias" placeholder="Alias" value="<?php //echo $onMenu[0]->alias ?>">
                                         
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                
-                                                <label>
-                                                    <select name="estado" class="form-control">
-                                                        <option value="1">Activo</option>
-                                                        <option value="0">Inactivo</option>
-                                                    </select>
-                                                </label>
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
 
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
-                                            </div>
-                                        </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Nivel</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="nivel" name="nivel" placeholder="Nivel" value="<?php //echo $onMenu[0]->alias ?>">
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puesto</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="puesto" name="puesto" placeholder="Puesto" value="<?php //echo $onMenu[0]->puesto ?>">
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Seccion</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="seccion" name="seccion" placeholder="" value="<?php //echo $onMenu[0]->seccion ?>">
+                                        
+                                    </div>
+                                </div>
+
+                            </div>
 
 
+                            <div class="col-lg-6">
+                                <!-- Otro -->
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Cargo</label>
+                                    <div class="col-sm-9">
+                                        <select id="Cargo_Laboral_E" name="Cargo_Laboral_E" class="form-control">
+                                            <?php
+                                            foreach ($cargos as $key => $p) {
+                                                ?>
+                                                <option value="<?php echo $p->id_cargo_laboral; ?>"><?php echo $p->cargo_laboral; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empresa</label>
+                                    <div class="col-sm-9">
+                                        <select id="Empresa" name="Empresa" class="form-control">
+                                            <option>Selecione Empresa</option>
+                                            <?php
+                                            foreach ($empresa as $key => $p) {
+                                                ?>
+                                                <option value="<?php echo $p->id_empresa; ?>"><?php echo $p->nombre_comercial; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Sucursal</label>
+                                    <div class="col-sm-9">
+                                        <select id="Sucursal" name="Sucursal" class="form-control">
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fotografia</label>
+                                    <div class="col-sm-9">
+                                        <input type="file" class="form-control Imagen" id="img" name="img_empleado" placeholder="Foto" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
+                                    <div class="col-sm-9">
+                                        
+                                        <input type="text" class="form-control encargado_codigo" id="encargado" name="encargado" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control seleccionar_encargado" id="persona_nombre" name="persona" placeholder="Encargado" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        <input type="hidden" class="form-control persona_codigo" id="Persona_E" name="Persona_E" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        
                                     </div>
                                 </div>
                                 
-                            
-                            </form>
-                                                             
-                        </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        
+                                        <img src="" name="" id="imagen_nueva" class="preview_producto" />
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        
+                                        <label>
+                                            <select name="estado" class="form-control">
+                                                <option value="1">Activo</option>
+                                                <option value="0">Inactivo</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>                                                             
+                    </div>
                     
-            
                 </div>
             </div>
         </div>
+
+         <div class="row">
+            <div class="col-lg-12">
+                <i class="fa fa-info-circle"></i> Vincular Sucursales al Empleado.
+                <br><br>
+            </div>
+            <div class="col-lg-12" >
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th scope="row">Empresa</th>
+                        <th scope="row">Sucursal</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $cont =1;
+                    foreach ($empresa as $e) {
+                        ?>
+                        <tr>
+                            <td><?php echo $cont; ?></td>
+                            <td>
+                                <?php echo $e->nombre_razon_social; ?>
+                            </td> 
+                            <td>
+                            <?php                              
+
+                                foreach ($sucursal_lista as $value) {
+                                    if($e->id_empresa == $value->Empresa_Suc){
+
+                                    ?>
+                                        <input type="checkbox" value="<?php echo $value->id_sucursal ?>" name="<?php echo $value->id_sucursal ?>">
+                                        <label><?php echo $value->nombre_sucursal; ?></label>
+                                        <br>
+                                    <?php     
+                                    }
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                        <?php
+                        $cont ++;
+                    }
+                    ?>
+                    </tbody>
+                   
+                </table>
+            </div>
+        </div>
+        </form>
     </div>
 </section>
 

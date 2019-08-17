@@ -166,215 +166,282 @@
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
             
         </h3>
-        <div class="row">
-            <div class="col-lg-12">
+        <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="usuario" action='../update' method="post">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="panelDemo10" class="panel">
+                        <div class="panel-heading menuTop">Editar Empleado : <?php //echo $empleado[0]->nombre_submenu ?> </div>
+                        <div class="panel-body menuContent">
+                            <input type="hidden" value="<?php echo $empleado[0]->id_empleado; ?>" name="id_empleado">
+                            <div class="row">
 
-
-                        <div id="panelDemo10" class="panel">    
-                                                
-                            <div class="panel-heading menuTop">Editar Empleado : <?php //echo $empleado[0]->nombre_submenu ?> </div>
-                             <div class="panel-body menuContent">        
-                            
-                            <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="usuario" action='../update' method="post">
-                                <input type="hidden" value="<?php echo $empleado[0]->id_empleado; ?>" name="id_empleado">
-                                <div class="row">
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Contratacion</label>
-                                            <div class="col-sm-9">
-                                                <input type="date" class="form-control" id="fecha_contratacion_empleado" name="fecha_contratacion_empleado" placeholder="Empresa" value="<?php echo $empleado[0]->fecha_contratacion_empleado ?>">
-                                                
-                                            </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Contratacion</label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control" id="fecha_contratacion_empleado" name="fecha_contratacion_empleado" placeholder="Empresa" value="<?php echo $empleado[0]->fecha_contratacion_empleado ?>">
+                                            
                                         </div>
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Horas</label>
-                                            <div class="col-sm-9">
-                                                <input type="number" class="form-control" id="horas_laborales_mensuales_empleado" name="horas_laborales_mensuales_empleado" placeholder="Hora laborales" value="<?php echo $empleado[0]->horas_laborales_mensuales_empleado ?>">
-                                                
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Horas</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" class="form-control" id="horas_laborales_mensuales_empleado" name="horas_laborales_mensuales_empleado" placeholder="Hora laborales" value="<?php echo $empleado[0]->horas_laborales_mensuales_empleado ?>">
+                                            
                                         </div>
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Turno</label>
-                                            <div class="col-sm-9">
-                                                <input type="number" class="form-control" id="turno" name="turno" placeholder="Turno" value="<?php echo $empleado[0]->turno ?>">
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Turno</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" class="form-control" id="turno" name="turno" placeholder="Turno" value="<?php echo $empleado[0]->turno ?>">
                                         </div>
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Alias</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="alias" name="alias" placeholder="Alias" value="<?php echo $empleado[0]->alias ?>">
-                                                
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Alias</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="alias" name="alias" placeholder="Alias" value="<?php echo $empleado[0]->alias ?>">
+                                            
                                         </div>
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Nivel</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="nivel" name="nivel" placeholder="Nivel" value="<?php echo $empleado[0]->nivel ?>">
-                                                
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Nivel</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="nivel" name="nivel" placeholder="Nivel" value="<?php echo $empleado[0]->nivel ?>">
+                                            
                                         </div>
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puesto</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="puesto" name="puesto" placeholder="Puesto" value="<?php echo $empleado[0]->puesto ?>">
-                                                
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puesto</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="puesto" name="puesto" placeholder="Puesto" value="<?php echo $empleado[0]->puesto ?>">
+                                            
                                         </div>
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Seccion</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="seccion" name="seccion" placeholder="" value="<?php echo $empleado[0]->seccion ?>">
-                                                
-                                            </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Seccion</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="seccion" name="seccion" placeholder="" value="<?php echo $empleado[0]->seccion ?>">
+                                            
                                         </div>
+                                    </div>
+
+                               
+
+
+
+                                </div>
+
+
+                                <div class="col-lg-6">
+                                    <!-- Otro -->
+
+                                         <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Cargo</label>
+                                        <div class="col-sm-9">
+                                            <select id="Cargo_Laboral_E" name="Cargo_Laboral_E" class="form-control">
+                                                <?php
+                                                foreach ($cargos as $key => $p) {
+                                                    if($p->id_cargo_laboral == $empleado[0]->Cargo_Laboral_E ){
+                                                    ?>
+                                                    <option value="<?php echo $p->id_cargo_laboral; ?>"><?php echo $p->cargo_laboral; ?></option>
+                                                    <?php
+                                                    }
+                                                }
+                                                foreach ($cargos as $key => $p) {
+                                                    if($p->id_cargo_laboral != $empleado[0]->Cargo_Laboral_E ){
+                                                    ?>
+                                                    <option value="<?php echo $p->id_cargo_laboral; ?>"><?php echo $p->cargo_laboral; ?></option>
+                                                    <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empresa</label>
+                                        <div class="col-sm-9">
+                                            <select id="Empresa" name="Empresa" class="form-control">
+                                                <?php
+                                                foreach ($empresa as $key => $p) {
+                                                    if($p->id_empresa == $empleado[0]->Empresa_Suc ){
+                                                    ?>
+                                                    <option value="<?php echo $p->id_empresa; ?>"><?php echo $p->nombre_comercial; ?></option>
+                                                    <?php
+                                                    }
+                                                }
+                                                foreach ($empresa as $key => $p) {
+                                                    if($p->id_empresa != $empleado[0]->Empresa_Suc ){
+                                                    ?>
+                                                    <option value="<?php echo $p->id_empresa; ?>"><?php echo $p->nombre_comercial; ?></option>
+                                                    <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Sucursal</label>
+                                        <div class="col-sm-9">
+                                            <select id="Sucursal" name="Sucursal" class="form-control">
+                                                <option value="<?php echo $empleado[0]->Sucursal; ?>"> <?php echo $empleado[0]->nombre_sucursal; ?></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fotografia</label>
+                                        <div class="col-sm-9">
+                                            <input type="file" class="form-control Imagen" id="img" name="img_empleado" placeholder="Foto" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="encargado" name="encargado" placeholder="Encargado" value="<?php echo $empleado[0]->encargado ?>">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control seleccionar_encargado" id="persona_nombre" name="persona" placeholder="Encargado" value=" <?php echo $empleado[0]->primer_nombre_persona.' '.$empleado[0]->segundo_nombre_persona.' '.$empleado[0]->primer_apellido_persona.' '.$empleado[0]->segundo_apellido_persona ?>">
+                                            <input type="hidden" class="form-control persona_codigo" id="Persona_E" name="Persona_E" placeholder="Persona" value="<?php echo $empleado[0]->Persona_E ?>">
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                            
+                                            <img id="" class="preview_producto"  src="data: <?php echo $empleado[0]->img_type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode( $empleado[0]->img_empleado ) ?>" style="width:50%" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                            
+                                            <label>
+                                                <select name="estado" class="form-control">
+                                                   <?php 
+                                                        if( $empleado[0]->estado ==1 ){ 
+                                                            ?>
+                                                            <option value="1">Activo</option>
+                                                            <option value="0">Inactivo</option>
+                                                            <?php
+                                                        } else{
+                                                             ?>
+                                                            <option value="0">Inactivo</option>
+                                                            <option value="1">Activo</option>
+                                                            <?php
+                                                        }
+                                                    ?>  
+                                                </select>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                            <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>                                                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <i class="fa fa-info-circle"></i> Vincular Sucursales al Empleado.
+                    <br><br>
+                </div>
+                <div class="col-lg-12" >
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th scope="row">Empresa</th>
+                            <th scope="row">Sucursal</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $cont =1;
+                        foreach ($empresa as $e) {
+                            ?>
+                            <tr>
+                                <td><?php echo $cont; ?></td>
+                                <td>
+                                    <?php echo $e->nombre_razon_social; ?>
+                                </td> 
+                                <td>
+                                <?php
+                                    
+                                $id_empleado = $empleado[0]->id_empleado;
+
+                                    foreach ($sucursal as $s) {
+
+
+                                        if($s->id_empresa == $e->id_empresa){
+
+                                            if($s->es_empleado == $id_empleado){
+                                                $check ="";
+                                                if($s->es_sucursal){
+                                                    $check = "checked";
+                                                }
+                                                ?>
+                                                <input type="checkbox" <?php echo $check ?> class="" value="<?php echo $s->id_sucursal ?>" name="<?php echo $s->id_sucursal ?>">
+                                                <label><?php echo $s->nombre_sucursal; ?></label>
+                                                <br>
+                                            <?php
+                                            }                                        
+                                        }
+                                    }
+
+                                     foreach ($sucursal_lista as $value) {
+                                        if($value->id_empresa == $e->id_empresa){
+                                                $check ="";
+                                                ?>
+                                                <input type="checkbox" <?php echo $check ?> class="" value="<?php echo $value->id_sucursal ?>" name="<?php echo $value->id_sucursal ?>">
+                                                <label><?php echo $value->nombre_sucursal; ?></label>
+                                                <br>
+                                            <?php
+                                        }
+                                    }
 
                                    
-
-
-
-                                    </div>
-
-
-                                    <div class="col-lg-6">
-                                        <!-- Otro -->
-
-                                             <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Cargo</label>
-                                            <div class="col-sm-9">
-                                                <select id="Cargo_Laboral_E" name="Cargo_Laboral_E" class="form-control">
-                                                    <?php
-                                                    foreach ($cargos as $key => $p) {
-                                                        if($p->id_cargo_laboral == $empleado[0]->Cargo_Laboral_E ){
-                                                        ?>
-                                                        <option value="<?php echo $p->id_cargo_laboral; ?>"><?php echo $p->cargo_laboral; ?></option>
-                                                        <?php
-                                                        }
-                                                    }
-                                                    foreach ($cargos as $key => $p) {
-                                                        if($p->id_cargo_laboral != $empleado[0]->Cargo_Laboral_E ){
-                                                        ?>
-                                                        <option value="<?php echo $p->id_cargo_laboral; ?>"><?php echo $p->cargo_laboral; ?></option>
-                                                        <?php
-                                                        }
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empresa</label>
-                                            <div class="col-sm-9">
-                                                <select id="Empresa" name="Empresa" class="form-control">
-                                                    <?php
-                                                    foreach ($empresa as $key => $p) {
-                                                        if($p->id_empresa == $empleado[0]->Empresa_Suc ){
-                                                        ?>
-                                                        <option value="<?php echo $p->id_empresa; ?>"><?php echo $p->nombre_comercial; ?></option>
-                                                        <?php
-                                                        }
-                                                    }
-                                                    foreach ($empresa as $key => $p) {
-                                                        if($p->id_empresa != $empleado[0]->Empresa_Suc ){
-                                                        ?>
-                                                        <option value="<?php echo $p->id_empresa; ?>"><?php echo $p->nombre_comercial; ?></option>
-                                                        <?php
-                                                        }
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Sucursal</label>
-                                            <div class="col-sm-9">
-                                                <select id="Sucursal" name="Sucursal" class="form-control">
-                                                    <option value="<?php echo $empleado[0]->Sucursal; ?>"> <?php echo $empleado[0]->nombre_sucursal; ?></option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fotografia</label>
-                                            <div class="col-sm-9">
-                                                <input type="file" class="form-control Imagen" id="img" name="img_empleado" placeholder="Foto" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="encargado" name="encargado" placeholder="Encargado" value="<?php echo $empleado[0]->encargado ?>">
-                                                
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control seleccionar_encargado" id="persona_nombre" name="persona" placeholder="Encargado" value=" <?php echo $empleado[0]->primer_nombre_persona.' '.$empleado[0]->segundo_nombre_persona.' '.$empleado[0]->primer_apellido_persona.' '.$empleado[0]->segundo_apellido_persona ?>">
-                                                <input type="hidden" class="form-control persona_codigo" id="Persona_E" name="Persona_E" placeholder="Persona" value="<?php echo $empleado[0]->Persona_E ?>">
-                                                
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                
-                                                <img id="" class="preview_producto"  src="data: <?php echo $empleado[0]->img_type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode( $empleado[0]->img_empleado ) ?>" style="width:100%" />
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                
-                                                <label>
-                                                    <select name="estado" class="form-control">
-                                                       <?php 
-                                                            if( $empleado[0]->estado ==1 ){ 
-                                                                ?>
-                                                                <option value="1">Activo</option>
-                                                                <option value="0">Inactivo</option>
-                                                                <?php
-                                                            } else{
-                                                                 ?>
-                                                                <option value="0">Inactivo</option>
-                                                                <option value="1">Activo</option>
-                                                                <?php
-                                                            }
-                                                        ?>  
-                                                    </select>
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                
-                            
-                            </form>
-                                                            
-                        </div>
-                        </div>
-                   
+                                    ?>
+                                </td>
+                            </tr>
+                            <?php
+                            $cont ++;
+                        }
+                        ?>
+                        </tbody>
+                       
+                    </table>
+                </div>
             </div>
-        </div>
+        
+        </form>
+
     </div>
 </section>
 

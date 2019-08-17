@@ -13,9 +13,67 @@ class Empresa_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::pos_empresa.' e');
         $this->db->join(self::sys_moneda.' m', 'on e.Moneda = m.id_moneda');
-        $this->db->where('e.nrc', $this->session->empresa[0]->nrc);
-        $query = $this->db->get(); 
+        if($this->session->usuario[0]->id_rol == 1){
+            $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+            //$this->db->where('e.id_empresa', $this->session->empresa[0]->Empresa_Suc);
+        }else{
+            //$this->session->empresa[0]->Empresa_Suc;
+            $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+        }
+        
+        $query = $this->db->get();
         //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function getEmpresasWithSucursal( $empleado_id ){
+        
+        if($empleado_id){
+            $id_empleado = $empleado_id;
+        }else{
+            $id_empleado = (int)$this->session->usuario[0]->id_empleado;
+        }  
+
+        $this->db->select('*');
+        $this->db->from(self::pos_empresa.' e');
+        $this->db->join(self::sucursal.' s', 'on s.Empresa_Suc = e.id_empresa','left');
+        $this->db->join(self::empleado_sucursal.' es', 'on es.es_sucursal = s.id_sucursal','left');
+        $this->db->join(self::sys_moneda.' m', 'on e.Moneda = m.id_moneda');
+        $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+        
+        $this->db->where('  (es.es_empleado = '.$empleado_id .')');
+        //$this->db->group_by('s.id_sucursal');
+        
+        if($this->session->usuario[0]->id_rol == 1){
+            //$this->db->where_in('e.admin', array($id_empleado));
+        }else{
+            //$this->db->where_in('e.admin', array($id_empleado) );
+        }
+        
+        $query = $this->db->get();
+        //echo $this->db->queries[3];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function getEmpresasWithSucursal2( $datos ){
+        
+        $this->db->select('*');
+        $this->db->from(self::pos_empresa.' e');
+        $this->db->join(self::sucursal.' s', 'on s.Empresa_Suc = e.id_empresa','right');
+        $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+        $this->db->where_not_in('s.id_sucursal', $datos);
+        $this->db->order_by('e.id_empresa');
+       
+        $query = $this->db->get();
+        //echo $this->db->queries[4];
         
         if($query->num_rows() > 0 )
         {
@@ -74,7 +132,7 @@ class Empresa_model extends CI_Model {
         $this->db->select('*');
         $this->db->from( self::pos_empresa.' e' );
         $this->db->join( self::sys_moneda.' m', 'on e.Moneda = m.id_moneda' );
-        $this->db->where('e.id_empresa', $this->session->empresa[0]->Empresa_Suc);
+        //$this->db->where('e.id_empresa', $this->session->empresa[0]->Empresa_Suc);
         $this->db->where( 'e.id_empresa', $empresa_id );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -120,8 +178,11 @@ class Empresa_model extends CI_Model {
 
         $this->db->where('id_empresa', $empresa['id_empresa'] ); 
         $result = $this->db->update(self::pos_empresa, $data ); 
+
         return $result;
     }
+
+    
 
     function eliminar($id){
         $data = array(

@@ -8,6 +8,7 @@ class Empleado_model extends CI_Model {
     const pos_sucursal = 'pos_sucursal';
     const sys_cargo_laboral = 'sys_cargo_laboral';
     const pos_empresa = 'pos_empresa';
+    const empleado_sucursal = 'sys_empleado_sucursal';
 
 
 	function get_empleados(){
@@ -59,7 +60,7 @@ class Empleado_model extends CI_Model {
         $this->db->join(self::sys_empleado.' as e', 'on p.id_persona = e.Persona_E');
         $this->db->join(self::pos_sucursal.' as s', 'on s.id_sucursal = e.Sucursal');
         $this->db->join(self::sys_cargo_laboral.' as c', 'on c.id_cargo_laboral = e.Cargo_Laboral_E');
-        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
         $this->db->limit($limit, $id);
         $query = $this->db->get();
         //echo $this->db->queries[1];
@@ -103,9 +104,28 @@ class Empleado_model extends CI_Model {
         }
         
         $result = $this->db->insert(self::sys_empleado, $data);  
+        $insert_id = $this->db->insert_id();
+
+        $this->insert_empleado_sucursal($insert_id , $datos);
         return $result;
 
 	}
+
+    function insert_empleado_sucursal($empleado, $datos){
+
+        foreach ($datos as $key => $value) {
+            $number = (int)$key;
+            if($number){
+                $data = array(
+                    'es_empleado' => $empleado,
+                    'es_sucursal' => $number,
+                    'es_creado' => date("Y-m-d h:i:s"),
+                    'es_estado' => 1
+                );
+                $this->db->insert(self::empleado_sucursal, $data ); 
+            }
+        }
+    }
 
 	function update($datos){
 
@@ -136,9 +156,47 @@ class Empleado_model extends CI_Model {
         }
         $this->db->where('id_empleado', $datos['id_empleado']);  
         $result = $this->db->update(self::sys_empleado, $data);  
+
+        $this->update_empleado_sucursal($datos);
+
         return $result;
  
 	}
+    
+    function update_empleado_sucursal($empleado){
+
+        $id_empleado = $empleado['id_empleado'];
+
+        $result = $this->delete_emp_suc($id_empleado);
+
+        if($result){
+            foreach ($empleado as $key => $value) {
+                $number = (int)$key;
+                if($number){
+                    $data = array(
+                        'es_empleado' => $id_empleado,
+                        'es_sucursal' => $number,
+                        'es_creado' => date("Y-m-d h:i:s"),
+                        'es_estado' => 1
+                    );
+                    $this->db->insert(self::empleado_sucursal, $data ); 
+                }
+            }
+        }        
+    }
+
+    function delete_emp_suc($empleado){
+        
+        $data = array(
+            'es_empleado' => $empleado
+        );
+
+        $this->db->where('es_empleado', $empleado );
+        $result = $this->db->delete(self::empleado_sucursal, $data ); 
+
+        return $result ;
+
+    }
 
     function getEmpleadoId( $empleado_id ){
 

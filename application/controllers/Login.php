@@ -24,7 +24,8 @@ class Login extends CI_Controller {
 		parent::__construct();    
 
 		// Cargamos la base de datos prefijada client y definida en conf del framework
-		$this->load->database('client', true);
+		//$this->load->database('client', true);
+		$this->load->database();
 		@$this->load->library('session');
 		$this->load->helper('url');
 	}
@@ -45,13 +46,18 @@ class Login extends CI_Controller {
 			$passwd  = $_POST['passwd'];
 
 			// Autenticamos al usuario respecto a su negocio
-			$user['usuario'] = $this->Login_model->login( $usuario , $passwd );	
+			$user = $this->Login_model->autenticacion( $usuario , $passwd );	
 
-			if($user['usuario'] != 0){	
+			if($user != 0){	
 				$_SESSION['db'] = $user;
 				
 				// Usuario encontrado y redireccionado para validarlo a su empresa
-				header("location: validar");
+				//header("location: validar");
+					session_start();
+					
+					$_SESSION['usuario'] = $user;
+
+					header("location:../admin/home/seleccionar_empresa");
 
 			}else{
 				$this->session->set_flashdata('warning', "Usuario / Password Incorrectos");

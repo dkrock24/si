@@ -82,7 +82,7 @@
                                                 <?php
                                                 foreach ($ciudad as $c) {
                                                     ?>
-                                                    <option value="<?php echo $c->id_ciudad; ?>"><?php echo $c->nombre_ciudad; ?></option>
+                                                    <option value="<?php echo $c->id_ciudad; ?>"><?php echo $c->nombre_departamento.' / '. $c->nombre_ciudad; ?></option>
                                                     <?php
                                                 }
                                                 ?>

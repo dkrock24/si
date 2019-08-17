@@ -9,8 +9,10 @@ class Ciudad_model extends CI_Model {
 
 		$this->db->select('*');
         $this->db->from(self::sys_pais.' as p');
-        $this->db->join(self::sys_ciudad.' as c', 'on c.id_ciudad = c.id_ciudad');
-        $this->db->join(self::sys_departamento.' as d', 'on d.id_departamento = c.departamento');
+        $this->db->join(self::sys_departamento.' as d', 'on p.id_pais = d.pais');
+        $this->db->join(self::sys_ciudad.' as c', 'on c.departamento = d.id_departamento');
+        $this->db->order_by('d.nombre_departamento', 'asc');
+        
         $query = $this->db->get();
         //echo $this->db->queries[1];
         

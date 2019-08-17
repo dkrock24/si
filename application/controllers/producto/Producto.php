@@ -32,7 +32,7 @@ class Producto extends CI_Controller {
 	{
 
 		//Paginacion
-		$_SESSION['per_page']='';
+		$_SESSION['per_page'] = "";
 		$contador_tabla;
 		if( isset( $_POST['total_pagina'] )){
 			$per_page = $_POST['total_pagina'];

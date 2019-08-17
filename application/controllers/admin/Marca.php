@@ -26,6 +26,7 @@ class Marca extends CI_Controller {
 	{	
 		//Paginacion
 		$contador_tabla;
+		$_SESSION['per_page'] = "";
 		if( isset( $_POST['total_pagina'] )){
 			$per_page = $_POST['total_pagina'];
 			$_SESSION['per_page'] = $per_page;

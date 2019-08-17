@@ -47,6 +47,7 @@ class Usuario extends CI_Controller {
 
 		//Paginacion
 		$contador_tabla;
+		$_SESSION['per_page'] = "";
 		if( isset( $_POST['total_pagina'] )){
 			$per_page = $_POST['total_pagina'];
 			$_SESSION['per_page'] = $per_page;
@@ -142,6 +143,7 @@ class Usuario extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;	
 		$data['roles']	= $this->Roles_model->getAllRoles();	
+		$data['usuario_roles']	= $this->Usuario_model->get_usuario_roles2($usuario_id);
 		$data['usuario'] = $this->Usuario_model->get_usuario_id( $usuario_id );
 		$data['home'] = 'admin/usuario/u_editar';
 

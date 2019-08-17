@@ -1843,10 +1843,11 @@
 <div class="container mt--8 pb-3">
 <div class="row justify-content-center">
 <div class="col-lg-4 col-md-8">
+         <div style="text-align: center"><?php include_once 'notificaciones/success.php'; ?></div>
 <div class="card bg-secondary shadow border-0" style="
-    width: 50%;
+    
     text-align: center;
-    margin-left: 25%;
+    
 ">
 
 <div class="card-body px-lg-3 py-lg-3">

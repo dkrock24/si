@@ -51,6 +51,7 @@ class Empleado extends CI_Controller {
 
 		//Paginacion
 		$contador_tabla;
+		$_SESSION['per_page'] = "";
 		if( isset( $_POST['total_pagina'] )){
 			$per_page = $_POST['total_pagina'];
 			$_SESSION['per_page'] = $per_page;
@@ -109,6 +110,7 @@ class Empleado extends CI_Controller {
 		$data['menu'] = $this->session->menu;	
 		$data['cargos']	= $this->Cargos_model->get_cargos();
 		$data['empresa']	= $this->Empresa_model->getEmpresas();
+		$data['sucursal_lista']	= $this->Empresa_model->getEmpresasWithSucursal2(1);
 		
 		$data['home'] = 'admin/empleado/e_nuevo';
 
@@ -127,12 +129,20 @@ class Empleado extends CI_Controller {
 	}
 
 	public function editar($empleado_id){
+		$sucursales = array();
 
 		$data['empleado'] = $this->Empleado_model->getEmpleadoId( $empleado_id );
 
 		$data['menu'] = $this->session->menu;
 		$data['cargos']	= $this->Cargos_model->get_cargos();
 		$data['empresa']	= $this->Empresa_model->getEmpresas();
+		$data['sucursal']	= $this->Empresa_model->getEmpresasWithSucursal( $empleado_id);
+		
+		foreach ($data['sucursal'] as $value) {
+			$sucursales[] = $value->id_sucursal;
+		}
+
+		$data['sucursal_lista']	= $this->Empresa_model->getEmpresasWithSucursal2($sucursales);
 		$data['home'] = 'admin/empleado/e_editar';
 
 		$this->general->editar_valido($data['empleado'], "admin/empleado/index");
@@ -169,7 +179,7 @@ class Empleado extends CI_Controller {
 	}
 
 	public function get_sucursal( $id_empresa ){
-		$data['sucursal']	= $this->Sucursal_model->getSucursal();
+		$data['sucursal']	= $this->Sucursal_model->getSucursalEmpresa($id_empresa);
 		echo json_encode($data);
 	}
 

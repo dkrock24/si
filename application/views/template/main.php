@@ -149,7 +149,11 @@
                      
                         <div class="user-block-picture" data-toggle="dropdown">
                               <div class="user-block-status">
-                                 <img src="<?php echo base_url(); ?>../asstes/img/user/02.jpg" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
+                                <?php
+                                  $type = $this->session->usuario[0]->t;
+                                  $code = $this->session->usuario[0]->c;
+                                ?>
+                                 <img src="data: <?php echo $type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode( $code ) ?>" width="60" height="60" class="img-thumbnail img-circle">
                                  <div class="circle circle-success circle-lg"></div>
                               </div>
                            </div>

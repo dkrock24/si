@@ -14,9 +14,10 @@ class Roles_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::roles);  
-        $this->db->where(self::roles.'.Empresa', $this->session->empresa[0]->Empresa_Suc);  
-        $this->db->limit($limit, $id);          
-        $query = $this->db->get();    
+        $this->db->where(self::roles.'.Empresa', $this->session->empresa[0]->id_empresa);  
+        $this->db->limit($limit, $id);
+        $query = $this->db->get();
+        //echo $this->db->queries[2];
                 
         if($query->num_rows() > 0 )
         {

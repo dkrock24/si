@@ -77,6 +77,21 @@ class Usuario_model extends CI_Model {
         }
     }
 
+    function get_usuario_roles2( $usuario_id ){
+
+        $this->db->select('*');
+        $this->db->from(self::sys_role.' as ur');  
+        $this->db->join(self::usuario_roles.' as r', ' ON r.usuario_rol_role = ur.id_rol', 'left'); 
+        $this->db->where('ur.Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $query = $this->db->get(); 
+        //echo $this->->queries[0];
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function permiso_empresa( $empleado_id ){
 
         $this->db->select('*');
@@ -113,9 +128,29 @@ class Usuario_model extends CI_Model {
             'estado'            => $datos['estado'],
         );
         
-        $insert = $this->db->insert(self::sys_usuario, $data);  
+        $insert = $this->db->insert(self::sys_usuario, $data);
+        $insert_id = $this->db->insert_id();
+        $this->insert_role_usuario( $insert_id , $datos );
+
         return $insert;
     }
+
+    function insert_role_usuario($usuario, $datos){
+
+        foreach ($datos as $key => $value) {
+            $number = (int)$key;
+            if($number){
+                $data = array(
+                    'usuario_rol_usuario' => $usuario,
+                    'usuario_rol_role' => $number,
+                    'usuario_rol_creado' => date("Y-m-d h:i:s"),
+                    'usuario_rol_estado' => 1
+                );
+                $this->db->insert(self::usuario_roles, $data ); 
+            }
+        }
+    }
+
 
     function validar_usuario( $id_empleado ){
 
@@ -144,21 +179,27 @@ class Usuario_model extends CI_Model {
 
     function update($datos){
         $imagen="";
+        $passwd= "";
 
         if($_FILES['foto']['tmp_name']){
             $imageProperties = getimageSize($_FILES['foto']['tmp_name']);    
-        }        
+        }
 
         $data = array(
             'nombre_usuario'    => $datos['nombre_usuario'],
-            'contrasena_usuario'=> sha1( $datos['contrasena_usuario']),
             'hora_inicio'       => $datos['hora_inicio'],
             'hora_salida'       => $datos['hora_salida'],
-            'usuario_encargado'         => $datos['encargado'],
+            'usuario_encargado' => $datos['encargado'],
             'id_rol'            => $datos['id_rol'],
             'Empleado'          => $datos['persona'],
             'estado'            => $datos['estado'],
         );
+
+        if($datos['contrasena_usuario'] !=""){
+
+            $data += ['contrasena_usuario' => sha1( $datos['contrasena_usuario']) ];
+            
+        }
 
         if(isset($_FILES['foto']) && $_FILES['foto']['tmp_name']!=null){
             
@@ -168,6 +209,39 @@ class Usuario_model extends CI_Model {
         }
                 $this->db->where('id_usuario', $datos['id_usuario']);  
         $insert = $this->db->update(self::sys_usuario, $data);  
+
+        $this->delete_role_usuario($datos['id_usuario']);
+        $this->update_role_usuario($datos['id_usuario'] , $datos);
+
         return $insert;
+    }
+
+    function update_role_usuario($usuario, $datos){
+
+        foreach ($datos as $key => $value) {
+            $number = (int)$key;
+            if($number){
+                $data = array(
+                    'usuario_rol_usuario' => $usuario,
+                    'usuario_rol_role' => $number,
+                    'usuario_rol_creado' => date("Y-m-d h:i:s"),
+                    'usuario_rol_estado' => 1
+                );
+                $this->db->insert(self::usuario_roles, $data ); 
+            }
+        }
+    }
+
+    function delete_role_usuario($usuario){
+        
+        $data = array(
+            'usuario_rol_usuario' => $usuario
+        );
+
+        $this->db->where('usuario_rol_usuario', $usuario );
+        $result = $this->db->delete(self::usuario_roles, $data ); 
+
+        return $result ;
+
     }
 }

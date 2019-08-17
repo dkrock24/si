@@ -75,12 +75,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$db['client'] = array(
+//$db['client'] = array(
+$db['default'] = array(	
 	'dsn'	=> '',
 	'hostname' => '127.0.0.1',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'db_core_ibs',
+	'database' => 'db_group_ibs_market',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -97,27 +98,28 @@ $db['client'] = array(
 	'save_queries' => TRUE
 );
 
-
-				$db['default'] = array(
-				'dsn'	=> '',
-				'hostname' => '127.0.0.1',
-				'username' => @$_SESSION['db']['usuario'][0]->usuario_db,
-				'password' => @$_SESSION['db']['usuario'][0]->password_db,
-				'database' => @$_SESSION['db']['usuario'][0]->nombre_db,
-				'dbdriver' => 'mysqli',
-				'dbprefix' => '',
-				'pconnect' => FALSE,
-				'db_debug' => (ENVIRONMENT !== 'production'),
-				'cache_on' => FALSE,
-				'cachedir' => '',
-				'char_set' => 'utf8',
-				'dbcollat' => 'utf8_general_ci',
-				'swap_pre' => '',
-				'encrypt' => FALSE,
-				'compress' => FALSE,
-				'stricton' => FALSE,
-				'failover' => array(),
-				'save_queries' => TRUE
-			);
+/*
+$db['default'] = array(
+	'dsn'	=> '',
+	'hostname' => '127.0.0.1',
+	'username' => @$_SESSION['db']['usuario'][0]->usuario_db,
+	'password' => @$_SESSION['db']['usuario'][0]->password_db,
+	'database' => @$_SESSION['db']['usuario'][0]->nombre_db,
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+*/
 
 //var_dump($db['default']);

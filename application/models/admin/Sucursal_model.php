@@ -18,6 +18,19 @@ class Sucursal_model extends CI_Model {
         }
 	}
 
+    function getSucursalEmpresa( $empresa_id ){
+        $this->db->select('*');
+        $this->db->from(self::pos_sucursal.' as b');
+        $this->db->where('b.Empresa_Suc', $empresa_id );
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
 	function getSucursalId( $empresa_id ){
 		$this->db->select('*');
         $this->db->from(self::pos_sucursal.' as b');
@@ -61,7 +74,8 @@ class Sucursal_model extends CI_Model {
             'cel' => $datos['cel'],
             'estado' => $datos['estado'],
             'Ciudad_Suc' => $datos['Ciudad_Suc'],            
-            'Empresa_Suc' => $this->session->empresa[0]->Empresa_Suc
+            //'Empresa_Suc' => $this->session->empresa[0]->Empresa_Suc
+            'Empresa_Suc' => $datos['Empresa_Suc']            
         );
         return $insert = $this->db->insert(self::pos_sucursal, $data ); 
     }
