@@ -18,7 +18,7 @@ class Combo_model extends CI_Model {
                 LEFT JOIN `pos_marca` as `m` ON `m`.`id_marca` = `P`.`Marca`
                 LEFT JOIN `pos_producto_img` as `img` ON `img`.`id_producto` = `P`.`id_entidad`
                 LEFT JOIN `pos_cliente` as `cli` ON `cli`.`id_cliente` = `img`.`id_producto`
-                where P.id_entidad Limit ".$id.','.$limit );
+                where P.Empresa=".$this->session->empresa[0]->Empresa_Suc." Limit ".$id.','.$limit );
                  //echo $this->db->queries[0];
                 return $query->result();
     }
@@ -41,7 +41,11 @@ class Combo_model extends CI_Model {
 	}
 
     function record_count(){
-        return $this->db->count_all(self::pos_combo);
+        $this->db->where('p.Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::pos_combo.' as c');
+        $this->db->join(self::producto.' as p',' on c.Producto_Combo = p.id_entidad');
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function get_producto_combo( $param ){
@@ -59,7 +63,7 @@ class Combo_model extends CI_Model {
                 LEFT JOIN `pos_marca` as `m` ON `m`.`id_marca` = `P`.`Marca`
                 LEFT JOIN `pos_producto_img` as `img` ON `img`.`id_producto` = `P`.`id_entidad`
                 LEFT JOIN `pos_cliente` as `cli` ON `cli`.`id_cliente` = `img`.`id_producto`
-                where P.combo=". $param['combo'] );
+                where P.Empresa=".$this->session->empresa[0]->Empresa_Suc." and P.combo=". $param['combo'] );
                  //echo $this->db->queries[0];
                 return $query->result();
         }

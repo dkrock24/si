@@ -36,7 +36,10 @@ class Proveedor_model extends CI_Model {
     }
 
     function record_count(){
-        return $this->db->count_all(self::pos_proveedor);
+        $this->db->where('Empresa_id',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::pos_proveedor);
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function crear($datos){

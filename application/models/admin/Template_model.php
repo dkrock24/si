@@ -84,11 +84,7 @@ class Template_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::pos_doc_temp.' as td');
-        //$this->db->join(self::pos_temp_sucursal.' as ts',' on td.id_factura=ts.Template');
-        //$this->db->join(self::tipos_documentos.' dt',' on dt.id_tipo_documento=ts.Documento');
-        //$this->db->join(self::pos_sucursal.' s',' on ts.Sucursal=s.id_sucursal','left');
         $this->db->where('td.Empresa', $this->session->empresa[0]->Empresa_Suc);
-        
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -243,7 +239,10 @@ class Template_model extends CI_Model {
     }
 
     function record_count(){
-        return $this->db->count_all(self::pos_doc_temp);
+        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::pos_doc_temp);
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function crear_template($datos){

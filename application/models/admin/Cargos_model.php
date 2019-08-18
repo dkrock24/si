@@ -32,7 +32,10 @@ class Cargos_model extends CI_Model {
     }
 
     function record_count(){
-        return $this->db->count_all(self::sys_cargo_laboral);
+        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::sys_cargo_laboral);
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function crear_cargo($datos){

@@ -9,6 +9,7 @@ class Empleado_model extends CI_Model {
     const sys_cargo_laboral = 'sys_cargo_laboral';
     const pos_empresa = 'pos_empresa';
     const empleado_sucursal = 'sys_empleado_sucursal';
+    const sucursal = 'pos_sucursal';
 
 
 	function get_empleados(){
@@ -72,7 +73,11 @@ class Empleado_model extends CI_Model {
     }
 
     function record_count(){
-        return $this->db->count_all(self::sys_empleado);
+        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::sys_empleado.' as e');
+        $this->db->join(self::sucursal.' as s',' on e.Sucursal = s.id_sucursal');
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
 	function crear($datos){

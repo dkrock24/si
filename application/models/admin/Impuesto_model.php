@@ -22,7 +22,11 @@ class Impuesto_model extends CI_Model {
     }
 
     function record_count(){
-        return $this->db->count_all(self::impuesto);
+        
+        $this->db->where('imp_empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::impuesto);
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function nuevo_impuesto( $impuesto ){

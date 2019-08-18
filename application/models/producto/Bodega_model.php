@@ -13,10 +13,6 @@ class Bodega_model extends CI_Model {
         $this->db->from(self::pos_bodega.' as b');
         $this->db->join(self::pos_sucursal.' as s', 'on b.Sucursal = s.id_sucursal');
         $this->db->join(self::pos_empresa.' as e', 'on s.Empresa_Suc = e.id_empresa');
-        //$this->db->join(self::pos_producto_bodega.' as pb', 'on pb.Bodega = b.id_bodega');
-        //$this->db->join(self::producto.' as p', 'on p.id_entidad = pb.Producto');
-        //$this->db->join(self::sys_empleado_sucursal.' as es', 'on es.es_sucursal = s.id_sucursal');
-        //$this->db->where('es.es_empleado', $id_usuario );
         $this->db->where('e.id_empresa', $this->session->empresa[0]->Empresa_Suc);
         $this->db->limit($limit, $id);
         $this->db->order_by('s.id_sucursal');
@@ -35,11 +31,6 @@ class Bodega_model extends CI_Model {
         $this->db->from(self::pos_bodega.' as b');
         $this->db->join(self::pos_sucursal.' as s', 'on b.Sucursal = s.id_sucursal');
         $this->db->join(self::pos_empresa.' as e', 'on s.Empresa_Suc = e.id_empresa');
-        //$this->db->join(self::pos_producto_bodega.' as pb', 'on pb.Bodega = b.id_bodega','left');
-        //$this->db->join(self::producto.' as p', 'on p.id_entidad = pb.Producto');
-        //$this->db->join(self::sys_empleado_sucursal.' as es', 'on es.es_sucursal = s.id_sucursal');
-        //$this->db->where('es.es_empleado', $id_usuario );
-        //$this->db->order_by('s.id_sucursal');
         $this->db->group_by('b.id_bodega');
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -104,7 +95,6 @@ class Bodega_model extends CI_Model {
         $this->db->join(self::pos_sucursal.' as s', 'on b.Sucursal = s.id_sucursal');
         $this->db->join(self::pos_empresa.' as e', 'on s.Empresa_Suc = e.id_empresa');
         $this->db->where('e.id_empresa', $this->session->empresa[0]->Empresa_Suc);
-        //$this->db->join(self::sys_empleado_sucursal.' as es', 'on es.es_sucursal = s.id_sucursal');
         $this->db->where('b.id_bodega', $bodega_id );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];

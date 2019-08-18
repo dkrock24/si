@@ -116,7 +116,11 @@ class Cliente_model extends CI_Model {
     }
 
     function record_count(){
-        return $this->db->count_all(self::cliente);
+        $this->db->where('p.Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::cliente.' as c');
+        $this->db->join(self::sys_persona.' as p',' on c.Persona = p.id_persona');
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function crear_cliente($datos){

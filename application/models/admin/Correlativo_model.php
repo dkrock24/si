@@ -51,6 +51,11 @@ class Correlativo_model extends CI_Model {
 
     function record_count(){
         return $this->db->count_all(self::correlativos);
+        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::correlativos.' as c');
+        $this->db->join(self::sucursal.' as s',' on c.Sucursal = s.id_sucursal');
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function save( $correlativos ){

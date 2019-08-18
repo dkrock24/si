@@ -9,20 +9,19 @@ class Empresa_model extends CI_Model {
     const sys_moneda = 'sys_moneda';
 
     function getEmpresas(){
-
+        
         $this->db->select('*');
         $this->db->from(self::pos_empresa.' e');
         $this->db->join(self::sys_moneda.' m', 'on e.Moneda = m.id_moneda');
+        
         if($this->session->usuario[0]->id_rol == 1){
             $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
-            //$this->db->where('e.id_empresa', $this->session->empresa[0]->Empresa_Suc);
         }else{
-            //$this->session->empresa[0]->Empresa_Suc;
             $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         }
         
         $query = $this->db->get();
-        //echo $this->db->queries[1];
+        //echo $this->db->queries[0];
         
         if($query->num_rows() > 0 )
         {

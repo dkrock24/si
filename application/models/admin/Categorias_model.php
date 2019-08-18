@@ -14,12 +14,13 @@ class Categorias_model extends CI_Model {
 	}
 
     function record_count(){
-        return $this->db->count_all(self::categorias);
+        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::categorias);
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
 	function crear_categoria( $categorias){
-
-        //$Empresa = $this->session->userdata['usuario'][0]->Empresa;
 
         if( $categorias['categoria_padre'] != 0){
 

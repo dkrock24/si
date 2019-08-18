@@ -39,7 +39,10 @@ class Roles_model extends CI_Model {
     }
 
     function record_count(){
-        return $this->db->count_all(self::roles);
+        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::roles);
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function getRolesById( $id_role ){

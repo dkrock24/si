@@ -144,11 +144,11 @@
                         <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
                         <div class="row">
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Usuario</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" placeholder="Empresa" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                                <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" placeholder="Usuario" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -192,7 +192,7 @@
                                             </div>
                                         </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                         <!-- Otro -->
 
                                         <div class="form-group">
@@ -222,7 +222,7 @@
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control persona_codigo" id="nombre_persona" name="nombre_persona" placeholder="Nombre Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                <input type="text" class="form-control persona_codigo" id="persona" name="persona" placeholder="Persona" value="">
+                                                <input type="hidden" class="form-control persona_codigo" id="persona" name="persona" placeholder="Persona" value="">
                                                 
                                             </div>
                                         </div>
@@ -252,55 +252,46 @@
                                             </div>
                                         </div>
                             </div>
+
+                            <div class="col-lg-4">
+                                <i class="fa fa-info-circle"></i> Vincular Roles al Usuario.
+                                <br><br>
+
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="row">Nombre Roles</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <?php
+                                        $cont =1;
+                                    
+
+                                        foreach ($roles as $r) {   
+                                        ?>
+                                        <tr>
+                                        <?php                                        
+                                            $cont ++;
+                                            ?>                               
+                                            <td>
+                                            <input type="checkbox" value="<?php echo $r->id_rol ?>" name="<?php echo $r->id_rol ?>">
+                                            <label><?php echo $r->role; ?></label>
+                                            <br>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        }
+                                        ?>
+                                    </tbody>
+                                   
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-                <div class="col-lg-12">
-                    <i class="fa fa-info-circle"></i> Vincular Roles al Usuario.
-                    <br><br>
-                </div>
-                <div class="col-lg-12" >
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th scope="row">Nombre Role</th>
-                            <th scope="row">Estado Role</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                        $cont =1;
-                        
-
-                        foreach ($roles as $r) {   
-                        ?>
-                        <tr>
-                            <td><?php echo $cont; ?></td>
-                            <td>
-                                <?php echo $r->role; ?>
-                            </td> 
-                            <?php                                        
-                                $cont ++;
-                                ?>                               
-                                <td>
-                                <input type="checkbox" value="<?php echo $r->id_rol ?>" name="<?php echo $r->id_rol ?>">
-                                <label><?php echo $r->role; ?></label>
-                                <br>
-                                </td>
-                            </tr>
-                        <?php
-                        }
-                         
-                    ?>
-                        </tbody>
-                       
-                    </table>
-                </div>
         </div>
 
         </form>

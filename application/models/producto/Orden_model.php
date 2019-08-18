@@ -34,6 +34,7 @@ class Orden_model extends CI_Model {
 		const pos_tipo_documento = 'pos_tipo_documento';
 
 		function getOrdenes($limit, $id ){
+
 			$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,
 orden.num_correlativo,orden.fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
 ,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
@@ -53,7 +54,12 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 		}
 
 		function record_count(){
-	        return $this->db->count_all(self::pos_ordenes);
+
+	        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->Empresa_Suc);
+			$this->db->from(self::pos_ordenes.' as o');
+			$this->db->join(self::sucursal.' as s',' on o.id_sucursal = s.id_sucursal');
+			$result = $this->db->count_all_results();
+        	return $result;
 	    }
 
 		function get_tipo_documentos(){

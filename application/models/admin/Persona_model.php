@@ -42,7 +42,10 @@ class Persona_model extends CI_Model {
     }
 
     function record_count(){
-        return $this->db->count_all(self::sys_persona);
+        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::sys_persona);
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function get_encargado(){
@@ -133,7 +136,7 @@ class Persona_model extends CI_Model {
         $this->db->join(self::sys_departamento.' as d', 'on d.id_departamento = c.departamento');
         $this->db->join(self::sys_sexo.' as s', 'on p.Sexo = s.id_sexo');
         $this->db->where('p.id_persona', $persona_id );
-        $this->db->where('p.nrc', $this->session->empresa[0]->nrc);
+        //$this->db->where('p.nrc', $this->session->empresa[0]->nrc);
         $query = $this->db->get();
         //echo $this->db->queries[1];
         

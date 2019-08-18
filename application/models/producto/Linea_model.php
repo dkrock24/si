@@ -6,6 +6,7 @@ class Linea_model extends CI_Model {
 	function getLinea( $limit, $id  ){
 		$this->db->select('*');
         $this->db->from(self::pos_linea);
+        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc);
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -29,7 +30,10 @@ class Linea_model extends CI_Model {
     }
 
     function record_count(){
-        return $this->db->count_all(self::pos_linea);
+        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::pos_linea);
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function save_linea( $datos ){
@@ -37,6 +41,7 @@ class Linea_model extends CI_Model {
         $data = array(
             'tipo_producto'     =>  $datos['tipo_producto'],
             'descripcion_tipo_producto'  => $datos['descripcion_tipo_producto'],
+            'Empresa' => $this->session->empresa[0]->Empresa_Suc,
             'estado_linea'     => $datos['estado_linea'],
         );
         

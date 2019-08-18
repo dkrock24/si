@@ -11,6 +11,7 @@ class Giros_model extends CI_Model {
 	function get_giros( $limit, $id ){;
 		$this->db->select('*');
         $this->db->from(self::giros);
+        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc);  
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[2];
@@ -35,7 +36,10 @@ class Giros_model extends CI_Model {
     }
 
     function record_count(){
-        return $this->db->count_all(self::giros);
+        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->from(self::giros);
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function get_empresa(){
@@ -243,7 +247,6 @@ class Giros_model extends CI_Model {
             if(is_numeric((int)$key)){
                 //echo $key;
                 $estado = $this->validar_existencia_giro_empresa( $key , $empresa );
-                //var_dump($estado);
 
                 if($estado != 1 and is_numeric($key)){
                     $data = array(

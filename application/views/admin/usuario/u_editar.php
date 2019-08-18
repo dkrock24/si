@@ -144,7 +144,7 @@
                         <input type="hidden" value="<?php echo $usuario[0]->id_usuario; ?>" name="id_usuario">
                         <div class="row">
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Usuario</label>
                                     <div class="col-sm-9">
@@ -191,11 +191,9 @@
                                         
                                     </div>
                                 </div>
-
                             </div>
 
-
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <!-- Otro -->
 
                                        <div class="form-group">
@@ -278,88 +276,75 @@
                                         <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
                                     </div>
                                 </div>
+                            </div>
 
+                            <div class="col-lg-4">
+                                <i class="fa fa-info-circle"></i> Vincular Roles al Usuario.
+                                <br><br>
 
+                                <table class="table table-striped table-hover">
+                                    
+                                    <thead>
+                                        <tr>                            
+                                            <th scope="row">Nombre Roles</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <?php
+                                    $cont =1;
+                                    
+                                    foreach ($usuario_roles as $ur) {   
+                                        
+                                        if($ur->usuario_rol_usuario == $usuario[0]->id_usuario ){
+                                        ?>
+                                        <tr>
+                                            <?php                                        
+                                                $cont ++;
+                                                $check ="";
+                                                if($ur->usuario_rol_role){
+                                                    $check = "checked";
+                                                }
+                                                ?>
+                                               
+                                                <td>
+                                                <input type="checkbox" <?php echo $check ?> value="<?php echo $ur->usuario_rol_role ?>" name="<?php echo $ur->usuario_rol_role ?>">
+                                                <label><?php echo $ur->role; ?></label>
+                                                <br>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            }
+                                            else if($ur->usuario_rol_role == null){
+                                                ?>
+                                                <tr>
+                                                
+                                                <?php                                        
+                                                    $cont ++;
+                                                    $check ="";
+                                                    ?>
+                                                   
+                                                    <td>
+                                                    <input type="checkbox" <?php echo $check ?> value="<?php echo $ur->id_rol ?>" name="<?php echo $ur->id_rol ?>">
+                                                    <label><?php echo $ur->role; ?></label>
+                                                    <br>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                            }
+                                        
+                                    }
+                                     
+                                ?>
+                                    </tbody>
+                                   
+                                </table>
                             </div>
                         </div>
                         
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-                <div class="col-lg-12">
-                    <i class="fa fa-info-circle"></i> Vincular Roles al Usuario.
-                    <br><br>
-                </div>
-                <div class="col-lg-12" >
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th scope="row">Nombre Role</th>
-                            <th scope="row">Estado Role</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                        $cont =1;
-                        
-
-                        foreach ($usuario_roles as $ur) {   
-                            
-                                if($ur->usuario_rol_usuario == $usuario[0]->id_usuario ){
-                                ?>
-                                <tr>
-                                    <td><?php echo $cont; ?></td>
-                                    <td>
-                                        <?php echo $ur->role; ?>
-                                    </td> 
-                                    <?php                                        
-                                        $cont ++;
-                                        $check ="";
-                                        if($ur->usuario_rol_role){
-                                            $check = "checked";
-                                        }
-                                        ?>
-                                       
-                                        <td>
-                                        <input type="checkbox" <?php echo $check ?> value="<?php echo $ur->usuario_rol_role ?>" name="<?php echo $ur->usuario_rol_role ?>">
-                                        <label><?php echo $ur->role; ?></label>
-                                        <br>
-                                        </td>
-                                    </tr>
-                                <?php
-                                }
-                                else if($ur->usuario_rol_role == null){
-                                    ?>
-                                    <tr>
-                                    <td><?php echo $cont; ?></td>
-                                    <td>
-                                        <?php echo $ur->role; ?>
-                                    </td> 
-                                    <?php                                        
-                                        $cont ++;
-                                        $check ="";
-                                        ?>
-                                       
-                                        <td>
-                                        <input type="checkbox" <?php echo $check ?> value="<?php echo $ur->id_rol ?>" name="<?php echo $ur->id_rol ?>">
-                                        <label><?php echo $ur->role; ?></label>
-                                        <br>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                }
-                            
-                        }
-                         
-                    ?>
-                        </tbody>
-                       
-                    </table>
-                </div>
         </div>
 
         </form>

@@ -69,7 +69,10 @@ class Producto_model extends CI_Model {
 		}
 
 		function record_count(){
-        	return $this->db->count_all(self::producto);
+			$this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+			$this->db->from(self::producto);
+			$result = $this->db->count_all_results();
+        	return $result;
     	}
 
 		//	Creacion de un nuevo producto
