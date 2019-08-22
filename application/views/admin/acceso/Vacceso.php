@@ -396,8 +396,8 @@
                                                  <div class="col-lg-10"></div>
                                                  <div class="col-lg-2">                                                  
                                                        <span class=" pull-right">
-                                                        <input type="hidden" name="id_role" value="<?php echo $accesos_menus_internos[0]->id_rol; ?>">
-                                                        <input type="hidden" name="id_menu" value="<?php echo $accesos_menus_internos[0]->id_menu; ?>">
+                                                        <input type="hidden" name="id_role" value="<?php echo @$accesos_menus_internos[0]->id_role; ?>">
+                                                        <input type="hidden" name="id_menu" value="<?php echo @$accesos_menus_internos[0]->id_menu; ?>">
                                                           <button class="btn btn-sm btn-info">Guardar</button>
                                                        </span>
                                                  </div>
@@ -407,7 +407,7 @@
                                         </div>
                                         <!-- END panel-->                                      
                                     </section>
-                                    <?php 
+                                    <?php
                                     }else{
                                         echo "No Existen Datos";
                                     }

@@ -86,7 +86,8 @@ class Producto extends CI_Controller {
 
 	public function nuevo(){
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
+		
 		$vista_id = 12;
 
 		$data['menu'] = $this->session->menu;

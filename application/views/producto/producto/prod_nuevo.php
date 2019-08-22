@@ -552,6 +552,7 @@
                                 <div class="row">
                                 <?php
                                 $contador_break=0;
+                            if($acciones){
                                 foreach ($acciones as $key => $value) {
                                     ?>
                                     <div class="col-sm-6 menu-cuadro " id="<?php echo $value->accion_btn_css; ?>">
@@ -567,6 +568,17 @@
                                     </div>
                                     <?php
                                 }
+                            }else{
+                                ?>
+                                    <div class="col-sm-6 " id="">
+                                        
+                                        <h4 class="icon-center">
+                                             Necesita Permiso!
+                                        </h4>
+                                        
+                                    </div>
+                                <?php
+                            }
                                 ?>
                                 </div></div>  
 

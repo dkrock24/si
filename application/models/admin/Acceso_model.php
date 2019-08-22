@@ -9,6 +9,8 @@ class Acceso_model extends CI_Model
     const usuarios  = 'sys_usuarios';    
     const roles     = 'sys_role';
     const cargos    = 'sys_cargos';
+    const vistas =  'sys_vistas';
+    const vista_acceso = 'sys_vistas_acceso';
 
     const sys_menu_submenu  = 'sys_menu_submenu';
     const submenu_acceso    = 'sys_submenu_acceso';
@@ -108,6 +110,7 @@ class Acceso_model extends CI_Model
         $this->db->where('m.id_menu',$menu);
         $this->db->where('sm.estado_referencia',1);
         $query = $this->db->get();
+        //echo $this->db->queries[1];
         
         if($query->num_rows() > 0 )
         {
@@ -122,18 +125,68 @@ class Acceso_model extends CI_Model
         $this->db->from(self::sys_vistas .' as v');
         $this->db->join(self::sys_vistas_componentes .' as vc ',' on vc.Vista = v.id_vista');
         $this->db->join(self::sys_componentes .' as c ',' on c.id_vista_componente = vc.Componente');
-        $this->db->join(self::sys_vistas_acceso .' as va ',' on va.id_vista_componente = c.id_vista_componente');
+        $this->db->join(self::sys_vistas_acceso .' as va ',' on va.id_vista_componente = vc.id');
         $this->db->join(self::sys_menu_submenu .' as submenu ',' on submenu.id_vista = v.id_vista');
         $this->db->join(self::menu .' as menu ',' on menu.id_menu = submenu.id_menu');
         $this->db->join(self::roles .' as r ',' on r.id_rol = va.id_role');
         $this->db->where('va.id_role',$rol);
-        $this->db->where('menu.id_menu',$menu);
+        $this->db->where('v.id_vista',$menu);
         $query = $this->db->get(); 
+        //echo $this->db->queries[2];
         
         if($query->num_rows() > 0 )
         {
             return $query->result();
         }         
+    }
+
+    public function sincronizar_componentes( $id_rol , $id_menu ){
+
+        $vista_comp = $this->get_vista_component($id_menu);
+        $vista_accs;
+
+        if($vista_comp){
+            foreach ($vista_comp as $componente) {
+                $vista_accs = $this->get_vista_acceso( $id_rol , $componente->id );
+
+                if(!$vista_accs){
+                    $data = array(
+                        'id_role' => $id_rol,
+                        'id_vista_componente' => $componente->id,
+                        'vista_acceso_creado' => date("Y-m-d H:i:s"),
+                        'vista_acceso_estado' => 0
+                    );
+                    $this->db->insert(self::sys_vistas_acceso, $data);
+                }
+            }    
+        }        
+    }
+
+    function get_vista_component($vista){
+
+        $this->db->select('*');
+        $this->db->from(self::sys_vistas_componentes);
+        $this->db->where('vista',$vista);
+        $query = $this->db->get();
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
+    function get_vista_acceso( $id_rol , $componente ){
+
+        $this->db->select('*');
+        $this->db->from(self::sys_vistas_acceso);
+        $this->db->where('id_role',$id_rol);
+        $this->db->where('id_vista_componente',$componente);
+        $query = $this->db->get();
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }     
     }
 
     // Actualizar el Accesos Para el  Rol
@@ -210,7 +263,8 @@ class Acceso_model extends CI_Model
     public function getRoles()
     {
         $this->db->select('*');
-        $this->db->from(self::roles); 
+        $this->db->from(self::roles.' as r');
+        $this->db->where('r.Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get();      
         if($query->num_rows() > 0 )
         {

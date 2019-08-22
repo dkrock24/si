@@ -40,12 +40,14 @@ class Acceso extends CI_Controller {
 
 		if(isset($_POST['role']) and isset($_POST['menu'])){
 
+			$this->Accesos_model->sincronizar_componentes( $_POST['role'],  $_POST['menu']);
+			
 			$data['accesos'] =  $this->Acceso_model->get_menu_acceso( $_POST['role'] , $_POST['menu'] , NULL );
 			$data['accesos_menus_internos'] =  $this->Acceso_model->get_menu_internos( $_POST['role'] , $_POST['menu'] );
 			$data['vista_componentes'] =  $this->Acceso_model->get_vista_componentes( $_POST['role'] , $_POST['menu']);
-			$data['roles'] =  $this->Acceso_model->getRoles();
-			$data['menus'] =  $this->Menu_model->lista_menu();	
 
+			$data['roles'] =  $this->Acceso_model->getRoles();
+			$data['menus'] =  $this->Menu_model->lista_menu();
 		}else{
 
 			$data['roles'] =  $this->Acceso_model->getRoles();	
