@@ -15,12 +15,11 @@
                                 <th style="color: black;">Nombre</th> 
                                 <th style="color: black;">NRC</th>
                                 <th style="color: black;">NIT</th>
-                                <th style="color: black;">Cliente</th>
                                 <th style="color: black;">Giro</th>
                                 <th style="color: black;">Tel</th>
-                                <th style="color: black;">Moneda</th>                                                   
-                                <th style="color: black;">Creado</th>                                
-                                <th style="color: black;">Actualizado</th>
+                                <th style="color: black;">Moneda</th>
+                                <th style="color: black;">Codigo</th>                  
+                                <th style="color: black;">Creado</th>
                                 <th style="color: black;">Estado</th>
                                 
                                 <th>
@@ -61,13 +60,11 @@
                                     <td><?php echo $empresa->nit; ?></td>
                                     <td><?php echo $empresa->giro; ?></td>
                                     <td><?php echo $empresa->tel; ?></td>
-                                    
-                                    
-                                    <td><?php //echo $empresa->tipo_documento; ?></td>
                                     <td><?php echo $empresa->moneda_nombre; ?></td>
+                                    <td><?php echo $empresa->codigo; ?></td>
 		                                      			                            
                                     <td><?php $date = new DateTime($empresa->empresa_creado); echo $date->format('M-d-Y');   ?></td>
-                                    <td><?php $date = new DateTime($empresa->empresa_actualizado); echo $date->format('M-d-Y'); ?></td>
+                                    
                                     <td>
                                         <?php 
                                             if($empresa->empresa_estado==1){

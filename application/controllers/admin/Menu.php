@@ -49,6 +49,7 @@ class Menu extends CI_Controller {
 
 		$data['menu'] = $menu_session = $this->session->menu;
 		$data['lista_menu'] = $this->Menu_model->lista_menu();
+		$data['title'] = "Menus";	
 		$data['home'] = 'admin/menu/menu';
 
 		$this->parser->parse('template', $data);
@@ -63,6 +64,7 @@ class Menu extends CI_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;
+		$data['title'] = "Nuevo Menu";	
 		$data['home'] = 'admin/menu/nuevoMenu.php';
 
 		$this->parser->parse('template', $data);
@@ -89,7 +91,8 @@ class Menu extends CI_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;
-		$data['submenus'] = $this->Menu_model->getSubMenu( $id_menu );		
+		$data['submenus'] = $this->Menu_model->getSubMenu( $id_menu );
+		$data['title'] = "SubMenu";			
 		$data['home'] = 'admin/menu/submenu';
 
 		$this->parser->parse('template', $data);
@@ -105,6 +108,7 @@ class Menu extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['onMenu'] = $this->Menu_model->getOneMenu( $id_menu );
+		$data['title'] = "Editar Menu";	
 		$data['home'] = 'admin/menu/menueditar';
 
 		$this->parser->parse('template', $data);
@@ -118,6 +122,7 @@ class Menu extends CI_Controller {
 		$data['allMenus'] = $this->Menu_model->getAllMenu();
 		$data['vistas2'] = $this->Vistas_model->get_vistas();
 		$data['home'] = 'admin/menu/nuevo_sub_menu.php';
+		$data['title'] = "Nuevo SubMenu";	
 		$data['id_menu'] = $id_menu;
 
 		$this->parser->parse('template', $data);
@@ -149,7 +154,7 @@ class Menu extends CI_Controller {
 		$data['vistas'] = $this->Vistas_model->get_all_vistas();
 		$data['vistas2'] = $this->Vistas_model->get_all_vistas();
 		$data['onMenu'] = $this->Menu_model->getOneSubMenu( $id_sub_menu );
-
+		$data['title'] = "Editar SubMenu";
 		$data['home'] = 'admin/menu/submenueditar';			
 
 		$this->parser->parse('template', $data);

@@ -93,6 +93,7 @@ class Sucursal extends CI_Controller {
 		$data['contador_tabla'] = $contador_tabla;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['registros'] = $this->Sucursal_model->getAllSucursal( $config["per_page"], $page );
+		$data['title'] = "Sucursales";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -105,6 +106,7 @@ class Sucursal extends CI_Controller {
 		$data['menu'] = $this->session->menu;		
 		$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['ciudad'] = $this->Ciudad_model->getCiudad();
+		$data['title'] = "Nueva Sucursal";
 		$data['home'] = 'admin/sucursal/sucursal_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -132,6 +134,7 @@ class Sucursal extends CI_Controller {
 		$data['sucursal'] = $this->Sucursal_model->getSucursalId( $sucursla_id );
 		$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['ciudad'] = $this->Ciudad_model->getCiudad();
+		$data['title'] = "Editar Sucursal";
 		$data['home'] = 'admin/sucursal/sucursal_editar';
 
 		$this->general->editar_valido($data['sucursal'], "admin/sucursal/index");
@@ -160,7 +163,7 @@ class Sucursal extends CI_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_comercial','nombre_sucursal','direct','tel','cel','encargado','estado'
+			'nombre_comercial','nombre_sucursal','direct','tel','cel','encargado_sucursal','estado'
 		);
 		
 		$fields['id'] = array('id_sucursal');

@@ -381,7 +381,7 @@ function aplicar_imp_especial(prod){
 	var contador = 0;
 	_impuestos_orden_condicion = [];
 
-	$.each(_catVal, function(i, item) {
+	$.each(_impuestos.cat, function(i, item) {
 		
 		var yes = check_aplicable(item.nombre);		
 
@@ -469,6 +469,7 @@ function impuesto_valor(prod){
 
 			precio_galon = _orden[_orden.indexOf(prod)].total_anterior + imp_asociados;
 			cant_galon = dinero / precio_galon;
+			_orden[_orden.indexOf(prod)].cantidad = cant_galon.toFixed(3);
 			
 			$.each(_impuestos.cat, function(i, item) {	
 				if(_orden[_orden.indexOf(prod)].categoria == item.Categoria){

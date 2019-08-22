@@ -114,14 +114,22 @@ class Atributos_model extends CI_Model {
         );
 
         $this->db->where('id_prod_atributo', $atributo['id_prod_atributo']);
-        $this->db->update(self::atributos, $data);  
-
+        $result = $this->db->update(self::atributos, $data);  
         $this->deleteOpciones($atributo['id_prod_atributo']);
-
         $this->guardar_atributos_opciones($atributo['id_prod_atributo'] , $atributo );
 
-
+        return $result;
 	}
+
+    function eliminar($id){
+
+        $this->db->where('Atributo', $id );
+        $result = $this->db->delete(self::atributos_opciones);
+
+        $this->db->where('id_prod_atributo', $id );
+        $result = $this->db->delete(self::atributos);  
+        return $result;
+    }
 
     function deleteOpciones($id_atributo){
         $data = array(

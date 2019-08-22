@@ -11,7 +11,7 @@ class Impuesto_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::impuesto);  
-        $this->db->where('imp_empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('imp_empresa', $this->session->empresa[0]->id_empresa);
         $this->db->limit($limit, $id);          
         $query = $this->db->get();    
                 
@@ -23,7 +23,7 @@ class Impuesto_model extends CI_Model {
 
     function record_count(){
         
-        $this->db->where('imp_empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('imp_empresa',$this->session->empresa[0]->id_empresa);
         $this->db->from(self::impuesto);
         $result = $this->db->count_all_results();
         return $result;
@@ -44,7 +44,7 @@ class Impuesto_model extends CI_Model {
             'condicion' => $impuesto['condicion'],
             'condicion_valor' => $impuesto['c_valor'],
             'mensaje' => $impuesto['mensaje'],
-            'imp_empresa'=> $this->session->empresa[0]->Empresa_Suc,
+            'imp_empresa'=> $this->session->empresa[0]->id_empresa,
             'imp_estado' => $impuesto['imp_estado'],
         );
 
@@ -57,7 +57,7 @@ class Impuesto_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::impuesto);   
         $this->db->where('id_tipos_impuestos', $documento_id ); 
-        $this->db->where('imp_empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('imp_empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -81,7 +81,7 @@ class Impuesto_model extends CI_Model {
             'condicion' => $impuesto['condicion'],
             'condicion_valor' => $impuesto['c_valor'],
             'mensaje' => $impuesto['mensaje'],
-            'imp_empresa'=> $this->session->empresa[0]->Empresa_Suc,
+            'imp_empresa'=> $this->session->empresa[0]->id_empresa,
             'imp_estado' => $impuesto['imp_estado'],
         );
         $this->db->where('id_tipos_impuestos', $impuesto['id_tipos_impuestos']);
@@ -102,7 +102,7 @@ class Impuesto_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::impuesto);
-        $this->db->where('imp_empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('imp_empresa', $this->session->empresa[0]->id_empresa);
         $this->db->where('imp_estado', 1);
         $query = $this->db->get();    
                 

@@ -70,6 +70,7 @@ class Marca extends CI_Controller {
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
 		$data['registros'] = $this->Marca_model->getMarca( $config["per_page"], $page );
+		$data['title'] = "Marcas";	
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -81,6 +82,7 @@ class Marca extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['marca'] = $this->Marca_model->getMarcaById( $marca_id );
+		$data['title'] = "Editar Marca";	
 		$data['home'] = 'admin/marca/m_editar';
 
 		$this->general->editar_valido($data['marca'], "admin/marca/index");
@@ -109,6 +111,7 @@ class Marca extends CI_Controller {
 		$data['categoria'] = $this->Marca_model->get_marcas();
 		$data['marca'] = $this->Marca_model->getAllMarca();
 		$data['marca_categoria'] = $this->Marca_model->marca_categoria();
+		$data['title'] = "Nueva Marca";	
 		$data['home'] = 'admin/marca/m_nuevo';
 
 		$this->parser->parse('template', $data);

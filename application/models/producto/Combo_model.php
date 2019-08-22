@@ -18,7 +18,7 @@ class Combo_model extends CI_Model {
                 LEFT JOIN `pos_marca` as `m` ON `m`.`id_marca` = `P`.`Marca`
                 LEFT JOIN `pos_producto_img` as `img` ON `img`.`id_producto` = `P`.`id_entidad`
                 LEFT JOIN `pos_cliente` as `cli` ON `cli`.`id_cliente` = `img`.`id_producto`
-                where P.Empresa=".$this->session->empresa[0]->Empresa_Suc." Limit ".$id.','.$limit );
+                where P.Empresa=".$this->session->empresa[0]->id_empresa." Limit ".$id.','.$limit );
                  //echo $this->db->queries[0];
                 return $query->result();
     }
@@ -29,7 +29,7 @@ class Combo_model extends CI_Model {
         $this->db->from(self::pos_combo.' as c');
         $this->db->join(self::producto.' as p', ' on c.Producto_Combo= p.id_entidad');
         //$this->db->join(self::producto.' as p2', ' on c.producto_a_descargar_Combo= p2.id_entidad');
-        $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         $this->db->group_by('c.Producto_Combo');
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -41,7 +41,7 @@ class Combo_model extends CI_Model {
 	}
 
     function record_count(){
-        $this->db->where('p.Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('p.Empresa',$this->session->empresa[0]->id_empresa);
         $this->db->from(self::pos_combo.' as c');
         $this->db->join(self::producto.' as p',' on c.Producto_Combo = p.id_entidad');
         $result = $this->db->count_all_results();
@@ -63,7 +63,7 @@ class Combo_model extends CI_Model {
                 LEFT JOIN `pos_marca` as `m` ON `m`.`id_marca` = `P`.`Marca`
                 LEFT JOIN `pos_producto_img` as `img` ON `img`.`id_producto` = `P`.`id_entidad`
                 LEFT JOIN `pos_cliente` as `cli` ON `cli`.`id_cliente` = `img`.`id_producto`
-                where P.Empresa=".$this->session->empresa[0]->Empresa_Suc." and P.combo=". $param['combo'] );
+                where P.Empresa=".$this->session->empresa[0]->id_empresa." and P.combo=". $param['combo'] );
                  //echo $this->db->queries[0];
                 return $query->result();
         }

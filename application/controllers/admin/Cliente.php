@@ -95,6 +95,7 @@ class Cliente extends CI_Controller {
 		$data['contador_tabla'] = $contador_tabla;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['registros'] = $this->Cliente_model->getAllClientes( $config["per_page"], $page );
+		$data['title'] = "Clientes";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -109,6 +110,7 @@ class Cliente extends CI_Controller {
 		$data['documento'] = $this->Cliente_model->getTipoDocumento();
 		$data['pago'] = $this->Cliente_model->getTipoPago();
 		$data['persona'] = $this->Persona_model->getAllPersona();
+		$data['title'] = "Nuevo Cliente";
 		$data['home'] = 'admin/cliente/cliente_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -136,7 +138,7 @@ class Cliente extends CI_Controller {
 		$data['documento'] = $this->Cliente_model->getTipoDocumento();
 		$data['pago'] = $this->Cliente_model->getTipoPago();
 		$data['persona'] = $this->Persona_model->getAllPersona();
-
+		$data['title'] = "Editar Cliente";
 		$data['home'] = 'admin/cliente/cliente_editar';
 
 		$this->general->editar_valido($data['cliente'], "admin/cliente/index");

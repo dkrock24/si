@@ -107,8 +107,8 @@
                   <!-- START User avatar toggle-->
                   <li>
                      <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
-                     <a id="user-block-toggle" href="#user-block" data-toggle="collapse">
-                        <em class="icon-user"></em>
+                     <a id="user-block-toggle" href="<?php echo base_url().'admin/home/seleccionar_empresa'; ?>">
+                        <em class="icon-home"></em>
                      </a>
                   </li>
                   <!-- END User avatar toggle-->

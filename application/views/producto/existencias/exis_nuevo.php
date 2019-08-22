@@ -304,7 +304,7 @@ $(document).ready(function(){
         display: none;
     }
 </style>
-
+<title><?php echo $title; ?></title>
 <!-- Main section-->
 <section>
     <!-- Page content-->

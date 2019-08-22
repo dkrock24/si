@@ -87,7 +87,7 @@ class Impuesto extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['home'] = 'admin/impuesto/nuevo';
-
+		$data['title'] = "Nuevo Impuesto";
 		$this->parser->parse('template', $data);
 	}
 

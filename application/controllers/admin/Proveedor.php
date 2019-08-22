@@ -97,6 +97,7 @@ class Proveedor extends CI_Controller {
 		$data['contador_tabla'] = $contador_tabla;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['registros'] = $this->Proveedor_model->get_proveedor( $config["per_page"], $page );
+		$data['title'] = "Proveedores";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -109,6 +110,7 @@ class Proveedor extends CI_Controller {
 		$data['menu'] = $this->session->menu;		
 		$data['linea'] = $this->Linea_model->getAllLinea();
 		$data['persona'] = $this->Persona_model->getAllPersona();
+		$data['title'] = "Nuevo Proveedor";
 		$data['home'] = 'admin/proveedor/proveedor_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -135,7 +137,7 @@ class Proveedor extends CI_Controller {
 		$data['proveedor'] = $this->Proveedor_model->get_proveedor_id( $proveedor_id );
 		$data['linea'] = $this->Linea_model->getAllLinea();
 		$data['persona'] = $this->Persona_model->getAllPersona();
-
+		$data['title'] = "Editar Proveedor";
 		$data['home'] = 'admin/proveedor/proveedor_editar';
 
 		$this->general->editar_valido($data['proveedor'], "admin/proveedor/index");

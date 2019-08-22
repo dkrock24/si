@@ -8,7 +8,7 @@ class Documento_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::documento);  
-        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
         $this->db->limit($limit, $id);          
         $query = $this->db->get();    
                 
@@ -22,7 +22,7 @@ class Documento_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::documento);   
-        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc);      
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);      
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -32,7 +32,7 @@ class Documento_model extends CI_Model {
     }
 
     function record_count(){
-        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
         $this->db->from(self::documento);
         $result = $this->db->count_all_results();
         return $result;
@@ -43,7 +43,7 @@ class Documento_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::documento);   
         $this->db->where('id_tipo_documento', $documento_id ); 
-        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc);      
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);      
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -81,7 +81,7 @@ class Documento_model extends CI_Model {
             'efecto_en_report_venta' => $documento['efecto_en_report_venta'],
             'automatico' => $documento['automatico'],
             'emitir_a' => $documento['emitir_a'],            
-            'Empresa'=> $this->session->empresa[0]->Empresa_Suc,
+            'Empresa'=> $this->session->empresa[0]->id_empresa,
             'estado' => $documento['estado'],
         );
 

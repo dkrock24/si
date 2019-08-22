@@ -31,7 +31,7 @@ class Empleado_model extends CI_Model {
         $this->db->select('p.primer_nombre_persona, p.segundo_nombre_persona,p.primer_apellido_persona,p.segundo_apellido_persona,p.dui,p.nit,p.tel,p.id_persona,e.id_empleado');
         $this->db->from(self::sys_persona.' as p');
         $this->db->join(self::sys_empleado.' as e', 'on p.id_persona = e.Persona_E');
-        $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get();
         //echo $this->db->queries[1];
         
@@ -73,7 +73,7 @@ class Empleado_model extends CI_Model {
     }
 
     function record_count(){
-        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->id_empresa);
         $this->db->from(self::sys_empleado.' as e');
         $this->db->join(self::sucursal.' as s',' on e.Sucursal = s.id_sucursal');
         $result = $this->db->count_all_results();
@@ -212,7 +212,7 @@ class Empleado_model extends CI_Model {
         $this->db->join(self::sys_cargo_laboral.' as c', 'on c.id_cargo_laboral = e.Cargo_Laboral_E');
         $this->db->join(self::pos_sucursal.' as s', 'on s.id_sucursal = e.Sucursal');
         $this->db->join(self::pos_empresa.' as em', 'on em.id_empresa = s.Empresa_Suc');
-        $this->db->where('em.id_empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('em.id_empresa', $this->session->empresa[0]->id_empresa);
         $this->db->where('e.id_empleado', $empleado_id );
         $query = $this->db->get();
         

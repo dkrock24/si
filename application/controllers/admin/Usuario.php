@@ -94,6 +94,7 @@ class Usuario extends CI_Controller {
 		$data['contador_tabla'] = $contador_tabla;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['registros'] = $this->Usuario_model->get_usuarios( $config["per_page"], $page );
+		$data['title'] = "Usuarios";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -106,6 +107,7 @@ class Usuario extends CI_Controller {
 		$data['menu'] = $this->session->menu;	
 		$data['roles']	= $this->Roles_model->getAllRoles();
 		$data['home'] = 'admin/usuario/u_nuevo';
+		$data['title'] = "Nuevo Usuario";
 
 		$this->parser->parse('template', $data);
 	}
@@ -145,6 +147,7 @@ class Usuario extends CI_Controller {
 		$data['roles']	= $this->Roles_model->getAllRoles();	
 		$data['usuario_roles']	= $this->Usuario_model->get_usuario_roles2($usuario_id);
 		$data['usuario'] = $this->Usuario_model->get_usuario_id( $usuario_id );
+		$data['title'] = "Editar Usuario";
 		$data['home'] = 'admin/usuario/u_editar';
 
 		$this->general->editar_valido($data['usuario'], "admin/usuario/index");

@@ -185,6 +185,15 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Codigo</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="codigo" required="" name="codigo" placeholder="Codigo" value="<?php echo $empresa[0]->codigo ?>">
+                                                
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
                                             <div class="col-sm-offset-2 col-sm-10">
                                                 
                                                 <label>

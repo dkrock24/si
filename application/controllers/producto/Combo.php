@@ -51,6 +51,7 @@ class Combo extends CI_Controller {
 		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		//$data['home'] = 'producto/combo/combo_lista';
+		$data['title'] = "Combos";
 		$data['home'] = 'producto/combo/combo_lista';
 
 		$this->parser->parse('template', $data);
@@ -72,6 +73,7 @@ class Combo extends CI_Controller {
 		$data['productos_combo'] = $this->Producto_model->get_producto_tabla($param1);
 		$data['productos'] = $this->Producto_model->get_producto_tabla($param2);
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['title'] = "Nuevo Combo";
 		$data['home'] = 'producto/combo/combo_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -97,6 +99,7 @@ class Combo extends CI_Controller {
 		$data['combo'] = $this->Combo_model->getComboId( $combo_id );
 		$data['productos'] = $this->Producto_model->get_producto_tabla();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['title'] = "Editar Combo";
 		$data['home'] = 'producto/combo/combo_editar';
 
 		$this->parser->parse('template', $data);

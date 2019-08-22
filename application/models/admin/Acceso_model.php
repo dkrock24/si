@@ -151,7 +151,7 @@ class Acceso_model extends CI_Model
                     $this->db->update(self::submenu_acceso, $data);
 
                 }else{
-                    $data = array('submenu_acceso_estado' => 0 );
+                    $data = array('submenu_acceso_estado' => 1 );
                     $this->db->where('id_role', $datos['id_role']);
                     $this->db->where('id_submenu_acceso', $ac->id_submenu_acceso );
                     $this->db->update(self::submenu_acceso, $data);

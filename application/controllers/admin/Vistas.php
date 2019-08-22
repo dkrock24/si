@@ -85,6 +85,7 @@ class Vistas extends CI_Controller {
 		$data['contador_tabla'] = $contador_tabla;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		//$data['vistas_componentes'] =  $this->Vistas_model->get_vistas_componentes();
+		$data['title'] = "Vistas";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -93,6 +94,7 @@ class Vistas extends CI_Controller {
 	public function nuevo(){
 
 		$data['menu'] = $this->session->menu;
+		$data['title'] = "Nueva Vista";
 		$data['home'] = 'admin/vistas/vistas_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -108,6 +110,7 @@ class Vistas extends CI_Controller {
 		
 		$data['menu'] = $this->session->menu;
 		$data['vistas'] = $this->Vistas_model->vistas_by_id( $vista_id );
+		$data['title'] = "Editar Vista";
 		$data['home'] = 'admin/vistas/vistas_editar';
 
 		$this->parser->parse('template', $data);

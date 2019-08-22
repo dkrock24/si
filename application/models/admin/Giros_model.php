@@ -11,7 +11,7 @@ class Giros_model extends CI_Model {
 	function get_giros( $limit, $id ){;
 		$this->db->select('*');
         $this->db->from(self::giros);
-        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc);  
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);  
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[2];
@@ -25,7 +25,7 @@ class Giros_model extends CI_Model {
     function getAllgiros(){;
         $this->db->select('*');
         $this->db->from(self::giros);
-        $this->db->where(self::giros.'.Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where(self::giros.'.Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
         //echo $this->db->queries[2];
         
@@ -36,7 +36,7 @@ class Giros_model extends CI_Model {
     }
 
     function record_count(){
-        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
         $this->db->from(self::giros);
         $result = $this->db->count_all_results();
         return $result;
@@ -45,7 +45,7 @@ class Giros_model extends CI_Model {
     function get_empresa(){
         $this->db->select('*');
         $this->db->from(self::empresa);
-        $this->db->where('id_empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('id_empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -58,7 +58,7 @@ class Giros_model extends CI_Model {
     function get_empresa2(){
         $this->db->select('id_empresa,nombre_razon_social');
         $this->db->from(self::empresa);
-        $this->db->where('id_empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('id_empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -75,7 +75,7 @@ class Giros_model extends CI_Model {
             'descripcion_giro' => $nuevo_giro['descripcion_giro'],
             'tipo_giro' => $nuevo_giro['tipo_giro'],
             'codigo_giro' => $nuevo_giro['codigo_giro'],
-            'Empresa' => $this->session->empresa[0]->Empresa_Suc,
+            'Empresa' => $this->session->empresa[0]->id_empresa,
             'estado_giro' => $nuevo_giro['estado_giro'],
             'fecha_giro_creado' => date("Y-m-d h:i:s")
         );

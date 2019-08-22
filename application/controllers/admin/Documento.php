@@ -69,6 +69,7 @@ class Documento extends CI_Controller {
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
 		$data['registros'] = $this->Documento_model->getDocumento( $config["per_page"], $page );
+		$data['title'] = "Documentos";	
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -80,6 +81,7 @@ class Documento extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['documento'] = $this->Documento_model->getDocumentoById( $documento_id );
+		$data['title'] = "Editar Documento";	
 		$data['home'] = 'admin/documento/d_editar';
 
 		$this->general->editar_valido($data['documento'], "admin/documento/index");
@@ -105,6 +107,7 @@ class Documento extends CI_Controller {
 		$id_rol = $this->session->roles[0];
 
 		$data['menu'] = $this->session->menu;
+		$data['title'] = "Nuevo Documento";	
 		$data['home'] = 'admin/documento/d_nuevo';
 
 		$this->parser->parse('template', $data);

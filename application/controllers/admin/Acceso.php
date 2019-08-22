@@ -52,7 +52,7 @@ class Acceso extends CI_Controller {
 			$data['menus'] =  $this->Menu_model->lista_menu();
 		}		
 		$data['menu'] = $this->session->menu;		
-		//$acceso['cargos'] =  $this->Acceso_model->getCargos();
+		$data['title'] = "Menu Accesos";	
 		$data['home'] = 'admin/acceso/Vacceso.php';
 
 		$this->parser->parse('template', $data);

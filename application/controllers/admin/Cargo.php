@@ -94,6 +94,7 @@ class Cargo extends CI_Controller {
 		$data['contador_tabla'] = $contador_tabla;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['registros'] = $this->Cargos_model->get_all_cargo( $config["per_page"], $page );
+		$data['title'] = "Cargos Laborales";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -104,6 +105,7 @@ class Cargo extends CI_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;	
+		$data['title'] = "Nuevo Cargo Laboral";
 		$data['home'] = 'admin/cargo/c_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -129,6 +131,7 @@ class Cargo extends CI_Controller {
 		$data['menu'] = $this->session->menu;	
 		
 		$data['cargo'] = $this->Cargos_model->get_cargo_id( $cargo_id );
+		$data['title'] = "Editar Cargo Laboral";
 		$data['home'] = 'admin/cargo/c_editar';
 
 		$this->general->editar_valido($data['cargo'], "admin/cargo/index");

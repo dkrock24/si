@@ -78,6 +78,7 @@ class Producto extends CI_Controller {
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['title'] = "Productos";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -94,6 +95,7 @@ class Producto extends CI_Controller {
 		$data['proveedor'] = $this->Producto_model->get_proveedor();
 		$data['marcas'] = $this->Producto_model->get_marcas();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['title'] = "Nuevo Producto";
 		$data['empresa'] = $this->Giros_model->get_empresa();
 
 		$data['home'] = 'producto/producto/prod_nuevo';
@@ -153,6 +155,7 @@ class Producto extends CI_Controller {
 		$data['clientes'] = $this->Producto_model->get_clientes();
 		$data['sucursal'] = $this->Producto_model->get_sucursales();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['title'] = "Editar Producto";
 		$data['home'] = 'producto/producto/prod_editar';
 
 		$this->general->editar_valido($data['producto'], "producto/producto/index");

@@ -12,13 +12,13 @@
 <style type="text/css">
 
 	.alert-style{
-		font-size: 18px;
+		font-size: 16px;
 		color:white; 
 		width: 30%;
 		float: right; 
 		position: relative; 
 		display: inline-block; 
-		margin-top: 0px;
+		margin-top: -15px;
 	}
 
 </style>

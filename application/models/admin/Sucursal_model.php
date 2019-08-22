@@ -8,7 +8,7 @@ class Sucursal_model extends CI_Model {
 	function getSucursal(){
 		$this->db->select('*');
         $this->db->from(self::pos_sucursal.' as b');
-        $this->db->where('b.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc );
+        $this->db->where('b.Empresa_Suc', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -35,7 +35,7 @@ class Sucursal_model extends CI_Model {
 		$this->db->select('*');
         $this->db->from(self::pos_sucursal.' as b');
         $this->db->where('b.id_sucursal', $empresa_id );
-        $this->db->where('b.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc);
+        //$this->db->where('b.codigo', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -49,7 +49,7 @@ class Sucursal_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::pos_sucursal.' as s');
         $this->db->join(self::pos_empresa.' as e', ' on s.Empresa_Suc = e.id_empresa');
-        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -61,7 +61,7 @@ class Sucursal_model extends CI_Model {
     }
 
     function record_count(){
-        $this->db->where('Empresa_Suc',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('Empresa_Suc',$this->session->empresa[0]->id_empresa);
         $this->db->from(self::pos_sucursal);
         $result = $this->db->count_all_results();
         return $result;
@@ -72,7 +72,7 @@ class Sucursal_model extends CI_Model {
         $data = array(
             'nombre_sucursal' => $datos['nombre_sucursal'],
             'direct' => $datos['direct'],
-            'encargado' => $datos['encargado'],
+            'encargado_sucursal' => $datos['encargado'],
             'tel' => $datos['tel'],
             'cel' => $datos['cel'],
             'estado' => $datos['estado'],

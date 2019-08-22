@@ -47,7 +47,7 @@ left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = orden.id_tipod
 left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
 left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago 
 left join pos_orden_estado as oe  on oe.id_orden_estado= orden.orden_estado
-where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". $id.','.$limit);
+where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $id.','.$limit);
 
 		    //echo $this->db->queries[1];
 		    return $query->result();
@@ -55,7 +55,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 
 		function record_count(){
 
-	        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->Empresa_Suc);
+	        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->id_empresa);
 			$this->db->from(self::pos_ordenes.' as o');
 			$this->db->join(self::sucursal.' as s',' on o.id_sucursal = s.id_sucursal');
 			$result = $this->db->count_all_results();
@@ -117,7 +117,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
-				WHERE pa.Atributo = 4 and P.Empresa=".$this->session->empresa[0]->Empresa_Suc." group by P.id_entidad order by P.id_entidad");
+				WHERE pa.Atributo = 4 and P.Empresa=".$this->session->empresa[0]->id_empresa." group by P.id_entidad order by P.id_entidad");
 
 		        //echo $this->db->queries[0];
 		        return $query->result();
@@ -1014,7 +1014,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->Empresa_Suc." Limit ". 
 
 
 	        $this->db->where('o.id', $order_id );
-	        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc);
+	        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[0];
 	        

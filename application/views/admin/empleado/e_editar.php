@@ -403,15 +403,16 @@
                                                             }                                        
                                                         }
                                                     }
-
-                                                     foreach ($sucursal_lista as $value) {
-                                                        if($value->id_empresa == $e->id_empresa){
-                                                                $check ="";
-                                                                ?>
-                                                                <input type="checkbox" <?php echo $check ?> class="" value="<?php echo $value->id_sucursal ?>" name="<?php echo $value->id_sucursal ?>">
-                                                                <label><?php echo $value->nombre_sucursal; ?></label>
-                                                                <br>
-                                                            <?php
+                                                    if($sucursal_lista){
+                                                        foreach ($sucursal_lista as $value) {
+                                                            if($value->id_empresa == $e->id_empresa){
+                                                                    $check ="";
+                                                                    ?>
+                                                                    <input type="checkbox" <?php echo $check ?> class="" value="<?php echo $value->id_sucursal ?>" name="<?php echo $value->id_sucursal ?>">
+                                                                    <label><?php echo $value->nombre_sucursal; ?></label>
+                                                                    <br>
+                                                                <?php
+                                                            }
                                                         }
                                                     }
 

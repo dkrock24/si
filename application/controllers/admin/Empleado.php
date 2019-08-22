@@ -98,6 +98,7 @@ class Empleado extends CI_Controller {
 		$data['contador_tabla'] = $contador_tabla;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['registros'] = $this->Empleado_model->getAllEmpleados( $config["per_page"], $page );
+		$data['title'] = "Empleados";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -111,7 +112,7 @@ class Empleado extends CI_Controller {
 		$data['cargos']	= $this->Cargos_model->get_cargos();
 		$data['empresa']	= $this->Empresa_model->getEmpresas();
 		$data['sucursal_lista']	= $this->Empresa_model->getEmpresasWithSucursal2(1);
-		
+		$data['title'] = "Crear Empleado";
 		$data['home'] = 'admin/empleado/e_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -137,9 +138,11 @@ class Empleado extends CI_Controller {
 		$data['cargos']	= $this->Cargos_model->get_cargos();
 		$data['empresa']	= $this->Empresa_model->getEmpresas();
 		$data['sucursal']	= $this->Empresa_model->getEmpresasWithSucursal( $empleado_id);
-		
-		foreach ($data['sucursal'] as $value) {
-			$sucursales[] = $value->id_sucursal;
+		$data['title'] = "Editar Empleado";
+		if($data['sucursal']){
+			foreach ($data['sucursal'] as $value) {
+				$sucursales[] = $value->id_sucursal;
+			}
 		}
 
 		$data['sucursal_lista']	= $this->Empresa_model->getEmpresasWithSucursal2($sucursales);

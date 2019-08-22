@@ -29,7 +29,7 @@ class Roles_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::roles);   
-        $this->db->where(self::roles.'.Empresa', $this->session->empresa[0]->Empresa_Suc);       
+        $this->db->where(self::roles.'.Empresa', $this->session->empresa[0]->id_empresa);       
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -39,7 +39,7 @@ class Roles_model extends CI_Model {
     }
 
     function record_count(){
-        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
         $this->db->from(self::roles);
         $result = $this->db->count_all_results();
         return $result;
@@ -50,7 +50,7 @@ class Roles_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::roles);   
         $this->db->where('id_rol', $id_role );   
-        $this->db->where(self::roles.'.Empresa', $this->session->empresa[0]->Empresa_Suc);   
+        $this->db->where(self::roles.'.Empresa', $this->session->empresa[0]->id_empresa);   
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -77,7 +77,7 @@ class Roles_model extends CI_Model {
            'role' => $nuevo_rol['role'],
             'pagina' => $nuevo_rol['pagina'],
             'fecha_actualizacion' => date('Y-m-d'),
-            'Empresa'=> $this->session->empresa[0]->Empresa_Suc,
+            'Empresa'=> $this->session->empresa[0]->id_empresa,
             'estado_rol' => $nuevo_rol['estado_rol'],
         );
 

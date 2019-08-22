@@ -33,7 +33,6 @@
                         '<td>'+contador+'</td>'+
                         '<td>'+item.nam_atributo+'</td>'+
                         '<td>'+item.tipo_atributo+'</td>'+
-                        '<td>'+item.descripcion_atributo+'</td>'+
                         '<td>'+item.estado_atributo+'</td>'+
                         '<td><div class="checkbox c-checkbox">'+
                                  '<label>'+
@@ -297,17 +296,17 @@
                     <table id="datatable1" class="table table-striped table-hover">
                         <thead class="">
                             <tr>
-                              <th>
+                              <th width="5%">
                                 <form method="post" id="pagina_x" name="data">
-                        <select class="form-control" id="total_pagina" name="total_pagina">
-                            <option class="0">-</option>
-                            <option class="10">10</option>
-                            <option class="15">15</option>
-                            <option class="20">20</option>
-                            <option class="50">50</option>
-                            <option class="100">100</option>
-                        </select>
-                        </form>
+                                    <select class="form-control" id="total_pagina" name="total_pagina">
+                                        <option class="0">-</option>
+                                        <option class="10">10</option>
+                                        <option class="15">15</option>
+                                        <option class="20">20</option>
+                                        <option class="50">50</option>
+                                        <option class="100">100</option>
+                                    </select>
+                                </form>
                               </th>
                               <?php
                               foreach ($column as $key => $combo) {
@@ -366,11 +365,11 @@
                                                 <?php 
                                                     if($table->$estado == 1){
                                                         ?>
-                                                        <span class="label label-success">Activo</span>
+                                                        <span class="label label-success" style="background: #39b2d6">Activo</span>
                                                         <?php
                                                     }else{
                                                         ?>
-                                                        <span class="label label-warning">Inactivo</span>
+                                                        <span class="label label-warning" style="background: #d26464">Inactivo</span>
                                                         <?php
                                                     }
                                                 ?>
@@ -385,7 +384,7 @@
                                 <td>
                                                                   
                                     <div class="btn-group mb-sm">
-                                        <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs">Opcion
+                                        <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs" style="background: #dde6e9; color:grey;">Opcion
                                                 <span class="caret"></span>
                                             </button>
                                         <ul role="menu" class="dropdown-menu">
@@ -606,7 +605,7 @@
                           <form action="guardar_giro_atributos" method="post" id="datosForm">
                             <input type="hidden" class="giro_id" name="giro" value="">
                           <div id="panelDemo7" class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background: #0f4871; color: white;">
                                 <div class="row">
                                     <div class="col-lg-3"> Atributos </div>
                                     <div class="col-lg-6">
@@ -626,7 +625,7 @@
                                            <th>ID</th>
                                            <th>Atributo</th>
                                            <th>Tipo</th>                           
-                                           <th>Descripcion</th>
+                                           
                                            <th>Estado</th>
                                            <th data-check-all>
                                               <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
@@ -656,7 +655,7 @@
                         <form action="eliminar_giro_atributos" method="post" id="datosForm2">
                             <div id="panelDemo9" class="panel panel-success">
                               <input type="hidden" class="giro_id" name="giro" value="">
-                                 <div class="panel-heading">
+                                 <div class="panel-heading" style="background: #0f4871; color: white;">
                                   <div class="row">
                                     <div class="col-lg-4"> Giro Atributos </div>
                                     <div class="col-lg-5">

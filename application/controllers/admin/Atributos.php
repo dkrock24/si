@@ -86,6 +86,7 @@ class Atributos extends CI_Controller {
 		$data['registros'] = $this->Atributos_model->get_atributos(  $config["per_page"], $page );
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
+		$data['title'] = "Atributos";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -95,7 +96,8 @@ class Atributos extends CI_Controller {
 		// GET PAIS
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;		
+		$data['menu'] = $this->session->menu;	
+		$data['title'] = "Nuevo Atributo";	
 		$data['home'] = 'admin/atributos/atributos_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -113,14 +115,32 @@ class Atributos extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;		
 		$data['atributo'] = $this->Atributos_model->get_atributo_id( $id_prod_atributo );
+		$data['title'] = "Editar Atributo";	
 		$data['home'] = 'admin/atributos/atributos_editar';
 
 		$this->parser->parse('template', $data);
 	}
 
+	public function eliminar($id){
+		$data['atributo'] = $this->Atributos_model->eliminar( $id );
+
+		if($data){
+			$this->session->set_flashdata('warning', "Atributo Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('danger', "Atributo No Fue Eliminado");
+		}	
+		redirect(base_url()."admin/atributos/index");
+	}
+
 	public function actualizar(){
 		// Insert pais
-		$this->Atributos_model->actualizar_atributo( $_POST );
+		$data['atributos'] = $this->Atributos_model->actualizar_atributo( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('success', "Atributo Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Atributo No Fue Actualizado");
+		}
 
 		redirect(base_url()."admin/atributos/index");
 	}

@@ -38,7 +38,7 @@ class Correlativo_model extends CI_Model {
         $this->db->from(self::correlativos.' as c');
         $this->db->join(self::sucursal.' as s',' on c.Sucursal = s.id_sucursal');   
         $this->db->join(self::documento.' as d',' on c.TipoDocumento = d.id_tipo_documento');  
-        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -51,7 +51,7 @@ class Correlativo_model extends CI_Model {
 
     function record_count(){
         return $this->db->count_all(self::correlativos);
-        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->id_empresa);
         $this->db->from(self::correlativos.' as c');
         $this->db->join(self::sucursal.' as s',' on c.Sucursal = s.id_sucursal');
         $result = $this->db->count_all_results();
@@ -80,7 +80,7 @@ class Correlativo_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::correlativos.' as c');
         $this->db->join(self::sucursal.' as s',' on c.Sucursal = s.id_sucursal');   
-        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
         $this->db->where('c.id_correlativos', $correlativos_id );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];

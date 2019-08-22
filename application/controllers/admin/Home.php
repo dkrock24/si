@@ -58,10 +58,13 @@ class Home extends CI_Controller {
 		// Obtener toda la informacion de la empresa en session.
 		$empresa_id = $this->Usuario_model->permiso_empresa( $empleado_id );
 
+
 		$empresa_session = $this->session->empresa_id[0];
+				
 		if(isset($empresa_id)){
 			if(isset($empresa_session)){
-				$_SESSION['empresa'] = $this->Usuario_model->permiso_empresa( $empresa_session );
+				//$_SESSION['empresa'] = $this->Usuario_model->permiso_empresa( $empresa_session );
+				$_SESSION['empresa'] = $this->Empresa_model->get_empresa_by_id( $empresa_session );		
 			}else{
 				$_SESSION['empresa'] = $this->Empresa_model->get_empresa_by_id( $empresa_id[0]->id_empresa );				
 			}
@@ -71,7 +74,6 @@ class Home extends CI_Controller {
 			header("location: info");
 		}
 		//echo $_SESSION['empresa'][0]->Empresa_Suc;
-		
 
 		$data['home'] = 'home';
 		$data['menu'] = $this->session->menu;		

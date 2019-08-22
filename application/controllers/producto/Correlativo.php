@@ -82,6 +82,7 @@ class Correlativo extends CI_Controller {
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['title'] = "Correlativos";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -101,6 +102,7 @@ class Correlativo extends CI_Controller {
 		$data['sucursal'] = $this->Sucursal_model->getSucursal();
 		$data['documento'] = $this->Documento_model->getAllDocumento();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['title'] = "Nuevo Correlativo";
 		$data['home'] = 'producto/correlativo/c_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -133,6 +135,7 @@ class Correlativo extends CI_Controller {
 		$data['sucursal'] = $this->Sucursal_model->getSucursal();
 		$data['documento'] = $this->Documento_model->getAllDocumento();
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['title'] = "Editar Correlativo";
 		$data['home'] = 'producto/correlativo/c_editar';
 
 		$this->general->editar_valido($data['correlativo'], "producto/correlativo/index");

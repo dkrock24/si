@@ -37,7 +37,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Encargado</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="encargado" name="encargado" value="<?php echo $sucursal[0]->encargado ?>">
+                                                <input type="text" class="form-control" id="encargado" name="encargado" value="<?php echo $sucursal[0]->encargado_sucursal ?>">
                                                 
                                             </div>
                                         </div>

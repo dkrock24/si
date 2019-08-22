@@ -10,7 +10,7 @@ class Marca_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::marca);  
-        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
         $this->db->limit($limit, $id);          
         $query = $this->db->get();    
                 
@@ -24,7 +24,7 @@ class Marca_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::marca);   
-        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc);      
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);      
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -35,7 +35,7 @@ class Marca_model extends CI_Model {
 
     function record_count(){
         
-        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
         $this->db->from(self::marca);
         $result = $this->db->count_all_results();
         return $result;
@@ -46,7 +46,7 @@ class Marca_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::marca);   
         $this->db->where('id_marca', $marca_id ); 
-        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc);      
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);      
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -163,7 +163,7 @@ class Marca_model extends CI_Model {
             'nombre_marca' => $marca['nombre_marca'],
             'descripcion_marca' => $marca['descripcion_marca'],
             'fecha_creado_marca' => date("Y-m-d h:i:s"),          
-            'Empresa'=> $this->session->empresa[0]->Empresa_Suc,
+            'Empresa'=> $this->session->empresa[0]->id_empresa,
             'estado_marca' => $marca['estado'],
         );
 

@@ -15,7 +15,7 @@ class Usuario_model extends CI_Model {
         $this->db->join(self::sys_role.' as r', 'u.id_rol = r.id_rol');
         $this->db->join(self::empleado.' as e', 'e.id_empleado = u.Empleado');
         $this->db->join(self::sucursal.' as s', 's.id_sucursal = e.Sucursal');
-        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         
@@ -27,7 +27,7 @@ class Usuario_model extends CI_Model {
 
     function record_count(){
         return $this->db->count_all(self::sys_usuario);
-        $this->db->where('r.Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('r.Empresa',$this->session->empresa[0]->id_empresa);
         $this->db->from(self::sys_usuario.' as u');
         $this->db->join(self::sys_role.' as r',' on r.id_rol = s.id_rol');
         $result = $this->db->count_all_results();
@@ -87,7 +87,7 @@ class Usuario_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::sys_role.' as ur');  
         $this->db->join(self::usuario_roles.' as r', ' ON r.usuario_rol_role = ur.id_rol', 'left'); 
-        $this->db->where('ur.Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('ur.Empresa',$this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
         //echo $this->->queries[0];
 
@@ -99,6 +99,8 @@ class Usuario_model extends CI_Model {
 
     function permiso_empresa( $empleado_id ){
 
+       //var_dump($empleado_id);
+
         $this->db->select('*');
         $this->db->from(self::empleado_sucursal.' as es');  
         $this->db->join(self::sucursal.' as s',' on s.id_sucursal = es.es_sucursal');
@@ -107,6 +109,7 @@ class Usuario_model extends CI_Model {
         $this->db->group_by('e.id_empresa');
         $query = $this->db->get(); 
         //echo $this->db->queries[2];
+
 
         if($query->num_rows() > 0 )
         {

@@ -39,7 +39,7 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 and P.Empresa = '".$this->session->empresa[0]->Empresa_Suc."'  
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 and P.Empresa = '".$this->session->empresa[0]->id_empresa."'  
 				group by P.id_entidad Limit ".$id.','.$limit );
 
 		        //echo $this->db->queries[1];
@@ -60,7 +60,7 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 and P.producto_estado=1 and P.Empresa=".$this->session->empresa[0]->Empresa_Suc." 
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 and P.producto_estado=1 and P.Empresa=".$this->session->empresa[0]->id_empresa." 
 				group by P.id_entidad");
 
 		        //echo $this->db->queries[1];
@@ -69,7 +69,7 @@ class Producto_model extends CI_Model {
 		}
 
 		function record_count(){
-			$this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+			$this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
 			$this->db->from(self::producto);
 			$result = $this->db->count_all_results();
         	return $result;
@@ -294,7 +294,7 @@ class Producto_model extends CI_Model {
 	        $this->db->from(self::categoria);
 	        $this->db->where('id_categoria_padre IS NULL' );
 	        $this->db->where('categoria_estado = 1');
-	        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc);
+	        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];
 	        
@@ -361,7 +361,7 @@ class Producto_model extends CI_Model {
 		function get_proveedor( ){
 			$this->db->select('*');
 	        $this->db->from(self::proveedor);
-	        $this->db->where('Empresa_id', $this->session->empresa[0]->Empresa_Suc);
+	        $this->db->where('Empresa_id', $this->session->empresa[0]->id_empresa);
 	        $this->db->where('estado = 1');
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[0];
@@ -618,7 +618,7 @@ class Producto_model extends CI_Model {
 	        $this->db->from(self::correlativos.' as c');
         	$this->db->join(self::sucursal.' as s', 'on c.Sucursal = s.id_sucursal');
 	        $this->db->where('estado = 1');
-	        $this->db->where('Empresa_Suc', $this->session->empresa[0]->Empresa_Suc );
+	        $this->db->where('Empresa_Suc', $this->session->empresa[0]->id_empresa );
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];
 	        
@@ -756,7 +756,7 @@ class Producto_model extends CI_Model {
 	        $this->db->from(self::producto);	        
 	        $this->db->where('producto_estado', 1 );
 	        $this->db->where('combo', $param['combo'] );
-	        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc );
+	        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
 	        $this->db->order_by('name_entidad', 'asc');
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];

@@ -14,7 +14,7 @@ class Persona_model extends CI_Model {
         $this->db->from(self::sys_persona.' as p');
         $this->db->join(self::sys_ciudad.' as c', 'on p.Ciudad = c.id_ciudad');
         $this->db->join(self::sys_sexo.' as s', 'on p.Sexo = s.id_sexo');
-        $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         $this->db->limit($limit, $id);
         $query = $this->db->get();
         //echo $this->db->queries[1];
@@ -31,7 +31,7 @@ class Persona_model extends CI_Model {
         $this->db->from(self::sys_persona.' as p');
         $this->db->join(self::sys_ciudad.' as c', 'on p.Ciudad = c.id_ciudad');
         $this->db->join(self::sys_sexo.' as s', 'on p.Sexo = s.id_sexo');
-        $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get();
         //echo $this->db->queries[1];
         
@@ -42,7 +42,7 @@ class Persona_model extends CI_Model {
     }
 
     function record_count(){
-        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
         $this->db->from(self::sys_persona);
         $result = $this->db->count_all_results();
         return $result;
@@ -85,7 +85,7 @@ class Persona_model extends CI_Model {
             'comentarios'               => $datos['comentarios'],
             'persona_estado'            => $datos['persona_estado'],
             'Ciudad'                    => $datos['ciudad'],
-            'Empresa'                   => $this->session->empresa[0]->Empresa_Suc
+            'Empresa'                   => $this->session->empresa[0]->id_empresa
         );
         
         $result = $this->db->insert(self::sys_persona, $data);  
@@ -111,7 +111,6 @@ class Persona_model extends CI_Model {
             'Sexo'                      => $datos['Sexo'],
             'Ciudad'                    => $datos['Ciudad'],
             'comentarios'               => $datos['comentarios'],
-            'Ciudad'                    => $datos['ciudad'],
             'persona_estado'            => $datos['persona_estado']
         );
         $this->db->where('id_persona', $datos['id_persona']);

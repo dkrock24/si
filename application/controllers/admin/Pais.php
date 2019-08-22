@@ -103,6 +103,7 @@ class Pais extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['moneda'] = $this->Pais_model->get_moneda();
+		$data['title'] = "Nuevo Pais";	
 		$data['home'] = 'admin/pais/pais_nuevo';
 
 		$this->parser->parse('template', $data);

@@ -98,6 +98,7 @@ class Template extends CI_Controller {
 		$data['contador_tabla'] = $contador_tabla;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['registros'] = $this->Template_model->getAllTemplate( $config["per_page"], $page );
+		$data['title'] = "Templates";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -107,7 +108,8 @@ class Template extends CI_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;		
+		$data['menu'] = $this->session->menu;
+		$data['title'] = "Nuevo Template";
 		$data['home'] = 'admin/template/template_nuevo';
 
 		$this->parser->parse('template', $data);
@@ -169,13 +171,9 @@ class Template extends CI_Controller {
 	public function editar( $formato_id ){
 		
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
 		$data['menu'] = $this->session->menu;		
-		
 		$data['formato'] = $this->Template_model->getFormatoId($formato_id);
-
-
-
+		$data['title'] = "Editar Template";
 		$data['home'] = 'admin/template/template_editar';
 
 		$this->parser->parse('template', $data);

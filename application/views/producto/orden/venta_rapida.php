@@ -996,7 +996,7 @@ $(document).ready(function(){
 
         /* ------------Impuestos Especial Dibujados  -----------*/
         
-        if(_impuestos_orden_condicion.length !=0){
+        if(_impuestos_orden_condicion.length !=0 || _impuestos_orden_excluyentes!=0){
             
             var impuestos_nombre = "";
             var impuestos_valor = "";
@@ -1383,6 +1383,24 @@ $(document).ready(function(){
    
 
 <style type="text/css">
+
+    body{
+        background: #e9ebee;
+    }
+    .paper_cut{
+        
+        margin-top: 0px;
+        
+        content: " ";
+        display: block;
+        position: relative;
+        top: 0px;
+        left: 0px;
+        height: 36px;
+        background: -webkit-linear-gradient(#FFFFFF 0%, transparent 0%), -webkit-linear-gradient(135deg, #e9ebee 33.33%, transparent 33.33%) 0 0%, #e9ebee -webkit-linear-gradient(45deg, #e9ebee 33.33%, #FFFFFF 33.33%) 0 0%;
+        background-repeat: repeat-x;
+        background-size: 0px 100%, 14px 27px, 14px 27px;
+    }
 	
 	.border-left {
 		border-left: 1px solid grey;
@@ -1628,8 +1646,10 @@ $(document).ready(function(){
                               <tbody class="producto_agregados" style="border-top:  0px solid black; background: white;" >
 
                               </tbody>
-
+                            
                            </table>
+                           <div class="col-lg-12 col-md-12 paper_cut">
+                            </div>
                         </div>
                     <!-- END table-responsive-->
                      
@@ -1685,7 +1705,9 @@ $(document).ready(function(){
                             </tr>
                         </table>
                     </div>
-                </div>
+                    <div class="col-lg-12 col-md-12 paper_cut">
+                    </div>
+                </div><br>
 
                 <div class="row">
                 
@@ -1847,23 +1869,18 @@ $(document).ready(function(){
 
                 <div class="row">
                     <div class="col-lg-12 col-md-12" style="width: 100%; background: white;">
-                        
-                        
-
-                        
-                              <div class="panel b m0">
-                               
-                                 <div class="panel-body">
-                                    <p>
-                                       <a href="#">
-                                          <span class="producto_imagen"></span>
-                                       </a>
-                                    </p>
-                                    
-                                 </div>
-                              </div>
-                           
-
+                        Imagen
+                      <div class="panel b m0">
+                       
+                         <div class="panel-body">
+                            <p>
+                               <a href="#">
+                                  <span class="producto_imagen"></span>
+                               </a>
+                            </p>
+                            
+                         </div>
+                      </div>
                     </div>
                 </div>
                 

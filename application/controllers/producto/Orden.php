@@ -82,6 +82,7 @@ class Orden extends CI_Controller {
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['fields'] = $this->fields();
 		$data['column'] = $this->column();
+		$data['title'] = "Ordenes";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -197,7 +198,7 @@ class Orden extends CI_Controller {
 			$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal();
 			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
-
+			$data['title'] = "Editar Orden";
 			$data['cliente'] = $this->get_clientes_id($data['orden'][0]->id_cliente);
 
 			$data['temp'] = $this->Template_model->printer( $order_id , $data['orden'][0]->id_sucursal , $data['orden'][0]->id_tipod);

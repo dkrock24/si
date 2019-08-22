@@ -51,7 +51,7 @@ class Template_model extends CI_Model {
         $this->db->join(self::tipos_documentos,' on '.self::cliente.'.TipoDocumento='.self::tipos_documentos.'.id_tipo_documento');
         $this->db->join(self::formas_pago,' on '.self::cliente.'.TipoPago='.self::formas_pago.'.id_modo_pago');
         $this->db->join(self::sys_persona.' as p', ' on p.id_persona = Persona');
-        $this->db->where('p.Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         //$this->db->where('estado = 1');
         $this->db->where('id_cliente = '.$cliente_id);
         $query = $this->db->get();
@@ -68,7 +68,7 @@ class Template_model extends CI_Model {
         $this->db->join(self::pos_temp_sucursal.' as ts',' on td.id_factura=ts.Template');
         $this->db->join(self::tipos_documentos.' dt',' on dt.id_tipo_documento=ts.Documento');
         $this->db->join(self::pos_sucursal.' s',' on ts.Sucursal=s.id_sucursal','left');
-        $this->db->where('td.Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('td.Empresa', $this->session->empresa[0]->id_empresa);
         $this->db->order_by('td.id_factura','desc');       
         $this->db->limit($limit, $id);
         $query = $this->db->get();
@@ -84,7 +84,7 @@ class Template_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::pos_doc_temp.' as td');
-        $this->db->where('td.Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('td.Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -216,7 +216,7 @@ class Template_model extends CI_Model {
     function getTipoDocumento(){
         $this->db->select('*');
         $this->db->from(self::pos_tipo_documento);
-        $this->db->where('Empresa', $this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -239,7 +239,7 @@ class Template_model extends CI_Model {
     }
 
     function record_count(){
-        $this->db->where('Empresa',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
         $this->db->from(self::pos_doc_temp);
         $result = $this->db->count_all_results();
         return $result;

@@ -5,7 +5,7 @@
         
         $("#departamento").change(function(){
             $("#Ciudad").empty();
-            var html_option;
+            var html_optio="";
             var departamento = $(this).val();
 
             $.ajax({
