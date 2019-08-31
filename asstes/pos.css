@@ -1,0 +1,57 @@
+body{
+    background: #e9ebee;
+}
+
+.paper_cut{
+    
+    margin-top: 0px;
+    
+    content: " ";
+    display: block;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    height: 36px;
+    background: -webkit-linear-gradient(#FFFFFF 0%, transparent 0%), -webkit-linear-gradient(135deg, #e9ebee 33.33%, transparent 33.33%) 0 0%, #e9ebee -webkit-linear-gradient(45deg, #e9ebee 33.33%, #FFFFFF 33.33%) 0 0%;
+    background-repeat: repeat-x;
+    background-size: 0px 100%, 14px 27px, 14px 27px;
+}
+
+.border-left {
+        border-left: 1px solid grey;
+    }
+    .border-right{
+        border-right:1px solid grey;
+    }
+    .border-input{
+        border:1px solid grey;
+    }
+    .border-table-left{
+        border-left: 1px solid grey;
+    }
+    .border-table-right{
+        border-right: 1px solid grey;
+    }
+
+.dataSelect , .dataSelect2{
+        position: relative;
+        display: none;
+    }
+    .btn-pre{
+        background: #CA293E;
+        color: white;
+    }
+
+    #dataSelect, #dataSelect2{
+        position: absolute;
+        margin-left: 0px;
+        display: inline-block;
+        float: left;
+        z-index: 100;
+    }
+
+    /* Productos Tabla Seleccion */
+    * {
+        
+        font-family: 'Helvetica', Arial, Sans-Serif;
+        }

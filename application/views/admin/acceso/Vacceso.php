@@ -300,7 +300,7 @@
                                         <div class="panel panel-default">
                                            <div class="panel-heading">Actualizar Permiso : [ <?php echo $vista_componentes[0]->role; ?> ] Menu : [ <?php echo $vista_componentes[0]->nombre_menu; ?> ]</div>
                                            <!-- START table-responsive-->
-                                           <form action="accesos_menus_internos" method="post">
+                                           <form action="accesos_componenes" method="post">
                                            <div class="">
                                               <table id="table-ext-1" class="table table-bordered table-hover">
                                                  <thead>
@@ -396,8 +396,8 @@
                                                  <div class="col-lg-10"></div>
                                                  <div class="col-lg-2">                                                  
                                                        <span class=" pull-right">
-                                                        <input type="hidden" name="id_role" value="<?php echo @$accesos_menus_internos[0]->id_role; ?>">
-                                                        <input type="hidden" name="id_menu" value="<?php echo @$accesos_menus_internos[0]->id_menu; ?>">
+                                                        <input type="hidden" name="id_role" value="<?php echo $accesos_menus_internos[0]->id_role; ?>">
+                                                        <input type="hidden" name="id_menu" value="<?php echo $accesos_menus_internos[0]->id_menu; ?>">
                                                           <button class="btn btn-sm btn-info">Guardar</button>
                                                        </span>
                                                  </div>

@@ -239,6 +239,7 @@ function aplicar_imp( prod){
 					if(_impuestos_orden_especial.length==0){
 						_impuestos_orden_especial[_impuestos_orden_especial.length] = {
 							ordenImpName : item.nombre,
+							ordenSimbolo : 0,
 							ordenImpVal  : item.porcentage,
 							ordenImpTotal: (element.total_anterior * item.porcentage),
 							ordenEspecial: item.especial
@@ -250,6 +251,7 @@ function aplicar_imp( prod){
 
 							_impuestos_orden_especial[_impuestos_orden_especial.indexOf(ioe)] = {
 								ordenImpName : item.nombre,
+								ordenSimbolo : 0,
 								ordenImpVal  : item.porcentage,
 								ordenImpTotal: (element.total_anterior * item.porcentage),
 								ordenEspecial: item.especial
@@ -259,6 +261,7 @@ function aplicar_imp( prod){
 
 							_impuestos_orden_especial[_impuestos_orden_especial.length] = {
 								ordenImpName : item.nombre,
+								ordenSimbolo : 0,
 								ordenImpVal  : item.porcentage,
 								ordenImpTotal: (element.total_anterior * item.porcentage),
 								ordenEspecial: item.especial
@@ -381,7 +384,7 @@ function aplicar_imp_especial(prod){
 	var contador = 0;
 	_impuestos_orden_condicion = [];
 
-	$.each(_impuestos.cat, function(i, item) {
+	$.each(_catVal, function(i, item) {
 		
 		var yes = check_aplicable(item.nombre);		
 
@@ -393,6 +396,7 @@ function aplicar_imp_especial(prod){
 
 						_impuestos_orden_condicion[_impuestos_orden_condicion.length] = {
 							ordenImpName : item.nombre,
+							ordenSimbolo : 0,
 							ordenImpVal  : item.porcentage,
 							ordenImpTotal: (total_orden * item.porcentage),
 							ordenEspecial 	 : item.especial
@@ -405,6 +409,7 @@ function aplicar_imp_especial(prod){
 					if(eval(total_orden <= item.condicion_valor) ){
 						_impuestos_orden_condicion[_impuestos_orden_condicion.length] = {
 							ordenImpName : item.nombre,
+							ordenSimbolo : 0,
 							ordenImpVal  : item.porcentage,
 							ordenImpTotal: (total_orden * item.porcentage),
 							ordenEspecial 	 : item.especial
@@ -551,7 +556,8 @@ function separar_iva(prod){
 							ordenImpName : item.nombre,
 							ordenImpVal  : item.porcentage,
 							ordenImpTotal: (valores * item.porcentage),
-							ordenEspecial: item.excluyente
+							ordenEspecial: item.excluyente,
+							ordenSimbolo : 0
 						};
 						
 						a = _orden[_orden.indexOf(element)].total;

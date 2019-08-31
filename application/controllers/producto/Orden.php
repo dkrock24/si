@@ -242,7 +242,7 @@ class Orden extends CI_Controller {
 		// Obteniendo informacion del cliente
 		$cliente = $this->get_clientes_id($_POST['encabezado'][6]['value']);
 
-		$this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente );
+		//$this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente );
 
 		redirect(base_url()."producto/orden/nuevo");
 	}

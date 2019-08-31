@@ -237,6 +237,30 @@ class Acceso_model extends CI_Model
                
     }
 
+    // Acceso a componntes
+    public function accesos_componenes( $datos ){
+        
+        $accesos_rol = $this->get_vista_componentes( $datos['id_role'] , $datos['id_menu'] );
+
+            foreach ($accesos_rol as $ac) 
+            {
+                if( array_key_exists( $ac->id_vista_acceso, $datos ) ){
+                    $data = array('vista_acceso_estado' => 1 );
+                    
+                    $this->db->where('id_role', $datos['id_role']);
+                    $this->db->where('id_vista_componente', $ac->id_vista_componente );
+                    $this->db->update(self::sys_vistas_acceso, $data);
+
+                }else{
+                    $data = array('vista_acceso_estado' => 0 );
+                    $this->db->where('id_role', $datos['id_role']);
+                    $this->db->where('id_vista_componente', $ac->id_vista_componente );
+                    $this->db->update(self::sys_vistas_acceso, $data);
+                }
+            }
+               
+    }
+
     // Obtener Los Accesos Por Rol
     public function get_access_by_rol( $id_rol ){
         $this->db->select('*');
