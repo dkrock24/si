@@ -21,6 +21,7 @@ class Venta extends CI_Controller {
 		$this->load->model('admin/Menu_model');
 		$this->load->model('admin/Cliente_model');
 		$this->load->model('producto/Venta_model');
+		$this->load->model('admin/Documento_model');
 		
 	}
 
@@ -32,15 +33,16 @@ class Venta extends CI_Controller {
 
 		foreach ($_POST['encabezado'] as $key => $value) {
 			$form[$value['name']] = $value['value'];
-			
 		}
-		var_dump($_POST);
-		var_dump($form);
-		die;
+
+		$documento_tipo = $this->Documento_model->getDocumentoById($form['id_tipo_documento']);
 
 		$cliente = $this->get_clientes_id($form['cliente_codigo']);
 
-		$this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form );
+		var_dump($_POST);
+		die;
+
+		$this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo );
 
 		//redirect(base_url()."producto/orden/nuevo");
 	}

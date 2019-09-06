@@ -374,6 +374,11 @@ class Orden extends CI_Controller {
 		}
 	}
 
+	public function get_form_pago($id_cliente){
+		$data['metodo_pago'] = $this->ModoPago_model->get_pagos_by_cliente($id_cliente);
+		echo json_encode($data);
+	}
+
 	public function get_productos_imagen($producto_id){
 
 		if($producto_id){

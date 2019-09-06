@@ -2,6 +2,12 @@ body{
     background: #e9ebee;
 }
 
+.producto_agregados{
+    background: white;
+    height: 50px;
+    overflow-y: scroll;
+}
+
 .paper_cut{
     
     margin-top: 0px;

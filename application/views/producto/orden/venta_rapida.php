@@ -233,7 +233,7 @@
                                     
                                  </tr>
                               </tbody>
-                              <tbody class="producto_agregados" style="border-top:  0px solid black; background: white;" >
+                              <tbody class="producto_agregados" style="border-top:  0px solid black; height: 50px; background: white; overflow: scroll;" >
 
                               </tbody>
                             
@@ -605,8 +605,8 @@
 <!-- Modal Small-->
 
 <!-- Modal Large PRODUCTOS MODAL-->
-   <div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta"  class="modal fade">
-      <div class="modal-dialog modal-lg">
+   <div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta"  class="modal flip">
+      <div class="modal-dialog modal-lg" style="width: 80%;">
          <div class="modal-content">
             <div class="modal-header" style="background: #dde6e9">
                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
@@ -617,8 +617,30 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4" style="border-right: 1px solid #e5e5e5; height: 50%;">
+                    <div class="col-lg-6 col-md-6" style="border-right: 1px solid #e5e5e5; height: 50%;">
+                        <!--
                         <div class="row">
+                            <div class="col-lg-5 col-md-5">
+                                <a href="#" class="btn btn-default addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
+                            </div>
+                            <div class="col-lg-7 col-md-7">
+                                <select class="form-control">
+                                    <option value="0">-</option>
+                                    <?php
+                                    foreach ($modo_pago as $mp) {
+                                        ?>
+                                        <option value="<?php echo $mp->id_modo_pago; ?>"><?php echo $mp->nombre_modo_pago; ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    -->
+                        <hr>
+                        <div class="row" id="metodos_pagos">
+                            
+                            <br>
                             <?php
                                 $a = 1;
                                 $count = count($modo_pago);
@@ -637,7 +659,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-8 col-md-8">
+                    <div class="col-lg-6 col-md-6">
                         <div class="row">
                             <div class="col-lg-4 col-md-4" style="color: white; background: #0f4871">
                                 
@@ -675,6 +697,5 @@
       </div>
    </div>
 <!-- Modal Small-->
-
 
 <?php $this->load->view('scripts_files.php'); ?>

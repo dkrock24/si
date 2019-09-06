@@ -126,7 +126,11 @@ $(document).ready(function(){
                 $.each(datos['producto'], function(i, item) { 
 
                     existencias_total+= parseInt(item.Cantidad);
-                    html +='<tr>';
+                    if($('#sucursal_id2').val() == item.id_sucursal){
+                        html +='<tr style="background:#2D3B48;color:white;">';
+                    }else{
+                        html +='<tr>';
+                    }                    
                     html +='<td>'+contador+'</td>';
                     html +='<td>'+item.nombre_sucursal+'</td>';
                     html +='<td>'+item.nombre_bodega+'</td>';
@@ -1254,9 +1258,48 @@ $(document).ready(function(){
         $("#compra_venta").text(total_msg.toFixed(2));
         $("#restante_venta").text(total_msg.toFixed(2));
 
-        
-
     }
+
+    $(document).on('click','.guardar', function(){
+        // Recargar Los Tipos de Pago Por Cliente
+        var cli_form_pago = $("#cliente_codigo").val();
+
+        $.ajax({
+            url: "get_form_pago/"+ cli_form_pago,
+            datatype: 'json',      
+            cache : false,                
+
+            success: function(data){
+
+                var datos = JSON.parse(data);
+                var metodo_pago = datos["metodo_pago"];
+
+                var _html="";
+                var cou = 1;
+
+                $.each(metodo_pago, function(i, item) { 
+                    _html += '<div class="col-lg-3 col-md-3">'+item.nombre_modo_pago+'</div>';
+
+                    _html += '<div class="col-lg-9 col-md-9">'+
+                    '<input type="text" count='+metodo_pago.length+' size="9px" name="pagoInput'+cou+'" ids='+item.id_modo_pago+' id='+item.nombre_modo_pago+' class="metodo_pago_input">';
+                    
+                    //if(item.valor_modo_pago == 1){
+                        _html += '<input type="text" count='+metodo_pago.length+'  size="14px" name="val'+cou+'" placeholder="#" class="metodo_pago_input" />';
+                        _html += '<input type="text" count='+metodo_pago.length+' size="14px" name="ban'+cou+'" placeholder="Banco" class="metodo_pago_input" />';
+                        _html += '<input type="text" count='+metodo_pago.length+' size="14px" name="ser'+cou+'" placeholder="Serie" class="metodo_pago_input" />';
+                    //}
+                    
+                    _html += '</div><br><br>';
+                    
+                    cou++;
+                });
+
+                $("#metodos_pagos").html(_html);
+            },
+            error:function(){
+            }
+        });
+    });
     
     $(document).on('change','.metodo_pago_input',function(){
 
@@ -1272,15 +1315,26 @@ $(document).ready(function(){
         pagos_array = [];
         while(count <= leng){
             
-            types = $(":input[name=pagoInput"+count+"]").attr('id');
-            value = $(":input[name=pagoInput"+count+"]").val();
+            types   = $(":input[name=pagoInput"+count+"]").attr('id');
+            value   = $(":input[name=pagoInput"+count+"]").val();
+            ids     = $(":input[name=pagoInput"+count+"]").attr('ids');
+
+            val     = $(":input[name=val"+count+"]").val();
+            ban     = $(":input[name=ban"+count+"]").val();
+            ser     = $(":input[name=ser"+count+"]").val();
 
             pagos_array[pagos_array.length] = {
-                type : types,
-                amount : value
+                id      : ids,
+                type    : types,
+                amount  : value,
+                valor   : val,
+                banco   : ban,
+                serie   : ser
             }
+
             count++;
         }
+        console.log(pagos_array);
         $("#cambio_venta").text(0.00);   
         $("#restante_venta").text(0.00);   
         $('#procesar_btn').hide();
@@ -1504,7 +1558,7 @@ $(document).ready(function(){
 
                 success: function(data){
 
-                    location.reload();
+                    //location.reload();
                 },
                 error:function(){
                 } 

@@ -25,6 +25,7 @@ class Venta_model extends CI_Model {
 		const producto_bodega = 'pos_producto_bodega';
 		const pos_ordenes = 'pos_ordenes';
 		const pos_ventas = 'pos_ventas';
+		const pos_venta_pagos = 'pos_venta_pagos';
 		const pos_correlativos = 'pos_correlativos';
 		const sys_empleado = 'sys_empleado';
 		const pos_ordenes_detalle = 'pos_orden_detalle';
@@ -206,8 +207,8 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 			1 - guardar_venta
 		*/
 
-		function guardar_venta( $orden , $id_usuario , $cliente , $form ){
-			
+		function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento ){
+
 			$order_estado = $orden['estado'];
 
 			$total_orden = $orden['orden'][0]['total'];
@@ -268,13 +269,24 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 	            
         	);
 
+			/* GUARDAR ENCABEZADO DE LA VENTA */
         	$this->db->insert(self::pos_ventas, $data ); 
 			$id_orden = $this->db->insert_id();
 
+			/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
 			$this->guardar_venta_detalle( $id_orden , $orden );	
+			
+			/* GUARDAR FORMATOS DE PAGO */
+			$this->save_forma_pago($id_orden , $orden['pagos']);
+
+			/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
 			$this->save_venta_impuestos( $id_orden , $orden , 2);	
+
+			/* INCREMENTO CORRELATIVOS AUTOMATICOS */
 			$this->incremento_correlativo($siguiente_correlativo);
-			$this->descontar_de_bodega($orden);	
+
+			/* PROCESAR EFECTOS DE INVENTARIO SOBRE TIPO DOCUMENTO EN BODEGA */
+			$this->efecto_bodega($id_orden , $orden ,$documento);
 
 		}
 
@@ -305,6 +317,25 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 					}
 				}	
 			}		
+		}
+
+		function save_forma_pago($id_venta , $formas_pago ){
+
+			foreach ($formas_pago as $key => $value) {
+						
+				$data = array(
+					'venta_pagos' => $id_venta, 
+					'id_forma_pago' => $value['id'],
+					'nombre_metodo_pago' => $value['type'],
+					'valor_metodo_pago' => $value['amount'],
+					'banco_metodo_pago' => $value['banco'],
+					'numero_metodo_pago' => $value['valor'],
+					'series_metodo_pago' => $value['serie'],
+					'estado_venta_pago' => 1
+				);
+
+				$this->db->insert(self::pos_venta_pagos, $data ); 
+			}
 		}
 
 		function guardar_venta_detalle( $id_orden , $datos ){
@@ -358,14 +389,18 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 			}
 		}
 
-		function descontar_de_bodega( $orden ){
+		function efecto_bodega($id_orden , $orden , $documento){
 
 			$cantidad = 0;
 			foreach ($orden['orden'] as $key => $productos) {
 
 				$cantidad = $this->get_cantidad_bodega($productos['producto_id'], $productos['id_bodega']);
 				
-				$cantidad_nueva = ($cantidad[0]->Cantidad - $productos['cantidad']);
+				if($documento[0]->efecto_inventario ==1){
+					$cantidad_nueva = ($cantidad[0]->Cantidad + $productos['cantidad']);
+				}else if($documento[0]->efecto_inventario ==2){
+					$cantidad_nueva = ($cantidad[0]->Cantidad - $productos['cantidad']);
+				}
 				
 				$data = array(
 					'Cantidad'	=>  $cantidad_nueva
@@ -374,7 +409,6 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 				$this->db->where('Producto', $productos['producto_id'] );
 				$this->db->where('Bodega', $productos['id_bodega'] );
 				$this->db->update(self::producto_bodega, $data ); 
-
 			}
 		}
 
@@ -708,8 +742,6 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
                 'creado_producto_img' => date("Y-m-d h:i:s")
             );
             $this->db->insert(self::producto_img, $data ); 
-            
-
 		}
 
 		function get_categorias(){
