@@ -1071,7 +1071,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 
 			$this->db->select('*');
 	        $this->db->from(self::sys_conf.' as c');
-	        $this->db->where('c.modulo_conf', 2 ); // 1 = ordenes modulo
+	        $this->db->where('c.modulo_conf', 1 ); // 1 = ordenes modulo
 	        $this->db->where('c.componente_conf', $impuesto_conf ); // 1 = ordenes modulo
 	        $query = $this->db->get();
 	        

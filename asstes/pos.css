@@ -3,11 +3,27 @@ body{
 }
 
 .producto_agregados{
-    background: white;
-    height: 50px;
-    overflow-y: scroll;
+    max-height: 25%;
+    overflow: scroll;
+    scroll-behavior: smooth;
 }
 
+.lista_productos{
+    max-height: 50%;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.total_msg{
+    font-family: monospace;
+}
+.formas_pagos_valores > tr{
+    color: black;
+}
+.metodo_pago_input{
+    border-radius: 3px; 
+    color: black;
+}
 .paper_cut{
     
     margin-top: 0px;

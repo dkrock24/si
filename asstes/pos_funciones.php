@@ -1,8 +1,6 @@
 <script>
 $(document).ready(function(){
 
-
-
     $('#existencias').appendTo("body");
     $('#procesar_venta').appendTo("body");
     $('#cliente_modal').appendTo("body");
@@ -216,9 +214,6 @@ $(document).ready(function(){
         }
     }
 
-
-
-
     $(document).on('keydown', '.producto_buscar', function(){
          if ( event.keyCode == 40 ) {
             $('.dataSelect').focus();
@@ -262,7 +257,7 @@ $(document).ready(function(){
 
             success: function(data){
                 var datos = JSON.parse(data);
-                //console.log("X -> ",datos['producto']);
+                console.log("X -> ",datos['impuesto']);
 
                 var precio_unidad = datos['producto'][8].valor;
                 producto_escala = datos['producto'][0].Escala;
@@ -403,28 +398,157 @@ $(document).ready(function(){
         }
     });
 
-    document.onkeydown = function(e) {
-    switch (e.keyCode) {
-        case 37:
-            //alert('left');
-            $(".producto_buscar").focus();
-            break;
-        case 38:
-            //alert('up');
-            break;
-        case 39:
-            //alert('right');
-            $("#cantidad").focus();
-            break;
-        case 40:
-            //alert('down');
-            break;
-    }
-};
+    /* CONTROL DE ACCESOS DIRECTOS */
 
-    // Accesos Directos
+
+    jQuery(document).ready(function(){
+
+        var currCell = $('.producto_agregados > tr').first();
+        var editing = false;
+        var id_celda = 0;
+
+        $(document).on("click","tr",function(){
+           $('tr').css('background','none');
+           $('tr').css('color','black');
+
+           id_celda = $(this).attr('name');
+
+           $(this).css('background','#0f4871');
+           $(this).css('color','#fff');
+        
+            currCell = $(this);
+            currCell.focus();
+            var producto_imagen_id = $(this).attr('id');
+            //imagen(producto_imagen_id);
+        });
+
+        function imagen(producto_imagen_id){
+            getImagen(producto_imagen_id);
+        }
+
+        document.onkeydown = function(e) {
+
+            console.log(e.keyCode);
+
+            switch (e.keyCode) {
+                case 37:
+                    //alert('left');
+                    $(".producto_buscar").focus();
+                    break;
+                case 38:
+                    //alert('up');
+                    break;
+                case 39:
+                    //alert('right');
+                    $("#cantidad").focus();
+                    break;
+                case 40:
+                    //alert('down');
+                    break;
+                case 91:
+                    // F1
+                    $("#documentoModel").modal();
+                case 113:
+                    // F2
+                    producto_tabla_foco();
+                    break;
+                case 114:
+                    //F3
+                    eliminar_elemento_tabla(id_celda);
+                    break;
+                case 115:
+                    //F4
+                    f4_guardar();
+                    break;
+            }
+
+
+            var c = "";
+            if (e.keyCode == 39) {
+                // Right Arrow
+                c = currCell.next();
+            } else if (e.keyCode == 37) { 
+                // Left Arrow
+                c = currCell.prev();
+            } else if (e.keyCode == 38) { 
+                // Up Arrow
+                c = currCell.closest('tr').prev().find('td:eq(' + 
+                  currCell.index() + ')');
+
+                $('tr').css('background','none');
+                $('tr').css('color','black');
+
+                if($(currCell.closest('tr')).attr('id')){
+                    imagen($(currCell.closest('tr').prev()).attr('id'));
+                }
+                
+
+            } else if (e.keyCode == 40) { 
+                // Down Arrow
+                c = currCell.closest('tr').next().find('td:eq(' + 
+                  currCell.index() + ')');
+
+                $('tr').css('background','none');
+                $('tr').css('color','black');
+
+                if($(currCell.closest('tr')).attr('id')){
+                    imagen($(currCell.closest('tr').next()).attr('id'));
+                }
+
+            } else if (!editing && (e.keyCode == 13 || e.keyCode == 32)) { 
+                // Enter or Spacebar - edit cell
+                //e.preventDefault();
+                //edit();
+            } else if (!editing && (e.keyCode == 9 && !e.shiftKey)) { 
+                // Tab
+                //e.preventDefault();
+                //c = currCell.next();
+            } else if (!editing && (e.keyCode == 9 && e.shiftKey)) { 
+                // Shift + Tab
+                e.preventDefault();
+                c = currCell.prev();
+            } 
+            
+            // If we didn't hit a boundary, update the current cell
+            if (c.length > 0) {
+                currCell.parent().css('background','none');
+                currCell.parent().css('color','#131e26');
+
+                //$('tr').css('color','#131e26');
+                currCell = c;
+                console.log(currCell.parent().index());
+                var x = currCell.parent().index();
+                currCell.focus();
+                
+                currCell.parent().css('background','#0f4871');
+                currCell.parent().css('color','#fff');
+            }
+        }
+
+        $('#edit').keydown(function (e) {
+            if (editing && e.which == 27) { 
+                 editing = false;
+                $('#edit').hide();
+                currCell.toggleClass("editing");
+                currCell.focus();
+            }
+        });
+
+        function producto_tabla_foco(){
+            
+            currCell = $('.productos_tabla').first();
+            id_celda = $(currCell).attr('name');
+            currCell.focus();
+            $(currCell).css('background','#0f4871');
+            $(currCell).css('color','#fff');
+        }
+
+    });
+
+
+    /* FIN DE ACCESOS DIRECTOS */
+
     $(document).keypress(function(e){
-        //alert(e.keyCode);
         if (e.keyCode == 43 ) { // 43(+)
 
             //var x = e.keyCode; 
@@ -1114,7 +1238,7 @@ $(document).ready(function(){
         contador_productos = _orden.length;
 
         if(_productos != null){
-            var tr_html = "<tr class='' style=''>";
+            var tr_html = "<tr class='productos_tabla' style='' name='"+_productos.id_producto_detalle+"'>";
             tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
             tr_html += "<td class='border-left'>"+_productos.producto+"</td>";
             tr_html += "<td class='border-left'>"+_productos.descripcion+"</td>";
@@ -1125,7 +1249,7 @@ $(document).ready(function(){
             tr_html += "<td class='border-left'>"+_productos.descuento_calculado+"</td>";
             tr_html += "<td class='border-left total"+_productos.producto2+"'>"+_productos.total+"</td>";
             tr_html += "<td class='border-left '>"+_productos.bodega+"</td>";
-            tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled btn-danger eliminar' name='"+_productos.id_producto_detalle+"' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
+            tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled bg-green eliminar' name='"+_productos.id_producto_detalle+"' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
             
             tr_html += "</tr>";
             
@@ -1260,10 +1384,22 @@ $(document).ready(function(){
 
     }
 
-    $(document).on('click','.guardar', function(){
+    $(document).on('click', '.guardar', function(){
         // Recargar Los Tipos de Pago Por Cliente
         var cli_form_pago = $("#cliente_codigo").val();
+        guardarX(cli_form_pago);
+        $("#procesar_venta").modal();
+        $('#procesar_btn').hide();
+    });
 
+    function f4_guardar(){
+        var cli_form_pago = $("#cliente_codigo").val();
+        guardarX(cli_form_pago);
+        $("#procesar_venta").modal();
+        $('#procesar_btn').hide();
+    }
+
+    function guardarX(cli_form_pago){
         $.ajax({
             url: "get_form_pago/"+ cli_form_pago,
             datatype: 'json',      
@@ -1277,29 +1413,34 @@ $(document).ready(function(){
                 var _html="";
                 var cou = 1;
 
-                $.each(metodo_pago, function(i, item) { 
-                    _html += '<div class="col-lg-3 col-md-3">'+item.nombre_modo_pago+'</div>';
+                _html += '<table class="table formas_pagos_valores">';
 
-                    _html += '<div class="col-lg-9 col-md-9">'+
-                    '<input type="text" count='+metodo_pago.length+' size="9px" name="pagoInput'+cou+'" ids='+item.id_modo_pago+' id='+item.nombre_modo_pago+' class="metodo_pago_input">';
+                _html += '<thead><tr><td></td><td>Monto</td><td>Numero</td><td>Banco</td><td>Serie</td></tr></thead>';
+
+                $.each(metodo_pago, function(i, item) { 
+                    _html += '<tr><td><div class="btn bg-green">'+item.nombre_modo_pago+'</div></td>';
+
+                    _html += '<td class="">'+
+                    '<input type="text" count='+metodo_pago.length+' size="9px" name="pagoInput'+cou+'" ids='+item.id_modo_pago+' id='+item.nombre_modo_pago+' class="metodo_pago_input"></td>';
                     
                     //if(item.valor_modo_pago == 1){
-                        _html += '<input type="text" count='+metodo_pago.length+'  size="14px" name="val'+cou+'" placeholder="#" class="metodo_pago_input" />';
-                        _html += '<input type="text" count='+metodo_pago.length+' size="14px" name="ban'+cou+'" placeholder="Banco" class="metodo_pago_input" />';
-                        _html += '<input type="text" count='+metodo_pago.length+' size="14px" name="ser'+cou+'" placeholder="Serie" class="metodo_pago_input" />';
+                        _html += '<td><input type="text" count='+metodo_pago.length+'  size="14px" name="val'+cou+'" placeholder="" class="metodo_pago_input" /></td>';
+                        _html += '<td><input type="text" count='+metodo_pago.length+' size="14px" name="ban'+cou+'" placeholder="" class="metodo_pago_input" /></td>';
+                        _html += '<td><input type="text" count='+metodo_pago.length+' size="14px" name="ser'+cou+'" placeholder="" class="metodo_pago_input" /></td>';
                     //}
                     
-                    _html += '</div><br><br>';
+                    _html += '</tr>';
                     
                     cou++;
                 });
+                _html += '</table>';
 
                 $("#metodos_pagos").html(_html);
             },
             error:function(){
             }
         });
-    });
+    }
     
     $(document).on('change','.metodo_pago_input',function(){
 
@@ -1361,11 +1502,6 @@ $(document).ready(function(){
 
     });
 
-    $(document).on('click', '.guardar', function(){
-        $("#procesar_venta").modal();
-        $('#procesar_btn').hide();
-    });  
-
     $(document).on('click','#procesar_btn',function(){
         procesar_venta($('.guardar').attr('id'));
     });    
@@ -1388,9 +1524,14 @@ $(document).ready(function(){
     $(document).on('click', '.eliminar', function(){
         // Remover los Productos de la lista.
 
+        var producto_id = $(this).attr('name');
+        eliminar_elemento_tabla(producto_id);
+    });
+
+    function eliminar_elemento_tabla( producto_id ){
         var x = 0;
         var _orden_temp = [];
-        var producto_id = $(this).attr('name');
+        
 
         remover_combo(producto_id);
         
@@ -1409,7 +1550,7 @@ $(document).ready(function(){
                 depurar_producto();
             }            
         });    
-    });
+    }
 
     function remover_combo(producto_id){
         var L = 1;
@@ -1437,7 +1578,7 @@ $(document).ready(function(){
             
             _orden.forEach(function(element) {
                 if(element.invisible == 0){
-                tr_html += "<tr class='' style='' id='"+element.producto_id+"'>";
+                tr_html += "<tr class='productos_tabla' style='' id='"+element.producto_id+"' name='"+element.id_producto_detalle+"'>";
                 tr_html += "<td class='border-table-left'>"+contador_tabla+"</td>";
                 tr_html += "<td class=''>"+element.producto+"</td>";
                 tr_html += "<td class=''>"+element.descripcion+"</td>";
@@ -1449,7 +1590,7 @@ $(document).ready(function(){
                 tr_html += "<td class=' total'>"+element.total+"</td>";
                 tr_html += "<td class=' '>"+element.bodega+"</td>";
                 if(element.combo == 1 || !element.id_producto_combo){
-                    tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled btn-danger eliminar' name='"+element.id_producto_detalle+"' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
+                    tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled bg-green eliminar' name='"+element.id_producto_detalle+"' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
                 }else{
                      tr_html += "<td class='border-left'> - </td>";
                 }
@@ -1690,38 +1831,6 @@ $(document).ready(function(){
         _config_impuestos();
         depurar_producto();
     });
-
-
-    /* Modal Genreico Parametrizado */
-
-    function ModalGenrico(params){
-         $('#datos_form').appendTo("body");
-        var result = false;
-        console.log(params.html);
-        swal({
-            html:true,
-            title : params.title,
-            text : params.html,
-            type : "info",
-            showCancelButton : true,
-            confirmButtonColor : "primary",
-            confirmButtonText : "Procesar",
-            cancelButtonColor : "danger",
-            cancelButtonText : "Cancelar!",
-            closeOnConfirm : false,
-            closeOnCancel : false
-        }, function (isConfirm) {
-            if (isConfirm) {
-              swal("Ok!", "Venta Procesada.", "success");
-              
-              
-              eval(params.action);
-
-            } else {
-              swal("Cancelado", "Crear Nueva Venta", "error");
-            }
-        });
-    }
 
 });
 

@@ -135,28 +135,38 @@ class Menu_model extends CI_Model {
 
     function save_menu( $data ){
 
+        $orden_menu = $this->get_last_menu();
+
         $data = array(
             'nombre_menu' => $data['nombre_menu'],
             'url_menu' => $data['url_menu'],
             'icon_menu' =>  $data['icon_menu'],
             'class_menu' => $data['class_menu'],
             'id_rol_menu' => 1,
+            'orden_menu' => $orden_menu[0]['orden_menu'],
             'estado_menu' => $data['estado_menu']
         );
         $this->db->insert(self::menu, $data );
 
         $ultimo_id = $this->db->insert_id();
 
-        $query = "select distinct role_id from sys_role";
+        $query = "select distinct id_rol from sys_role";
         $query = $this->db->query($query);  
         $data_roles = $query->result_array(); 
 
         foreach ($data_roles as $value) {
-            $a = $value['role_id'];
+            $a = $value['id_rol'];
             $inset_acceso = "insert into sys_menu_acceso (id_rol,id_menu,id_usuario,estado)
             values($a,$ultimo_id,0,0)";
             $this->db->query($inset_acceso);
         }   
+    }
+
+    function get_last_menu(){
+        $query =  "SELECT * FROM sys_menu ORDER by id_menu  DESC LIMIT 1";
+        $query = $this->db->query($query);  
+        $data = $query->result_array(); 
+        return $data;
     }
 
     function delete_menu( $menu_id ){

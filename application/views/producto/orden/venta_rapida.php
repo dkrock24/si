@@ -33,102 +33,9 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 
 <script type="text/javascript">
-
-    jQuery(document).ready(function(){
-
-        var currCell = $('tr').first();
-        var editing = false;
-
-        $(document).on("click","tr",function(){
-           $('tr').css('background','none');
-           $('tr').css('color','black');
-
-           $(this).css('background','#0f4871');
-           $(this).css('color','#fff');
-        
-            currCell = $(this);
-            currCell.focus();
-            var producto_imagen_id = $(this).attr('id');
-            imagen(producto_imagen_id);
-        });
-
-        function imagen(producto_imagen_id){
-            getImagen(producto_imagen_id);
-        }
-
-        document.onkeydown = function(e) {
-            var c = "";
-            if (e.keyCode == 39) {
-                // Right Arrow
-                c = currCell.next();
-            } else if (e.keyCode == 37) { 
-                // Left Arrow
-                c = currCell.prev();
-            } else if (e.keyCode == 38) { 
-                // Up Arrow
-                c = currCell.closest('tr').prev().find('td:eq(' + 
-                  currCell.index() + ')');
-
-                $('tr').css('background','none');
-                $('tr').css('color','black');
-
-                if($(currCell.closest('tr')).attr('id')){
-                    imagen($(currCell.closest('tr').prev()).attr('id'));
-                }
-                
-
-            } else if (e.keyCode == 40) { 
-                // Down Arrow
-                c = currCell.closest('tr').next().find('td:eq(' + 
-                  currCell.index() + ')');
-
-                $('tr').css('background','none');
-                $('tr').css('color','black');
-
-                if($(currCell.closest('tr')).attr('id')){
-                    imagen($(currCell.closest('tr').next()).attr('id'));
-                }
-
-            } else if (!editing && (e.keyCode == 13 || e.keyCode == 32)) { 
-                // Enter or Spacebar - edit cell
-                //e.preventDefault();
-                //edit();
-            } else if (!editing && (e.keyCode == 9 && !e.shiftKey)) { 
-                // Tab
-                e.preventDefault();
-                c = currCell.next();
-            } else if (!editing && (e.keyCode == 9 && e.shiftKey)) { 
-                // Shift + Tab
-                e.preventDefault();
-                c = currCell.prev();
-            } 
-            
-            // If we didn't hit a boundary, update the current cell
-            if (c.length > 0) {
-                currCell.parent().css('background','none');
-                currCell.parent().css('color','#131e26');
-
-                //$('tr').css('color','#131e26');
-                currCell = c;
-                console.log(currCell.parent().index());
-                var x = currCell.parent().index();
-                currCell.focus();
-                
-                currCell.parent().css('background','#0f4871');
-                currCell.parent().css('color','#fff');
-            }
-        }
-
-        $('#edit').keydown(function (e) {
-            if (editing && e.which == 27) { 
-                 editing = false;
-                $('#edit').hide();
-                currCell.toggleClass("editing");
-                currCell.focus();
-            }
-        });
-
-    });
+/*
+    
+    */
 </script>
 
 <!-- Main section-->
@@ -142,36 +49,36 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                   <!-- Team Panel-->
-                    <div class="panel panel-default" style="height: 70px; width: 100%; background: white;text-align: center;color: white;font-size: 30px;">
+                    <div class="panel panel-default" style="width: 100%; background: white;text-align: center;color: white;font-size: 30px;">
                         <div class="panel-heading" style="background: #2D3B48; color: white;">
                             <div class="row">
 
-                                <div class="col-lg-4">
+                                <div class="col-lg-5">
                                
                                     <div class="input-group m-b">
-                                        <span class="input-group-addon btn-pre"><i class="fa fa-search"></i></span>
+                                        <span class="input-group-addon bg-green"><i class="fa fa-search"></i></span>
                                         <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
                                     </div>
 
-                                    <select multiple="" class="form-control dataSelect" id="dataSelect">
+                                    <select multiple="" class="form-control dataSelect form-control note-editor" id="dataSelect" style="height: 200px;">
 
                                     </select>
 
-                                    <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="display: inline-block;">
+                                    <select multiple="" class="form-control dataSelect2 note-editor" id="dataSelect2" style="display: inline-block;height: 200px;">
 
                                     </select>
                                 </div>
 
-                                <div class="col-lg-8">
-                                    <button type="button" class="btn btn-pre" name="" id="grabar" value=""><span class='btn-label'><i class='icon-plus'></i></span>[ . ]</button>
+                                <div class="col-lg-7" style="text-align: left;">
+                                    <button class="btn bg-green" id="grabar" style="font-size: 25px;"><i class='fa fa-shopping-cart'></i></button>
 
-                                    <button type="button" class="btn btn-pre guardar" name="1" id="../venta/guardar_venta" value=""><span class='btn-label'><i class='fa fa-save'></i></span></button>
+                                    <span class='btn bg-green guardar' name="1" id="../venta/guardar_venta" style="font-size: 25px;" ><i class='fa fa-save'></i></span>
 
-                                    <a href="#" class="btn btn-pre" id="btn_existencias" data-toggle='modal' data-target='#existencias'><i class="icon-menu"></i> Existencias</a>                            
+                                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' data-target='#existencias' style="font-size: 25px;"><i class="fa fa-dropbox"></i></span>
                                     
                                     <div class="btn-group">
-                                       <button type="button" class="btn btn-pre">Opcion</button>
-                                       <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-pre">
+                                       <button type="button" class="btn bg-green">Opcion</button>
+                                       <button type="button" data-toggle="dropdown" class="btn dropdown-toggle bg-green">
                                           <span class="caret"></span> 
                                           <span class="sr-only">default</span>
                                        </button>
@@ -197,7 +104,7 @@
                      
                     <!-- START table-responsive-->
                         <div class="table-responsive" style="width: 100%;">
-                           <table class="table table-sm table-hover" >
+                           <table class="table table-sm table-hover">
                             
                             
                             
@@ -229,15 +136,19 @@
                                     <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;"></td>
                                     <td><input type="text" class="form-control border-input" id="total" name="total" size="2px" readonly="1"></td>
                                     <td><input type="text" class="form-control border-input" id="bodega" name="bodega" size="5px" readonly="1"></td>
-                                    <td><button type="button" id="btn_delete" class="btn btn-labeled btn-pre" name="1"><span class='btn-label'><i class='fa fa-trash'></i></span></button></td>
+                                    <td><button type="button" id="btn_delete" class="btn btn-labeled bg-green" name="1"><span class='btn-label'><i class='fa fa-trash'></i></span></button></td>
                                     
                                  </tr>
                               </tbody>
-                              <tbody class="producto_agregados" style="border-top:  0px solid black; height: 50px; background: white; overflow: scroll;" >
 
-                              </tbody>
-                            
                            </table>
+                           <div class="lista_productos">
+                           <table class="table table-sm table-hover">
+                           <tbody class="producto_agregados" style="border-top:  0px solid black; color: black; background: white; overflow: scroll;" >
+                            </tbody>
+                            </table>
+                            </div>
+
                            <div class="col-lg-12 col-md-12 paper_cut">
                             </div>
                         </div>
@@ -265,7 +176,7 @@
                 
 
                 <div class="row">
-                    <div class="col-lg-12 col-md-12" style="width: 100%; background: #0f4871;text-align: center;color: white;">
+                    <div class="col-lg-12 col-md-12" style="width: 100%; background: #2D3B48/*#0f4871*/;text-align: center;color: white;">
                         
                         <span style="font-size: 50px;">
                             <?php echo $moneda[0]->moneda_simbolo; ?> <span class="total_msg">0.00</span>
@@ -276,10 +187,10 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12" style="width: 100%; background: white;">
 
-                        <table class="table table-sm table-hover">
+                        <table class="table table-sm table-hover" style="font-size: 22px;">
                             <tr>
-                                <td style="color:#0f4871"><b>Sub total</b></td>
-                                <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="sub_total_tabla"></span></td>
+                                <td style="color:#0f4871;"><b>Sub total</b></td>
+                                <td><?php echo $moneda[0]->moneda_simbolo; ?> <span class="sub_total_tabla"></span></td>
                             </tr>
                             <tr>
                                 <td><b>Iva</b></td>
@@ -299,164 +210,6 @@
                     <div class="col-lg-12 col-md-12 paper_cut">
                     </div>
                 </div><br>
-
-                <div class="row">
-                
-                <div id="panelDemo1" class="panel panel-default">
-
-                    <div class="panel-heading">Facturacion
-                       <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right btn-pre">
-                          <em class="fa fa-minus"></em>
-                       </a>
-                    </div>
-
-
-                    <div class="panel-wrapper collapse in">
-                        <div class="panel-body">
-
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-group has-success">
-                                        <label>Tipo Documento</label>
-                                        <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
-                                        <?php
-                                        foreach ($tipoDocumento as $documento) {
-                                            ?>
-                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
-                                            <?php
-                                        }
-                                        ?>
-                                        </select>
-                                    </div>
-                                </div>                    
-                                <div class="col-lg-6 col-md-6">
-
-                                    <div class="form-group has-success">
-                                        <label>Cliente Codigo</label>
-                                        <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $cliente[0]->id_cliente ?>">
-                                   </div>
-                                                                
-                                </div>                    
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-group has-success">
-                                        <label>Forma Pago</label>
-                                        <select class="form-control" id="modo_pago_id" name="modo_pago_id">
-                                        <?php
-                                        foreach ($modo_pago as $value) {
-                                            ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
-                                        }
-                                        ?>      
-                                        </select>
-                                   </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                      <div class="form-group has-success">
-                                          <label>Cliente Nombre</label>
-                                         <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania ?>">
-                                         <input type="hidden" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $cliente[0]->direccion_cliente ?>">
-                                       </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-group has-success">
-                                      <label>Sucursal Destino</label>
-                                      <select class="form-control" name="sucursal_destino" id="sucursal_id">
-                                        <?php
-                                        $id_sucursal=0;
-                                        
-                                        foreach ($empleado as $sucursal) {
-                                            $id_sucursal = $sucursal->id_sucursal; 
-                                            ?>
-                                            <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                            <?php
-                                        }
-
-                                        foreach ($sucursales as $sucursal) {
-                                            if($sucursal->id_sucursal != $id_sucursal){
-                                                ?>
-                                                <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                <?php
-                                            }
-                                        }
-                                        ?>
-                                        </select>
-                                   </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-group has-success">
-                                        <label>Bodega</label>
-                                        <select class="form-control" name="bodega" id="bodega_select">
-                                        <?php
-                                            foreach ($bodega as $b) {
-                                                if($b->Sucursal == $id_sucursal){
-                                        ?>
-                                        <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
-                                        <?php
-                                                }   
-                                            }
-                                        ?>
-                                        </select>
-                                   </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6">
-                                   <div class="form-group has-success">
-                                      <label>Fecha</label>
-                                     <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
-                                   </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-group has-success">
-                                        <label>Sucursal Origin</label>
-                                        <select class="form-control" name="sucursal_origin" id="sucursal_id2">
-                                        <?php
-                                        $id_sucursal=0;
-                                        $id_sucursal = $empleado[0]->id_sucursal;
-                                        foreach ($empleado as $sucursal) {
-                                             
-                                            ?>
-                                            <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                            <?php
-                                        }
-
-                                        foreach ($sucursales as $sucursal) {
-                                            if($sucursal->id_sucursal != $id_sucursal){
-                                                ?>
-                                                <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                <?php
-                                            }
-                                        }
-                                        ?>
-                                        </select>
-                                   </div>
-                                   <?php
-                                                                      
-                                      foreach ($correlativo as $key => $value) {
-                                        
-                                          if($id_sucursal == $value->id_sucursal ){
-                                            $secuencia = $value->siguiente_valor;
-                                          }
-                                      }
-                                      ?>
-                                      <input type="hidden" name="numero" value="<?php echo $secuencia; ?>" class="form-control" id="c_numero">
-                                </div>
-                            </div>
-
-                            <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo $empleado[0]->id_empleado; ?>">
-                            <div class="label bg-gray"><a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona." ".$empleado[0]->primer_apellido_persona; ?></a></div>
-
-                        </div>
-                    </div>
-                </div>
-
-                </div>
 
                 <!--
                 <div class="row">
@@ -481,7 +234,200 @@
         </form>
         </div>
     </div>
+
+    <div class="row bg-red" style="position: fixed;bottom: 0px; width: 100%;">
+        <div class="col-lg-12 col-md-12 abajo" style="height: 50px;">
+            <span 
+                class="btn btn-info" 
+                data-toggle="modal" 
+                data-target="#documentoModel" 
+                style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F1
+                <i class="icon-settings"></i>
+            </span>
+
+            <span 
+                class="btn btn-info" 
+                style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F2
+                <i class="icon-grid"></i>
+            </span>
+
+            <span 
+                class="btn btn-info" 
+                style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F3
+                <i class="icon-trash"></i>
+            </span>
+
+            <span
+                class="btn btn-info guardar" id="../venta/guardar_venta"
+                style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
+                <i class="fa fa-credit-card"></i>
+            </span>
+        </div>
+    </div>
 </section>
+
+<!-- Modal Large Documenos -->
+   <div id="documentoModel" tabindex="-1" role="dialog" aria-labelledby="documentoModel"  class="modal fade">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               <i class="icon-docs"></i> FACTURACION
+            </div>
+            <div class="modal-body">
+                
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group has-success">
+                                <label>Tipo Documento</label>
+                                <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
+                                <?php
+                                foreach ($tipoDocumento as $documento) {
+                                    ?>
+                                    <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                    <?php
+                                }
+                                ?>
+                                </select>
+                            </div>
+                        </div>                    
+                        <div class="col-lg-6 col-md-6">
+
+                            <div class="form-group has-success">
+                                <label>Cliente Codigo</label>
+                                <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $cliente[0]->id_cliente ?>">
+                           </div>
+                                                        
+                        </div>                    
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group has-success">
+                                <label>Forma Pago</label>
+                                <select class="form-control" id="modo_pago_id" name="modo_pago_id">
+                                <?php
+                                foreach ($modo_pago as $value) {
+                                    ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
+                                }
+                                ?>      
+                                </select>
+                           </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                              <div class="form-group has-success">
+                                  <label>Cliente Nombre</label>
+                                 <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania ?>">
+                                 <input type="hidden" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $cliente[0]->direccion_cliente ?>">
+                               </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group has-success">
+                              <label>Sucursal Destino</label>
+                              <select class="form-control" name="sucursal_destino" id="sucursal_id">
+                                <?php
+                                $id_sucursal=0;
+                                
+                                foreach ($empleado as $sucursal) {
+                                    $id_sucursal = $sucursal->id_sucursal; 
+                                    ?>
+                                    <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                    <?php
+                                }
+
+                                foreach ($sucursales as $sucursal) {
+                                    if($sucursal->id_sucursal != $id_sucursal){
+                                        ?>
+                                        <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                                </select>
+                           </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group has-success">
+                                <label>Bodega</label>
+                                <select class="form-control" name="bodega" id="bodega_select">
+                                <?php
+                                    foreach ($bodega as $b) {
+                                        if($b->Sucursal == $id_sucursal){
+                                ?>
+                                <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
+                                <?php
+                                        }   
+                                    }
+                                ?>
+                                </select>
+                           </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                           <div class="form-group has-success">
+                              <label>Fecha</label>
+                             <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
+                           </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group has-success">
+                                <label>Sucursal Origin</label>
+                                <select class="form-control" name="sucursal_origin" id="sucursal_id2">
+                                <?php
+                                $id_sucursal=0;
+                                $id_sucursal = $empleado[0]->id_sucursal;
+                                foreach ($empleado as $sucursal) {
+                                     
+                                    ?>
+                                    <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                    <?php
+                                }
+
+                                foreach ($sucursales as $sucursal) {
+                                    if($sucursal->id_sucursal != $id_sucursal){
+                                        ?>
+                                        <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                                </select>
+                           </div>
+                           <?php
+                                                              
+                              foreach ($correlativo as $key => $value) {
+                                
+                                  if($id_sucursal == $value->id_sucursal ){
+                                    $secuencia = $value->siguiente_valor;
+                                  }
+                              }
+                              ?>
+                              <input type="hidden" name="numero" value="<?php echo $secuencia; ?>" class="form-control" id="c_numero">
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo $empleado[0]->id_empleado; ?>">
+                    <div class="label bg-gray"><a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona." ".$empleado[0]->primer_apellido_persona; ?></a></div>
+
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+         </div>
+      </div>
+   </div>
+<!-- Modal Small-->
 
 
 
@@ -604,7 +550,7 @@
    </div>
 <!-- Modal Small-->
 
-<!-- Modal Large PRODUCTOS MODAL-->
+<!-- METODO DE PAGOS MODAL-->
    <div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta"  class="modal flip">
       <div class="modal-dialog modal-lg" style="width: 80%;">
          <div class="modal-content">
@@ -612,36 +558,42 @@
                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                   <span aria-hidden="true">&times;</span>
                </button>
-               <span style="font-size: 20px; ">Detalle Compra</span>
+               <span style="font-size: 20px; ">[ Proceso Pago ]</span>
               
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6" style="border-right: 1px solid #e5e5e5; height: 50%;">
-                        <!--
+                    <div class="col-lg-9 col-md-9" style="border-right: 1px solid #e5e5e5; height: 50%;">
+                        
                         <div class="row">
-                            <div class="col-lg-5 col-md-5">
-                                <a href="#" class="btn btn-default addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
-                            </div>
-                            <div class="col-lg-7 col-md-7">
+                            <div class="col-lg-3 col-md-3">
                                 <select class="form-control">
-                                    <option value="0">-</option>
                                     <?php
                                     foreach ($modo_pago as $mp) {
+                                        if($mp->id_modo_pago!=1){
                                         ?>
                                         <option value="<?php echo $mp->id_modo_pago; ?>"><?php echo $mp->nombre_modo_pago; ?></option>
                                         <?php
+                                        }
                                     }
                                     ?>
                                 </select>
                             </div>
+                            <div class="col-lg-3 col-md-3">
+                                <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6">
+                                <input type="text" class="form-control has-success" name="cliente" placeholder="Nombre Cliente">
+                            </div>
+                            
                         </div>
-                    -->
-                        <hr>
+                    
                         <div class="row" id="metodos_pagos">
                             
                             <br>
                             <?php
+
                                 $a = 1;
                                 $count = count($modo_pago);
                                 foreach ($modo_pago as $value) {
@@ -659,22 +611,49 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4" style="color: white; background: #0f4871">
-                                
-                                <span style="font-size: 20px;">PAGAR</span>
-                                <h1><?php echo $moneda[0]->moneda_simbolo; ?> <span id="compra_venta"></span></h1>
+                    <div class="col-lg-3 col-md-3">
+
+                        <div class="row" style="">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="panel widget bg-success" style="height: 80px;">
+                                    <div class="row row-table">
+                                        <div class="col-xs-4 text-center bg-success-dark pv-lg">
+                                           <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
+                                        </div>
+                                        <div class="col-xs-8 pv-lg">
+                                           <div class="h1 m0 text-bold"><span id="compra_venta">0.00</span></div>
+                                           <div class="text-uppercase">PAGAR</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="col-lg-4 col-md-4 label-primary" style="color: white;background: #556271">
-                                <span style="font-size: 20px;">RESTANTE</span>
-                                <h1><?php echo $moneda[0]->moneda_simbolo; ?> <span id="restante_venta"></span> </h1>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="panel widget bg-green" style="height: 80px;">
+                                    <div class="row row-table">
+                                        <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                                           <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
+                                        </div>
+                                        <div class="col-xs-8 pv-lg">
+                                           <div class="h1 m0 text-bold"><span id="restante_venta">0.00</span></div>
+                                           <div class="text-uppercase">RESTANTE</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>    
 
-                            <div class="col-lg-4 col-md-4 label-primary" style="color: white;">
-                                <span style="font-size: 20px;">CAMBIO</span>
-                                <h1><?php echo $moneda[0]->moneda_simbolo; ?> <span id="cambio_venta"></span> </h1>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="panel widget bg-warning" style="height: 80px;">
+                                    <div class="row row-table">
+                                        <div class="col-xs-4 text-center bg-warning-dark pv-lg">
+                                           <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
+                                        </div>
+                                        <div class="col-xs-8 pv-lg">
+                                           <div class="h1 m0 text-bold"><span id="cambio_venta">0.00</span></div>
+                                           <div class="text-uppercase">CAMBIO</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>                    
                         </div>
                     </div>
@@ -690,8 +669,8 @@
                 </div>
 
             <div class="modal-footer">
-               <button type="button" data-dismiss="modal" id="procesar_btn" class="btn btn-success guardar" name="2">Procesar</button>               
-               <button type="button" data-dismiss="modal" class="btn btn-warning">Cancelar</button>               
+               <button type="button" data-dismiss="modal" id="procesar_btn" class="mb-sm btn-lg btn btn-purple btn-outline guardar" name="2">PROCESAR</button>               
+               <button type="button" data-dismiss="modal" class="mb-sm btn-lg btn btn-danger btn-outline">CANCELAR</button>               
             </div>
          </div>
       </div>

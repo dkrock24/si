@@ -37,20 +37,20 @@ class Venta_model extends CI_Model {
 		// Ordenes
 		const pos_tipo_documento = 'pos_tipo_documento';
 
-		function getOrdenes($limit, $id ){
+		function getVentas($limit, $id ){
 
-			$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,
-orden.num_correlativo,orden.fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
+			$query = $this->db->query("select ventas.id,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,
+ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
 ,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
 
-from pos_ordenes as orden 
+from pos_ventas as ventas 
 
-left join pos_cliente as cliente on cliente.id_cliente = orden.id_cliente
-left join pos_sucursal as sucursal on sucursal.id_sucursal=orden.id_sucursal
-left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = orden.id_tipod
-left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
-left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago 
-left join pos_orden_estado as oe  on oe.id_orden_estado= orden.orden_estado
+left join pos_cliente as cliente on cliente.id_cliente = ventas.id_cliente
+left join pos_sucursal as sucursal on sucursal.id_sucursal=ventas.id_sucursal
+left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = ventas.id_tipod
+left join sys_usuario as usuario on usuario.id_usuario = ventas.id_usuario
+left join pos_formas_pago as pago on pago.id_modo_pago = ventas.id_condpago 
+left join pos_orden_estado as oe  on oe.id_orden_estado= ventas.orden_estado
 where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $id.','.$limit);
 
 		    //echo $this->db->queries[1];
@@ -60,8 +60,8 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 		function record_count(){
 
 	        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->id_empresa);
-			$this->db->from(self::pos_ordenes.' as o');
-			$this->db->join(self::sucursal.' as s',' on o.id_sucursal = s.id_sucursal');
+			$this->db->from(self::pos_ventas.' as v');
+			$this->db->join(self::sucursal.' as s',' on v.id_sucursal = s.id_sucursal');
 			$result = $this->db->count_all_results();
         	return $result;
 	    }
@@ -256,7 +256,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 	            'anulado' 		=> 0, // Actualizara al procesar alguna accion
 	            'creado_el' 	=> date("Y-m-d h:i:s"),
 	            'fecha_inglab' 	=> date("Y-m-d h:i:s"),
-	            'orden_estado'	=> $orden['estado']
+	            'orden_estado'	=> 4 // Facturada
 	            //'anulado_el' 	=> "", // Actualizara al procesar alguna accion
 	            //'anulado_conc'=> "", // Actualizara al procesar alguna accion
 	            //'cod_estado'	=> "0",

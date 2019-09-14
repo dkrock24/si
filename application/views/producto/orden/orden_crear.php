@@ -37,16 +37,6 @@
            <div class="col-lg-12 col-md-12">
               <!-- Team Panel-->
               <div class="panel panel-default">
-                 <div class="panel-heading" style="background: #2D3B48; color: white;">
-                    <div class="pull-right">
-                        <div class="" style="font-size: 20px;"> Crear Orden / <?php echo Date("Y-m-d"); ?>  </div>
-                    </div>
-                    <div class="panel-title">
-                        <a href="index" style="top: 0px;position: relative; text-decoration: none">
-                            <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Lista Ordenes</button> 
-                        </a> 
-                    </div>
-                 </div>
 
                  <!-- START panel-->
                 <form name="encabezado_form" id="encabezado_form" method="post" action="">
@@ -62,11 +52,17 @@
 
 
                      <div id="panelDemo1" class="panel panel-default">
-                        <div class="panel-heading"><i class="fa fa-arrow-right"></i> Datos Generales
-                           <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right btn-pre">
-                              <em class="fa fa-minus"></em>
-                           </a>
+                        
+                        <a href="index" style="top: 0px;position: relative; text-decoration: none; float: left;">
+                            <button type="button" class="mb-sm btn btn-pill-right btn-primary btn-outline"> Lista Ordenes </button> 
+                        </a>
+
+                        <div class="panel-heading" style="text-align: right;"> Crear Orden / <?php echo Date("Y-m-d"); ?> 
+                            <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
+                                <em class="fa fa-minus"></em>
+                            </a>                          
                         </div>
+
                         <div class="panel-wrapper collapse in">
                            <div class="panel-body">
                                 <p>
@@ -256,131 +252,158 @@
 
              
                  
-                    <!-- START table-responsive-->
+        <!-- START table-responsive-->
+            
+               <table class="table table-sm table-hover">
+                    <div class="col-lg-4">
+                        <div class="input-group m-b">
+                            <span class="input-group-addon bg-green"><i class="fa fa-search"></i></span>
+                            <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
+                        </div>
+
+                        <select multiple="" class="form-control dataSelect" id="dataSelect">
+
+                        </select>
+
+                        <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="display: inline-block;">
+
+                        </select>
+
+                    </div>
+                <div class="col-lg-6">
+
+                    <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" id="grabar"><i class='fa fa-shopping-cart'></i></button>
+
+                    <button type="button" class="btn btn-labeled bg-green guardar" style="font-size: 25px;" name="1" id="guardar_orden" ><i class='fa fa-save'></i></button>
+
+                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 17px;" data-target='#existencias'><i class="fa fa-dropbox"></i></span>                            
+
+                    
+                    <div class="btn-group ">
+                       <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
+                       <button type="button" data-toggle="dropdown" class="btn dropdown-toggle bg-green" style="font-size: 17px;">
+                          <span class="caret"></span>
+                          <span class="sr-only">default</span>
+                       </button>
+                       <ul role="menu" class="dropdown-menu">
+                         <li><a href="#" class="btn btn-warning" id="btn_impuestos" data-toggle='modal'><i class="fa fa-money"></i> Impuestos</a></li>
+
+                            <li><a href="#" class="btn btn-warning" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
+                          
+                          <li class="divider"></li>
+                          <li>
+                            <li><a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a>
+                          </li>
+                       </ul>
+                    </div>
+
+                </div>
+
+                    </span>
+                
+                  <thead class="bg-info-dark" style="background: #cfdbe2;">
+                     <tr>
+                        <th style="color: black;">#</th>
+                        <th style="color: black;">Producto</th>
+                        <th style="color: black;">Descripción</th>
+                        <th style="color: black;">Cantidad</th>
+                        <th style="color: black;">Presentación</th>
+                        <th style="color: black;">Factor</th>
+                        <th style="color: black;">Unidad</th>
+                        <th style="color: black;">Descuento</th>
+                        <th style="color: black;">Total</th>
+                        <th style="color: black;">Bodega</th>
+                        <th style="color: black;"><!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>--></th>
+                     </tr>
+                  </thead>
+                  <tbody class="uno bg-gray-light" style="border-bottom: 0px solid grey">
+                  	<tr style="border-bottom: 1px dashed grey">
+                        <td colspan="2">
+                            <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar" readonly="1" style="width: 100px;">
+                        </td>
+                        <td><input type="text" class="form-control border-input" id="descripcion" name="descripcion" readonly="1"></td>
+                        <td><input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;"></td>
+                        <td><input type="text" class="form-control border-input" id="presentacion" name="presentacion" size="3px" readonly="1"></td>
+                        <td><input type="text" class="form-control border-input" id="factor" name="factor" size="2px" readonly="1" style="width: 50px;"></td>
+                        <td><input type="text" class="form-control border-input" id="precioUnidad" name="precioUnidad" size="2px" readonly="1" style="width: 70px;"></td>
+                        <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;"></td>
+                        <td><input type="text" class="form-control border-input" id="total" name="total" size="2px" readonly="1"></td>
+                        <td><input type="text" class="form-control border-input" id="bodega" name="bodega" size="5px" readonly="1"></td>
+                        <td><button type="button" id="btn_delete" class="btn btn-labeled bg-green" name="1"><span class='btn-label'><i class='fa fa-trash'></i></span></button></td>
                         
-                           <table class="table table-sm table-hover">
-                            <div class="col-lg-4">
-                               
+                     </tr>
+                    </tbody>
+                    </table>
 
-                                <div class="input-group m-b">
-                                    <span class="input-group-addon btn-pre"><i class="fa fa-search"></i></span>
-                                    <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
+                    <div class="lista_productos">
+                        <table class="table table-sm table-hover">
+                            <tbody class="producto_agregados" style="border-top:  0px solid black" >
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row" style="border-top: 1px dashed grey;">
+                        <div class="col-lg-6 col-md-6" >
+                            <div class="row" style="font-size: 22px">
+                                <div class="col-lg-6 col-md-6" style="color:#0f4871;"><span style="float: right;">Cantidad</span></div>
+                                <div class="col-lg-6 col-md-6">
+                                    <span class="cantidad_tabla" style="float: left;"></span>
                                 </div>
-
-
-                                <select multiple="" class="form-control dataSelect" id="dataSelect">
-
-                                </select>
-
-                                <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="display: inline-block;">
-
-                                </select>
-
-                                
+                            </div>                              
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row" style="font-size: 22px;">
+                                <div class="col-lg-6 col-md-6"><span style="color:#0f4871;float: right;">Sub Total</span></div>
+                                <div class="col-lg-6 col-md-6"> <?php echo $moneda[0]->moneda_simbolo; ?><span class="sub_total_tabla"></span></div>
                             </div>
-                            <div class="col-lg-6">
+                        </div>
+                    </div>
 
-                                <button type="button" class="btn btn-labeled btn-pre" name="" id="grabar" value=""><span class='btn-label'><i class='icon-plus'></i></span>[ . ]</button>
-
-                                <button type="button" class="btn btn-labeled btn-pre guardar" name="1" id="guardar_orden" value=""><span class='btn-label'><i class='fa fa-save'></i></span></button>
-
-                                <a href="#" class="btn btn-pre" id="btn_existencias" data-toggle='modal' data-target='#existencias'><i class="icon-menu"></i> Existencias</a>                            
-                                
-                                <div class="btn-group ">
-                                   <button type="button" class="btn btn-pre">Opcion</button>
-                                   <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-pre">
-                                      <span class="caret"></span>
-                                      <span class="sr-only">default</span>
-                                   </button>
-                                   <ul role="menu" class="dropdown-menu">
-                                     <li><a href="#" class="btn btn-warning" id="btn_impuestos" data-toggle='modal'><i class="fa fa-money"></i> Impuestos</a></li>
-
-                                        <li><a href="#" class="btn btn-warning" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
-                                      
-                                      <li class="divider"></li>
-                                      <li>
-                                        <li><a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a>
-                                      </li>
-                                   </ul>
-                                </div>
-
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6"></div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row" style=" font-size: 22px;">
+                                <div class="col-lg-6 col-md-6"><span style="color:#0f4871; float: right;">Descuento</span></div>
+                                <div class="col-lg-6 col-md-6"> <?php echo $moneda[0]->moneda_simbolo; ?><span class="descuento_tabla"></span></div>
                             </div>
-  
-                            </span>
-                            
-                              <thead class="bg-info-dark" style="background: #cfdbe2;">
-                                 <tr>
-                                    <th style="color: black;">#</th>
-                                    <th style="color: black;">Producto</th>
-                                    <th style="color: black;">Descripción</th>
-                                    <th style="color: black;">Cantidad</th>
-                                    <th style="color: black;">Presentación</th>
-                                    <th style="color: black;">Factor</th>
-                                    <th style="color: black;">Unidad</th>
-                                    <th style="color: black;">Descuento</th>
-                                    <th style="color: black;">Total</th>
-                                    <th style="color: black;">Bodega</th>
-                                    <th style="color: black;"><!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>--></th>
-                                 </tr>
-                              </thead>
-                              <tbody class="uno bg-gray-light" style="border-bottom: 0px solid grey">
-                              	<tr style="border-bottom: 1px dashed grey">
-                                    <td colspan="2">
-                                        <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar" readonly="1" style="width: 100px;">
-                                    </td>
-                                    <td><input type="text" class="form-control border-input" id="descripcion" name="descripcion" readonly="1"></td>
-                                    <td><input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;"></td>
-                                    <td><input type="text" class="form-control border-input" id="presentacion" name="presentacion" size="3px" readonly="1"></td>
-                                    <td><input type="text" class="form-control border-input" id="factor" name="factor" size="2px" readonly="1" style="width: 50px;"></td>
-                                    <td><input type="text" class="form-control border-input" id="precioUnidad" name="precioUnidad" size="2px" readonly="1" style="width: 70px;"></td>
-                                    <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;"></td>
-                                    <td><input type="text" class="form-control border-input" id="total" name="total" size="2px" readonly="1"></td>
-                                    <td><input type="text" class="form-control border-input" id="bodega" name="bodega" size="5px" readonly="1"></td>
-                                    <td><button type="button" id="btn_delete" class="btn btn-labeled btn-pre" name="1"><span class='btn-label'><i class='fa fa-trash'></i></span></button></td>
-                                    
-                                 </tr>
-                              </tbody>
-                              <tbody class="producto_agregados" style="border-top:  0px solid black" >
+                        </div>
+                    </div>
 
-                              </tbody>
-
-                              <tr class="panel-footer " style="border-top: 2px dashed grey; font-size: 22px;">
-                                <td colspan='3'></td>
-                                <td><span class="cantidad_tabla"></span></td>
-                                <td colspan='3' style="text-align: right;color:#0f4871;">Sub Total</td>
-                                <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="descuento_tabla"></span></td>
-                                <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="sub_total_tabla"></span></td>
-                                <td colspan='2'></td>
-                               </tr>
-                               <tr>
-                                   <td colspan='3'></td>
-                                    <td><span class=""></span></td>
-                                    <td colspan='3' style="text-align: right; " class="iva_nombre">Iva</td>
-                                    <td><span class="iva_valor"></span></td>
-                                    <td><span class="iva_total"></span></td>
-                                    <td colspan='2'></td>
-                               </tr>
-                               <tr>
-                                   <td colspan='3'></td>
-                                    <td><span class=""></span></td>
-                                    <td colspan='3' style="text-align: right;" class="impuestos_nombre">Impuestos</td>
-                                    <td><span class="impuestos_valor"></span></td>
-                                    <td><span class="impuestos_total"></span></td>
-                                    <td colspan='2'></td>
-                               </tr>
-                               <tr class="panel-footer" style="font-size: 22px;">
-                                    <td colspan='6'></td>
-                                    <td colspan='1' style="text-align: right;color:#0f4871;">Total</td>
-                                    <td></td>
-                                    <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td>
-                                    <td colspan="2"></td>
-                               </tr>
-                           </table>
-                           <div class="col-lg-12 col-md-12 paper_cut">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6"></div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row" style=" font-size: 22px;">
+                                <div class="col-lg-6 col-md-6"><span style="color:#0f4871; float: right;" class="iva_nombre">Iva</span></div>
+                                <div class="col-lg-6 col-md-6"> <span class="iva_valor"></span><br><span class="iva_total"></span></div>
                             </div>
-                            
-                        
-                    <!-- END table-responsive-->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6"></div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row" style=" font-size: 22px;">
+                                <div class="col-lg-6 col-md-6"><span style="color:#0f4871; float: right;" class="impuestos_nombre">Impuestos</span></div>
+                                <div class="col-lg-6 col-md-6"> <span class="impuestos_valor"></span><span class="impuestos_total"></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6"></div>
+                        <div class="col-lg-6 col-md-6" style="border-top: 1px dashed grey;">
+                            <div class="row" style=" font-size: 22px;">
+                                <div class="col-lg-6 col-md-6"><span style="color:#0f4871; float: right;" class="">Total</span></div>
+                                <div class="col-lg-6 col-md-6"><?php echo $moneda[0]->moneda_simbolo; ?> <span class="total_tabla"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                
+                <div class="col-lg-12 col-md-12 paper_cut">
+                </div>
+                
+            
+        <!-- END table-responsive-->
                  
                  
               </div>
@@ -439,7 +462,7 @@
                   <span aria-hidden="true">&times;</span>
                </button>
                <div class="input-group m-b">
-                    <span class="input-group-addon btn-pre"><i class="fa fa-search"></i></span>
+                    <span class="input-group-addon bg-green"><i class="fa fa-search"></i></span>
                     <input type="text" placeholder="Buscar Exsitencia" name="existencia_buscar" class="form-control existencia_buscar">
                 </div>
 
@@ -473,7 +496,7 @@
                
             </div>
             <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-default btn-pre">Close</button>               
+               <button type="button" data-dismiss="modal" class="btn btn-default bg-green">Close</button>               
             </div>
          </div>
       </div>
@@ -494,7 +517,7 @@
                 Cambiar Orden a Espera ?
             </div>
             <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-success guardar btn-pre" name="5">Si</button>               
+               <button type="button" data-dismiss="modal" class="btn btn-success guardar bg-green" name="5">Si</button>               
                <button type="button" data-dismiss="modal" class="btn btn-warning">No</button>               
             </div>
          </div>
@@ -517,7 +540,7 @@
                 Cambiar Orden a Reservado ?
             </div>
             <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-success guardar btn-pre" name="2">Si</button>               
+               <button type="button" data-dismiss="modal" class="btn btn-success guardar bg-green" name="2">Si</button>               
                <button type="button" data-dismiss="modal" class="btn btn-warning">No</button>               
             </div>
          </div>

@@ -282,7 +282,6 @@
                         ?>
                         <li class=" ">
                          <a href="#<?php echo $menus->nombre_menu; ?>" title="<?php echo $menus->nombre_menu; ?>" data-toggle="collapse">
-                            <div class="pull-right label label-info">3</div>
                             <em class="<?php echo $menus->icon_menu; ?>"></em>
                             <span data-localize="sidebar.nav.DASHBOARD"><?php echo $menus->nombre_menu; ?></span>
                          </a>
