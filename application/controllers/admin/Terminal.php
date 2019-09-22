@@ -39,6 +39,9 @@ class Terminal extends CI_Controller {
 		$this->load->model('admin/Roles_model');
 		$this->load->model('admin/Persona_model');
 		$this->load->model('admin/Empleado_model');
+		$this->load->model('admin/Caja_model');
+		$this->load->model('admin/Sucursal_model');
+		$this->load->model('admin/Usuario_model');
 	}
 
 // Start  **********************************************************************************
@@ -105,6 +108,9 @@ class Terminal extends CI_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;	
+		$data['caja'] = $this->Caja_model->get_caja_empresa( );
+		$data['sucursal'] = $this->Sucursal_model->getAllSucursalEmpresa( );
+		$data['usuario'] = $this->Usuario_model->get_usuarios_sucursal( );
 		$data['title'] = "Nueva Terminal";
 		$data['home'] = 'admin/terminal/t_nuevo';
 
@@ -113,129 +119,60 @@ class Terminal extends CI_Controller {
 
 	public function crear(){
 		// Insert Nuevo Usuario
-		$data = $this->Cargos_model->crear_cargo( $_POST );
+		$data = $this->Terminal_model->crear( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('success', "Cargo Fue Creado");
+			$this->session->set_flashdata('success', "Terminal Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Cargo No Fue Creado");
+			$this->session->set_flashdata('warning', "Terminal No Fue Creado");
 		}	
-		redirect(base_url()."admin/cargo/index");
+		redirect(base_url()."admin/terminal/index");
 	}
 
 
-	public function editar( $cargo_id ){
+	public function editar( $terminal_id ){
 		
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;	
-		
-		$data['cargo'] = $this->Cargos_model->get_cargo_id( $cargo_id );
-		$data['title'] = "Editar Cargo Laboral";
-		$data['home'] = 'admin/cargo/c_editar';
 
-		$this->general->editar_valido($data['cargo'], "admin/cargo/index");
+		$data['caja'] = $this->Caja_model->get_caja_empresa( );
+		$data['sucursal'] = $this->Sucursal_model->getAllSucursalEmpresa( );
+		$data['usuario'] = $this->Usuario_model->get_usuarios_sucursal( );
+		
+		$data['terminal'] = $this->Terminal_model->get_terminal( $terminal_id );
+		$data['title'] = "Editar Terminal";
+		$data['home'] = 'admin/terminal/t_editar';
+
+		//$this->general->editar_valido($data['cargo'], "admin/cargo/index");
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function update(){
+
 		if(isset($_POST)){
-			$data = $this->Cargos_model->update( $_POST );
+			$data = $this->Terminal_model->update( $_POST );
 			if($data){
-				$this->session->set_flashdata('success', "Cargo Fue Actualizado");
+				$this->session->set_flashdata('success', "Terminal Fue Actualizado");
 			}else{
-				$this->session->set_flashdata('warning', "Cargo No Fue Actualizado");
+				$this->session->set_flashdata('warning', "Terminal No Fue Actualizado");
 			}
 		}
-		redirect(base_url()."admin/cargo/index");
-	}
-
-	public function actualizar(){
-		// Actualizar Giro 
-		$data = $this->Giros_model->actualizar_giro( $_POST );
-
-		if($data){
-			$this->session->set_flashdata('info', " !");
-		}else{
-			$this->session->set_flashdata('warning', "El Registro No Fue Actualizado");
-		}
-
-		redirect(base_url()."admin/giros/index");
+		redirect(base_url()."admin/terminal/index");
 	}
 
 	public function eliminar($id){
 		// Actualizar Giro 
-		$data = $this->Cargos_model->eliminar( $id );
+		$data = $this->Terminal_model->eliminar( $id );
 
 		if($data){
-			$this->session->set_flashdata('success', "Cargo Fue Eliminado");
+			$this->session->set_flashdata('success', "Terminal Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('warning', "Cargo Fue Eliminado");
+			$this->session->set_flashdata('warning', "Terminal Fue Eliminado");
 		}
 
-		redirect(base_url()."admin/cargo/index");
-	}
-
-	public function get_atributos( $id_giro ){
-
-		$data['atributos'] = $this->Atributos_model->geAllAtributos();
-		$data['atributos_total'] = $this->Atributos_model->get_atributos_total();
-		$data['giro'] = $this->Giros_model->get_giro_id( $id_giro );
-		$data['plantilla'] = $this->Giros_model->get_plantilla( $id_giro );
-		$data['plantilla_giro_total'] = $this->Giros_model->get_total_plantilla_giro( $id_giro );
-
-		echo json_encode( $data );
-		//echo json_encode( $giro );
-	}
-
-	public function guardar_giro_atributos(){
-
-		$this->Giros_model->insert_plantilla( $_POST );
-
-		$data['plantilla'] = $this->Giros_model->get_plantilla( $_POST['giro'] );
-		$data['plantilla_giro_total'] = $this->Giros_model->get_total_plantilla_giro( $_POST['giro']  );
-		
-		echo json_encode( $data );
-		
-	}
-
-	public function eliminar_giro_atributos(){
-		$this->Giros_model->eliminar_plantilla( $_POST );
-
-		$data['plantilla'] = $this->Giros_model->get_plantilla( $_POST['giro'] );
-		$data['plantilla_giro_total'] = $this->Giros_model->get_total_plantilla_giro( $_POST['giro']  );
-		
-		echo json_encode( $data );
-	}
-
-	// GIROS EMPRESA
-
-	public function listar_giros(){
-		$data['lista_giros'] = $this->Giros_model->getAllgiros();
-		$data['lista_empresa'] = $this->Giros_model->get_empresa2();
-
-		echo json_encode( $data );
-	}
-
-	public function guardar_giro_empresa(){
-		$this->Giros_model->insert_giro_empresa( $_POST );
-	}
-
-	public function get_empresa_giro( $id_empresa ){
-		$data['lista_giros'] = $this->Giros_model->get_empresa_giro( $id_empresa );
-		$data['empresa_giro_total'] = $this->Giros_model->get_total_empresa_giro( $id_empresa );
-
-		echo json_encode( $data );
-	}
-
-	public function eliminar_giro_empresa(){
-		$this->Giros_model->eliminar_giro_empresa( $_POST );
-
-		$data['lista_giros'] = $this->Giros_model->get_empresa_giro( $_POST['empresa']  );
-		$data['empresa_giro_total'] = $this->Giros_model->get_total_empresa_giro( $_POST['empresa'] );
-		
-		echo json_encode( $data );
+		redirect(base_url()."admin/terminal/index");
 	}
 
 	public function column(){
@@ -248,7 +185,7 @@ class Terminal extends CI_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_sucursal','nombre','numero','ubicacion','modelo','serie','marca','estado'
+			'nombre_sucursal','nombre','numero','ubicacion','modelo','series','marca','estado'
 		);
 		
 		$fields['id'] = array('id_terminal');

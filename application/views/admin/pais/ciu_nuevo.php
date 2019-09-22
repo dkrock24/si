@@ -7,12 +7,12 @@
                 <a href="../index" style="top: -12px;position: relative; text-decoration: none">
                     <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Pais</button> </a> 
                 <a href="../dep/<?php echo $dep;  ?>" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info btn-outline">/ Departamento</button></a>
-                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Ciudad</button>
+                    <button type="button" style="position: relative;" class="mb-sm btn btn-info btn-outline">Departamento</button></a>
+                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Ciudad</button>
                 </h3>
             <div class="row">
                 <div class="col-lg-12">
-                    <div id="panelDemo10" class="panel"> 
+                    <div id="panelDemo10" class="panel menu_title_bar"> 
                                
                         <div class="panel-heading menuTop">Nueva Ciudad </div>
                              <div class="panel-body menuContent">

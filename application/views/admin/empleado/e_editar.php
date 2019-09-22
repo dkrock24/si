@@ -169,7 +169,7 @@
         <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="usuario" action='../update' method="post">
             <div class="row">
                 <div class="col-lg-12">
-                    <div id="panelDemo10" class="panel">
+                    <div id="panelDemo10" class="panel menu_title_bar">
                         <div class="panel-heading menuTop">Editar Empleado : <?php //echo $empleado[0]->nombre_submenu ?> </div>
                         <div class="panel-body menuContent">
                             <input type="hidden" value="<?php echo $empleado[0]->id_empleado; ?>" name="id_empleado">

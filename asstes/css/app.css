@@ -165,6 +165,7 @@ hr {
 }
 .panel.panel-default {
   border-top-width: 3px;
+  margin-top: 100px;
 }
 .well {
   border: 1px solid #dde6e9;
@@ -472,6 +473,9 @@ body {
     margin: -20px;
     margin-bottom: 20px;
     padding: 20px;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
   }
   .content-wrapper > button,
   .content-wrapper > .btn {
@@ -484,6 +488,7 @@ body {
   }
   .wrapper > .aside .aside-inner {
     padding-top: 55px;
+    position: fixed;
   }
   .wrapper > section,
   .wrapper > footer {
@@ -1187,6 +1192,8 @@ _:-ms-lang(x),
 }
 @media only screen and (min-width: 768px) {
   .topnavbar {
+    width: 100%;
+    position:fixed;
     border: 0;
     background-color: #23b7e5;
     /*rafael
@@ -1198,6 +1205,10 @@ _:-ms-lang(x),
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff23b7e5', endColorstr='#ff51c6ea', GradientType=1);
   }
+  .content-wrapper > h3{
+    margin-top: 30px;
+  }
+
   .topnavbar .navbar-header {
     background-image: none;
     background-repeat: no-repeat;

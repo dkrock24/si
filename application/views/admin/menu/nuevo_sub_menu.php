@@ -13,7 +13,7 @@
                 <div class="col-lg-12">
 
 
-                    <div id="" class="panel">                                    
+                    <div id="" class="panel menu_title_bar">                                    
                         <div class="panel-heading menuTop">Nuevo Sub Menu : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
                             <div class="panel-body menuContent"> 
                                 <div class="row">

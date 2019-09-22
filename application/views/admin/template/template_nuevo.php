@@ -268,7 +268,7 @@ ul li{
 							</ul>
 						</div>
 						<div class="col-md-10 content" style="height: 100%">
-				            <div class="panel panel-default">
+				            <div class="panel menu_title_bar">
 				                <div class="panel-heading">
 				                    Modelador
 				                </div>

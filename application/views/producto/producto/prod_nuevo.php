@@ -546,7 +546,7 @@
 
                         <!-- INICIO MENU IZQUIERDO -->
                         <div class="col-lg-3">
-                            <div id="" class="panel" style="height: 550px;">
+                            <div id="" class="panel" style="height: 550px;margin-top: 100px;">
                                 <div class="panel-heading menuTop">Nuevo Producto :  </div>
                                 <div class="panel-body menuContent">
                                 <div class="row">
@@ -600,7 +600,7 @@
                         <!-- INICIO PRODUCTO ENCABEZADO -->
                         <div class="col-lg-9">
                            
-                            <div id="" class="panel producto_creacion">
+                            <div id="" class="panel producto_creacion" style="margin-top: 100px;">
                                 <div class="panel-heading menuTop">Producto General:  </div>
                                     <div class="panel-body menuContent">  
                                     

@@ -312,7 +312,7 @@ function agregar_producto(){
     <div class="content-wrapper">
         <h3 style="height: 50px; ">Existencias </h3>
 
-            <div class="panel-heading menuTop" style="background: #2D3B48; color: white;">
+            <div class="panel-heading menuTop menu_title_bar" style="background: #2D3B48; color: white;">
                 <div class="row">
 
                 <div class="col-lg-6 col-md-6">

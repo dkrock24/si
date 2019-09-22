@@ -25,14 +25,12 @@ $(document).ready(function(){
     });
 
     function search_texto2(texto){
-
         $('.1dataSelect').show();
         sucursal = $("#sucursal_id").val();
         interno_bodega  = $("#bodega_select").val();
         var contador_precios=1;
         var table_tr="";
         if( sucursal != interno_sucursal){
-        
             interno_sucursal = sucursal;
             $.ajax({
                 url: "get_productos_lista/"+sucursal+"/"+interno_bodega+"/"+texto,
@@ -50,6 +48,7 @@ $(document).ready(function(){
                 error:function(){
                 }
             });
+
         }else{
 
             var productos = _productos_lista;
@@ -175,36 +174,36 @@ $(document).ready(function(){
                 cache : false,                
 
                 success: function(data){
+
                     var datos = JSON.parse(data);
+                    var productos = datos["productos"];
+                    var producto_id = 0;
+                    _productos_lista = productos;
                     
                     _impuestos['cat']=datos["impuesto_categoria"];
                     _impuestos['cli']=datos["impuesto_cliente"];
                     _impuestos['doc']=datos["impuesto_documento"];
                     _impuestos['pro']=datos["impuesto_proveedor"];
 
-                    var productos = datos["productos"];
-                    var producto_id = 0;
-                    _productos_lista = productos;
-                    
-                
                 },
                 error:function(){
                 }
             });
         }else{
-
+            
             var producto_id = 0;
             interno_sucursal = sucursal;
             $.each(_productos_lista, function(i, item) { 
 
                 var name = item.name_entidad.toUpperCase();
                 var cod_barra = item.cod_barra;
+                var pres_cod_bar = item.pres_cod_bar;
 
-                if(name.includes(texto.toUpperCase()) || cod_barra.includes(texto)){
+                if(name.includes(texto.toUpperCase()) || cod_barra.includes(texto) || pres_cod_bar.includes(texto)){
                     producto_id = item.id_entidad;  
                     var precio = 0;
                     
-                    table_tr += '<option value="'+item.id_entidad+'">'+item.name_entidad+'</option>';
+                    table_tr += '<option value="'+item.id_producto_detalle+'">'+item.name_entidad +' - '+ item.presentacion +'</option>';
                     contador_precios++;
                 }
                 $('.dataSelect').show();    
@@ -225,6 +224,7 @@ $(document).ready(function(){
     $(document).on('keypress', '.dataSelect', function(){
 
         if ( event.which == 13 ) {
+
             get_producto_completo(this.value);
             event.preventDefault();
             
@@ -238,7 +238,7 @@ $(document).ready(function(){
         
     });
 
-    function get_producto_completo(producto_id){
+    function get_producto_completo(producto_id ){
         /* 4 - Buscar producto por Id para agregarlo a la linea */
         $("#grabar").attr('disabled');
         var codigo,presentacion,tipo,precioUnidad,descuento,total
@@ -257,59 +257,65 @@ $(document).ready(function(){
 
             success: function(data){
                 var datos = JSON.parse(data);
-                console.log("X -> ",datos['impuesto']);
+                console.log("X -> ",datos['producto']);
 
                 var precio_unidad = datos['producto'][8].valor;
                 producto_escala = datos['producto'][0].Escala;
                 var prod_precio = datos["prod_precio"];
-                _productos_precio = prod_precio;
+
+                _productos_precio2 = prod_precio;
+                $.each(prod_precio, function(i, item) {
+                    if(item.id_producto_detalle == producto_id ){
+                        _productos_precio = item;    
+                    }                    
+                });
+
                 _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
                 _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);
 
                 //console.log(datos['producto_imagen']);
 
                 if( parseInt(_productos_precio.length) >= 1 && producto_escala!=1 ){
-                    get_presentacio_lista( _productos_precio );
+                      //get_presentacio_lista( _productos_precio );
+                      seleccionar_productos_array( producto_id );
                     
                 }else{
                     enLinea();
                 }
 
+                $("#producto").val(datos['producto'][12].valor);
+                $("#bodega").val(datos['producto'][0].nombre_bodega);
+                $("#precioUnidad").val( _productos_precio.unidad );
+                
+                $("#descripcion").val(datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca  );
 
+                producto_cantidad_linea = 1;
+                $("#cantidad").val(1);
+                precioUnidad = _productos_precio.unidad;
 
-                    $("#producto").val(datos['producto'][12].valor);
-                    $("#bodega").val(datos['producto'][0].nombre_bodega);
-                    $("#precioUnidad").val( _productos_precio[0].unidad );
-                    
-                    $("#descripcion").val(datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca  );
+                set_calculo_precio(precioUnidad, producto_cantidad_linea);
 
-                    producto_cantidad_linea = 1;
-                    $("#cantidad").val(1);
-                    precioUnidad = _productos_precio[0].unidad;
-
-                    set_calculo_precio(precioUnidad, producto_cantidad_linea);
-
-                    _productos.producto_id  = datos['producto'][0].id_entidad;
-                    _productos.combo        = datos['producto'][0].combo;
-                    _productos.inventario_id= datos['producto'][0].id_inventario;
-                    _productos.producto     = datos['atributos'].Cod_Barras;
-                    _productos.descuento_limite     = datos['atributos'].Descuento_Limite;
-                    _productos.descuento    = 0.00;// datos['producto'][7].valor;
-                    _productos.cantidad     = producto_cantidad_linea;
-                    _productos.total        = 0.00;//$("#total").val();
-                    _productos.id_producto_combo = null;
-                    _productos.combo_total  = null;
-                    _productos.invisible    = 0;
-                    _productos.bodega       = datos['producto'][0].nombre_bodega;
-                    _productos.id_bodega    = datos['producto'][0].id_bodega;
-                    _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
-                    _productos.por_desc     = datos['producto'][0].porcentage;
-                    _productos.gen          = datos['producto'][10].valor;
-                    _productos.iva          = datos['atributos']['Incluye Iva'];//datos['producto'][9].valor;
-                    _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
-                    
-                    _productos.total = datos['prod_precio'][0].precio;
-                    _productos.categoria    = datos['producto'][0].categoria;
+                _productos.producto_id  = datos['producto'][0].id_entidad;
+                _productos.combo        = datos['producto'][0].combo;
+                _productos.inventario_id= datos['producto'][0].id_inventario;
+                _productos.producto     = datos['atributos'].Cod_Barras;
+                _productos.descuento_limite     = datos['atributos'].Descuento_Limite;
+                _productos.descuento    = 0.00;// datos['producto'][7].valor;
+                _productos.cantidad     = producto_cantidad_linea;
+                _productos.total        = 0.00;//$("#total").val();
+                _productos.id_producto_combo = null;
+                _productos.combo_total  = null;
+                _productos.invisible    = 0;
+                _productos.bodega       = datos['producto'][0].nombre_bodega;
+                _productos.id_bodega    = datos['producto'][0].id_bodega;
+                _productos.impuesto_id  = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
+                _productos.por_desc     = datos['producto'][0].porcentage;
+                _productos.gen          = datos['producto'][10].valor;
+                _productos.iva          = datos['atributos']['Incluye Iva'];//datos['producto'][9].valor;
+                _productos.descripcion  = datos['producto'][0].name_entidad +" "+ datos['producto'][0].nombre_marca;
+                
+                _productos.total        = _productos_precio.precio;
+                _productos.categoria    = datos['producto'][0].categoria;
 
             },
             error:function(){
@@ -340,25 +346,26 @@ $(document).ready(function(){
     }
 
     function enLinea(){
-        $("#presentacion").val(_productos_precio[0].presentacion);  
-        $("#factor").val(_productos_precio[0].factor);
-        _productos.presentacion = _productos_precio[0].presentacion;
-        _productos.precioUnidad = _productos_precio[0].unidad;
-        _productos.presentacionFactor = _productos_precio[0].factor;
-        _productos.id_producto_detalle = _productos_precio[0].id_producto_detalle;
+        
+        $("#presentacion").val(_productos_precio.presentacion);  
+        $("#factor").val(_productos_precio.factor);
+        _productos.presentacion = _productos_precio.presentacion;
+        _productos.precioUnidad = _productos_precio.unidad;
+        _productos.presentacionFactor = _productos_precio.factor;
+        _productos.id_producto_detalle = _productos_precio.id_producto_detalle;
 
-        _productos.presentacionPrecio = _productos_precio[0].precio
-        _productos.presentacionUnidad = _productos_precio[0].unidad;
-        _productos.presentacionCliente = _productos_precio[0].Cliente;
-        _productos.producto2 = _productos_precio[0].id_producto_detalle;
-        _productos.presentacionCodBarra = _productos_precio[0].cod_barra;
+        _productos.presentacionPrecio = _productos_precio.precio
+        _productos.presentacionUnidad = _productos_precio.unidad;
+        _productos.presentacionCliente = _productos_precio.Cliente;
+        _productos.producto2 = _productos_precio.id_producto_detalle;
+        _productos.presentacionCodBarra = _productos_precio.cod_barra;
     }
     
     function validar_escalas( c ){
         /* Valida las escalas de los productos cuando se aunmenta la cantidad */
         var total_precio_escala = 0;
 
-        $.each(_productos_precio, function(i, item) {
+        $.each(_productos_precio2, function(i, item) {
             
             pf = parseInt(item.factor);
             if( c == pf ){
@@ -428,7 +435,7 @@ $(document).ready(function(){
 
         document.onkeydown = function(e) {
 
-            console.log(e.keyCode);
+            //console.log(e.keyCode);
 
             switch (e.keyCode) {
                 case 37:
@@ -611,9 +618,12 @@ $(document).ready(function(){
     });
 
     function seleccionar_productos_array( precio_id ){
+        
         $.each(_productos_precio, function(i, item) { 
             
             if(precio_id == item.id_producto_detalle){
+
+                console.log("-> ", precio_id , item.precio);
 
                 _productos.presentacion = item.presentacion;
                 _productos.id_producto_detalle = item.id_producto_detalle;

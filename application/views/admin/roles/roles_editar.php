@@ -11,10 +11,9 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <div id="panelDemo10" class="panel">   
+                <div id="panelDemo10" class="panel menu_title_bar">   
                     
-                    <div class="panel-heading menuTop">Editar Rol : <?php echo $roles[0]->role ?> </div>
-                    
+                    <div class="panel-heading menuTop">Editar Rol : <?php echo $roles[0]->role ?> </div>                    
 
                     <div class="panel-body menuContent">
                         <div class="row">
@@ -64,6 +63,57 @@
                                         </div>
                                     </div>
                                 </form>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <form class="form-horizontal" action='../copiar_rol' method="post">
+                                    <input type="hidden" value="<?php echo $roles[0]->id_rol; ?>" name="role_id">
+                                    <h5>Copiar Rol Existente</h5>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Nombre</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="role" name="role" placeholder="Nuevo nombre rol" value="">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Url</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="pagina" name="pagina" placeholder="Url rol" value="">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                                <label>
+                                                    <select name="estado_rol" class="form-control">
+                                                        <?php 
+                                                            if( $roles[0]->estado_rol ==1 ){ 
+                                                                ?>
+                                                                <option value="1">Activo</option>
+                                                                <option value="0">Inactivo</option>
+                                                                <?php
+                                                            } else{
+                                                                 ?>
+                                                                <option value="0">Inactivo</option>
+                                                                <option value="1">Activo</option>
+                                                                <?php
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-info">Copiar</button>
+                                        </div>
+                                    </div>
+                                </form>
+
                             </div>
                         </div>
                     </div>

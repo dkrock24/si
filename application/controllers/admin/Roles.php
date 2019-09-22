@@ -79,8 +79,8 @@ class Roles extends CI_Controller {
 	{	
 		$id_rol = $this->session->roles[0];
 
-		$data['menu'] = $this->session->menu;
-		$data['roles'] = $this->Roles_model->getRolesById( $id_role );
+		$data['menu'] = $this->session->menu;		
+		$data['roles'] = $this->Roles_model->getRolesById( $id_role );		
 		$data['home'] = 'admin/roles/roles_editar';
 		$data['title'] = 'Editar Role';
 
@@ -97,6 +97,19 @@ class Roles extends CI_Controller {
 			$this->session->set_flashdata('warning', "Rol Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Rol No Fue Actualizado");
+		}
+		
+		redirect(base_url()."admin/roles/index");
+	}
+
+	public function copiar_rol(){
+		
+		$data['roles'] = $this->Roles_model->createRolCopia( $_POST );	
+
+		if($data){
+			$this->session->set_flashdata('warning', "Rol Fue Copiado");
+		}else{
+			$this->session->set_flashdata('danger', "Rol No Fue Copiado");
 		}
 		
 		redirect(base_url()."admin/roles/index");

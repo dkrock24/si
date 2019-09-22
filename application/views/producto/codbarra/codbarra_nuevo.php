@@ -67,7 +67,7 @@
             </a> 
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
             </h3>
-            <div class="panel panel-default">
+            <div class="panel menu_title_bar">
                 <div class="panel-heading">Nuevo Codigo <a href="<?php echo base_url().'producto/producto/nuevo' ?>" style='float: right;' class="btn btn-primary"><i class="fa fa-arrow-left"></i> Producto</a></div>
                 <!-- START table-responsive-->
 

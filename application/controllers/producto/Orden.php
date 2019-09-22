@@ -295,13 +295,14 @@ class Orden extends CI_Controller {
 		echo json_encode( $data );
 	}
 
-	function get_producto_completo($producto_id, $id_bodega ){
+	function get_producto_completo($id_producto_detalle, $id_bodega ){
 
 		$combo_conf = "combo";
 		$impuesto_conf = "impuestos";
 
-		$data['producto'] = $this->Orden_model->get_producto_completo($producto_id, $id_bodega);
-
+		$data['producto'] = $this->Orden_model->get_producto_completo($id_producto_detalle, $id_bodega);
+		$producto_id = $data['producto'][0]->id_entidad;
+		
 		$contador=0;
 		$atributos= array();
 		foreach ($data['producto'] as $key => $value) {

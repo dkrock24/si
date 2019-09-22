@@ -603,7 +603,7 @@
                     
 
                         <div class="col-lg-3">
-                            <div id="" class="panel">
+                            <div id="" class="panel panel-default">
                                 <div class="panel-heading menuTop"><i class="fa fa-pencil right"></i> Editar Producto :</div>
                                 <div class="panel-body menuContent">
                                 <div class="row">
@@ -665,7 +665,7 @@
                         
                         <div class="col-lg-9">
                            
-                            <div id="" class="panel">
+                            <div id="" class="panel" style="margin-top: 100px;">
                                 <div class="panel-heading menuTop">Producto General :  </div>
                                     <div class="panel-body menuContent">
                                     

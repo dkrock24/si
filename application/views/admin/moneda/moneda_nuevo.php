@@ -13,7 +13,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <div id="panelDemo10" class="panel">    
+                <div id="panelDemo10" class="panel menu_title_bar">    
                                                 
                     <div class="panel-heading menuTop"><i class="fa fa-bars" style="font-size: 20px;"></i> Crear Moneda <?php //echo $onMenu[0]->nombre_submenu ?> </div>
                     <div class="panel-body menuContent">        

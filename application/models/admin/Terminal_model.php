@@ -45,4 +45,25 @@ class Terminal_model extends CI_Model {
         $result = $this->db->count_all_results();
         return $result;
     }
+
+    function crear( $data ){
+        $this->db->insert( self::pos_terminal , $data );
+    }
+
+    function get_terminal( $terminal_id ){
+        $this->db->where('t.id_terminal', $terminal_id );
+        $this->db->from( self::pos_terminal.' as t');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function update( $data ){
+        $this->db->where('id_terminal' , $data['id_terminal']);
+        $this->db->update( self::pos_terminal , $data );
+    }
+
+    function eliminar( $id ) {
+        $this->db->where('id_terminal' , $id );
+        $this->db->delete( self::pos_terminal );   
+    }
 }

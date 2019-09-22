@@ -11,7 +11,7 @@
         </h3>
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-white">
+                <div class="panel menu_title_bar">
 
                     <div class="panel-body">
                         <div class="col-lg-6">

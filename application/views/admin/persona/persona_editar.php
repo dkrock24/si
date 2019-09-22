@@ -45,7 +45,7 @@
             
                     <div class="col-lg-12">
 
-                        <div id="panelDemo10" class="panel panel-info">    
+                        <div id="panelDemo10" class="panel menu_title_bar">    
                                                 
                             <div class="panel-heading">Editar Persona : <?php //echo $persona[0]->nombre_submenu ?> </div>
                              <div class="panel-body">        

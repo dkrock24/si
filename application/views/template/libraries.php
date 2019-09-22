@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="/si/asstes/css/bootstrap.css" id="bscss">
     <link rel="stylesheet" href="/si/asstes/css/app.css" id="maincss">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/css/css_general.css">
 
   </head>
   <title>

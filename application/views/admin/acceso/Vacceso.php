@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-lg-4">
                       <!-- START panel-->
-                      <div id="panelDemo10" class="panel panel-info">
+                      <div id="panelDemo10" class="panel panel-info menu_title_bar">
                          <div class="panel-heading">Acceso Menu Roles</div>
                          <div class="panel-body">
                             <p>
@@ -47,7 +47,7 @@
 
                     <!-- Permitir Accesos al usuarios a menus visibles -->
                     <div class="col-lg-8">
-                        <div id="panelDemo10" class="panel panel-info">
+                        <div id="panelDemo10" class="panel panel-info menu_title_bar">
                             <div class="panel-heading panel-heading-collapsed">Accesos Menus
                                 <a href="#" data-tool="panel-dismiss" data-toggle="tooltip" title="Close Panel" class="pull-right">
                                 <em class="fa fa-times"></em>
@@ -65,8 +65,8 @@
                               
 
                                         <!-- START panel-->
-                                        <div class="panel panel-default">
-                                           <div class="panel-heading">Actualizar Permiso : [ <?php echo $accesos[0]->role; ?> ] Menu : [ <?php echo $accesos[0]->nombre_menu; ?> ]</div>
+                                        <div class="panel ">
+                                           <div class="panel-heading">Actualizar [Permiso : <span style="color:green"><?php echo $accesos[0]->role; ?></span> ]  [ Menu : <span style="color: red"><?php echo $accesos[0]->nombre_menu; ?> </span> ]</div>
                                            <!-- START table-responsive-->
                                            <form action="acceso_guardar" method="post">
                                            <div class="">
@@ -180,8 +180,8 @@
                                         <!-- Main section-->
                                     <section>
                                         <!-- START panel-->
-                                        <div class="panel panel-default">
-                                           <div class="panel-heading">Actualizar Permiso : [ <?php echo $accesos_menus_internos[0]->role; ?> ] Menu : [ <?php echo $accesos_menus_internos[0]->nombre_menu; ?> ]</div>
+                                        <div class="panel ">
+                                           <div class="panel-heading">Actualizar [Permiso : <span style="color: green"> <?php echo $accesos_menus_internos[0]->role; ?> </span>]  [ Menu : <span style="color:red"><?php echo $accesos_menus_internos[0]->nombre_menu; ?> </span>]</div>
                                            <!-- START table-responsive-->
                                            <form action="accesos_menus_internos" method="post">
                                            <div class="">
@@ -297,7 +297,7 @@
                                         <!-- Main section-->
                                     <section>
                                         <!-- START panel-->
-                                        <div class="panel panel-default">
+                                        <div class="panel">
                                            <div class="panel-heading">Actualizar Permiso : [ <?php echo $vista_componentes[0]->role; ?> ] Menu : [ <?php echo $vista_componentes[0]->nombre_menu; ?> ]</div>
                                            <!-- START table-responsive-->
                                            <form action="accesos_componenes" method="post">

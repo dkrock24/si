@@ -1541,7 +1541,7 @@ $(document).ready(function(){
         <div class="row">
            <div class="col-lg-12 col-md-12">
               <!-- Team Panel-->
-              <div class="panel panel-default">
+              <div class="panel menu_title_bar">
                  <div class="panel-heading" style="background: #535D67; color: white;">
                     <div class="pull-right">
                        <div class="label label-success"> Fecha <?php echo Date("Y-m-d"); ?> </div>

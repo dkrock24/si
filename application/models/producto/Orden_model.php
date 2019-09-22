@@ -78,6 +78,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`id_categoria`, `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as cod_barra, b.nombre_bodega
+	        		, pde.presentacion , pde.cod_barra as pres_cod_bar , pde.id_producto_detalle
 				FROM `producto` as `P`
 				
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
@@ -92,6 +93,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
+				LEFT JOIN prouducto_detalle AS `pde` ON pde.Producto = P.id_entidad
 				WHERE pa.Atributo = 4 and pb.Cantidad>1 and b.id_bodega='".$bodega."' and b.Sucursal='".$sucursal."' 
 				  order by P.id_entidad");
 
@@ -128,7 +130,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor,b.id_bodega, b.nombre_bodega, pinv.id_inventario
 	        		, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, impuestos.porcentage ,
-	        		 `sub_c`.`id_categoria` as 'categoria'
+	        		 `sub_c`.`id_categoria` as 'categoria',pde.presentacion,pde.factor,pde.precio,pde.unidad
 
 				FROM `producto` as `P`
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
@@ -146,8 +148,9 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 				LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
 				LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
 				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
+				LEFT JOIN prouducto_detalle AS pde ON pde.Producto = P.id_entidad
 
-				WHERE P.id_entidad = ". $producto_id ." and b.id_bodega =". $id_bodega);
+				WHERE pde.id_producto_detalle = ". $producto_id ." and b.id_bodega =". $id_bodega);
 		        //echo $this->db->queries[0];
 		        return $query->result();
 

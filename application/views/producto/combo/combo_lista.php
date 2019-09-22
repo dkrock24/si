@@ -3,7 +3,7 @@
         <!-- Page content-->
         <div class="content-wrapper">
             <h3 style="height: 50px; "><i class="icon-arrow-right"></i>  Lista Combos </h3>
-            <div class="panel">
+            <div class="panel menu_title_bar">
                 
                 
                 

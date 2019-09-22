@@ -13,7 +13,7 @@
         <div class="row">
                     
             <div class="col-lg-12">
-                 <div id="panelDemo10" class="panel">
+                 <div id="panelDemo10" class="panel menu_title_bar">
                     <div class="panel-heading menuTop">Nueva Categoria <a href="<?php echo base_url().'producto/producto/nuevo' ?>" style='float: right;' class="btn btn-primary"><i class="fa fa-arrow-left"></i> Producto</a></div>
 
                     <div class="panel-body menuContent">   

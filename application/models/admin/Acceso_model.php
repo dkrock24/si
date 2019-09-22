@@ -191,7 +191,7 @@ class Acceso_model extends CI_Model
 
     // Actualizar el Accesos Para el  Rol
     public function update_acceso_menu( $datos ){
-        
+
         $accesos_rol = $this->get_menu_acceso( $datos['id_role'] , $datos['id_menu'] );
 
             foreach ($accesos_rol as $ac) 
@@ -204,7 +204,7 @@ class Acceso_model extends CI_Model
                     $this->db->update(self::submenu_acceso, $data);
 
                 }else{
-                    $data = array('submenu_acceso_estado' => 1 );
+                    $data = array('submenu_acceso_estado' => 0 );
                     $this->db->where('id_role', $datos['id_role']);
                     $this->db->where('id_submenu_acceso', $ac->id_submenu_acceso );
                     $this->db->update(self::submenu_acceso, $data);

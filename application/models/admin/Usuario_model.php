@@ -25,6 +25,21 @@ class Usuario_model extends CI_Model {
         } 
     }
 
+    function get_usuarios_sucursal( ){;
+        $this->db->select('*');
+        $this->db->from(self::sys_usuario.' as u');
+        $this->db->join(self::empleado.' as e', 'e.id_empleado = u.Empleado');
+        $this->db->join(self::persona.' as p', 'p.id_persona = e.Persona_E');
+        $this->db->join(self::sucursal.' as s', 's.id_sucursal = e.Sucursal');
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
     function record_count(){
         return $this->db->count_all(self::sys_usuario);
         $this->db->where('r.Empresa',$this->session->empresa[0]->id_empresa);

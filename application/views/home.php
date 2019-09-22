@@ -3,7 +3,7 @@ echo base_url();
 ?>
 
 <!-- Main section-->
-      <section>
+      <section class="menu_title_bar">
          <!-- Page content-->
          <div class="content-wrapper">
 

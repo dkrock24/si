@@ -8,7 +8,9 @@ class Roles_model extends CI_Model {
     const usuarios = 'sr_usuarios';    
     const roles = 'sys_role';
     const cargos = 'sr_cargos';
-
+    
+    
+    
 
     function getRoles($limit, $id){
 
@@ -116,6 +118,63 @@ class Roles_model extends CI_Model {
         $result = $this->db->delete(self::roles, $data);
 
         return $result;
+    }
+
+    function copiar_rol( $data ){
+        
+        $rol_nombre = $data['nom_nue_rol'];
+
+        $accesos = $this->getRolAccesos( $data['role_id'] );
+    }
+
+    function createRolCopia( $nuevo_rol ){
+
+        $data = array(
+           'role' => $nuevo_rol['role'],
+            'pagina' => $nuevo_rol['pagina'],
+            'fecha_actualizacion' => date('Y-m-d'),
+            'Empresa'=> $this->session->empresa[0]->id_empresa,
+            'estado_rol' => $nuevo_rol['estado_rol'],
+        );
+
+        $result = $this->db->insert(self::roles, $data );
+
+        $ultimo_id = $this->db->insert_id();
+
+        // Set Mismo Acceso que el Rol copiado
+        $this->setAccesosRol( $ultimo_id , $nuevo_rol['role'] );
+        return $result;
+    }
+
+    function setAccesosRol($role_copia , $rol_copiado ){
+
+        $accesos_rol = $this->get_accesos( $rol_copiado );
+
+        foreach ($accesos_rol as $ac) 
+        {
+            $data = array(
+                'id_role' => $role_copia,
+                'id_submenu' => $ac->id_submenu,
+                'submenu_acceso_estado' => $ac->submenu_acceso_estado
+            );
+            $this->db->insert(self::sub_men_acceso, $data);
+        }
+    }
+
+    function get_accesos( $rol_copiado ){
+
+        $this->db->select('*');
+        $this->db->from(self::sub_men_acceso .' as sma');
+        $this->db->join(self::submenu .' as sm ',' on sm.id_submenu = sma.id_submenu');
+        $this->db->join(self::menu .' as m ',' on m.id_menu = sm.id_menu');
+        $this->db->join(self::roles .' as r ',' on r.id_rol = sma.id_role');
+        $this->db->where('sma.id_role', $rol_copiado );
+        $query = $this->db->get();
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
     }
 }
 

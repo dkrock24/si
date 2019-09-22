@@ -4,8 +4,8 @@
         <div class="content-wrapper">
             <h3 style="height: 50px; font-size: 13px;">                
                 <a href="../index" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Pais</button> </a> 
-                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Departamentos</button>
+                    <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Lista Pais</button> </a> 
+                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Departamentos</button>
                 </h3>
                 <?php $this->load->view('notificaciones/success'); ?>
             <div class="panel panel-default">
@@ -80,6 +80,7 @@
             			                            </td>
             			                        </tr>
                                                 <?php
+                                            $contado++;
             	                    	}
                                     }
                                 	?>                       

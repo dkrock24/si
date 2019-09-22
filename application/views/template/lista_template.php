@@ -15,6 +15,8 @@
 
 </script>
 
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/css/css_general.css" />
+
 <!-- Main section-->
     <section>
         <!-- Page content-->
@@ -27,7 +29,7 @@
             
             <div class="panel panel-default">
                 <!-- START table-responsive-->
-                
+                <div class="dataList">
                     <table id="datatable1" class="table table-striped table-hover" width="100%">
 
                         <thead class="" style="">
@@ -90,6 +92,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                       
                         <?php
                             $contador = $contador_tabla;
                             if($registros){
@@ -190,12 +193,11 @@
                         }
                         }
                       ?>                       
-                                   
+                            
                         </tbody>
-                    </table>
-
-                
-                
+                        
+                    </table>               
+                </div>
                     
                     <div class="text-right  panel-footer bg-gray-light">
                         <ul class="pagination pagination-md">

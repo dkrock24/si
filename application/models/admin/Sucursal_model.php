@@ -18,6 +18,19 @@ class Sucursal_model extends CI_Model {
         }
 	}
 
+    function getAllSucursalEmpresa( ){
+        $this->db->select('*');
+        $this->db->from(self::pos_sucursal.' as b');
+        $this->db->where('b.Empresa_Suc', $this->session->empresa[0]->id_empresa );
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function getSucursalEmpresa( $empresa_id ){
         $this->db->select('*');
         $this->db->from(self::pos_sucursal.' as b');

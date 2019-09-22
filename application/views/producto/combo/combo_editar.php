@@ -81,7 +81,7 @@
             </a> 
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
             </h3>
-            <div class="panel panel-default">
+            <div class="panel menu_title_bar">
                 <div class="panel-heading">Nuevo Combo</div>
                 <!-- START table-responsive-->
                 <div class="">

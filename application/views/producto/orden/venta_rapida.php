@@ -49,7 +49,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                   <!-- Team Panel-->
-                    <div class="panel panel-default" style="width: 100%; background: white;text-align: center;color: white;font-size: 30px;">
+                    <div class="" style="width: 100%; background: white;text-align: center;color: white;font-size: 30px;">
                         <div class="panel-heading" style="background: #2D3B48; color: white;">
                             <div class="row">
 

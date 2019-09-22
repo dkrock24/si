@@ -36,7 +36,7 @@
         <div class="row">
            <div class="col-lg-12 col-md-12">
               <!-- Team Panel-->
-              <div class="panel panel-default">
+              <div class="">
 
                  <!-- START panel-->
                 <form name="encabezado_form" id="encabezado_form" method="post" action="">
@@ -51,7 +51,7 @@
                     <!-- Fin Campos del cliente -->
 
 
-                     <div id="panelDemo1" class="panel panel-default">
+                     <div id="panelDemo1" class="panel" style="margin-top: 60px;">
                         
                         <a href="index" style="top: 0px;position: relative; text-decoration: none; float: left;">
                             <button type="button" class="mb-sm btn btn-pill-right btn-primary btn-outline"> Lista Ordenes </button> 
@@ -343,59 +343,15 @@
                     </div>
 
                     <div class="row" style="border-top: 1px dashed grey;">
-                        <div class="col-lg-6 col-md-6" >
+                        <div class="col-lg-12 col-md-12" >
                             <div class="row" style="font-size: 22px">
-                                <div class="col-lg-6 col-md-6" style="color:#0f4871;"><span style="float: right;">Cantidad</span></div>
-                                <div class="col-lg-6 col-md-6">
-                                    <span class="cantidad_tabla" style="float: left;"></span>
-                                </div>
+                                <div class="col-lg-2 col-md-2" style="color:#0f4871;"><span style="float: left;">Cant. </span> <span class="cantidad_tabla"></span></div>
+                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871; float: left;">Desc. </span><?php echo $moneda[0]->moneda_simbolo; ?><span class="descuento_tabla"></span></div>
+                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871;float: left;">SubTotal </span> <?php echo $moneda[0]->moneda_simbolo; ?><span class="sub_total_tabla"></span></div>
+                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871; float: left;" class="iva_nombre">Iva</span> <span class="iva_valor"></span><br><span class="iva_total"></span></div>
+                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871; float: left;" class="impuestos_nombre">Impu</span><span class="impuestos_valor"></span><span class="impuestos_total"></span></div>
+                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871; float: left;" class="">Total</span> <?php echo $moneda[0]->moneda_simbolo; ?> <span class="total_tabla"></span></div>
                             </div>                              
-                        </div>
-                        <div class="col-lg-6 col-md-6">
-                            <div class="row" style="font-size: 22px;">
-                                <div class="col-lg-6 col-md-6"><span style="color:#0f4871;float: right;">Sub Total</span></div>
-                                <div class="col-lg-6 col-md-6"> <?php echo $moneda[0]->moneda_simbolo; ?><span class="sub_total_tabla"></span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6"></div>
-                        <div class="col-lg-6 col-md-6">
-                            <div class="row" style=" font-size: 22px;">
-                                <div class="col-lg-6 col-md-6"><span style="color:#0f4871; float: right;">Descuento</span></div>
-                                <div class="col-lg-6 col-md-6"> <?php echo $moneda[0]->moneda_simbolo; ?><span class="descuento_tabla"></span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6"></div>
-                        <div class="col-lg-6 col-md-6">
-                            <div class="row" style=" font-size: 22px;">
-                                <div class="col-lg-6 col-md-6"><span style="color:#0f4871; float: right;" class="iva_nombre">Iva</span></div>
-                                <div class="col-lg-6 col-md-6"> <span class="iva_valor"></span><br><span class="iva_total"></span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6"></div>
-                        <div class="col-lg-6 col-md-6">
-                            <div class="row" style=" font-size: 22px;">
-                                <div class="col-lg-6 col-md-6"><span style="color:#0f4871; float: right;" class="impuestos_nombre">Impuestos</span></div>
-                                <div class="col-lg-6 col-md-6"> <span class="impuestos_valor"></span><span class="impuestos_total"></span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6"></div>
-                        <div class="col-lg-6 col-md-6" style="border-top: 1px dashed grey;">
-                            <div class="row" style=" font-size: 22px;">
-                                <div class="col-lg-6 col-md-6"><span style="color:#0f4871; float: right;" class="">Total</span></div>
-                                <div class="col-lg-6 col-md-6"><?php echo $moneda[0]->moneda_simbolo; ?> <span class="total_tabla"></span></div>
-                            </div>
                         </div>
                     </div>
                 

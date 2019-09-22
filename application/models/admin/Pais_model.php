@@ -108,8 +108,8 @@ class Pais_model extends CI_Model {
 
 		$this->db->select('*');
         $this->db->from(self::pais.' as p');
-        $this->db->join(self::pais_d.' as pd',' on p.id_pais = pd.id_pais');
-        $this->db->where('pd.id_depa',$id_dep ); 
+        $this->db->join(self::pais_d.' as pd',' on p.id_pais = pd.pais');
+        $this->db->where('pd.id_departamento',$id_dep ); 
 
         $query = $this->db->get(); 
         
@@ -122,12 +122,12 @@ class Pais_model extends CI_Model {
 	function update_dep( $departamento ){
 
 		$data = array(
-           'nombre_depa' 	=> $departamento['nombre_depa'],
-            'estado_depa' 	=> $departamento['estado_depa'],
-            'fecha_actuqalizacion_depa' => date("Y-m-d"),
+           'nombre_departamento' 	=> $departamento['nombre_departamento'],
+            'estado_departamento' 	=> $departamento['estado_departamento'],
+            'fecha_actualizacion_depa' => date("Y-m-d"),
         );
 
-        $this->db->where('id_depa', $departamento['id_depa']);
+        $this->db->where('id_departamento', $departamento['id_departamento']);
 		$result = $this->db->update(self::pais_d, $data ); 
 
 		return $result;

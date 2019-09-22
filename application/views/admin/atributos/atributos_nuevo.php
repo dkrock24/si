@@ -77,7 +77,7 @@
 
                         <div class="col-lg-6">
                             <!-- START panel-->
-                            <div id="panelDemo10" class="panel">
+                            <div id="panelDemo10" class="panel menu_title_bar">
                                 <div class="panel-heading menuTop">Nueva Atributo </div>
                                 <div class="panel-body menuContent">
                                     <p>
