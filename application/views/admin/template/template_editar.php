@@ -210,11 +210,11 @@ ul li{
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
             
         </h3>
-        <div class="row">
+        <div class="row menu_title_bar">
             <div class="col-lg-12">
                 <div class="row">
 
-					<div class="container-fluid main-container">
+					<div class="container-fluid main-container ">
 						<div class="col-md-2 ">
 							<ul class="nav nav-pills nav-stacked collapse navbar-collapse navbar-ex1-collapse">
 								<li style="padding:10px;">
@@ -286,10 +286,7 @@ ul li{
 							</ul>
 						</div>
 						<div class="col-md-10 content" style="height: 100%">
-				            <div class="panel menu_title_bar">
-				                <div class="panel-heading">
-				                    Modelador
-				                </div>
+				            <div class="panel ">
 				                <form action="../update" method="post">
 				                	<input type="hidden" name="id_factura" value="<?php echo $formato[0]->id_factura ?>">
 				                <div class="panel-body"><br>

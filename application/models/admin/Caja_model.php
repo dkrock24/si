@@ -6,12 +6,18 @@ class Caja_model extends CI_Model {
     const caja = "pos_caja";
     const empresa = "pos_empresa";
     const pos_terminal_cajero = 'pos_terminal_cajero';
+    const documento = 'pos_tipo_documento';
+    const doc_sucursal = 'pos_temp_sucursal';
+    const doc_template = 'pos_doc_temp';
 
     function get_all_caja( $limit, $id ){;
         $this->db->select('*');
-        $this->db->from( self::caja.' as c');
-        $this->db->join( self::empresa.' as e',
-                                    ' on c.Empresa=e.id_empresa' );
+        $this->db->from( self::caja.' as c' );
+        $this->db->join( self::empresa.' as e', ' on c.Empresa=e.id_empresa' );
+        $this->db->join( self::sucursal .' as s', ' on s.id_sucursal = c.pred_cod_sucu' );
+        $this->db->join( self::doc_sucursal .' as ds', ' on ds.id_temp_suc = c.pred_id_tpdoc' );
+        $this->db->join( self::documento .' as d', ' on d.id_tipo_documento = ds.Documento' );
+        $this->db->join( self::doc_template .' as dt', ' on dt.id_factura = ds.Template ' );
         $this->db->where('c.Empresa', $this->session->empresa[0]->id_empresa);
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 

@@ -28,7 +28,9 @@ class Orden_model extends CI_Model {
 		const sys_empleado = 'sys_empleado';
 		const pos_ordenes_detalle = 'pos_orden_detalle';
 		const pos_combo = 'pos_combo';
-		const sys_conf = 'sys_conf';		
+		const sys_conf = 'sys_conf';
+		const pos_temp_suc = 'pos_temp_sucursal';
+		const pos_doc_temp = 'pos_doc_temp';
 
 		// Ordenes
 		const pos_tipo_documento = 'pos_tipo_documento';
@@ -65,6 +67,22 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 		function get_tipo_documentos(){
 			$this->db->select('*');
 	        $this->db->from(self::pos_tipo_documento);
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[1];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function get_doc_suc_pre(){
+			
+			$this->db->select('*');
+	        $this->db->from(self::pos_tipo_documento.' as tp');
+	        $this->db->join(self::pos_temp_suc. ' as ts', ' on tp.id_tipo_documento = ts.Documento');
+	        $this->db->join(self::pos_doc_temp.' as dt', ' on dt.id_factura = ts.Template');
+	        $this->db->where('ts.Sucursal', $this->session->usuario[0]->Sucursal);
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];
 	        

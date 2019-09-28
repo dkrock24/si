@@ -22,8 +22,7 @@
 </script>
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
-<?php 
-        
+<?php         
     include ("asstes/pos_funciones.php");
 ?>
 
@@ -95,7 +94,13 @@
                                     </div>
 
                                     <div class="pull-right">
-                                        <div class="" style="font-size: 20px;">  <?php echo Date("Y-m-d"); ?>  </div>
+                                        <div class="" style="font-size: 20px;overflow: hidden;">  
+                                            <?php echo $empleado[0]->nombre_sucursal; ?> 
+                                            
+                                            <span class="label label-warning">
+                                                <?php echo Date("d/M/y"); ?>
+                                            </span>
+                                        </div>
                                         <?php //echo gethostbyaddr($_SERVER['REMOTE_ADDR'])  ; ?>
                                     </div>
                                 </div>  
@@ -283,13 +288,25 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
                             <div class="form-group has-success">
-                                <label>Tipo Documento</label>
+                                <label>Tipo Documento <?php echo $terminal[0]->pred_id_tpdoc; ?></label>
                                 <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
+                                
                                 <?php
-                                foreach ($tipoDocumento as $documento) {
+                                foreach ($tipoDocumento as $d) {
+                                    
+                                    if($d->id_temp_suc == $terminal[0]->pred_id_tpdoc){
                                     ?>
-                                    <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                        <option value="<?php echo $d->Pago; ?>"><?php echo $d->nombre.' - '.$d->factura_nombre; ?></option>
                                     <?php
+                                    }
+                                }
+                                foreach ($tipoDocumento as $documento) {
+                                    
+                                    if($documento->id_temp_suc != $terminal[0]->pred_id_tpdoc){
+                                    ?>
+                                    <option value="<?php echo $documento->Pago; ?>"><?php echo $documento->nombre.' - '.$documento->factura_nombre; ?></option>
+                                    <?php
+                                    }
                                 }
                                 ?>
                                 </select>
@@ -300,6 +317,7 @@
                             <div class="form-group has-success">
                                 <label>Cliente Codigo</label>
                                 <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $cliente[0]->id_cliente ?>">
+
                            </div>
                                                         
                         </div>                    
@@ -429,8 +447,6 @@
    </div>
 <!-- Modal Small-->
 
-
-
 <!-- Modal Large CLIENTES MODAL-->
    <div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal"  class="modal fade">
       <div class="modal-dialog modal-lg">
@@ -527,7 +543,6 @@
    </div>
 <!-- Modal Small-->
 
-
 <!-- Modal Large PRODUCTOS MODAL-->
    <div id="en_reserva" tabindex="-1" role="dialog" aria-labelledby="en_reserva"  class="modal fade">
       <div class="modal-dialog modal-sm">
@@ -567,14 +582,12 @@
                         
                         <div class="row">
                             <div class="col-lg-3 col-md-3">
-                                <select class="form-control">
+                                <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
                                     <?php
                                     foreach ($modo_pago as $mp) {
-                                        if($mp->id_modo_pago!=1){
                                         ?>
                                         <option value="<?php echo $mp->id_modo_pago; ?>"><?php echo $mp->nombre_modo_pago; ?></option>
                                         <?php
-                                        }
                                     }
                                     ?>
                                 </select>
@@ -669,6 +682,7 @@
                 </div>
 
             <div class="modal-footer">
+
                <button type="button" data-dismiss="modal" id="procesar_btn" class="mb-sm btn-lg btn btn-purple btn-outline guardar" name="2">PROCESAR</button>               
                <button type="button" data-dismiss="modal" class="mb-sm btn-lg btn btn-danger btn-outline">CANCELAR</button>               
             </div>

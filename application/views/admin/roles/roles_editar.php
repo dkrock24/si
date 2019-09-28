@@ -66,27 +66,37 @@
                             </div>
 
                             <div class="col-lg-6">
+
                                 <form class="form-horizontal" action='../copiar_rol' method="post">
-                                    <input type="hidden" value="<?php echo $roles[0]->id_rol; ?>" name="role_id">
-                                    <h5>Copiar Rol Existente</h5>
-                                    <div class="form-group">
-                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Nombre</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="role" name="role" placeholder="Nuevo nombre rol" value="">
-                                            
+                                    <div class="panel b">
+                                        <div class="panel-heading">
+                                            <div class="pull-right">
+                                                <div class="label label-info">Importante</div>
+                                            </div>
+                                            <h4 class="m0">Copiar Accesos Rol</h4>
+                                            <small class="text-muted">Se crea una copia de los acceso del rol al nuevo.</small>
+                                        </div>                                   
+                                    
+                                        <input type="hidden" value="<?php echo $roles[0]->id_rol; ?>" name="role_id">
+                                    
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Nombre</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="role" name="role" placeholder="Nuevo nombre rol" value="">
+                                                
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group">
-                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Url</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="pagina" name="pagina" placeholder="Url rol" value="">
-                                            
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Url</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="pagina" name="pagina" placeholder="Url rol" value="">
+                                                
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-10">
                                                 <label>
                                                     <select name="estado_rol" class="form-control">
                                                         <?php 
@@ -104,14 +114,13 @@
                                                         ?>
                                                     </select>
                                                 </label>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-info">Copiar</button>
-                                        </div>
-                                    </div>
+                                    
+                                     <div class="panel-footer text-center">
+                                        <button type="submit" class="btn btn-info">Copiar</button>
+                                     </div>
+                                  </div>
                                 </form>
 
                             </div>

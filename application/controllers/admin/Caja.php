@@ -138,16 +138,14 @@ class Caja extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'Empresa','Nombre','Codigo','Doc','FechaO','FechaR','Resolucion','RNTicket','RFTicket','CodCaja','Abrir','Impr','PuertoDos','PuertoWin','Espos','Turno','CodCajero','CodSucursal','Estado'
+			'Sucursal','Nombre','Codigo','Doc','Template','Resolucion','RNTicket','Cajero','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'Empresa','nombre_caja','cod_interno_caja','pred_id_tpdoc','fecha_oper_caja','resol_num_caja','resol_fecha_caja','resol_num_tiq_caja',
-			'resol_fec_tiq_caja','cod_ctb_caja','abrir_caja','impr_journ','impr_puerto_DOS','impr_puerto_WIN','es_pos','num_turnos',
-			'pred_cod_cajr','pred_cod_sucu','estado_caja'
+			'nombre_sucursal','nombre_caja','cod_interno_caja','nombre','factura_nombre','resol_num_caja','resol_num_tiq_caja','pred_cod_cajr','estado'
 		);
 		
 		$fields['id'] = array('id_caja');

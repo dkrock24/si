@@ -57,10 +57,16 @@
                             <button type="button" class="mb-sm btn btn-pill-right btn-primary btn-outline"> Lista Ordenes </button> 
                         </a>
 
-                        <div class="panel-heading" style="text-align: right;"> Crear Orden / <?php echo Date("Y-m-d"); ?> 
-                            <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
+                        <div class="panel-heading" style="text-align: right; font-size: 20px;overflow: hidden;"> 
+                          <?php echo $empleado[0]->nombre_sucursal; ?> 
+                                            
+                          <span class="label label-warning">
+                              <?php echo Date("d/M/y"); ?>
+                          </span>
+
+                          <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
                                 <em class="fa fa-minus"></em>
-                            </a>                          
+                          </a>                          
                         </div>
 
                         <div class="panel-wrapper collapse in">
@@ -366,24 +372,41 @@
               <!-- end Team Panel-->
            </div>
         </div>
+
+        <div class="row bg-red" style="position: fixed;bottom: 0px; width: 100%;">
+        <div class="col-lg-12 col-md-12 abajo" style="height: 50px;">
+            <!--
+            <span 
+                class="btn btn-info" 
+                data-toggle="modal" 
+                data-target="#documentoModel" 
+                style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F1
+                <i class="icon-settings"></i>
+            </span>
+            -->
+
+            <span 
+                class="btn btn-info" 
+                style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F2
+                <i class="icon-grid"></i>
+            </span>
+
+            <span 
+                class="btn btn-info" 
+                style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F3
+                <i class="icon-trash"></i>
+            </span>
+
+            <span
+                class="btn btn-info guardar" id="../venta/guardar_venta"
+                style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
+                <i class="fa fa-credit-card"></i>
+            </span>
+        </div>
+    </div>
     
 </section>
 
-<style type="text/css">
-/*
-    .modal-dialog {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.modal-content {
-  height: auto;
-  min-height: 100%;
-  border-radius: 0;
-}*/
-</style>
 
 <!-- Modal Large CLIENTES MODAL-->
    <div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal"  class="modal fade">
@@ -498,6 +521,132 @@
             <div class="modal-footer">
                <button type="button" data-dismiss="modal" class="btn btn-success guardar bg-green" name="2">Si</button>               
                <button type="button" data-dismiss="modal" class="btn btn-warning">No</button>               
+            </div>
+         </div>
+      </div>
+   </div>
+<!-- Modal Small-->
+
+<!-- METODO DE PAGOS MODAL-->
+   <div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta"  class="modal flip">
+      <div class="modal-dialog modal-lg" style="width: 80%;">
+         <div class="modal-content">
+            <div class="modal-header" style="background: #dde6e9">
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               <span style="font-size: 20px; ">[ Proceso Pago ]</span>
+              
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-9 col-md-9" style="border-right: 1px solid #e5e5e5; height: 50%;">
+                        
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3">
+                                <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
+                                    <?php
+                                    foreach ($modo_pago as $mp) {
+                                        ?>
+                                        <option value="<?php echo $mp->id_modo_pago; ?>"><?php echo $mp->nombre_modo_pago; ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-3 col-md-3">
+                                <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6">
+                                <input type="text" class="form-control has-success" name="cliente" placeholder="Nombre Cliente">
+                            </div>
+                            
+                        </div>
+                    
+                        <div class="row" id="metodos_pagos">
+                            
+                            <br>
+                            <?php
+
+                                $a = 1;
+                                $count = count($modo_pago);
+                                foreach ($modo_pago as $value) {
+                                ?>
+                                <div class="col-lg-4 col-md-4">
+                                    <?php echo $value->nombre_modo_pago; ?>
+                                </div>
+                                <div class="col-lg-8 col-md-8">
+                                    <input type='text' count='<?php echo $count; ?>' name='pagoInput<?php echo $a; ?>' id='<?php echo $value->nombre_modo_pago; ?>' class='form-control metodo_pago_input'>
+                                </div>
+                                <?php
+                                $a++;
+                                }
+                            ?>     
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3">
+
+                        <div class="row" style="">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="panel widget bg-success" style="height: 80px;">
+                                    <div class="row row-table">
+                                        <div class="col-xs-4 text-center bg-success-dark pv-lg">
+                                           <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
+                                        </div>
+                                        <div class="col-xs-8 pv-lg">
+                                           <div class="h1 m0 text-bold"><span id="compra_venta">0.00</span></div>
+                                           <div class="text-uppercase">PAGAR</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-12 col-md-12">
+                                <div class="panel widget bg-green" style="height: 80px;">
+                                    <div class="row row-table">
+                                        <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                                           <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
+                                        </div>
+                                        <div class="col-xs-8 pv-lg">
+                                           <div class="h1 m0 text-bold"><span id="restante_venta">0.00</span></div>
+                                           <div class="text-uppercase">RESTANTE</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+
+                            <div class="col-lg-12 col-md-12">
+                                <div class="panel widget bg-warning" style="height: 80px;">
+                                    <div class="row row-table">
+                                        <div class="col-xs-4 text-center bg-warning-dark pv-lg">
+                                           <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
+                                        </div>
+                                        <div class="col-xs-8 pv-lg">
+                                           <div class="h1 m0 text-bold"><span id="cambio_venta">0.00</span></div>
+                                           <div class="text-uppercase">CAMBIO</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                    
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="row">
+                    
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6" id="metodo_pago_lista">
+
+                    </div>
+                </div>
+
+            <div class="modal-footer">
+
+               <button type="button" data-dismiss="modal" id="procesar_btn" class="mb-sm btn-lg btn btn-purple btn-outline guardar" name="2">PROCESAR</button>               
+               <button type="button" data-dismiss="modal" class="mb-sm btn-lg btn btn-danger btn-outline">CANCELAR</button>               
             </div>
          </div>
       </div>

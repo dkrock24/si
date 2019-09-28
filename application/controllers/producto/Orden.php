@@ -334,6 +334,7 @@ class Orden extends CI_Controller {
 
 	/************ Venta Rapida *********/
 	public function venta_rapida(){
+
 		// Seguridad :: Validar URL usuario	
 		$terminal_acceso = FALSE;
 
@@ -349,7 +350,7 @@ class Orden extends CI_Controller {
 
 		if($terminal_acceso){
 			
-			$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
+			$data['tipoDocumento'] = $this->Orden_model->get_doc_suc_pre();
 			$data['sucursales'] = $this->Producto_model->get_sucursales();
 			$data['modo_pago'] = $this->ModoPago_model->get_formas_pago();
 			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
@@ -369,8 +370,9 @@ class Orden extends CI_Controller {
 		}
 	}
 
-	public function get_form_pago($id_cliente){
-		$data['metodo_pago'] = $this->ModoPago_model->get_pagos_by_cliente($id_cliente);
+	public function get_form_pago( $id_cliente ,$tipo_documento ){
+		$data['metodo_pago'] = $this->ModoPago_model->get_pagos_by_cliente( $id_cliente );
+		$data['metodo_pago_doc'] = $this->ModoPago_model->get_pagos_by_doc( $tipo_documento );
 		echo json_encode($data);
 	}
 

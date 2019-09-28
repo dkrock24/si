@@ -23,7 +23,7 @@ $(document).ready(function(){
 
 	_tipo_documento = $("#id_tipo_documento").val();
 	$("#id_tipo_documento").change(function(){
-		tipo_documento($(this).val());
+		//tipo_documento($(this).val());
 
 	});
 

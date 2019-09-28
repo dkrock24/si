@@ -41,7 +41,11 @@ class Template extends CI_Controller {
 		$this->load->model('admin/Cliente_model');
 		$this->load->model('admin/Persona_model');
 		$this->load->model('admin/Template_model');
+		$this->load->model('admin/Documento_model');
 		$this->load->model('producto/Orden_model');
+		$this->load->model('admin/ModoPago_model');
+		
+
 	}
 
 // Start  **********************************************************************************
@@ -147,15 +151,21 @@ class Template extends CI_Controller {
 		}
 
 		$data['menu'] = $this->session->menu;
+		$data['pagos'] = $this->ModoPago_model->getAllFormasPago();
 		$data['template'] = $this->Template_model->get_template();
 		$data['sucursales'] = $this->Producto_model->get_sucursales();
-		$data['documento'] = $this->Template_model->getTipoDocumento();
+		$data['documento'] = $this->Documento_model->getAllDocumento();
 		$data['home'] = 'admin/template/template_asociar';
 
 		$this->parser->parse('template', $data);
 	}
 
+	public function update_pago( $id_tabla , $id_pago ){
+		$this->Template_model->update_pago( $id_tabla , $id_pago );
+	}
+
 	public function associar_sucursal(){
+
 		$this->Template_model->associar_sucursal( $_POST  );
 
 		redirect(base_url()."admin/template/asociar");

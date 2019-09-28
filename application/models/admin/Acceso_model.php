@@ -11,11 +11,9 @@ class Acceso_model extends CI_Model
     const cargos    = 'sys_cargos';
     const vistas =  'sys_vistas';
     const vista_acceso = 'sys_vistas_acceso';
-
     const sys_menu_submenu  = 'sys_menu_submenu';
     const submenu_acceso    = 'sys_submenu_acceso';
     const sys_menu    = 'sys_menu';
-
     const sys_vistas = 'sys_vistas';
     const sys_vistas_acceso = 'sys_vistas_acceso';
     const sys_vistas_componentes = 'sys_vistas_componentes';

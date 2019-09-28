@@ -1,6 +1,36 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
 
+  $(document).ready(function(){
+    var id = 0;
+    $('#cambiar_formato_pago').appendTo("body");
+
+    $(".cambiar_formato_pago").click(function(){
+        id = $(this).attr('id');
+        $('#cambiar_formato_pago').modal();
+    });
+
+    $(".pagoId").click(function(){
+        var select = $("#pagoId");
+        var id_pago = select.val();
+        //var pago_nombre = select.selectedIndex;
+        //console.log(select[0].selectedIndex);
+
+        $.ajax({
+            url: "update_pago/"+id+"/"+id_pago,
+            datatype: 'json',      
+            cache : false,                
+
+            success: function(data){
+                location.reload();
+                //$(".nombre_tipo_pago").text(pago_nombre);
+            },
+            error:function(){
+            }
+        });
+    });
+  });
+
     $(document).on('click', '.btn_cantidad', function(){
 
         $('.cantidad_input').css("display","line");
@@ -43,7 +73,7 @@
                 <div class="row">
                     <div class="col-lg-4">
                       <!-- START panel-->
-                      <div id="panelDemo10" class="panel panel-info">
+                      <div id="panelDemo10" class="panel panel-info menu_title_bar">
                          <div class="panel-heading">Filtros</div>
                          <div class="panel-body">
                             <p>
@@ -92,7 +122,7 @@
 
                     <!-- Permitir Accesos al usuarios a menus visibles -->
                     <div class="col-lg-8">
-                        <div id="panelDemo10" class="panel panel-info">
+                        <div id="panelDemo10" class="panel panel-info menu_title_bar">
                             <div class="panel-heading panel-heading-collapsed">
                              
                             Sucursales / Formato Documento
@@ -126,7 +156,7 @@
                                               <th style="color: white;">ID</th>
                                               <th style="color: white;">Documento</th>
                                               <th style="color: white;">Formato</th>
-                                              <th style="color: white;">Descripcion</th>                                              
+                                              <th style="color: white;">Pago</th>                                              
                                               <th style="color: white;">Sucursal</th>                                              
                                               <th style="color: white;">Estado</th>
                                               <th data-check-all style="color: white;">
@@ -162,7 +192,12 @@
                                                    
                                                    <td class="" width="20%">
                                                       <div class="">
-                                                         <?php echo $value->factura_descripcion; ?>
+                                                        <span class="cambiar_formato_pago" id="<?php echo $value->id_temp_suc ?>"><i class="icon-refresh" ></i></span>
+                                                        
+                                                        <span class="nombre_tipo_pago">
+                                                            <?php echo $value->nombre_modo_pago; ?>
+                                                        </span>
+
                                                       </div>
                                                    </td>
                                                    <td class="" width="25%">
@@ -295,7 +330,7 @@
                                                                  <?php echo $value->direct; ?>
                                                               </div>
                                                            </td>
-                                                           
+                                                                                                                      
                                                            <td class="text-center">
                                                             <?php 
                                                                 if($value->estado == 1){
@@ -370,4 +405,35 @@
             </div>
            
     </section>
+
+
+<!-- Modal Large PRODUCTOS MODAL-->
+   <div id="cambiar_formato_pago" tabindex="-1" role="dialog" aria-labelledby="cambiar_formato_pago"  class="modal fade">
+      <div class="modal-dialog modal-sm">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               Modo Pago
+            </div>
+            <div class="modal-body">
+                <select class="form-control" id="pagoId">
+                  <?php
+                    foreach ($pagos as $p) {
+                      ?>
+                      <option value="<?php echo $p->id_modo_pago ?>"><?php echo $p->nombre_modo_pago; ?></option>
+                      <?php
+                    }
+                  ?>
+                </select>
+            </div>
+            <div class="modal-footer">
+               <button type="button" data-dismiss="modal" class="btn btn-success pagoId" name="2">Si</button>               
+               <button type="button" data-dismiss="modal" class="btn btn-warning">No</button>               
+            </div>
+         </div>
+      </div>
+   </div>
+<!-- Modal Small-->
 

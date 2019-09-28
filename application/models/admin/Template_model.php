@@ -101,6 +101,7 @@ class Template_model extends CI_Model {
         $this->db->join(self::pos_temp_sucursal.' as ts',' on td.id_factura=ts.Template');
         $this->db->join(self::tipos_documentos.' dt',' on dt.id_tipo_documento=ts.Documento');
         $this->db->join(self::pos_sucursal.' s',' on ts.Sucursal=s.id_sucursal');
+        $this->db->join(self::pos_formas_pago.' fp',' on fp.id_modo_pago=ts.Pago', 'left');
         $this->db->where('ts.Template', $factura_id );
         
         $query = $this->db->get();  
@@ -111,13 +112,21 @@ class Template_model extends CI_Model {
         }
     }
 
+    function update_pago( $id_tabla , $id_pago ){
+        
+        $data = array('Pago' => $id_pago );
+
+        $this->db->where('id_temp_suc' , $id_tabla );
+        $this->db->update(self::pos_temp_sucursal, $data);
+    }
+
     function associar_sucursal( $data ){
         $d = $data['documento_id'];
         $f = $data['factura_id'];
         foreach ($data as $key => $b) 
         {
             $sucursal_id = $key;
-            
+                                    
             if(is_numeric($sucursal_id)){
 
                 $encontrados = $this->get_template_sucursal($sucursal_id ,$d , $f);
@@ -138,6 +147,7 @@ class Template_model extends CI_Model {
                             $this->db->insert(self::pos_temp_sucursal, $data);
                         }                           
                     }
+                    
                 }else{
                     
                     $data = array(
@@ -206,19 +216,6 @@ class Template_model extends CI_Model {
         $this->db->where('Documento', $documento );
         $this->db->where('Template', $factura );
         $query = $this->db->get(); 
-        
-        if($query->num_rows() > 0 )
-        {
-            return $query->result();
-        }
-    }
-
-    function getTipoDocumento(){
-        $this->db->select('*');
-        $this->db->from(self::pos_tipo_documento);
-        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
-        $query = $this->db->get(); 
-        //echo $this->db->queries[1];
         
         if($query->num_rows() > 0 )
         {

@@ -14,6 +14,12 @@ $(document).ready(function(){
     $('.1dataSelect').hide();
     $('.1dataSelect2').hide();  
 
+    $("input").focus(function(){
+        $(this).css('background','red');
+    });
+
+    var pagos_mostrados = [];
+
     var pagos_array = [];    
 
 	$(document).on('keyup', '.existencia_buscar', function(){
@@ -467,8 +473,11 @@ $(document).ready(function(){
                     //F4
                     f4_guardar();
                     break;
+                case 118:
+                    //F7
+                    f7_foco_efectivo();break;
+                case 177: f8_table_pagos(); break;
             }
-
 
             var c = "";
             if (e.keyCode == 39) {
@@ -482,6 +491,12 @@ $(document).ready(function(){
                 c = currCell.closest('tr').prev().find('td:eq(' + 
                   currCell.index() + ')');
 
+                id_celda = $(currCell.closest('tr').prev()).attr('name');
+
+                var pagoLinea =  $(currCell.closest('tr').prev()).attr('id');
+                pagoLinea = parseInt( pagoLinea );
+                $("input[name=pagoInput"+pagoLinea+"]").focus();
+
                 $('tr').css('background','none');
                 $('tr').css('color','black');
 
@@ -494,6 +509,12 @@ $(document).ready(function(){
                 // Down Arrow
                 c = currCell.closest('tr').next().find('td:eq(' + 
                   currCell.index() + ')');
+
+                id_celda = $(currCell.closest('tr').next()).attr('name');
+
+                var pagoLinea = $(currCell.closest('tr')).attr('id');
+                pagoLinea = parseInt( pagoLinea ) + 1;              
+                $("input[name=pagoInput"+pagoLinea+"]").focus();
 
                 $('tr').css('background','none');
                 $('tr').css('color','black');
@@ -523,7 +544,6 @@ $(document).ready(function(){
 
                 //$('tr').css('color','#131e26');
                 currCell = c;
-                console.log(currCell.parent().index());
                 var x = currCell.parent().index();
                 currCell.focus();
                 
@@ -544,6 +564,20 @@ $(document).ready(function(){
         function producto_tabla_foco(){
             
             currCell = $('.productos_tabla').first();
+            id_celda = $(currCell).attr('name');
+            console.log(id_celda);
+            currCell.focus();
+            $(currCell).css('background','#0f4871');
+            $(currCell).css('color','#fff');
+        }
+
+        function f7_foco_efectivo(){
+            $("#extraMetodoPago").focus();
+        }
+
+        function f8_table_pagos(){
+            $("input[name=pagoInput1]").focus();
+            currCell = $('.pagos_tabla').first();
             id_celda = $(currCell).attr('name');
             currCell.focus();
             $(currCell).css('background','#0f4871');
@@ -1397,21 +1431,30 @@ $(document).ready(function(){
     $(document).on('click', '.guardar', function(){
         // Recargar Los Tipos de Pago Por Cliente
         var cli_form_pago = $("#cliente_codigo").val();
-        guardarX(cli_form_pago);
+        var tipo_documento= $("#id_tipo_documento").val();
+
+        guardarX(cli_form_pago , tipo_documento);
+
         $("#procesar_venta").modal();
         $('#procesar_btn').hide();
     });
 
     function f4_guardar(){
+        
         var cli_form_pago = $("#cliente_codigo").val();
-        guardarX(cli_form_pago);
+        var tipo_documento= parseInt( $("#id_tipo_documento").val() );
+        
+        pagos_mostrados[pagos_mostrados.length] = tipo_documento;
+
+        guardarX(cli_form_pago , tipo_documento);
+        
         $("#procesar_venta").modal();
         $('#procesar_btn').hide();
     }
 
-    function guardarX(cli_form_pago){
+    function guardarX(cli_form_pago , tipo_documento){
         $.ajax({
-            url: "get_form_pago/"+ cli_form_pago,
+            url: "get_form_pago/"+ cli_form_pago+"/"+tipo_documento,
             datatype: 'json',      
             cache : false,                
 
@@ -1419,6 +1462,7 @@ $(document).ready(function(){
 
                 var datos = JSON.parse(data);
                 var metodo_pago = datos["metodo_pago"];
+                var metodo_pago_principal = datos['metodo_pago_doc'];
 
                 var _html="";
                 var cou = 1;
@@ -1428,20 +1472,21 @@ $(document).ready(function(){
                 _html += '<thead><tr><td></td><td>Monto</td><td>Numero</td><td>Banco</td><td>Serie</td></tr></thead>';
 
                 $.each(metodo_pago, function(i, item) { 
-                    _html += '<tr><td><div class="btn bg-green">'+item.nombre_modo_pago+'</div></td>';
+
+                    if(pagos_mostrados.includes(parseInt(item.id_modo_pago))){
+                    _html += '<tr class="pagos_tabla" id="'+cou+'"><td><div class="btn bg-green">'+item.nombre_modo_pago+'</div></td>';
 
                     _html += '<td class="">'+
                     '<input type="text" count='+metodo_pago.length+' size="9px" name="pagoInput'+cou+'" ids='+item.id_modo_pago+' id='+item.nombre_modo_pago+' class="metodo_pago_input"></td>';
                     
-                    //if(item.valor_modo_pago == 1){
-                        _html += '<td><input type="text" count='+metodo_pago.length+'  size="14px" name="val'+cou+'" placeholder="" class="metodo_pago_input" /></td>';
-                        _html += '<td><input type="text" count='+metodo_pago.length+' size="14px" name="ban'+cou+'" placeholder="" class="metodo_pago_input" /></td>';
-                        _html += '<td><input type="text" count='+metodo_pago.length+' size="14px" name="ser'+cou+'" placeholder="" class="metodo_pago_input" /></td>';
-                    //}
+                    _html += '<td><input type="text" count='+metodo_pago.length+'  size="14px" name="val'+cou+'" placeholder="" class="metodo_pago_input" /></td>';
+                    _html += '<td><input type="text" count='+metodo_pago.length+' size="14px" name="ban'+cou+'" placeholder="" class="metodo_pago_input" /></td>';
+                    _html += '<td><input type="text" count='+metodo_pago.length+' size="14px" name="ser'+cou+'" placeholder="" class="metodo_pago_input" /></td>';
                     
                     _html += '</tr>';
                     
                     cou++;
+                    }
                 });
                 _html += '</table>';
 
@@ -1451,6 +1496,20 @@ $(document).ready(function(){
             }
         });
     }
+
+    $(document).on('click', '.addMetodoPago', function(){
+        var metodo_add = parseInt( $("#extraMetodoPago").val() );
+        
+        if(!pagos_mostrados.includes(metodo_add)){
+            
+            pagos_mostrados[pagos_mostrados.length] = metodo_add;
+
+            var cli_form_pago = $("#cliente_codigo").val();
+            var tipo_documento= parseInt( $("#id_tipo_documento").val() );            
+            guardarX(cli_form_pago , tipo_documento);
+
+        }
+    });
     
     $(document).on('change','.metodo_pago_input',function(){
 

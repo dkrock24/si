@@ -130,7 +130,7 @@ class Roles_model extends CI_Model {
     function createRolCopia( $nuevo_rol ){
 
         $data = array(
-           'role' => $nuevo_rol['role'],
+            'role' => $nuevo_rol['role'],
             'pagina' => $nuevo_rol['pagina'],
             'fecha_actualizacion' => date('Y-m-d'),
             'Empresa'=> $this->session->empresa[0]->id_empresa,
@@ -142,7 +142,7 @@ class Roles_model extends CI_Model {
         $ultimo_id = $this->db->insert_id();
 
         // Set Mismo Acceso que el Rol copiado
-        $this->setAccesosRol( $ultimo_id , $nuevo_rol['role'] );
+        $this->setAccesosRol( $ultimo_id , $nuevo_rol['role_id'] );
         return $result;
     }
 
@@ -170,6 +170,7 @@ class Roles_model extends CI_Model {
         $this->db->join(self::roles .' as r ',' on r.id_rol = sma.id_role');
         $this->db->where('sma.id_role', $rol_copiado );
         $query = $this->db->get();
+        //echo $this->db->queries[0];
         
         if($query->num_rows() > 0 )
         {

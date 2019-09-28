@@ -103,7 +103,7 @@ class Roles extends CI_Controller {
 	}
 
 	public function copiar_rol(){
-		
+
 		$data['roles'] = $this->Roles_model->createRolCopia( $_POST );	
 
 		if($data){
