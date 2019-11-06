@@ -16,7 +16,7 @@
                     <div class="panel-body">
                         <div class="col-lg-6">
 
-                            <div id="" class="panel panel-info">                                    
+                            <div id="" class="panel panel-info menu_title_bar">                                    
                                 <div class="panel-heading">Editar Vista : <?php //echo $vistas[0]->nombre_submenu ?> </div>
                                 <p> 
                                 <form class="form-horizontal" action='../update' method="post">

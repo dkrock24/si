@@ -214,6 +214,7 @@ class Pais extends CI_Controller {
 		$data['menu'] = $this->session->menu;
 		$data['dep'] = $this->Pais_model->editar_dep( $id_dep );
 		$data['home'] = 'admin/pais/dep_editar';
+		$data['title'] = 'Editar Departamento';
 
 		$this->parser->parse('template', $data);
 	}
@@ -227,7 +228,7 @@ class Pais extends CI_Controller {
 		}else{
 			$this->session->set_flashdata('danger', "Departamento No Fue Actualizado");
 		}
-		
+
 		redirect(base_url()."admin/pais/dep/".$_POST['id_pais']);
 	}
 

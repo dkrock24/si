@@ -17,7 +17,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Pais</th>
-                                <th>Departamento</th>                            
+                                <th>Departamento</th>   
+                                <th>Codigo</th>
+                                <th>Zona</th>                               
                                 <th>Creado</th>
                                 <th>Actualizado</th>
                                 <th>Estado</th>
@@ -48,7 +50,10 @@
             	                    			<tr>
             			                            <th scope="row"><?php echo $contado; ?></th>
             			                            <td><?php echo $departamento->nombre_pais; ?></td>
-            			                            <td><?php echo $departamento->nombre_departamento; ?></td>
+                                                    <td><?php echo $departamento->nombre_departamento; ?></td>
+                                                    
+                                                    <td><?php echo $departamento->codigo_departamento; ?></td>
+                                                    <td><?php echo $departamento->zona_departamento; ?></td>
             			                            
                                                     <td><?php echo $departamento->fecha_creacion_depa; ?></td>
                                                     <td><?php echo $departamento->fecha_actualizacion_depa; ?></td>

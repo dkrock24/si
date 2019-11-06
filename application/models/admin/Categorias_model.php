@@ -6,9 +6,11 @@ class Categorias_model extends CI_Model {
 
 	function get_categorias($limit, $id){
         $query = $this->db->query('
-                SELECT c1.*, c2.nombre_categoria as "cat_padre", e.nombre_comercial FROM categoria AS c1 
+                SELECT c1.*, c2.nombre_categoria as "cat_padre", e.nombre_comercial, g.* FROM categoria AS c1 
                 LEFT JOIN categoria AS c2 on c1.id_categoria_padre = c2.id_categoria
-                LEFT JOIN pos_empresa as e on e.id_empresa = c1.Empresa where c1.Empresa='.$this->session->empresa[0]->id_empresa.' order by c1.nombre_categoria, c2.id_categoria_padre asc Limit '.  $id.','.$limit);
+                LEFT JOIN pos_empresa as e on e.id_empresa = c1.Empresa 
+                LEFT JOIN pos_giros as g on g.id_giro = c1.codigo_giro
+                where c1.Empresa='.$this->session->empresa[0]->id_empresa.' order by c1.nombre_categoria, c2.id_categoria_padre asc Limit '.  $id.','.$limit);
         //echo $this->db->queries[2];
         return $query->result();
 	}
@@ -29,6 +31,7 @@ class Categorias_model extends CI_Model {
                 'img_cate' => $categorias['img_cate'],
                 'id_categoria_padre' => $categorias['categoria_padre'],
                 'categoria_estado' => $categorias['categoria_estado'],
+                'codigo_giro' => $categorias['codigo_giro'],
                 'Empresa' => $this->session->empresa[0]->id_empresa,
                 'creado_categoria' => date("Y-m-d h:i:s")
             );
@@ -38,6 +41,7 @@ class Categorias_model extends CI_Model {
                 'nombre_categoria' => $categorias['nombre_categoria'],
                 'img_cate' => $categorias['img_cate'],                
                 'categoria_estado' => $categorias['categoria_estado'],
+                'codigo_giro' => $categorias['codigo_giro'],
                 'Empresa' => $this->session->empresa[0]->id_empresa,
                 'creado_categoria' => date("Y-m-d h:i:s")
             );
@@ -51,9 +55,10 @@ class Categorias_model extends CI_Model {
 	function get_categoria_id( $id_categoria ){ 
 
 		$query = $this->db->query('
-                SELECT c1.*, c2.id_categoria as "id_padre", c2.nombre_categoria as "nombre_padre",  e.nombre_comercial FROM categoria AS c1 
+                SELECT c1.*, c2.id_categoria as "id_padre", c2.nombre_categoria as "nombre_padre",  e.nombre_comercial, g.* FROM categoria AS c1 
                 LEFT JOIN categoria AS c2 on c1.id_categoria_padre = c2.id_categoria
                 LEFT JOIN pos_empresa as e on e.id_empresa = c1.Empresa
+                LEFT JOIN pos_giros as g on g.id_giro = c1.codigo_giro
                 WHERE c1.id_categoria='.$id_categoria. ' and e.id_empresa= '. $this->session->empresa[0]->id_empresa);
          //echo $this->db->queries[0];
         return $query->result();

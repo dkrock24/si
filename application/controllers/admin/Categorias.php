@@ -37,6 +37,7 @@ class Categorias extends CI_Controller {
 		$this->load->model('admin/Empresa_model');  
 		$this->load->model('admin/Menu_model');
 		$this->load->model('accion/Accion_model');
+		$this->load->model('admin/Giros_model');
 	}
 
 // Start PAIS **********************************************************************************
@@ -103,6 +104,7 @@ class Categorias extends CI_Controller {
 		$data['categorias']	= $this->Categorias_model->get_categorias_padres();
 		$data['marcas'] = $this->Marca_model->getAllMarca();
 		$data['empresa'] = $this->Empresa_model->getEmpresas();
+		$data['giros'] = $this->Giros_model->getAllgiros();
 		$data['home'] = 'admin/categorias/categorias_nuevo';
 		$data['title'] = "Crear Categoria";
 
@@ -129,6 +131,7 @@ class Categorias extends CI_Controller {
 		$data['categorias'] = $this->Categorias_model->get_categoria_id( $id_categoria );
 		$data['categorias_padres']	= $this->Categorias_model->get_categorias_padres();
 		$data['empresa'] = $this->Empresa_model->getEmpresas();
+		$data['giros'] = $this->Giros_model->getAllgiros();
 		$data['home'] = 'admin/categorias/categorias_editar';
 		$data['title'] = "Editar Categoria";
 
@@ -164,14 +167,14 @@ class Categorias extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'Categoria','Sub Categoria','Empresa','Creado', 'Actualizado', 'Estado'
+			'Categoria','Sub Categoria','Giro','Empresa','Creado', 'Actualizado', 'Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_categoria','cat_padre','nombre_comercial','creado_categoria','actualizado_categoria','estado'
+			'nombre_categoria','cat_padre','nombre_giro','nombre_comercial','creado_categoria','actualizado_categoria','estado'
 		);
 		
 		$fields['id'] = array('id_categoria');

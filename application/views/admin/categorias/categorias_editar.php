@@ -22,6 +22,24 @@
                                 <input type="hidden" value="<?php echo $categorias[0]->id_categoria; ?>" name="id_categoria">
                                 
                                 <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Giro</label>
+                                    <div class="col-sm-10">
+                                        <select name="codigo_giro" class="form-control">
+                                        <option value="<?php echo $categorias[0]->id_giro ?>"><?php echo $categorias[0]->nombre_giro ?></option>
+                                            <?php
+                                            foreach ($giros as $g) {
+                                                if($g->id_giro != $categorias[0]->id_giro){
+                                                ?>
+                                                <option value="<?php echo $g->id_giro ?>"><?php echo $g->nombre_giro ?></option>
+                                                <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Categoria1</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="categoria_padre" name="nombre_categoria" placeholder="Nombre" value="<?php echo $categorias[0]->nombre_categoria; ?>">

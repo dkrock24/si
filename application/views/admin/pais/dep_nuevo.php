@@ -17,13 +17,30 @@
                                     <div class="col-lg-6">
                                         <form class="form-horizontal" action='../crear_dep' method="post">
                                             <input type="hidden" value="<?php echo $id_pais; ?>" name="id_pais">
+
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Codigo</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="codigo_depa" name="codigo_departamento" placeholder="Codigo Departamento" value="">
+                                                    
+                                                </div>
+                                            </div>    
+                                            
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="nombre_depa" name="nombre_depa" placeholder="Nombre Departamento" value="">
                                                     
                                                 </div>
-                                            </div>                                                  
+                                            </div>   
+                                            
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Zona</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="zona_depa" name="zona_departamento" placeholder="Zona Departamento" value="">
+                                                    
+                                                </div>
+                                            </div>   
 
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">

@@ -1,3 +1,11 @@
+<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+
+    });
+</script>
 <!-- Main section-->
     <section>
         <!-- Page content-->
@@ -21,6 +29,15 @@
                                         <form class="form-horizontal" action='../update_dep' method="post">
                                             <input type="hidden" value="<?php echo $dep[0]->id_departamento; ?>" name="id_departamento">
                                             <input type="hidden" value="<?php echo $dep[0]->id_pais; ?>" name="id_pais">
+                                            
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Codigo</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="codigo_depa" name="codigo_departamento" placeholder="Codigo Departamento" value="<?php echo $dep[0]->codigo_departamento ?>">
+                                                    
+                                                </div>
+                                            </div>  
+                                            
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                                 <div class="col-sm-10">
@@ -28,6 +45,14 @@
                                                     <p class="help-block">Nombre dep.</p>
                                                 </div>
                                             </div>
+
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Zona</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="zona_depa" name="zona_departamento" placeholder="Zona Departamento" value="<?php echo $dep[0]->zona_departamento ?>">
+                                                    
+                                                </div>
+                                            </div> 
 
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">

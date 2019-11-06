@@ -402,7 +402,7 @@ class Producto_model extends CI_Model {
 			$query = $this->db->query("SELECT *
 				FROM `producto` as `P`
 				LEFT JOIN `pos_proveedor_has_producto` as `pp` ON `pp`.`producto_id_producto` = `P`.`id_entidad`
-				LEFT JOIN `pos_proveedor` as `proveedor` ON `proveedor`.`id_proveedor` = `PP`.`proveedor_id_proveedor`
+				LEFT JOIN `pos_proveedor` as `proveedor` ON `proveedor`.`id_proveedor` = `pp`.`proveedor_id_proveedor`
 				where P.id_entidad=".$producto );
 		         //echo $this->db->queries[0];
 		        return $query->result();

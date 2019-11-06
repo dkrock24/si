@@ -123,12 +123,14 @@ class Pais_model extends CI_Model {
 
 		$data = array(
            'nombre_departamento' 	=> $departamento['nombre_departamento'],
-            'estado_departamento' 	=> $departamento['estado_departamento'],
+			'estado_departamento' 	=> $departamento['estado_departamento'],
+			'codigo_departamento' 	=> $departamento['codigo_departamento'],
+			'zona_departamento' 	=> $departamento['zona_departamento'],
             'fecha_actualizacion_depa' => date("Y-m-d"),
         );
 
         $this->db->where('id_departamento', $departamento['id_departamento']);
-		$result = $this->db->update(self::pais_d, $data ); 
+		$result = $this->db->update(self::pais_d, $data );
 
 		return $result;
 	}
@@ -167,9 +169,10 @@ class Pais_model extends CI_Model {
 	function crear_ciu( $ciudad ){
 
 		$data = array(
-           'nombre_ciudad' 		=> $ciudad['nombre_ciu'],
+           'nombre_ciudad' 	=> $ciudad['nombre_ciu'],
             'departamento' 	=> $ciudad['id_departamento'],
-            'estado_ciudad' 		=> $ciudad['estado_ciu'],
+			'estado_ciudad' => $ciudad['estado_ciu'],
+			'codigo_ciudad' => $ciudad['codigo_ciu'],
             'fecha_ciudad_creacion'=> date("Y-m-d"),
         );
 		$result = $this->db->insert(self::pais_d_c, $data );
@@ -194,7 +197,8 @@ class Pais_model extends CI_Model {
 
 		$data = array(
            'nombre_ciudad' 	=> $ciudad['nombre_ciu'],
-            'estado_ciudad' 	=> $ciudad['estado_ciu'],
+			'estado_ciudad' 	=> $ciudad['estado_ciu'],
+			'codigo_ciudad' => $ciudad['codigo_ciu'],
             'fecha_ciudad_actualizacion' => date("Y-m-d h:i:s"),
         );
 
@@ -228,7 +232,4 @@ class Pais_model extends CI_Model {
 	        } 
 	}
 
-}
-
-?>
-
+}?>

@@ -20,6 +20,15 @@
                                     <div class="col-lg-6">
                                         <form class="form-horizontal" action='../crear_ciu' method="post">
                                             <input type="hidden" value="<?php echo $dep; ?>" name="id_departamento">
+                                            
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Codigo</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="nombre_ciu" name="codigo_ciu" placeholder="Codigo Ciudad" value="">
+                                                    
+                                                </div>
+                                            </div> 
+
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                                 <div class="col-sm-10">

@@ -19,7 +19,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Pais</th>
+                                <th>Cod</th>
                                 <th>Departamento</th>
+                                <th>Cod</th>
                                 <th>Ciudad</th>
                                                               
                                 <th>Creado</th>
@@ -50,9 +52,11 @@
             	               ?>
             	                    			<tr>
             			                            <th scope="row"><?php echo $contado; ?></th>
-            			                            <td><?php echo $ciudad->nombre_pais; ?></td>
+                                                    <td><?php echo $ciudad->nombre_pais; ?></td>
+                                                    <td><?php echo $ciudad->codigo_departamento; ?></td>
             			                            <td><?php echo $ciudad->nombre_departamento; ?></td>
-            			                            <td><?php echo $ciudad->nombre_ciudad; ?></td>                                                    
+                                                    <td><?php echo $ciudad->codigo_ciudad; ?></td> 
+                                                    <td><?php echo $ciudad->nombre_ciudad; ?></td>                                                    
                                                     <td><?php echo $ciudad->fecha_ciudad_creacion; ?></td>
                                                     <td><?php echo $ciudad->fecha_ciudad_actualizacion; ?></td>
             			                            <td>

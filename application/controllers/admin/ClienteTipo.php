@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cliente extends CI_Controller {
+class ClienteTipo extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -39,6 +39,7 @@ class Cliente extends CI_Controller {
 		$this->load->model('admin/Empresa_model');
 		$this->load->model('admin/Ciudad_model');
 		$this->load->model('admin/Cliente_model');
+		$this->load->model('admin/ClienteTipo_model');
 		$this->load->model('admin/Pagos_model');
 		$this->load->model('admin/Persona_model');
 	}
@@ -60,7 +61,7 @@ class Cliente extends CI_Controller {
 		}
 		
 		$total_row = $this->Cliente_model->record_count();
-		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/cliente/index");
+		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/clienteTipo/index");
 		$this->pagination->initialize($config);
 		if($this->uri->segment(4)){
 			if($_SESSION['per_page']!=0){
@@ -95,8 +96,8 @@ class Cliente extends CI_Controller {
 		$data['fields'] = $this->fields();
 		$data['contador_tabla'] = $contador_tabla;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['registros'] = $this->Cliente_model->getAllClientes( $config["per_page"], $page );
-		$data['title'] = "Clientes";
+		$data['registros'] = $this->ClienteTipo_model->getAllClientesTipo( $config["per_page"], $page );
+		$data['title'] = "Clientes Tipo";
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -111,8 +112,8 @@ class Cliente extends CI_Controller {
 		$data['documento'] = $this->Cliente_model->getTipoDocumento();
 		$data['pago'] = $this->Pagos_model->getTipoPago();
 		$data['persona'] = $this->Persona_model->getAllPersona();
-		$data['title'] = "Nuevo Cliente";
-		$data['home'] = 'admin/cliente/cliente_nuevo';
+		$data['title'] = "Nuevo Tipo Cliente";
+		$data['home'] = 'admin/clienteTipo/clientetipo_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
@@ -120,7 +121,7 @@ class Cliente extends CI_Controller {
 	public function crear(){
 		// Insert Nuevo Cliente
 		
-		$data = $this->Cliente_model->crear_cliente( $_POST );
+		$data = $this->ClienteTipo_model->crear_clienteTipo( $_POST );
 
 
 		if($data){
@@ -129,7 +130,7 @@ class Cliente extends CI_Controller {
 			$this->session->set_flashdata('warning', "Cliente No Fue Creado");
 		}	
 
-		redirect(base_url()."admin/cliente/index");
+		redirect(base_url()."admin/ClienteTipo/index");
 	}
 
 	public function editar( $cliente_id ){
@@ -137,12 +138,10 @@ class Cliente extends CI_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;
-		$data['cliente'] = $this->Cliente_model->get_clientes_id( $cliente_id );
-		$data['documento'] = $this->Cliente_model->getTipoDocumento();
-		$data['pago'] = $this->Pagos_model->getTipoPago();
-		$data['persona'] = $this->Persona_model->getAllPersona();
-		$data['title'] = "Editar Cliente";
-		$data['home'] = 'admin/cliente/cliente_editar';
+		$data['cliente'] = $this->ClienteTipo_model->get_clientes_tipo_id( $cliente_id );
+
+		$data['title'] = "Editar Cliente Tipo";
+		$data['home'] = 'admin/clienteTipo/clientetipo_editar';
 
 		$this->general->editar_valido($data['cliente'], "admin/cliente/index");
 
@@ -151,7 +150,7 @@ class Cliente extends CI_Controller {
 
 	public function update(){
 		// Actualizar Giro 
-		$data = $this->Cliente_model->update( $_POST );
+		$data = $this->ClienteTipo_model->update( $_POST );
 
 		if($data){
 			$this->session->set_flashdata('success', "Cliente Fue Actualizado");
@@ -159,25 +158,25 @@ class Cliente extends CI_Controller {
 			$this->session->set_flashdata('warning', "Cliente No Fue Actualizado");
 		}
 
-		redirect(base_url()."admin/cliente/index");
+		redirect(base_url()."admin/clienteTipo/index");
 	}
 
 	public function column(){
 
 		$column = array(
-			'Nombre','Nombre','Apellido','NRC','NIT','Clase','T. Pago','T. Documento', 'Descuento', 'Estado'
+			'Nombre','Codigo','Signo','Porcentaje','Descuento','TP Cliente','Correlativo','CTA Ingreso', 'CTA CXC', 'Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_empresa_o_compania','primer_nombre_persona','primer_apellido_persona','nrc_cli','nit_cliente','clase_cli','codigo_modo_pago','nombre','porcentage_descuentos','estado'
+			'nombre_cliente_tipo','codigo_cliente_tipo','signo_cliente_tipo','porcentaje_cliente_tipo','descuento_cliente_tipo','tp_cliente_tipo','correlativo_cliente_tipo','cta_ingreso_cliente_tipo','cta_cxc_cliente_tipo','estado'
 		);
 		
-		$fields['id'] = array('id_cliente');
-		$fields['estado'] = array('estado_cliente');
-		$fields['titulo'] = "Cliente Lista";
+		$fields['id'] = array('id_cliente_tipo');
+		$fields['estado'] = array('estado_cliente_tipo');
+		$fields['titulo'] = "Cliente Tipo Lista";
 
 		return $fields;
 	}

@@ -161,14 +161,14 @@ class Proveedor extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'EMPRESA','TITULAR','NRC','GIRO','TEL','CEL', 'LINEA','NOMBRE','APELLIDO', 'Estado'
+			'Codigo','Empresa','Titular','NRC','Giro','Tel','Cel', 'Linea','Nombre','Apellido', 'Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'empresa','titular_proveedor','nrc','giro','tel_empresa','cel_empresa','tipo_producto','primer_nombre_persona','primer_apellido_persona','estado'
+			'codigo_proveedor','empresa','titular_proveedor','nrc','giro','tel_empresa','cel_empresa','tipo_producto','primer_nombre_persona','primer_apellido_persona','estado'
 		);
 		
 		$fields['id'] = array('id_proveedor');

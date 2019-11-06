@@ -15,7 +15,7 @@
             
                     <div class="col-lg-6">
 
-                        <div id="panelDemo10" class="panel panel-info">    
+                        <div id="panelDemo10" class="panel panel-info menu_title_bar">    
                                                 
                             <div class="panel-heading">Nuevo Componente : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
                              <div class="panel-body">        
@@ -139,7 +139,7 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <table class="table">
+                        <table class="table menu_title_bar">
                             <?php
                             foreach ($componentes as $key => $value) {
                                 ?>

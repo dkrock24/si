@@ -50,6 +50,7 @@ class Proveedor_model extends CI_Model {
         $imageProperties = getimageSize($_FILES['logo']['tmp_name']);
 
         $data = array(
+            'codigo_proveedor' =>  $datos['codigo_proveedor'],
             'empresa' =>  $datos['empresa'],
             'titular_proveedor' => $datos['titular_proveedor'],
             'nrc' => $datos['nrc'],
@@ -93,6 +94,7 @@ class Proveedor_model extends CI_Model {
     function update($datos){
 
         $data = array(
+            'codigo_proveedor' =>  $datos['codigo_proveedor'],
             'empresa' =>  $datos['empresa'],
             'titular_proveedor' => $datos['titular_proveedor'],
             'nrc' => $datos['nrc'],
