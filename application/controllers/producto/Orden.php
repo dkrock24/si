@@ -276,7 +276,8 @@ class Orden extends CI_Controller {
 	}
 
 	function get_clientes_documento($id){
-		$data['cliente_tipo_pago'] = $this->Cliente_model->get_cliente_by_id2($id);
+		$data['clienteDocumento'] = $this->Cliente_model->get_cliente_by_id2($id);
+		$data['cliente_tipo_pago'] = $this->ModoPago_model->get_pagos_by_cliente($id);
 		$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
 		$data['tipoPago'] = $this->Cliente_model->getTipoPago();
 
@@ -373,6 +374,7 @@ class Orden extends CI_Controller {
 	public function get_form_pago( $id_cliente ,$tipo_documento ){
 		$data['metodo_pago'] = $this->ModoPago_model->get_pagos_by_cliente( $id_cliente );
 		$data['metodo_pago_doc'] = $this->ModoPago_model->get_pagos_by_doc( $tipo_documento );
+
 		echo json_encode($data);
 	}
 

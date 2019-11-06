@@ -1473,7 +1473,7 @@ $(document).ready(function(){
 
                 $.each(metodo_pago, function(i, item) { 
 
-                    if(pagos_mostrados.includes(parseInt(item.id_modo_pago))){
+                    //if(pagos_mostrados.includes(parseInt(item.id_modo_pago))){
                     _html += '<tr class="pagos_tabla" id="'+cou+'"><td><div class="btn bg-green">'+item.nombre_modo_pago+'</div></td>';
 
                     _html += '<td class="">'+
@@ -1486,7 +1486,7 @@ $(document).ready(function(){
                     _html += '</tr>';
                     
                     cou++;
-                    }
+                    //}
                 });
                 _html += '</table>';
 
@@ -1785,50 +1785,46 @@ $(document).ready(function(){
         $("#impuesto").val($(this).attr('impuesto'));
         $('#cliente_modal').modal('hide');
 
-        // Poniendo Tipo Documento a cliente.
         $.ajax({
             url: "get_clientes_documento/"+id,
             datatype: 'json',      
             cache : false,                
 
             success: function(data){
-                var datos = JSON.parse(data);
-                var ciente_documento = datos["cliente_tipo_pago"];  
-                var tipo_documento = datos["tipoDocumento"];  
-                var tipo_pago = datos["tipoPago"]; 
 
-                clientes_lista =  ciente_documento;
+                var datos = JSON.parse(data);                 
+                var tipo_documento          = datos["tipoDocumento"];   // Todos los tipos de documentos 
+                var clienteWithDocumento    = datos["clienteDocumento"];// Informacion unica del cliente
+                var tipo_pago               = datos["tipoPago"];        // Lista de todos los tipos de pago
+                var clienteTipoPagos        = datos["cliente_tipo_pago"];// Tipos de pago asignados al cliente
+                
+                clientes_lista =  clienteTipoPagos;
                 calculo_totales();
+                // Set de documento a cliente
+                var documentoSelecionado = tipo_documento.find(x => x.id_tipo_documento == clienteWithDocumento[0].TipoDocumento);
+
+                if( documentoSelecionado !=null ){
+                    $("#id_tipo_documento").html("<option value='"+documentoSelecionado.id_tipo_documento+"'>"+documentoSelecionado.nombre+"</option>");
+                }
 
                 $.each(tipo_documento , function(i, item){
-                  if(item.id_tipo_documento == ciente_documento[0].TipoDocumento){
-                    $("#id_tipo_documento").html("<option value='"+item.id_tipo_documento+"'>"+item.nombre+"</option>");
-
-                    
-                    $.each(tipo_documento , function(i, item){
-                        if(item.id_tipo_documento != ciente_documento[0].TipoDocumento){
-                            $("#id_tipo_documento").append("<option value='"+item.id_tipo_documento+"'>"+item.nombre+"</option>");
-                        }
-                    });
-                    
-
-                  }
+                    if(item.id_tipo_documento != clienteWithDocumento[0].TipoDocumento){
+                        $("#id_tipo_documento").append("<option value='"+item.id_tipo_documento+"'>"+item.nombre+"</option>");
+                    }
                 });
 
-                // Poniendo Tipo Pago a cliente.
-                $.each(tipo_pago , function(i, item){
-                  if(item.id_modo_pago == ciente_documento[0].TipoPago){
-                    $("#modo_pago_id").html("<option value='"+item.id_modo_pago+"'>"+item.nombre_modo_pago+"</option>");
+                // Set de forma de pago a cliente
+                $("#modo_pago_id").empty();
 
-                    
-                    $.each(tipo_pago , function(i, item){
-                        if(item.id_tipo_documento != ciente_documento[0].TipoPago){
-                            $("#modo_pago_id").append("<option value='"+item.id_modo_pago+"'>"+item.nombre_modo_pago+"</option>");
-                        }
-                    });
-                    
+                var pagoSelecionado = tipo_pago.find(x => x.id_modo_pago == clienteWithDocumento[0].TipoPago);
 
-                  }
+                if(pagoSelecionado != null)
+                {
+                   $("#modo_pago_id").html("<option value='"+pagoSelecionado.id_modo_pago+"'>"+pagoSelecionado.nombre_modo_pago+"</option>"); 
+                }
+
+                $.each(clienteTipoPagos , function(i, item){
+                    $("#modo_pago_id").append("<option value='"+item.id_modo_pago+"'>"+item.nombre_modo_pago+"</option>");
                 });
             },
             error:function(){

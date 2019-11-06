@@ -39,6 +39,7 @@ class Cliente extends CI_Controller {
 		$this->load->model('admin/Empresa_model');
 		$this->load->model('admin/Ciudad_model');
 		$this->load->model('admin/Cliente_model');
+		$this->load->model('admin/Pagos_model');
 		$this->load->model('admin/Persona_model');
 	}
 
@@ -108,7 +109,7 @@ class Cliente extends CI_Controller {
 		$data['menu'] = $this->session->menu;		
 		$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['documento'] = $this->Cliente_model->getTipoDocumento();
-		$data['pago'] = $this->Cliente_model->getTipoPago();
+		$data['pago'] = $this->Pagos_model->getTipoPago();
 		$data['persona'] = $this->Persona_model->getAllPersona();
 		$data['title'] = "Nuevo Cliente";
 		$data['home'] = 'admin/cliente/cliente_nuevo';
@@ -117,8 +118,10 @@ class Cliente extends CI_Controller {
 	}
 
 	public function crear(){
-		// Insert Nuevo Giro
+		// Insert Nuevo Cliente
+		
 		$data = $this->Cliente_model->crear_cliente( $_POST );
+
 
 		if($data){
 			$this->session->set_flashdata('success', "Cliente Fue Creado");

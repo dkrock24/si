@@ -175,7 +175,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Tipo Pago</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Pago Predefinido</label>
                                             <div class="col-sm-9">
                                                 <select id="TipoPago" name="TipoPago" class="form-control">
                                                     <?php
@@ -202,6 +202,32 @@
                                                     }
                                                     ?>
                                                 </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Formas Pago</label>
+                                            <div class="col-sm-9">
+                                                
+                                               
+                                                   <?php
+                                                   foreach ($pago as $key => $fp) {
+                                                       ?>
+                                                       <div class="form-group">
+                                                            <label class="col-sm-2 control-label"><?php echo $fp->nombre_modo_pago ?></label>
+                                                            <div class="col-sm-10">                         
+
+                                                                <label class="switch">
+                                                                    <input type="checkbox" checked="checked" name="<?php echo $fp->id_modo_pago ?>">
+                                                                    <span></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                       
+                                                       <?php
+                                                   }
+                                                   ?>
+                                                   
                                             </div>
                                         </div>
 

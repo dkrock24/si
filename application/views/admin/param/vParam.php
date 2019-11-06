@@ -131,7 +131,7 @@
    <!-- Page content-->
    <div class="content-wrapper">
       <h3>Parametros Modulos</h3>
-      <div class="row">
+      <div class="row menu_title_bar">
          <div class="col-md-4">
             <div class="mb-lg clearfix">
                <div class="pull-left">
@@ -167,7 +167,7 @@
                      ?>
                   </tbody>
                </table>
-               <div class="panel-body">
+               <div class="panel-body menuContent">
                   <p>Metricas</p>
                   <div class="row text-center">
                      <div class="col-xs-3 col-md-6 col-lg-3">

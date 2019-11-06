@@ -14,7 +14,7 @@
     <!-- Page content-->
     <div class="content-wrapper">  
         <h3 style="height: 50px; font-size: 13px;">  
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
+            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
                 <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Caja</button> 
             </a> 
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
@@ -76,7 +76,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Operacion</label>
                                     <div class="col-sm-9">
-                                        <input type="date" class="form-control" id="fecha_oper_caja" name="fecha_oper_caja" placeholder="Serie" value="<?php echo $caja[0]->fecha_oper_caja; ?>">
+                                        <input type="date" class="form-control" id="fecha_oper_caja" name="fecha_oper_caja" value="<?php $date = new DateTime($caja[0]->fecha_oper_caja); echo $date->format('Y-m-d'); ?>">
                                     </div>
                                 </div>
 
@@ -90,7 +90,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Resolucion</label>
                                     <div class="col-sm-9">
-                                        <input type="date" class="form-control" id="resol_fecha_caja" name="resol_fecha_caja" placeholder="Ubicacion" value="<?php echo $caja[0]->resol_fecha_caja  ?>">
+                                        <input type="date" class="form-control" id="resol_fecha_caja" name="resol_fecha_caja" value="<?php $date = new DateTime($caja[0]->resol_fecha_caja); echo $date->format('Y-m-d'); ?>">
                                     </div>
                                 </div>
 
@@ -104,7 +104,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Ticket Resolucion</label>
                                     <div class="col-sm-9">
-                                        <input type="date" class="form-control" id="resol_fec_tiq_caja" name="resol_fec_tiq_caja" placeholder="Cajero" value="<?php echo $caja[0]->resol_fec_tiq_caja ?>">
+                                        <input type="date" class="form-control" id="resol_fec_tiq_caja" name="resol_fec_tiq_caja" placeholder="Cajero" value="<?php $date = new DateTime($caja[0]->resol_fec_tiq_caja); echo $date->format('Y-m-d'); ?>">
                                     </div>
                                 </div>
 
