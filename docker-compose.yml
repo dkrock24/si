@@ -1,0 +1,26 @@
+version: "3.4"
+services:
+  phpapp:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: phpapp:si
+    ports:
+      - "8080:80"
+    volumes:
+      - "./:/var/www/html"
+    container_name: my-php-app
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data2:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: somelaravel
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+    ports:
+      - 3306:3306
+volumes:
+  db_data2:
