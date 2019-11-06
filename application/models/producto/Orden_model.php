@@ -112,7 +112,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
 				LEFT JOIN prouducto_detalle AS `pde` ON pde.Producto = P.id_entidad
-				WHERE pa.Atributo = 4 and pb.Cantidad>1 and b.id_bodega='".$bodega."' and b.Sucursal='".$sucursal."' 
+				WHERE PA.Atributo = 4 and pb.Cantidad>1 and b.id_bodega='".$bodega."' and b.Sucursal='".$sucursal."' 
 				  order by P.id_entidad");
 
 		        //echo $this->db->queries[0];

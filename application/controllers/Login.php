@@ -53,7 +53,7 @@ class Login extends CI_Controller {
 				
 				// Usuario encontrado y redireccionado para validarlo a su empresa
 				//header("location: validar");
-					session_start();
+					//session_start();
 					
 					$_SESSION['usuario'] = $user;
 
