@@ -206,6 +206,22 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Tipo Cliente</label>
+                                            <div class="col-sm-9">
+                                                <select id="id_cliente_tipo" name="id_cliente_tipo" class="form-control">
+                                                    <?php
+                                                    foreach ($clienteTipo as $key => $clienteTipo) {
+                                                        ?>
+                                                        <option value="<?php echo $clienteTipo->id_cliente_tipo; ?>"><?php echo $clienteTipo->nombre_cliente_tipo; ?></option>
+                                                        <?php
+                                                        
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Formas Pago</label>
                                             <div class="col-sm-9">
                                                 

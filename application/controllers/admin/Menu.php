@@ -120,7 +120,7 @@ class Menu extends CI_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['allMenus'] = $this->Menu_model->getAllMenu();
-		$data['vistas2'] = $this->Vistas_model->get_vistas();
+		$data['vistas2'] = $this->Vistas_model->get_all_vistas();
 		$data['home'] = 'admin/menu/nuevo_sub_menu.php';
 		$data['title'] = "Nuevo SubMenu";	
 		$data['id_menu'] = $id_menu;

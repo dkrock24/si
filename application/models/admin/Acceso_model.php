@@ -90,6 +90,7 @@ class Acceso_model extends CI_Model
         $this->db->where('m.id_menu',$menu);
         $this->db->where('sm.estado_referencia', $referencia);
         $query = $this->db->get();
+        //echo $this->db->queries[0];
         
         if($query->num_rows() > 0 )
         {
@@ -190,25 +191,27 @@ class Acceso_model extends CI_Model
     // Actualizar el Accesos Para el  Rol
     public function update_acceso_menu( $datos ){
 
-        $accesos_rol = $this->get_menu_acceso( $datos['id_role'] , $datos['id_menu'] );
+        $accesos_rol = $this->get_menu_acceso( $datos['id_role'] , $datos['id_menu'] , $var = null);
 
             foreach ($accesos_rol as $ac) 
             {
+                
                 if( array_key_exists( $ac->id_submenu_acceso, $datos ) ){
-                    $data = array('submenu_acceso_estado' => 1 );
                     
+                    $data = array('submenu_acceso_estado' => 1 );                    
                     $this->db->where('id_role', $datos['id_role']);
                     $this->db->where('id_submenu_acceso', $ac->id_submenu_acceso );
                     $this->db->update(self::submenu_acceso, $data);
 
                 }else{
+                    
                     $data = array('submenu_acceso_estado' => 0 );
                     $this->db->where('id_role', $datos['id_role']);
                     $this->db->where('id_submenu_acceso', $ac->id_submenu_acceso );
                     $this->db->update(self::submenu_acceso, $data);
                 }
             }
-               
+        
     }
 
     // Actualizar el Accesos Para el  Rol
@@ -232,7 +235,7 @@ class Acceso_model extends CI_Model
                     $this->db->update(self::submenu_acceso, $data);
                 }
             }
-               
+         
     }
 
     // Acceso a componntes

@@ -228,6 +228,25 @@
                                             </div>
                                         </div>
 
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Tipo Cliente</label>
+                                            <div class="col-sm-9">
+                                                <select id="id_cliente_tipo" name="id_cliente_tipo" class="form-control">
+                                                    <option value="<?php echo $cliente[0]->id_cliente_tipo; ?>"><?php echo $cliente[0]->nombre_cliente_tipo ?></option>
+                                                    <?php
+
+                                                    foreach ($clienteTipo as $key => $clienteTipo) {
+                                                        if($clienteTipo->id_cliente_tipo != $cliente[0]->id_cliente_tipo){
+                                                        ?>
+                                                        <option value="<?php echo $clienteTipo->id_cliente_tipo; ?>"><?php echo $clienteTipo->nombre_cliente_tipo; ?></option>
+                                                        <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
                                         
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">

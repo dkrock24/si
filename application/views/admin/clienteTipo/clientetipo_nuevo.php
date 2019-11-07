@@ -111,7 +111,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Correlativo Cliente Tipo</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="correlativo_cliente_tipo" name="correlativo_cliente_tipo" placeholder="N Cuenta" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" class="form-control" id="correlativo_cliente_tipo" name="correlativo_cliente_tipo" placeholder="" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
 
                                             </div>
                                         </div>
@@ -121,7 +121,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">CTA Ingreso Cliente Tipo</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="cta_ingreso_cliente_tipo" name="cta_ingreso_cliente_tipo" placeholder="Direccion" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" class="form-control" id="cta_ingreso_cliente_tipo" name="cta_ingreso_cliente_tipo" placeholder="" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
 
                                             </div>
                                         </div>
@@ -129,7 +129,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">CTA CXC Cliente Tipo</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="cta_cxc_cliente_tipo" name="cta_cxc_cliente_tipo" placeholder="Descuento" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" class="form-control" id="cta_cxc_cliente_tipo" name="cta_cxc_cliente_tipo" placeholder="" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
 
                                             </div>
                                         </div>

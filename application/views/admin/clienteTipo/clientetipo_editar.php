@@ -125,7 +125,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Correlativo Cliente Tipo</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="correlativo_cliente_tipo" name="correlativo_cliente_tipo" placeholder="N Cuenta" value="<?php echo $cliente[0]->correlativo_cliente_tipo ?>">
+                                                <input type="text" class="form-control" id="correlativo_cliente_tipo" name="correlativo_cliente_tipo" placeholder="" value="<?php echo $cliente[0]->correlativo_cliente_tipo ?>">
 
                                             </div>
                                         </div>
@@ -135,7 +135,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">CTA Ingreso Cliente Tipo</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="cta_ingreso_cliente_tipo" name="cta_ingreso_cliente_tipo" placeholder="Direccion" value="<?php echo $cliente[0]->cta_ingreso_cliente_tipo ?>">
+                                                <input type="text" class="form-control" id="cta_ingreso_cliente_tipo" name="cta_ingreso_cliente_tipo" placeholder="" value="<?php echo $cliente[0]->cta_ingreso_cliente_tipo ?>">
 
                                             </div>
                                         </div>
@@ -143,7 +143,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">CTA CXC Cliente Tipo</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="cta_cxc_cliente_tipo" name="cta_cxc_cliente_tipo" placeholder="Descuento" value="<?php echo $cliente[0]->cta_cxc_cliente_tipo ?>">
+                                                <input type="text" class="form-control" id="cta_cxc_cliente_tipo" name="cta_cxc_cliente_tipo" placeholder="" value="<?php echo $cliente[0]->cta_cxc_cliente_tipo ?>">
 
                                             </div>
                                         </div>

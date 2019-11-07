@@ -39,6 +39,7 @@ class Cliente extends CI_Controller {
 		$this->load->model('admin/Empresa_model');
 		$this->load->model('admin/Ciudad_model');
 		$this->load->model('admin/Cliente_model');
+		$this->load->model('admin/ClienteTipo_model');
 		$this->load->model('admin/Pagos_model');
 		$this->load->model('admin/Persona_model');
 	}
@@ -106,6 +107,7 @@ class Cliente extends CI_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
+		$data['clienteTipo'] = $this->ClienteTipo_model->get_cliente_tipo();
 		$data['menu'] = $this->session->menu;		
 		$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['documento'] = $this->Cliente_model->getTipoDocumento();
@@ -136,6 +138,8 @@ class Cliente extends CI_Controller {
 		
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
+		$data['clienteTipo'] = $this->ClienteTipo_model->get_cliente_tipo();
+
 		$data['menu'] = $this->session->menu;
 		$data['cliente'] = $this->Cliente_model->get_clientes_id( $cliente_id );
 		$data['documento'] = $this->Cliente_model->getTipoDocumento();
@@ -145,7 +149,6 @@ class Cliente extends CI_Controller {
 		$data['home'] = 'admin/cliente/cliente_editar';
 
 		$this->general->editar_valido($data['cliente'], "admin/cliente/index");
-
 		$this->parser->parse('template', $data);
 	}
 
