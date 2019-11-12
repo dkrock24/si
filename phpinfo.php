@@ -1,2 +1,3 @@
 <?php
-echo gethostbyaddr($_SERVER['REMOTE_ADDR']);
+//var_dump(extension_loaded ('zlib'));
+echo phpinfo();

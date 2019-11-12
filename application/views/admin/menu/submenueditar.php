@@ -14,7 +14,7 @@
             </h3>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel">
+                    <div class="panel menu_title_bar">
                                                                  
                         <div class="panel-heading menuTop">Editar Sub Menu : <?php echo  $onMenu[0]->nombre_submenu; ?> </div>
                             <div class="panel-body menuContent">
