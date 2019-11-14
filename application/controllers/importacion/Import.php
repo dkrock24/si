@@ -62,26 +62,64 @@ class Import extends CI_Controller
             try {
                 $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
                 
-                die;
+                $table = $_POST['tables'];
+
+                $tipo_insert = @$_POST['tipo_insert'];
+
+                $relaciones = @$_POST['relaciones'];
+                
                 $objReader = PHPExcel_IOFactory::createReader($inputFileType);
 
                 $objPHPExcel = $objReader->load($inputFileName);
 
-
                 $allDataInSheet = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
-
+                
                 $flag = true;
                 $i = 0;
-                foreach ($allDataInSheet as $value) {
-                    if ($flag) {
-                        $flag = false;
-                        continue;
+
+                $encabezado = [];
+
+                $this->Import_model->setForeignkey($relaciones);
+
+                $this->Import_model->runFunctions($tipo_insert , $table);
+
+                foreach ($allDataInSheet as $key => $headers) {
+                    if($key == 1){
+                        foreach ($headers as $keys => $value) {
+                            if($value!=""){
+                                $encabezado[] = $value;
+                            }
+                        } 
                     }
-                    echo $inserdata[$i]['first_name'] = $value['A'];
-                    $inserdata[$i]['last_name'] = $value['B'];
+                }
+
+                foreach ($allDataInSheet as $key => $data) {
+                   
+                    if($key != 0){
+                        $c = 0;
+
+                        if ($flag) {
+                            $flag = false;
+                            continue;
+                        }
+
+                        foreach ($data as $key => $value) {
+
+                            if($value!=""){
+                            
+                            $inserdata[$encabezado[$c]] = $value;
+
+                            $c++;
+                            }
+                        }
+
+                        $result = $this->Import_model->insert($inserdata, $table  );
+                    }
+                   
                     $i++;
                 }
-                $result = $this->Import_model->insert($inserdata);
+
+                $result =1;
                 if ($result) {
                     echo "Imported successfully";
                 } else {
@@ -94,7 +132,7 @@ class Import extends CI_Controller
         } else {
             echo $error['error'];
         }
-        $this->load->view('import');
+        redirect(base_url()."importacion/import/index");
     }
 
     public function otro()

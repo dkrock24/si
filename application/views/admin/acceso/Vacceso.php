@@ -298,7 +298,7 @@
                                     <section>
                                         <!-- START panel-->
                                         <div class="panel">
-                                           <div class="panel-heading">Actualizar Permiso : [ <?php echo $vista_componentes[0]->role; ?> ] Menu : [ <?php echo $vista_componentes[0]->nombre_menu; ?> ]</div>
+                                           <div class="panel-heading">Actualizar Permiso : [ <?php echo $vista_componentes[0]->id_role; ?> ] Menu : [ <?php echo $vista_componentes[0]->nombre_menu; ?> ]</div>
                                            <!-- START table-responsive-->
                                            <form action="accesos_componenes" method="post">
                                            <div class="">
@@ -306,9 +306,9 @@
                                                  <thead>
                                                     <tr>
                                                        <th>ID</th>
-                                                       <th>Cod</th>
-                                                       <th>Nombre</th>
-                                                       <th>Url</th>
+                                                       <th>Menu</th>
+                                                       <th>Vista</th>
+                                                       <th>Componente</th>
                                                         <th>Permiso En</th>
                                                        <th>Estado</th>
                                                        <th data-check-all>
@@ -331,7 +331,7 @@
                                                            <td><?php echo $contador; ?></td>
                                                            <td class="" width="">
                                                              <div class="">
-                                                                 <?php echo $value->vista_codigo; ?>                                                                 
+                                                                 <?php echo $value->nombre_menu; ?>                                                                 
                                                               </div>
                                                            </td>
                                                            <td class="" width="">
@@ -341,7 +341,7 @@
                                                            </td>
                                                            <td class="" width="">
                                                              <div class="">
-                                                                 <?php echo $value->vista_url; ?>                                                                 
+                                                                 <?php echo $value->accion_nombre; ?>                                                                 
                                                               </div>
                                                            </td>
                                                            <td class="" width="">
@@ -375,6 +375,7 @@
                                                                     }
                                                                     
                                                                     ?>
+                                                                     
                                                                     <input type="checkbox" <?php echo $check; ?> name="<?php echo $value->id_vista_acceso; ?>">
                                                                     <span class="fa fa-check"></span>
                                                                  </label>
@@ -396,8 +397,8 @@
                                                  <div class="col-lg-10"></div>
                                                  <div class="col-lg-2">                                                  
                                                        <span class=" pull-right">
-                                                        <input type="hidden" name="id_role" value="<?php echo $accesos_menus_internos[0]->id_role; ?>">
-                                                        <input type="hidden" name="id_menu" value="<?php echo $accesos_menus_internos[0]->id_menu; ?>">
+                                                       <input type="hidden" name="id_role" value="<?php echo $r; ?>">
+                                                      <input type="hidden" name="id_menu" value="<?php echo $m; ?>">
                                                           <button class="btn btn-sm btn-info">Guardar</button>
                                                        </span>
                                                  </div>

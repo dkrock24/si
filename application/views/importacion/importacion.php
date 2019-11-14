@@ -24,7 +24,7 @@
                                                 <?php
                                                 foreach ($list_tablas as $t) {
                                                     ?>
-                                                    <option value=""><?php echo $t ?></option>
+                                                    <option value="<?php echo $t ?>"><?php echo $t ?></option>
                                                 <?php
                                                 }
                                                 ?>
@@ -33,9 +33,18 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Relaciones</label>
+                                        <input type="radio" name="relaciones" value="SET FOREIGN_KEY_CHECKS=0" />
+                                        Set 0<br>
+                                        <input type="radio" name="relaciones" value="SET FOREIGN_KEY_CHECKS=1" />
+                                        Set 1<br>
+
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Opciones</label>
-                                        <input type="radio" name="tipo_insert" value="" /> Truncate Table<br>
-                                        <input type="radio" name="tipo_insert" value="" /> Nuevas Entradas <br>
+                                        <input type="radio" name="tipo_insert" value="TRUNCATE" /> Truncate Table<br>
+                                        <input type="radio" name="tipo_insert" value="" /> Nuevas Entradas <hr>
 
                                     </div>
 

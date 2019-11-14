@@ -5,6 +5,7 @@ class Vistas_model extends CI_Model {
     const sys_componentes      = 'sys_componentes';
     const sys_vistas_componentes = 'sys_vistas_componentes';
     const sys_vistas_acceso = 'sys_vistas_acceso';
+    const roles = 'sys_role';
 
 	function get_vistas( $limit, $id ){
 
@@ -234,6 +235,7 @@ class Vistas_model extends CI_Model {
     }
 
     function vista_acceso_crear( $id_componente , $role ){
+
         $data = array(
             'id_role' => $role,
             'id_vista_componente' =>  $id_componente,
@@ -241,6 +243,40 @@ class Vistas_model extends CI_Model {
             'vista_acceso_estado' => 1        
         );
         $this->db->insert(self::sys_vistas_acceso, $data );
+
+        $roles = $this->getRoles($role);
+
+        foreach ($roles as $key => $r) {
+            
+            $data = array(
+                'id_role' => $r->id_rol,
+                'id_vista_componente' =>  $id_componente,
+                'vista_acceso_creado' => date("Y-m-d h:i:s"),
+                'vista_acceso_estado' => 0
+            );
+            $this->db->insert(self::sys_vistas_acceso, $data );
+        }
+    }
+
+    function getRoles($role){
+        
+        $this->db->select();
+        $this->db->from(self::roles);
+        $this->db->where('id_rol', $role );
+        $query = $this->db->get();   
+
+        $roles = $query->result();
+
+        $this->db->select();
+        $this->db->from(self::roles);
+        $this->db->where('Empresa', $roles[0]->Empresa );
+        $this->db->where('id_rol !=', $role );
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }         
     }
 
     function copiar_componente( $vista_id , $componente_id , $role ){

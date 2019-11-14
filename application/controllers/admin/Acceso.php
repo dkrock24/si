@@ -44,10 +44,15 @@ class Acceso extends CI_Controller {
 
 			$data['accesos'] =  $this->Acceso_model->get_menu_acceso( $_POST['role'] , $_POST['menu'] , NULL );
 			$data['accesos_menus_internos'] =  $this->Acceso_model->get_menu_internos( $_POST['role'] , $_POST['menu'] );
-			$data['vista_componentes'] =  $this->Acceso_model->get_vista_componentes( $_POST['role'] , $_POST['menu']);
+			//$data['vista_componentes'] =  $this->Acceso_model->get_vista_componentes( $_POST['role'] , $_POST['menu']);
+
+			$data['vista_componentes'] =  $this->Acceso_model->accesos_componentes( $_POST['role'] , $_POST['menu']);
 
 			$data['roles'] =  $this->Acceso_model->getRoles();
 			$data['menus'] =  $this->Menu_model->lista_menu();
+
+			$data['r'] = $_POST['role'];
+			$data['m'] = $_POST['menu'];
 		}else{
 
 			$data['roles'] =  $this->Acceso_model->getRoles();	

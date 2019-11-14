@@ -129,9 +129,9 @@ class Acceso_model extends CI_Model
         $this->db->join(self::menu .' as menu ',' on menu.id_menu = submenu.id_menu');
         $this->db->join(self::roles .' as r ',' on r.id_rol = va.id_role');
         $this->db->where('va.id_role',$rol);
-        $this->db->where('v.id_vista',$menu);
+        $this->db->where('menu.id_menu',$menu);
         $query = $this->db->get(); 
-        //echo $this->db->queries[2];
+        //echo $this->db->queries[0];
         
         if($query->num_rows() > 0 )
         {
@@ -142,7 +142,7 @@ class Acceso_model extends CI_Model
     public function sincronizar_componentes( $id_rol , $id_menu ){
 
         $vista_comp = $this->get_vista_component($id_menu);
-        $vista_accs;
+        $vista_accs = 0;
 
         if($vista_comp){
             foreach ($vista_comp as $componente) {
@@ -238,11 +238,31 @@ class Acceso_model extends CI_Model
          
     }
 
+    public function accesos_componentes( $id_rol , $menu){
+        
+        $this->db->select('*');
+        $this->db->from(self::sys_vistas_acceso. ' as a');
+        $this->db->join(self::sys_vistas_componentes . ' as vc',' on a.id_vista_componente = vc.id');
+        $this->db->join(self::sys_componentes . ' as c',' on c.id_vista_componente = vc.componente');
+        $this->db->join(self::sys_vistas . ' as v',' on v.id_vista = vc.vista');
+        $this->db->join(self::sys_menu_submenu . ' as ms',' on ms.id_vista=v.id_vista');
+        $this->db->join(self::menu . ' as m',' on m.id_menu = ms.id_menu');
+        $this->db->where('a.id_role', $id_rol) ;
+        $this->db->where('m.id_menu', $menu) ;
+        $query = $this->db->get();      
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
     // Acceso a componntes
     public function accesos_componenes( $datos ){
-        
+
         $accesos_rol = $this->get_vista_componentes( $datos['id_role'] , $datos['id_menu'] );
 
+        
+        if($accesos_rol){
             foreach ($accesos_rol as $ac) 
             {
                 if( array_key_exists( $ac->id_vista_acceso, $datos ) ){
@@ -259,6 +279,7 @@ class Acceso_model extends CI_Model
                     $this->db->update(self::sys_vistas_acceso, $data);
                 }
             }
+        }
                
     }
 
