@@ -3,6 +3,7 @@ class Atributos_model extends CI_Model {
 	
 	const atributos =  'atributo';
     const atributos_opciones =  'atributos_opciones';
+    const giro_pantilla = 'giro_pantilla';
 
 	function get_atributos( $limit, $id  ){
 
@@ -22,6 +23,21 @@ class Atributos_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::atributos);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
+    function getAtributosByGiro($giro){
+
+        $this->db->select('a.*');
+        $this->db->from(self::atributos.' as a');
+        $this->db->join(self::giro_pantilla . ' as g', ' on a.id_prod_atributo = g.atributo');
+        $this->db->where('g.giro', $giro);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

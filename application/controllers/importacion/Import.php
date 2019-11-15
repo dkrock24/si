@@ -17,6 +17,9 @@ class Import extends CI_Controller
         $this->load->model('accion/Accion_model');
         $this->load->helper(array('url', 'html', 'form'));
         $this->load->model('admin/Menu_model');
+        $this->load->model('admin/Atributos_model');
+        $this->load->model('admin/Marca_model');
+        $this->load->model('admin/Giros_model');
         $this->load->model('importacion/Import_model');
     }
 
@@ -113,7 +116,11 @@ class Import extends CI_Controller
                             }
                         }
 
+                        // Inserta directamente en una tabla
                         $result = $this->Import_model->insert($inserdata, $table  );
+
+                        //Realiza el volcado en cadena de datos a productos.
+                        //$this->crearProducto( $inserdata , $encabezado );
                     }
                    
                     $i++;
@@ -164,5 +171,99 @@ class Import extends CI_Controller
             echo 'Data Imported successfully';
             die;
         }
+    }
+
+    public function crearProducto( $producto , $encabezado ){
+        
+        $marca = "";
+        $giro  = "";
+        $_Pencabezado = array();
+
+        // Obtener > Atributos, > Marcas > Giros
+
+        $atributos  = $this->Atributos_model->getAtributosByGiro(5); //5 Giro Comercial
+        $marcas     = $this->Marca_model->getAllMarca();
+        $giros      = $this->Giros_model->getAllgiros();
+        
+        // Filtrar por columna a utilizar
+
+        $marcas             = array_column($marcas, 'nombre_marca');                
+        $id_prod_atributo   = array_column($atributos, 'id_prod_atributo');
+        
+        // Reordenar el array por ID incremental de la tabla attributos
+        
+        array_multisort($id_prod_atributo, SORT_ASC, $atributos);
+
+        // Construir Array Producto Encabezado
+
+        foreach ($producto as $key => $p) {
+
+            if(in_array( $p['marca'], $marcas ) ){
+
+                $marca = $p['marca'];
+            }
+
+            if(in_array( $p['giro'], $giros ) ){
+                $giro  = p['giro'];
+            }
+
+            $_Pencabezado = array(
+                
+                'combo'     => 0,
+                'Linea'     => 1,
+                'Escala'    => 0,
+                'Empresa'   => 1,
+                'Giro'      => $giro,
+                'Marca'     => $marca,
+                'producto_estado'         => 1,
+                'id_producto_relacionado' => 0,
+                'name_entidad' => $p['name_entidad'],
+                'creado_producto' => date('Y-m-d H:i:s')
+
+            );
+
+            // Crear Encabezado
+
+            $id_encabezado = $this->Import_model->insertProductoEncabezado( $_Pencabezado );
+
+            if( $id_encabezado != null ){
+                $this->crearPA( $id_encabezado ,$atributos , $p);
+            }
+        }
+    }
+
+    function crearPA( $id_encabezado ,$atributos ,$p ){
+
+        $valores = array();
+        // Crear Producto Atributo y Obtener el ID_prod_atributo insert(id_producto, id_atributos)
+            
+        foreach ($atributos as $key => $attr) {
+                
+            $id_prod_attri = null;
+
+            $data_pa = array(
+                'Producto' => $id_encabezado ,
+                'Atributo' => $attr['id_prod_attributo']
+            );
+            
+            $id_prod_attri = $this->Import_model->insertProductoAttributo( $data_pa );
+
+            if(in_array( $attr['nam_atributo'], $p ) ){
+                $valores[]['id_prod_atributo'] = $id_prod_attri;
+                $valores[]['valor'] = $p[$attr['nam_atributo']];
+            }
+
+            if( $id_prod_attri != null ){
+                // Crear Attributo Valor insert(ATTRIBUTO , VALOR)
+                $this->crearAV( $valores );
+            }
+            
+        }
+    }
+
+    function crearAV( $valores ){
+
+        $this->Import_model->insertAttributoValor( $valores );
+
     }
 }
