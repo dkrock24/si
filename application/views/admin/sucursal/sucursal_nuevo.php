@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-lg-12">
 
-                    <div id="panelDemo10" class="panel">
+                    <div id="panelDemo10" class="panel menu_title_bar">
                         <div class="panel-heading menuTop">Crear Sucursal </div>
                                         
                             <div class="panel-body menuContent">

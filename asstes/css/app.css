@@ -366,6 +366,7 @@ body {
   width: 100%;
   height: auto;
   min-height: 100%;
+  background:#fff;
   overflow-x: hidden;
 }
 .wrapper.ng-leave {
@@ -404,7 +405,7 @@ body {
   height: 100%;
   margin-left: 0;
   z-index: 111;
-  background-color: #f5f7fa;
+  background-color: #fff;
   margin-bottom: 60px !important;
 }
 .wrapper > footer {

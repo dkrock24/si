@@ -49,13 +49,31 @@
 
     <style type="text/css">
       .menuTop{
-        background: #cfdbe2; color: black;
+        background: none; color: black;
+        font-family:Arial, Helvetica, sans-serif;
+        font-weight:900;
+        border:0px solid black;
         
       }
       .menuContent{
-        border-top:1px solid grey;
-        border-bottom: 3px solid grey;
+         background: none;
+         border-top:6px solid #82b74b;
+         border-bottom: 2px solid #0f4871;
+
       }
+
+      .polaroid {
+        width: 80%;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    div.img_logo {
+        text-align: left;
+        padding: 10px 20px;
+    }
+
+      
     </style>
 
   </head>

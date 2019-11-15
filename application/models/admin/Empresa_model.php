@@ -78,6 +78,7 @@ class Empresa_model extends CI_Model {
         {
             return $query->result();
         }
+        
     }
 
 	function get_empresa_by_id( $empresa_id ){

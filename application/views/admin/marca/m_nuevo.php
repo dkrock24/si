@@ -1,56 +1,57 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        
+    $(document).ready(function() {
 
-        $(".crear").click(function(){
+
+        $(".crear").click(function() {
             var categoria = $("#categoria").val();
             var marca = $("#marca").val();
 
-            data = {categoria:categoria, marca:marca};
+            data = {
+                categoria: categoria,
+                marca: marca
+            };
 
             $.ajax({
                 url: "save_categoria_marca",
                 data: data,
-                type: 'POST',     
-                cache : false,
+                type: 'POST',
+                cache: false,
 
-                success: function(data){
+                success: function(data) {
                     location.reload();
                 },
-                error:function(){
-                }
+                error: function() {}
             });
         });
 
-        $('.delete').click(function(){
+        $('.delete').click(function() {
             var id = $(this).attr("id");
             $.ajax({
-                url: "delete_categoria_marca/"+id,
-                type: 'GET',     
-                cache : false,
+                url: "delete_categoria_marca/" + id,
+                type: 'GET',
+                cache: false,
 
-                success: function(data){
+                success: function(data) {
                     location.reload();
                 },
-                error:function(){
-                }
+                error: function() {}
             });
         });
 
-        
+
     });
 </script>
 
 <style type="text/css">
-    .marca_categoria{
+    .marca_categoria {
         width: 95%;
         height: 350px;
         overflow-y: scroll;
     }
 
-    hr{
+    hr {
         color: black;
         border-color: black;
     }
@@ -58,47 +59,73 @@
 <!-- Main section-->
 <section>
     <!-- Page content-->
-    <div class="content-wrapper">  
-        <h3 style="height: 50px; font-size: 13px;">  
+    <div class="content-wrapper">
+        <h3 style="height: 50px; font-size: 13px;">
             <a href="index" style="top: -12px;position: relative; text-decoration: none">
-                <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Marca</button> 
-            </a> 
+                <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Marca</button>
+            </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
-            
+
         </h3>
         <div class="row">
             <div class="col-lg-12">
 
 
-                <div id="panelDemo10" class="panel menu_title_bar">    
-                                        
-                    <div class="panel-heading menuTop">Nueva Marca : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
-                    <div class="panel-body menuContent">        
-                    
+                <div id="panelDemo10" class="panel menu_title_bar">
+
+                    <div class="panel-heading menuTop">Nueva Marca : <?php //echo $onMenu[0]->nombre_submenu 
+                                                                        ?> </div>
+                    <div class="panel-body menuContent">
+
                         <div class="row">
                             <form class="form-horizontal" name="moneda" action='save' method="post">
-                                <input type="hidden" value="<?php //echo $onMenu[0]->id_marca; ?>" name="id_marca">
+
+                                <div class="alert alert-default">
+                                    <i class="fa fa-info-circle"></i>
+                                    <strong>Info!</strong> Crear Nueva Marca.
+                                </div>
+
                                 <div class="col-lg-6">
                                     <!-- Otro -->
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="nombre_marca" name="nombre_marca" placeholder="Nombre Marca" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
-                                            
+                                            <input type="text" class="form-control" id="nombre_marca" name="nombre_marca" placeholder="Nombre Marca" value="<?php //echo $onMenu[0]->nombre_submenu 
+                                                                                                                                                            ?>">
+
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Descripcion</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="descripcion_marca" name="descripcion_marca" placeholder="Descripcion Marca" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
-                                            
+                                            <input type="text" class="form-control" id="descripcion_marca" name="descripcion_marca" placeholder="Descripcion Marca" value="<?php //echo $onMenu[0]->nombre_submenu 
+                                                                                                                                                                            ?>">
+
                                         </div>
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Categoria</label>
+                                        <div class="col-sm-10">
+                                            <select name="categoria" id="categoria" class="form-control">
+                                                <?php
+                                                foreach ($categoria as $key => $c) {
+                                                    ?>
+                                                    <option value="<?php echo $c->id_categoria ?>"><?php echo $c->nombre_categoria ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            
+
                                             <label>
                                                 <select name="estado" class="form-control">
                                                     <option value="1">Activo</option>
@@ -112,18 +139,24 @@
                                     <hr>
 
                                     <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Categorias</label>
-                                    <div class="col-sm-10">
-                                        <select name="categoria" id="categoria" class="form-control">
-                                            <?php
-                                            foreach ($categoria as $key => $c) {
-                                                ?>
-                                                <option value="<?php echo $c->id_categoria ?>"><?php echo $c->nombre_categoria ?></option>
+
+                                        <div class="alert alert-default">
+                                            <i class="fa fa-info-circle"></i>
+                                            <strong>Info!</strong> Vincular Marca Existente con Categoria Existente.
+                                        </div>
+
+                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Categorias</label>
+                                        <div class="col-sm-10">
+                                            <select name="categoria" id="categoria" class="form-control">
                                                 <?php
-                                            }
-                                            ?>
-                                        </select>                                                
-                                    </div>
+                                                foreach ($categoria as $key => $c) {
+                                                    ?>
+                                                    <option value="<?php echo $c->id_categoria ?>"><?php echo $c->nombre_categoria ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
                                     <br>
                                     <div class="form-group">
@@ -134,10 +167,10 @@
                                                 foreach ($marca as $key => $m) {
                                                     ?>
                                                     <option value="<?php echo $m->id_marca ?>"><?php echo $m->nombre_marca ?></option>
-                                                    <?php
+                                                <?php
                                                 }
                                                 ?>
-                                            </select>                                                
+                                            </select>
                                         </div>
                                     </div>
                                     <br>
@@ -150,7 +183,7 @@
                                     </div>
 
                                 </div>
-                             </form>
+                            </form>
 
                             <div class="col-lg-6">
 
@@ -163,7 +196,7 @@
                                             <th>Marca Descripcion</th>
                                             <th>Opciones</th>
                                         </tr>
-                                    </thead>   
+                                    </thead>
                                     <tbody class="">
                                         <?php
                                         $cont = 1;
@@ -178,15 +211,15 @@
                                                     <span class="btn delete" style="background: #39b2d6; color: white;" id="<?php echo $mc->id_mar_cat; ?>"><i class="fa fa-trash"></i></span>
                                                 </td>
                                             </tr>
-                                            <?php
+                                        <?php
                                             $cont++;
-                                        }?>
-                                    </tbody>                                 
+                                        } ?>
+                                    </tbody>
                                 </table>
-                                
+
                             </div>
                         </div>
-                                                               
+
                     </div>
                 </div>
             </div>

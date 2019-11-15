@@ -145,7 +145,13 @@ class Empleado extends CI_Controller {
 			}
 		}
 
-		$data['sucursal_lista']	= $this->Empresa_model->getEmpresasWithSucursal2($sucursales);
+		
+		if($sucursales){
+			$data['sucursal_lista']	= $this->Empresa_model->getEmpresasWithSucursal2($sucursales);
+		}else{
+			$data['sucursal_lista']	= $this->Empresa_model->getEmpresasWithSucursal2(1);
+		}
+		
 		$data['home'] = 'admin/empleado/e_editar';
 
 		$this->general->editar_valido($data['empleado'], "admin/empleado/index");

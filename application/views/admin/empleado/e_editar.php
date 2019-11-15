@@ -385,6 +385,7 @@
                                                     
                                                 $id_empleado = $empleado[0]->id_empleado;
 
+                                                if($sucursal){
                                                     foreach ($sucursal as $s) {
 
 
@@ -403,6 +404,7 @@
                                                             }                                        
                                                         }
                                                     }
+                                                }
                                                     if($sucursal_lista){
                                                         foreach ($sucursal_lista as $value) {
                                                             if($value->id_empresa == $e->id_empresa){

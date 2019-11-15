@@ -89,6 +89,10 @@ class Acceso extends CI_Controller {
 		redirect(base_url()."admin/acceso/index" );
 	}
 
+	function sincAccionesRoles(){
+		$this->Acceso_model->sincAccionesRoles();
+	}
+
 	
 
 

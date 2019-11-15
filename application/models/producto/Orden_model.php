@@ -137,7 +137,7 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
-				WHERE pa.Atributo = 4 and P.Empresa=".$this->session->empresa[0]->id_empresa." group by P.id_entidad order by P.id_entidad");
+				WHERE PA.Atributo = 4 and P.Empresa=".$this->session->empresa[0]->id_empresa." group by P.id_entidad order by P.id_entidad");
 
 		        //echo $this->db->queries[0];
 		        return $query->result();

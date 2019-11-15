@@ -5,7 +5,7 @@
             <h3 style="height: 50px; "><i class="icon-arrow-right"></i>  Lista Combos </h3>
             
              <div class="col-lg-6 col-md-6">
-                  <div class="panel b">
+                  <div class="panel b menu_title_bar">
                      <div class="panel-heading">
                         <div class="pull-right">
                            <div class="label label-info">Detalle.</div>
