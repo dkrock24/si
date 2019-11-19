@@ -257,44 +257,66 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Formas Pago</label>
                                             <div class="col-sm-9">
-                                                
-                                               
-                                                   <?php
-                                                   foreach ($pagoCliente as $key => $pc) {
-                                                    ?>
-                                                    <div class="form-group">
-                                                         <label class="col-sm-2 control-label"><?php echo $pc->nombre_modo_pago ?></label>
-                                                         <div class="col-sm-10">                         
 
-                                                             <label class="switch">
-                                                                 <input type="checkbox" checked="checked" name="<?php echo $pc->id_modo_pago ?>">
-                                                                 <span></span>
-                                                             </label>
-                                                         </div>
-                                                     </div>
-                                                    
-                                                    <?php
-                                                }
 
-                                                   foreach ($pago as $key => $fp) {
-                                                       if(!array_key_exists( $fp->id_modo_pago, $pagoCliente)){
-                                                       ?>
-                                                       <div class="form-group">
-                                                            <label class="col-sm-2 control-label"><?php echo $fp->nombre_modo_pago ?></label>
-                                                            <div class="col-sm-10">                         
+                                                <?php
+                                                if ($pagoCliente) {
+                                                    foreach ($pagoCliente as $key => $pc) {
+                                                        ?>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label"><?php echo $pc->nombre_modo_pago ?></label>
+                                                            <div class="col-sm-10">
 
                                                                 <label class="switch">
-                                                                    <input type="checkbox" name="<?php echo $fp->id_modo_pago ?>">
-                                                                    <span></span>
+
+                                                                    <?php
+
+                                                                            if ($pc->for_pag_emp_estado == 1) {
+                                                                                ?>
+                                                                        <input type="checkbox" checked="checked" name="<?php echo $pc->id_modo_pago ?>">
+                                                                        <span></span>
+                                                                    <?php
+                                                                            } else {
+                                                                                ?>
+                                                                        <input type="checkbox" name="<?php echo $pc->id_modo_pago ?>">
+                                                                        <span></span>
+                                                                    <?php
+                                                                            }
+
+                                                                            ?>
+
+
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                       
-                                                       <?php
-                                                       }
-                                                   }
-                                                   ?>
-                                                   
+
+                                                    <?php
+                                                        }
+                                                    } else {
+                                                    
+                                                    foreach ($pago as $key => $p) {
+                                                        ?>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label"><?php echo $p->nombre_modo_pago ?></label>
+                                                            <div class="col-sm-10">
+
+                                                                <label class="switch">
+
+                                                                    <input type="checkbox" name="<?php echo $p->id_modo_pago ?>">
+                                                                    <span></span>
+
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                    
+                                                        
+
+                                                <?php
+                                                    }
+                                                }
+                                                ?>
+
                                             </div>
                                         </div>
 

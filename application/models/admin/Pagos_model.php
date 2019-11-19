@@ -39,10 +39,10 @@ class Pagos_model extends CI_Model {
     function getPagosClientes($idCliente){
 
         $this->db->select('*');
-        $this->db->from(self::cliente.' as c');
-        $this->db->join(self::pos_formas_pago_cliente.' as fpc',' on c.id_cliente=fpc.cliente_form_pago');
-        $this->db->join(self::formas_pago.' as fp',' on fpc.Forma_pago=fp.id_modo_pago');
-        $this->db->where('c.id_cliente', $idCliente );
+        //$this->db->from(self::cliente.' as c');
+        $this->db->from(self::pos_formas_pago_cliente.' as fpc');
+        $this->db->join(self::formas_pago.' as fp',' on fpc.Forma_pago=fp.id_modo_pago','full');
+        $this->db->where('fpc.Cliente_form_pago', $idCliente );
         $query = $this->db->get();
         
         if($query->num_rows() > 0 )

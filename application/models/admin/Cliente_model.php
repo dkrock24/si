@@ -156,78 +156,68 @@ class Cliente_model extends CI_Model
     function crearFpCliente($clienteId, $formas_pago)
     {
 
+        $pagos = $this->getPagos();        
+        
+        foreach ($pagos as $key => $value) {
+            $data = array(
+                'Cliente_form_pago' => $clienteId,
+                'Forma_pago' => $value->id_modo_pago,
+                'for_pag_emp_estado' => 0
+            );
+            $this->db->insert(self::pos_fp_cliente, $data);
+        }
+        
         foreach ($formas_pago as $key => $value) {
 
             $valor = (int) $key;
 
             if ($valor != 0) {
+
                 $data = array(
-                    'Cliente_form_pago' => $clienteId,
-                    'Forma_pago' => $valor,
                     'for_pag_emp_estado' => 1
                 );
-                $result = $this->db->insert(self::pos_fp_cliente, $data);
+
+                $this->db->where('Forma_pago', $valor );
+                $this->db->where('Cliente_form_pago', $clienteId );
+                $this->db->update(self::pos_fp_cliente, $data);
             }
         }
+        
     }
 
     function updateFpCliente($clienteId, $formas_pago)
     {
 
-        $pagos_activos = array();
+        $getClienteFP = $this->getPagosClientes($clienteId, 1);
 
-        foreach ($formas_pago as $key => $f_cliente) {
+        if($getClienteFP){
+            foreach ($getClienteFP as $key => $f_cliente) {
 
-            if (is_numeric($key)) {
-
-                $pagos_activos[] = $key;
-
-                $getClienteFP = $this->getPagosClientes($clienteId, $key);
-
-                if (!$getClienteFP) {
+                if (array_key_exists($f_cliente->Forma_pago, $formas_pago)) {
 
                     $data = array(
-                        'Cliente_form_pago' => $clienteId,
-                        'Forma_pago' => $key,
                         'for_pag_emp_estado' => 1
                     );
 
-                    $this->db->insert(self::pos_formas_pago_cliente, $data);
-                }
-            }
-        }
-
-        $array = array();
-        $cnt=0;
-        $data = $this->getPagosClientes2($clienteId);
-
-        foreach ($data as $key1 => $value) { 
-            foreach ($formas_pago as $key2 => $item) {
-                $array[$cnt] = $key2;
-                $cnt++;
-                if (is_numeric($key2) && $key2 == $value->Forma_pago) {
-                    $data = array(
-                        'for_pag_emp_estado' => 1
-                    );
-                    $this->db->where('Cliente_form_pago', $clienteId);
-                    $this->db->where('Forma_pago', $key);
+                    $this->db->where('Forma_pago', $f_cliente->Forma_pago);
+                    $this->db->where('Cliente_form_pago', $f_cliente->Cliente_form_pago);
                     $this->db->update(self::pos_formas_pago_cliente, $data);
+                } else {
+
+                    $data = array(
+                        'for_pag_emp_estado' => 0
+                    );
+
+                    $this->db->where('Forma_pago', $f_cliente->Forma_pago);
+                    $this->db->where('Cliente_form_pago', $f_cliente->Cliente_form_pago);
+                    $this->db->update(self::pos_formas_pago_cliente, $data);
+
                 }
             }
-        }
+        }else{
 
-        foreach ($data as $key1 => $value) { 
-            if ( !array_key_exists($value['Forma_pago'], $array))  {
-                
-                $data = array(
-                    'for_pag_emp_estado' => 0
-                );
-
-                $this->db->where('Cliente_form_pago', $clienteId);
-                $this->db->where('Forma_pago', $value['Forma_pago']);
-                $this->db->update(self::pos_formas_pago_cliente, $data);
-            }
-            
+            $this->crearFpCliente($clienteId, $formas_pago);
+           
         }
     }
 
@@ -238,7 +228,7 @@ class Cliente_model extends CI_Model
         $this->db->from(self::pos_formas_pago_cliente . ' as fpc');
         $this->db->join(self::formas_pago . ' as fp', ' on fpc.Forma_pago=fp.id_modo_pago');
         $this->db->where('fpc.Cliente_form_pago', $idCliente);
-        $this->db->where('fpc.Forma_pago', $pago);
+        //$this->db->where('fpc.Forma_pago', $pago);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -253,6 +243,18 @@ class Cliente_model extends CI_Model
         $this->db->from(self::pos_formas_pago_cliente . ' as fpc');
         $this->db->join(self::formas_pago . ' as fp', ' on fpc.Forma_pago=fp.id_modo_pago');
         $this->db->where('fpc.Cliente_form_pago', $idCliente);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+    }
+
+    function getPagos()
+    {
+
+        $this->db->select('*');        
+        $this->db->from(self::formas_pago);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
