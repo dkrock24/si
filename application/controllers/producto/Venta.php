@@ -81,7 +81,7 @@ class Venta extends CI_Controller {
 	}
 
 	public function guardar_venta(){
-
+		
 		$form = array();
 
 		$id_usuario = $this->session->usuario[0]->id_usuario;
@@ -90,11 +90,11 @@ class Venta extends CI_Controller {
 			$form[$value['name']] = $value['value'];
 		}
 
-		$documento_tipo = $this->Documento_model->getDocumentoById($form['id_tipo_documento']);
+		$documento_tipo = $this->Documento_model->getDocumentoById($_POST['documento_tipo']);
 
-		$cliente = $this->get_clientes_id($form['cliente_codigo']);
+		$cliente = $this->get_clientes_id($_POST['cliente']);
 
-		$this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo );
+		$this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo , $_POST['sucursal_origen']);
 
 		//redirect(base_url()."producto/orden/nuevo");
 	}

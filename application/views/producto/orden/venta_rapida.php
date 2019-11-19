@@ -233,32 +233,8 @@ include("asstes/pos_funciones.php");
                 -->
 
         </div>
-        </form>
-    </div>
-    </div>
 
-    <div class="row bg-red" style="position: fixed;bottom: 0px; width: 100%;">
-        <div class="col-lg-12 col-md-12 abajo" style="height: 50px;">
-            <span class="btn btn-info" data-toggle="modal" data-target="#documentoModel" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F1
-                <i class="icon-settings"></i>
-            </span>
-
-            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F2
-                <i class="icon-grid"></i>
-            </span>
-
-            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F3
-                <i class="icon-trash"></i>
-            </span>
-
-            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
-                <i class="fa fa-credit-card"></i>
-            </span>
-        </div>
-    </div>
-</section>
-
-<!-- Modal Large Documenos -->
+        <!-- Modal Large Documenos -->
 <div id="documentoModel" tabindex="-1" role="dialog" aria-labelledby="documentoModel" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -433,6 +409,34 @@ include("asstes/pos_funciones.php");
     </div>
 </div>
 <!-- Modal Small-->
+}
+
+        </form>
+    </div>
+    </div>
+
+    <div class="row bg-red" style="position: fixed;bottom: 0px; width: 100%;">
+        <div class="col-lg-12 col-md-12 abajo" style="height: 50px;">
+            <span class="btn btn-info" data-toggle="modal" data-target="#documentoModel" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F1
+                <i class="icon-settings"></i>
+            </span>
+
+            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F2
+                <i class="icon-grid"></i>
+            </span>
+
+            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F3
+                <i class="icon-trash"></i>
+            </span>
+
+            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
+                <i class="fa fa-credit-card"></i>
+            </span>
+        </div>
+    </div>
+</section>
+
+
 
 <!-- Modal Large CLIENTES MODAL-->
 <div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal" class="modal fade">

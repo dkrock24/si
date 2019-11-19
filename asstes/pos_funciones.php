@@ -1766,7 +1766,15 @@ $(document).ready(function(){
     
 
     function procesar_venta(method){
+        
+        var tipo_documento= $("#id_tipo_documento").val();
+
+        var sucursal_origen= $("#sucursal_id2").val();        
+
+        var cliente_id = $("#cliente_codigo").val();
+
         var formulario = $('#encabezado_form').serializeArray();
+        
         var orden_estado = $(this).attr('name');
         var impuestos_data = {
             'imp_condicion' : _impuestos_orden_condicion,
@@ -1783,7 +1791,10 @@ $(document).ready(function(){
                     encabezado : formulario,
                     estado:orden_estado ,
                     impuestos : impuestos_data,
-                    pagos : pagos_array
+                    pagos : pagos_array,
+                    documento_tipo : tipo_documento,
+                    cliente: cliente_id,
+                    sucursal_origen : sucursal_origen,
                 },
                 url: method,
 

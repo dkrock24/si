@@ -210,7 +210,7 @@ class Producto_model extends CI_Model {
                 $this->db->insert(self::producto_atributo, $data ); 
                 $id_producto_atributo = $this->db->insert_id();
 
-                $imageName = getimageSize($_FILES['11']['tmp_name']);
+                $imageName = @getimageSize($_FILES['11']['tmp_name']);
 
                 // llamando el insert de los valores de los atributos del producto
 	        	$this->producto_atributo_valor( $id_producto_atributo , $imageName['mime'] );
@@ -274,8 +274,8 @@ class Producto_model extends CI_Model {
 		function producto_images( $id_producto  , $imagen_producto ){
 			// Insertando Imagenes Productos
 			$imagen="";
-			$imagen = file_get_contents($_FILES['11']['tmp_name']);
-			$imageProperties = getimageSize($_FILES['11']['tmp_name']);
+			$imagen = @file_get_contents($_FILES['11']['tmp_name']);
+			$imageProperties = @getimageSize($_FILES['11']['tmp_name']);
 
 			$data = array(
                 'id_producto' => $id_producto,

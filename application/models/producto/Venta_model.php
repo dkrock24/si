@@ -207,22 +207,26 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 			1 - guardar_venta
 		*/
 
-		function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento ){
-
-			$order_estado = $orden['estado'];
+		function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal){
 
 			$total_orden = $orden['orden'][0]['total'];
+			$total_orden = (int) $total_orden;
+
+			$total_impuesto = $orden['orden'][0]['por_desc'];
+			$total_impuesto = (int) $total_impuesto;
+
+			$order_estado = $orden['estado'];
 
 			//Precio Orden con Impuesto
 			$cliente_aplica_impuesto = $cliente[0]->aplica_impuestos;
 
 			if($cliente_aplica_impuesto ==1){
-				$total_orden += ($orden['orden'][0]['total'] *$orden['orden'][0]['impuesto_porcentaje']);
+				$total_orden += ( $total_orden * $total_impuesto );
 			}
 
-			$desc_val = ($orden['orden'][0]['por_desc'] * $orden['orden'][0]['total']);			
+			$desc_val = ($total_impuesto * $total_orden);
 
-			$siguiente_correlativo = $this->get_siguiente_correlativo($form['sucursal_origin']);
+			$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal );
 
 			$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $form['numero']);
 
