@@ -23,9 +23,12 @@ $(document).ready(function(){
     var pagos_array = [];    
 
 	$(document).on('keyup', '.existencia_buscar', function(){
-    	/* Busqueda de productos */
-        $('.dos').empty();
-        if($(".existencia_buscar").val() != ""){
+        /* Busqueda de productos */
+        var busqueda_texto = $(".existencia_buscar").val();
+        if( busqueda_texto.length <= 0){
+            $('.dos').empty();
+        }        
+        else{
             search_texto2(this.value);
         }        
     });
@@ -60,6 +63,7 @@ $(document).ready(function(){
             var productos = _productos_lista;
             var producto_id = 0;
             interno_sucursal = sucursal;
+            
             $.each(productos, function(i, item) { 
 
                 var name = item.name_entidad.toUpperCase();
@@ -69,7 +73,7 @@ $(document).ready(function(){
                     producto_id = item.id_entidad;  
                     var precio = 0;
                     
-                    table_tr += '<option value="'+item.id_entidad+'">'+item.name_entidad+'</option>';
+                    table_tr += '<option value="'+item.id_entidad+'">'+item.nombre_marca+' '+item.name_entidad+' '+item.presentacion +' '+item.cod_barra+'</option>';
                     contador_precios++;
                 }
                 
@@ -104,7 +108,7 @@ $(document).ready(function(){
     });
 
     function get_producto_completo2(producto_id){
-        /* Mostrar Existencias */
+    /* Mostrar Existencias */
       $("#grabar").attr('disabled');
         var codigo,presentacion,tipo,precioUnidad,descuento,total
 
@@ -150,15 +154,24 @@ $(document).ready(function(){
 
             },
             error:function(){
+                alert("Error Conexion");
             }
         });
     }
 
     $(document).on('keyup', '.producto_buscar', function(){
         /* 1 - Input Buscar Producto */
-        if($(".producto_buscar").val() != ""){
+
+        var texto_busqueda = $(".producto_buscar").val();
+
+        if(texto_busqueda.length !=0 ){
+            
             search_texto(this.value);
-        }
+            
+        }  else{
+            $('.dataSelect').empty();
+            $('.dataSelect').hide();
+        }      
     });    
     
     /* 2 - Filtrado del texto a buscar en productos */
@@ -220,17 +233,25 @@ $(document).ready(function(){
     }
 
     $(document).on('keydown', '.producto_buscar', function(){
+        
          if ( event.keyCode == 40 ) {
+            
             $('.dataSelect').focus();
             document.getElementById('dataSelect').selectedIndex = 0;
          }
+    });
+
+    // Limpiar productos lista al perder foco el input
+    $(document).on('blur', '.producto_buscar', function(){
+        //$('.dataSelect').empty();
+        //$('.dataSelect').hide();
     });
 
     /* 3 - Selecionado Producto de la lista y precionando ENTER */
     $(document).on('keypress', '.dataSelect', function(){
 
         if ( event.which == 13 ) {
-
+            
             get_producto_completo(this.value);
             event.preventDefault();
             
@@ -1192,10 +1213,10 @@ $(document).ready(function(){
         var descuento_digitado = $("descuento").val();
 
         if( _productos_precio != null){
-
+            
             $.each(_productos_precio, function(i, item) {
                 
-                factor = item.factor;
+                factor = _productos_precio['factor'];
                 if( factor == producto_cantidad_linea ){
 
                     factor_precio = item.unidad;

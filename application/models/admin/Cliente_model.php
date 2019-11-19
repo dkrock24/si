@@ -10,6 +10,7 @@ class Cliente_model extends CI_Model
     const pos_tipo_documento = 'pos_tipo_documento';
     const pos_formas_pago = 'pos_formas_pago';
     const pos_fp_cliente = 'pos_formas_pago_cliente';
+    const pos_formas_pago_cliente = 'pos_formas_pago_cliente';
 
     function get_cliente()
     {
@@ -51,7 +52,7 @@ class Cliente_model extends CI_Model
         $this->db->join(self::tipos_documentos, ' on ' . self::cliente . '.TipoDocumento=' . self::tipos_documentos . '.id_tipo_documento');
         $this->db->join(self::formas_pago, ' on ' . self::cliente . '.TipoPago=' . self::formas_pago . '.id_modo_pago');
         $this->db->join(self::sys_persona . ' as p', ' on p.id_persona = Persona');
-        $this->db->join(self::cliente_tipo . ' as ct', ' on ct.id_cliente_tipo = ' . self::cliente .'.id_cliente_tipo');
+        $this->db->join(self::cliente_tipo . ' as ct', ' on ct.id_cliente_tipo = ' . self::cliente . '.id_cliente_tipo');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         //$this->db->where('estado = 1');
         $this->db->where('id_cliente = ' . $cliente_id);
@@ -170,6 +171,95 @@ class Cliente_model extends CI_Model
         }
     }
 
+    function updateFpCliente($clienteId, $formas_pago)
+    {
+
+        $pagos_activos = array();
+
+        foreach ($formas_pago as $key => $f_cliente) {
+
+            if (is_numeric($key)) {
+
+                $pagos_activos[] = $key;
+
+                $getClienteFP = $this->getPagosClientes($clienteId, $key);
+
+                if (!$getClienteFP) {
+
+                    $data = array(
+                        'Cliente_form_pago' => $clienteId,
+                        'Forma_pago' => $key,
+                        'for_pag_emp_estado' => 1
+                    );
+
+                    $this->db->insert(self::pos_formas_pago_cliente, $data);
+                }
+            }
+        }
+
+        $array = array();
+        $cnt=0;
+        $data = $this->getPagosClientes2($clienteId);
+
+        foreach ($data as $key1 => $value) { 
+            foreach ($formas_pago as $key2 => $item) {
+                $array[$cnt] = $key2;
+                $cnt++;
+                if (is_numeric($key2) && $key2 == $value->Forma_pago) {
+                    $data = array(
+                        'for_pag_emp_estado' => 1
+                    );
+                    $this->db->where('Cliente_form_pago', $clienteId);
+                    $this->db->where('Forma_pago', $key);
+                    $this->db->update(self::pos_formas_pago_cliente, $data);
+                }
+            }
+        }
+
+        foreach ($data as $key1 => $value) { 
+            if ( !array_key_exists($value['Forma_pago'], $array))  {
+                
+                $data = array(
+                    'for_pag_emp_estado' => 0
+                );
+
+                $this->db->where('Cliente_form_pago', $clienteId);
+                $this->db->where('Forma_pago', $value['Forma_pago']);
+                $this->db->update(self::pos_formas_pago_cliente, $data);
+            }
+            
+        }
+    }
+
+    function getPagosClientes($idCliente, $pago)
+    {
+
+        $this->db->select('*');
+        $this->db->from(self::pos_formas_pago_cliente . ' as fpc');
+        $this->db->join(self::formas_pago . ' as fp', ' on fpc.Forma_pago=fp.id_modo_pago');
+        $this->db->where('fpc.Cliente_form_pago', $idCliente);
+        $this->db->where('fpc.Forma_pago', $pago);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+    }
+
+    function getPagosClientes2($idCliente)
+    {
+
+        $this->db->select('*');
+        $this->db->from(self::pos_formas_pago_cliente . ' as fpc');
+        $this->db->join(self::formas_pago . ' as fp', ' on fpc.Forma_pago=fp.id_modo_pago');
+        $this->db->where('fpc.Cliente_form_pago', $idCliente);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+    }
+
     function update($datos)
     {
 
@@ -204,6 +294,9 @@ class Cliente_model extends CI_Model
 
         $this->db->where('id_cliente', $datos['id_cliente']);
         $result = $this->db->update(self::cliente, $data);
+
+        $this->updateFpCliente($datos['id_cliente'],  $datos);
+
         return $result;
     }
 }

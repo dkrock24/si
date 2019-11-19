@@ -136,13 +136,6 @@
                                             </div>
                                         </div>
 
-                                        
-
-                                    </div>
-
-
-                                    <div class="col-lg-6">
-                                        <!-- Otro -->
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
                                             <div class="col-sm-9">
@@ -165,6 +158,15 @@
                                                 
                                             </div>
                                         </div>
+
+                                        
+
+                                    </div>
+
+
+                                    <div class="col-lg-6">
+                                        <!-- Otro -->
+                                        
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Logo</label>

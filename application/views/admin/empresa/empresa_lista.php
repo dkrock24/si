@@ -5,11 +5,11 @@
             <h3 style="height: 50px; ">Lista Empresas 
                 <?php $this->load->view('notificaciones/success'); ?>
             </h3>
-            <div class="panel panel-default">
+            <div class="panel menu_title_bar">
   
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
-                        <thead class="">
+                        <thead class="linea_superior">
                             <tr>
                                 <th style="color: black;">#</th>
                                 <th style="color: black;">Nombre</th> 

@@ -148,8 +148,8 @@ class Empresa_model extends CI_Model {
 
         // Insertando Imagenes Empresa
         $imagen="";
-        $imagen = file_get_contents($_FILES['logo_empresa']['tmp_name']);
-        $imageProperties = getimageSize($_FILES['logo_empresa']['tmp_name']);
+        $imagen = @file_get_contents($_FILES['logo_empresa']['tmp_name']);
+        $imageProperties = @getimageSize($_FILES['logo_empresa']['tmp_name']);
 
         $data = array(
             'nombre_razon_social' => $empresa['nombre_razon_social'],

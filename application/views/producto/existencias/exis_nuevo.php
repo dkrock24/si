@@ -346,7 +346,7 @@ function agregar_producto(){
                         </select>
                     </div>
 
-                    <thead class="menuTop" style="color: black;">
+                    <thead class="menuTop linea_superior" style="color: black;">
                        <tr>
                         <th>#</th>
                         <th>Sucursal</th>

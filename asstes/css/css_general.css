@@ -6,3 +6,11 @@
 .menu_title_bar{
 	margin-top: 100px;
 }
+
+.linea_superior{
+	border-bottom: 2px solid #82b74b;
+}
+
+.alignRigth{
+	float: center;
+}

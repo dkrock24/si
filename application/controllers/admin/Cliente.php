@@ -143,6 +143,7 @@ class Cliente extends CI_Controller {
 		$data['menu'] = $this->session->menu;
 		$data['cliente'] = $this->Cliente_model->get_clientes_id( $cliente_id );
 		$data['documento'] = $this->Cliente_model->getTipoDocumento();
+		$data['pagoCliente'] = $this->Pagos_model->getPagosClientes2($cliente_id);
 		$data['pago'] = $this->Pagos_model->getTipoPago();
 		$data['persona'] = $this->Persona_model->getAllPersona();
 		$data['title'] = "Editar Cliente";
