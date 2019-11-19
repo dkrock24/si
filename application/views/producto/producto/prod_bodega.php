@@ -23,10 +23,10 @@
             <span style="top: -12px;position: relative; text-decoration: none">Producto Bodega</span> </h3>
            
                 <!-- START table-responsive-->
-                <div class="row">
+                <div class="row menu_title_bar">
                     <div class="col-lg-4">
                       <!-- START panel-->
-                      <div id="panelDemo10" class="panel">
+                      <div id="panelDemo10" class="panel ">
                          <div class="panel-heading menuTop">Filtros</div>
                          <div class="panel-body">
                             <p>

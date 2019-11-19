@@ -49,4 +49,58 @@ class Import_model extends CI_Model {
         $this->db->insert(self::producto_valor, $data_av ); 
         return $this->db->insert_id();
     }
+
+    function Generador( $cnt ){
+        $product = $this->product();
+        
+        unset($product[0]['current_row']);
+        unset($product[0]['id_entidad']);
+        $product[0]['name_entidad'] = $cnt;
+
+        $this->db->insert(self::producto, $product[0]);
+        $newProduct = $this->db->insert_id();
+
+
+        $pa = $this->pa();
+
+        foreach ($pa as $key => $value) {
+            $data = array(
+                'Atributo' => $value['Atributo'],
+                'Producto' => $newProduct
+            );
+            $this->db->insert(self::producto_atrib, $data );
+            $proAtr = $this->db->insert_id();
+
+            $pav = $this->pav($value['id_prod_atrri']);
+
+            $data = array(
+                'id_prod_atributo' => $proAtr,
+                'valor' => $pav[0]['valor']
+            );
+            $this->db->insert(self::producto_valor, $data );
+
+        }
+    }
+
+
+    function product(){
+        $this->db->where('id_entidad',1);
+		$this->db->from(self::producto);
+		$result = $this->db->get();
+        return $result->result_array();
+    }
+
+    function pa(){
+        $this->db->where('Producto',1);
+		$this->db->from(self::producto_atrib);
+		$result = $this->db->get();
+        return $result->result_array();
+    }
+
+    function pav($id){
+        $this->db->where('id_prod_atributo',$id);
+		$this->db->from(self::producto_valor);
+		$result = $this->db->get();
+        return $result->result_array();
+    }
 }

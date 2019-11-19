@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+set_time_limit(0);
 class Import extends CI_Controller
 {
 
@@ -265,5 +265,15 @@ class Import extends CI_Controller
 
         $this->Import_model->insertAttributoValor( $valores );
 
+    }
+
+    function Generador(){
+
+        $cnt = 10000;
+
+        for ( $i=0; $i<=$cnt; $i++ ) {
+            $this->Import_model->Generador( $i );
+            $cnt++;
+        }
     }
 }

@@ -409,7 +409,7 @@ include("asstes/pos_funciones.php");
     </div>
 </div>
 <!-- Modal Small-->
-}
+
 
         </form>
     </div>
