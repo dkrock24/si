@@ -28,16 +28,28 @@
             if (busqueda_texto.length <= 0) {
                 $('.dos').empty();
             } else {
-                search_texto2(this.value);
+                if ($(".existencia_buscar").is(":focus")) {
+                    $(".existencia_buscar").keypress(function(e) {
+                        if (e.keyCode == 13) {
+                            search_texto2(this.value);
+                        }
+                    });
+                }
             }
         });
 
         function search_texto2(texto) {
-            $('.1dataSelect').show();
-            sucursal = $("#sucursal_id").val();
-            interno_bodega = $("#bodega_select").val();
+
+            var $listBox = $('.1dataSelect');
             var contador_precios = 1;
             var table_tr = "";
+
+            $listBox.show();
+
+            sucursal = $("#sucursal_id").val();
+
+            interno_bodega = $("#bodega_select").val();
+
             if (sucursal != interno_sucursal) {
                 interno_sucursal = sucursal;
                 $.ajax({
@@ -50,7 +62,7 @@
                         var productos = datos["productos"];
                         var producto_id = 0;
                         _productos_lista = productos;
-                        $('.1dataSelect').show();
+                        $listBox.show();
 
                     },
                     error: function() {}
@@ -157,25 +169,20 @@
             });
         }
 
-        $(document).on('keyup', '.producto_buscar', function() {
+        $(document).on('keypress', '.producto_buscar', function(e) {
             /* 1 - Input Buscar Producto */
 
             var texto_busqueda = $(".producto_buscar").val();
 
             if (texto_busqueda.length != 0) {
 
-                if($(".producto_buscar").is(":focus")) {
-                        $(".producto_buscar").keypress(function(e) {
-                        if (e.keyCode == 13) {
-                            search_texto(texto_busqueda);
-                            
-                        }
-                    });
-                }else{
-                    $('.dataSelect').empty();
-                $('.dataSelect').hide();
+                if ($(".producto_buscar").is(":focus")) {
+                    
+                    if (e.keyCode == 13) {
+                        console.log(5);
+                        search_texto($(".producto_buscar").val());
+                    }
                 }
-                
 
             } else {
                 $('.dataSelect').empty();
@@ -190,12 +197,9 @@
         /* 2 - Filtrado del texto a buscar en productos */
         function search_texto(texto) {
 
-            //$('.dataSelect').show();
             sucursal = $("#sucursal_id").val();
             var bodega = $("#bodega_select").val();
-
-            var contador_precios = 1;
-            var table_tr = "";
+            
             if (bodega != interno_bodega) {
 
                 interno_sucursal = sucursal;
@@ -217,31 +221,57 @@
                         _impuestos['doc'] = datos["impuesto_documento"];
                         _impuestos['pro'] = datos["impuesto_proveedor"];
 
+                        showProducts(_productos_lista, texto);
+
                     },
                     error: function() {}
                 });
-            } else {
-
-                var producto_id = 0;
-                interno_sucursal = sucursal;
-                $.each(_productos_lista, function(i, item) {
-
-                    var name = item.name_entidad.toUpperCase();
-                    var cod_barra = item.cod_barra;
-                    var pres_cod_bar = item.pres_cod_bar;
-
-                    if (name.includes(texto.toUpperCase()) || cod_barra.includes(texto) || pres_cod_bar.includes(texto)) {
-                        producto_id = item.id_entidad;
-                        var precio = 0;
-
-                        table_tr += '<option value="' + item.id_producto_detalle + '">' + item.name_entidad + ' - ' + item.presentacion + '</option>';
-                        contador_precios++;
-                    }
-                    $('.dataSelect').show();
-                });
-
-                $(".dataSelect").html(table_tr);
+            } else{
+                showProducts(_productos_lista, texto);
             }
+        }
+
+        function showProducts(_productos_lista, texto){
+
+            var producto_id = 0;
+            var contador_precios = 1;
+
+            interno_sucursal = sucursal;
+
+            var table_tr = "";
+
+            var result = [];
+
+            result = _productos_lista.filter(function(a){ 
+
+                var name = a.name_entidad.toUpperCase();
+                var cod_barra = a.cod_barra;
+                var pres_cod_bar = a.pres_cod_bar;
+
+                if (name.includes(texto.toUpperCase()) || cod_barra.includes(texto) || pres_cod_bar.includes(texto)) {
+                    return  a;
+                }
+                
+            });
+            
+            var a =1;              
+            $.each(result, function(i, item) {
+
+                var name = item.name_entidad.toUpperCase();
+                var cod_barra = item.cod_barra;
+                var pres_cod_bar = item.pres_cod_bar;
+
+                if (name.includes(texto.toUpperCase()) || cod_barra.includes(texto) || pres_cod_bar.includes(texto)) {
+                    producto_id = item.id_entidad;
+                    var precio = 0;
+
+                    table_tr += '<option value="' + item.id_producto_detalle + '">' + item.name_entidad + ' - ' + item.presentacion + '</option>';
+                    contador_precios++;
+                }
+                $('.dataSelect').show();
+            });
+
+            $(".dataSelect").html(table_tr);
         }
 
         $(document).on('keydown', '.producto_buscar', function() {

@@ -269,11 +269,15 @@ class Import extends CI_Controller
 
     function Generador(){
 
-        $cnt = 10000;
+        $cnt = 3001;
 
-        for ( $i=0; $i<=$cnt; $i++ ) {
-            $this->Import_model->Generador( $i );
+        for ( $i=1; $i<=2000; $i++ ) {
+            $this->Import_model->Generador( $cnt );
             $cnt++;
         }
+    }
+
+    function random(){
+        echo rand();
     }
 }

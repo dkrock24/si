@@ -5,6 +5,9 @@ class Import_model extends CI_Model {
     const producto = 'producto';
     const producto_atrib = 'producto_atributo';
     const producto_valor = 'producto_valor';
+    const prouducto_detalle = 'prouducto_detalle';
+    const pos_producto_bodega = 'pos_producto_bodega';
+    const pos_sucursal = 'pos_sucursal';
 	
 	function getTablesDb(){
         $tables = $this->db->list_tables();
@@ -60,6 +63,35 @@ class Import_model extends CI_Model {
         $this->db->insert(self::producto, $product[0]);
         $newProduct = $this->db->insert_id();
 
+        $detalle = array(
+            'Producto' => $newProduct,
+            'factor' => 1,
+            'presentacion' => 'Unidad',
+            'precio' => 100,
+            'unidad' => 100,
+            'Utilidad' => 50,
+            'cod_barra' => rand(),
+            'estado_producto_detalle' => 1,
+            'fecha_creacion_producto_detalle' => date('Y-m-d H:i:s')
+        );
+        $this->db->insert(self::prouducto_detalle, $detalle );
+
+        $sucursal = array(
+            1,2,3,53
+        );
+
+        foreach ($sucursal as $value) {
+
+            $data = array(
+                'Bodega' => $value,
+                'Producto' => $newProduct,
+                'Cantidad' => 100,
+                'Descripcion' => 'abc',
+                'pro_bod_creado' => date('Y-m-d H:i:s'),
+                'pro_bod_estado' => 1
+            );
+            $this->db->insert(self::pos_producto_bodega, $data );
+        }
 
         $pa = $this->pa();
 
