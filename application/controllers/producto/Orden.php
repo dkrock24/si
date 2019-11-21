@@ -134,6 +134,7 @@ class Orden extends CI_Controller {
 		
 		$producto_id = $_POST['producto_id'];
 		$id_bodega = $_POST['id_bodega'];
+		$id_producto_detalle = $_POST['id_producto_detalle'];
 
 		$data['p_combos'] = $this->Orden_model->producto_combo( $producto_id );
 		$data['productos'] = array();
@@ -153,7 +154,7 @@ class Orden extends CI_Controller {
 	}
 
 	function get_producto_completo2( $producto_id, $id_bodega ){
-		$data['producto'] = $this->Orden_model->get_producto_completo($producto_id, $id_bodega);
+		$data['producto'] = $this->Orden_model->get_producto_completo3($producto_id, $id_bodega);
 
 		$contador=0;
 		$atributos= array();
@@ -247,8 +248,13 @@ class Orden extends CI_Controller {
 		redirect(base_url()."producto/orden/nuevo");
 	}
 
-	function get_productos_lista( $sucursal ,$bodega, $texto ){
-		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal ,$bodega, $texto);
+	function get_productos_lista( $sucursal ,$bodega ){
+		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal ,$bodega);
+		
+		echo json_encode( $data );
+	}
+
+	function get_impuestos_lista(){
 		$data['impuesto_categoria'] = $this->Impuesto_model->getAllImpCat();
 		$data['impuesto_cliente'] = $this->Impuesto_model->getAllImpCli();
 		$data['impuesto_documento'] = $this->Impuesto_model->getAllImpDoc();
@@ -302,6 +308,7 @@ class Orden extends CI_Controller {
 		$impuesto_conf = "impuestos";
 
 		$data['producto'] = $this->Orden_model->get_producto_completo($id_producto_detalle, $id_bodega);
+		
 		$producto_id = $data['producto'][0]->id_entidad;
 		
 		$contador=0;

@@ -11,6 +11,7 @@
       $(".save_params").on('click',function(){
 
          var clas = $(this).attr('name');
+         
          var form = $("."+clas).serializeArray();
          var method = '../'+ $(this).attr('id');
          
@@ -22,8 +23,7 @@
              url: method,
 
              success: function(data){
-
-                 //location.reload();
+                 location.reload();
              },
              error:function(){
              } 
@@ -298,7 +298,7 @@
                <h4 id="myModalLabelLarge" class="modal-title" style="text-align: center;"> Editar Parametro </h4>
             </div>
             <div class="modal-body">  
-               <form name="param_form" id="update_params" class="update_params">
+               <form name="update_params" id="update_params" class="update_params">
                   <input type="hidden" name="id_conf" value="" id="id_conf">
                   <div class="row">
                      <div class="col-md-4">Modulo</div>
@@ -334,8 +334,8 @@
 
             </div>
             <div class="modal-footer">
-               <button type="button" style="float: left;" data-dismiss="modal" class="btn btn-danger save_params" id="delete_params" name="update_params">Eliminar</button>
-               <button type="button" data-dismiss="modal" class="btn btn-info save_params" id="update_params">Guardar</button>
+               <button type="button" style="float: left;" data-dismiss="modal" class="btn btn-danger save_params" id="delete_params" name="update_params" delete="">Eliminar</button>
+               <button type="button" data-dismiss="modal" class="btn btn-info save_params" id="update_params" name="update_params">Guardar</button>
                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
             </div>
          </div>
@@ -354,7 +354,7 @@
                <h4 id="myModalLabelLarge" class="modal-title" style="text-align: center;"> Crear Nuevo Parametro </h4>
             </div>
             <div class="modal-body">  
-               <form name="param_form" id="save_params" class="save_params">
+               <form name="param_form" id="save_params" >
                   <div class="row">
                      <div class="col-md-4">Modulo</div>
                      <div class="col-md-8">

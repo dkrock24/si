@@ -44,7 +44,7 @@ class Param_model extends CI_Model {
 			@$data[$value['name']] .= $value['value'] ;
 		}
 
-		$data['creado_conf'] .= date("Y-m-d h-i-s");
+		$data['creado_conf'] = date("Y-m-d h-i-s");
 
 		$this->db->insert(self::conf, $data ); 
 	}
@@ -62,8 +62,8 @@ class Param_model extends CI_Model {
 	}
 
 	function delete_params($param){
-
-		$this->db->delete(self::conf, $data = array('id_conf' => $param[0]['value']) ); 
+		
+		$this->db->delete(self::conf, array('id_conf' => $param[0]['value']) ); 
 	}
 
 	function get_params($id){

@@ -67,7 +67,7 @@ include("asstes/pos_funciones.php");
 
                                     <span class='btn bg-green guardar' name="1" id="../venta/guardar_venta" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Procesar"><i class='fa fa-save'></i></span>
 
-                                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' data-target='#existencias' data-toggle="tooltip" data-placement="bottom" title="Existencias" style="font-size: 25px;"><i class="fa fa-dropbox"></i></span>
+                                    <span class="btn bg-green" id="btn_existencias"  data-toggle="tooltip" data-placement="bottom" title="Existencias" style="font-size: 25px;"><i class="fa fa-dropbox"></i></span>
 
                                     <div class="btn-group ">
                                         <button type="button" class="btn bg-green" data-toggle="tooltip" data-placement="bottom" title="Opciones"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
