@@ -22,6 +22,48 @@
 
         var pagos_array = [];
 
+        localStorage.setItem("products_list", null);
+
+        if(localStorage.getItem("products_list") == null){
+            //getProductsList();
+        }
+
+        function getProductsList(){
+            sucursal = $("#sucursal_id").val();
+            var bodega = $("#bodega_select").val();
+            
+            if (bodega != interno_bodega) {
+
+                interno_sucursal = sucursal;
+     
+                $.ajax({
+                    url: "get_productos_lista/" + sucursal + "/" + bodega + "/" + texto,
+                    datatype: 'json',
+                    cache: false,
+
+                    success: function(data) {
+
+                        var datos = JSON.parse(data);
+                        var productos = datos["productos"];
+                        var producto_id = 0;
+                        _productos_lista = productos;
+
+                        _impuestos['cat'] = datos["impuesto_categoria"];
+                        _impuestos['cli'] = datos["impuesto_cliente"];
+                        _impuestos['doc'] = datos["impuesto_documento"];
+                        _impuestos['pro'] = datos["impuesto_proveedor"];
+
+                        showProducts(_productos_lista, texto);
+
+                    },
+                    error: function() {}
+                });
+            }
+        }
+
+
+        console.log(localStorage.getItem("products_list"));
+
         $(document).on('keyup', '.existencia_buscar', function() {
             /* Busqueda de productos */
             var busqueda_texto = $(".existencia_buscar").val();
