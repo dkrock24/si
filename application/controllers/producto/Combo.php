@@ -34,7 +34,7 @@ class Combo extends CI_Controller {
 
 	public function index()
 	{
-
+		
 		//Paginacion
 		$contador_tabla;
 		$_SESSION['per_page'] = "";
@@ -76,9 +76,6 @@ class Combo extends CI_Controller {
 		$vista_id = 2; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
-		
-		
-		
 		$param = ['combo'=>1];
 		$data['combos'] = $this->Combo_model->get_producto_combo( $param );
 
@@ -141,6 +138,7 @@ class Combo extends CI_Controller {
 		$data['menu'] = $this->session->menu;
 		$data['combo'] = $this->Combo_model->getComboId( $combo_id );
 		$data['productos'] = $this->Producto_model->get_producto_tabla( $param1 );
+		$data['productos_2'] = $this->Producto_model->get_producto_tabla2( $param1 );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['title'] = "Editar Combo";
 		$data['home'] = 'producto/combo/combo_editar';
@@ -187,7 +185,7 @@ class Combo extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'Producto Combo','Productos Agregados','Combo Cantidad'
+			'Producto Combo','Combo Cantidad'
 		);
 
 		return $column;
@@ -195,7 +193,7 @@ class Combo extends CI_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'uno','dos','cantidad'
+			'name_entidad','cantidad'
 		);
 		
 		$fields['id'] = array('Producto_Combo');

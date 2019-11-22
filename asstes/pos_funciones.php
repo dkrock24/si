@@ -20,7 +20,7 @@
 
         var pagos_mostrados = [];
         var pagos_array = [];
-        var bodega;
+        var bodega = 0;
         var _productos_precio2;
 
         if(!sessionStorage.getItem("products_list")){
@@ -35,13 +35,14 @@
             bodega = $("#bodega_select").val();
             getImpuestosLista();
             //console.log(sessionStorage.getItem("products_list"));
+            
         }
 
         function getProductsList(){
 
             sucursal = $("#sucursal_id").val();
-            interno_bodega = bodega;            
-            //interno_sucursal = sucursal;
+            interno_bodega = bodega;        
+            bodega = $("#bodega_select").val();    
      
             $.ajax({
                 url: "get_productos_lista/" + sucursal + "/" + bodega,

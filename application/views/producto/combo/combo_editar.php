@@ -92,11 +92,11 @@
 
                                 <div class="panel-body">
                                     <div class="col-lg-6">
-                                        <div id="" class="panel panel-info">
-                                            <div class="panel-heading">Combo Formulario : <?php //echo $roles[0]->role ?> </div>
+                                        <div id="" class="panel">
+                                            <div class="panel-heading menuTop">Combo Formulario : <?php //echo $roles[0]->role ?> </div>
                                             <p>
       
-                                            <div class="panel-body">
+                                            <div class="panel-body menuContent">
                                                 
                                                     
                                                     <div class="form-group">
@@ -128,7 +128,7 @@
                                                             <select class="form-control producto_combo" name="producto_combo">
                                                                 <option value="0">Selecionar</option>
                                                                 <?php
-                                                                foreach ($productos as $key => $value) {
+                                                                foreach ($productos_2 as $key => $value) {
                                                                     ?>
                                                                     <option value="<?php echo $value->id_entidad ?>"><?php echo $value->name_entidad ?></option>
                                                                     <?php
@@ -152,11 +152,11 @@
                                     </div>
 
                                     <div class="col-lg-6">
-                                        <div id="" class="panel panel-info">
-                                            <div class="panel-heading">Productos en Combo : <?php //echo $roles[0]->role ?> </div>
+                                        <div id="" class="panel">
+                                            <div class="panel-heading menuTop">Productos en Combo : <?php //echo $roles[0]->role ?> </div>
                                             <p>
       
-                                            <div class="panel-body">
+                                            <div class="panel-body menuContent">
                                                 <form class="form-horizontal" action='../update' method="post" id="lista_productos">
                                                     
                                                     <?php

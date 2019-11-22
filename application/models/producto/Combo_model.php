@@ -6,13 +6,14 @@ class Combo_model extends CI_Model {
 
     function getAllCombo( $limit, $id ){
 
-        $this->db->select('*,p.name_entidad as uno, p2.name_entidad as dos, p.*');
+        $this->db->select(' *');
         $this->db->from(self::pos_combo.' as c');
         $this->db->join(self::producto.' as p', ' on c.Producto_Combo= p.id_entidad');
-        $this->db->join(self::producto.' as p2', ' on c.producto_a_descargar_Combo= p2.id_entidad');
-        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa .' Limit '.$id.','.$limit );
+        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa );
+        $this->db->group_by('c.Producto_Combo');
+        $this->db->limit($limit, $id);
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];
+        //echo $this->db->queries[3];
 
         if($query->num_rows() > 0 )
         {

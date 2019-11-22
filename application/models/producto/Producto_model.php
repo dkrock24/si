@@ -767,6 +767,23 @@ class Producto_model extends CI_Model {
 	        }
 		}
 
+		function get_producto_tabla2($param){
+			
+			$this->db->select('*');
+	        $this->db->from(self::producto);	        
+	        $this->db->where('producto_estado', 1 );
+	        $this->db->where('combo', 0 );
+	        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
+	        $this->db->order_by('name_entidad', 'asc');
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[1];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
 		function get_productos_id( $producto_id ){
 
 			$this->db->select('*');
