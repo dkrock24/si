@@ -87,6 +87,8 @@ include("asstes/pos_funciones.php");
                                         </ul>
                                 </div>
 
+                                <span class="btn bg-green" id="btn_update_products"  data-toggle="tooltip" data-placement="bottom" title="Existencias" style="font-size: 25px;"><i class="fa fa-refresh"></i></span>
+
                                 <div class="pull-right">
                                     <div class="" style="font-size: 20px;overflow: hidden;">
                                         <?php echo $empleado[0]->nombre_sucursal; ?>

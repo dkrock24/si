@@ -6,7 +6,7 @@ class Combo_model extends CI_Model {
 
     function getAllCombo( $limit, $id ){
 
-        $this->db->select(' *');
+        $this->db->select(' *, (select sum(cc.cantidad) from db_store.pos_combo as cc where cc.Producto_Combo = p.id_entidad) as total');
         $this->db->from(self::pos_combo.' as c');
         $this->db->join(self::producto.' as p', ' on c.Producto_Combo= p.id_entidad');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa );
@@ -68,6 +68,7 @@ class Combo_model extends CI_Model {
 
     function save_Combo( $datos ){
 
+
         foreach ($datos as $key => $value) {
 
             //echo "Id:".$key." - Valor =".$value."<br>";
@@ -80,6 +81,13 @@ class Combo_model extends CI_Model {
                 $this->db->insert(self::pos_combo, $data);
             }
         }
+        return true;
+    }
+
+    function eliminar($id){
+        $this->db->where('Producto_Combo', $id);
+        $result = $this->db->delete(self::pos_combo);
+        return $result;
     }
 
     function getComboId( $combo_id ){
@@ -104,7 +112,8 @@ class Combo_model extends CI_Model {
         $this->db->where('Producto_Combo',$datos['produto_principal'] );
         $this->db->delete(self::pos_combo);
 
-        $this->save_Combo($datos);
+        $data = $this->save_Combo($datos);
+        return $data;
     }
 
     function get_combo_valor( $producto , $combo_producto ){

@@ -118,7 +118,14 @@ class Combo extends CI_Controller {
 	}
 
 	public function save(){
-		$data['bodegas'] = $this->Combo_model->save_Combo( $_POST );
+
+		$data = $this->Combo_model->save_Combo( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('success', "Combo Fue Creado");
+		}else{
+			$this->session->set_flashdata('danger', "Combo No Fue Creado");
+		}
 
 		redirect(base_url()."producto/combo/nuevo");
 	}
@@ -128,7 +135,7 @@ class Combo extends CI_Controller {
 		$param1 = ['combo'=>1];
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
+		$menu_session = $this->session->menu;
 		parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
@@ -172,7 +179,13 @@ class Combo extends CI_Controller {
 
 	public function update(){
 
-		$data['bodegas'] = $this->Combo_model->update_combo( $_POST );
+		$data = $this->Combo_model->update_combo( $_POST );
+
+		if($data){
+			$this->session->set_flashdata('success', "Combo Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Combo No Fue Actualizado");
+		}
 
 		redirect(base_url()."producto/combo/index");
 	}
@@ -180,6 +193,20 @@ class Combo extends CI_Controller {
 	public function get_productos_id( $producto_id ){
 		$data['productos'] = $this->Producto_model->get_productos_id( $producto_id );
 		echo json_encode($data);
+	}
+
+	public function eliminar($id){
+
+		$data = $this->Combo_model->eliminar( $id );
+
+		if($data){
+			$this->session->set_flashdata('success', "Combo Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('danger', "Combo No Fue Eliminado");
+		}
+
+		redirect(base_url()."producto/combo/index");
+
 	}
 
 	public function column(){
@@ -193,7 +220,7 @@ class Combo extends CI_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'name_entidad','cantidad'
+			'name_entidad','total'
 		);
 		
 		$fields['id'] = array('Producto_Combo');

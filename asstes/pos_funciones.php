@@ -27,7 +27,7 @@
             getProductsList();
             getImpuestosLista();
             //sessionStorage.clear();
-            console.log(1);
+            console.log("Construyendo Lista Productos");
             bodega = $("#bodega_select").val();
             
         }else{
@@ -2006,6 +2006,11 @@
                 error: function() {}
             });
         }
+
+        $(document).on('click','#btn_update_products', function(){
+            sessionStorage.clear();
+            location.reload();
+        });
 
         $(document).on('click', '.cliente_codigo', function() {
             $('#cliente_modal').modal('show');

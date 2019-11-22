@@ -11,7 +11,7 @@
 
     $(document).on("change", "#producto", function() {
         var val = $(this).val();
-        if (val != 0) {
+        if(val != 0) {
             $(".producto_combo").show();
             $("#produto_principal").val($(this).val());
         } else {
@@ -83,7 +83,7 @@
             var flag = false;
 
             $.each(producto_almacen, function(i, item) {
-                console.log(item);
+                
                 var valor = $('input[name=' + item[0].id_entidad + ']').val();
 
                 if (valor == "") {
@@ -91,7 +91,7 @@
                     $('i[id=' + item[0].id_entidad + ']').text("Ingrese Valor");
                 } else {
                     flag = true;
-                    console.log(item[0].id_entidad);
+                    
                     $('i[id=' + item[0].id_entidad + ']').text("");
                 }
             });

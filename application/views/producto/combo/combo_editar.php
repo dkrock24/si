@@ -1,15 +1,15 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
 <script type="text/javascript">
-
     var productos = {};
+    var producto_almacen = [];
     var contador = 0;
     
     $(document).ready(function(){
         //$(".producto_combo").hide();
     });
 
-    $(document).on("change","#producto",function(){
+    $(document).on("change", "#producto", function() {
         var val = $(this).val();
         if(val != 0 ){
             $(".producto_combo").show();
@@ -22,13 +22,23 @@
     });
     
     function producto(){
+
+        producto_almacen[contador] = productos;
+
+        console.log(producto_almacen);
+
          var html = "<span>";
-         console.log("Agregando",productos);
+         
          $.each(productos, function(i, item) { 
             html += '<div class="form-group" id="total'+item.id_entidad+'">';
             html +='<label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Producto</label>';
-            html +='<div class="col-sm-4">';html += item.name_entidad;  html +='</div>';
-            html +='<div class="col-sm-4">';html += "<input type='text' name='"+item.id_entidad+"'/>";  html +='</div>';
+            html +='<div class="col-sm-4">';
+            html += item.name_entidad;
+            html +='</div>';
+            html +='<div class="col-sm-4">';
+                html += '<span><i class="fa fa-info-circle" id="' + item.id_entidad + '"></i>  </span>';
+                html += "<input type='text' name='"+item.id_entidad+"'/>";  
+            html +='</div>';
             html +='<div class="col-sm-2">';html += "<a href='#' class='btn btn-warning borrar' id='"+item.id_entidad+"'>Borrar</a>";  html +='</div>';
                             
             html +='</div>';
@@ -67,6 +77,34 @@
         $("#total"+id).remove();
 
     });
+
+    function guardar_combo() {
+
+        
+        $(document).on("click", "#guardar_combo", function() {
+
+            var flag = true;
+            
+            $.each(producto_almacen, function(i, item) {
+                
+                var valor = $('input[name=' + item[0].id_entidad + ']').val();
+
+                if (valor == "") {
+                    flag = false;
+                    $('i[id=' + item[0].id_entidad + ']').text("Ingrese Valor");
+                } else {
+                    flag = true;
+                    
+                    $('i[id=' + item[0].id_entidad + ']').text("");
+                }
+            });
+
+            if (flag) {
+                $("#lista_productos").submit();
+            }
+
+        });
+    }
 
     
 </script>
@@ -167,7 +205,9 @@
                                                         <div class="form-group" id="total<?php echo $value->id_entidad ?>">
                                                             <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Producto</label>
                                                             <div class="col-sm-4"><?php echo $value->dos ?></div>
-                                                            <div class="col-sm-4"><input type='text' name='<?php echo $value->id_entidad ?>' value="<?php echo $value->cantidad ?>" /></div>
+                                                            <div class="col-sm-4">
+                                                                <span><i class="fa fa-info-circle" id='<?php  echo $value->producto_a_descargar_Combo ?> '></i>  </span>
+                                                                <br><input type='number' name='<?php echo $value->producto_a_descargar_Combo ?>' min="1" value="<?php echo $value->cantidad ?>" id='<?php  echo $value->producto_a_descargar_Combo ?> ' required="required" /></div>
                                                             <div class="col-sm-2"><a href='#' class='btn btn-warning borrar' id='<?php echo $value->id_entidad ?>'>Borrar</a></div>
                                                         </div>
                                                         <?php
@@ -176,7 +216,7 @@
                                                     ?>
                                                     
                                                         <input type="hidden" id="produto_principal" name="produto_principal" value="<?php echo $value->Producto_Combo ?>">
-                                                     <input type='submit' class='btn btn-default' value='Actualizar'>   
+                                                     <a href="#" id="guardar_combo" class='btn btn-default' onClick='guardar_combo()' value='Actualizar'>Actualizar</a>
                                                 </form>
                                             </div>
                                             </p>
