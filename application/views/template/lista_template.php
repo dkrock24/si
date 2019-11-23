@@ -24,7 +24,7 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; "><i class="icon-arrow-right"></i> <?php echo $fields['titulo']; ?>
-            <?php $this->load->view('notificaciones/success'); ?>
+            
         </h3>
 
         <div class="panel menu_title_bar">
@@ -218,4 +218,5 @@
 
 
     </div>
+    <?php $this->load->view('notificaciones/success'); ?>
 </section>
