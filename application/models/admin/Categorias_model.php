@@ -10,7 +10,7 @@ class Categorias_model extends CI_Model {
                 LEFT JOIN categoria AS c2 on c1.id_categoria_padre = c2.id_categoria
                 LEFT JOIN pos_empresa as e on e.id_empresa = c1.Empresa 
                 LEFT JOIN pos_giros as g on g.id_giro = c1.codigo_giro
-                where c1.Empresa='.$this->session->empresa[0]->id_empresa.' order by c1.nombre_categoria, c2.id_categoria_padre asc Limit '.  $id.','.$limit);
+                where c1.Empresa='.$this->session->empresa[0]->id_empresa.' order by  c1.id_categoria_padre, c1.nombre_categoria asc Limit '.  $id.','.$limit);
         //echo $this->db->queries[2];
         return $query->result();
 	}

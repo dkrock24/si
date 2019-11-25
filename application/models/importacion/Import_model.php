@@ -8,6 +8,10 @@ class Import_model extends CI_Model {
     const prouducto_detalle = 'prouducto_detalle';
     const pos_producto_bodega = 'pos_producto_bodega';
     const pos_sucursal = 'pos_sucursal';
+    const pos_bodega = 'pos_bodega';
+    const categoria = 'categoria';
+    const categoria_producto = 'categoria_producto';
+    const producto_general = 'producto_general';
 	
 	function getTablesDb(){
         $tables = $this->db->list_tables();
@@ -51,6 +55,38 @@ class Import_model extends CI_Model {
 
         $this->db->insert(self::producto_valor, $data_av ); 
         return $this->db->insert_id();
+    }
+
+    function insertarPresentacion($detalle){
+        $this->db->insert(self::prouducto_detalle, $detalle );
+    }
+
+    function insertProductoBodega($newProduct){
+
+        $bodegas = array(1,2,3,53); //$this->getBodegas();
+
+        foreach ($bodegas as $b) {
+
+            $data = array(
+                'Bodega' => $b,
+                'Producto' => $newProduct,
+                'Cantidad' => 10000,
+                'Descripcion' => '',
+                'pro_bod_creado' => date('Y-m-d H:i:s'),
+                'pro_bod_estado' => 1
+            );
+            $this->db->insert(self::pos_producto_bodega, $data );
+        }
+    }
+
+    function getBodegas(){
+
+        $this->db->where('Empresa_Suc',1);
+        $this->db->from(self::pos_bodega.' as b');
+        $this->db->join(self::pos_sucursal. ' as s',' on s.id_sucursal = b.Sucursal');
+        $result = $this->db->get();
+        return $result->result();
+
     }
 
     function Generador( $cnt ){
@@ -122,6 +158,20 @@ class Import_model extends CI_Model {
         return $result->result_array();
     }
 
+    function get_productos(){
+
+        $this->db->select('*');
+        $this->db->from(self::producto);
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function pa(){
         $this->db->where('Producto',1);
 		$this->db->from(self::producto_atrib);
@@ -134,5 +184,49 @@ class Import_model extends CI_Model {
 		$this->db->from(self::producto_valor);
 		$result = $this->db->get();
         return $result->result_array();
+    }
+
+    function get_detalle_pivote( $codigo_producto ){
+        
+        $this->db->select('*');
+        $this->db->from(self::producto_general);
+        $this->db->where('codigo', $codigo_producto);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result_array();
+        }
+    }
+
+    function insertCategoriaProducto( $id_producto , $id_subcategoria , $padre ){
+
+       $categoria = $this->getSubCategoria( $id_subcategoria , $padre );
+
+        if($categoria[0]['id_categoria']){
+            $data = array(
+            'id_categoria' => $categoria[0]['id_categoria'],
+            'id_producto' => $id_producto
+            );
+
+            $this->db->insert(self::categoria_producto, $data );
+        }
+
+    }
+
+    function getSubCategoria( $id_subcategoria , $id_padre ){
+
+        $this->db->select('id_categoria');
+        $this->db->from(self::categoria);
+        $this->db->where('codigo_subcategoria', $id_subcategoria);
+        $this->db->where('codigo_categoria_padre', $id_padre);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result_array();
+        }
     }
 }

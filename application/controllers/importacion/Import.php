@@ -204,7 +204,7 @@ class Import extends CI_Controller
             }
 
             if(in_array( $p['giro'], $giros ) ){
-                $giro  = p['giro'];
+                $giro  = $p['giro'];
             }
 
             $_Pencabezado = array(
@@ -228,15 +228,52 @@ class Import extends CI_Controller
 
             if( $id_encabezado != null ){
                 $this->crearPA( $id_encabezado ,$atributos , $p);
+                
             }
         }
     }
 
-    function crearPA( $id_encabezado ,$atributos ,$p ){
+    //function crearPA( $id_encabezado ,$atributos ,$p ){
+    function crearPA(){
+
+        $atributos  = $this->Atributos_model->getAtributosByGiro(5); //5 Giro Comercial
+
+        $productos  = $this->Import_model->get_productos();
 
         $valores = array();
+
+        foreach ($productos as $key => $producto) {  
+
+            $detalle_pivote = $this->Import_model->get_detalle_pivote($producto->codigo_producto);       
+
+            foreach ($atributos as $key => $attr) {
+                
+                $id_prod_attri = null;
+
+                $data_pa = array(
+                    'Producto' => $producto->id_entidad ,
+                    'Atributo' => $attr->id_prod_atributo
+                );
+                
+                $id_prod_attri = $this->Import_model->insertProductoAttributo( $data_pa );
+
+                //if(in_array( $attr->nam_atributo, $producto ) ){
+                    $valores['id_prod_atributo'] = $id_prod_attri;
+
+                    $val = $attr->nam_atributo;
+
+                    $valores['valor'] = $detalle_pivote[0][$val];
+                //}
+                
+                if( $id_prod_attri != null ){
+                    // Crear Attributo Valor insert(ATTRIBUTO , VALOR)
+                    $this->crearAV( $valores );
+                }                
+            }
+        }
         // Crear Producto Atributo y Obtener el ID_prod_atributo insert(id_producto, id_atributos)
-            
+        
+        /* 
         foreach ($atributos as $key => $attr) {
                 
             $id_prod_attri = null;
@@ -259,12 +296,31 @@ class Import extends CI_Controller
             }
             
         }
+        */
     }
 
     function crearAV( $valores ){
 
         $this->Import_model->insertAttributoValor( $valores );
 
+    }
+
+    function crearPresentacion( $id_producto, $datos ){
+        
+        $detalle = array(
+            'Producto' => $id_producto,
+            'factor' => 1,
+            'presentacion' => 'Unidad',
+            'precio' => $datos[0]['Precio_Venta'],
+            'unidad' => 100,
+            'Utilidad' => 50,
+            'cod_barra' => $datos[0]['Cod_Barras'],
+            'estado_producto_detalle' => 1,
+            'fecha_creacion_producto_detalle' => date('Y-m-d H:i:s')
+        );
+
+        $this->Import_model->insertarPresentacion( $detalle );
+        
     }
 
     function Generador(){
@@ -275,6 +331,26 @@ class Import extends CI_Controller
             $this->Import_model->Generador( $cnt );
             $cnt++;
         }
+    }
+
+    function insertPB(){
+
+        //$atributos  = $this->Atributos_model->getAtributosByGiro(5); //5 Giro Comercial
+
+        $productos  = $this->Import_model->get_productos();
+
+        $valores = array();
+
+        foreach ($productos as $key => $producto) {
+
+            $detalle_pivote = $this->Import_model->get_detalle_pivote($producto->codigo_producto);
+
+            $this->crearPresentacion($producto->id_entidad , $detalle_pivote);
+            //$this->Import_model->insertProductoBodega($producto->id_entidad);
+            //$this->Import_model->insertCategoriaProducto($producto->id_entidad, $producto->id_familia, $producto->id_grupo );
+
+        }
+
     }
 
     function random(){
