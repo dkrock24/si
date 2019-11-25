@@ -24,12 +24,24 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; "><i class="icon-arrow-right"></i> <?php echo $fields['titulo']; ?>
-            
+
         </h3>
 
         <div class="panel menu_title_bar">
             <!-- START table-responsive-->
             <div class="dataList">
+
+                <table id="" class="">
+                    <tr>
+                        <td>
+
+                        </td>
+                        <td>
+                            <input type="text" name="search" value="" class="form-control" id="" placeholder="Buscar" />
+                        </td>
+                    </tr>
+                </table>
+
                 <table id="datatable1" class="table table-striped table-hover" width="100%">
 
                     <thead class="linea_superior" style="">

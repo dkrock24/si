@@ -22,8 +22,7 @@ class Producto_model extends CI_Model {
 		const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
 		const pos_bodega = 'pos_bodega';
 		const pos_producto_bodega = 'pos_producto_bodega';
-		const correlativos =  'pos_correlativos';
-		
+		const correlativos =  'pos_correlativos';	
 		
         
         function getProd( $limit, $id ){
@@ -40,7 +39,7 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
 				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 and P.Empresa = '".$this->session->empresa[0]->id_empresa."'  
-				group by P.id_entidad Limit ".$id.','.$limit );
+				Limit ".$id.','.$limit );
 
 		        //echo $this->db->queries[1];
 		        return $query->result();
@@ -60,8 +59,7 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 and P.producto_estado=1 and P.Empresa=".$this->session->empresa[0]->id_empresa." 
-				group by P.id_entidad");
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 and P.producto_estado=1 and P.Empresa=".$this->session->empresa[0]->id_empresa);
 
 		        //echo $this->db->queries[1];
 		        return $query->result();
