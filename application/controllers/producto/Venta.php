@@ -96,7 +96,7 @@ class Venta extends CI_Controller {
 
 		$this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo , $_POST['sucursal_origen']);
 
-		//redirect(base_url()."producto/orden/nuevo");
+		redirect(base_url()."producto/orden/nuevo");
 	}
 
 	function get_clientes_id( $cliente_id ){

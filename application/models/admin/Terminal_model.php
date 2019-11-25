@@ -68,4 +68,11 @@ class Terminal_model extends CI_Model {
         $this->db->where('id_terminal' , $id );
         $this->db->delete( self::pos_terminal );   
     }
+
+    function get_terminal_by_caja($id_caja){
+        $this->db->where('Caja', $id_caja );
+        $this->db->from( self::pos_terminal);
+        $query = $this->db->get();
+        return $query->result();
+    }
 }

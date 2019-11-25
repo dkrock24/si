@@ -430,7 +430,7 @@
                     _productos.bodega           = datos['producto'][0].nombre_bodega;
                     _productos.id_bodega        = datos['producto'][0].id_bodega;
                     _productos.impuesto_id      = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
-                    _productos.por_desc         = datos['producto'][0].porcentage;
+                    _productos.por_iva         = datos['producto'][0].porcentage;
                     _productos.gen              = datos['producto'][10].valor;
                     _productos.iva              = datos['atributos']['Incluye Iva']; //datos['producto'][9].valor;
                     _productos.descripcion      = datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca;
@@ -1023,7 +1023,7 @@
                 _productos.bodega = datos['producto'][0].nombre_bodega;
                 _productos.id_bodega = datos['producto'][0].id_bodega;
                 _productos.impuesto_id = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
-                _productos.por_desc = datos['producto'][0].porcentage;
+                _productos.por_iva = datos['producto'][0].porcentage;
                 _productos.gen = datos['producto'][10].valor;
                 _productos.iva = datos['atributos']['Incluye Iva']; //datos['producto'][9].valor;
                 _productos.descripcion = datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca;
@@ -1155,7 +1155,7 @@
                 _productos.bodega = datos['producto'][0].nombre_bodega;
                 _productos.id_bodega = datos['producto'][0].id_bodega;
                 _productos.impuesto_id = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
-                _productos.por_desc = datos['producto'][0].porcentage;
+                _productos.por_iva = datos['producto'][0].porcentage;
                 _productos.gen = datos['producto'][10].valor;
                 _productos.iva = datos['atributos']['Incluye Iva']; // datos['producto'][9].valor;
                 _productos.descripcion = datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca;
@@ -1596,24 +1596,30 @@
 
                     _html += '<thead><tr><td></td><td>Monto</td><td>Numero</td><td>Banco</td><td>Serie</td></tr></thead>';
 
-                    $.each(metodo_pago, function(i, item) {
+                    pagos_mostrados.forEach(element => {                       
 
-                        //if(pagos_mostrados.includes(parseInt(item.id_modo_pago))){
-                        _html += '<tr class="pagos_tabla" id="' + cou + '"><td><div class="btn bg-green">' + item.nombre_modo_pago + '</div></td>';
+                        $.each(metodo_pago, function(i, item) {
 
-                        _html += '<td class="">' +
-                            '<input type="text" count=' + metodo_pago.length + ' size="9px" name="pagoInput' + cou + '" ids=' + item.id_modo_pago + ' id=' + item.nombre_modo_pago + ' class="metodo_pago_input"></td>';
+                            if( element == parseInt(item.id_modo_pago) ){
+                            _html += '<tr class="pagos_tabla" id="' + cou + '"><td><div class="btn bg-green">' + item.nombre_modo_pago + '</div></td>';
 
-                        _html += '<td><input type="text" count=' + metodo_pago.length + '  size="14px" name="val' + cou + '" placeholder="" class="metodo_pago_input" /></td>';
-                        _html += '<td><input type="text" count=' + metodo_pago.length + ' size="14px" name="ban' + cou + '" placeholder="" class="metodo_pago_input" /></td>';
-                        _html += '<td><input type="text" count=' + metodo_pago.length + ' size="14px" name="ser' + cou + '" placeholder="" class="metodo_pago_input" /></td>';
+                            _html += '<td class="">' +
+                                '<input type="text" count=' + metodo_pago.length + ' size="9px" name="pagoInput' + cou + '" ids=' + item.id_modo_pago + ' id=' + item.nombre_modo_pago + ' class="metodo_pago_input"></td>';
 
-                        _html += '</tr>';
+                            _html += '<td><input type="text" count=' + metodo_pago.length + '  size="14px" name="val' + cou + '" placeholder="" class="metodo_pago_input" /></td>';
+                            _html += '<td><input type="text" count=' + metodo_pago.length + ' size="14px" name="ban' + cou + '" placeholder="" class="metodo_pago_input" /></td>';
+                            _html += '<td><input type="text" count=' + metodo_pago.length + ' size="14px" name="ser' + cou + '" placeholder="" class="metodo_pago_input" /></td>';
 
-                        cou++;
-                        //}
+                            _html += '</tr>';
+
+                            cou++;
+                            
+                            }
+                        });
                     });
                     _html += '</table>';
+
+                    generar_select_pagos(metodo_pago);
 
                     $("#metodos_pagos").html(_html);
                 },
@@ -1621,10 +1627,22 @@
             });
         }
 
+        function generar_select_pagos(metodo_pago){
+            
+            var options = "";
+
+            $.each(metodo_pago, function(i, item) {
+                options += "<option value='"+item.id_modo_pago+"'>"+item.nombre_modo_pago+"</option>";
+            });
+
+            $("#extraMetodoPago").html(options);
+
+        }
+
         $(document).on('click', '.addMetodoPago', function() {
             var metodo_add = parseInt($("#extraMetodoPago").val());
-
-            if (!pagos_mostrados.includes(metodo_add)) {
+            
+            //if (pagos_mostrados.includes(metodo_add)) {
 
                 pagos_mostrados[pagos_mostrados.length] = metodo_add;
 
@@ -1632,7 +1650,7 @@
                 var tipo_documento = parseInt($("#id_tipo_documento").val());
                 guardarX(cli_form_pago, tipo_documento);
 
-            }
+            //}
         });
 
         $(document).on('change', '.metodo_pago_input', function() {

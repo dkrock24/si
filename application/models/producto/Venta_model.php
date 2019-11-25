@@ -210,29 +210,26 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 		function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal){
 
 			$total_orden = $orden['orden'][0]['total'];
-			$total_orden = (int) $total_orden;
+			$total_orden = (float) $total_orden;
 
-			$total_impuesto = $orden['orden'][0]['por_desc'];
-			$total_impuesto = (int) $total_impuesto;
+			$total_iva = $orden['orden'][0]['por_iva'];
+			$total_iva = (float) $total_iva;
 
 			$order_estado = $orden['estado'];
 
 			//Precio Orden con Impuesto
 			$cliente_aplica_impuesto = $cliente[0]->aplica_impuestos;
 
-			if($cliente_aplica_impuesto ==1){
-				$total_orden += ( $total_orden * $total_impuesto );
-			}
-
-			$desc_val = ($total_impuesto * $total_orden);
+			$desc_val = ($total_iva * $total_orden);
 
 			$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal );
 
 			$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $form['numero']);
 
 			$data = array(
-				'id_caja' 		=> $form['terminal_id'], //terminal_id
-				'num_caja' 		=> $form['terminal_numero'], //terminal_numero
+				'id_caja' 		=> $form['caja_id'], //terminal_id
+				'id_cajero'		=> $this->session->db[0]->id_usuario,
+				'num_caja' 		=> $form['caja_numero'], //terminal_numero
 				'd_inc_imp0' 	=> $form['impuesto'], //impuesto
 				'id_tipod' 		=> $form['modo_pago_id'], //modo_pago_id
 				'id_sucursal' 	=> $form['sucursal_destino'], //sucursal_destino
@@ -249,9 +246,9 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 	            'digi_total' 	=> $total_orden,
 	            'impSuma'		=> $orden['orden'][0]['impSuma'],
 	            'iva'			=> $orden['orden'][0]['iva'],
-	            'desc_porc' 	=> $orden['orden'][0]['por_desc'],
-	            'id_bodega' 	=> $orden['orden'][0]['bodega'],
-	            'desc_val' 		=> $desc_val,
+	            'desc_porc' 	=> $orden['orden'][0]['descuento_limite'],
+	            'id_bodega' 	=> $orden['orden'][0]['id_bodega'],
+	            'desc_val' 		=> $orden['orden'][0]['descuento_calculado'],
 	            'total_doc' 	=> $total_orden,
 	            'fh_inicio' 	=> date("Y-m-d h:i:s"),
 	            'fh_final' 		=> date("Y-m-d h:i:s"),
@@ -292,6 +289,12 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 			/* PROCESAR EFECTOS DE INVENTARIO SOBRE TIPO DOCUMENTO EN BODEGA */
 			$this->efecto_bodega($id_orden , $orden ,$documento);
 
+		}
+
+		function getTerminal($id_caja){
+			$this->load->model('admin/Terminal_model', 'temrinal');
+			$result = $this->terminal->get_terminal_by_caja($id_caja);
+			return $result;
 		}
 
 		function save_venta_impuestos($id_venta , $datos , $impTipo){
@@ -381,11 +384,11 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 		            'id_producto_detalle' 	=> $orden['id_producto_detalle'],
 		            'comenta' 		=> $orden['descripcion'],
 		            'creado_el' 	=> date("Y-m-d h:i:s"),
-		            'modi_el' 		=> date("Y-m-d h:i:s")
+		            'modi_el' 		=> date("Y-m-d h:i:s"),
 		            //'id_bomba' 		=> $orden[''],
 		            //'id_kit' 		=> $orden[''],
 		            //'tp_c' 			=> $orden[''],
-		           	//'p_inc_imp0' 	=> $orden['orden'][0][''],
+		           	'p_inc_imp0' 	=> $orden['iva']
 		            
 	        	);
 
