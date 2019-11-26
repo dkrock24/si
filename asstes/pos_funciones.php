@@ -120,10 +120,10 @@
             result = x.filter(function(a){ 
 
                 var name = a.name_entidad.toUpperCase();
-                var cod_barra = a.cod_barra;
+                var codigo_barras = a.codigo_barras;
                 var pres_cod_bar = a.pres_cod_bar;
 
-                if (name.includes(texto.toUpperCase()) || cod_barra.includes(texto) || pres_cod_bar.includes(texto)) {
+                if (name.includes(texto.toUpperCase()) || codigo_baras.includes(texto) || pres_cod_bar.includes(texto)) {
                     return  a;
                 }
                 
@@ -300,10 +300,19 @@
             result = x.filter(function(a){ 
 
                 var name = a.name_entidad.toUpperCase();
-                var cod_barra = a.cod_barra;
-                var pres_cod_bar = a.pres_cod_bar;
 
-                if (name.includes(texto.toUpperCase()) || cod_barra.includes(texto) || pres_cod_bar.includes(texto)) {
+                if(a.codigo_barras != null ){
+                    name += a.codigo_barras.toUpperCase() ;
+                }
+                if( a.pres_cod_bar != null){
+                    name += a.pres_cod_bar.toUpperCase();
+                }
+                
+                //var codigo_barras = a.codigo_barras;
+                //var pres_cod_bar = a.pres_cod_bar;
+
+                if (name.includes(texto.toUpperCase()) ) {
+                    console.log(name);
                     return  a;
                 }
                 
@@ -313,10 +322,15 @@
             $.each(result, function(i, item) {
 
                 var name = item.name_entidad.toUpperCase();
-                var cod_barra = item.cod_barra;
-                var pres_cod_bar = item.pres_cod_bar;
 
-                if (name.includes(texto.toUpperCase()) || cod_barra.includes(texto) || pres_cod_bar.includes(texto)) {
+                if(item.codigo_barras != null ){
+                    name += item.codigo_barras.toUpperCase() ;
+                }
+                if( item.pres_cod_bar != null){
+                    name += item.pres_cod_bar.toUpperCase();
+                }
+
+                if (name.includes(texto.toUpperCase()) ) {
                     producto_id = item.id_entidad;
                     var precio = 0;
 

@@ -18,6 +18,8 @@
         
         <script src="<?php echo base_url(); ?>../asstes/js/demo/demo-rtl.js"></script>
 
+        <script src="<?php echo base_url(); ?>../asstes/js/printer/print.js"></script>
+
 
 
         <!-- =============== PAGE VENDOR SCRIPTS ===============-->

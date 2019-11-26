@@ -1,511 +1,7 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
-<script>
-  $(document).ready(function(){
+<script src="<?php echo base_url(); ?>../asstes/js/producto/producto.js"></script>
 
-    $('#producto_asociado_modal').appendTo("body");
 
-    var html_cliente2;
-    var obj_cliente;
-    var obj_sucursales;
-    var obj_impuesto;
-    var incluyeIva = 0;
-    var gravado = 0;
-    var incluyeIva=0;
-    var gravado_contador=0;
-    var contador_precios=0;
-    var obj_precios_cont=[];
-
-    
-    // Llamadas de funciones catalogos
-    get_cliente(); 
-
-    $(document).on('click', '#procuto_asociado', function(){
-        $('#producto_asociado_modal').modal('show');
-        get_productos_lista();
-    });
-
-
-    function get_productos_lista(){
-        
-        var table = "<table class='table table-hover'>";
-            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
-            table += "<th>#</th><th>Nombre</th><th>Id Producto</th><th>Marca</th><th>Categoria</th><th>Sub Categoria</th><th>Giro</th><th>Empresa</th><th>Action</th>";
-        var table_tr = "<tbody id='list'>";
-        var contador_precios=1;
-
-        $.ajax({
-            url: "get_productos_lista",  
-            datatype: 'json',      
-            cache : false,                
-
-                success: function(data){
-                    var datos = JSON.parse(data);
-                    var productos = datos["productos"];
-                    
-                    $.each(productos, function(i, item) {   
-
-                        table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.name_entidad+'</td><td>'+item.id_entidad+'</td><td>'+item.nombre_marca+'</td><td>'+item.nombre_categoria+'</td><td>'+item.SubCategoria+'</td><td>'+item.nombre_giro+'</td><td>'+item.nombre_razon_social+'</td><td><a href="#" class="btn btn-primary relacionar_producto" id="'+item.id_entidad+'">Relacionar</a></td></tr>';
-                        contador_precios++;
-                    });
-                    table += table_tr;
-                    table += "</tbody></table>";
-
-                    $(".productos_lista_datos").html(table);
-                
-                },
-                error:function(){
-                }
-            });
-    }
-
-    // Agregar el Id del producto al input del producto relacionado
-    $(document).on('click', '.relacionar_producto', function(){
-        var id = $(this).attr("id");
-        $("#procuto_asociado").val(id);
-        $('#producto_asociado_modal').modal('hide');
-    });
-
-    // filtrar producto
-    $(document).on('keyup', '#buscar_producto', function(){
-        var texto_input = $(this).val();
-
-        $("#list tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
-        });
-
-        
-    });
-
-    $("#categoria").change(function(){
-          $("#sub_categoria").empty();
-          var id = $(this).val();
-          $.ajax({
-            url: "sub_categoria_byId/"+id,  
-            datatype: 'json',      
-            cache : false,                
-
-                success: function(data){
-
-                    var datos = JSON.parse(data);
-                    var subcategorias = datos["subcategorias"];
-                    var marcas = datos['marcas'];
-
-                    $("#sub_categoria").empty();
-                    $.each(subcategorias, function(i, item) {                    
-                        $("#sub_categoria").append('<option value='+item.id_categoria+'>'+item.nombre_categoria+'</option>');
-                    });
-
-                    $("#marca").empty();
-                    $.each(marcas, function(i, item) {                 
-                        $("#marca").append('<option value='+item.id_marca+'>'+item.nombre_marca+'</option>');
-                    });
-                
-                },
-                error:function(){
-                }
-            });
-    });
-
-    $("#empresa").change(function(){
-          $("#giro").empty();
-          var id = $(this).val();
-          $.ajax({
-            url: "get_giros_empresa/"+id,  
-            datatype: 'json',      
-            cache : false,                
-
-                success: function(data){
-                  
-                var datos = JSON.parse(data);
-                  
-                $("#id_empresa").val(datos[0].Empresa);
-                $("#giro").append('<option value="0">Selecione Giro</option>');
-                $.each(JSON.parse(data), function(i, item) {                    
-                    $("#giro").append('<option value='+item.id_giro_empresa+'>'+item.nombre_giro+'</option>');
-                });
-                
-                },
-                error:function(){
-                }
-            });
-
-          $.ajax({
-            url: "get_categorias_empresa/"+id,  
-            datatype: 'json',      
-            cache : false,                
-
-                success: function(data){
-                  
-                var datos = JSON.parse(data);
-                  
-                $("#categoria").empty();
-                $("#categoria").append('<option value="0">Selecione Categoria</option>');
-                $.each(JSON.parse(data), function(i, item) {                    
-                    $("#categoria").append('<option value='+item.id_categoria+'>'+item.nombre_categoria+'</option>');
-                });
-                
-                },
-                error:function(){
-                }
-            });
-    });
-
-    // Busca el Giro para dibujar los inputs del producto
-    $("#giro").change(function(){
-          var id = $(this).val();
-          $.ajax({
-            url: "get_empresa_giro_atributos/"+id,  
-            datatype: 'json',      
-            cache : false,                
-
-                success: function(data){
-                
-                    var datos = JSON.parse(data);
-                    var plantilla = datos["plantilla"];
-                    $(".giro_atributos").empty();
-                    
-                    //$(".giro_atributos").append('<div class="col-sm-3">' );
-                    var id_producto = 0;
-                    $.each(plantilla, function(i, item) {  
-
-                        if(id_producto != item.id_prod_atributo){
-                            if(item.tipo_atributo == 'text' ||  item.tipo_atributo == 'file'){                            
-                                $(".giro_atributos").append( html_template_text(item) );
-                            }
-                            if(item.tipo_atributo == 'select'){
-                                $(".giro_atributos").append(html_template_select(item.id_prod_atributo , plantilla));
-                            }
-                            if(item.tipo_atributo == 'radio'){
-                                $(".giro_atributos").append(html_template_radio(item.id_prod_atributo , plantilla));
-                            }
-                            if(item.tipo_atributo == 'check'){
-                                $(".giro_atributos").append(html_template_check(item.id_prod_atributo , plantilla));
-                            }
-                            
-                            id_producto = item.id_prod_atributo;
-                        }
-                        
-                    });
-
-                   // $(".giro_atributos").append( '</div>' );
-                
-                },
-                error:function(){
-                }
-            });
-    });
-
-    $(document).on('click', '.deletePrecio', function(){
-
-        html_remove_precios($(this).attr('name'));
-    
-    });
-
-    // Calculando utilidad de Productos Dinamicamente
-    $(document).on('keyup', '.calculoUtilidad' , function(){
-        var contador = $(this).attr('id');
-
-        // calculando utilidad para el precio especifico
-        calculoUtilidad(contador);
-
-    });
-
-    // Calculo general de los valores en la tabla de los precios
-    function calculoUtilidad(contador){
-
-        var factor = $('input[name*=factor'+contador+']').val();
-        var unidad = $('input[name*=unidad'+contador+']').val();
-        var precio = $('input[name*=precio'+contador+']').val();
-        var costo  = $('input[name*=14]').val();
-        var total  = (factor * unidad);
-        var x;
-
-        if( gravado==1 && incluyeIva!=0 ){
-
-            //Remover IVA del precio del producto
-            x = ( unidad / incluyeIva );
-
-            var utilidad  = x - costo ;
-        }else{
-
-            var utilidad  = ( total / factor ) - costo ;
-        }        
-
-        $('.precio'+contador).val((total).toFixed(2));
-        $('.utilidad'+contador).val((utilidad).toFixed(2));
-    }
-
-    // Calcula la utilidad posterior al agregar precios a la tabla de factores
-    function calcularUtilidadPosPrecios(){
-
-        //Recorremos los precios exstentes para actualizar sus valores dinamicamente
-        obj_precios_cont.forEach(function(element) {
-
-            calculoUtilidad(element);
-                    
-        });
-
-    }
-
-    //Validar si Gravado Y Quitar Iva estan set
-    $(document).on('click','.check26', function(){
-        //Position [0] es iva
-        
-        incluyeIva = obj_impuesto[0].porcentage;
-        var checked =1;
-        $('.check26').attr('checked');
-        $('input[name*=26]').val("1");
-        // Validando si es gravado
-        gravado = $('select[name*=24]').val();
-        if(gravado == 'Gravados' && gravado_contador==0){
-            gravado = 1;
-            gravado_contador=1;
-            if(obj_precios_cont.length > 0){
-                
-                calcularUtilidadPosPrecios();
-            }
-        }else{
-            gravado = 0;
-            gravado_contador=0;
-            $('input[name*=26]').val("0");
-            if(obj_precios_cont.length > 0){
-                
-                calcularUtilidadPosPrecios();
-            }
-        }
-    });
-
-    // Dibuja los precios y utlidades en la pantalla de nuevo cliente
-    var contador = 0;
-    $("#AgregarPrecios").click(function(){
-        
-        contador++;
-        
-        obj_precios_cont.push(contador);
-        console.log(obj_precios_cont);
-
-        var cliente = html_get_cliente(contador);
-        var sucursal = html_get_sucursal(contador);
-        var html = "<tr id='"+contador+"'>"+
-                    "<td>"+contador+"</td>"+
-                    "<td><input type='text' size='10' name='presentacion"+contador+"' class=''/></td>"+
-                    "<td><input type='text' size='3' name='factor"+contador+"' class=''></td>"+
-                    "<td><input type='text' size='3' name='unidad"+contador+"' class='calculoUtilidad' id='"+contador+"'></td>"+
-                    "<td><input type='text' size='4' name='precio"+contador+"' class='precio"+contador+"' value=''></td>"+
-                    
-                    "<td><input type='text' size='5' name='cbarra"+contador+"' class=''></td>"+
-                    "<td>"+cliente+"</td>"+
-                    "<td>"+sucursal+"</td>"+
-                    "<td><input type='text' size='4' name='utilidad"+contador+"' readonly class='utilidad"+contador+"' value=''/></td>"+
-                        "<td>"+
-                            "<div class='btn-group mb-sm'>"+
-                               " <a href='#' class='btn btn-danger btn-sm deletePrecio' name='"+contador+"'><i class='fa fa-trash'></i></a>"+
-
-                           " </div>"+
-                 "   </td>"+
-                " </tr>";
-        $(".preciosTable").append(html);
-    });
-
-    // Remover los precios por presentacion de la tabla
-    function html_remove_precios( id_tr ){
-        $('table#preciosTable tr#'+id_tr).remove();
-        
-        obj_precios_cont.forEach(function(element) {
-
-            if(id_tr == element ){
-                
-                obj_precios_cont.splice( obj_precios_cont.indexOf(element), 1 );
-            }
-                    
-        });
-        contador_precios -= 1;
-    }
-
-    // Dibujar Objeto Select del Cliente
-    function html_get_cliente (contador){
-        html_cliente = '<select name="cliente'+contador+'">';
-        html_cliente+='<option value=""> - </option>';
-
-        $.each(obj_cliente, function(i, item) {                    
-            html_cliente += '<option value='+item.id_cliente+'>'+item.nombre_empresa_o_compania+'</option>';
-        });
-
-        html_cliente += "</select>";
-        html_cliente2 =html_cliente;
-
-        return html_cliente2 ;
-    }
-
-    // Dibujar Objeto select del Sucursal
-    function html_get_sucursal (contador){
-        html_sucursal = '<select name="sucursal'+contador+'">';
-        html_sucursal+='<option value=""> - </option>';
-        $.each(obj_sucursales, function(i, item) {                    
-            html_sucursal += '<option value='+item.id_sucursal+'>'+item.nombre_sucursal+'</option>';
-        });
-        html_sucursal += "</select>";
-        html_sucursal2 =html_sucursal;
-
-        return html_sucursal2 ;
-    }
-
-    // Obtener los clientes desde la base de datos mediante Ajax
-    function get_cliente(){
-        
-        $.ajax({
-            url: "get_clientes",  
-            datatype: 'json',      
-            cache : false,                
-
-                success: function(data){
-                  
-                    var datos     = JSON.parse(data);
-
-                    obj_cliente = datos['cliente'];
-                    obj_sucursales = datos['sucursal'];
-                    obj_impuesto = datos['impuesto'];
-
-
-                },
-                error:function(){
-                }
-            });
-    }
-
-
-    // Dibuja los atributos de tipo TEXT
-    function html_template_text(item){
-        var html_template ="";
-        html_template = '<div class="col-sm-3">'+
-                            '<div class="form-group">'+
-                            '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+item.nam_atributo+'</label><br>'+
-                            '<div class="col-sm-offset-1 col-sm-11">'+
-                                '<input type="'+item.tipo_atributo+'" name="'+item.id_prod_atributo+'"  class="form-control '+item.nam_atributo+'">'+
-                            '</div>'+
-                            '<span class="col-sm-1 control-label no-padding-right"></span>'+
-                            '</div>'+
-                            '</div>';
-        return html_template;
-    }
-    
-    // Dibuja los atributos de tipo SELECT
-    function html_template_select(id , plantilla){
-        
-        var opciones="";
-        var nombre =  "";
-        
-        $.each(plantilla, function(i, item) {
-            
-            if(id == item.id_prod_atributo){
-                nombre = item.nam_atributo;
-                opciones += '<option value="'+item.attr_valor+'">'+item.attr_valor+'</option>';    
-            }            
-        });
-
-        var html_template ="";
-        html_template = '<div class="col-sm-3">'+
-                            '<div class="form-group">'+
-                            '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+ nombre +'</label><br>'+
-                            '<div class="col-sm-offset-1 col-sm-11">'+
-                                '<select name="'+id+'" class="form-control '+nombre+'">'+opciones+'</select>'+
-                            '</div>'+
-                            '<span class="col-sm-1 control-label no-padding-right"></span>'+
-                            '</div>'+
-                            '</div>';
-        return html_template;
-    }
-
-    // Dibuja los atributos de tipo RADIO
-    function html_template_radio(id , plantilla){
-        
-        var opciones="";
-        var nombre =  "";
-        
-        $.each(plantilla, function(i, item) {
-            
-            if(id == item.id_prod_atributo){
-                nombre = item.nam_atributo;
-                opciones += '<input type="radio" class="" name="'+item.id_prod_atributo+'" value="'+nombre+'"/>'+item.attr_valor+'<br>';    
-            }            
-        });
-
-        var html_template ="";
-        html_template = '<div class="col-sm-3">'+
-                            '<div class="form-group">'+
-                            '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+ nombre +'</label><br>'+
-                            '<div class="col-sm-offset-1 col-sm-11">'+
-                                opciones+
-                            '</div>'+
-                            '<span class="col-sm-1 control-label no-padding-right"></span>'+
-                            '</div>'+
-                            '</div>';
-        return html_template;
-    }
-
-    // Dibuja los atributos de tipo CHECK -- PENDIENTE
-    function html_template_check(id , plantilla){
-        
-        var opciones="";
-        var nombre =  "";
-        
-        $.each(plantilla, function(i, item) {
-
-            if(id == item.id_prod_atributo){
-                nombre = item.nam_atributo;
-                opciones += '<input type="hidden" value="0" name="'+item.id_prod_atributo+'">'+ item.attr_valor+" "+
-
-                '<span class="inline checkbox c-checkbox">'+
-                '<label>'+
-                '<input type="checkbox" id="todo-item-1" class="check'+item.id_prod_atributo+'" name="'+item.id_prod_atributo+'"/>'+
-                '<span class="fa fa-check"></span>'+
-                '</label></span>';
-
-            }            
-        });
-
-        var html_template ="";
-        html_template = '<div class="col-sm-3">'+
-                            '<div class="form-group">'+
-                            '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">'+ nombre +'</label><br>'+
-                            '<div class="col-sm-offset-1 col-sm-11">'+
-                                opciones+
-                            '</div>'+
-                            '<span class="col-sm-1 control-label no-padding-right"></span>'+
-                            '</div>'+
-                            '</div>';
-        return html_template;
-    }
-
-    $(document).on('change', '.Imagen', function()
-    {
-        readURL(this);
-    });
-
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-              $('.preview_producto').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    /* Para Combo
-    $(document).on('click', '#combo_class', function(){
-
-        $("#producto_formulario").css("display","none");
-        $(".combos_html").css("display","1");
-        
-    });
-    */
-
-  });
-
-</script>
 <style type="text/css">
     .icon-center{
         text-align: center;
@@ -688,7 +184,7 @@
                                                 <div class="form-group">
                                                      <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Marca</label>
                                                     <div class="col-sm-8">                                                        
-                                                        <select class="form-control" id="marca" name="marca" required>   
+                                                        <select class="form-control" id="Marca" name="Marca">   
                                                             <?php
                                                             foreach ($marcas as $value) {
                                                                 ?>
@@ -768,7 +264,7 @@
                                                 <div class="form-group">
                                                      <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Linea</label>
                                                     <div class="col-sm-8">
-                                                        <select class="form-control" id="linea" name="linea" required>   
+                                                        <select class="form-control" id="Linea" name="Linea" required>   
                                                             <?php
                                                             foreach ($lineas as $value) {
                                                                 ?>
@@ -788,7 +284,7 @@
                                                 <div class="form-group">
                                                      <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Relacion</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="procuto_asociado" id="procuto_asociado" class="form-control" required>
+                                                        <input type="text" name="procuto_asociado" id="procuto_asociado" class="form-control" value="1" required>
                                                         
                                                         
                                                     </div>
@@ -797,9 +293,9 @@
                                             </div>
 
                                             <div class="col-sm-4">
-                                                <div class="form-group">
-                                                    <div class="col-sm-offset-1 col-sm-3">
-                                                        Escala
+                                                
+                                                    <div class="col-sm-offset-1 col-sm-3" style="display:flex">
+                                                        Escala 
                                                         <span class="inline checkbox c-checkbox">
                                                             <label>
                                                             <input type='checkbox' id="todo-item-1" name="escala" class="">
@@ -808,7 +304,7 @@
                                                         </span>
 
                                                         Combo
-                                                        <span class="inline checkbox c-checkbox">
+                                                        <span class=" checkbox c-checkbox">
                                                             <label>
                                                             <input type='checkbox' id="todo-item-1" name="combo" class="">
                                                             <span class="fa fa-check"></span>
@@ -816,15 +312,151 @@
                                                         </span>
 
                                                     </div>
-                                                   
-                                               
-
-                                                    <div class="col-sm-offset-7 col-sm-3">
-                                                        <button type="submit" class="btn btn-primary">Guardar</button>
-                                                    </div>
                                                     
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Codigo</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="codigo_barras" value="" id="codigo_barras" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
                                                 </div>
                                             </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Modelo</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="modelo" value="" id="modelo" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-offset-0 col-sm-3 control-label no-padding-right">Costo</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="costo" value="" id="costo" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Minimos</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="minimos" value="" id="minimos" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Medios</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="medios" value="" id="medios" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-offset-0 col-sm-3 control-label no-padding-right">Maimos</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="maximos" value="" id="maximos" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Almacenaje</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="almacenaje" value="" id="almacenaje" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Desc. %</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="descuento_limite" value="" id="descuento_limite" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-offset-0 col-sm-3 control-label no-padding-right">Pre. Venta</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="precio_venta" value="" id="precio_venta" class="form-control">
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Iva</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" name="iva" id="iva">
+                                                            <option value="Gravados">Gravados</option>
+                                                            <option value="Exentos">Exentos</option>
+                                                            <option value="No Sujeto">No Sujeto</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Incluye</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" name="incluye_iva" id="incluye_iva">
+                                                            <option value="1">Si</option>
+                                                            <option value="0">No</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-1"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <div class="col-sm-offset-3 col-sm-3">
+                                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                     

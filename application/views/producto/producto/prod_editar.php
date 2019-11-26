@@ -24,7 +24,7 @@
 
         $(document).on('click', '#procuto_asociado', function() {
             $('#producto_asociado_modal').modal('show');
-            get_productos_lista();
+            //get_productos_lista();
         });
 
 
@@ -198,23 +198,24 @@
         // Uitlidad
         function calculoUtilidad(contador) {
 
+            gravado = $("#iva").val();
+            incluyeIva = $('#incluye_iva').val();
+
             var factor = $('input[name*=factor' + contador + ']').val();
             var unidad = $('input[name*=unidad' + contador + ']').val();
             var precio = $('input[name*=precio' + contador + ']').val();
-            var costo = $('input[name*=14]').val();
+            var costo = $('input[name*=costo]').val();
             var total = (factor * unidad);
             var x;
 
-            if (gravado == 1 && incluyeIva != 0 && checked == 1) {
-                //Remover IVA del precio del producto
-                                
-                x = (costo * incluyeIva);
-                x = costo - x;
-                
-                var utilidad = (unidad - x);
+            if (gravado == 'Gravados' && incluyeIva != 0) {
 
+                //Remover IVA del precio del producto
+                x = (unidad / 1.13);
+
+                var utilidad = x - costo;
             } else {
-                
+
                 var utilidad = (total / factor) - costo;
             }
 
@@ -234,31 +235,14 @@
 
         }
 
-        //Validar Tipo Iva
-        $(document).on('change', '.24', function() {
-            gravado = $('select[name*=24]').val();
+        $(document).on('change', '#iva', function () {
+            console.log(1);
+            incluyeIva = obj_impuesto[0].porcentage;
+            calcularUtilidadPosPrecios();
         });
-
-        // Capturando el valor del check del iva
-        checked = $('input[name*=26]').val();
-
-        if (checked == 1) {
-            $('input[name*=26]').val(0);
-            checked = 0;
-            gravado = 0;
-            gravado_contador = 0;
-            alert(1);
-        }
-        if (checked == 0) {
-            checked = 1;
-            $('input[name*=26]').val(1);
-            gravado = 1;
-            gravado_contador = 1;
-            alert(2);
-        }
-
+        
         //Validar si Gravado Y Quitar Iva estan set
-        $(document).on('click', '.check26', function() {
+        $(document).on('change', '#incluye_iva', function () {
 
             //Recorrer Precios existentes
             var temp_cont = 1;
@@ -273,34 +257,8 @@
             //$('.check26').attr('checked');
 
             // Validando si es gravado
-            var gravado2 = $('select[name*=24]').val();
-
-            checked = $('input[name*=26]').val();
-            if (checked == 1) {
-                $('input[name*=26]').val(0);
-                checked = 1;
-                gravado = 0;
-                gravado_contador = 0;
-            } else {
-                checked = 1;
-                $('input[name*=26]').val(1);
-                gravado = 1;
-                gravado_contador = 1;
-            }
-
-            if (gravado2 == 'Gravados' && gravado_contador == 0) {
-                
-                if (obj_precios_cont.length > 0) {
-
-                    calcularUtilidadPosPrecios();
-                }
-            } else {
-                
-                if (obj_precios_cont.length > 0) {
-
-                    calcularUtilidadPosPrecios();
-                }
-            }
+            
+            calcularUtilidadPosPrecios();
         });
 
         // Dibuja los precios y utlidades en la pantalla de nuevo cliente
@@ -766,7 +724,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Marca</label>
                                             <div class="col-sm-8">
-                                                <select class="form-control" id="marca" name="marca">
+                                                <select class="form-control" id="Marca" name="Marca">
                                                     <option value="<?php echo $producto[0]->Marca; ?>"><?php echo $producto[0]->nombre_marca; ?></option>
                                                     <?php
                                                     foreach ($marcas as $value) {
@@ -887,23 +845,26 @@
                                     }
                                     ?>
 
-                                    <div class="col-sm-2">
-                                        <div class="col-sm-offset-1 col-sm-3">
-                                            Escala
+                                    <div class="col-sm-4">
+                                        
+                                        <label for="inputPassword3" class=" col-sm-3 control-label no-padding-right">Escala</label>
+                                        <div class=" col-sm-3">                                           
+                                            
                                             <span class="inline checkbox c-checkbox">
                                                 <label>
                                                     <input type='checkbox' id="todo-item-1" <?php echo $check_escala; ?> name="escala" class="">
                                                     <span class="fa fa-check"></span>
                                                 </label>
                                             </span>
-
+                                            
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-2">
-                                        <div class="col-sm-offset-1 col-sm-3">
+                                    <div class="col-sm-4">
 
-                                            Combo
+                                        <label for="inputPassword3" class=" col-sm-3 control-label no-padding-right">Combo</label>
+                                        <div class="col-sm-3">
+                                            
                                             <span class="inline checkbox c-checkbox">
                                                 <label>
                                                     <input type='checkbox' id="todo-item-1" <?php echo $check_combo; ?> name="combo" class="">
@@ -911,6 +872,153 @@
                                                 </label>
                                             </span>
 
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Codigo</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="codigo_barras" value="<?php echo $producto[0]->codigo_barras ?>" id="codigo_barras" class="form-control">
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Modelo</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="modelo" value="<?php echo $producto[0]->modelo ?>" id="modelo" class="form-control">
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-offset-0 col-sm-3 control-label no-padding-right">Costo</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="costo" value="<?php echo $producto[0]->costo ?>" id="costo" class="form-control">
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Minimos</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="minimos" value="<?php echo $producto[0]->minimos ?>" id="minimos" class="form-control">
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Medios</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="medios" value="<?php echo $producto[0]->medios ?>" id="medios" class="form-control">
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-offset-0 col-sm-3 control-label no-padding-right">Maximos</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="maximos" value="<?php echo $producto[0]->maximos ?>" id="maximos" class="form-control">
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Almacenaje</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="almacenaje" value="<?php echo $producto[0]->almacenaje ?>" id="almacenaje" class="form-control">
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Desc. %</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="descuento_limite" value="<?php echo $producto[0]->descuento_limite ?>" id="descuento_limite" class="form-control">
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-offset-0 col-sm-3 control-label no-padding-right">Pre. Venta</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="precio_venta" value="<?php echo $producto[0]->precio_venta ?>" id="precio_venta" class="form-control">
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Iva</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" name="iva" id="iva">
+                                                    <option value="<?php echo $producto[0]->iva ?>"><?php echo $producto[0]->iva ?></option>                                                
+                                                    <option value="Gravados">Gravados</option>
+                                                    <option value="Exentos">Exentos</option>
+                                                    <option value="No Sujeto">No Sujeto</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Incluye</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" name="incluye_iva" id="incluye_iva">
+                                                    <?php
+                                                    if($producto[0]->incluye_iva == 1){
+                                                        ?>
+                                                        <option value="1">Si</option>
+                                                        <option value="0">No</option>
+                                                        <?php
+                                                    }else{
+                                                        ?>
+                                                        <option value="0">No</option>
+                                                        <option value="1">Si</option>                                                    
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                    
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1"></div>
                                         </div>
                                     </div>
 
@@ -922,6 +1030,7 @@
 
                                         </div>
                                     </div>
+
                                 </div>
 
 

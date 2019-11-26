@@ -27,18 +27,18 @@ class Producto_model extends CI_Model {
         
         function getProd( $limit, $id ){
 	        
-	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-	        	,(select pv1.valor from producto_valor as pv1 where pv1.id_prod_atributo=PA.id_prod_atrri ) as Precio
-				FROM `producto` as `P`				
-				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
-				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
+	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria',
+			 `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social,
+			  e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
+	        	
+				FROM `producto` as `P`
 				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
 				LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
 				LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 and P.Empresa = '".$this->session->empresa[0]->id_empresa."'  
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where P.Empresa = '".$this->session->empresa[0]->id_empresa."'  
 				Limit ".$id.','.$limit );
 
 		        //echo $this->db->queries[1];
@@ -49,17 +49,15 @@ class Producto_model extends CI_Model {
 		function getAllProducto( ){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-	        	,(select pv1.valor from producto_valor as pv1 where pv1.id_prod_atributo=PA.id_prod_atrri ) as Precio
-				FROM `producto` as `P`				
-				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
-				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
+	        	
+				FROM `producto` as `P`
 				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
 				LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
 				LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where PA.Atributo =23 and P.producto_estado=1 and P.Empresa=".$this->session->empresa[0]->id_empresa);
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where P.producto_estado=1 and P.Empresa=".$this->session->empresa[0]->id_empresa);
 
 		        //echo $this->db->queries[1];
 		        return $query->result();
@@ -71,21 +69,36 @@ class Producto_model extends CI_Model {
 			$this->db->from(self::producto);
 			$result = $this->db->count_all_results();
         	return $result;
-    	}
+		}
+		
+
+		// ::::::: CREAR 
 
 		//	Creacion de un nuevo producto
 		function nuevo_producto( $producto , $usuario ){
 
 			//	Creando cabecera de la tabla producto
 			$data = array(
-	            'name_entidad' => $producto['name_entidad'],
-	            'producto_estado' => $producto['producto_estado'],
-	            'Marca' => $producto['marca'],
-	            'Linea' => $producto['linea'],
+	            'name_entidad' 		=> $producto['name_entidad'],
+	            'producto_estado' 	=> $producto['producto_estado'],
+	            'Marca' 			=> $producto['Marca'],
+	            'Linea' 			=> $producto['Linea'],
 	            'id_producto_relacionado' => $producto['procuto_asociado'],
-	            'creado_producto' => date("Y-m-d h:i:s"),
-	            'Empresa' => $producto['empresa'],
-	            'Giro' => $producto['giro']
+	            'creado_producto' 	=> date("Y-m-d h:i:s"),
+	            'Empresa' 			=> $producto['empresa'],
+				'Giro' 				=> $producto['giro'],
+				'codigo_barras' 	=> $producto['codigo_barras'],
+				'modelo' 			=> $producto['modelo'],
+				'costo' 			=> $producto['costo'],
+				'minimos' 			=> $producto['minimos'],
+				'medios' 			=> $producto['medios'],
+				'maximos' 			=> $producto['maximos'],
+				'almacenaje' 		=> $producto['almacenaje'],
+				'descuento_limite' 	=> $producto['descuento_limite'],
+				'precio_venta' 		=> $producto['precio_venta'],
+				'iva' 				=> $producto['iva'],
+				'incluye_iva' 		=> $producto['incluye_iva']
+
 	        );
 	        if(isset($producto['escala'])){
 				$data += ['Escala' => 1 ];
@@ -96,8 +109,7 @@ class Producto_model extends CI_Model {
 				$data += ['combo' => 1 ];
 			}else{
 				$data += ['combo' => 0 ];
-			}
-			
+			}			
 
 			$this->db->insert(self::producto, $data ); 
 			$id_producto = $this->db->insert_id();
@@ -105,7 +117,7 @@ class Producto_model extends CI_Model {
 			$this->producto_categoria( $id_producto , $producto['sub_categoria'] );
 
 			// cinsertamos los proveedores en un array para recorrerlos
-			$proveedor_array = array($producto['proveedor1'], $producto['proveedor2'], $producto['marca'] );
+			$proveedor_array = array($producto['proveedor1'], $producto['proveedor2'], $producto['Marca'] );
 
 			$this->producto_proveedor( $id_producto , $proveedor_array );
 
@@ -229,18 +241,6 @@ class Producto_model extends CI_Model {
 				if( round( $percent) >= 90  and isset($producto['14']) ){
 
 					$contador = substr($key, -1);
-					/*
-					if(isset($producto[14])){
-	            		$costo = $producto['14'] ;
-	            	}
-
-					
-					if(preg_match_all('/\d+/', $key, $numbers))
-    					$contador = end($numbers[0]);
-
-					// Calcular factor					
-					 $factor = ($costo / $producto['precio'.$contador] );
-					*/
 
                     $data = array(
                         'Producto' => $id_producto,
@@ -286,6 +286,8 @@ class Producto_model extends CI_Model {
             
 
 		}
+
+		// ::::::: END CREAR
 
 		function get_categorias(){
 			$this->db->select('*');
@@ -406,17 +408,34 @@ class Producto_model extends CI_Model {
 		        return $query->result();
 		}
 
+		// :::::: ACTUALIZAR
+
 		function actualizar_producto( $producto ){
 
 			
-			$data = array(
-	            'name_entidad' => $producto['name_entidad'],
-	            'producto_estado' => $producto['producto_estado'],
+			$data = array(	            
 	            'Empresa' => $producto['empresa'],
-	            'Giro' => $producto['giro'],
-	            'Marca' => $producto['marca'],
 	            'id_producto_relacionado' => $producto['procuto_asociado'],
-	            'actualizado_producto' => date('Y-m-d h:i:s')
+				'actualizado_producto' => date('Y-m-d h:i:s'),				
+				'name_entidad' 		=> $producto['name_entidad'],
+	            'producto_estado' 	=> $producto['producto_estado'],
+	            'Marca' 			=> $producto['Marca'],
+	            //'Linea' 			=> $producto['Linea'],
+	            'id_producto_relacionado' => $producto['procuto_asociado'],
+	            'creado_producto' 	=> date("Y-m-d h:i:s"),
+	            'Empresa' 			=> $producto['empresa'],
+				'Giro' 				=> $producto['giro'],
+				'codigo_barras' 	=> $producto['codigo_barras'],
+				'modelo' 			=> $producto['modelo'],
+				'costo' 			=> $producto['costo'],
+				'minimos' 			=> $producto['minimos'],
+				'medios' 			=> $producto['medios'],
+				'maximos' 			=> $producto['maximos'],
+				'almacenaje' 		=> $producto['almacenaje'],
+				'descuento_limite' 	=> $producto['descuento_limite'],
+				'precio_venta' 		=> $producto['precio_venta'],
+				'iva' 				=> $producto['iva'],
+				'incluye_iva' 		=> $producto['incluye_iva']
 	        );
 	        if(isset($producto['escala'])){
 				$data += ['Escala' => 1 ];
@@ -428,11 +447,6 @@ class Producto_model extends CI_Model {
 			}else{
 				$data += ['combo' => 0 ];
 			}
-
-			//echo $_FILES['11']['tmp_name'];
-			//var_dump($_FILES['11']);
-			//var_dump($producto);
-	        //die;
 
 			$this->db->where('id_entidad', $producto['id_producto']);
 			$result = $update = $this->db->update(self::producto, $data ); 
@@ -550,6 +564,8 @@ class Producto_model extends CI_Model {
 			$this->db->where('id_producto', $producto_id);
 			$this->db->update(self::producto_img, $data );
 		}
+
+		// ::::::: END ACTUALIZADO
 
 		// Buscar un producto para ser mostrado en la editicion de producto
 		function get_producto_atributos( $id_producto ){

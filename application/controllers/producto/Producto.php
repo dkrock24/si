@@ -262,14 +262,14 @@ class Producto extends CI_Controller {
 	public function column(){
 
 		$column = array(
-			'Producto','Categoria','Sub Categoria','Marca','Precio','Giro','Creado','Actualizado','Estado'
+			'Codigo','Producto','Categoria','Sub Categoria','Marca','Precio','Giro','Creado','Actualizado','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'name_entidad','nombre_categoria','SubCategoria','nombre_marca','Precio','nombre_giro','creado_producto','actualizado_producto','estado'
+			'codigo_barras','name_entidad','nombre_categoria','SubCategoria','nombre_marca','precio_venta','nombre_giro','creado_producto','actualizado_producto','estado'
 		);
 		
 		$fields['id'] = array('id_entidad');
