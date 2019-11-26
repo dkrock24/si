@@ -34,7 +34,7 @@
                 <table id="" class="">
                     <tr>
                         <td>
-
+                            <input type="button" value="Print Table" onclick="printTable()" />
                         </td>
                         <td>
                             <input type="text" name="search" value="" class="form-control" id="" placeholder="Buscar" />
