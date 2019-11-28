@@ -36,49 +36,6 @@ class Linea extends MY_Controller {
 		$model = "Linea_model";
 		$url_page = "producto/linea/index";
 		$pag = $this->MyPagination($model, $url_page, $vista = 26) ;
-
-		//Paginacion
-		/*
-		$_SESSION['per_page'] = "";
-		$contador_tabla;
-		if( isset( $_POST['total_pagina'] )){
-			$per_page = $_POST['total_pagina'];
-			$_SESSION['per_page'] = $per_page;
-		}else{
-			if($_SESSION['per_page'] == ''){
-				$_SESSION['per_page'] = 10;
-			}			
-		}
-		
-		//$total_row = $this->Linea_model->record_count();
-		//$config = paginacion($total_row, $_SESSION['per_page'] , "producto/linea/index");
-		$this->pagination->initialize($config);
-		if($this->uri->segment(4)){
-			if($_SESSION['per_page']!=0){
-				$page = ($this->uri->segment(4) - 1 ) * $_SESSION['per_page'];
-				$contador_tabla = $page+1;
-			}else{
-				$page = 0;
-				$contador_tabla =1;
-			}
-		}else{
-			$page = 0;
-			$contador_tabla =1;
-		}
-
-		$str_links = $this->pagination->create_links();
-		$data["links"] = explode('&nbsp;',$str_links );
-		*/
-		// paginacion End
-
-		// Seguridad :: Validar URL usuario	
-		//$menu_session = $this->session->menu;	
-		//parametros($menu_session);
-
-		//$id_rol = $this->session->roles[0];
-		//$vista_id = 26; // Vista Orden Lista
-		//$id_usuario 	= $this->session->usuario[0]->id_usuario;
-
 		
 		$data['registros'] = $this->Linea_model->getLinea( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
 		$data['menu'] = $this->session->menu;

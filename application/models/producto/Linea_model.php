@@ -5,8 +5,6 @@ class Linea_model extends CI_Model {
 	
 	function getLinea( $limit, $id , $filters ){
 
-        
-        
 		$this->db->select('*');
         $this->db->from(self::pos_linea);
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
