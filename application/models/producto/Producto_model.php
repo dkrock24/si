@@ -26,6 +26,13 @@ class Producto_model extends CI_Model {
 		
         
         function getProd( $limit, $id , $filters ){
+
+			
+			if($filters!=null || $filters != ""){
+				
+				$filters = " and ".$filters;
+			}
+
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, 
 			 `sub_c`.`nombre_categoria` , e.nombre_razon_social,
@@ -70,6 +77,9 @@ class Producto_model extends CI_Model {
 		function record_count($filter){
 
 			if($filter!=""){
+				
+				$filter = " and ". $filter;
+
 				$query = $this->db->query("SELECT COUNT(P.id_entidad) as total
 	        	
 				FROM `producto` as `P`

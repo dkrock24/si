@@ -104,7 +104,7 @@
           </form>
         </div>
         <div class="modal-footer">
-        <button onclick="b()" id="pdfParametros">Click me</button>
+        <button onclick="b()" id="pdfParametros" class="btn btn-info">Guardar</button>
           
           
         </div>

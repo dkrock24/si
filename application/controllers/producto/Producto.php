@@ -10,14 +10,15 @@ class Producto extends MY_Controller {
 
 	public function index()
 	{
-
-		$pag = $this->MyPagination();
+		$model = "Producto_model";
+		$url_page = "producto/producto/index";
+		$pag = $this->MyPagination($model, $url_page , $vista = 9);
 
 		$data['registros'] = $this->Producto_model->getProd($pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
 		
 		$data['menu'] = $this->session->menu;
 		$data['links'] = $pag['links'];
-		$data['filtros'] = $_SESSION['filtros'];
+		$data['filtros'] = $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();

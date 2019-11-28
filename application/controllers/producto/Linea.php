@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Linea extends CI_Controller {
+class Linea extends MY_Controller {
 
 	function __construct()
 	{
@@ -33,7 +33,12 @@ class Linea extends CI_Controller {
 	public function index()
 	{
 
+		$model = "Linea_model";
+		$url_page = "producto/linea/index";
+		$pag = $this->MyPagination($model, $url_page, $vista = 26) ;
+
 		//Paginacion
+		/*
 		$_SESSION['per_page'] = "";
 		$contador_tabla;
 		if( isset( $_POST['total_pagina'] )){
@@ -45,8 +50,8 @@ class Linea extends CI_Controller {
 			}			
 		}
 		
-		$total_row = $this->Linea_model->record_count();
-		$config = paginacion($total_row, $_SESSION['per_page'] , "producto/linea/index");
+		//$total_row = $this->Linea_model->record_count();
+		//$config = paginacion($total_row, $_SESSION['per_page'] , "producto/linea/index");
 		$this->pagination->initialize($config);
 		if($this->uri->segment(4)){
 			if($_SESSION['per_page']!=0){
@@ -63,23 +68,26 @@ class Linea extends CI_Controller {
 
 		$str_links = $this->pagination->create_links();
 		$data["links"] = explode('&nbsp;',$str_links );
-
+		*/
 		// paginacion End
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
+		//$menu_session = $this->session->menu;	
 		//parametros($menu_session);
 
-		$id_rol = $this->session->roles[0];
-		$vista_id = 26; // Vista Orden Lista
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
+		//$id_rol = $this->session->roles[0];
+		//$vista_id = 26; // Vista Orden Lista
+		//$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
+		
+		$data['registros'] = $this->Linea_model->getLinea( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
 		$data['menu'] = $this->session->menu;
-		$data['registros'] = $this->Linea_model->getLinea(  $config["per_page"], $page );
-		$data['contador_tabla'] = $contador_tabla;
+		$data['links'] = $pag['links'];
+		$data['filtros'] = $pag['field'];
+		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
 		$data['home'] = 'template/lista_template';
 		$data['title'] = 'Lineas';
 

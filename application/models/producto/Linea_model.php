@@ -3,10 +3,17 @@ class Linea_model extends CI_Model {
 
 	const pos_linea = 'pos_linea';
 	
-	function getLinea( $limit, $id  ){
+	function getLinea( $limit, $id , $filters ){
+
+        
+        
 		$this->db->select('*');
         $this->db->from(self::pos_linea);
-        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
+        if($filters!=""){
+            $this->db->where($filters);
+        }
+        
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -29,8 +36,8 @@ class Linea_model extends CI_Model {
         }
     }
 
-    function record_count(){
-        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
+    function record_count($filter){
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::pos_linea);
         $result = $this->db->count_all_results();
         return $result;

@@ -61,10 +61,10 @@
                                 </form>
                                 
                             </th>
-                            <form action="<?php echo base_url()."producto/producto/index" ?>" method="post" id="filtros">
+                            <form action="<?php echo base_url(). '\..' . $_SERVER['PATH_INFO'] ?>" method="post" id="filtros">
                             <?php
 
-                            //var_dump($filtros);                           
+                                                  
                             
                             foreach ($column as $key => $combo) {
                                 ?>

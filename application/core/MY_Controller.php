@@ -6,7 +6,6 @@ class MY_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct(); //need this!!
-
         	
 		$this->load->database(); 
 
@@ -30,21 +29,45 @@ class MY_Controller extends CI_Controller
 		$this->load->model('admin/Categorias_model');	
     }
 
-    public function MyPagination()
+    public function MyPagination($model , $url_page, $vista)
     {
         $filtro="";
-		if($_SESSION['filters'] == ""){
-			$filtro = "";
-		}		
+		if(isset($_SESSION['filters']) ){
+            if($_SESSION['filters']== ""){
+                $filtro = "";
+                $_SESSION['filtros'] = null;
+            }  
+            if($_SESSION['url'] != $url_page){
+                
+                $_SESSION['filters'] = $filtro;
+                $_SESSION['filtros'] = null;
+                $_SESSION['url'] = $url_page;
+
+            }        
+           
+		}else{
+            $_SESSION['filters'] = $filtro;
+            $_SESSION['filtros'] = null;
+            $_SESSION['url'] = $url_page;
+        }
 
 		if($_POST){
+
+            $flag = false;
 				
 			foreach ($_POST as $key => $field) {
 				
 				if($field){
-					$filtro .= " and ". $key ." like '%$field%' ";
-					
-				}
+                    
+                    if($flag){
+                        $filtro .= " and ". $key ." like '%$field%' ";
+                    }else{
+                        $filtro .= " ". $key ." like '%$field%'  ";
+                    }
+					$flag = true;
+                }
+                
+               
 			}
 			$_SESSION['filters'] = $filtro ;
 			$_SESSION['filtros'] = $_POST ;
@@ -62,9 +85,9 @@ class MY_Controller extends CI_Controller
 			}			
         }
 
-        $total_row = $this->Producto_model->record_count($_SESSION['filters']);
+        $total_row = $this->$model->record_count($_SESSION['filters']);
 		
-		$config = paginacion($total_row, $_SESSION['per_page'] , "producto/producto/index");
+		$config = paginacion($total_row, $_SESSION['per_page'] , $url_page);
 		$this->pagination->initialize($config);
 		if($this->uri->segment(4)){
 			if($_SESSION['per_page']!=0){
@@ -90,8 +113,18 @@ class MY_Controller extends CI_Controller
 		parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 9;
+        $vista_id = $vista;
+        
+        $f = $this->fields();
+        if(!$_SESSION['filtros']){
+            $ff = array();
+            foreach ($f['field'] as $item) {
+                $ff[$item] = "";
+            }
+            $_SESSION['filtros'] = $ff;
+        }
 
+        $data['field'] = $_SESSION['filtros'];
         $data['config'] = $config;
         $data['page'] = $page;
         $data['vista_id'] = $vista_id;
