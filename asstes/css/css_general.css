@@ -1,6 +1,6 @@
 .dataList{
 	height: 100%;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 
 .menu_title_bar{
@@ -13,4 +13,10 @@
 
 .alignRigth{
 	float: center;
+}
+
+#total_pagina{
+	margin-bottom: 40px;
+	position: relative;
+	
 }

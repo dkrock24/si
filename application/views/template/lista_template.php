@@ -15,6 +15,14 @@
             }
         });
     });
+
+    $(document).on('keydown', '.filtro-input', function(e) {
+
+        if (e.which == 13) {
+            $('form#filtros').submit();
+            return false;    //<---- Add this line
+        }
+    });
 </script>
 
 <style>
@@ -35,19 +43,6 @@
             <!-- START table-responsive-->
             <div class="dataList">
 
-                <table id="" class="">
-                    <tr>
-                        <td>
-
-                        <button onclick="generate()">Generate pdf</button>
-
-                        </td>
-                        <td>
-                            <input type="text" name="search" value="" class="form-control" id="" placeholder="Buscar" />
-                        </td>
-                    </tr>
-                </table>
-
                 <table id="datatable1" class="table table-striped table-hover" width="100%">
 
                     <thead class="linea_superior" style="">
@@ -64,24 +59,30 @@
                                         <option class="100">100</option>
                                     </select>
                                 </form>
-
+                                
                             </th>
+                            <form action="<?php echo base_url()."producto/producto/index" ?>" method="post" id="filtros">
                             <?php
 
+                            //var_dump($filtros);                           
+                            
                             foreach ($column as $key => $combo) {
                                 ?>
-                                <th style="color: black;"><?php echo $combo; ?></th>
+                                
+                                <th style="color: black;">
+                                <input type="text" name="<?php echo $fields['field'][$key]; ?>" value="<?php echo $filtros[$fields['field'][$key]] ?>" class="form-control filtro-input" /><br>
+                                    <?php echo $combo; ?>
+                                </th>
                             <?php
                             }
                             ?>
+                            
+                            </form>
 
                             <th class="alignRigth">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default">Opcion</button>
-                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-default">
-                                        <span class="caret"></span>
-                                        <span class="sr-only">default</span>
-                                    </button>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opcion</button>
+                                    
                                     <ul role="menu" class="dropdown-menu">
                                         <?php
                                         if ($acciones) {
@@ -127,42 +128,43 @@
                                 ?>
                                 <tr>
                                     <th scope="row"><?php echo $contador; ?></th>
-                                    <?php
-                                            foreach ($fields['field'] as $key => $field) {
-
-                                                if ($field != 'estado') {
-
-                                                    ?>
-                                            <td><?php
-                                                                $a = substr($table->$field, 0, 1);
-
-                                                                echo $table->$field;
-
-                                                                ?>
-                                            </td>
                                         <?php
-                                                    }
-                                                    if ($field == 'estado') {
-                                                        $estado = $fields['estado'][0];
-                                                        ?>
-                                            <td>
-                                                <?php
-                                                                if ($table->$estado == 1) {
-                                                                    ?>
-                                                    <span class="label label-success" style="background: #39b2d6">Activo</span>
-                                                <?php
-                                                                } else {
-                                                                    ?>
-                                                    <span class="label label-warning" style="background: #d26464">Inactivo</span>
-                                                <?php
-                                                                }
-                                                                ?>
-                                            </td>
+                                        foreach ($fields['field'] as $key => $field) {
+
+                                            if ($field != 'estado') {
+                                        ?>
+                                    <td>
+                                        
+                                        <?php
+                                            $a = substr($table->$field, 0, 1);
+
+                                            echo $table->$field;
+
+                                            ?>
+                                        </td>
+                                        <?php
+                                            }
+                                            if ($field == 'estado') {
+                                                $estado = $fields['estado'][0];
+                                                ?>
+                                        <td>
+                                            <?php
+                                                if ($table->$estado == 1) {
+                                            ?>
+                                            <span class="label label-success" style="background: #39b2d6">Activo</span>
+                                            <?php
+                                                } else {
+                                            ?>
+                                            <span class="label label-warning" style="background: #d26464">Inactivo</span>
+                                            <?php
+                                                }
+                                            ?>
+                                        </td>
 
                                     <?php
-                                                }
-                                            }
-                                            ?>
+                                        }
+                                    }
+                                    ?>
 
 
                                     <td class="alignRigth">

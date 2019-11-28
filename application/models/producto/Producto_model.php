@@ -25,28 +25,31 @@ class Producto_model extends CI_Model {
 		const correlativos =  'pos_correlativos';	
 		
         
-        function getProd( $limit, $id ){
+        function getProd( $limit, $id , $filters ){
 	        
-	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria',
-			 `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social,
+	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, 
+			 `sub_c`.`nombre_categoria` , e.nombre_razon_social,
 			  e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        	
 				FROM `producto` as `P`
 				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
 				LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
-				LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
+				
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where P.Empresa = '".$this->session->empresa[0]->id_empresa."'  
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where P.Empresa = '".$this->session->empresa[0]->id_empresa."'
+				$filters  
 				Limit ".$id.','.$limit );
 
-		        //echo $this->db->queries[1];
+				//echo $this->db->queries[1];
+				
+				//die;
 		        return $query->result();
 
 		}
 
-		function getAllProducto( ){
+		function getAllProducto(){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        	
@@ -64,11 +67,33 @@ class Producto_model extends CI_Model {
 
 		}
 
-		function record_count(){
-			$this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
-			$this->db->from(self::producto);
-			$result = $this->db->count_all_results();
-        	return $result;
+		function record_count($filter){
+
+			if($filter!=""){
+				$query = $this->db->query("SELECT COUNT(P.id_entidad) as total
+	        	
+				FROM `producto` as `P`
+				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
+				LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`				
+				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
+				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
+				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where P.producto_estado=1 and P.Empresa=".$this->session->empresa[0]->id_empresa.' '.$filter);
+
+				//$this->db->queries[0];
+				$data = $query->result();
+				
+				$total = (int) $data[0]->total;
+				
+				return $total;
+			}else{
+
+				$this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
+				$this->db->from(self::producto);
+				$result = $this->db->count_all_results();
+				return $result;
+			}
+			
 		}
 		
 
@@ -824,6 +849,10 @@ class Producto_model extends CI_Model {
 	        {
 	            return $query->result();
 	        }
+		}
+
+		function filtrar( $fields ){
+
 		}
 
     }
