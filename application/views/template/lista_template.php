@@ -1,6 +1,10 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
 <script type="text/javascript">
+
+    var headers = <?php echo json_encode($fields['field']); ?>;
+    var records = <?php echo json_encode($registros); ?>;
+    
     $(document).on("change", "#total_pagina", function() {
         $.ajax({
             type: "post",
@@ -34,7 +38,9 @@
                 <table id="" class="">
                     <tr>
                         <td>
-                            <input type="button" value="Print Table" onclick="printTable()" />
+
+                        <button onclick="generate()">Generate pdf</button>
+
                         </td>
                         <td>
                             <input type="text" name="search" value="" class="form-control" id="" placeholder="Buscar" />
@@ -89,10 +95,15 @@
                                                     $url = $value->accion_btn_url;
                                                 }
 
+                                                if($value->accion_btn_nombre){
+                                                    $url = "#";
+                                                    
+                                                }
+
                                                 if ($value->accion_valor == 'btn_superior') {
                                                     ?>
-                                                    <li><a href="<?php echo $url;  ?>"><?php echo $value->accion_nombre;  ?></a></li>
-                                        <?php
+                                                    <li><a href="<?php echo $url;  ?>" onclick="<?php echo $value->accion_btn_nombre;  ?>" id=""><?php echo $value->accion_nombre;  ?></a></li>
+                                                    <?php
                                                 }
                                             }
                                         }
@@ -106,7 +117,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="datosLista">
 
                         <?php
                         $contador = $contador_tabla;
