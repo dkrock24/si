@@ -7,11 +7,14 @@ class Impuesto_model extends CI_Model {
     const impuesto_documento = 'pos_impuesto_documento';
     const impuesto_proveedor = 'pos_impuesto_proveedor';
 
-    function getImpuesto($limit, $id){
+    function getImpuesto($limit, $id, $filters){
 
         $this->db->select('*');
         $this->db->from(self::impuesto);  
         $this->db->where('imp_empresa', $this->session->empresa[0]->id_empresa);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);          
         $query = $this->db->get();    
                 
@@ -21,9 +24,9 @@ class Impuesto_model extends CI_Model {
         }
     }
 
-    function record_count(){
+    function record_count($filter){
         
-        $this->db->where('imp_empresa',$this->session->empresa[0]->id_empresa);
+        $this->db->where('imp_empresa',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::impuesto);
         $result = $this->db->count_all_results();
         return $result;

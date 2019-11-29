@@ -33,12 +33,15 @@ class Correlativo_model extends CI_Model {
         }
     }
 
-    function getCorrelativos( $limit, $id ){
+    function getCorrelativos( $limit, $id , $filters ){
         $this->db->select('*');
         $this->db->from(self::correlativos.' as c');
         $this->db->join(self::sucursal.' as s',' on c.Sucursal = s.id_sucursal');   
         $this->db->join(self::documento.' as d',' on c.TipoDocumento = d.id_tipo_documento');  
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -49,9 +52,9 @@ class Correlativo_model extends CI_Model {
         }
     }
 
-    function record_count(){
-        return $this->db->count_all(self::correlativos);
-        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->id_empresa);
+    function record_count($filter){
+        //return $this->db->count_all(self::correlativos);
+        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::correlativos.' as c');
         $this->db->join(self::sucursal.' as s',' on c.Sucursal = s.id_sucursal');
         $result = $this->db->count_all_results();

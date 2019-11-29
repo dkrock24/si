@@ -8,12 +8,15 @@ class Bodega_model extends CI_Model {
     const pos_producto_bodega = 'pos_producto_bodega';
     const producto = 'producto';
 	
-	function getBodegas( $id_usuario , $limit, $id){
-		$this->db->select('*');
+	function getBodegas(  $limit, $id , $filters){
+		$this->db->select('b.*,s.*,e.id_empresa,e.nombre_comercial');
         $this->db->from(self::pos_bodega.' as b');
         $this->db->join(self::pos_sucursal.' as s', 'on b.Sucursal = s.id_sucursal');
         $this->db->join(self::pos_empresa.' as e', 'on s.Empresa_Suc = e.id_empresa');
         $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $this->db->order_by('s.id_sucursal');
         $this->db->group_by('b.id_bodega');
@@ -55,13 +58,16 @@ class Bodega_model extends CI_Model {
         }
     }
 
-    function record_count($id_usuario){
+    function record_count($filters){
         $this->db->select('count(*) as total');
         $this->db->from(self::pos_bodega.' as b');
         $this->db->join(self::pos_sucursal.' as s', 'on b.Sucursal = s.id_sucursal');
         $this->db->join(self::pos_empresa.' as e', 'on s.Empresa_Suc = e.id_empresa');
-        $this->db->join(self::sys_empleado_sucursal.' as es', 'on es.es_sucursal = s.id_sucursal');
-        $this->db->where('es.es_empleado', $id_usuario );
+        
+        $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa  );
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->group_by('b.id_bodega');
         $query = $this->db->get();
         //echo $this->db->queries[0];

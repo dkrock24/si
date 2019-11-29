@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Vistas extends CI_Controller {
+class Vistas extends MY_Controller {
 
 	public function __construct()
 	{
@@ -25,43 +25,10 @@ class Vistas extends CI_Controller {
 	public function index()
 	{
 
-		//Paginacion
-		$contador_tabla;
-		$_SESSION['per_page'] = "";
-		if( isset( $_POST['total_pagina'] )){
-			$per_page = $_POST['total_pagina'];
-			$_SESSION['per_page'] = $per_page;
-		}else{
-			if($_SESSION['per_page'] == ''){
-				$_SESSION['per_page'] = 10;
-			}			
-		}
-		
-		$total_row = $this->Vistas_model->record_count();
-		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/vistas/index");
-		$this->pagination->initialize($config);
-		if($this->uri->segment(4)){
-			if($_SESSION['per_page']!=0){
-				$page = ($this->uri->segment(4) - 1 ) * $_SESSION['per_page'];
-				$contador_tabla = $page+1;
-			}else{
-				$page = 0;
-				$contador_tabla =1;
-			}
-		}else{
-			$page = 0;
-			$contador_tabla =1;
-		}
+		$model = "Vistas_model";
+		$url_page = "admin/vistas/index";
+		$pag = $this->MyPagination($model, $url_page , $vista = 22);
 
-		$str_links = $this->pagination->create_links();
-		$data["links"] = explode('&nbsp;',$str_links );
-
-		// paginacion End
-
-
-		// Construir Menu
-		$id_rol = $this->session->roles[0];
-		$vista_id = 22; // Vista Orden Lista
 
 		if(isset($_POST['role']) and isset($_POST['menu'])){
 
@@ -78,13 +45,15 @@ class Vistas extends CI_Controller {
 			$data['roles'] =  $this->Acceso_model->getRoles();	
 			$data['menus'] =  $this->Menu_model->lista_menu();
 		}		
-		$data['menu'] = $this->session->menu;		
-		$data['registros'] =  $this->Vistas_model->get_vistas(  $config["per_page"], $page );
+			
+		$data['menu'] = $this->session->menu;
+		$data['links'] = $pag['links'];
+		$data['filtros'] = $pag['field'];
+		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
-		$data['contador_tabla'] = $contador_tabla;
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		//$data['vistas_componentes'] =  $this->Vistas_model->get_vistas_componentes();
+		$data['registros'] =  $this->Vistas_model->get_vistas( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol']  );
 		$data['title'] = "Vistas";
 		$data['home'] = 'template/lista_template';
 

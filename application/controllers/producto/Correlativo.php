@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Correlativo extends CI_Controller {
+class Correlativo extends MY_Controller {
 
 	function __construct()
 	{
@@ -35,53 +35,21 @@ class Correlativo extends CI_Controller {
 	public function index()
 	{
 
-		//Paginacion
-		$contador_tabla;
-		$_SESSION['per_page'] = "";
-		if( isset( $_POST['total_pagina'] )){
-			$per_page = $_POST['total_pagina'];
-			$_SESSION['per_page'] = $per_page;
-		}else{
-			if($_SESSION['per_page'] == ''){
-				$_SESSION['per_page'] = 10;
-			}			
-		}
+		$model = "Correlativo_model";
+		$url_page = "producto/correlativo/index";
+		$pag = $this->MyPagination($model, $url_page , $vista = 28);
+
 		
-		$total_row = $this->Correlativo_model->record_count();
-		$config = paginacion($total_row, $_SESSION['per_page'] , "producto/correlativo/index");
-		$this->pagination->initialize($config);
-		if($this->uri->segment(4)){
-			if($_SESSION['per_page']!=0){
-				$page = ($this->uri->segment(4) - 1 ) * $_SESSION['per_page'];
-				$contador_tabla = $page+1;
-			}else{
-				$page = 0;
-				$contador_tabla =1;
-			}
-		}else{
-			$page = 0;
-			$contador_tabla =1;
-		}
-
-		$str_links = $this->pagination->create_links();
-		$data["links"] = explode('&nbsp;',$str_links );
-
-		// paginacion End
-
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		//parametros($menu_session);
-
-		$id_rol = $this->session->roles[0];
-		$vista_id = 28; // Vista Orden Lista
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
+		$data['registros'] = $this->Correlativo_model->getCorrelativos(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
 
 		$data['menu'] = $this->session->menu;
-		$data['registros'] = $this->Correlativo_model->getCorrelativos(  $config["per_page"], $page );
-		$data['contador_tabla'] = $contador_tabla;
+		$data['links'] = $pag['links'];
+		$data['filtros'] = $pag['field'];
+		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		
 		$data['title'] = "Correlativos";
 		$data['home'] = 'template/lista_template';
 

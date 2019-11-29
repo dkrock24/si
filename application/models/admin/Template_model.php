@@ -62,13 +62,16 @@ class Template_model extends CI_Model {
         }
     }
 
-    function getAllTemplate( $limit, $id){ 
+    function getAllTemplate( $limit, $id , $filters){ 
         $this->db->select('*');
         $this->db->from(self::pos_doc_temp.' as td');
         $this->db->join(self::pos_temp_sucursal.' as ts',' on td.id_factura=ts.Template');
         $this->db->join(self::tipos_documentos.' dt',' on dt.id_tipo_documento=ts.Documento');
         $this->db->join(self::pos_sucursal.' s',' on ts.Sucursal=s.id_sucursal','left');
         $this->db->where('td.Empresa', $this->session->empresa[0]->id_empresa);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->order_by('td.id_factura','desc');       
         $this->db->limit($limit, $id);
         $query = $this->db->get();
@@ -235,8 +238,8 @@ class Template_model extends CI_Model {
         }
     }
 
-    function record_count(){
-        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
+    function record_count($filter){
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::pos_doc_temp);
         $result = $this->db->count_all_results();
         return $result;

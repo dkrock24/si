@@ -4,11 +4,14 @@ class Documento_model extends CI_Model {
     const documento = 'pos_tipo_documento';
 
 
-    function getDocumento($limit, $id){
+    function getDocumento($limit, $id , $filters){
 
         $this->db->select('*');
         $this->db->from(self::documento);  
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);          
         $query = $this->db->get();    
                 
@@ -31,8 +34,8 @@ class Documento_model extends CI_Model {
         } 
     }
 
-    function record_count(){
-        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
+    function record_count($filter){
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::documento);
         $result = $this->db->count_all_results();
         return $result;

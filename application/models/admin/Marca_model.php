@@ -6,11 +6,14 @@ class Marca_model extends CI_Model {
     const marca_categoria = 'pos_marca_categoria';
 
 
-    function getMarca($limit, $id){
+    function getMarca( $limit, $id , $filters ){
 
         $this->db->select('*');
         $this->db->from(self::marca);  
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);          
         $query = $this->db->get();    
                 
@@ -33,9 +36,9 @@ class Marca_model extends CI_Model {
         } 
     }
 
-    function record_count(){
+    function record_count($filter){
         
-        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::marca);
         $result = $this->db->count_all_results();
         return $result;

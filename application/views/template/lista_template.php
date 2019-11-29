@@ -4,7 +4,8 @@
 
     var headers = <?php echo json_encode($fields['field']); ?>;
     var records = <?php echo json_encode($registros); ?>;
-    
+
+        
     $(document).on("change", "#total_pagina", function() {
         $.ajax({
             type: "post",
@@ -70,7 +71,13 @@
                                 ?>
                                 
                                 <th style="color: black;">
-                                <input type="text" name="<?php echo $fields['field'][$key]; ?>" value="<?php echo $filtros[$fields['field'][$key]] ?>" class="form-control filtro-input" /><br>
+                                <?php
+                                if(isset($filtros)){
+                                    ?>
+                                    <input type="text" name="<?php echo $fields['field'][$key]; ?>" value="<?php echo $filtros[$fields['field'][$key]] ?>" class="form-control filtro-input" /><br>
+                                    <?php
+                                }
+                                ?>                                
                                     <?php echo $combo; ?>
                                 </th>
                             <?php

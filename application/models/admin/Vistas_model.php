@@ -7,15 +7,18 @@ class Vistas_model extends CI_Model {
     const sys_vistas_acceso = 'sys_vistas_acceso';
     const roles = 'sys_role';
 
-	function get_vistas( $limit, $id ){
+	function get_vistas( $limit, $id ,$filters){
 
         $this->db->select('v.*,  count(vc.Vista) as total');
         $this->db->from(self::sys_vistas.' as v');
         $this->db->join(self::sys_vistas_componentes.' as vc', ' on vc.Vista = v.id_vista','left');
-         $this->db->join(self::sys_componentes.' as c', ' on c.id_vista_componente = vc.Componente','left');
+        $this->db->join(self::sys_componentes.' as c', ' on c.id_vista_componente = vc.Componente','left');
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->group_by('v.id_vista');
         $this->db->limit($limit, $id);
-        //$this->db->where('vista_estado', 1);
+        
         $query = $this->db->get();   
         //echo $this->db->queries[2];
         
@@ -40,8 +43,15 @@ class Vistas_model extends CI_Model {
         } 
     }
 
-    function record_count(){
-        return $this->db->count_all(self::sys_vistas);
+    function record_count($filters){
+        
+        
+        if($filters!=""){
+            $this->db->where($filters);
+        }
+        $this->db->from(self::sys_vistas);
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function vistas_componente_by_id( $vista_id, $limit, $id ){
