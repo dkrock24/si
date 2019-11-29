@@ -79,14 +79,19 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function getAllClientes($limit, $id)
+    function getAllClientes($limit, $id  , $filters)
     {
-        $this->db->select('*');
-        $this->db->from(self::cliente);
-        $this->db->join(self::tipos_documentos, ' on ' . self::cliente . '.TipoDocumento=' . self::tipos_documentos . '.id_tipo_documento');
-        $this->db->join(self::formas_pago, ' on ' . self::cliente . '.TipoPago=' . self::formas_pago . '.id_modo_pago');
-        $this->db->join(self::sys_persona . ' as p', ' on p.id_persona = Persona');
+        $this->db->select('p.primer_nombre_persona,p.primer_apellido_persona,fp.codigo_modo_pago,c.nombre_empresa_o_compania,
+        c.nrc_cli,c.nit_cliente,c.clase_cli,c.estado_cliente,c.id_cliente,td.nombre,
+        c.porcentage_descuentos');
+        $this->db->from(self::cliente.' as c');
+        $this->db->join(self::tipos_documentos.' as td', ' on c.TipoDocumento=td.id_tipo_documento');
+        $this->db->join(self::formas_pago.' as fp', ' on c.TipoPago=fp.id_modo_pago');
+        $this->db->join(self::sys_persona. ' as p', ' on p.id_persona = Persona');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $query = $this->db->get();
         //echo $this->db->queries[1];
@@ -108,9 +113,9 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function record_count()
+    function record_count($filter)
     {
-        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::cliente . ' as c');
         $this->db->join(self::sys_persona . ' as p', ' on c.Persona = p.id_persona');
         $result = $this->db->count_all_results();

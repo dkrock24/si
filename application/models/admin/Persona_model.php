@@ -8,13 +8,16 @@ class Persona_model extends CI_Model {
     const pos_empresa = 'pos_empresa';
     const sucursal = 'pos_sucursal';
 	
-	function getPersona( $limit, $id  ){
+	function getPersona( $limit, $id , $filters ){
 
 		$this->db->select('*');
         $this->db->from(self::sys_persona.' as p');
         $this->db->join(self::sys_ciudad.' as c', 'on p.Ciudad = c.id_ciudad');
         $this->db->join(self::sys_sexo.' as s', 'on p.Sexo = s.id_sexo');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $query = $this->db->get();
         //echo $this->db->queries[1];
@@ -41,11 +44,13 @@ class Persona_model extends CI_Model {
         }
     }
 
-    function record_count(){
-        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
+    function record_count($filter){
+
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::sys_persona);
         $result = $this->db->count_all_results();
         return $result;
+
     }
 
     function get_encargado(){

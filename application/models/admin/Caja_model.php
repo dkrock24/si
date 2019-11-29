@@ -10,8 +10,8 @@ class Caja_model extends CI_Model {
     const doc_sucursal = 'pos_temp_sucursal';
     const doc_template = 'pos_doc_temp';
 
-    function get_all_caja( $limit, $id ){;
-        $this->db->select('*');
+    function get_all_caja( $limit, $id ,$filters){;
+        $this->db->select('c.*,s.*,d.*,dt.factura_nombre');
         $this->db->from( self::caja.' as c' );
         $this->db->join( self::empresa.' as e', ' on c.Empresa=e.id_empresa' );
         $this->db->join( self::sucursal .' as s', ' on s.id_sucursal = c.pred_cod_sucu' );
@@ -19,6 +19,9 @@ class Caja_model extends CI_Model {
         $this->db->join( self::documento .' as d', ' on d.id_tipo_documento = ds.Documento' );
         $this->db->join( self::doc_template .' as dt', ' on dt.id_factura = ds.Template ' );
         $this->db->where('c.Empresa', $this->session->empresa[0]->id_empresa);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         
@@ -69,11 +72,9 @@ class Caja_model extends CI_Model {
     }
 
 
-	function record_count(){
-        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
+	function record_count($filter){
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from( self::caja.' as terminal');
-        //$this->db->join( self::sucursal.' as sucursal',
-          //                          ' on terminal.Sucursal=sucursal.id_sucursal' );
         $result = $this->db->count_all_results();
         return $result;
     }

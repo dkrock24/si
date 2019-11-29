@@ -18,10 +18,13 @@ class Cargos_model extends CI_Model {
         }
 	}
 
-     function get_all_cargo( $limit, $id ){;
+     function get_all_cargo( $limit, $id, $filters ){;
         $this->db->select('*');
         $this->db->from(self::sys_cargo_laboral);
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         
@@ -31,8 +34,8 @@ class Cargos_model extends CI_Model {
         } 
     }
 
-    function record_count(){
-        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
+    function record_count($filter){
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::sys_cargo_laboral);
         $result = $this->db->count_all_results();
         return $result;

@@ -58,11 +58,14 @@ class Sucursal_model extends CI_Model {
         }
 	}
 
-    function getAllSucursal( $limit, $id ){
-        $this->db->select('*');
+    function getAllSucursal( $limit, $id , $filters){
+        $this->db->select('s.*,e.nombre_comercial, e.id_empresa');
         $this->db->from(self::pos_sucursal.' as s');
         $this->db->join(self::pos_empresa.' as e', ' on s.Empresa_Suc = e.id_empresa');
         $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -73,8 +76,8 @@ class Sucursal_model extends CI_Model {
         }
     }
 
-    function record_count(){
-        $this->db->where('Empresa_Suc',$this->session->empresa[0]->id_empresa);
+    function record_count($filter){
+        $this->db->where('Empresa_Suc',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::pos_sucursal);
         $result = $this->db->count_all_results();
         return $result;
