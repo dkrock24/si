@@ -495,7 +495,7 @@ var columna1 = 'Impuesto';
                                                             <div class="col-lg-3 proveedorId" name="<?php echo $p->id_proveedor ?>" >
                                                                 <div class="row row-table row-flush">
                                                                     <div class="col-xs-12 text-center cliente" style="text-align: left; padding: 5px;">
-                                                                        <h5 class="mt0"><?php echo $contador.' - '. $p->empresa ?></h5>
+                                                                        <h5 class="mt0"><?php echo $contador.' - '. $p->empresa_proveedor ?></h5>
 
                                                                     </div>
                                                                     

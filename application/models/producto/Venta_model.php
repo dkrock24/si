@@ -1151,4 +1151,49 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 	            return $query->result();
 	        }
 		}
+
+
+		// Venta
+
+		function getVentaId($id_venta){
+
+			$query = $this->db->query("select ventas.id,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,
+			ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
+			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
+
+			from pos_ventas as ventas 
+
+			left join pos_cliente as cliente on cliente.id_cliente = ventas.id_cliente
+			left join pos_sucursal as sucursal on sucursal.id_sucursal=ventas.id_sucursal
+			left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = ventas.id_tipod
+			left join sys_usuario as usuario on usuario.id_usuario = ventas.id_usuario
+			left join pos_formas_pago as pago on pago.id_modo_pago = ventas.id_condpago 
+			left join pos_orden_estado as oe  on oe.id_orden_estado= ventas.orden_estado
+			where ventas.id=".$id_venta);
+
+		    //echo $this->db->queries[1];
+		    return $query->result();
+		}
+
+		function getVentaDetalleId($id_venta){
+			$query = $this->db->query("select *
+
+			from pos_venta_detalle as vd
+			left join producto as p ON p.id_entidad = vd.producto_id	
+			left join pos_bodega as b on b.id_bodega = vd.id_bodega		
+			
+			where vd.id_venta =".$id_venta);
+
+		    //echo $this->db->queries[1];
+		    return $query->result();
+		}
+
+		function getVentaPagosId( $id_venta ){
+			$query = $this->db->query("select *
+
+			from pos_venta_pagos where venta_pagos =".$id_venta);
+
+		    //echo $this->db->queries[1];
+		    return $query->result();
+		}
     }

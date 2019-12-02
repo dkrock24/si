@@ -1510,7 +1510,10 @@
             var cli_form_pago = $("#cliente_codigo").val();
             var tipo_documento = parseInt($("#id_tipo_documento").val());
 
-            pagos_mostrados[pagos_mostrados.length] = tipo_documento;
+            
+            if(!pagos_mostrados.includes(tipo_documento)){
+                pagos_mostrados[pagos_mostrados.length] = tipo_documento;
+            }
 
             guardarX(cli_form_pago, tipo_documento);
 
@@ -1519,6 +1522,7 @@
         }
 
         function guardarX(cli_form_pago, tipo_documento) {
+            
             $.ajax({
                 url: "get_form_pago/" + cli_form_pago + "/" + tipo_documento,
                 datatype: 'json',
@@ -1529,7 +1533,7 @@
                     var datos = JSON.parse(data);
                     var metodo_pago = datos["metodo_pago"];
                     var metodo_pago_principal = datos['metodo_pago_doc'];
-
+                    
                     var _html = "";
                     var cou = 1;
 

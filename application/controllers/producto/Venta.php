@@ -106,6 +106,18 @@ class Venta extends CI_Controller {
 		return $data;
 	}
 
+	public function ver($id_venta){
+		$data['venta'] = $this->Venta_model->getVentaId( $id_venta );
+		$data['venta_detalle'] = $this->Venta_model->getVentaDetalleId( $id_venta );
+		$data['venta_pagos'] = $this->Venta_model->getVentaPagosId( $id_venta );
+
+		$data['menu'] = $this->session->menu;
+		$data['title'] = "Ventas Detalle";
+		$data['home'] = 'producto/ventas/venta_detalle';
+
+		$this->parser->parse('template', $data);
+	}
+
 	public function column(){
 
 		$column = array(
