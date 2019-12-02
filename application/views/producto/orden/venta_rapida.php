@@ -23,7 +23,9 @@
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
 <?php
+include("asstes/pos_orden.php");
 include("asstes/pos_funciones.php");
+
 ?>
 
 <?php $this->load->view('styles_files.php'); ?>
@@ -85,9 +87,9 @@ include("asstes/pos_funciones.php");
                                             <li><a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a>
                                             </li>
                                         </ul>
-                                </div>
-
-                                <span class="btn bg-green" id="btn_update_products"  data-toggle="tooltip" data-placement="bottom" title="Existencias" style="font-size: 25px;"><i class="fa fa-refresh"></i></span>
+                                    </div>
+                                
+                                <input type="text" name="orden_numero" id="orden_numero" placeholder="N° Orden" value="" class="form-control" style="width:200px; display: inline-block;" />
 
                                 <div class="pull-right">
                                     <div class="" style="font-size: 20px;overflow: hidden;">
@@ -591,7 +593,20 @@ include("asstes/pos_funciones.php");
                                 <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
                             </div>
 
-                            <div class="col-lg-6 col-md-6">
+                            <div class="btn-group " class="col-lg-2 col-md-2">
+
+                                <select name="orden_estado" id="orden_estado" class="form-control">
+                                    <option value="6">Cancelado</option>
+                                    <option value="1">En proceso</option>
+                                    <option value="2">En Reservaa</option>
+                                    <option value="3">Procesadaa</option>
+                                    <option value="4">Facturada</option>
+                                    <option value="5">En Espera</option>                                    
+                                </select>
+                                        
+                            </div>
+
+                            <div class="col-lg-4 col-md-4">
                                 <input type="text" class="form-control has-success" name="cliente" placeholder="Nombre Cliente">
                             </div>
 

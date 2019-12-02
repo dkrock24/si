@@ -227,11 +227,13 @@ class Orden extends CI_Controller {
 		redirect(base_url()."producto/orden/index");
 	}
 
-	public function autoload_orden($order_id){
+	public function autoload_orden(){
 		$componente_conf = "combo";
+		$impuesto_conf = "impuestos";
 
-		$data['orden_detalle'] = $this->Orden_model->get_orden_detalle($order_id);
+		$data['orden_detalle'] = $this->Orden_model->get_orden_detalle($_POST['id']);
 		$data['conf'] = $this->Orden_model->getConfg($componente_conf);
+		$data['impuesto'] = $this->Orden_model->getConfgImpuesto($impuesto_conf);
 		
 		echo json_encode($data);
 	}
@@ -243,7 +245,7 @@ class Orden extends CI_Controller {
 		// Obteniendo informacion del cliente
 		$cliente = $this->get_clientes_id($_POST['encabezado'][6]['value']);
 
-		//$this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente );
+		$this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente );
 
 		redirect(base_url()."producto/orden/nuevo");
 	}

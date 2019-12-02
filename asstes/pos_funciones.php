@@ -23,6 +23,7 @@
         var bodega = 0;
         var _productos_precio2;
 
+
         getImpuestosLista();          
         bodega = $("#bodega_select").val();
 
@@ -1374,125 +1375,7 @@
             }
         }
 
-        function calculo_totales() {
-
-            var descuento = 0;
-            var t = 0;
-            var t2 = 0;
-            var sub = 0;
-            var imp_espeical_total = 0;
-            var iva_nombre = "";
-            var iva_valor = "";
-            var iva_total = "";
-
-            // --------------- * -----------------------------
-
-            if (_orden != null) {
-                _orden.forEach(function(element) {
-
-                    t += parseInt(element.cantidad);
-                    if ((_conf.comboAgrupado == 0) && (element.id_producto_combo != null && element.combo == 0)) {
-
-                        //t2 +=parseFloat(element.total);
-                    } else {
-                        if (element.id_producto_combo == 0 || element.id_producto_combo == null) {
-                            t2 += parseFloat(element.total);
-                        }
-                    }
-                    descuento += parseFloat(element.descuento_calculado);
-
-                });
-            } else {
-                t = 0;
-            }
-
-            /* ------------Impuestos Especial Dibujados  -----------*/
-
-            if (_impuestos_orden_condicion.length != 0 || _impuestos_orden_excluyentes != 0) {
-
-                var impuestos_nombre = "";
-                var impuestos_valor = "";
-                var impuestos_total = "";
-
-                _impuestos_orden_condicion.forEach(function(element) {
-
-                    sub = element.ordenImpTotal.toFixed(2);
-                    imp_espeical_total += parseFloat(sub);
-                    //t2 += parseFloat(sub);
-
-                    impuestos_nombre += "<i style='text-align: right;'>" + element.ordenImpName + "(" + element.ordenImpVal + ")</i><br>";
-
-                    impuestos_total += "<i><?php echo $moneda[0]->moneda_simbolo; ?>" + sub + "</i><br>";
-
-                });
-
-                _impuestos_orden_especial.forEach(function(element) {
-
-                    sub = element.ordenImpTotal.toFixed(2);
-                    imp_espeical_total += parseFloat(sub);
-
-                    impuestos_nombre += "<i style='text-align: right;'>" + element.ordenImpName + "(" + element.ordenImpVal + ")</i><br>";
-
-                    impuestos_total += "<i><?php echo $moneda[0]->moneda_simbolo; ?>" + sub + "</i><br>";
-
-                });
-
-                _impuestos_orden_excluyentes.forEach(function(element) {
-
-                    sub = element.ordenImpTotal.toFixed(2);
-                    if (element.condicion_simbolo == "+") {
-                        imp_espeical_total += parseFloat(sub);
-                    } else if (element.condicion_simbolo == " - ") {
-                        imp_espeical_total -= parseFloat(sub);
-                    }
-
-
-                    impuestos_nombre += "<i style='text-align: right;'>" + element.ordenImpName + "(" + element.ordenImpVal + ")</i><br>";
-
-                    impuestos_total += "<i><?php echo $moneda[0]->moneda_simbolo; ?> " + sub + "</i><br>";
-
-                });
-
-                $(".impuestos_nombre").html(impuestos_nombre);
-                $(".impuestos_total").html(impuestos_total);
-            } else {
-                $(".impuestos_nombre").empty();
-                $(".impuestos_total").empty();
-            }
-
-            /* ------------Impuestos - IVA -----------*/
-
-            total_msg = (t2 - descuento);
-
-            $(".iva_nombre").empty();
-            $(".iva_valor").empty();
-            $(".iva_total").empty();
-            var temp = 0;
-            if (total_iva != 0 && _orden.length != 0) {
-                total_msg += parseFloat(total_iva_suma);
-            }
-
-            iva_nombre += "<p style='text-align: right;'>IVA</p>";
-            iva_valor += "<?php echo $moneda[0]->moneda_simbolo; ?>" + total_iva.toFixed(2);
-            iva_total += "<p><?php echo $moneda[0]->moneda_simbolo; ?>" + total_msg.toFixed(2) + "</p>";
-
-            $(".iva_nombre").html(iva_nombre);
-            $(".iva_valor").text(iva_valor);
-            $(".iva_total").html(iva_total);
-
-            total_msg += parseFloat(imp_espeical_total);
-
-            // --------------- * -----------------------------
-            $(".total_msg").text(total_msg.toFixed(2));
-            $(".cantidad_tabla").text(t.toFixed(2));
-            $(".sub_total_tabla").text(t2.toFixed(2));
-            $(".total_tabla").text(total_msg.toFixed(2));
-            $(".descuento_tabla").text(descuento.toFixed(2));
-
-            $("#compra_venta").text(total_msg.toFixed(2));
-            $("#restante_venta").text(total_msg.toFixed(2));
-
-        }
+        
 
         $(document).on('click', '.guardar', function() {
             // Recargar Los Tipos de Pago Por Cliente
@@ -1658,7 +1541,13 @@
         });
 
         $(document).on('click', '#procesar_btn', function() {
+
             procesar_venta($('.guardar').attr('id'));
+        });
+
+        $(document).on('click', '#guardar_orden', function() {
+            
+            procesar_venta($(this).attr('id'));
         });
 
         $(document).on('click', '#add_pago', function() {
@@ -1723,60 +1612,7 @@
             }
         }
 
-        function depurar_producto() {
-            // Remueve los productos selecionados
-            contador_tabla = 1;
-
-
-            if (_orden.length >= 1) {
-                var tr_html = "";
-
-                _orden.forEach(function(element) {
-                    if (element.invisible == 0) {
-                        tr_html += "<tr class='productos_tabla' style='' id='" + element.producto_id + "' name='" + element.id_producto_detalle + "'>";
-                        tr_html += "<td class='border-table-left'>" + contador_tabla + "</td>";
-                        tr_html += "<td class=''>" + element.producto + "</td>";
-                        tr_html += "<td class=''>" + element.descripcion + "</td>";
-                        tr_html += "<td class=''>" + element.cantidad + "</td>";
-                        tr_html += "<td class=''>" + element.presentacion + "</td>";
-                        tr_html += "<td class=''>" + element.presentacionFactor + "</td>";
-                        tr_html += "<td class=''>" + element.precioUnidad + "</td>";
-                        tr_html += "<td class=''>" + element.descuento_calculado + "</td>";
-                        tr_html += "<td class=' total'>" + element.total + "</td>";
-                        tr_html += "<td class=' '>" + element.bodega + "</td>";
-                        if (element.combo == 1 || !element.id_producto_combo) {
-                            tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled bg-green eliminar' name='" + element.id_producto_detalle + "' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
-                        } else {
-                            tr_html += "<td class='border-left'> - </td>";
-                        }
-
-                        tr_html += "</tr>";
-
-                        contador_tabla++;
-                    }
-                });
-                $(".cantidad_tabla").val(4);
-                $(".sub_total_tabla").val(4);
-
-                calculo_totales();
-
-                $(".producto_agregados").html(tr_html);
-
-            } else {
-                contador_productos = 0;
-                _orden = [];
-                _productos = {};
-                _impuestos_orden_condicion = [];
-                _impuestos_orden_especial = [];
-                _impuestos_orden_excluyentes = [];
-
-                total_msg = parseFloat(0.00);
-                $(".total_msg").text("$ " + total_msg.toFixed(2));
-                $(".producto_agregados").empty();
-                calculo_totales();
-            }
-
-        }
+        
 
         function get_clientes_lista() {
 
@@ -1830,7 +1666,7 @@
 
 
         function procesar_venta(method) {
-
+            
             var tipo_documento = $("#id_tipo_documento").val();
 
             var sucursal_origen = $("#sucursal_id2").val();
@@ -1839,7 +1675,7 @@
 
             var formulario = $('#encabezado_form').serializeArray();
 
-            var orden_estado = $(this).attr('name');
+            var orden_estado = $("#orden_estado").val(); //$(this).attr('name');
             var impuestos_data = {
                 'imp_condicion': _impuestos_orden_condicion,
                 'imp_especial': _impuestos_orden_especial,
@@ -2002,4 +1838,179 @@
         });
 
     });
+
+    function depurar_producto() {
+            // Remueve los productos selecionados
+            contador_tabla = 1;
+
+
+            if (_orden.length >= 1) {
+                var tr_html = "";
+
+                _orden.forEach(function(element) {
+                    if (element.invisible == 0) {
+                        tr_html += "<tr class='productos_tabla' style='' id='" + element.producto_id + "' name='" + element.id_producto_detalle + "'>";
+                        tr_html += "<td class='border-table-left'>" + contador_tabla + "</td>";
+                        tr_html += "<td class=''>" + element.producto + "</td>";
+                        tr_html += "<td class=''>" + element.descripcion + "</td>";
+                        tr_html += "<td class=''>" + element.cantidad + "</td>";
+                        tr_html += "<td class=''>" + element.presentacion + "</td>";
+                        tr_html += "<td class=''>" + element.presentacionFactor + "</td>";
+                        tr_html += "<td class=''>" + element.precioUnidad + "</td>";
+                        tr_html += "<td class=''>" + element.descuento_calculado + "</td>";
+                        tr_html += "<td class=' total'>" + element.total + "</td>";
+                        tr_html += "<td class=' '>" + element.bodega + "</td>";
+                        if (element.combo == 1 || !element.id_producto_combo) {
+                            tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled bg-green eliminar' name='" + element.id_producto_detalle + "' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
+                        } else {
+                            tr_html += "<td class='border-left'> - </td>";
+                        }
+
+                        tr_html += "</tr>";
+
+                        contador_tabla++;
+                    }
+                });
+                $(".cantidad_tabla").val(4);
+                $(".sub_total_tabla").val(4);
+
+                calculo_totales();
+
+                $(".producto_agregados").html(tr_html);
+
+            } else {
+                contador_productos = 0;
+                _orden = [];
+                _productos = {};
+                _impuestos_orden_condicion = [];
+                _impuestos_orden_especial = [];
+                _impuestos_orden_excluyentes = [];
+
+                total_msg = parseFloat(0.00);
+                $(".total_msg").text("$ " + total_msg.toFixed(2));
+                $(".producto_agregados").empty();
+                calculo_totales();
+            }
+
+        }
+
+        function calculo_totales() {
+
+            var descuento = 0;
+            var t = 0;
+            var t2 = 0;
+            var sub = 0;
+            var imp_espeical_total = 0;
+            var iva_nombre = "";
+            var iva_valor = "";
+            var iva_total = "";
+
+            // --------------- * -----------------------------
+
+            if (_orden != null) {
+                _orden.forEach(function(element) {
+
+                    t += parseInt(element.cantidad);
+                    if ((_conf.comboAgrupado == 0) && (element.id_producto_combo != null && element.combo == 0)) {
+
+                        //t2 +=parseFloat(element.total);
+                    } else {
+                        if (element.id_producto_combo == 0 || element.id_producto_combo == null) {
+                            t2 += parseFloat(element.total);
+                        }
+                    }
+                    descuento += parseFloat(element.descuento_calculado);
+
+                });
+            } else {
+                t = 0;
+            }
+
+            /* ------------Impuestos Especial Dibujados  -----------*/
+
+            if (_impuestos_orden_condicion.length != 0 || _impuestos_orden_excluyentes != 0) {
+
+                var impuestos_nombre = "";
+                var impuestos_valor = "";
+                var impuestos_total = "";
+
+                _impuestos_orden_condicion.forEach(function(element) {
+
+                    sub = element.ordenImpTotal.toFixed(2);
+                    imp_espeical_total += parseFloat(sub);
+                    //t2 += parseFloat(sub);
+
+                    impuestos_nombre += "<i style='text-align: right;'>" + element.ordenImpName + "(" + element.ordenImpVal + ")</i><br>";
+
+                    impuestos_total += "<i><?php echo $moneda[0]->moneda_simbolo; ?>" + sub + "</i><br>";
+
+                });
+
+                _impuestos_orden_especial.forEach(function(element) {
+
+                    sub = element.ordenImpTotal.toFixed(2);
+                    imp_espeical_total += parseFloat(sub);
+
+                    impuestos_nombre += "<i style='text-align: right;'>" + element.ordenImpName + "(" + element.ordenImpVal + ")</i><br>";
+
+                    impuestos_total += "<i><?php echo $moneda[0]->moneda_simbolo; ?>" + sub + "</i><br>";
+
+                });
+
+                _impuestos_orden_excluyentes.forEach(function(element) {
+
+                    sub = element.ordenImpTotal.toFixed(2);
+                    if (element.condicion_simbolo == "+") {
+                        imp_espeical_total += parseFloat(sub);
+                    } else if (element.condicion_simbolo == " - ") {
+                        imp_espeical_total -= parseFloat(sub);
+                    }
+
+
+                    impuestos_nombre += "<i style='text-align: right;'>" + element.ordenImpName + "(" + element.ordenImpVal + ")</i><br>";
+
+                    impuestos_total += "<i><?php echo $moneda[0]->moneda_simbolo; ?> " + sub + "</i><br>";
+
+                });
+
+                $(".impuestos_nombre").html(impuestos_nombre);
+                $(".impuestos_total").html(impuestos_total);
+            } else {
+                $(".impuestos_nombre").empty();
+                $(".impuestos_total").empty();
+            }
+
+            /* ------------Impuestos - IVA -----------*/
+
+            total_msg = (t2 - descuento);
+
+            $(".iva_nombre").empty();
+            $(".iva_valor").empty();
+            $(".iva_total").empty();
+            var temp = 0;
+            if (total_iva != 0 && _orden.length != 0) {
+                total_msg += parseFloat(total_iva_suma);
+            }
+
+            iva_nombre += "<p style='text-align: right;'>IVA</p>";
+            iva_valor += "<?php echo $moneda[0]->moneda_simbolo; ?>" + total_iva.toFixed(2);
+            iva_total += "<p><?php echo $moneda[0]->moneda_simbolo; ?>" + total_msg.toFixed(2) + "</p>";
+
+            $(".iva_nombre").html(iva_nombre);
+            $(".iva_valor").text(iva_valor);
+            $(".iva_total").html(iva_total);
+
+            total_msg += parseFloat(imp_espeical_total);
+
+            // --------------- * -----------------------------
+            $(".total_msg").text(total_msg.toFixed(2));
+            $(".cantidad_tabla").text(t.toFixed(2));
+            $(".sub_total_tabla").text(t2.toFixed(2));
+            $(".total_tabla").text(total_msg.toFixed(2));
+            $(".descuento_tabla").text(descuento.toFixed(2));
+
+            $("#compra_venta").text(total_msg.toFixed(2));
+            $("#restante_venta").text(total_msg.toFixed(2));
+
+        }
 </script>

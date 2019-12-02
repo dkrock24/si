@@ -244,8 +244,20 @@
                                                     </div>                                                          
                                                </div>
                                             </div>
-                                            
 
+                                            <div class="btn-group col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
+                                                    <label>Estado Orden</label>
+                                                    <select name="orden_estado" id="orden_estado" class="form-control">
+                                                        <option value="1">En proceso</option>
+                                                        <option value="6">Cancelado</option>                                                        
+                                                        <option value="2">En Reservaa</option>
+                                                        <option value="3">Procesadaa</option>
+                                                        <option value="4">Facturada</option>
+                                                        <option value="5">En Espera</option>                                    
+                                                    </select>
+                                                </div>                                                        
+                                            </div>                                         
 
                                         </div>
                                      </div>
@@ -280,7 +292,7 @@
 
                     <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" id="grabar"><i class='fa fa-shopping-cart'></i></button>
 
-                    <button type="button" class="btn btn-labeled bg-green guardar" style="font-size: 25px;" name="1" id="guardar_orden" ><i class='fa fa-save'></i></button>
+                    <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="1" id="guardar_orden" ><i class='fa fa-save'></i></button>
 
                     <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 17px;" data-target='#existencias'><i class="fa fa-dropbox"></i></span>                            
 
@@ -644,8 +656,8 @@
                 </div>
 
             <div class="modal-footer">
-
-               <button type="button" data-dismiss="modal" id="procesar_btn" class="mb-sm btn-lg btn btn-purple btn-outline guardar" name="2">PROCESAR</button>               
+                                
+               <button type="button" data-dismiss="modal" id="procesar_btn2" class="mb-sm btn-lg btn btn-purple btn-outline guardar" name="2">PROCESAR</button>               
                <button type="button" data-dismiss="modal" class="mb-sm btn-lg btn btn-danger btn-outline">CANCELAR</button>               
             </div>
          </div>

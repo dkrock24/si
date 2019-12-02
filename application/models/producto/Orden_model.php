@@ -248,7 +248,7 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit 
 	function guardar_orden($orden, $id_usuario, $cliente)
 	{
 
-		$order_estado = $orden['estado'];
+		$order_estado = $orden['orden_estado'];
 
 		$total_orden = $orden['orden'][0]['total'];
 
@@ -1085,10 +1085,14 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit 
 
 	function get_orden_detalle($order_id)
 	{
+			
 
+		$valores =  explode(",", $order_id);
+		
 		$this->db->select('*');
-		$this->db->from(self::pos_ordenes_detalle . ' as do');
-		$this->db->where('do.id_orden', $order_id);
+		$this->db->from(self::pos_ordenes . ' as o');
+		$this->db->join(self::pos_ordenes_detalle . ' as do',' on o.id = do.id_orden');
+		$this->db->where_in('o.num_correlativo', $valores );
 		$query = $this->db->get();
 		//echo $this->db->queries[0];
 

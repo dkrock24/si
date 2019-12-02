@@ -34,6 +34,7 @@ function tipo_cliente(){
 }
 
 function _config_impuestos(){
+	
 	_impuestos_total = [];
 	_impuestos_orden_condicion = [];
 	_impuestos_orden_especial = [];
@@ -49,12 +50,14 @@ function impuestos(){
     imp_cli_val();
 
     if(docVal){
-
+		
     	_orden.forEach(function(element) {
 
-    		if(element.id_producto_combo==null){
+    		if(element.id_producto_combo==null || element.id_producto_combo==0){
     			exist_cat = imp_cat_val(element.categoria);
-    		}    		
+			}
+			
+			console.log(exist_cat);
     		
     		if(exist_cat){
 
@@ -108,7 +111,7 @@ function impuestos(){
 			    			aplicar_imp(element);
 			    		}else{
 			    			aplicar_imp(element);
-			    		}		    		
+			    		}
 			    		
 			    	}
 		    	}
@@ -216,12 +219,11 @@ function aplicar_imp( prod){
 	
 	_orden.forEach(function(element) {
 
-		if(element.producto2 == prod.producto2 && element.id_producto_combo == null){
+		if(element.producto2 == prod.producto2 && (element.id_producto_combo == null || element.id_producto_combo == 0)){
 			
 			$.each(_catVal, function(i, item) {
 
-				var yes = check_aplicable(item.nombre);
-				
+				var yes = check_aplicable(item.nombre);				
 				
 				if( item.condicion == 0 && item.especial==0 && yes == true){
 					
