@@ -12,11 +12,14 @@ class Roles_model extends CI_Model {
     
     
 
-    function getRoles($limit, $id){
+    function getRoles($limit, $id , $filters ){
 
         $this->db->select('*');
         $this->db->from(self::roles);  
         $this->db->where(self::roles.'.Empresa', $this->session->empresa[0]->id_empresa);  
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $query = $this->db->get();
         //echo $this->db->queries[2];
@@ -40,8 +43,8 @@ class Roles_model extends CI_Model {
         } 
     }
 
-    function record_count(){
-        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
+    function record_count($filter){
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::roles);
         $result = $this->db->count_all_results();
         return $result;

@@ -19,12 +19,16 @@ class Proveedor_model extends CI_Model {
         }
 	}
 
-    function get_proveedor( $limit, $id ){
-        $this->db->select('*');
+    function get_proveedor( $limit, $id , $filters){
+        $this->db->select('p.*,l.id_linea,l.tipo_producto,l.descripcion_tipo_producto,pro.codigo_proveedor,
+        pro.titular_proveedor,pro.nrc,pro.giro,pro.tel_empresa,pro.cel_empresa,pro.estado,pro.id_proveedor,pro.empresa_proveedor');
         $this->db->from(self::pos_proveedor.' as pro');
         $this->db->join(self::sys_persona.' as p',' on p.id_persona = pro.Persona_Proveedor');
         $this->db->join(self::pos_linea.' as l',' on l.id_linea = pro.lineas');
         $this->db->where('pro.Empresa_id', $this->session->empresa[0]->id_empresa);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -35,8 +39,8 @@ class Proveedor_model extends CI_Model {
         }
     }
 
-    function record_count(){
-        $this->db->where('Empresa_id',$this->session->empresa[0]->id_empresa);
+    function record_count($filter){
+        $this->db->where('Empresa_id',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::pos_proveedor);
         $result = $this->db->count_all_results();
         return $result;

@@ -103,7 +103,7 @@
                                                     $url = $value->accion_btn_url;
                                                 }
 
-                                                if($value->accion_btn_nombre){
+                                                if($value->accion_btn_codigo){
                                                     $url = "#";
                                                     
                                                 }

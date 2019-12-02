@@ -21,66 +21,56 @@
         $(".producto_buscar").focus();
 
         /* 1 - Input Buscar Producto */
-        $(document).on('keyup', '.producto_buscar', function() {
-
-            var producto_buscar = $(".producto_buscar").val();
-
-            if (producto_buscar != "") {
-                if ($(".producto_buscar").is(":focus")) {
-                    $(".producto_buscar").keypress(function(e) {
-                        if (e.keyCode == 13) {
-                            search_texto(this.value);
-                        }
-                    });
-                }
+        $(document).on('keypress', '.producto_buscar', function(e) {
+       
+            if ( e.keyCode == 13 ) {
+                search_texto(this.value);
+                console.log(1);
             }
-
+            
         });
         /* 2 - Filtrado del texto a buscar en productos */
         function search_texto(texto) {
 
             $('.dataSelect').show();
-            sucursal = $("#sucursal_id").val();
 
             var contador_precios = 1;
             var table_tr = "";
-            if (sucursal != interno_sucursal) {
+                
+            $.ajax({
+                url: "get_productos_lista/" + texto,
+                datatype: 'json',
+                cache: false,
 
-                interno_sucursal = sucursal;
-                $.ajax({
-                    url: "get_productos_lista/" + texto,
-                    datatype: 'json',
-                    cache: false,
+                success: function(data) {
+                    var datos = JSON.parse(data);
+                    var productos = datos["productos"];
+                    var producto_id = 0;
+                    _productos_lista = productos;
 
-                    success: function(data) {
-                        var datos = JSON.parse(data);
-                        var productos = datos["productos"];
-                        var producto_id = 0;
-                        _productos_lista = productos;
-                    },
-                    error: function() {}
-                });
-            } else {
+                    var productos = _productos_lista;
+                    var producto_id = 0;
+            
+                    $.each(productos, function(i, item) {
 
-                var productos = _productos_lista;
-                var producto_id = 0;
-                interno_sucursal = sucursal;
-                $.each(productos, function(i, item) {
+                        var name = item.name_entidad.toUpperCase();
+                        var cod_barra = item.cod_barra;
 
-                    var name = item.name_entidad.toUpperCase();
-                    var cod_barra = item.cod_barra;
+                        if (name.includes(texto.toUpperCase()) || cod_barra.includes(texto)) {
+                            producto_id = item.id_entidad;
+                            var precio = 0;
 
-                    if (name.includes(texto.toUpperCase()) || cod_barra.includes(texto)) {
-                        producto_id = item.id_entidad;
-                        var precio = 0;
+                            table_tr += '<option value="' + item.id_entidad + '">' + item.name_entidad +" " +item.nombre_marca +" " +item.precio_venta + '</option>';
+                            contador_precios++;
+                        }
+                    });
 
-                        table_tr += '<option value="' + item.id_entidad + '">' + item.name_entidad + '</option>';
-                        contador_precios++;
-                    }
-                });
+                    $(".dataSelect").html(table_tr);
 
-                $(".dataSelect").html(table_tr);
-            }
+                },
+                error: function() {}
+            });
+            
         }
 
         /* 3 - Selecionado Producto de la lista y precionando ENTER */

@@ -360,8 +360,8 @@
                     _productos.producto_id      = datos['producto'][0].id_entidad;
                     _productos.combo            = datos['producto'][0].combo;
                     _productos.inventario_id    = datos['producto'][0].id_inventario;
-                    _productos.producto         = datos['atributos'].Cod_Barras;
-                    _productos.descuento_limite = datos['atributos'].Descuento_Limite;
+                    _productos.producto         = datos['producto'][0].codigo_producto;
+                    _productos.descuento_limite = datos['producto'][0].descuento_limite;
                     _productos.descuento        = 0.00; // datos['producto'][7].valor;
                     _productos.cantidad         = producto_cantidad_linea;
                     _productos.total            = 0.00; //$("#total").val();
@@ -371,9 +371,9 @@
                     _productos.bodega           = datos['producto'][0].nombre_bodega;
                     _productos.id_bodega        = datos['producto'][0].id_bodega;
                     _productos.impuesto_id      = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
-                    _productos.por_iva         = datos['producto'][0].porcentage;
+                    _productos.por_iva          = datos['producto'][0].porcentage;
                     _productos.gen              = datos['producto'][10].valor;
-                    _productos.iva              = datos['atributos']['Incluye Iva']; //datos['producto'][9].valor;
+                    _productos.iva              = datos['producto'][0].incluye_iva; //datos['producto'][9].valor;
                     _productos.descripcion      = datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca;
                     _productos.total            = _productos_precio.precio;
                     _productos.categoria        = datos['producto'][0].categoria;

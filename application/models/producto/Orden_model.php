@@ -106,7 +106,7 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit 
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN prouducto_detalle AS `pde` ON pde.Producto = P.id_entidad
-				WHERE b.id_bodega='" . $bodega . "' and b.Sucursal='" . $sucursal . "' and (P.name_entidad LIKE '%$texto%') ");
+				WHERE b.id_bodega='" . $bodega . "' and b.Sucursal='" . $sucursal . "' and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%') ");
 
 		//echo $this->db->queries[0];
 		return $query->result();
@@ -115,23 +115,21 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit 
 	function get_productos_existencias($texto)
 	{
 
-		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as cod_barra, b.nombre_bodega
+		$query = $this->db->query("SELECT `P`.*, 
+		 e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
+	        		, b.nombre_bodega
 				FROM `producto` as `P`
 				
-				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
-				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
-				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
-				LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
-				LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
+				
+				
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
 				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
-				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
-				WHERE PA.Atributo = 4 and P.Empresa=" . $this->session->empresa[0]->id_empresa . " group by P.id_entidad order by P.id_entidad");
+				
+				WHERE  P.Empresa=" . $this->session->empresa[0]->id_empresa . " and P.name_entidad like '%".$texto."%' ");
 
 		//echo $this->db->queries[0];
 		return $query->result();

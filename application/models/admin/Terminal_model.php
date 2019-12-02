@@ -24,12 +24,15 @@ class Terminal_model extends CI_Model {
         }
 	}
 
-    function get_all_terminal( $limit, $id ){;
+    function get_all_terminal( $limit, $id , $filters){;
         $this->db->select('*');
         $this->db->from( self::pos_terminal.' as terminal');
         $this->db->join( self::sucursal.' as sucursal',
                                     ' on terminal.Sucursal=sucursal.id_sucursal' );
         $this->db->where('sucursal.Empresa_Suc', $this->session->empresa[0]->id_empresa);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         
@@ -39,8 +42,8 @@ class Terminal_model extends CI_Model {
         } 
     }
 
-    function record_count(){
-        $this->db->where('sucursal.Empresa_Suc', $this->session->empresa[0]->id_empresa);
+    function record_count($filter){
+        $this->db->where('sucursal.Empresa_Suc', $this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from( self::pos_terminal.' as terminal');
         $this->db->join( self::sucursal.' as sucursal',
                                     ' on terminal.Sucursal=sucursal.id_sucursal' );

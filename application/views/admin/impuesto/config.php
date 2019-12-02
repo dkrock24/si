@@ -327,7 +327,7 @@ var columna1 = 'Impuesto';
 
                                  <div class="tab-content p0 b0">
                                     <div id="tabSetting1" class="tab-pane active">
-                                       <div class="panel b">
+                                       <div class="panel b menu_title_bar">
                                           
 
                                         <div role="tabpanel">
