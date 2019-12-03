@@ -97,7 +97,7 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit 
 
 	function get_productos_valor($sucursal, $bodega, $texto)
 	{
-
+		
 		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*,  m.nombre_marca,	b.nombre_bodega
 	        		, pde.presentacion , pde.cod_barra as pres_cod_bar , pde.id_producto_detalle
 				FROM `producto` as `P`
@@ -106,7 +106,7 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit 
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN prouducto_detalle AS `pde` ON pde.Producto = P.id_entidad
-				WHERE b.id_bodega='" . $bodega . "' and b.Sucursal='" . $sucursal . "' and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%') ");
+				WHERE b.id_bodega='" . $bodega . "' and P.precio_venta!=0 and b.Sucursal='" . $sucursal . "' and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%' || P.descripcion_producto LIKE '%$texto%') ");
 
 		//echo $this->db->queries[0];
 		return $query->result();

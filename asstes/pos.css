@@ -65,6 +65,7 @@ body{
     }
 
     #dataSelect, #dataSelect2{
+        height: 200px;
         position: absolute;
         margin-left: 0px;
         display: inline-block;

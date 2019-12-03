@@ -242,8 +242,10 @@
             interno_sucursal = sucursal;
             interno_bodega = bodega;
             $.ajax({
-                url: "get_productos_lista/" + sucursal + "/" + bodega + "/" + texto,
+                type: "POST",
+                url: "get_productos_lista",
                 datatype: 'json',
+                data:{sucursal:sucursal,bodega:bodega,texto:texto},
                 cache: false,
 
                 success: function(data) {
@@ -271,8 +273,8 @@
             $.each(_productos_lista, function(i, item) {
 
                     producto_id = item.id_entidad;
-                    
-                    table_tr += '<option value="' + item.id_producto_detalle + '">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + '</option>';
+                    precio =  parseInt(item.precio_venta);
+                    table_tr += '<option value="' + item.id_producto_detalle + '">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + ' - ' + precio.toFixed(2) +'</option>';
                     contador_precios++;
                 
                 $('.dataSelect').show();

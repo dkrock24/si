@@ -373,7 +373,7 @@
                         </div>
                     </div>
                 
-                <div class="col-lg-12 col-md-12 paper_cut">
+                <div class="col-lg-12 col-md-12 paper_cut1">
                 </div>
                 
             
@@ -414,6 +414,8 @@
                 style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
                 <i class="fa fa-credit-card"></i>
             </span>
+
+
         </div>
     </div>
     
