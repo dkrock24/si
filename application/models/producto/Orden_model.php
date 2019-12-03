@@ -247,10 +247,10 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters
 		return $valor;
 	}
 
-	function guardar_orden($orden, $id_usuario, $cliente)
+	function guardar_orden($orden, $id_usuario, $cliente , $dataParametros)
 	{
 
-		$order_estado = $orden['orden_estado'];
+		$order_estado = $dataParametros['orden_estado'];
 
 		$total_orden = $orden['orden'][0]['total'];
 
@@ -269,21 +269,19 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters
 		$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor, $orden['encabezado'][13]['value']);
 
 		$data = array(
-			'id_caja' 		=> $orden['encabezado'][0]['value'], //terminal_id
-			'num_caja' 		=> $orden['encabezado'][1]['value'], //terminal_numero
-			'd_inc_imp0' 	=> $orden['encabezado'][2]['value'], //impuesto
-			'id_tipod' 		=> $orden['encabezado'][3]['value'], //modo_pago_id
-			'id_sucursal' 	=> $orden['encabezado'][4]['value'], //sucursal_destino
-			'num_correlativo' => $correlativo_final, //$orden['encabezado'][5]['value'], //numero correlativo
-			'id_cliente' 	=> $orden['encabezado'][6]['value'], //cliente_codigo
-			'nombre' 		=> $orden['encabezado'][7]['value'], //cliente_nombre
-			'direccion' 		=> $orden['encabezado'][8]['value'], //cliente_direccion
-			'id_condpago' 	=> $orden['encabezado'][9]['value'], //modo_pago_id
-			'comentarios' 	=> $orden['encabezado'][10]['value'], //comentarios
-			'id_sucursal_origin' 	=> $orden['encabezado'][12]['value'], //sucursal_origin	
-			//'id_cajero' 	=> $orden['encabezado'][13]['value'], //vendedor
-			'id_vendedor' 	=> $orden['encabezado'][14]['value'], //vendedor
-
+			'id_caja' 		=> $dataParametros['terminal_id'], //terminal_id
+			'num_caja' 		=> $dataParametros['terminal_numero'], //terminal_numero
+			'd_inc_imp0' 	=> $dataParametros['impuesto'], //impuesto
+			'id_tipod' 		=> $dataParametros['modo_pago_id'], //modo_pago_id
+			'id_sucursal' 	=> $dataParametros['sucursal_destino'], //sucursal_destino
+			'num_correlativo'=> $correlativo_final, //$orden['encabezado'][5]['value'], //numero correlativo
+			'id_cliente' 	=> $dataParametros['cliente_codigo'], //cliente_codigo
+			'nombre' 		=> $dataParametros['cliente_nombre'], //cliente_nombre
+			'direccion' 	=> $dataParametros['cliente_direccion'], //cliente_direccion
+			'id_condpago' 	=> $dataParametros['modo_pago_id'], //modo_pago_id
+			'comentarios' 	=> $dataParametros['comentarios'], //comentarios
+			'id_sucursal_origin'=> $dataParametros['sucursal_origin'], //sucursal_origin	
+			'id_vendedor' 	=> $dataParametros['vendedor'], //vendedor
 			'id_usuario' 	=> $id_usuario,
 			'fecha' 		=> date("Y-m-d h:i:s"),
 			'digi_total' 	=> $total_orden,
@@ -307,7 +305,7 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters
 			//'tiempoproc' 	=> "0",
 			'creado_el' 	=> date("Y-m-d h:i:s"),
 			//'modi_el' 		=> "0",
-			'orden_estado'	=> $orden['estado']
+			'orden_estado'	=> $dataParametros['estado']
 		);
 
 		$this->db->insert(self::pos_ordenes, $data);
@@ -473,7 +471,6 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters
 			'id_venta' 		=> 0, // Actualizara al procesar la venta
 			'facturado_el' 	=> 0, // Actualizara al procesar la venta
 			'anulado' 		=> 0, // Actualizara al procesar alguna accion
-			'invisible' 	=> $dataParametros['invisible'],
 			//'anulado_el' 	=> "", // Actualizara al procesar alguna accion
 			//'anulado_conc'=> "", // Actualizara al procesar alguna accion
 			//'cod_estado'	=> "0",

@@ -158,14 +158,17 @@ var columna1 = 'Impuesto';
     });
 
     function drawTable(datos,entidad, table_intermedia){
+
+        console.log(datos);
         var tabla = table_intermedia;
         var data;
         var num =1;
-        var html='<thead style="background:#cfdbe2"><tr><th scope="col"></th><th>Entidad</th> <th>Impuesto</th> <th>Porcentaje</th> <th>SRN</th> <th>A_P</th> <th>A_C</th> <th>A_P</th> <th>A_GBE</th><th>Es</th><th>Ex</th><th>Co</th><th>Valor</th><th>Estado</th> <th>Opciones</th> </tr></thead>';
+        var html='<thead style="background:#cfdbe2"><tr><th scope="col"></th><th>Cod</th><th>Entidad</th> <th>Impuesto</th> <th>Porcentaje</th> <th>SRN</th> <th>A_P</th> <th>A_C</th> <th>A_P</th> <th>A_GBE</th><th>Es</th><th>Ex</th><th>Co</th><th>Valor</th><th>Estado</th> <th>Opciones</th> </tr></thead>';
         $.each(datos['impuesto_option'], function(i, item) { 
             
             html += "<tr class='line'>";  
-            html += "<td>"+num+"</td>";    
+            html += "<td>"+num+"</td>";   
+            html += "<td>"+item.eId+"</td>";    
             html += "<td>"+item.valor_field+"</td>";                      
             html += "<td>"+item.nombre +"</td>";
             html += "<td>"+item.porcentage +"</td>";

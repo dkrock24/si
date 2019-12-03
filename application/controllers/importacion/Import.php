@@ -356,4 +356,8 @@ class Import extends CI_Controller
     function random(){
         echo rand();
     }
+
+    function generar_impuestos_categorias(){
+        $this->Import_model->generar_impuestos_categorias();
+    }
 }

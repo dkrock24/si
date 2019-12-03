@@ -52,7 +52,7 @@
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Empresa</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="empresa" name="empresa" placeholder="Empresa" value="<?php echo $proveedor[0]->empresa ?>">
+                                                <input type="text" class="form-control" id="empresa" name="empresa_proveedor" placeholder="Empresa" value="<?php echo $proveedor[0]->empresa_proveedor ?>">
 
                                             </div>
                                         </div>

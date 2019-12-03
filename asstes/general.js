@@ -58,8 +58,6 @@ function impuestos(){
     		if(element.id_producto_combo==null || element.id_producto_combo==0){
     			exist_cat = imp_cat_val(element.categoria);
 			}
-			
-			console.log(exist_cat);
     		
     		if(exist_cat){
 
@@ -222,7 +220,7 @@ function aplicar_imp( prod){
 	_orden.forEach(function(element) {
 
 		if(element.producto2 == prod.producto2 && (element.id_producto_combo == null || element.id_producto_combo == 0)){
-			
+
 			$.each(_catVal, function(i, item) {
 
 				var yes = check_aplicable(item.nombre);				

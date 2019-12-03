@@ -22,12 +22,12 @@
     var _conf = [];
     var _impuestos = [];
 </script>
-<script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
 <?php
 include("asstes/pos_funciones.php");
 include("asstes/pos_orden.php");
 ?>
+<script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
@@ -57,7 +57,7 @@ include("asstes/pos_orden.php");
 
                     <div id="panelDemo1" class="panel" style="margin-top: 60px;">
 
-                        <a href="index" style="top: 0px;position: relative; text-decoration: none; float: left;">
+                        <a href="../index" style="top: 0px;position: relative; text-decoration: none; float: left;">
                             <button type="button" class="mb-sm btn btn-pill-right btn-primary btn-outline"> Lista Ordenes </button>
                         </a>
 
@@ -84,9 +84,18 @@ include("asstes/pos_orden.php");
                                                     <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
                                                         <?php
                                                         foreach ($tipoDocumento as $documento) {
-                                                            ?>
-                                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
-                                                        <?php
+                                                            if($orden[0]->id_tipod == $documento->id_tipo_documento){
+                                                                ?>
+                                                                <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                                                <?php
+                                                            }                                                           
+                                                        }
+                                                        foreach ($tipoDocumento as $documento) {
+                                                            if($orden[0]->id_tipod != $documento->id_tipo_documento){
+                                                                ?>
+                                                                <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                                                <?php
+                                                            }                                                           
                                                         }
                                                         ?>
                                                     </select>
@@ -128,7 +137,7 @@ include("asstes/pos_orden.php");
                                                             if ($b->Sucursal == $id_sucursal) {
                                                                 ?>
                                                                 <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
-                                                        <?php
+                                                            <?php
                                                             }
                                                         }
                                                         ?>
@@ -145,7 +154,7 @@ include("asstes/pos_orden.php");
                                         </div>
                                     </div>
 
-                                    <div class="panel-body bt">
+                                    <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
@@ -171,16 +180,33 @@ include("asstes/pos_orden.php");
                                                     <select class="form-control" id="modo_pago_id" name="modo_pago_id">
                                                         <?php
                                                         foreach ($modo_pago as $value) {
-                                                            ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
-                                                                                                                                                            }
-                                                                                                                                                            ?>
+
+                                                            if( $orden[0]->id_condpago == $value->id_modo_pago ){
+                                                                ?>
+                                                                <option value="<?php echo $value->id_modo_pago; ?>">
+                                                                    <?php echo $value->nombre_modo_pago; ?>
+                                                                </option>
+                                                                <?php
+                                                            }
+                                                        }
+                                                        foreach ($modo_pago as $value) {
+
+                                                            if( $orden[0]->id_condpago != $value->id_modo_pago ){
+                                                                ?>
+                                                                <option value="<?php echo $value->id_modo_pago; ?>">
+                                                                    <?php echo $value->nombre_modo_pago; ?>
+                                                                </option>
+                                                                <?php
+                                                            }
+                                                        }
+                                                        ?>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="panel-body bt">
+                                    <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
@@ -191,7 +217,7 @@ include("asstes/pos_orden.php");
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label>Fecha</label>
-                                                    <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
+                                                    <input type="date" name="fecha" value="<?php $date = new DateTime($orden[0]->fecha); echo $date->format('Y-m-d'); ?>" class="form-control">
                                                 </div>
                                             </div>
 
@@ -238,16 +264,13 @@ include("asstes/pos_orden.php");
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Vendedor</label><br>
-                                                    <div class="pull-left">
-                                                        <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo $empleado[0]->id_empleado; ?>">
-                                                        <div class="label bg-gray"><a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona . " " . $empleado[0]->primer_apellido_persona; ?></a></div>
+                                           
 
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="row">                                            
 
                                             <div class="btn-group col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
@@ -262,6 +285,20 @@ include("asstes/pos_orden.php");
                                                     </select>
                                                 </div>
                                             </div>
+
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
+                                                    <label>Vendedor</label><br>
+                                                    <div class="pull-left">
+                                                        <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo $empleado[0]->id_empleado; ?>">
+                                                        <h3>
+                                                        <a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona . " " . $empleado[0]->primer_apellido_persona; ?></a>
+                                                        </h3>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
 
                                         </div>
                                     </div>

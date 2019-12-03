@@ -118,8 +118,6 @@
                 
             });
 
-            console.log(result);
-
             $.each(result, function(i, item) {
 
                 var name = item.name_entidad.toUpperCase();
@@ -499,8 +497,6 @@
             }
 
             document.onkeydown = function(e) {
-
-                console.log(id_celda , e.keyCode);
 
                 switch (e.keyCode) {
                     case 37:
@@ -1073,7 +1069,7 @@
 
         function agregar_invisible(id_producto_detalle, p) {
             var combo_padre_total = 0;
-            console.log(p);
+            
             p.forEach(function(datos) {
 
                 
@@ -1262,7 +1258,7 @@
             var descuento_digitado = $("descuento").val();
 
             if (_productos_precio != null) {
-                console.log(_productos_precio);
+                
                 $.each(_productos_precio, function(i, item) {
 
                     factor = _productos_precio['factor'];
@@ -1518,7 +1514,7 @@
 
                 count++;
             }
-            console.log(pagos_array);
+            
             $("#cambio_venta").text(0.00);
             $("#restante_venta").text(0.00);
             $('#procesar_btn').hide();
@@ -1788,8 +1784,6 @@
                     var datos = JSON.parse(data);
                     var clientes = datos["empleados"];
                     var cliente_id = 0;
-
-                    console.log(clientes);
 
                     $.each(clientes, function(i, item) {
 

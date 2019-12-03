@@ -12,6 +12,8 @@ class Import_model extends CI_Model {
     const categoria = 'categoria';
     const categoria_producto = 'categoria_producto';
     const producto_general = 'producto_general';
+    const pos_tipos_impuestos = 'pos_tipos_impuestos';
+    const pos_impuesto_categoria = 'pos_impuesto_categoria';
 	
 	function getTablesDb(){
         $tables = $this->db->list_tables();
@@ -221,6 +223,76 @@ class Import_model extends CI_Model {
         $this->db->from(self::categoria);
         $this->db->where('codigo_subcategoria', $id_subcategoria);
         $this->db->where('codigo_categoria_padre', $id_padre);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result_array();
+        }
+    }
+
+    function generar_impuestos_categorias(){
+
+        $impuestos = $this->getImpuestos();
+
+        $categorias = $this->getCategorias();
+
+        foreach ($categorias as $key => $value) {
+
+            $exits = $this->getImpCat($value['id_categoria'] , 1);
+
+            if(!$exits){
+
+                $data = array(
+                    'Categoria' => $value['id_categoria'],
+                    'Impuesto' => 1,
+                    'estado' => 1
+                );
+        
+                $this->db->insert(self::pos_impuesto_categoria, $data );
+            }            
+        }
+
+
+
+    }
+
+    function getImpCat($cat , $imp){
+
+        $this->db->select('*');
+        $this->db->from(self::pos_impuesto_categoria);
+        $this->db->where('Categoria', $cat ); 
+        $this->db->where('Impuesto', $imp);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result_array();
+        }
+
+    }
+
+    function getImpuestos(){
+
+        $this->db->select('*');
+        $this->db->from(self::pos_tipos_impuestos);
+        $this->db->where('id_tipos_impuestos', 1);  
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result_array();
+        }
+    }
+
+    function getCategorias(){
+
+        $this->db->select('*');
+        $this->db->from(self::categoria);
+        $this->db->where('id_categoria_padre !=""');    
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

@@ -221,12 +221,19 @@ class Orden extends MY_Controller {
 
 	public function guardar_orden(){
 
+		$dataParametros = array();
 		$id_usuario = $this->session->usuario[0]->id_usuario;
 
-		// Obteniendo informacion del cliente
-		$cliente = $this->get_clientes_id($_POST['encabezado'][6]['value']);
+		foreach ($_POST['encabezado'] as $key => $value) {
+			foreach ($_POST['encabezado'] as $key => $value) {
+				$dataParametros[$value['name']] = $value['value'];
+			}
+		}
 
-		$this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente );
+		// Obteniendo informacion del cliente
+		$cliente = $this->get_clientes_id($dataParametros['cliente_codigo']);
+
+		$this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente , $dataParametros );
 
 		redirect(base_url()."producto/orden/nuevo");
 	}
