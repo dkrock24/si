@@ -1,5 +1,8 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
+
+    var path = "";
+
     var _orden = [];
     var _productos = {};
     var _productos_precio = [];
@@ -292,7 +295,7 @@
 
                     <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" id="grabar"><i class='fa fa-shopping-cart'></i></button>
 
-                    <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="1" id="guardar_orden" ><i class='fa fa-save'></i></button>
+                    <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="guardar_orden" id="guardar_orden" ><i class='fa fa-save'></i></button>
 
                     <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 17px;" data-target='#existencias'><i class="fa fa-dropbox"></i></span>                            
 
@@ -420,6 +423,30 @@
     </div>
     
 </section>
+
+<!-- Modal Large CLIENTES MODAL-->
+<div id="vendedor_modal" tabindex="-1" role="dialog" aria-labelledby="vendedor_modal"  class="modal fade">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="panel-header" style="background: #535D67; color: white;">
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               <h4 id="myModalLabelLarge" class="modal-title">Buscar Vendedor</h4>
+            </div>
+            <div class="modal-body">
+                <p class="vendedor_lista_datos">
+                    
+                </p>                                 
+               
+            </div>
+            <div class="modal-footer">
+               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
+            </div>
+         </div>
+      </div>
+   </div>
+<!-- Modal Small-->
 
 
 <!-- Modal Large CLIENTES MODAL-->

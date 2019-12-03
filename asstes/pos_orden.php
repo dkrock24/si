@@ -23,13 +23,19 @@
 
         });
 
-        //autoload_orden();
+        if(path == "../"){
+            
+            var id_orden = window.location.pathname.split("/").pop();
+
+            get_orden(id_orden);
+            
+        }
 
         function get_orden(orden_id) {
 
             $.ajax({
                 type: "POST",
-                url: "autoload_orden",
+                url: path+"autoload_orden",
                 datatype: 'json',
                 data: {
                     id: orden_id
@@ -42,7 +48,7 @@
 
                     _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
                     _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);
-                    console.log(_conf);
+                    
 
                     orden.forEach(function(element) {
                         contador_ingreso++;
@@ -69,7 +75,7 @@
         function getImpuestosLista() {
 
             $.ajax({
-                url: "get_impuestos_lista",
+                url: path+"get_impuestos_lista",
                 datatype: 'json',
                 cache: false,
 

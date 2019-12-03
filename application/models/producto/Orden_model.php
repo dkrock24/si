@@ -36,9 +36,11 @@ class Orden_model extends CI_Model
 	// Ordenes
 	const pos_tipo_documento = 'pos_tipo_documento';
 
-	function getOrdenes($limit, $id)
+	function getOrdenes($limit, $id , $filters )
 	{
-
+		if($filters){
+			$filters = " and ".$filters;
+		}
 		$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,
 orden.num_correlativo,orden.fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
 ,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
@@ -51,16 +53,16 @@ left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = orden.id_tipod
 left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
 left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago 
 left join pos_orden_estado as oe  on oe.id_orden_estado= orden.orden_estado
-where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit " . $id . ',' . $limit);
+where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. " Limit " . $id . ',' . $limit);
 
 		//echo $this->db->queries[1];
 		return $query->result();
 	}
 
-	function record_count()
+	function record_count($filter)
 	{
 
-		$this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
+		$this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa. ' '. $filter);
 		$this->db->from(self::pos_ordenes . ' as o');
 		$this->db->join(self::sucursal . ' as s', ' on o.id_sucursal = s.id_sucursal');
 		$result = $this->db->count_all_results();
@@ -363,6 +365,9 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit 
 				'descuento_limite' 		=> $orden['descuento_limite'],
 				'descuento_calculado' => $orden['descuento_calculado'],
 				'comenta' 		=> $orden['descripcion'],
+
+				'iva' 		=> $orden['iva'],
+				'categoria' 		=> $orden['categoria'],
 				//'id_bomba' 		=> $orden[''],
 				//'id_kit' 		=> $orden[''],
 				//'tp_c' 			=> $orden[''],
@@ -428,7 +433,7 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit 
 		}
 	}
 
-	function update($orden, $id_usuario, $cliente)
+	function update($orden, $id_usuario, $cliente , $dataParametros)
 	{
 
 		$total_orden = $orden['orden'][0]['total'];
@@ -441,24 +446,21 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit 
 
 		$desc_val = ($orden['orden'][0]['por_desc'] * $orden['orden'][0]['total']);
 
-		$siguiente_correlativo = $orden['encabezado'][14]['value'];
+		//$siguiente_correlativo = $orden['encabezado'][14]['value'];
 
 		$data = array(
-			'id_caja' 		=> $orden['encabezado'][0]['value'], //terminal_id
-			'num_caja' 		=> $orden['encabezado'][1]['value'], //terminal_numero
-			'd_inc_imp0' 	=> $orden['encabezado'][2]['value'], //impuesto
-			'id_tipod' 		=> $orden['encabezado'][4]['value'], //modo_pago_id
-			'id_sucursal' 	=> $orden['encabezado'][5]['value'], //sucursal_destino
-			'num_correlativo' => $siguiente_correlativo, //$orden['encabezado'][5]['value'], //numero correlativo
-			'id_cliente' 	=> $orden['encabezado'][7]['value'], //cliente_codigo
-			'nombre' 		=> $orden['encabezado'][8]['value'], //cliente_nombre
-			'direccion' 		=> $orden['encabezado'][9]['value'], //cliente_direccion
-			'id_condpago' 	=> $orden['encabezado'][10]['value'], //modo_pago_id
-			'comentarios' 	=> $orden['encabezado'][11]['value'], //comentarios
-			'id_sucursal_origin' 	=> $orden['encabezado'][13]['value'], //sucursal_origin	
-			//'id_cajero' 	=> $orden['encabezado'][13]['value'], //vendedor
-			//'id_vendedor' 	=> $orden['encabezado'][15]['value'], //vendedor
-
+			'id_caja' 		=> $dataParametros['terminal_id'], 
+			'num_caja' 		=> $dataParametros['terminal_numero'], 
+			'd_inc_imp0' 	=> $dataParametros['impuesto'], 
+			'id_tipod' 		=> $dataParametros['modo_pago_id'], 
+			'id_sucursal' 	=> $dataParametros['sucursal_destino'], 
+			'num_correlativo' => $dataParametros['num_correlativo'], 
+			'id_cliente' 	=> $dataParametros['cliente_codigo'], 
+			'nombre' 		=> $dataParametros['cliente_nombre'], 
+			'direccion' 		=> $dataParametros['cliente_direccion'], 
+			'id_condpago' 	=> $dataParametros['modo_pago_id'], 
+			'comentarios' 	=> $dataParametros['comentarios'], 
+			'id_sucursal_origin' 	=> $dataParametros['sucursal_origin'], 
 			'id_usuario' 	=> $id_usuario,
 			'fecha' 		=> date("Y-m-d h:i:s"),
 			'digi_total' 	=> $total_orden,
@@ -471,6 +473,7 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit 
 			'id_venta' 		=> 0, // Actualizara al procesar la venta
 			'facturado_el' 	=> 0, // Actualizara al procesar la venta
 			'anulado' 		=> 0, // Actualizara al procesar alguna accion
+			'invisible' 	=> $dataParametros['invisible'],
 			//'anulado_el' 	=> "", // Actualizara al procesar alguna accion
 			//'anulado_conc'=> "", // Actualizara al procesar alguna accion
 			//'cod_estado'	=> "0",
@@ -482,18 +485,18 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit 
 			//'tiempoproc' 	=> "0",
 			//'creado_el' 	=> date("Y-m-d h:i:s"),
 			'modi_el' 		=> date("Y-m-d h:i:s"),
-			'orden_estado'	=> $orden['estado']
+			'orden_estado'	=> $dataParametros['orden_estado']
 		);
 
 		$orden_id = $orden['orden'][0]['id_orden'];
 
 		/* 1.0 Si Orden es reservada Y se esta eliminado se regresara productos a bodega */
 
-		$estado_orden = $this->get_orden($orden_id);
+		$estado_orden = $this->get_orden( $dataParametros['num_correlativo'] );
 
 		if ($estado_orden[0]->orden_estado == 2) {
 
-			$this->regreso_a_bodega($orden);
+			//$this->regreso_a_bodega($orden);
 		}
 		// 1.0 End
 
@@ -1068,15 +1071,13 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . " Limit 
 		$this->db->join(self::sucursal . ' as s', 'on s.id_sucursal = o.id_sucursal');
 		$this->db->join(self::sys_empleado . ' as e', 'on e.id_empleado = o.id_cajero', 'left');
 		$this->db->join(self::pos_empresa . ' as em', 'on em.id_empresa = s.Empresa_Suc', 'left');
-		$this->db->join(self::empresa_giro . ' as eg', 'on eg.Empresa = em.id_empresa', 'left');
-		$this->db->join(self::pos_giros . ' as pg', 'on pg.id_giro = eg.Giro', 'left');
+		//$this->db->join(self::empresa_giro . ' as eg', 'on eg.Empresa = em.id_empresa', 'left');
+		//$this->db->join(self::pos_giros . ' as pg', 'on pg.id_giro = eg.Giro', 'left');
 
-
-
-		$this->db->where('o.id', $order_id);
+		$this->db->where('o.num_correlativo', $order_id);
 		$this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
 		$query = $this->db->get();
-		//echo $this->db->queries[0];
+		//echo $this->db->queries[1];
 
 		if ($query->num_rows() > 0) {
 			return $query->result();

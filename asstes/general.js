@@ -11,11 +11,13 @@ var _docVal = [];
 var _catVal = [];
 var _proVal = [];
 var _cliVal = [];
+var _impuestos = [];
 var _impuestos_orden_condicion = [];
 var _impuestos_orden_especial = [];
 var _impuestos_orden_excluyentes = [];
 var _impuestos_total = [];
 var exist_cat;
+var _conf = [];
 
 /* Impuestos Acumulados */
 

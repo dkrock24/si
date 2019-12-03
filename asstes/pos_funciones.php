@@ -4,6 +4,7 @@
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
         $('#cliente_modal').appendTo("body");
+        $('#vendedor_modal').appendTo("body");
         $('#vendedores_modal').appendTo("body");
         $('#presentacion_modal').appendTo("body");
         $('#en_proceso').appendTo("body");
@@ -23,6 +24,7 @@
         var bodega = 0;
         var _productos_precio2;
 
+            
 
         getImpuestosLista();          
         bodega = $("#bodega_select").val();
@@ -34,7 +36,7 @@
             bodega = $("#bodega_select").val();    
      
             $.ajax({
-                url: "get_productos_lista/" + sucursal + "/" + bodega,
+                url: path+"get_productos_lista/" + sucursal + "/" + bodega,
                 datatype: 'json',
                 cache: false,
 
@@ -53,7 +55,7 @@
         function getImpuestosLista(){
 
             $.ajax({
-                url: "get_impuestos_lista",
+                url: path+"get_impuestos_lista",
                 datatype: 'json',
                 cache: false,
 
@@ -243,7 +245,7 @@
             interno_bodega = bodega;
             $.ajax({
                 type: "POST",
-                url: "get_productos_lista",
+                url: path+"get_productos_lista",
                 datatype: 'json',
                 data:{sucursal:sucursal,bodega:bodega,texto:texto},
                 cache: false,
@@ -320,7 +322,7 @@
              */
 
             $.ajax({
-                url: "get_producto_completo/" + producto_id + "/" + interno_bodega,
+                url: path+"get_producto_completo/" + producto_id + "/" + interno_bodega,
                 datatype: 'json',
                 cache: false,
 
@@ -498,7 +500,7 @@
 
             document.onkeydown = function(e) {
 
-                //console.log(e.keyCode);
+                console.log(id_celda , e.keyCode);
 
                 switch (e.keyCode) {
                     case 37:
@@ -907,7 +909,7 @@
                     id_bodega: id_bodega,
                     id_producto_detalle: id_producto_detalle
                 },
-                url: "producto_combo",
+                url: path+"producto_combo",
 
                 success: function(data) {
                     var productoX = JSON.parse(data);
@@ -1230,7 +1232,7 @@
             $("#bodega_select").empty();
             var select_option;
             $.ajax({
-                url: "get_bodega_sucursal/" + sucursal,
+                url: path+"get_bodega_sucursal/" + sucursal,
                 datatype: 'json',
                 cache: false,
 
@@ -1409,7 +1411,7 @@
         function guardarX(cli_form_pago, tipo_documento) {
             
             $.ajax({
-                url: "get_form_pago/" + cli_form_pago + "/" + tipo_documento,
+                url: path+"get_form_pago/" + cli_form_pago + "/" + tipo_documento,
                 datatype: 'json',
                 cache: false,
 
@@ -1549,7 +1551,7 @@
 
         $(document).on('click', '#guardar_orden', function() {
             
-            procesar_venta($(this).attr('id'));
+            procesar_venta($(this).attr('name'));
         });
 
         $(document).on('click', '#add_pago', function() {
@@ -1578,12 +1580,11 @@
             var x = 0;
             var _orden_temp = [];
 
-
             remover_combo(producto_id);
 
             _orden.forEach(function(element) {
 
-                if (element.id_producto_detalle == producto_id && element.id_producto_combo == null) {
+                if (element.id_producto_detalle == producto_id && (element.id_producto_combo == null || element.id_producto_combo ==0 )) {
 
                     total_msg -= parseInt(calcularTotalProducto(element.precioUnidad, element.cantidad));
                     $(".total_msg").text("$ " + total_msg.toFixed(2));
@@ -1625,7 +1626,7 @@
             var contador_precios = 1;
 
             $.ajax({
-                url: "get_clientes_lista",
+                url: path+"get_clientes_lista",
                 datatype: 'json',
                 cache: false,
 
@@ -1698,7 +1699,7 @@
                         cliente: cliente_id,
                         sucursal_origen: sucursal_origen,
                     },
-                    url: method,
+                    url: path+method,
 
                     success: function(data) {
 
@@ -1719,7 +1720,7 @@
             $('#cliente_modal').modal('hide');
 
             $.ajax({
-                url: "get_clientes_documento/" + id,
+                url: path+"get_clientes_documento/" + id,
                 datatype: 'json',
                 cache: false,
 
@@ -1765,7 +1766,8 @@
 
         $(document).on('click', '.seleccionar_empleado', function() {
 
-            $(".vendedores_lista").text($(this).attr('name'));
+            $(".vendedores_lista1").text($(this).attr('name'));
+            $("#vendedor1").val($(this).attr('id'));
             $('#vendedores_modal').modal('hide');
         });
 
@@ -1778,7 +1780,7 @@
             var contador_precios = 1;
 
             $.ajax({
-                url: "get_empleados_by_sucursal/" + sucursal,
+                url: path+"get_empleados_by_sucursal/" + sucursal,
                 datatype: 'json',
                 cache: false,
 
@@ -1786,6 +1788,8 @@
                     var datos = JSON.parse(data);
                     var clientes = datos["empleados"];
                     var cliente_id = 0;
+
+                    console.log(clientes);
 
                     $.each(clientes, function(i, item) {
 
@@ -1818,8 +1822,8 @@
             get_clientes_lista();
         });
 
-        $(document).on('click', '.vendedores_lista', function() {
-            $('#vendedores_modal').modal('show');
+        $(document).on('click', '.vendedores_lista1', function() {
+            $('#vendedor_modal').modal('show');
             get_empleados_lista($(this).attr("id"));
         });
 
@@ -1862,7 +1866,7 @@
                         tr_html += "<td class=''>" + element.descuento_calculado + "</td>";
                         tr_html += "<td class=' total'>" + element.total + "</td>";
                         tr_html += "<td class=' '>" + element.bodega + "</td>";
-                        if (element.combo == 1 || !element.id_producto_combo) {
+                        if (element.combo == 1 || !element.id_producto_combo || element.invisible==0) {
                             tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled bg-green eliminar' name='" + element.id_producto_detalle + "' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
                         } else {
                             tr_html += "<td class='border-left'> - </td>";

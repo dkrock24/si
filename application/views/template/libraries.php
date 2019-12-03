@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/bootstrap.css" id="bscss">
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/app.css" id="maincss">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/css/css_general.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/css/modal_style.css">
 
   </head>
   <title>

@@ -1,5 +1,8 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
+
+    var path = "";
+
     var _orden = [];
     var _productos = {};
     var _productos_precio = [];

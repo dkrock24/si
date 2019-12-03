@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Orden extends CI_Controller {
+class Orden extends MY_Controller {
 
 	function __construct()
 	{
@@ -36,52 +36,22 @@ class Orden extends CI_Controller {
 	public function index()
 	{	
 
-		//Paginacion
-		$_SESSION['per_page'] = "";
-		$contador_tabla;
-		if( isset( $_POST['total_pagina'] )){
-			$per_page = $_POST['total_pagina'];
-			$_SESSION['per_page'] = $per_page;
-		}else{
-			if($_SESSION['per_page'] == ''){
-				$_SESSION['per_page'] = 10;
-			}			
-		}
-		
-		$total_row = $this->Orden_model->record_count();
-		$config = paginacion($total_row, $_SESSION['per_page'] , "producto/orden/index");
-		$this->pagination->initialize($config);
-		if($this->uri->segment(4)){
-			if($_SESSION['per_page']!=0){
-				$page = ($this->uri->segment(4) - 1 ) * $_SESSION['per_page'];
-				$contador_tabla = $page+1;
-			}else{
-				$page = 0;
-				$contador_tabla =1;
-			}
-		}else{
-			$page = 0;
-			$contador_tabla =1;
-		}
+		$model = "Orden_model";
+		$url_page = "producto/orden/index";
+		$pag = $this->MyPagination($model, $url_page, $vista = 26) ;
 
-		$str_links = $this->pagination->create_links();
-		$data["links"] = explode('&nbsp;',$str_links );
 
-		// paginacion End
 
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
-
-		$id_rol = $this->session->roles[0];
-		$vista_id = 8; // Vista Orden Lista
+		parametros($this->session->menu);
 
 		$data['menu'] = $this->session->menu;
-		$data['contador_tabla'] = $contador_tabla;
-		$data['registros'] = $this->Orden_model->getOrdenes( $config["per_page"], $page );
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['fields'] = $this->fields();
+		$data['links'] = $pag['links'];
+		$data['filtros'] = $pag['field'];
+		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['column'] = $this->column();
+		$data['fields'] = $this->fields();
+		$data['registros'] = $this->Orden_model->getOrdenes( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
 		$data['title'] = "Ordenes";
 		$data['home'] = 'template/lista_template';
 
@@ -94,6 +64,7 @@ class Orden extends CI_Controller {
 	}
 
 	public function nuevo(){
+		
 		// Seguridad :: Validar URL usuario	
 		$terminal_acceso = FALSE;
 
@@ -111,13 +82,14 @@ class Orden extends CI_Controller {
 			
 			$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
 			$data['sucursales'] = $this->Producto_model->get_sucursales();
-			$data['modo_pago'] = $this->ModoPago_model->get_formas_pago();
 			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
 			$data['terminal'] = $terminal_acceso;
 			$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal();
 			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] = $this->Cliente_model->get_cliente();
+			
+			$data['modo_pago'] = $this->ModoPago_model->get_pagos_by_cliente(current($data['cliente'][0]));
 			$data['title'] = "Nueva Orden";
 		
 			$data['home'] = 'producto/orden/orden_crear';
@@ -189,20 +161,22 @@ class Orden extends CI_Controller {
 		if($terminal_acceso){
 
 			$data['orden'] = $this->Orden_model->get_orden($order_id);
+			
 			$data['orden_detalle'] = $this->Orden_model->get_orden_detalle($order_id);
 			
 			$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
 			$data['sucursales'] = $this->Producto_model->get_sucursales();
-			$data['modo_pago'] = $this->ModoPago_model->get_formas_pago();
+			$data['modo_pago'] = $this->ModoPago_model->get_pagos_by_cliente($data['orden'][0]->id_cliente);
 			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
 			$data['terminal'] = $terminal_acceso;
 			$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal();
 			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
 			$data['title'] = "Editar Orden";
-			$data['cliente'] = $this->get_clientes_id($data['orden'][0]->id_cliente);
+			
+			$data['cliente'] = $this->get_clientes_id(@$data['orden'][0]->id_cliente);
 
-			$data['temp'] = $this->Template_model->printer( $order_id , $data['orden'][0]->id_sucursal , $data['orden'][0]->id_tipod);
+			$data['temp'] = $this->Template_model->printer( $order_id , @$data['orden'][0]->id_sucursal , @$data['orden'][0]->id_tipod);
 
 			$this->general->editar_valido($data['orden'], "producto/orden/index");
 
@@ -216,13 +190,20 @@ class Orden extends CI_Controller {
 		}
 	}
 
-	public function update(){
+	public function update_orden(){
+		$dataParametros = array();
 		$id_usuario = $this->session->usuario[0]->id_usuario;
 
+		foreach ($_POST['encabezado'] as $key => $value) {
+			foreach ($_POST['encabezado'] as $key => $value) {
+				$dataParametros[$value['name']] = $value['value'];
+			}
+		}
 		// Obteniendo informacion del cliente
-		$cliente = $this->get_clientes_id($_POST['encabezado'][7]['value']);
 
-		$this->Orden_model->update( $_POST , $id_usuario ,$cliente );
+		$cliente = $this->get_clientes_id( $dataParametros['cliente_codigo'] );
+
+		$this->Orden_model->update( $_POST , $id_usuario ,$cliente , $dataParametros);
 
 		redirect(base_url()."producto/orden/index");
 	}
@@ -251,7 +232,7 @@ class Orden extends CI_Controller {
 	}
 
 	function get_productos_lista(){
-		
+
 		$sucursal = $_POST['sucursal'];
 		$bodega = $_POST['bodega'];
 		$texto = $_POST['texto'];
@@ -291,7 +272,7 @@ class Orden extends CI_Controller {
 		$data['clienteDocumento'] = $this->Cliente_model->get_cliente_by_id2($id);
 		$data['cliente_tipo_pago'] = $this->ModoPago_model->get_pagos_by_cliente($id);
 		$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
-		$data['tipoPago'] = $this->Cliente_model->getTipoPago();
+		$data['tipoPago'] = $this->ModoPago_model->get_pagos_by_cliente($id); //$this->Cliente_model->getTipoPago();
 
 		echo json_encode( $data );
 	}
@@ -305,6 +286,7 @@ class Orden extends CI_Controller {
 
 	function get_empleados_by_sucursal($sucursal){
 		$data['empleados'] = $this->Usuario_model->get_empleados_by_sucursal($sucursal);
+		
 		echo json_encode( $data );
 	}
 
@@ -418,7 +400,7 @@ class Orden extends CI_Controller {
 			'num_correlativo','nombre_sucursal','num_caja','nombre_empresa_o_compania','nombre_modo_pago','tipo_documento','nombre_usuario','fecha','orden_estado_nombre','estado'
 		);
 		
-		$fields['id'] = array('id');
+		$fields['id'] = array('num_correlativo');
 		$fields['estado'] = array('orden_estado');
 		$fields['titulo'] = "Orden Lista";
 
