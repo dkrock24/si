@@ -345,6 +345,7 @@ include("asstes/pos_orden.php");
                                 <span class="sr-only">default</span>
                             </button>
                             <ul role="menu" class="dropdown-menu">
+                                <li><a href="#" data-toggle='modal' data-target='#imprimir'><i class="icon-printer"></i> Imprimir</a></li>
                                 <li><a href="#" class="btn btn-warning" id="btn_impuestos" data-toggle='modal'><i class="fa fa-money"></i> Impuestos</a></li>
 
                                 <li><a href="#" class="btn btn-warning" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
@@ -742,3 +743,46 @@ include("asstes/pos_orden.php");
     </div>
 </div>
     <!-- Modal Small-->
+
+
+    <!-- Modal Large PRODUCTOS MODAL-->
+   <div id="imprimir" tabindex="-1" role="dialog" aria-labelledby="imprimir"  class="modal fade">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header" style="background: #2c71b5;color: white;">
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               <i class="icon-printer"></i> Imprimir
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 vista_ticket">
+
+                        <?php
+                            if($temp){
+                                foreach ($temp as $t) {
+                                    $data = $t->factura_template;
+                                    try {
+                                        eval($data);    
+                                    } catch (Exception $e) {
+                                        echo "Error";
+                                    }
+                                    
+                                }
+                            }else{
+                                echo "<h5> Documento Sin Template Para Impresion.</h5>";
+                            }
+                        ?>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+         </div>
+      </div>
+   </div>
+<!-- Modal Small-->

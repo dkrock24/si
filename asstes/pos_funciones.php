@@ -7,6 +7,7 @@
         $('#vendedor_modal').appendTo("body");
         $('#vendedores_modal').appendTo("body");
         $('#presentacion_modal').appendTo("body");
+        $('#imprimir').appendTo("body");        
         $('#en_proceso').appendTo("body");
         $('#en_reserva').appendTo("body");
         $('.dataSelect').hide();

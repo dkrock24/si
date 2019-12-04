@@ -176,8 +176,8 @@ class Orden extends MY_Controller {
 			
 			$data['cliente'] = $this->get_clientes_id(@$data['orden'][0]->id_cliente);
 
-			$data['temp'] = $this->Template_model->printer( $order_id , @$data['orden'][0]->id_sucursal , @$data['orden'][0]->id_tipod);
-
+			$data['temp'] = $this->Template_model->printer( $data['orden_detalle'] , @$data['orden'][0]->id_sucursal , @$data['orden'][0]->id_tipod, @$data['orden'][0]->id_condpago);
+	
 			$this->general->editar_valido($data['orden'], "producto/orden/index");
 
 			$data['home'] = 'producto/orden/orden_editar';

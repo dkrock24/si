@@ -32,6 +32,7 @@ class Orden_model extends CI_Model
 	const sys_conf = 'sys_conf';
 	const pos_temp_suc = 'pos_temp_sucursal';
 	const pos_doc_temp = 'pos_doc_temp';
+	const sys_persona = 'sys_persona';
 
 	// Ordenes
 	const pos_tipo_documento = 'pos_tipo_documento';
@@ -42,18 +43,18 @@ class Orden_model extends CI_Model
 			$filters = " and ".$filters;
 		}
 		$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,
-orden.num_correlativo,orden.fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
-,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
+			orden.num_correlativo,orden.fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
+			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
 
-from pos_ordenes as orden 
+			from pos_ordenes as orden 
 
-left join pos_cliente as cliente on cliente.id_cliente = orden.id_cliente
-left join pos_sucursal as sucursal on sucursal.id_sucursal=orden.id_sucursal
-left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = orden.id_tipod
-left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
-left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago 
-left join pos_orden_estado as oe  on oe.id_orden_estado= orden.orden_estado
-where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. " Limit " . $id . ',' . $limit);
+			left join pos_cliente as cliente on cliente.id_cliente = orden.id_cliente
+			left join pos_sucursal as sucursal on sucursal.id_sucursal=orden.id_sucursal
+			left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = orden.id_tipod
+			left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
+			left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago 
+			left join pos_orden_estado as oe  on oe.id_orden_estado= orden.orden_estado
+			where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. " Order By orden.num_correlativo DESC Limit " . $id . ',' . $limit);
 
 		//echo $this->db->queries[1];
 		return $query->result();
@@ -1066,16 +1067,17 @@ where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters
 		$this->db->select('*');
 		$this->db->from(self::pos_ordenes . ' as o');
 		$this->db->join(self::sucursal . ' as s', 'on s.id_sucursal = o.id_sucursal');
-		$this->db->join(self::sys_empleado . ' as e', 'on e.id_empleado = o.id_cajero', 'left');
+		$this->db->join(self::sys_empleado . ' as e', 'on e.id_empleado = o.id_vendedor', 'left');
 		$this->db->join(self::pos_empresa . ' as em', 'on em.id_empresa = s.Empresa_Suc', 'left');
+		$this->db->join(self::cliente.' as c',' on c.id_cliente = o.id_cliente');
+		$this->db->join(self::sys_persona.' as p',' on p.id_persona = e.Persona_E');
 		//$this->db->join(self::empresa_giro . ' as eg', 'on eg.Empresa = em.id_empresa', 'left');
 		//$this->db->join(self::pos_giros . ' as pg', 'on pg.id_giro = eg.Giro', 'left');
 
 		$this->db->where('o.num_correlativo', $order_id);
 		$this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
 		$query = $this->db->get();
-		//echo $this->db->queries[1];
-
+		
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}

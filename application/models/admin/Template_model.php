@@ -10,6 +10,8 @@ class Template_model extends CI_Model {
     const pos_doc_temp = 'pos_doc_temp';
     const pos_sucursal = 'pos_sucursal';
     const pos_temp_sucursal = 'pos_temp_sucursal';
+    const pos_empresa = 'pos_empresa';
+    const pos_orden = 'pos_ordenes';
 
 
 	function get_cliente(){
@@ -68,7 +70,9 @@ class Template_model extends CI_Model {
         $this->db->join(self::pos_temp_sucursal.' as ts',' on td.id_factura=ts.Template');
         $this->db->join(self::tipos_documentos.' dt',' on dt.id_tipo_documento=ts.Documento');
         $this->db->join(self::pos_sucursal.' s',' on ts.Sucursal=s.id_sucursal','left');
+        $this->db->join(self::pos_formas_pago.' p',' on p.id_modo_pago=ts.Pago','left');
         $this->db->where('td.Empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->order_by('s.nombre_sucursal','asc');
         if($filters!=""){
             $this->db->where($filters);
         }
@@ -293,17 +297,25 @@ class Template_model extends CI_Model {
     }
 
     //Test Printer
-    function printer( $orden_id , $sucursal_id , $documento_id){
+    function printer( $orden , $sucursal_id , $documento_id , $pago){
         
-        $this->db->select('*');
+        $this->db->select('td.*,ts.*,s.*,e.nombre_comercial,o.*,c.nombre_empresa_o_compania');
         $this->db->from(self::pos_doc_temp.' as td');
         $this->db->join(self::pos_temp_sucursal.' as ts',' on td.id_factura = ts.Template');
+        $this->db->join(self::pos_sucursal.' as s',' on s.id_sucursal = ts.Sucursal');
+        $this->db->join(self::pos_empresa.' as e',' on e.id_empresa = s.Empresa_Suc');
+        $this->db->join(self::pos_orden.' as o',' on o.id_tipod = ts.Documento');
+        $this->db->join(self::cliente.' as c',' on c.id_cliente = o.id_cliente');
         
         $this->db->where('ts.Sucursal', $sucursal_id);
         $this->db->where('ts.Documento', $documento_id);
+        $this->db->where('ts.Pago', $pago);
         $this->db->where('ts.estado_suc_tem', 1);
-
         $query = $this->db->get();
+
+        //echo $this->db->queries[11];
+        //die;
+
         if($query->num_rows() > 0 )
         {
             return $query->result();

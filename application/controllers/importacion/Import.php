@@ -360,4 +360,39 @@ class Import extends CI_Controller
     function generar_impuestos_categorias(){
         $this->Import_model->generar_impuestos_categorias();
     }
+
+    function documento_calculo(){
+
+        $elementos1 = array(1,2,3,4,5,6,7,8);
+        $elementos2 = array(1,2,3,4,5,6,7,8,9,10);
+        $elementos3 = array(1,2,3,4,5,6,7,8,9,10,11,12);
+
+        $limit_documento = 5;
+        $cnt = count($elementos2);
+        $limit = 0;
+
+        if( $cnt % $limit_documento ==0 ){
+            echo $limit = $cnt / $limit_documento;
+        }else{
+            echo $limit = (int) ($cnt / $limit_documento)+1;
+        }
+        echo "<br>";
+
+        
+        $actual = 1;
+        for ($i=0; $i < $limit ; $i++) { 
+            $contador = 1;
+            echo "Orden N° <br>";
+            foreach ($elementos2 as $key => $value) {
+                $key = $key+1;
+                if ( $key >= $actual && $contador <= $limit_documento ){
+                    $actual = $key+1;
+                    echo $value;
+                    $contador++;
+                } 
+            }
+            echo "<br>";
+        }
+        
+    }
 }

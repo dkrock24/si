@@ -168,14 +168,14 @@ class Template extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Formato','Documento','Sucursal','Lineas','Descripcion','Creado','Estado'
+			'Sucursal','Pago','Documento','Formato','Lineas','Descripcion','Creado','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'factura_nombre','nombre','nombre_sucursal','factura_lineas','factura_descripcion','factura_creado','estado'
+			'nombre_sucursal','nombre_modo_pago','nombre','factura_nombre','factura_lineas','factura_descripcion','factura_creado','estado'
 		);
 		
 		$fields['id'] = array('id_factura');
@@ -189,7 +189,7 @@ class Template extends MY_Controller {
 		
 		// Get ordern
 		$data['productos'] = $this->Orden_model->get_orden_detalle( $orden_id );
-		$data['temp'] = $this->Template_model->printer( $orden_id );
+		$data['temp'] = $this->Template_model->printer( $orden_id , 2 , 2 );
 		$data['home'] = 'admin/printer/printer';
 
 		$info = [];
@@ -199,8 +199,6 @@ class Template extends MY_Controller {
 			$info['descripcion '] = $value->descripcion ;
 			$info['precioUnidad'] = $value->precioUnidad;
 			$info['total'] = $value->total;
-
-			
 		}
 
 		$this->parser->parse('template', $data);
