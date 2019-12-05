@@ -69,18 +69,69 @@
                             <div class="col-lg-6">
                                 <form action="generar_impuestos_categorias" name="procesar" method="post">
                                 CONFIGURAR IMPUESTOS <hr>
-                                CATEGORIAS
-                                <select name="categoria" class="form-control">
-                                    <option value="0">Todas</option>
-                                    <?php
-                                    foreach ($categorias as $key => $value) {
-                                        ?>
-                                        <option value="<?php echo $value['id_categoria'] ?>"> <?php echo $value['nombre_categoria'] ?></option>
-                                        <?php
-                                    }
-                                    ?>
-                                    
-                                </select>
+
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                    CATEGORIAS
+                                        <select name="categoria" class="form-control">
+                                            <option value="-"> - </option>
+                                            <option value="0">Todas</option>
+                                            <?php
+                                            foreach ($categorias as $key => $value) {
+                                                ?>
+                                                <option value="<?php echo $value['id_categoria'] ?>"> <?php echo $value['nombre_categoria'] ?></option>
+                                                <?php
+                                            }
+                                            ?>                                        
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                    CLIENTES
+                                        <select name="cliente" class="form-control">
+                                            <option value="-"> - </option>
+                                            <option value="0">Todas</option>
+                                            <?php
+                                            foreach ($clientes as $key => $value) {
+                                                ?>
+                                                <option value="<?php echo $value->id_cliente ?>"> <?php echo $value->nombre_empresa_o_compania ?></option>
+                                                <?php
+                                            }
+                                            ?>                                        
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                    DOCUMENTOS
+                                        <select name="documento" class="form-control">
+                                            <option value="-"> - </option>
+                                            <option value="0">Todas</option>
+                                            <?php
+                                            foreach ($documentos as $key => $value) {
+                                                ?>
+                                                <option value="<?php echo $value->id_tipo_documento ?>"> <?php echo $value->nombre ?></option>
+                                                <?php
+                                            }
+                                            ?>                                        
+                                        </select>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                    PROVEEDOR
+                                        <select name="proveedor" class="form-control">
+                                            <option value="-"> - </option>
+                                            <option value="0">Todas</option>
+                                            <?php
+                                            foreach ($proveedor as $key => $value) {
+                                                ?>
+                                                <option value="<?php echo $value->id_proveedor ?>"> <?php echo $value->empresa_proveedor ?></option>
+                                                <?php
+                                            }
+                                            ?>                                        
+                                        </select>
+                                    </div>
+                                
+                                </div>
+                                
+                                
 
                                 <br>
 

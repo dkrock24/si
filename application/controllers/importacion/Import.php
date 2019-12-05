@@ -23,6 +23,9 @@ class Import extends CI_Controller
         $this->load->model('importacion/Import_model');
         $this->load->model('admin/Categorias_model');
         $this->load->model('admin/Impuesto_model');
+        $this->load->model('admin/Documento_model');
+        $this->load->model('admin/Cliente_model');
+        $this->load->model('admin/Proveedor_model');
     }
 
     public function index()
@@ -34,6 +37,12 @@ class Import extends CI_Controller
         $data['categorias'] = $this->Categorias_model->getCategorias();
 
         $data['impuestos'] = $this->Impuesto_model->getAllImpuesto();
+
+        $data['documentos'] = $this->Documento_model->getAllDocumento();
+
+        $data['clientes'] = $this->Cliente_model->get_cliente();
+
+        $data['proveedor'] = $this->Proveedor_model->getAllProveedor();
 
         $data['home'] = 'importacion/importacion';
         $data['title'] = 'Importacion';
@@ -367,7 +376,11 @@ class Import extends CI_Controller
 
         if(isset($_POST)){
 
-            $data['categoria'] = $_POST['categoria'];
+            $data['categoria']  = $_POST['categoria'];
+            $data['cliente']    = $_POST['cliente'];
+            $data['documento']  = $_POST['documento'];
+            $data['proveedor']  = $_POST['proveedor'];
+
             $data['impuesto'] = $_POST['impuesto'];
             $data['activo'] = $_POST['activo'];
             $data['actualizar'] = $_POST['actualizar'];

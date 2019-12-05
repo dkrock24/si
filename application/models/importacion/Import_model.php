@@ -234,45 +234,99 @@ class Import_model extends CI_Model {
 
     function generar_impuestos_categorias($filtro){
 
-        $impuestos = $this->getImpuestos();
+        /*
+        / Esta funciona es dinamica en el sentido que toma parametros para llamar tablas y hacer condiciones
+        / dependiendo de lo que resibe y procesa la insercion, sincronizacion de los impoestos
+        / asociados a las tablas que almacenan sus relaciones
+        */
 
-        $categorias = $this->getCategorias($filtro);
+        $parametros = array(
+            'id_categoria','id_tipo_documento','id_cliente','id_proveedor'
+        );
+        
+        $param1 = "";
+        $param2 = "";
+        $campo = ""  ;   
+        $campo2 = ""  ;      
+        $table = "";
+        $tabla_imp = "";
+        $valor= "";
+
+        if( $filtro['categoria'] != '-' ){
+            $param1 = "id_categoria_padre";
+            $param2 = $parametros[0];
+            $table = "categoria";
+            $valor = $filtro['categoria'];
+            $campo = "Categoria";
+            $tabla_imp = "pos_impuesto_categoria";
+            $campo2 = "id_imp_cat";
+        }
+        if( $filtro['cliente'] != '-' ){
+            $param1 = $parametros[2];
+            $param2 = $parametros[2];
+            $table = "pos_cliente";
+            $valor = $filtro['cliente'];
+            $campo = "Cliente";
+            $tabla_imp = "pos_impuesto_cliente";
+            $campo2 = "id_imp_cli";
+        }
+        if( $filtro['documento'] != '-' ){
+            $param1 = $parametros[1];
+            $param2 = $parametros[1];
+            $table = "pos_tipo_documento";
+            $valor = $filtro['documento'];
+            $campo = "Documento";
+            $tabla_imp = "pos_impuesto_documento";
+            $campo2 = "id_imp_doc";
+        }
+        if( $filtro['proveedor'] != '-' ){
+            $param1 = $parametros[3];
+            $param2 = $parametros[3];
+            $table = "pos_proveedor";
+            $valor = $filtro['proveedor'];
+            $campo = "Proveedor";
+            $tabla_imp = "pos_impuesto_proveedor";
+            $campo2 = "id_imp_prov";
+        }
+
+        $categorias = $this->getData( $param1 , $param2 , $valor , $table);
 
         foreach ($categorias as $key => $value) {
 
-            $exits = $this->getImpCat($value['id_categoria'] , $filtro['impuesto']);
+            $exits = $this->getImpCat($valor , $filtro['impuesto'] , $table, $param1 , $param2 , $campo, $tabla_imp);
 
             if(!$exits){
 
                 $data = array(
-                    'Categoria' => $value['id_categoria'],
+                    $campo => $value[$param2] ,
                     'Impuesto' => $filtro['impuesto'],
                     'estado' => $filtro['activo']
                 );
         
-                $this->db->insert(self::pos_impuesto_categoria, $data );
+                $this->db->insert($tabla_imp, $data );
             }else{
 
                 if($filtro['actualizar'] == 1){
                     
                     $data = array(
-                        'Categoria' => $value['id_categoria'],
+                        $campo => $param2 ,
                         'Impuesto' => $filtro['impuesto'],
                         'estado' => $filtro['activo']
                     );
             
-                    $this->db->update(self::pos_impuesto_categoria, array('id_imp_cat' => $exits[0]->id_imp_cat ) );
+                    $this->db->update($tabla_imp, array($campo2 => $exits[0]->$campo2 ) );
                 }
             }
         }
 
+        
     }
 
-    function getImpCat($cat , $imp){
+    function getImpCat($valor , $imp , $table, $param1 , $param2 , $campo , $tabla_imp){
 
         $this->db->select('*');
-        $this->db->from(self::pos_impuesto_categoria);
-        $this->db->where('Categoria', $cat ); 
+        $this->db->from($tabla_imp);
+        $this->db->where( $campo, $valor );
         $this->db->where('Impuesto', $imp);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -298,16 +352,15 @@ class Import_model extends CI_Model {
         }
     }
 
-    function getCategorias($filtro){
+    function getData( $param1 , $param2 , $valor , $table){
 
         $this->db->select('*');
-        $this->db->from(self::categoria);
-        $this->db->where('id_categoria_padre !=""'); 
-        if($filtro['categoria']!=0){
-            $this->db->where('id_categoria', $filtro['categoria']); 
+        $this->db->from($table);
+        $this->db->where($param1.' !=""'); 
+        if($valor!=0){
+            $this->db->where($param2, $valor); 
         }   
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];
         
         if($query->num_rows() > 0 )
         {
