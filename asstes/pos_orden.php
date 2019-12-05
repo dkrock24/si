@@ -16,6 +16,7 @@
                     
                 } else {
                     _orden = [];
+                    getImpuestosLista();
                     depurar_producto();
                     contador_ingreso = 0;
                 }
@@ -26,7 +27,7 @@
         if(path == "../"){
             
             var id_orden = window.location.pathname.split("/").pop();
-
+            getImpuestosLista();
             get_orden(id_orden);
             
         }
@@ -64,7 +65,7 @@
                         
                         _config_impuestos();
                         depurar_producto();
-                        console.log(1);
+                        console.log(2);
                     }
 
 

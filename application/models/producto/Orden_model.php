@@ -261,7 +261,7 @@ class Orden_model extends CI_Model
 			$total_orden += ($orden['orden'][0]['total'] * $orden['orden'][0]['impuesto_porcentaje']);
 		}
 
-		$desc_val = ($orden['orden'][0]['por_desc'] * $orden['orden'][0]['total']);
+		$desc_val = ($orden['orden'][0]['descuento_limite'] * $orden['orden'][0]['total']);
 
 
 
@@ -273,7 +273,7 @@ class Orden_model extends CI_Model
 			'id_caja' 		=> $dataParametros['terminal_id'], //terminal_id
 			'num_caja' 		=> $dataParametros['terminal_numero'], //terminal_numero
 			'd_inc_imp0' 	=> $dataParametros['impuesto'], //impuesto
-			'id_tipod' 		=> $dataParametros['modo_pago_id'], //modo_pago_id
+			'id_tipod' 		=> $dataParametros['id_tipo_documento'], //modo_pago_id
 			'id_sucursal' 	=> $dataParametros['sucursal_destino'], //sucursal_destino
 			'num_correlativo'=> $correlativo_final, //$orden['encabezado'][5]['value'], //numero correlativo
 			'id_cliente' 	=> $dataParametros['cliente_codigo'], //cliente_codigo
@@ -286,7 +286,7 @@ class Orden_model extends CI_Model
 			'id_usuario' 	=> $id_usuario,
 			'fecha' 		=> date("Y-m-d h:i:s"),
 			'digi_total' 	=> $total_orden,
-			'desc_porc' 	=> $orden['orden'][0]['por_desc'],
+			'desc_porc' 	=> $orden['orden'][0]['descuento_limite'],
 			'id_bodega' 	=> $orden['orden'][0]['bodega'],
 			'desc_val' 		=> $desc_val,
 			'total_doc' 	=> $total_orden,
@@ -306,7 +306,7 @@ class Orden_model extends CI_Model
 			//'tiempoproc' 	=> "0",
 			'creado_el' 	=> date("Y-m-d h:i:s"),
 			//'modi_el' 		=> "0",
-			'orden_estado'	=> $dataParametros['estado']
+			'orden_estado'	=> $order_estado
 		);
 
 		$this->db->insert(self::pos_ordenes, $data);
@@ -451,7 +451,7 @@ class Orden_model extends CI_Model
 			'id_caja' 		=> $dataParametros['terminal_id'], 
 			'num_caja' 		=> $dataParametros['terminal_numero'], 
 			'd_inc_imp0' 	=> $dataParametros['impuesto'], 
-			'id_tipod' 		=> $dataParametros['modo_pago_id'], 
+			'id_tipod' 		=> $dataParametros['id_tipo_documento'], 
 			'id_sucursal' 	=> $dataParametros['sucursal_destino'], 
 			'num_correlativo' => $dataParametros['num_correlativo'], 
 			'id_cliente' 	=> $dataParametros['cliente_codigo'], 

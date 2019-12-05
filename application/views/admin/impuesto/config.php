@@ -13,6 +13,18 @@ var columna1 = 'Impuesto';
         var columna2 = 'Categoria';
         var columna3 = 'id_categoria';
 
+        $(function() {   
+
+            $('#filtro').change(function() {
+                var texto = $(this).val().toUpperCase();
+                $(".datos td.col1:contains('" + texto + "')").parent().show();
+
+
+                $(".datos td.col1:not(:contains('" + texto + "'))").parent().hide();
+            });
+            
+        });
+
         getData( table_intermedia, tabla_destino, columna1 , columna2, columna3 , field);
 
         $('.menu').click(function(){
@@ -168,7 +180,7 @@ var columna1 = 'Impuesto';
             html += "<tr class='line'>";  
             html += "<td>"+num+"</td>";   
             html += "<td>"+item.eId+"</td>";    
-            html += "<td>"+item.valor_field+"</td>";                      
+            html += "<td class='col1'>"+item.valor_field.toUpperCase()+"</td>";                      
             html += "<td>"+item.nombre +"</td>";
             html += "<td>"+item.porcentage +"</td>";
             html += "<td>"+item.suma_resta_nada +"</td>";
@@ -184,7 +196,7 @@ var columna1 = 'Impuesto';
 
             data = {"entidad":item.eId , "impuesto":item.iId, "columna":entidad, "tabla":tabla};
             
-            html += "<td><button type='button' class='btn btn-success' onclick='disable("+JSON.stringify(data)+")'><i class='fa fa-pencil'></i></button> <button type='button' class='btn btn-danger' onclick='myFunction("+JSON.stringify(data)+")'><i class='fa fa-trash'></i></button> </td> ";
+            html += "<td><button type='button' class='btn btn-info' onclick='disable("+JSON.stringify(data)+")'><i class='fa fa-pencil'></i></button> <button type='button' class='btn btn-warning' onclick='myFunction("+JSON.stringify(data)+")'><i class='fa fa-trash'></i></button> </td> ";
             
             html += "</tr>";
             num++;
@@ -517,11 +529,25 @@ var columna1 = 'Impuesto';
                                        </div>
 
                                        <div class="panel b">
-                                          <div class="panel-heading text-bold" style="background: #0f4871; color: white;">Impuestos</div>
+                                           
+                                            
+                                        <div class="panel-heading text-bold" style="background: #0f4871; color: white;">
+
+                                            <div class="row" >
+                                                <div class="col-lg-1" >
+                                                    <i class="fa fa-list"></i>  Impuestos
+                                                </div>
+                                                <div class="col-lg-3" style="background: #0f4871; color: white;">
+                                                    <input type="text" name="filtro" id="filtro" value="" class="form-control" placeholder="Buscar por Entidad" />
+                                                </div>
+                                            </div>
+                                                
+
+                                        </div>                                          
                                           
-                                            <table class="table table-sm table-striped table-condensed table-hover datos">
-                                              
-                                             </table>                                            
+                                        <table class="table table-sm table-striped table-condensed table-hover datos">
+                                            
+                                        </table>                                            
                                           
                                        </div>
 

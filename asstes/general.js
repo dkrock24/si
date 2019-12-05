@@ -41,6 +41,7 @@ function _config_impuestos(){
 	_impuestos_orden_condicion = [];
 	_impuestos_orden_especial = [];
 	_impuestos_orden_excluyentes = [];
+
 	impuestos();
 }
 
@@ -49,7 +50,7 @@ function impuestos(){
      * Calcular los impuestos a productos en la orden
      */
     docVal = imp_list(_impuestos.doc , _tipo_documento);
-    imp_cli_val();
+	imp_cli_val();
 
     if(docVal){
 		
@@ -230,12 +231,12 @@ function aplicar_imp( prod){
 					
 					aplicable = true;
 					total += (element.total_anterior * item.porcentage);
-					console.log(1, total);
+					console.log("1 aplicar_imp", total);
 					return false;
 				}
 
 				if(item.condicion == 0 && item.especial==1 && item.excluyente==1 && yes == true){
-					console.log(2);
+					console.log("2 aplicar_imp");
 					//impuesto_valor(prod);
 					
 					if(_impuestos_orden_especial.length==0){
@@ -273,13 +274,13 @@ function aplicar_imp( prod){
 				}
 
 				if(item.excluyente ==0 && item.especial==1){
-					console.log(3);
+					console.log("3 aplicar_imp");
 					//alert("Excluyente");
 				}
 				
 			});
 			if(aplicable){
-				console.log(4);
+				console.log("4 aplicar_imp");
 				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
 				
 				_orden[_orden.indexOf(element)].impSuma = total;

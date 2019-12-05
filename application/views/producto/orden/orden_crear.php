@@ -1,6 +1,5 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
-
     var path = "";
 
     var _orden = [];
@@ -8,14 +7,14 @@
     var _productos_precio = [];
     var _productos_lista;
     var contador_productos = 0;
-    var contador_tabla =1;
+    var contador_tabla = 1;
     var total_msg = 0.00;
     var factor_precio = 0;
     var factor_total = 0;
     var producto_cantidad_linea = 1;
     var sucursal = 0;
-    var interno_sucursal=0;
-    var interno_bodega= 0;
+    var interno_sucursal = 0;
+    var interno_bodega = 0;
     var producto_escala;
     var clientes_lista;
     var combo_total = 0.00;

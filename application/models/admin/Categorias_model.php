@@ -151,4 +151,19 @@ class Categorias_model extends CI_Model {
             return $query->result();
         }
     }
+
+    function getCategorias(){
+
+        $this->db->select('*');
+        $this->db->from(self::categorias);
+        $this->db->where('id_categoria_padre !=""');  
+        $this->db->order_by('nombre_categoria','asc');    
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result_array();
+        }
+    }
 }

@@ -232,29 +232,39 @@ class Import_model extends CI_Model {
         }
     }
 
-    function generar_impuestos_categorias(){
+    function generar_impuestos_categorias($filtro){
 
         $impuestos = $this->getImpuestos();
 
-        $categorias = $this->getCategorias();
+        $categorias = $this->getCategorias($filtro);
 
         foreach ($categorias as $key => $value) {
 
-            $exits = $this->getImpCat($value['id_categoria'] , 1);
+            $exits = $this->getImpCat($value['id_categoria'] , $filtro['impuesto']);
 
             if(!$exits){
 
                 $data = array(
                     'Categoria' => $value['id_categoria'],
-                    'Impuesto' => 1,
-                    'estado' => 1
+                    'Impuesto' => $filtro['impuesto'],
+                    'estado' => $filtro['activo']
                 );
         
                 $this->db->insert(self::pos_impuesto_categoria, $data );
-            }            
+            }else{
+
+                if($filtro['actualizar'] == 1){
+                    
+                    $data = array(
+                        'Categoria' => $value['id_categoria'],
+                        'Impuesto' => $filtro['impuesto'],
+                        'estado' => $filtro['activo']
+                    );
+            
+                    $this->db->update(self::pos_impuesto_categoria, array('id_imp_cat' => $exits[0]->id_imp_cat ) );
+                }
+            }
         }
-
-
 
     }
 
@@ -288,11 +298,14 @@ class Import_model extends CI_Model {
         }
     }
 
-    function getCategorias(){
+    function getCategorias($filtro){
 
         $this->db->select('*');
         $this->db->from(self::categoria);
-        $this->db->where('id_categoria_padre !=""');    
+        $this->db->where('id_categoria_padre !=""'); 
+        if($filtro['categoria']!=0){
+            $this->db->where('id_categoria', $filtro['categoria']); 
+        }   
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

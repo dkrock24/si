@@ -18,7 +18,9 @@ class Cliente_model extends CI_Model
         $this->db->from(self::cliente);
         $this->db->join(self::tipos_documentos, ' on ' . self::cliente . '.TipoDocumento=' . self::tipos_documentos . '.id_tipo_documento');
         $this->db->join(self::formas_pago, ' on ' . self::cliente . '.TipoPago=' . self::formas_pago . '.id_modo_pago');
+        $this->db->join(self::sys_persona . ' as p', ' on p.id_persona = Persona');
         $this->db->where(self::cliente . '.estado_cliente = 1');
+        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get();
         //echo $this->db->queries[1];
 
@@ -34,7 +36,7 @@ class Cliente_model extends CI_Model
         $this->db->join(self::tipos_documentos, ' on ' . self::cliente . '.TipoDocumento=' . self::tipos_documentos . '.id_tipo_documento');
         $this->db->join(self::formas_pago, ' on ' . self::cliente . '.TipoPago=' . self::formas_pago . '.id_modo_pago');
         $this->db->where(self::cliente . '.estado_cliente = 1');
-
+        
         $this->db->where('id_cliente = ' . $id);
         $query = $this->db->get();
         //echo $this->db->queries[1];
@@ -66,14 +68,14 @@ class Cliente_model extends CI_Model
     function getCliente()
     {
         $this->db->select('*');
-        $this->db->from(self::cliente);
-        $this->db->join(self::tipos_documentos, ' on ' . self::cliente . '.TipoDocumento=' . self::tipos_documentos . '.id_tipo_documento');
-        $this->db->join(self::formas_pago, ' on ' . self::cliente . '.TipoPago=' . self::formas_pago . '.id_modo_pago');
+        $this->db->from(self::cliente . ' as c');
+        $this->db->join(self::tipos_documentos.' as td', ' on c.TipoDocumento=td.id_tipo_documento');
+        $this->db->join(self::formas_pago.' as fp', ' on c.TipoPago=fp.id_modo_pago');
         $this->db->join(self::sys_persona . ' as p', ' on p.id_persona = Persona');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get();
-        //echo $this->db->queries[1];
-
+        //echo $this->db->queries[2];
+        
         if ($query->num_rows() > 0) {
             return $query->result();
         }

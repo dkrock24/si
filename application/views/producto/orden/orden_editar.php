@@ -22,13 +22,12 @@
     var _conf = [];
     var _impuestos = [];
 </script>
-
-<?php
-include("asstes/pos_funciones.php");
-include("asstes/pos_orden.php");
-?>
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
+<?php
+    include ("asstes/pos_funciones.php");
+    include ("asstes/pos_orden.php");
+?>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 

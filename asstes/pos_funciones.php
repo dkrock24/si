@@ -327,6 +327,7 @@
 
                 success: function(data) {
                     var datos = JSON.parse(data);
+                    console.log(datos);
 
                     var precio_unidad   = datos['producto'][8].valor;
                     _productos_precio2  = datos["prod_precio"];

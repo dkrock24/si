@@ -64,6 +64,61 @@
 
                                 </form>
                             </div>
+
+
+                            <div class="col-lg-6">
+                                <form action="generar_impuestos_categorias" name="procesar" method="post">
+                                CONFIGURAR IMPUESTOS <hr>
+                                CATEGORIAS
+                                <select name="categoria" class="form-control">
+                                    <option value="0">Todas</option>
+                                    <?php
+                                    foreach ($categorias as $key => $value) {
+                                        ?>
+                                        <option value="<?php echo $value['id_categoria'] ?>"> <?php echo $value['nombre_categoria'] ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                    
+                                </select>
+
+                                <br>
+
+                                IMPUESTOS
+                                <select name="impuesto" class="form-control">
+                                    <?php
+                                    foreach ($impuestos as $key => $value) {
+                                        ?>
+                                        <option value="<?php echo $value->id_tipos_impuestos ?>"> <?php echo $value->nombre ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                    
+                                </select>
+
+                                <br>
+
+
+                                IMPUESTO ACTIVO / INACTIVO
+                                <select name="activo" class="form-control">
+                                    <option value="0">Inactivo</option>
+                                    <option value="1">Activo</option>
+                                </select>
+
+                                <br>
+
+                                Actualizar CONFIGURACION
+                                <select name="actualizar" class="form-control">
+                                    <option value="0">Inactivo</option>
+                                    <option value="1">Activo</option>
+                                </select>
+
+                                <br>
+                                <input type="submit" name="enviar" value="Procesar" class="btn btn-info" />
+
+                                </form>
+
+                            </div>
                         </div>
                     </div>
                 </div>

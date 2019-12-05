@@ -21,6 +21,8 @@ class Import extends CI_Controller
         $this->load->model('admin/Marca_model');
         $this->load->model('admin/Giros_model');
         $this->load->model('importacion/Import_model');
+        $this->load->model('admin/Categorias_model');
+        $this->load->model('admin/Impuesto_model');
     }
 
     public function index()
@@ -28,6 +30,10 @@ class Import extends CI_Controller
         $data['menu'] = $this->session->menu;
 
         $data['list_tablas'] = $this->Import_model->getTablesDb();
+
+        $data['categorias'] = $this->Categorias_model->getCategorias();
+
+        $data['impuestos'] = $this->Impuesto_model->getAllImpuesto();
 
         $data['home'] = 'importacion/importacion';
         $data['title'] = 'Importacion';
@@ -358,7 +364,18 @@ class Import extends CI_Controller
     }
 
     function generar_impuestos_categorias(){
-        $this->Import_model->generar_impuestos_categorias();
+
+        if(isset($_POST)){
+
+            $data['categoria'] = $_POST['categoria'];
+            $data['impuesto'] = $_POST['impuesto'];
+            $data['activo'] = $_POST['activo'];
+            $data['actualizar'] = $_POST['actualizar'];
+
+            $this->Import_model->generar_impuestos_categorias( $data );
+
+        }
+        redirect(base_url()."importacion/import/index");
     }
 
     function documento_calculo(){
