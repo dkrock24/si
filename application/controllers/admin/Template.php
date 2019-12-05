@@ -164,22 +164,38 @@ class Template extends MY_Controller {
 
 		redirect(base_url()."admin/template/index");
 	}
+
+	public function eliminar($id_template){
+
+		$data = $this->Template_model->eliminar( $id_template );
+
+		if($data){
+			$this->session->set_flashdata('danger', "Template Fue Eliminado !");
+		}else{
+			$this->session->set_flashdata('warning', "El Registro No Fue Actualizado");
+		}
+
+
+		redirect(base_url()."admin/template/index");
+	}
 	
 	public function column(){
 
 		$column = array(
-			'Sucursal','Pago','Documento','Formato','Lineas','Descripcion','Creado','Estado'
+			//'Sucursal','Pago','Documento','Formato','Lineas','Descripcion','Creado','Estado'
+			'Formato','Lineas','Descripcion','Creado','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_sucursal','nombre_modo_pago','nombre','factura_nombre','factura_lineas','factura_descripcion','factura_creado','estado'
+			//'nombre_sucursal','nombre_modo_pago','nombre','factura_nombre','factura_lineas','factura_descripcion','factura_creado','estado'
+			'factura_nombre','factura_lineas','factura_descripcion','factura_creado','estado'
 		);
 		
 		$fields['id'] = array('id_factura');
-		$fields['estado'] = array('estado_suc_tem');
+		$fields['estado'] = array('factura_estatus');
 		$fields['titulo'] = "Template Lista";
 
 		return $fields;

@@ -78,6 +78,7 @@
                          <div class="panel-body">
                             <p>
                                 <form action="<?php echo $url ?>" method="post">
+                                Template
                                 <select class="form-control" name="factura_id">
                                     <option value="0"> Formato Documento</option>
                                     <?php
@@ -89,6 +90,7 @@
                                     ?>
                                 </select>
                                 <br>
+                                Documento
                                 <select class="form-control" name="documento">
                                     <option value="0"> Tipo Documento</option>
                                     <?php
@@ -154,7 +156,7 @@
                                          <thead class="bg-info-dark">
                                             <tr>
                                               <th style="color: white;">ID</th>
-                                              <th style="color: white;">Documento</th>
+                                              <th style="color: white;" >Documento</th>
                                               <th style="color: white;">Formato</th>
                                               <th style="color: white;">Pago</th>                                              
                                               <th style="color: white;">Sucursal</th>                                              
@@ -179,20 +181,20 @@
                                                 ?>
                                                 <tr>
                                                    <td><?php echo $contador; ?></td>
-                                                   <td class="" width="">
+                                                   <td class="" width="20%">
                                                       <div class="">
                                                          <?php echo $value->nombre; ?>
                                                       </div>
                                                    </td>
-                                                   <td class="" width="20%">
+                                                   <td class="" >
                                                       <div class="">
                                                          <?php echo $value->factura_nombre; ?>
                                                       </div>
                                                    </td>
                                                    
-                                                   <td class="" width="20%">
+                                                   <td class="" >
                                                       <div class="">
-                                                        <span class="cambiar_formato_pago" id="<?php echo $value->id_temp_suc ?>"><i class="icon-refresh" ></i></span>
+                                                        <span class="cambiar_formato_pago" id="<?php echo $value->id_temp_suc ?>"><i class="icon-trash" ></i></span>
                                                         
                                                         <span class="nombre_tipo_pago">
                                                             <?php echo $value->nombre_modo_pago; ?>
@@ -200,7 +202,7 @@
 
                                                       </div>
                                                    </td>
-                                                   <td class="" width="25%">
+                                                   <td class="" >
                                                       <div class="">
                                                          <?php echo $value->nombre_sucursal; ?>
                                                       </div>
@@ -415,18 +417,20 @@
                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                   <span aria-hidden="true">&times;</span>
                </button>
-               Modo Pago
+               Eliminar ?
             </div>
             <div class="modal-body">
-                <select class="form-control" id="pagoId">
+                <!-- <select class="form-control" id="pagoId"> -->
                   <?php
+                  /*
                     foreach ($pagos as $p) {
                       ?>
                       <option value="<?php echo $p->id_modo_pago ?>"><?php echo $p->nombre_modo_pago; ?></option>
                       <?php
                     }
+                    */
                   ?>
-                </select>
+                <!-- </select> -->
             </div>
             <div class="modal-footer">
                <button type="button" data-dismiss="modal" class="btn btn-success pagoId" name="2">Si</button>               
