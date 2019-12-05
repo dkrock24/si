@@ -53,7 +53,7 @@ var columna1 = 'Impuesto';
                 tabla_destino   = 'pos_proveedor';
                 columna2        = 'Proveedor';
                 columna3        = 'id_proveedor';
-                field = 'empresa';
+                field = 'empresa_proveedor';
 
                 getData( table_intermedia, tabla_destino, columna1 , columna2, columna3, field );
             }
@@ -159,7 +159,6 @@ var columna1 = 'Impuesto';
 
     function drawTable(datos,entidad, table_intermedia){
 
-        console.log(datos);
         var tabla = table_intermedia;
         var data;
         var num =1;
@@ -215,6 +214,7 @@ var columna1 = 'Impuesto';
 
     function asociarImpuesto(data, metodo){
         var fun = data;
+        
         $.ajax({
             url: "<?php echo base_url().'admin/impuesto/' ?>"+metodo,
             datatype: 'json',      
@@ -291,7 +291,7 @@ var columna1 = 'Impuesto';
         tabla_destino   = 'pos_proveedor';
         columna2        = 'Proveedor';
         columna3        = 'id_proveedor';
-        field = 'empresa';
+        field = 'empresa_proveedor';
 
         getData( table_intermedia, tabla_destino, columna1 , columna2, columna3, field );
     }

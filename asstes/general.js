@@ -184,7 +184,7 @@ function imp_cli_val(){
 	_proVal = [];
 
 	_tipo_cliente = tipo_cliente();
-
+	
 	if(_tipo_cliente == 0){
 		alert("Cliente es 0. Seleccione cliente");
 		return;
@@ -223,7 +223,8 @@ function aplicar_imp( prod){
 
 			$.each(_catVal, function(i, item) {
 
-				var yes = check_aplicable(item.nombre);				
+				var yes = check_aplicable(item.nombre);	
+						
 				
 				if( item.condicion == 0 && item.especial==0 && yes == true){
 					
@@ -301,14 +302,14 @@ function check_aplicable( imp_categoria ){
 	var flag3 = false;
 	var flag4 = false;
 	var flag5 = false;
-
+	
 	$.each(_ImpList, function(i, item) {
 
 		if( item.nombre == imp_categoria ){
 			flag1 = true;
 		}
 	});
-
+	
 	$.each(_cliVal, function(i, item) {
 		
 		if( item.nombre == imp_categoria ){

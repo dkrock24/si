@@ -172,7 +172,7 @@ class Impuesto_model extends CI_Model {
     }
 
     function updateImpuesto2($info){
-        var_dump($info);
+        
         $entero = 0;
         $val = $this->selectImpCatStatus($info);
         

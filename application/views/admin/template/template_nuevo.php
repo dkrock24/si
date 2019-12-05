@@ -273,38 +273,10 @@ ul li{
 				                    Modelador
 				                </div>
 				                <form action="crear" method="post">
-				                <div class="panel-body"><br>
-				                    <div class="container-fluid main-container">
-							
-										<div class="col-md-6 content">
-												<div class="panel panel-info">
-													<?php
-														$data = [1,2,3,4,5];
-													?>
-													<div class="panel-heading">
-														EDITOR  <span><input type="submit" class="btn btn-default" name="enviar" value="Guardar" style="float: right;" /></span>
-													</div>
-													<div class="panel-body">
-														<textarea name="template_html" id="template_html" cols="30" rows="10" class="form-control"></textarea>
-													</div>
-												</div>
-										</div>
-										<div class="col-md-6 content">
-												<div class="panel panel-success">
-													<div class="panel-heading">
-														VISTA PREVIA
-													</div>
-													<div class="panel-body">
-														<span class="html" style="width:100%; height:100px; "></span>
-													</div>
-												</div>
-										</div>
-									</div>
-
-
-									<div class="container-fluid main-container">
-										<hr>
-
+								<div class="panel-body"><br>
+								
+								<div class="row">
+										
 										<div class="col-md-6 content">
 											<div class="panel panel-info">
 												<div class="panel-heading">
@@ -333,6 +305,39 @@ ul li{
 										</div>
 
 									</div>
+
+									<hr>
+
+
+				                    <div class="row">
+							
+										<div class="col-md-6 content">
+												<div class="panel panel-info">
+													<?php
+														$data = [1,2,3,4,5];
+													?>
+													<div class="panel-heading">
+														EDITOR  <span><input type="submit" class="btn btn-default" name="enviar" value="Guardar" style="float: right;" /></span>
+													</div>
+													<div class="panel-body">
+														<textarea name="template_html" id="template_html" cols="30" rows="10" class="form-control"></textarea>
+													</div>
+												</div>
+										</div>
+										<div class="col-md-6 content">
+												<div class="panel panel-success">
+													<div class="panel-heading">
+														VISTA PREVIA
+													</div>
+													<div class="panel-body">
+														<span class="html" style="width:100%; height:100px; "></span>
+													</div>
+												</div>
+										</div>
+									</div>
+
+
+									
 				                </div>
 				                </form>
 				            </div>
