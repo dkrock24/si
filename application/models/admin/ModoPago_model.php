@@ -53,14 +53,15 @@ class ModoPago_model extends CI_Model {
         }
     }
 
-    function get_pagos_by_doc( $tipo_documento ){
-
+    function get_pagos_by_doc( $tipo_documento , $sucursal_id ){
+        
         $this->db->select('*');
         $this->db->from(self::formas_pago .' as  fp');
         $this->db->join(self::pos_formas_pago_cliente.' as fpc',' on fp.id_modo_pago = fpc.Forma_pago');
         $this->db->join(self::pos_tem_suc .' as ts', ' on ts.Pago = fp.id_modo_pago');
 
-        $this->db->where('ts.id_temp_suc = '. $tipo_documento );
+        $this->db->where('ts.Documento = '. $tipo_documento );
+        $this->db->where('ts.Sucursal = '. $sucursal_id );        
         $this->db->where('fp.estado_modo_pago = 1');
         $this->db->where('fpc.for_pag_emp_estado = 1');
         

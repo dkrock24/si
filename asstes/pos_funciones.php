@@ -1395,21 +1395,24 @@
             var cli_form_pago = $("#cliente_codigo").val();
             var tipo_documento = parseInt($("#id_tipo_documento").val());
 
+            var id_modo_pag = $("#modo_pago_id").val();
             
-            if(!pagos_mostrados.includes(tipo_documento)){
-                pagos_mostrados[pagos_mostrados.length] = tipo_documento;
+            if(!pagos_mostrados.includes(id_modo_pag)){
+                pagos_mostrados[pagos_mostrados.length] = id_modo_pag;
             }
 
-            guardarX(cli_form_pago, tipo_documento);
+            guardarX(cli_form_pago, tipo_documento ,sucursal_id);
 
             $("#procesar_venta").modal();
             $('#procesar_btn').hide();
         }
 
-        function guardarX(cli_form_pago, tipo_documento) {
+        function guardarX(cli_form_pago, tipo_documento ) {
+
+            var sucursal_id = $("#sucursal_id").val();
             
             $.ajax({
-                url: path+"get_form_pago/" + cli_form_pago + "/" + tipo_documento,
+                url: path+"get_form_pago/" + cli_form_pago + "/" + tipo_documento + "/"+ sucursal_id,
                 datatype: 'json',
                 cache: false,
 

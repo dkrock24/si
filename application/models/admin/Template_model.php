@@ -330,6 +330,7 @@ class Template_model extends CI_Model {
         $this->db->where('ts.Documento', $documento_id);
         //$this->db->where('ts.Pago', $pago);
         $this->db->where('ts.estado_suc_tem', 1);
+        $this->db->limit(1);
         $query = $this->db->get();
 
         //echo $this->db->queries[11];

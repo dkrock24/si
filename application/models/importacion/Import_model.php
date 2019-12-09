@@ -309,7 +309,7 @@ class Import_model extends CI_Model {
                 if($filtro['actualizar'] == 1){
                     
                     $data = array(
-                        $campo => $param2 ,
+                        $campo => $value[$param2] ,
                         'Impuesto' => $filtro['impuesto'],
                         'estado' => $filtro['activo']
                     );

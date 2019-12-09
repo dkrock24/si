@@ -248,7 +248,7 @@
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Numero</label>
+                                                    <label>Numero Orden</label>
                                                     <?php
 
                                                     foreach ($correlativo as $key => $value) {
@@ -761,6 +761,7 @@
                         <?php
                             if($temp){
                                 foreach ($temp as $t) {
+                                    
                                     $data = $t->factura_template;
                                     try {
                                         eval($data);    

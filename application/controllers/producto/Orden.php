@@ -373,9 +373,9 @@ class Orden extends MY_Controller {
 		}
 	}
 
-	public function get_form_pago( $id_cliente ,$tipo_documento ){
+	public function get_form_pago( $id_cliente ,$tipo_documento , $sucursal_id ){
 		$data['metodo_pago'] = $this->ModoPago_model->get_pagos_by_cliente( $id_cliente );
-		$data['metodo_pago_doc'] = $this->ModoPago_model->get_pagos_by_doc( $tipo_documento );
+		$data['metodo_pago_doc'] = $this->ModoPago_model->get_pagos_by_doc( $tipo_documento , $sucursal_id );
 
 		echo json_encode($data);
 	}
