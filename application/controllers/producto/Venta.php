@@ -89,12 +89,13 @@ class Venta extends CI_Controller {
 		foreach ($_POST['encabezado'] as $key => $value) {
 			$form[$value['name']] = $value['value'];
 		}
-
+		$correlativo_documento = $_POST['correlativo_documento'];
+		
 		$documento_tipo = $this->Documento_model->getDocumentoById($_POST['documento_tipo']);
 
 		$cliente = $this->get_clientes_id($_POST['cliente']);
 
-		$this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo , $_POST['sucursal_origen']);
+		$this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo , $_POST['sucursal_origen'] , $correlativo_documento);
 
 		redirect(base_url()."producto/orden/nuevo");
 	}

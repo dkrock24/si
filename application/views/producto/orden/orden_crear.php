@@ -82,9 +82,12 @@
                                                   <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
                                                         <?php
                                                         foreach ($tipoDocumento as $documento) {
+                                                            $doc = strtoupper($documento->nombre);
+                                                            if(strpos($doc, 'ORDEN') !== FALSE ){
                                                             ?>
                                                             <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
                                                             <?php
+                                                            }
                                                         }
                                                         ?>
                                                     </select>

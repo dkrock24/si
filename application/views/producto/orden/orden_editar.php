@@ -47,6 +47,8 @@
                     <!-- Campos de la terminal -->
                     <input type="hidden" name="terminal_id" value="<?php echo $terminal[0]->id_terminal; ?>" />
                     <input type="hidden" name="terminal_numero" value="<?php echo $terminal[0]->numero; ?>" />
+                    <input type="hidden" name="caja_id" value="<?php echo $terminal[0]->id_caja; ?>" />
+                    <input type="hidden" name="caja_numero" value="<?php echo $terminal[0]->cod_interno_caja; ?>" />
                     <!-- Fin Campos de la terminal -->
 
                     <!-- Campos del cliente -->
@@ -80,22 +82,33 @@
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label>Tipo Documento</label>
-                                                    <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
+                                                    <select class="form-control" name="orden_documento" id="orden_documento">
                                                         <?php
+
                                                         foreach ($tipoDocumento as $documento) {
-                                                            if($orden[0]->id_tipod == $documento->id_tipo_documento){
-                                                                ?>
-                                                                <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
-                                                                <?php
-                                                            }                                                           
+
+                                                            $doc = strtoupper($documento->nombre);
+                                                            
+                                                            if(strpos($doc, 'ORDEN') !== FALSE ){
+                                                            
+                                                                if($orden[0]->id_tipod == $documento->id_tipo_documento){
+                                                                    ?>
+                                                                    <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                                                    <?php
+                                                                }
+                                                            }
                                                         }
+                                                        /*
                                                         foreach ($tipoDocumento as $documento) {
+                                                        
                                                             if($orden[0]->id_tipod != $documento->id_tipo_documento){
                                                                 ?>
                                                                 <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
                                                                 <?php
                                                             }                                                           
                                                         }
+                                                        */
+
                                                         ?>
                                                     </select>
                                                 </div>
@@ -249,15 +262,6 @@
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label>Numero Orden</label>
-                                                    <?php
-
-                                                    foreach ($correlativo as $key => $value) {
-
-                                                        if ($id_sucursal == $value->id_sucursal) {
-                                                            $secuencia = $value->siguiente_valor;
-                                                        }
-                                                    }
-                                                    ?>
 
                                                     <input type="text" name="num_correlativo" value="<?php echo $orden[0]->num_correlativo; ?>" class="form-control" id="c_numero">
                                                 </div>
@@ -619,7 +623,23 @@
                     <div class="col-lg-9 col-md-9" style="border-right: 1px solid #e5e5e5; height: 50%;">
 
                         <div class="row">
-                            <div class="col-lg-3 col-md-3">
+
+                            <div class="col-lg-2 col-md-2">
+                                <select class="form-control" name="id_tipo_documento" id="id_tipo_documento" class="id_tipo_documento">
+                                    <?php
+                                    
+                                    foreach ($tipoDocumento as $documento) {
+                                        if($orden[0]->id_tipod != $documento->id_tipo_documento){
+                                            ?>
+                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2">
                                 <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
                                     <?php
                                     foreach ($modo_pago as $mp) {
@@ -630,25 +650,30 @@
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-lg-3 col-md-3">
+
+                            <div class="col-lg-1 col-md-1">
                                 <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
                             </div>
 
-                            <div class="btn-group " class="col-lg-2 col-md-2">
+                            <div class="col-lg-2 col-md-2">
 
                                 <select name="orden_estado" id="orden_estado" class="form-control">
-                                    <option value="6">Cancelado</option>
-                                    <option value="1">En proceso</option>
-                                    <option value="2">En Reservaa</option>
-                                    <option value="3">Procesadaa</option>
                                     <option value="4">Facturada</option>
+                                    <option value="1">En proceso</option>
                                     <option value="5">En Espera</option>
+                                    <option value="3">Procesada</option>
+                                    <option value="2">En Reservaa</option>
+                                    <option value="6">Cancelado</option>
                                 </select>
 
                             </div>
 
-                            <div class="col-lg-4 col-md-4">
+                            <div class="col-lg-3 col-md-3">
                                 <input type="text" class="form-control has-success" name="cliente" placeholder="Nombre Cliente">
+                            </div>
+
+                            <div class="col-lg-2 col-md-2">
+                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
                             </div>
 
                         </div>
@@ -672,6 +697,7 @@
                                 $a++;
                             }
                             ?>
+                            
                         </div>
                     </div>
 
@@ -734,7 +760,7 @@
 
                 <div class="modal-footer">
 
-                    <button type="button" data-dismiss="modal" id="procesar_btn" class="mb-sm btn-lg btn btn-purple btn-outline guardar" name="2">PROCESAR</button>
+                    <button type="button" data-dismiss="modal" id="procesar_btn" class="mb-sm btn-lg btn btn-purple btn-outline guardar" name="../venta/guardar_venta">PROCESAR</button>
                     <button type="button" data-dismiss="modal" class="mb-sm btn-lg btn btn-danger btn-outline">CANCELAR</button>
                 </div>
             </div>
@@ -757,23 +783,9 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 vista_ticket">
+                        
+                        <?php include("asstes/pos_impresion.php"); ?>
 
-                        <?php
-                            if($temp){
-                                foreach ($temp as $t) {
-                                    
-                                    $data = $t->factura_template;
-                                    try {
-                                        eval($data);    
-                                    } catch (Exception $e) {
-                                        echo "Error";
-                                    }
-                                    
-                                }
-                            }else{
-                                echo "<h5> Documento Sin Template Para Impresion.</h5>";
-                            }
-                        ?>
                     </div>
                     <div class="col-lg-8 col-md-8">
 

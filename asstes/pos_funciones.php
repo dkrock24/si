@@ -1377,7 +1377,15 @@
             }
         }
 
-        
+        $(document).on('change','#id_tipo_documento', function(){
+
+            var cli_form_pago = $("#cliente_codigo").val();
+            var tipo_documento = parseInt($("#id_tipo_documento").val());
+            var sucursal_id = $("#sucursal_id2").val();
+            
+            correlativo_documento(cli_form_pago, tipo_documento ,sucursal_id);
+
+        });        
 
         $(document).on('click', '.guardar', function() {
             // Recargar Los Tipos de Pago Por Cliente
@@ -1394,6 +1402,7 @@
 
             var cli_form_pago = $("#cliente_codigo").val();
             var tipo_documento = parseInt($("#id_tipo_documento").val());
+            var sucursal_id = $("#sucursal_id2").val();
 
             var id_modo_pag = $("#modo_pago_id").val();
             
@@ -1402,12 +1411,31 @@
             }
 
             guardarX(cli_form_pago, tipo_documento ,sucursal_id);
+            correlativo_documento(cli_form_pago, tipo_documento ,sucursal_id);
 
             $("#procesar_venta").modal();
             $('#procesar_btn').hide();
         }
 
-        function guardarX(cli_form_pago, tipo_documento ) {
+        function correlativo_documento( cli_form_pago, tipo_documento ,sucursal_id ){
+            $.ajax({
+                url: path+"get_correlativo_documento/"  + tipo_documento + "/"+ sucursal_id,
+                datatype: 'json',
+                cache: false,
+
+                success: function(data) {
+
+                    var datos = JSON.parse(data);
+                    var correlativo = datos["correlativo"];
+                    console.log(correlativo[0].siguiente_valor);
+
+                    $("#correlativo_documento").val(correlativo[0].siguiente_valor);
+                },
+                error: function() {}
+            });
+        }
+
+        function guardarX(cli_form_pago, tipo_documento ,sucursal_id) {
 
             var sucursal_id = $("#sucursal_id").val();
             
@@ -1547,7 +1575,7 @@
 
         $(document).on('click', '#procesar_btn', function() {
 
-            procesar_venta($('.guardar').attr('id'));
+            procesar_venta($(this).attr('name'));
         });
 
         $(document).on('click', '#guardar_orden', function() {
@@ -1677,8 +1705,10 @@
 
             var cliente_id = $("#cliente_codigo").val();
 
-            var formulario = $('#encabezado_form').serializeArray();
+            var correlativo_documento = $("#correlativo_documento").val();;
 
+            var formulario = $('#encabezado_form').serializeArray();
+            
             var orden_estado = $("#orden_estado").val(); //$(this).attr('name');
             var impuestos_data = {
                 'imp_condicion': _impuestos_orden_condicion,
@@ -1699,6 +1729,7 @@
                         documento_tipo: tipo_documento,
                         cliente: cliente_id,
                         sucursal_origen: sucursal_origen,
+                        correlativo_documento:correlativo_documento,
                     },
                     url: path+method,
 

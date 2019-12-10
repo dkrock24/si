@@ -8,11 +8,12 @@ class Correlativo_model extends CI_Model {
 
     
 
-	function get_correlativo_sucursal(){
+	function get_correlativo_sucursal($documento  , $sucursal ){
         $this->db->select('*');
         $this->db->from(self::correlativos.' as c');
         $this->db->join(self::sucursal.' as s', 'on c.Sucursal = s.id_sucursal');
-        //$this->db->where('s.Empresa_Suc',$this->session->empresa[0]->Empresa_Suc);
+        $this->db->where('c.TipoDocumento', $documento );
+        $this->db->where('c.Sucursal', $sucursal );
         $query = $this->db->get(); 
 
         if($query->num_rows() > 0 )
@@ -20,6 +21,7 @@ class Correlativo_model extends CI_Model {
             return $query->result();
         }
     }
+    
 
     function get_by_id( $sucursal ){
         $this->db->select('*');

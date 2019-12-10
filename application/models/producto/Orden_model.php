@@ -74,6 +74,7 @@ class Orden_model extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from(self::pos_tipo_documento);
+		$this->db->where('Empresa' , $this->session->empresa[0]->id_empresa );
 		$query = $this->db->get();
 		//echo $this->db->queries[1];
 
@@ -263,9 +264,7 @@ class Orden_model extends CI_Model
 
 		$desc_val = ($orden['orden'][0]['descuento_limite'] * $orden['orden'][0]['total']);
 
-
-
-		$siguiente_correlativo = $this->get_siguiente_correlativo($orden['encabezado'][12]['value']);
+		$siguiente_correlativo = $this->get_siguiente_correlativo($orden['encabezado'][12]['value'] , $dataParametros['id_tipo_documento'] );
 
 		$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor, $orden['encabezado'][13]['value']);
 
@@ -445,13 +444,11 @@ class Orden_model extends CI_Model
 
 		$desc_val = ($orden['orden'][0]['por_desc'] * $orden['orden'][0]['total']);
 
-		//$siguiente_correlativo = $orden['encabezado'][14]['value'];
-
 		$data = array(
 			'id_caja' 		=> $dataParametros['terminal_id'], 
 			'num_caja' 		=> $dataParametros['terminal_numero'], 
 			'd_inc_imp0' 	=> $dataParametros['impuesto'], 
-			'id_tipod' 		=> $dataParametros['id_tipo_documento'], 
+			'id_tipod' 		=> $dataParametros['orden_documento'], 
 			'id_sucursal' 	=> $dataParametros['sucursal_destino'], 
 			'num_correlativo' => $dataParametros['num_correlativo'], 
 			'id_cliente' 	=> $dataParametros['cliente_codigo'], 
@@ -515,11 +512,13 @@ class Orden_model extends CI_Model
 		$this->db->delete(self::pos_ordenes_detalle, $data);
 	}
 
-	function get_siguiente_correlativo($sucursal)
+	function get_siguiente_correlativo($sucursal , $documento)
 	{
 		$this->db->select('*');
 		$this->db->from(self::pos_correlativos);
 		$this->db->where('Sucursal', $sucursal);
+		$this->db->where('TipoDocumento', $documento);
+
 		$query = $this->db->get();
 
 		if ($query->num_rows() > 0) {

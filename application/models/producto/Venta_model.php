@@ -207,87 +207,98 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 			1 - guardar_venta
 		*/
 
-		function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal){
+		function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal , $correlativo_documento){
 
 			$total_orden = $orden['orden'][0]['total'];
 			$total_orden = (float) $total_orden;
 
-			$total_iva = $orden['orden'][0]['por_iva'];
-			$total_iva = (float) $total_iva;
+			//$total_iva = $orden['orden'][0]['por_iva'];
+			//$total_iva = (float) $total_iva;
 
 			$order_estado = $orden['estado'];
 
 			//Precio Orden con Impuesto
 			$cliente_aplica_impuesto = $cliente[0]->aplica_impuestos;
 
-			$desc_val = ($total_iva * $total_orden);
+			//$desc_val = ($total_iva * $total_orden);
 
-			$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal );
+			$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal , $documento );
 
-			$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $form['numero']);
+			if($siguiente_correlativo[0]){
 
-			$data = array(
-				'id_caja' 		=> $form['caja_id'], //terminal_id
-				'id_cajero'		=> $this->session->db[0]->id_usuario,
-				'num_caja' 		=> $form['caja_numero'], //terminal_numero
-				'd_inc_imp0' 	=> $form['impuesto'], //impuesto
-				'id_tipod' 		=> $form['modo_pago_id'], //modo_pago_id
-				'id_sucursal' 	=> $form['sucursal_destino'], //sucursal_destino
-				'num_correlativo'=>$correlativo_final,
-				'id_cliente' 	=> $form['cliente_codigo'], //cliente_codigo
-				'nombre' 		=> $form['cliente_nombre'], //cliente_nombre
-				'direccion' 	=> $form['cliente_direccion'], //cliente_direccion
-				'id_condpago' 	=> $form['modo_pago_id'], //modo_pago_id
-				'comentarios' 	=> "",//comentarios
-				'id_sucursal_origin' => $form['sucursal_origin'], //sucursal_origin	
-	            'id_vendedor' 	=> $form['vendedor'], //vendedor
-	            'id_usuario' 	=> $id_usuario,
-	            'fecha' 		=> date("Y-m-d h:i:s"),	            
-	            'digi_total' 	=> $total_orden,
-	            'impSuma'		=> $orden['orden'][0]['impSuma'],
-	            'iva'			=> $orden['orden'][0]['iva'],
-	            'desc_porc' 	=> $orden['orden'][0]['descuento_limite'],
-	            'id_bodega' 	=> $orden['orden'][0]['id_bodega'],
-	            'desc_val' 		=> $orden['orden'][0]['descuento_calculado'],
-	            'total_doc' 	=> $total_orden,
-	            'fh_inicio' 	=> date("Y-m-d h:i:s"),
-	            'fh_final' 		=> date("Y-m-d h:i:s"),
-	            'id_venta' 		=> 0, // Actualizara al procesar la venta
-	            'facturado_el' 	=> 0, // Actualizara al procesar la venta
-	            'anulado' 		=> 0, // Actualizara al procesar alguna accion
-	            'creado_el' 	=> date("Y-m-d h:i:s"),
-	            'fecha_inglab' 	=> date("Y-m-d h:i:s"),
-	            'orden_estado'	=> $orden['estado'] // Facturada
-	            //'anulado_el' 	=> "", // Actualizara al procesar alguna accion
-	            //'anulado_conc'=> "", // Actualizara al procesar alguna accion
-	            //'cod_estado'	=> "0",
-	            //'estado_el' 	=> "0",
-	            //'reserv_producs' => "0",
-	            //'reserv_conc' 	=> "0",
-	            //'fecha_entreg' 	=> date("Y-m-d h:i:s"),
-	            //'tiempoproc' 	=> "0",
-	            //'modi_el' 		=> "0",
-	            
-        	);
+				$numero = 0;
+				if( isset( $correlativo_documento ) ){
+					$numero = $correlativo_documento ;
+				}
 
-			/* GUARDAR ENCABEZADO DE LA VENTA */
-        	$this->db->insert(self::pos_ventas, $data ); 
-			$id_orden = $this->db->insert_id();
+				$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $numero );
 
-			/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
-			$this->guardar_venta_detalle( $id_orden , $orden );	
-			
-			/* GUARDAR FORMATOS DE PAGO */
-			$this->save_forma_pago($id_orden , $orden['pagos']);
+				$data = array(
+					'id_caja' 		=> $form['caja_id'], //terminal_id
+					'id_cajero'		=> $this->session->db[0]->id_usuario,
+					'num_caja' 		=> $form['caja_numero'], //terminal_numero
+					'd_inc_imp0' 	=> $form['impuesto'], //impuesto
+					'id_tipod' 		=> $form['modo_pago_id'], //modo_pago_id
+					'id_sucursal' 	=> $form['sucursal_destino'], //sucursal_destino
+					'num_correlativo'=>$correlativo_final,
+					'id_cliente' 	=> $form['cliente_codigo'], //cliente_codigo
+					'nombre' 		=> $form['cliente_nombre'], //cliente_nombre
+					'direccion' 	=> $form['cliente_direccion'], //cliente_direccion
+					'id_condpago' 	=> $form['modo_pago_id'], //modo_pago_id
+					'comentarios' 	=> "",//comentarios
+					'id_sucursal_origin' => $form['sucursal_origin'], //sucursal_origin	
+					'id_vendedor' 	=> $form['vendedor'], //vendedor
+					'id_usuario' 	=> $id_usuario,
+					'fecha' 		=> date("Y-m-d h:i:s"),	            
+					'digi_total' 	=> $total_orden,
+					'impSuma'		=> $orden['orden'][0]['impSuma'],
+					'iva'			=> $orden['orden'][0]['iva'],
+					'desc_porc' 	=> $orden['orden'][0]['descuento_limite'],
+					'id_bodega' 	=> $orden['orden'][0]['id_bodega'],
+					'desc_val' 		=> $orden['orden'][0]['descuento_calculado'],
+					'total_doc' 	=> $total_orden,
+					'fh_inicio' 	=> date("Y-m-d h:i:s"),
+					'fh_final' 		=> date("Y-m-d h:i:s"),
+					'id_venta' 		=> 0, // Actualizara al procesar la venta
+					'facturado_el' 	=> 0, // Actualizara al procesar la venta
+					'anulado' 		=> 0, // Actualizara al procesar alguna accion
+					'creado_el' 	=> date("Y-m-d h:i:s"),
+					'fecha_inglab' 	=> date("Y-m-d h:i:s"),
+					'orden_estado'	=> $orden['estado'] // Facturada
+					//'anulado_el' 	=> "", // Actualizara al procesar alguna accion
+					//'anulado_conc'=> "", // Actualizara al procesar alguna accion
+					//'cod_estado'	=> "0",
+					//'estado_el' 	=> "0",
+					//'reserv_producs' => "0",
+					//'reserv_conc' 	=> "0",
+					//'fecha_entreg' 	=> date("Y-m-d h:i:s"),
+					//'tiempoproc' 	=> "0",
+					//'modi_el' 		=> "0",
+					
+				);
 
-			/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
-			$this->save_venta_impuestos( $id_orden , $orden , 2);	
+				/* GUARDAR ENCABEZADO DE LA VENTA */
+				$this->db->insert(self::pos_ventas, $data ); 
+				$id_orden = $this->db->insert_id();
 
-			/* INCREMENTO CORRELATIVOS AUTOMATICOS */
-			$this->incremento_correlativo($siguiente_correlativo);
+				/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
+				$this->guardar_venta_detalle( $id_orden , $orden );	
+				
+				/* GUARDAR FORMATOS DE PAGO */
+				$this->save_forma_pago($id_orden , $orden['pagos']);
 
-			/* PROCESAR EFECTOS DE INVENTARIO SOBRE TIPO DOCUMENTO EN BODEGA */
-			$this->efecto_bodega($id_orden , $orden ,$documento);
+				/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
+				$this->save_venta_impuestos( $id_orden , $orden , 2);	
+
+				/* INCREMENTO CORRELATIVOS AUTOMATICOS */
+				
+				$this->incremento_correlativo( $numero, $sucursal , $documento[0]->id_tipo_documento);
+
+				/* PROCESAR EFECTOS DE INVENTARIO SOBRE TIPO DOCUMENTO EN BODEGA */
+				$this->efecto_bodega($id_orden , $orden ,$documento);
+			}else{
+				echo "No hay correlativo";
+			}
 
 		}
 
@@ -542,7 +553,8 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 		function get_siguiente_correlativo($sucursal){
 			$this->db->select('*');
 	        $this->db->from(self::pos_correlativos);
-	        $this->db->where('Sucursal',$sucursal);
+			$this->db->where('Sucursal',$sucursal);
+			$this->db->where('TipoDocumento',$sucursal);
 	        $query = $this->db->get(); 
 	        
 	        if($query->num_rows() > 0 )
@@ -551,17 +563,20 @@ where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Limit ". $
 	        }
 		}
 
-		function incremento_correlativo($siguiente_correlativo){
-			//Aunmentar la Secuencia.
-	        $id_correlativo = $siguiente_correlativo[0]->id_correlativos;
-	        $correlativo = $siguiente_correlativo[0]->siguiente_valor;
-	        $correlativo = $correlativo+1;
+		function incremento_correlativo($numero,  $sucursal , $documento ){
+			
+			//Aunmentar la Secuencia del tipo de documento en la sucursal.
+	        
+	        $correlativo = (int) $numero+1;
 
 	        $data = array(
 	            'siguiente_valor' => $correlativo
-	        );
-			$this->db->where('id_correlativos', $id_correlativo );
+			);
+						
+			$this->db->where('Sucursal', $sucursal );
+			$this->db->where('TipoDocumento', $documento );
 			$this->db->update(self::pos_correlativos, $data );
+
 		}
 
 		// Fin ordenes

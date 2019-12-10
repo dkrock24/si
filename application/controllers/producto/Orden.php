@@ -169,7 +169,8 @@ class Orden extends MY_Controller {
 			$data['modo_pago'] = $this->ModoPago_model->get_pagos_by_cliente($data['orden'][0]->id_cliente);
 			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
 			$data['terminal'] = $terminal_acceso;
-			$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal();
+			
+			
 			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
 			$data['title'] = "Editar Orden";
@@ -190,12 +191,23 @@ class Orden extends MY_Controller {
 		}
 	}
 
+	public function get_correlativo_documento( $documento , $sucursal ){
+		
+		$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal( $documento , $sucursal );
+		
+		echo json_encode($data);
+	}
+
 	public function update_orden(){
+
 		$dataParametros = array();
+		
 		$id_usuario = $this->session->usuario[0]->id_usuario;
 
 		foreach ($_POST['encabezado'] as $key => $value) {
+		
 			foreach ($_POST['encabezado'] as $key => $value) {
+		
 				$dataParametros[$value['name']] = $value['value'];
 			}
 		}
@@ -209,7 +221,9 @@ class Orden extends MY_Controller {
 	}
 
 	public function autoload_orden(){
+
 		$componente_conf = "combo";
+		
 		$impuesto_conf = "impuestos";
 
 		$data['orden_detalle'] = $this->Orden_model->get_orden_detalle($_POST['id']);
@@ -225,8 +239,11 @@ class Orden extends MY_Controller {
 		$id_usuario = $this->session->usuario[0]->id_usuario;
 
 		foreach ($_POST['encabezado'] as $key => $value) {
+			
 			foreach ($_POST['encabezado'] as $key => $value) {
+			
 				$dataParametros[$value['name']] = $value['value'];
+			
 			}
 		}
 
