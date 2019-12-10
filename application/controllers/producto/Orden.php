@@ -40,8 +40,6 @@ class Orden extends MY_Controller {
 		$url_page = "producto/orden/index";
 		$pag = $this->MyPagination($model, $url_page, $vista = 26) ;
 
-
-
 		parametros($this->session->menu);
 
 		$data['menu'] = $this->session->menu;
@@ -218,6 +216,18 @@ class Orden extends MY_Controller {
 		$this->Orden_model->update( $_POST , $id_usuario ,$cliente , $dataParametros);
 
 		redirect(base_url()."producto/orden/index");
+	}
+
+	public function cerrar_orden(){
+		
+		if(isset($_POST)){
+			
+			$correlativo_orden = $_POST['correlativo_orden'];
+			
+			$this->Orden_model->cerrar_orden( $correlativo_orden );
+
+		}
+
 	}
 
 	public function autoload_orden(){

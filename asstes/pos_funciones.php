@@ -1740,6 +1740,29 @@
                     error: function() {}
                 });
             }
+
+            if($("#c_numero").val()){
+                
+                cerrar_orden($("#c_numero").val());
+
+            }
+        }
+
+        function cerrar_orden( correlativo_orden ){
+
+            $.ajax({
+                type: 'POST',
+                data: {
+                    correlativo_orden: correlativo_orden,
+                },
+                url: path+"cerrar_orden",
+
+                success: function(data) {
+
+                    //location.reload();
+                },
+                error: function() {}
+            });
         }
 
         $(document).on('click', '.seleccionar_cliente', function() {

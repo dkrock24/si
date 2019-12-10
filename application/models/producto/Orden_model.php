@@ -54,7 +54,7 @@ class Orden_model extends CI_Model
 			left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
 			left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago 
 			left join pos_orden_estado as oe  on oe.id_orden_estado= orden.orden_estado
-			where sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. " Order By orden.num_correlativo DESC Limit " . $id . ',' . $limit);
+			where oe.id_orden_estado in (1,2,5) and  sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. " Order By orden.num_correlativo DESC Limit " . $id . ',' . $limit);
 
 		//echo $this->db->queries[1];
 		return $query->result();
@@ -501,6 +501,17 @@ class Orden_model extends CI_Model
 
 		$this->delete_orden_detalle($orden_id);
 		$this->guardar_orden_detalle($orden_id, $orden);
+	}
+
+	function cerrar_orden( $correlativo_orden ){
+
+		$data = array(
+			'orden_estado' => 4,
+		);
+
+		$this->db->where('num_correlativo', $correlativo_orden);
+		$this->db->update(self::pos_ordenes, $data);
+
 	}
 
 	function delete_orden_detalle($ordern_id)
