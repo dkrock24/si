@@ -5,6 +5,7 @@ class Terminal_model extends CI_Model {
 	const pos_terminal_cajero = 'pos_terminal_cajero';
     const sucursal = "pos_sucursal";
     const caja = 'pos_caja';
+    const usuario = 'pos_usuario';
 
 
 	function validar_usuario_terminal( $usuario_id , $terminal_nombe ){
@@ -77,5 +78,25 @@ class Terminal_model extends CI_Model {
         $this->db->from( self::pos_terminal);
         $query = $this->db->get();
         return $query->result();
+    }
+
+    function get_terminal_users(){
+
+        $this->db->select('*');
+        $this->db->from(self::pos_terminal.' as terminal');
+        $this->db->join(self::pos_terminal_cajero.' as cajero ',' on cajero.Terminal = terminal.id_terminal ');
+        $this->db->join(self::caja.' as caja', ' on caja.id_caja = terminal.Caja');
+        //$this->db->join(self::usuario.' as usuario', ' usuario.id_usuario = cajero.Cajero_terminal', 'left');
+        //$this->db->where('cajero.Cajero_terminal = '. $usuario_id);
+        //$this->db->where('terminal.ip_o_mack = ', $terminal_nombe);
+        $this->db->where('cajero.estado_terminal_cajero = ', 1);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+
     }
 }

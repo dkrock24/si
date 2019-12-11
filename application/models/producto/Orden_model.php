@@ -66,6 +66,7 @@ class Orden_model extends CI_Model
 		$this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa. ' '. $filter);
 		$this->db->from(self::pos_ordenes . ' as o');
 		$this->db->join(self::sucursal . ' as s', ' on o.id_sucursal = s.id_sucursal');
+		$this->db->where('o.orden_estado in (1,2,5)');
 		$result = $this->db->count_all_results();
 		return $result;
 	}

@@ -58,10 +58,10 @@ class Usuario_model extends CI_Model {
         $this->db->join(self::sucursal,' on '.self::empleado.'.Sucursal='.self::sucursal.'.id_sucursal');
         $this->db->join(self::persona,' on '.self::persona.'.id_persona='.self::empleado.'.Persona_E');
 
-        $this->db->where(self::empleado.'.Persona_E = ', $id_usuario);
+        $this->db->where(self::empleado.'.id_empleado = ', $id_usuario);
         $this->db->where(self::empleado.'.estado = 1');
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];
+        //echo $this->db->queries[6];
         
         if($query->num_rows() > 0 )
         {

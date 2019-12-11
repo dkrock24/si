@@ -96,5 +96,9 @@
 
         }
 
+        function validation_imputs(){
+            
+        }
+
     });
 </script>

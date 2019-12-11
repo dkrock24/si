@@ -163,9 +163,11 @@ class Orden extends MY_Controller {
 			$data['orden_detalle'] = $this->Orden_model->get_orden_detalle($order_id);
 			
 			$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
+
 			$data['sucursales'] = $this->Producto_model->get_sucursales();
 			$data['modo_pago'] = $this->ModoPago_model->get_pagos_by_cliente($data['orden'][0]->id_cliente);
-			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
+			$data['empleado'] = $this->Usuario_model->get_empleado( $data['orden'][0]->id_vendedor );
+
 			$data['terminal'] = $terminal_acceso;
 			
 			

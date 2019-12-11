@@ -105,10 +105,13 @@ class Template extends MY_Controller {
 		$data['result'] = 0;
 
 		if(isset($_POST['documento']) && isset($_POST['factura_id'])){
+			
 			$data['documento_id'] = $_POST['documento'];
+			
 			$data['factura_id'] = $_POST['factura_id'];
+			
 			$factura_id = $_POST['factura_id'];
-			$data['factura_id'] = $factura_id;
+			
 			$data['result'] = $this->Template_model->getTemplateBySucursal($factura_id);
 			
 		}

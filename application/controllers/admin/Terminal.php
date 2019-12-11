@@ -50,7 +50,7 @@ class Terminal extends MY_Controller {
 
 		$model = "Terminal_model";
 		$url_page = "admin/terminal/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 30);
+		$pag = $this->MyPagination($model, $url_page , $vista = 34);
 
 
 		$data['menu'] = $this->session->menu;
@@ -138,6 +138,17 @@ class Terminal extends MY_Controller {
 		}
 
 		redirect(base_url()."admin/terminal/index");
+	}
+
+	public function asociar( $id_terminal ){
+
+		$data['menu'] = $this->session->menu;
+		
+		$data['registros'] = $this->Terminal_model->get_terminal_users( $id_terminal );
+		$data['title'] = "Terminal Usuarios";
+		$data['home'] = 'admin/terminal/t_asociar';
+
+		$this->parser->parse('template', $data);
 	}
 
 	public function column(){

@@ -87,15 +87,15 @@
 
                                                         foreach ($tipoDocumento as $documento) {
 
-                                                            $doc = strtoupper($documento->nombre);
+                                                            $doc = strtoupper($documento->nombre);                                                            
                                                             
                                                             if(strpos($doc, 'ORDEN') !== FALSE ){
                                                             
-                                                                if($orden[0]->id_tipod == $documento->id_tipo_documento){
+                                                                //if($orden[0]->id_tipod == $documento->id_tipo_documento){
                                                                     ?>
                                                                     <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
                                                                     <?php
-                                                                }
+                                                                //}
                                                             }
                                                         }
                                                         /*
@@ -293,9 +293,10 @@
                                                 <div class="form-group has-success">
                                                     <label>Vendedor</label><br>
                                                     <div class="pull-left">
+                                                        
                                                         <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo $empleado[0]->id_empleado; ?>">
                                                         <h3>
-                                                        <a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona . " " . $empleado[0]->primer_apellido_persona; ?></a>
+                                                            <a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona . " " . $empleado[0]->primer_apellido_persona; ?></a>
                                                         </h3>
 
                                                     </div>

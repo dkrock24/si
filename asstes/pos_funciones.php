@@ -1748,7 +1748,7 @@
                 });
             }
 
-            if($("#c_numero").val()){
+            if(method != "update_orden"){
                 
                 cerrar_orden($("#c_numero").val());
 
@@ -1800,11 +1800,14 @@
                     var documentoSelecionado = tipo_documento.find(x => x.id_tipo_documento == clienteWithDocumento[0].TipoDocumento);
 
                     if (documentoSelecionado != null) {
-                        $("#id_tipo_documento").html("<option value='" + documentoSelecionado.id_tipo_documento + "'>" + documentoSelecionado.nombre + "</option>");
+                        // Opcion predefinado de documento para el cliente
+                        //$("#id_tipo_documento").html("<option value='" + documentoSelecionado.id_tipo_documento + "'>" + documentoSelecionado.nombre + "</option>");
                     }
 
                     $.each(tipo_documento, function(i, item) {
-                        if (item.id_tipo_documento != clienteWithDocumento[0].TipoDocumento) {
+                        var n = item.nombre;
+                        if(n.includes('Orden') ){ 
+                            //if (item.id_tipo_documento != clienteWithDocumento[0].TipoDocumento) {
                             $("#id_tipo_documento").append("<option value='" + item.id_tipo_documento + "'>" + item.nombre + "</option>");
                         }
                     });
