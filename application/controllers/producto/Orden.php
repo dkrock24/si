@@ -82,7 +82,7 @@ class Orden extends MY_Controller {
 			$data['sucursales'] = $this->Producto_model->get_sucursales();
 			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
 			$data['terminal'] = $terminal_acceso;
-			$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal();
+			//$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal( $data['tipoDocumento'] );
 			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] = $this->Cliente_model->get_cliente();
@@ -381,11 +381,12 @@ class Orden extends MY_Controller {
 		if($terminal_acceso){
 			
 			$data['tipoDocumento'] = $this->Orden_model->get_doc_suc_pre();
+
 			$data['sucursales'] = $this->Producto_model->get_sucursales();
 			$data['modo_pago'] = $this->ModoPago_model->get_formas_pago();
 			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
 			$data['terminal'] = $terminal_acceso;
-			$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal();
+			//$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal(  ,$data['empleado'][0]->id_sucursal );
 			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] = $this->Cliente_model->get_cliente();

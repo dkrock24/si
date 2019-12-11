@@ -657,7 +657,7 @@
 
                             <div class="col-lg-2 col-md-2">
 
-                                <select name="orden_estado" id="orden_estado" class="form-control">
+                                <select name="orden_estado_venta" id="orden_estado_venta" class="form-control">
                                     <option value="4">Facturada</option>
                                     <option value="1">En proceso</option>
                                     <option value="5">En Espera</option>

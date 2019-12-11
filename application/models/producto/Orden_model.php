@@ -264,9 +264,9 @@ class Orden_model extends CI_Model
 
 		$desc_val = ($orden['orden'][0]['descuento_limite'] * $orden['orden'][0]['total']);
 
-		$siguiente_correlativo = $this->get_siguiente_correlativo($orden['encabezado'][12]['value'] , $dataParametros['id_tipo_documento'] );
+		$siguiente_correlativo = $this->get_siguiente_correlativo( $dataParametros['sucursal_origin'] , $dataParametros['id_tipo_documento'] );
 
-		$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor, $orden['encabezado'][13]['value']);
+		$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor, $siguiente_correlativo[0]->siguiente_valor);
 
 		$data = array(
 			'id_caja' 		=> $dataParametros['terminal_id'], //terminal_id
@@ -321,8 +321,7 @@ class Orden_model extends CI_Model
 
 	function guardar_orden_detalle($id_orden, $datos)
 	{
-		//var_dump($datos['orden']);
-		//die;
+
 		foreach ($datos['orden'] as $key => $orden) {
 
 			if ($orden['descuento']) {
@@ -331,14 +330,12 @@ class Orden_model extends CI_Model
 				$descuento_porcentaje = 0.00;
 			}
 
-
 			$data = array(
 				'id_orden' 		=> $id_orden,
 				'producto' 		=> $orden['producto'],
 				'producto_id' 	=> $orden['producto_id'],
 				'producto2' 	=> $orden['producto2'],
 				'inventario_id' => $orden['inventario_id'],
-
 				'id_bodega' 	=> $orden['id_bodega'],
 				'bodega' 		=> $orden['bodega'],
 				'combo' 		=> $orden['combo'],
@@ -346,31 +343,29 @@ class Orden_model extends CI_Model
 				'id_producto_combo' => $orden['id_producto_combo'],
 				'id_producto_detalle' => $orden['id_producto_detalle'],
 				'invisible' 	=> $orden['invisible'],
-
 				'descripcion' 	=> $orden['descripcion'],
 				'presenta_ppal' => $orden['presentacion'],
 				'cantidad' 	=> $orden['cantidad'],
 				'presentacion' 	=> $orden['presentacion'],
-				'presentacionFactor' 	=> $orden['presentacionFactor'],
+				'presentacionFactor' => $orden['presentacionFactor'],
 				'tipoprec' 		=> $orden['presentacion'],
 				'precioUnidad' 	=> $orden['precioUnidad'],
 				'factor' 		=> $orden['presentacionFactor'],
 				'total' 		=> $orden['total'],
-				'gen' 			=> $orden['gen'],
-				//'p_inc_imp0' 	=> $orden['orden'][0][''],
+				'gen' 			=> $orden['gen'],				
 				'descuento' 		=> $orden['descuento'],
 				'por_desc' 		=> $descuento_porcentaje,
-				'descuento_limite' 		=> $orden['descuento_limite'],
+				'descuento_limite' 	=> $orden['descuento_limite'],
 				'descuento_calculado' => $orden['descuento_calculado'],
 				'comenta' 		=> $orden['descripcion'],
-
-				'iva' 		=> $orden['iva'],
-				'categoria' 		=> $orden['categoria'],
+				'iva' 			=> $orden['iva'],
+				'categoria' 	=> $orden['categoria'],
+				'creado_el' 	=> date("Y-m-d h:i:s"),
 				//'id_bomba' 		=> $orden[''],
 				//'id_kit' 		=> $orden[''],
 				//'tp_c' 			=> $orden[''],
-				'creado_el' 	=> date("Y-m-d h:i:s"),
-				'modi_el' 		=> date("Y-m-d h:i:s"),
+				//'p_inc_imp0' 	=> $orden['orden'][0][''],				
+				//'modi_el' 		=> date("Y-m-d h:i:s"),
 			);
 
 			$this->db->insert(self::pos_ordenes_detalle, $data);

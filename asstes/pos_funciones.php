@@ -1708,8 +1708,15 @@
             var correlativo_documento = $("#correlativo_documento").val();;
 
             var formulario = $('#encabezado_form').serializeArray();
-            
+
             var orden_estado = $("#orden_estado").val(); //$(this).attr('name');
+
+            if($("#orden_estado_venta").val()){
+
+                orden_estado = $("#orden_estado_venta").val();
+
+            }
+            
             var impuestos_data = {
                 'imp_condicion': _impuestos_orden_condicion,
                 'imp_especial': _impuestos_orden_especial,

@@ -266,18 +266,29 @@ include("asstes/pos_funciones.php");
                                     <?php
                                     foreach ($tipoDocumento as $d) {
 
-                                        if ($d->id_temp_suc == $terminal[0]->pred_id_tpdoc) {
-                                            ?>
-                                            <option value="<?php echo $d->Pago; ?>"><?php echo $d->nombre . ' - ' . $d->factura_nombre; ?></option>
-                                        <?php
+                                        $doc = strtoupper($d->nombre);
+                                        
+                                        if(strpos($doc, 'ORDEN') === true ){
+
+                                            if ($d->id_temp_suc == $terminal[0]->pred_id_tpdoc) {
+                                                ?>
+                                                <option value="<?php echo $d->id_tipo_documento; ?>"><?php echo $d->nombre . ' - ' . $d->factura_nombre; ?></option>
+                                            <?php
                                             }
                                         }
-                                        foreach ($tipoDocumento as $documento) {
+                                    }
+                                    
+                                    foreach ($tipoDocumento as $documento) {
+
+                                        $doc = strtoupper($documento->nombre);
+
+                                        if(strpos($doc, 'ORDEN') === FALSE ){
 
                                             if ($documento->id_temp_suc != $terminal[0]->pred_id_tpdoc) {
-                                                ?>
-                                            <option value="<?php echo $documento->Pago; ?>"><?php echo $documento->nombre . ' - ' . $documento->factura_nombre; ?></option>
-                                    <?php
+                                                    ?>
+                                                <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre . ' - ' . $documento->factura_nombre; ?></option>
+                                            <?php
+                                            }
                                         }
                                     }
                                     ?>
@@ -392,16 +403,9 @@ include("asstes/pos_funciones.php");
                                     ?>
                                 </select>
                             </div>
-                            <?php
-
-                            foreach ($correlativo as $key => $value) {
-
-                                if ($id_sucursal == $value->id_sucursal) {
-                                    $secuencia = $value->siguiente_valor;
-                                }
-                            }
-                            ?>
-                            <input type="hidden" name="numero" value="<?php echo $secuencia; ?>" class="form-control" id="c_numero">
+                            
+                            
+                            
                         </div>
                     </div>
 
@@ -581,7 +585,7 @@ include("asstes/pos_funciones.php");
                     <div class="col-lg-9 col-md-9" style="border-right: 1px solid #e5e5e5; height: 50%;">
 
                         <div class="row">
-                            <div class="col-lg-3 col-md-3">
+                            <div class="col-lg-2 col-md-2">
                                 <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
                                     <?php
                                     foreach ($modo_pago as $mp) {
@@ -592,11 +596,11 @@ include("asstes/pos_funciones.php");
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-lg-3 col-md-3">
+                            <div class="col-lg-1 col-md-1">
                                 <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
                             </div>
 
-                            <div class="btn-group " class="col-lg-2 col-md-2">
+                            <div class="col-lg-2 col-md-2">
 
                                 <select name="orden_estado" id="orden_estado" class="form-control">
                                     <option value="6">Cancelado</option>
@@ -609,8 +613,12 @@ include("asstes/pos_funciones.php");
                                         
                             </div>
 
-                            <div class="col-lg-4 col-md-4">
+                            <div class="col-lg-3 col-md-3">
                                 <input type="text" class="form-control has-success" name="cliente" placeholder="Nombre Cliente">
+                            </div>
+
+                            <div class="col-lg-2 col-md-2">
+                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
                             </div>
 
                         </div>

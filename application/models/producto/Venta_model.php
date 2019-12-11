@@ -215,7 +215,8 @@ class Venta_model extends CI_Model {
 			//$total_iva = $orden['orden'][0]['por_iva'];
 			//$total_iva = (float) $total_iva;
 
-			$order_estado = $orden['estado'];
+		
+			//$order_estado = $orden['estado'];
 
 			//Precio Orden con Impuesto
 			$cliente_aplica_impuesto = $cliente[0]->aplica_impuestos;

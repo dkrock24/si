@@ -137,12 +137,28 @@
                                                </div>
                                             </div>
 
+                                            <div class="btn-group col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
+                                                    <label>Estado Orden</label>
+                                                    <select name="orden_estado" id="orden_estado" class="form-control">
+                                                        <option value="1">En proceso</option>
+                                                        <option value="6">Cancelado</option>                                                        
+                                                        <option value="2">En Reservaa</option>
+                                                        <option value="3">Procesadaa</option>
+                                                        <option value="4">Facturada</option>
+                                                        <option value="5">En Espera</option>                                    
+                                                    </select>
+                                                </div>                                                        
+                                            </div>   
+                                            
+                                            <!--
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                   <label>Total a Pagar</label>                                                  
                                                   <h2><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_msg"></span></h2>
                                                </div>
                                             </div>
+                                                -->
                                         </div>
                                      </div>
                                     
@@ -223,20 +239,7 @@
                                             </div>
 
                                             <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                  <label>Numero Orden</label>
-                                                  <?php
-                                                  
-                                                  foreach ($correlativo as $key => $value) {
-                                                    
-                                                      if($id_sucursal == $value->id_sucursal ){
-                                                        $secuencia = $value->siguiente_valor;
-                                                      }
-                                                  }
-                                                  ?>
-
-                                                  <input type="text" name="numero" value="<?php echo $secuencia; ?>" class="form-control" id="c_numero">
-                                               </div>
+                                                
                                             </div>
                                             
                                             <div class="col-lg-3 col-md-3">
@@ -244,25 +247,13 @@
                                                     <label>Vendedor</label><br>
                                                     <div class="pull-left">
                                                         <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo $empleado[0]->id_empleado; ?>">
-                                                        <div class="label bg-gray"><a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona." ".$empleado[0]->primer_apellido_persona; ?></a></div>
+                                                        <h3><a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona." ".$empleado[0]->primer_apellido_persona; ?></a></h3>
                                                        
+                                                        
                                                     </div>                                                          
                                                </div>
                                             </div>
-
-                                            <div class="btn-group col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Estado Orden</label>
-                                                    <select name="orden_estado" id="orden_estado" class="form-control">
-                                                        <option value="1">En proceso</option>
-                                                        <option value="6">Cancelado</option>                                                        
-                                                        <option value="2">En Reservaa</option>
-                                                        <option value="3">Procesadaa</option>
-                                                        <option value="4">Facturada</option>
-                                                        <option value="5">En Espera</option>                                    
-                                                    </select>
-                                                </div>                                                        
-                                            </div>                                         
+                                                                                 
 
                                         </div>
                                      </div>
