@@ -24,6 +24,7 @@
         var pagos_array = [];
         var bodega = 0;
         var _productos_precio2;
+        var interno_bodega=0;
 
             
 
@@ -33,9 +34,10 @@
         function getProductsList(){
 
             sucursal = $("#sucursal_id").val();
-            interno_bodega = bodega;        
+                
             bodega = $("#bodega_select").val();    
-     
+            interno_bodega = bodega;    
+
             $.ajax({
                 url: path+"get_productos_lista/" + sucursal + "/" + bodega,
                 datatype: 'json',
@@ -241,6 +243,7 @@
             var bodega = $("#bodega_select").val();
 
             interno_sucursal = sucursal;
+            
             interno_bodega = bodega;
             $.ajax({
                 type: "POST",
@@ -253,10 +256,16 @@
 
                     var datos = JSON.parse(data);
                     var productos = datos["productos"];
-                    var producto_id = 0;
-                    _productos_lista = productos;
 
-                    showProducts(_productos_lista);
+                    if(productos!=""){
+
+                        var producto_id = 0;
+                        _productos_lista = productos;
+
+                        showProducts(_productos_lista);
+                    }else{
+                        alert("Verifique Sucursal y Bodega");
+                    }
 
                 },
                 error: function() {}
@@ -313,6 +322,14 @@
             $("#grabar").attr('disabled');
             var codigo, presentacion, tipo, precioUnidad, descuento, total
 
+            //alert(bodega);
+            interno_bodega = $("#bodega_select").val();
+
+            if(!interno_bodega){
+                alert("Verificar Sucursal o Bodega");
+                return;
+            }
+
             /*
              * Identificadores de valores del producto
              * 1 = Presentacion / 10 = Modelo / 14 = Costo / 18 = Almacenaje / 19 = Minimos
@@ -329,6 +346,7 @@
                     var datos = JSON.parse(data);
                     console.log(datos);
 
+                    
                     var precio_unidad   = datos['producto'][8].valor;
                     _productos_precio2  = datos["prod_precio"];
                     producto_escala     = datos['producto'][0].Escala;
@@ -384,7 +402,9 @@
                     _productos.categoria        = datos['producto'][0].categoria;
 
                 },
-                error: function() {}
+                error: function() {
+                    alert("Error : Verificar Producto y Bodega");
+                }
             });
         }
 

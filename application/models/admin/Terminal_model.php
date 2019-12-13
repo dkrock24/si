@@ -5,7 +5,9 @@ class Terminal_model extends CI_Model {
 	const pos_terminal_cajero = 'pos_terminal_cajero';
     const sucursal = "pos_sucursal";
     const caja = 'pos_caja';
-    const usuario = 'pos_usuario';
+    const usuario = 'sys_usuario';
+    const empleado = 'sys_empleado';
+    const persona = 'sys_persona';
 
 
 	function validar_usuario_terminal( $usuario_id , $terminal_nombe ){
@@ -80,16 +82,18 @@ class Terminal_model extends CI_Model {
         return $query->result();
     }
 
-    function get_terminal_users(){
+    function get_terminal_users( $id_terminal ){
 
         $this->db->select('*');
-        $this->db->from(self::pos_terminal.' as terminal');
-        $this->db->join(self::pos_terminal_cajero.' as cajero ',' on cajero.Terminal = terminal.id_terminal ');
-        $this->db->join(self::caja.' as caja', ' on caja.id_caja = terminal.Caja');
-        //$this->db->join(self::usuario.' as usuario', ' usuario.id_usuario = cajero.Cajero_terminal', 'left');
-        //$this->db->where('cajero.Cajero_terminal = '. $usuario_id);
-        //$this->db->where('terminal.ip_o_mack = ', $terminal_nombe);
-        $this->db->where('cajero.estado_terminal_cajero = ', 1);
+        $this->db->from(self::usuario.' as u');        
+        $this->db->join(self::pos_terminal_cajero.' as tc', ' u.id_usuario = tc.Cajero_terminal ','Left');
+        $this->db->join(self::pos_terminal.' as t', ' t.id_terminal = tc.Terminal ','Left');
+        $this->db->join(self::sucursal.' as s', ' s.id_sucursal = t.Sucursal ','Left');
+        $this->db->join(self::empleado.' as e', ' e.id_empleado = u.Empleado ');
+        $this->db->join(self::persona.' as p', ' p.id_persona = e.Persona_E ');
+        $this->db->where('tc.Terminal = ', $id_terminal);             
+        
+
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -97,6 +101,89 @@ class Terminal_model extends CI_Model {
         {
             return $query->result();
         }
+
+    }
+
+    function get_users(){
+
+        $this->db->select('*');
+        $this->db->from(self::usuario.' as u');        
+        $this->db->join(self::empleado.' as e', ' e.id_empleado = u.Empleado ');      
+        $this->db->join(self::sucursal.' as s', ' s.id_sucursal = e.Sucursal ');        
+        $this->db->join(self::persona.' as p', ' p.id_persona = e.Persona_E ');   
+        $this->db->where('p.Empresa = ', $this->session->empresa[0]->id_empresa );
+        $this->db->order_by('s.id_sucursal',' desc');
+        
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+
+    }
+
+    function get_user_terminal( $data ){
+
+        $this->db->select('*');
+        $this->db->from(self::pos_terminal_cajero);
+
+        $this->db->where('Terminal', $data['terminal']);             
+        $this->db->where('Cajero_terminal', $data['usuario']);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function agregar_usuario($data){
+        
+        $existe = $this->get_user_terminal($data);
+        $flag = false;
+
+        if(!$existe){
+
+            $array = array(
+                'Terminal' => $data['terminal'],
+                'Cajero_terminal' => $data['usuario'],
+                'estado_terminal_cajero' => 1,
+            );
+
+            $this->db->insert( self::pos_terminal_cajero , $array );
+
+            $flag = true;
+        }
+        return $flag;
+    }
+
+    function eliminar_usuario( $data ){
+
+        $existe = $this->get_user_terminal($data);
+        $valor = 1;
+
+        if($existe){
+
+            if( $existe[0]->estado_terminal_cajero == 1 ){
+                $valor = 0;
+            }
+
+        }
+
+        $array = array(
+            'estado_terminal_cajero' => $valor,
+        );
+
+        $condition = array(
+            'Terminal' => $data['terminal'],
+            'Cajero_terminal' => $data['usuario']
+        );
+
+        $this->db->where(  $condition );
+        $this->db->update( self::pos_terminal_cajero , $array );
 
     }
 }

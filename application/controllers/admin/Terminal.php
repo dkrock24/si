@@ -143,12 +143,28 @@ class Terminal extends MY_Controller {
 	public function asociar( $id_terminal ){
 
 		$data['menu'] = $this->session->menu;
+		$data['terminal'] = $this->Terminal_model->get_terminal( $id_terminal );
+		$data['terminal_usuario'] = $this->Terminal_model->get_terminal_users( $id_terminal );
+		$data['usuario'] = $this->Terminal_model->get_users( );
 		
-		$data['registros'] = $this->Terminal_model->get_terminal_users( $id_terminal );
 		$data['title'] = "Terminal Usuarios";
 		$data['home'] = 'admin/terminal/t_asociar';
 
 		$this->parser->parse('template', $data);
+	}
+
+	public function agregar(){
+
+		
+		$data = $this->Terminal_model->agregar_usuario( $_POST );
+
+	}
+
+	public function inactivar(){
+
+		
+		$data = $this->Terminal_model->eliminar_usuario( $_POST );
+
 	}
 
 	public function column(){
