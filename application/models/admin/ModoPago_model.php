@@ -50,6 +50,20 @@ class ModoPago_model extends CI_Model {
         if($query->num_rows() > 0 )
         {
             return $query->result();
+        }else{
+
+            $this->db->select('*');
+            $this->db->from(self::formas_pago .' as  fp');
+            $this->db->join(self::pos_cliente.' as c',' on c.TipoPago = fp.id_modo_pago');
+            $this->db->where('c.id_cliente = '.$id_cliente);
+            
+            $query = $this->db->get(); 
+
+            if($query->num_rows() > 0 )
+            {
+                return $query->result();
+            }
+
         }
     }
 

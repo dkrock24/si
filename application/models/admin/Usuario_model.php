@@ -57,8 +57,9 @@ class Usuario_model extends CI_Model {
         $this->db->from(self::empleado);
         $this->db->join(self::sucursal,' on '.self::empleado.'.Sucursal='.self::sucursal.'.id_sucursal');
         $this->db->join(self::persona,' on '.self::persona.'.id_persona='.self::empleado.'.Persona_E');
+        $this->db->join(self::sys_usuario.' as u',' on u.Empleado='.self::empleado.'.id_empleado');
 
-        $this->db->where(self::empleado.'.id_empleado = ', $id_usuario);
+        $this->db->where('u.id_usuario = ', $id_usuario);
         $this->db->where(self::empleado.'.estado = 1');
         $query = $this->db->get(); 
         //echo $this->db->queries[6];
@@ -102,13 +103,13 @@ class Usuario_model extends CI_Model {
 
     function get_usuario_roles2( $usuario_id ){
 
-        $this->db->select('*');
+        $this->db->select(' r.*, ur.* , ur.id_rol AS rol ');
         $this->db->from(self::sys_role.' as ur');  
         $this->db->join(self::usuario_roles.' as r', ' ON r.usuario_rol_role = ur.id_rol', 'left'); 
         $this->db->where('ur.Empresa',$this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
-        //echo $this->->queries[0];
-
+        $this->db->queries[1];
+        
         if($query->num_rows() > 0 )
         {
             return $query->result();

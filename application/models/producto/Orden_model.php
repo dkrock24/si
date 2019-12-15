@@ -33,6 +33,9 @@ class Orden_model extends CI_Model
 	const pos_temp_suc = 'pos_temp_sucursal';
 	const pos_doc_temp = 'pos_doc_temp';
 	const sys_persona = 'sys_persona';
+	const sys_empleado_sucursal = 'sys_empleado_sucursal';	
+	const sys_usuario = 'sys_usuario';	
+	const pos_bodega = "pos_bodega";
 
 	// Ordenes
 	const pos_tipo_documento = 'pos_tipo_documento';
@@ -215,14 +218,20 @@ class Orden_model extends CI_Model
 	function get_bodega($usuario)
 	{
 
-		$query = $this->db->query("
-				SELECT b.* FROM sys_empleado_sucursal es 
-				left join sys_usuario as u on u.id_usuario = es.es_empleado
-				left join pos_bodega as b on b.Sucursal = es.es_sucursal
-				where u.id_usuario= " . $usuario);
+		$this->db->select('*');
+        $this->db->from(self::sucursal.' as s');
+		$this->db->join(self::sys_empleado_sucursal.' as es', ' on s.id_sucursal = es.es_sucursal');
+		$this->db->join(self::pos_bodega.' as b', ' on b.Sucursal = es.es_sucursal');
+        $this->db->join(self::sys_usuario.' as u', ' u.Empleado = es.es_empleado');
+        $this->db->where('u.id_usuario', $usuario );
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
 
-		//echo $this->db->queries[1];
-		return $query->result();
 	}
 
 	function get_bodega_sucursal($Sucursal)

@@ -3,7 +3,8 @@ class Sucursal_model extends CI_Model {
 
 	const pos_sucursal = 'pos_sucursal';
 	const pos_empresa = 'pos_empresa';	
-	const sys_empleado_sucursal = 'sys_empleado_sucursal';	
+    const sys_empleado_sucursal = 'sys_empleado_sucursal';	
+    const sys_usuario = 'sys_usuario';	
 	
 	function getSucursal(){
 		$this->db->select('*');
@@ -16,7 +17,23 @@ class Sucursal_model extends CI_Model {
         {
             return $query->result();
         }
-	}
+    }
+    
+    function getSucursalEmpleado( $id_usuario ){
+
+        $this->db->select('*');
+        $this->db->from(self::pos_sucursal.' as s');
+        $this->db->join(self::sys_empleado_sucursal.' as es', ' on s.id_sucursal = es.es_sucursal');
+        $this->db->join(self::sys_usuario.' as u', ' u.Empleado = es.es_empleado');
+        $this->db->where('u.id_usuario', $id_usuario );
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
 
     function getAllSucursalEmpresa( ){
         $this->db->select('*');

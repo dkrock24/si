@@ -22,11 +22,13 @@
     var _conf = [];
     var _impuestos = [];
 </script>
+
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
 <?php 
     include ("asstes/pos_funciones.php");
 ?>
+<script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 
@@ -132,7 +134,9 @@
                                                     <?php
                                                      }   
                                                     }
-                                                    ?>
+                                                    
+                                                    ?>                                                  
+                                                                                                      
                                                     </select>
                                                </div>
                                             </div>

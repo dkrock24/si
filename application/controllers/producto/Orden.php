@@ -30,6 +30,7 @@ class Orden extends MY_Controller {
 		$this->load->model('admin/Moneda_model');
 		$this->load->model('admin/Template_model');
 		$this->load->model('admin/Impuesto_model');
+		$this->load->model('admin/Sucursal_model');
 		
 	}
 
@@ -62,7 +63,7 @@ class Orden extends MY_Controller {
 	}
 
 	public function nuevo(){
-		
+
 		// Seguridad :: Validar URL usuario	
 		$terminal_acceso = FALSE;
 
@@ -74,23 +75,20 @@ class Orden extends MY_Controller {
 
 		$terminal_acceso = $this->validar_usuario_terminal( $id_usuario );
 
-		$data['menu'] 	= $this->session->menu;
+		$data['menu'] 	= $this->session->menu;		
 
 		if($terminal_acceso){
 			
-			$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
-			$data['sucursales'] = $this->Producto_model->get_sucursales();
-			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
-			$data['terminal'] = $terminal_acceso;
-			//$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal( $data['tipoDocumento'] );
-			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
-			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
-			$data['cliente'] = $this->Cliente_model->get_cliente();
-			
-			$data['modo_pago'] = $this->ModoPago_model->get_pagos_by_cliente(current($data['cliente'][0]));
-			$data['title'] = "Nueva Orden";
-		
-			$data['home'] = 'producto/orden/orden_crear';
+			$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
+			$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
+			$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );
+			$data['terminal'] 		= $terminal_acceso;
+			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
+			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
+			$data['cliente'] 		= $this->Cliente_model->get_cliente();
+			$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente(current($data['cliente'][0]));
+			$data['title'] 			= "Nueva Orden";
+			$data['home'] 			= 'producto/orden/orden_crear';
 
 			$this->parser->parse('template', $data);
 		}else{
@@ -353,8 +351,8 @@ class Orden extends MY_Controller {
 
 	function validar_usuario_terminal( $usuario_id  ){
 
-		$terminal_nombe = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-		
+		$terminal_nombe = $_SERVER['REMOTE_ADDR'];//gethostbyaddr($_SERVER['REMOTE_ADDR']);
+
 		$terminal_datos = $this->Terminal_model->validar_usuario_terminal($usuario_id, $terminal_nombe);
 		
 		if(!$terminal_datos){

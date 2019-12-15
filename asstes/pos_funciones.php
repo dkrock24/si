@@ -17,7 +17,7 @@
         $('.1dataSelect2').hide();
 
         $("input").focus(function() {
-            $(this).css('background', 'red');
+            //$(this).css('background', 'red');
         });
 
         var pagos_mostrados = [];
@@ -264,7 +264,14 @@
 
                         showProducts(_productos_lista);
                     }else{
-                        alert("Verifique Sucursal y Bodega");
+
+                        var type = "info";
+                        var title = "Verifique Sucursal y Bodega ";
+                        var mensaje = "Error en Parametros : search_texto";
+                        var boton = "info";
+                        var  finalMessage = "Gracias..."
+                        generalAlert(type , mensaje , title , boton, finalMessage);
+                        
                     }
 
                 },
@@ -326,7 +333,14 @@
             interno_bodega = $("#bodega_select").val();
 
             if(!interno_bodega){
-                alert("Verificar Sucursal o Bodega");
+
+                var type = "info";
+                var title = "Verifique Sucursal y Bodega ";
+                var mensaje = "Error en Parametros : get_producto_completo";
+                var boton = "info";
+                var  finalMessage = "Gracias..."
+                generalAlert(type , mensaje , title , boton, finalMessage);
+
                 return;
             }
 
@@ -1691,7 +1705,7 @@
                             cliente_id = item.id_cliente;
                             var precio = 0;
 
-                            table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.id_cliente + '</td><td>' + item.nombre_empresa_o_compania + '</td><td>' + item.nrc_cli + '</td><td>' + item.nit_cliente + '</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_cliente" id="' + item.id_cliente + '" name="' + item.nombre_empresa_o_compania + '" rel="' + item.direccion_cliente + '" impuesto="' + item.aplica_impuestos + '">Agregar</a></td></tr>';
+                            table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.id_cliente + '</td><td>' + item.nombre_empresa_o_compania + '</td><td>' + item.nrc_cli + '</td><td>' + item.nit_cliente + '</td><td><a href="#" class="btn btn-info btn-xs seleccionar_cliente" id="' + item.id_cliente + '" name="' + item.nombre_empresa_o_compania + '" rel="' + item.direccion_cliente + '" impuesto="' + item.aplica_impuestos + '">Agregar</a></td></tr>';
                             contador_precios++;
                         }
 
