@@ -43,6 +43,11 @@
                         <div class="panel-footer">Administrar Menus Por Rol</div>
                         </div>
                       <!-- END panel-->
+
+                      
+                      <label>Roles / Accesos </label>
+                      <br>
+                      <a href="sincAccionesRoles" class="btn btn-danger">Sincronizar</a>
                     </div>
 
                     <!-- Permitir Accesos al usuarios a menus visibles -->
