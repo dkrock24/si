@@ -55,7 +55,7 @@ class Login extends CI_Controller {
 				//header("location: validar");
 					//session_start();
 					
-					$_SESSION['usuario'] = $user;
+					$_SESSION['usuario'] = $user;					
 
 					header("location:../admin/home/seleccionar_empresa");
 
@@ -78,7 +78,7 @@ class Login extends CI_Controller {
 
 		$user = array();
 		$user = $this->Login_model->autenticacion( $a , $b );
-
+		
 		//$roles = $this->Usuario_model->get_usuario_roles( $user[0]->id_usuario );
 
 			if($user != 0){	

@@ -79,7 +79,8 @@ class Sucursal_model extends CI_Model {
         $this->db->select('s.*,e.nombre_comercial, e.id_empresa');
         $this->db->from(self::pos_sucursal.' as s');
         $this->db->join(self::pos_empresa.' as e', ' on s.Empresa_Suc = e.id_empresa');
-        $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+        //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa );
         if($filters!=""){
             $this->db->where($filters);
         }

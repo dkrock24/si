@@ -47,6 +47,17 @@
                     var datos = JSON.parse(data);
                     var orden = datos["orden_detalle"];
 
+                    if(!orden){
+
+                        var type = "info";
+                        var title = "Orden No Valida ";
+                        var mensaje = "Orden Estado No Valida : get_orden";
+                        var boton = "info";
+                        var  finalMessage = "Gracias..."
+
+                        generalAlert(type , mensaje , title , boton, finalMessage);
+                    }
+
                     _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
                     _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);
                     

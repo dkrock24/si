@@ -28,6 +28,7 @@
     include ("asstes/pos_funciones.php");
     include ("asstes/pos_orden.php");
 ?>
+<script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 

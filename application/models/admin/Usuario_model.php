@@ -21,6 +21,7 @@ class Usuario_model extends CI_Model {
         }
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
+//        echo $this->db->queries[1];
         
         if($query->num_rows() > 0 )
         {

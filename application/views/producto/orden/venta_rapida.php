@@ -26,10 +26,12 @@
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
 <?php
-include("asstes/pos_orden.php");
+
 include("asstes/pos_funciones.php");
+include("asstes/pos_orden.php");
 
 ?>
+<script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
 
 <?php $this->load->view('styles_files.php'); ?>
 <title><?php echo $title; ?></title>

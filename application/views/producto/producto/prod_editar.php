@@ -750,7 +750,7 @@
                                             <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Proveedor1</label>
                                             <div class="col-sm-8">
                                                 <select class="form-control" id="proveedor1" name="proveedor1">
-                                                    <option value="<?php echo $producto_proveedor[0]->id_proveedor; ?>"><?php echo $producto_proveedor[0]->empresa; ?></option>
+                                                    <option value="<?php echo $producto_proveedor[0]->id_proveedor; ?>"><?php echo $producto_proveedor[0]->empresa_proveedor; ?></option>
                                                     <?php
                                                     foreach ($proveedor as $value) {
                                                         if ($producto_proveedor[0]->id_proveedor != $value->id_proveedor) {
@@ -772,7 +772,7 @@
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Proveedor2</label>
                                             <div class="col-sm-8">
                                                 <select class="form-control" id="proveedor2" name="proveedor2">
-                                                    <option value="<?php echo $producto_proveedor[0]->id_proveedor; ?>"><?php echo $producto_proveedor[0]->empresa; ?></option>
+                                                    <option value="<?php echo $producto_proveedor[0]->id_proveedor; ?>"><?php echo $producto_proveedor[0]->empresa_proveedor; ?></option>
                                                     <?php
                                                     foreach ($proveedor as $value) {
                                                         if ($producto_proveedor[0]->id_proveedor != $value->id_proveedor) {

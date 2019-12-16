@@ -387,8 +387,61 @@ class Acceso_model extends CI_Model
                 }
             }
         }
-        die;
+
+        $sys_menu_submenu  = $this->sys_menu_submenu();
+
+        foreach ($roles as $key => $r) {
+
+            foreach ($sys_menu_submenu as $sm) {
+
+                $acceso_rol = $this->get_rol_acceso($r->id_rol, $sm->id_submenu);
+
+                if (!$acceso_rol) {
+
+                    $registros = array(
+                        'id_submenu' => $sm->id_submenu,
+                        'id_role' => $r->id_rol,
+                        'submenu_acceso_estado' => 0
+                    );
+
+                    $this->db->insert(self::submenu_acceso, $registros);
+
+                }
+
+            }
+
+        }
+        
     }
+
+    public function get_rol_acceso( $rol , $menu ){
+
+        $this->db->select('*');
+        $this->db->from(self::submenu_acceso);
+
+        $this->db->where('id_submenu', $menu );
+        $this->db->where('id_role', $rol );
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+
+    }
+
+    public function sys_menu_submenu(){
+
+        $this->db->select('*');
+        $this->db->from(self::sys_menu_submenu);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+    }
+
+    
 }
 /*
  * end of application/models/consultas_model.php

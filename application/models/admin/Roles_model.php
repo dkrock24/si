@@ -100,6 +100,7 @@ class Roles_model extends CI_Model {
             values($a,$ultimo_id,0)";
             $this->db->query($inset_acceso);
         } 
+
         return $result;
     }
 

@@ -10,8 +10,8 @@ class Accion_model extends CI_Model {
     const vista_acceso = 'sys_vistas_acceso';
 	const sys_componentes =  'sys_componentes';    
 
-	function get_vistas_acciones( $vista_id , $role_id ){
-
+	function get_vistas_acciones( $vista_id , $role_id ){    
+        
 		$this->db->select('*');
         $this->db->from(self::vistas.' as v');
         $this->db->join(self::sys_vistas_componentes.' as vc ',' on v.id_vista = vc.Vista');
@@ -24,7 +24,7 @@ class Accion_model extends CI_Model {
         $this->db->where('va.id_role = '. $role_id);
         $this->db->order_by('vc.order','asc');
         $query = $this->db->get(); 
-        //echo $this->db->queries[4];
+        //$this->db->queries[1];
         
         if($query->num_rows() > 0 )
         {
