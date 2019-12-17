@@ -35,16 +35,16 @@ class Acceso extends CI_Controller {
 
 	public function index()
 	{
-		// Construir Menu
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
 		if(isset($_POST['role']) and isset($_POST['menu'])){
 
 			$this->Acceso_model->sincronizar_componentes( $_POST['role'],  $_POST['menu']);
 
 			$_SESSION['accesos'] 				=  $this->Acceso_model->get_menu_acceso( $_POST['role'] , $_POST['menu'] , NULL );
-			$_SESSION['vista_componentes'] 		=  $this->Acceso_model->accesos_componentes( $_POST['role'] , $_POST['menu']);
+			
 			$_SESSION['accesos_menus_internos'] =  $this->Acceso_model->get_menu_internos( $_POST['role'] , $_POST['menu'] );
+			
+			$_SESSION['vista_componentes'] 		=  $this->Acceso_model->accesos_componentes( $_POST['role'] , $_POST['menu']);
+			
 
 			$data['roles'] 	=  $this->Acceso_model->getRoles();
 			$data['menus'] 	=  $this->Menu_model->lista_menu();
@@ -59,23 +59,27 @@ class Acceso extends CI_Controller {
 			$data['vista_componentes']= $_SESSION['vista_componentes'];
 			$data['accesos_menus_internos'] = $_SESSION['accesos_menus_internos'];
 
+		}else{
+
+			if(isset($_SESSION['accesos'])){
+
+				$data['accesos']= $_SESSION['accesos'];
+				$data['vista_componentes']= $_SESSION['vista_componentes'];
+				$data['accesos_menus_internos'] = $_SESSION['accesos_menus_internos'];
+	
+				$data['r'] 		= $_SESSION['r'];
+				$data['m'] 		= $_SESSION['m'];
+	
+				$data['roles'] =  $this->Acceso_model->getRoles();	
+				$data['menus'] =  $this->Menu_model->lista_menu();
+				
+			}else{
+	
+				$data['roles'] =  $this->Acceso_model->getRoles();	
+				$data['menus'] =  $this->Menu_model->lista_menu();
+			}
+
 		}
-
-		if(isset($_SESSION['accesos'])){
-
-			$data['accesos']= $_SESSION['accesos'];
-			$data['vista_componentes']= $_SESSION['vista_componentes'];
-			$data['accesos_menus_internos'] = $_SESSION['accesos_menus_internos'];
-
-			$data['r'] 		= $_SESSION['r'];
-			$data['m'] 		= $_SESSION['m'];
-
-			$data['roles'] =  $this->Acceso_model->getRoles();	
-			$data['menus'] =  $this->Menu_model->lista_menu();
-			
-		}		
-
-		
 
 		$data['menu'] 	= $this->session->menu;		
 		$data['title'] 	= "Menu Accesos";	

@@ -86,7 +86,7 @@ class Acceso_model extends CI_Model
         $this->db->join(self::roles . ' as r ', ' on r.id_rol = sma.id_role');
         $this->db->where('sma.id_role', $rol);
         $this->db->where('m.id_menu', $menu);
-        $this->db->where('sm.estado_referencia', $referencia);
+        $this->db->where('sm.estado_referencia is null');
         $query = $this->db->get();
         //echo $this->db->queries[0];
 
@@ -243,6 +243,9 @@ class Acceso_model extends CI_Model
         $this->db->where('a.id_role', $id_rol);
         $this->db->where('m.id_menu', $menu);
         $query = $this->db->get();
+
+        //echo $this->db->queries[5];
+
         if ($query->num_rows() > 0) {
             return $query->result();
         }
@@ -361,7 +364,7 @@ class Acceso_model extends CI_Model
         $cnt = 0;
 
         $roles = $this->getRoles();
-
+       
         $vista_compo = $this->vistas_components();
 
         foreach ($roles as $key => $r) {

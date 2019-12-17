@@ -66,7 +66,7 @@ class Venta extends CI_Controller {
 		parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
-		$vista_id = 8; // Vista Orden Lista
+		$vista_id = 38; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
 		$data['contador_tabla'] = $contador_tabla;

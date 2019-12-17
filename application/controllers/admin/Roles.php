@@ -28,6 +28,7 @@ class Roles extends MY_Controller {
 		$pag = $this->MyPagination($model, $url_page , $vista = 3);
 
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
+
 		$data['menu'] = $this->session->menu;
 		$data['links'] = $pag['links'];
 		$data['filtros'] = $pag['field'];

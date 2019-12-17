@@ -192,7 +192,7 @@ class Vistas extends MY_Controller {
 
 	public function copiar( $id , $componente_id ){
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 
 		$this->Vistas_model->copiar_componente($id , $componente_id , $id_rol );
 		redirect(base_url()."admin/vistas/componentes/".  $id );

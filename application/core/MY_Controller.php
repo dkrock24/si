@@ -112,7 +112,7 @@ class MY_Controller extends CI_Controller
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
         $vista_id = $vista;
         
         $f = $this->fields();

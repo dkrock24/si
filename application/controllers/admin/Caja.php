@@ -26,7 +26,7 @@ class Caja extends MY_Controller {
 
 		$model = "Caja_model";
 		$url_page = "admin/caja/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 30);
+		$pag = $this->MyPagination($model, $url_page , $vista = 35);
 
 		$data['menu'] = $this->session->menu;
 		$data['links'] = $pag['links'];

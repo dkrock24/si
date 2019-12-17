@@ -37,7 +37,7 @@ class Combo extends MY_Controller {
 
 		$model = "Combo_model";
 		$url_page = "producto/combo/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 2);
+		$pag = $this->MyPagination($model, $url_page , $vista = 39);
 
 
 		parametros($this->session->menu);

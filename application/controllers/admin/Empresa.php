@@ -52,7 +52,7 @@ class Empresa extends CI_Controller {
 		parametros($menu_session);
 
 		$id_rol = $this->session->roles;
-		$vista_id = 2; // Vista Orden Lista
+		$vista_id = 37; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
 		$data['empresas'] = $this->Empresa_model->getEmpresas( );

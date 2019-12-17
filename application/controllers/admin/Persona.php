@@ -37,7 +37,7 @@ class Persona extends MY_Controller {
 
 		$model = "Persona_model";
 		$url_page = "admin/persona/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 2);
+		$pag = $this->MyPagination($model, $url_page , $vista = 36);
 
 		$data['menu'] = $this->session->menu;
 		$data['links'] = $pag['links'];
