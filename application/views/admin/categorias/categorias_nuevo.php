@@ -47,15 +47,6 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <!--
-                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Imagen</label>-->
-                                        <div class="col-sm-8">
-                                            <input type="hidden" class="form-control" id="img_cate" name="img_cate" placeholder="Tipo" value="">
-                                            <!--<p class="help-block">Imagen Categoria.</p>-->
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Categoria2</label>
                                         <div class="col-sm-8">
                                             <select name="categoria_padre" class="form-control">

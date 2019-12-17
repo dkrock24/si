@@ -35,7 +35,6 @@ class Categorias_model extends CI_Model {
 
             $data = array(
                 'nombre_categoria' => $categorias['nombre_categoria'],
-                'img_cate' => $categorias['img_cate'],
                 'id_categoria_padre' => $categorias['categoria_padre'],
                 'categoria_estado' => $categorias['categoria_estado'],
                 'codigo_giro' => $categorias['codigo_giro'],
@@ -45,8 +44,7 @@ class Categorias_model extends CI_Model {
 
         }else{
             $data = array(
-                'nombre_categoria' => $categorias['nombre_categoria'],
-                'img_cate' => $categorias['img_cate'],                
+                'nombre_categoria' => $categorias['nombre_categoria'],            
                 'categoria_estado' => $categorias['categoria_estado'],
                 'codigo_giro' => $categorias['codigo_giro'],
                 'Empresa' => $this->session->empresa[0]->id_empresa,
@@ -76,8 +74,7 @@ class Categorias_model extends CI_Model {
 		if( $categorias['categoria_padre'] != 0){
 
             $data = array(
-                'nombre_categoria'  => $categorias['nombre_categoria'],
-                'img_cate'          => $categorias['img_cate'],
+                'nombre_categoria'  => $categorias['nombre_categoria'],                
                 'id_categoria_padre'=> $categorias['categoria_padre'],
                 'Empresa' => $categorias['Empresa'],
                 'categoria_estado'  => $categorias['categoria_estado'],
@@ -86,8 +83,7 @@ class Categorias_model extends CI_Model {
 
         }else{
             $data = array(
-                'nombre_categoria'  => $categorias['nombre_categoria'],
-                'img_cate'          => $categorias['img_cate'],    
+                'nombre_categoria'  => $categorias['nombre_categoria'],                 
                 'Empresa' => $categorias['Empresa'],            
                 'categoria_estado'  => $categorias['categoria_estado'],
                 'actualizado_categoria'  => date("Y-m-d h:i:s")

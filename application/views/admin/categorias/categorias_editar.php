@@ -45,14 +45,7 @@
                                         <input type="text" class="form-control" id="categoria_padre" name="nombre_categoria" placeholder="Nombre" value="<?php echo $categorias[0]->nombre_categoria; ?>">
                                     </div>
                                 </div>   
-                                
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Imagen</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="img_cate" name="img_cate" placeholder="Tipo" value="">
-                                        
-                                    </div>
-                                </div> 
+                            
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Empresa</label>

@@ -200,6 +200,7 @@
                                     <tbody class="">
                                         <?php
                                         $cont = 1;
+                                        if($marca_categoria){
                                         foreach ($marca_categoria as $key => $mc) {
                                             ?>
                                             <tr>
@@ -213,7 +214,7 @@
                                             </tr>
                                         <?php
                                             $cont++;
-                                        } ?>
+                                        } }?>
                                     </tbody>
                                 </table>
 

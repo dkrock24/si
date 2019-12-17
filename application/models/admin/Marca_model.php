@@ -84,8 +84,9 @@ class Marca_model extends CI_Model {
     function get_marcas( ){
 
         $this->db->select('*');
-        $this->db->from(self::categoria.' as c');   
+        $this->db->from(self::categoria.' as c');
         $this->db->where('c.id_categoria_padre', null);
+        $this->db->where('c.Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -108,6 +109,7 @@ class Marca_model extends CI_Model {
         $this->db->from(self::categoria.' as c');   
         $this->db->join(self::marca_categoria.' as mc', 'mc.Categoria = c.id_categoria');
         $this->db->join(self::marca.' as m', 'm.id_marca = mc.Marca');
+        $this->db->where('m.Empresa', $this->session->empresa[0]->id_empresa);   
         $this->db->order_by('c.nombre_categoria','ASC');
         $this->db->order_by('mc.id_mar_cat','DESC');
         $query = $this->db->get();

@@ -76,6 +76,7 @@ class Template_model extends CI_Model {
         if($filters!=""){
             $this->db->where($filters);
         }
+        $this->db->where('td.Empresa', $this->session->empresa[0]->id_empresa );
         $this->db->order_by('td.id_factura','desc');       
         $this->db->limit($limit, $id);
         $query = $this->db->get();
