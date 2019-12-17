@@ -79,8 +79,8 @@ class Giros extends CI_Controller {
 		$menu_session = $this->session->menu;	
 		//parametros($menu_session);
 
-		$id_rol = $this->session->roles[0];
-		$vista_id = 2; // Vista Orden Lista
+		$id_rol = $this->session->roles;
+		$vista_id = 7; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
@@ -88,6 +88,7 @@ class Giros extends CI_Controller {
 		$data['fields'] = $this->fields();
 		$data['contador_tabla'] = $contador_tabla;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		
 		$data['registros'] = $this->Giros_model->get_giros( $config["per_page"], $page );
 		$data['home'] = 'admin/giros/giros_lista';
 		$data['title'] = 'Lista Giros';

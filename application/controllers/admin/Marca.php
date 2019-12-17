@@ -46,7 +46,7 @@ class Marca extends MY_Controller {
 
 	public function editar( $marca_id )
 	{	
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 
 		$data['menu'] = $this->session->menu;
 		$data['marca'] = $this->Marca_model->getMarcaById( $marca_id );
@@ -73,7 +73,7 @@ class Marca extends MY_Controller {
 
 	public function nuevo(){
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 
 		$data['menu'] = $this->session->menu;
 		$data['categoria'] = $this->Marca_model->get_marcas();

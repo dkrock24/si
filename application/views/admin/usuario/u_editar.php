@@ -243,6 +243,7 @@
                                 
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
+                                        <?php echo $usuario[0]->primer_apellido_persona .' '. $usuario[0]->primer_nombre_persona ?><br>
                                         
                                         <img id="" class="preview_producto"  src="data: <?php echo $usuario[0]->img_type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode( $usuario[0]->img ) ?>" style="width:50%" />
                                     </div>

@@ -90,7 +90,7 @@ class Empleado extends MY_Controller {
 		}else{
 			$this->session->set_flashdata('warning', "Empleado No Fue Creado");
 		}	
-		redirect(base_url()."admin/empleado/index");
+		redirect(base_url()."admin/usuario/nuevo");
 	}
 
 	public function editar($empleado_id){

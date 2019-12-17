@@ -148,7 +148,7 @@ class Vistas extends MY_Controller {
 		$str_links = $this->pagination->create_links();
 		$data["links"] = explode('&nbsp;',$str_links );
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 		//$vista_id = 23; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;

@@ -45,7 +45,7 @@ class Roles extends MY_Controller {
 
 	public function editar( $id_role )
 	{	
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 
 		$data['menu'] = $this->session->menu;		
 		$data['roles'] = $this->Roles_model->getRolesById( $id_role );		
@@ -85,7 +85,7 @@ class Roles extends MY_Controller {
 
 	public function nuevo(){
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 
 		$data['menu'] = $this->session->menu;
 						//$this->Roles_model->nuevo_rol( $_POST );

@@ -45,7 +45,7 @@ class Documento extends MY_Controller {
 
 	public function editar( $documento_id )
 	{	
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 
 		$data['menu'] = $this->session->menu;
 		$data['documento'] = $this->Documento_model->getDocumentoById( $documento_id );
@@ -72,7 +72,7 @@ class Documento extends MY_Controller {
 
 	public function nuevo(){
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 
 		$data['menu'] = $this->session->menu;
 		$data['title'] = "Nuevo Documento";	

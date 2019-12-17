@@ -81,7 +81,7 @@ class Pagos extends CI_Controller {
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 		$vista_id = 6; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
@@ -130,7 +130,7 @@ class Pagos extends CI_Controller {
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 		$vista_id = 8; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;

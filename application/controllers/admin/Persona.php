@@ -60,7 +60,7 @@ class Persona extends MY_Controller {
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 		$vista_id = 20; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
@@ -83,7 +83,7 @@ class Persona extends MY_Controller {
 			$this->session->set_flashdata('danger', "Persona No Fue Creado");
 		}
 
-		redirect(base_url()."admin/persona/index");
+		redirect(base_url()."admin/empleado/nuevo");
 	}
 
 	public function editar( $persona_id ){

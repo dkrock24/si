@@ -17,14 +17,17 @@ class Accion_model extends CI_Model {
         $this->db->join(self::sys_vistas_componentes.' as vc ',' on v.id_vista = vc.Vista');
         $this->db->join(self::sys_componentes.' as c ',' on c.id_vista_componente = vc.Componente');
         $this->db->join(self::vista_acceso.' as va ',' on va.id_vista_componente = vc.id');
-        $this->db->where('vc.vista_componente_estado =1');
-        $this->db->where('va.vista_acceso_estado = 1');
-        $this->db->where('c.accion_estado = 1');
+        
         $this->db->where('v.id_vista = ',$vista_id);
         $this->db->where('va.id_role ', $role_id);
+        $this->db->where('vc.vista_componente_estado =1');
+        //$this->db->where('va.vista_acceso_estado = 1');
+        $this->db->where('c.accion_estado = 1');
+
         $this->db->order_by('vc.order','asc');
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];
+        //$this->db->queries[1];
+
         
         
         if($query->num_rows() > 0 )

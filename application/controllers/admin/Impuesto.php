@@ -53,7 +53,7 @@ class Impuesto extends MY_Controller {
 
 	public function nuevo(){
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 
 		$data['menu'] = $this->session->menu;
 		$data['home'] = 'admin/impuesto/nuevo';
@@ -73,7 +73,7 @@ class Impuesto extends MY_Controller {
 	}
 
 	public function editar( $impuesto_id ){
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 
 		$data['menu'] = $this->session->menu;
 		$data['impuesto'] = $this->Impuesto_model->getImpuestoById( $impuesto_id );
@@ -133,7 +133,7 @@ class Impuesto extends MY_Controller {
 
 	public function config(){
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 
 		$data['menu'] = $this->session->menu;
 		$data['impuesto'] = $this->Impuesto_model->getAllImpuesto();
