@@ -38,17 +38,20 @@
             var table_tr = "";
                 
             $.ajax({
-                url: "get_productos_lista/" + texto,
+                type: "POST",
+                url: "get_productos_lista",
                 datatype: 'json',
                 cache: false,
+                data:{texto:texto},
 
                 success: function(data) {
                     var datos = JSON.parse(data);
                     var productos = datos["productos"];
                     var producto_id = 0;
                     _productos_lista = productos;
+                    
 
-                    var productos = _productos_lista;
+                    //var productos = _productos_lista;
                     var producto_id = 0;
                                         
                     if(productos==0){
@@ -71,13 +74,13 @@
                         var name = item.name_entidad.toUpperCase();
                         var cod_barra = item.cod_barra;
 
-                        if (name.includes(texto.toUpperCase()) || cod_barra.includes(texto)) {
+                        
                             producto_id = item.id_entidad;
                             var precio = 0;
 
                             table_tr += '<option value="' + item.id_entidad + '">' + item.name_entidad +" " +item.nombre_marca +" " +item.precio_venta + '</option>';
                             contador_precios++;
-                        }
+                        
                         });
 
                         $(".dataSelect").html(table_tr);
@@ -137,7 +140,7 @@
                     var existencias_total = 0;
                     var html = '';
 
-                    $("#nombre_producto").text("Producto : " + datos['producto'][0].name_entidad);
+                    $("#nombre_producto").text("Producto : " + datos['producto'][0].codigo_barras +" "+ datos['producto'][0].name_entidad);
 
                     $.each(datos['producto'], function(i, item) {
 
@@ -147,10 +150,10 @@
                         html += '<td>' + item.nombre_sucursal + '</td>';
                         html += '<td>' + item.nombre_bodega + '</td>';
                         html += '<td>' + item.Cantidad + '</td>';
-                        html += '<td>' + item.valor + '</td>';
+                        html += '<td>' + item.moneda_simbolo + " "+  item.precio_venta + '</td>';
                         html += '<td>' + 0.00 + '</td>';
-                        html += '<td>' + item.valor + '</td>';
-                        html += '<td>' + item.Descripcion + '</td>';
+                        html += '<td>' + item.moneda_simbolo + " "+  item.Utilidad + '</td>';
+                        html += '<td>' + item.cod_barra + '</td>';
                         html += '</tr>';
                         contador++;
                     });
@@ -213,7 +216,7 @@
                     <div class="pull-right">
 
                         <a href="<?php echo base_url() . 'producto/producto/nuevo' ?>" style='float: right;' class="btn btn-info"><i class="fa fa-arrow-left"></i> Producto</a>
-                        <span id="nombre_producto" style="position: relative;float: right;margin-right: 50px;font-size: 20px;"></span>
+                        <span id="nombre_producto" style="position: relative;float: right;margin-right: 50px;font-size: 20px;color:black;"></span>
                     </div>
                 </div>
             </div>

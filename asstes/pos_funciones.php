@@ -87,7 +87,7 @@
                     
                     if (e.keyCode == 13) {
 
-                        search_texto(this.value);
+                        get_existencia(this.value);
                     }
                 }
 
@@ -96,42 +96,63 @@
             }
         });
 
+        function get_existencia(texto){
+            sucursal = $("#sucursal_id").val();
+            var bodega = $("#bodega_select").val();
+
+            interno_sucursal = sucursal;
+            
+            interno_bodega = bodega;
+            $.ajax({
+                type: "POST",
+                url: path+"get_productos_lista",
+                datatype: 'json',
+                data:{sucursal:sucursal,bodega:bodega,texto:texto},
+                cache: false,
+
+                success: function(data) {
+
+                    var datos = JSON.parse(data);
+                    var productos = datos["productos"];
+
+                    if(productos!=""){
+
+                        var producto_id = 0;
+                        _productos_lista = productos;
+
+                        existencia_buscar(_productos_lista, texto );
+                    }else{
+
+                        var type = "info";
+                        var title = "Verifique Sucursal y Bodega ";
+                        var mensaje = "Error en Parametros : search_texto";
+                        var boton = "info";
+                        var  finalMessage = "Gracias..."
+                        generalAlert(type , mensaje , title , boton, finalMessage);
+                        
+                    }
+
+                },
+                error: function() {}
+            });
+        }
+
         function existencia_buscar(_productos_lista , texto) {
 
-            var $listBox = $('.1dataSelect');
-            var contador_precios = 1;
-            var table_tr = "";
+        
             var producto_id = 0;
+            var contador_precios = 1;
+            interno_bodega = bodega;
+            var table_tr = "";
+                       
+            $.each(_productos_lista, function(i, item) {
 
-            $listBox.show();
-
-            var result = [];
-
-            var x = JSON.parse(_productos_lista);
-
-            result = x.filter(function(a){ 
-
-                var name = a.name_entidad.toUpperCase();
-                var codigo_barras = a.codigo_barras;
-                var pres_cod_bar = a.pres_cod_bar;
-
-                if (name.includes(texto.toUpperCase()) || codigo_baras.includes(texto) || pres_cod_bar.includes(texto)) {
-                    return  a;
-                }
-                
-            });
-
-            $.each(result, function(i, item) {
-
-                var name = item.name_entidad.toUpperCase();
-                var cod_barra = item.cod_barra;
-
-                
                     producto_id = item.id_entidad;
-                    var precio = 0;
-
-                    table_tr += '<option value="' + item.id_entidad + '">' + item.nombre_marca + ' ' + item.name_entidad + ' ' + item.presentacion + ' ' + item.cod_barra + '</option>';
+                    precio =  parseInt(item.precio_venta);
+                    table_tr += '<option value="' + item.id_producto_detalle + '">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + ' - ' + precio.toFixed(2) +'</option>';
                     contador_precios++;
+                
+                $('.1dataSelect').show();
             });
 
             $(".1dataSelect").html(table_tr);
@@ -184,6 +205,7 @@
                     var contador = 1;
                     var existencias_total = 0;
                     var html = '';
+                    console.log(datos);
 
                     $.each(datos['producto'], function(i, item) {
 
@@ -197,10 +219,10 @@
                         html += '<td>' + item.nombre_sucursal + '</td>';
                         html += '<td>' + item.nombre_bodega + '</td>';
                         html += '<td>' + item.Cantidad + '</td>';
-                        html += '<td>' + item.valor + '</td>';
+                        html += '<td>' + item.moneda_simbolo + " "+ item.precio_venta + '</td>';
                         html += '<td>' + 0.00 + '</td>';
-                        html += '<td>' + item.valor + '</td>';
-                        html += '<td>' + item.Descripcion + '</td>';
+                        html += '<td>' + item.moneda_simbolo + " "+  item.Utilidad + '</td>';
+                        html += '<td>' + item.cod_barra + '</td>';
                         html += '</tr>';
                         contador++;
                     });
