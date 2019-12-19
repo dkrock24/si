@@ -25,6 +25,7 @@ class Linea_model extends CI_Model {
     function getAllLinea(  ){
         $this->db->select('*');
         $this->db->from(self::pos_linea);
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

@@ -85,7 +85,7 @@ class Producto extends MY_Controller {
 
 	public function editar( $id_producto ){
 
-		$id_rol = $this->session->roles[0];
+		$id_rol = $this->session->roles;
 		$vista_id = 12;
 
 		$data['menu'] = $this->session->menu;
@@ -107,6 +107,23 @@ class Producto extends MY_Controller {
 		$this->general->editar_valido($data['producto'], "producto/producto/index");
 
 		$this->parser->parse('template', $data);
+	}
+
+	public function eliminar( $producto_id ){
+
+		if($producto_id ){
+			
+			$producto_id = $this->Producto_model->eliminar( $producto_id );
+
+			if($producto_id){
+				$this->session->set_flashdata('success', "Producto Fue Eliminado");
+			}else{
+				$this->session->set_flashdata('danger', "Producto No Fue Eliminado");
+			}
+	
+			redirect(base_url()."producto/producto/index");
+
+		}
 	}
 
 	function get_productos_lista(){

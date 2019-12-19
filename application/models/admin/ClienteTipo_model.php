@@ -15,6 +15,7 @@ class ClienteTipo_model extends CI_Model {
         $this->db->from(self::pos_cliente_tipo);
         $this->db->where(self::pos_cliente_tipo.'.estado_cliente_tipo = 1');
         $this->db->where(self::pos_cliente_tipo.'.nombre_cliente_tipo !=""');
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

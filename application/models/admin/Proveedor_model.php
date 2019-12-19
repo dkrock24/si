@@ -55,7 +55,7 @@ class Proveedor_model extends CI_Model {
 
         $data = array(
             'codigo_proveedor' =>  $datos['codigo_proveedor'],
-            'empresa' =>  $datos['empresa'],
+            'empresa_proveedor' =>  $datos['empresa_proveedor'],
             'titular_proveedor' => $datos['titular_proveedor'],
             'nrc' => $datos['nrc'],
             'nit_empresa' => $datos['nit_empresa'],

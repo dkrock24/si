@@ -107,6 +107,7 @@ class Cliente_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from(self::pos_tipo_documento);
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get();
         //echo $this->db->queries[1];
 

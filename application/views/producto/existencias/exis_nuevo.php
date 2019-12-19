@@ -1,4 +1,5 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+<script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
 <script>
     var _orden = {};
     var _productos = {};
@@ -25,15 +26,14 @@
        
             if ( e.keyCode == 13 ) {
                 search_texto(this.value);
-                console.log(1);
+                
             }
             
         });
+
         /* 2 - Filtrado del texto a buscar en productos */
-        function search_texto(texto) {
-
-            $('.dataSelect').show();
-
+        function search_texto(texto) {            
+            
             var contador_precios = 1;
             var table_tr = "";
                 
@@ -50,8 +50,23 @@
 
                     var productos = _productos_lista;
                     var producto_id = 0;
-            
-                    $.each(productos, function(i, item) {
+                                        
+                    if(productos==0){
+
+                        var type = "info";
+                        var title = "El Producto No Existe";
+                        var mensaje = "Error en Parametros : search_texto";
+                        var boton = "info";
+                        var  finalMessage = "Gracias..."
+
+                        generalAlert(type , mensaje , title , boton, finalMessage);               
+
+                                               
+                    }else{
+
+                        $('.dataSelect').show();  
+
+                        $.each(productos, function(i, item) {
 
                         var name = item.name_entidad.toUpperCase();
                         var cod_barra = item.cod_barra;
@@ -63,15 +78,20 @@
                             table_tr += '<option value="' + item.id_entidad + '">' + item.name_entidad +" " +item.nombre_marca +" " +item.precio_venta + '</option>';
                             contador_precios++;
                         }
-                    });
+                        });
 
-                    $(".dataSelect").html(table_tr);
+                        $(".dataSelect").html(table_tr);
+
+                    }
+
+                    
 
                 },
                 error: function() {}
             });
             
         }
+        $(".producto_buscar").focus();
 
         /* 3 - Selecionado Producto de la lista y precionando ENTER */
         $(document).on('keypress', '.dataSelect', function() {
@@ -179,7 +199,7 @@
     <div class="content-wrapper">
         <h3 style="height: 50px; ">Existencias </h3>
 
-        <div class="panel-heading menuTop menu_title_bar" style="background: #2D3B48; color: white;">
+        <div class="panel-heading menuTop menu_title_bar" style="color: white;">
             <div class="row">
 
                 <div class="col-lg-6 col-md-6">

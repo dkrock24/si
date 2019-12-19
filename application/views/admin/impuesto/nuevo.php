@@ -112,6 +112,13 @@
                                                 </div>
 
                                                 <div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Condicion Simbolo</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" id="c_simbolo" name="c_simbolo"value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
                                                     <label for="inputPassword3" class="col-sm-4 control-label no-padding-right">Condicion Valor</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" class="form-control" id="c_valor" name="c_valor"value="<?php //echo $onMenu[0]->url_submenu ?>">

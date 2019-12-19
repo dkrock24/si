@@ -23,6 +23,7 @@ class Producto_model extends CI_Model {
 		const pos_bodega = 'pos_bodega';
 		const pos_producto_bodega = 'pos_producto_bodega';
 		const correlativos =  'pos_correlativos';	
+		const persona =  'sys_persona';	
 		
         
         function getProd( $limit, $id , $filters ){
@@ -368,7 +369,8 @@ class Producto_model extends CI_Model {
 
 		function get_lineas( ){
 			$this->db->select('*');
-	        $this->db->from(self::pos_linea);
+			$this->db->from(self::pos_linea);
+			$this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
 	        $this->db->where('estado_linea = 1');
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[0];
@@ -382,7 +384,8 @@ class Producto_model extends CI_Model {
 		function get_marcas(){
 
 			$this->db->select('*');
-	        $this->db->from(self::marcas);
+			$this->db->from(self::marcas);
+			$this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
 	        $this->db->where('estado_marca = 1');
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[0];
@@ -651,8 +654,10 @@ class Producto_model extends CI_Model {
 
 		function get_clientes2(){
 			$this->db->select('nombre_empresa_o_compania, id_cliente');
-	        $this->db->from(self::cliente);
-	        $this->db->where('estado_cliente = 1');
+			$this->db->from(self::cliente.' as c');
+			$this->db->join(self::persona.' as p', ' on p.id_persona = c.Persona');
+			$this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa );
+	        $this->db->where('c.estado_cliente = 1');
 	        $query = $this->db->get();
 	        //echo $this->db->queries[1];
 	        
@@ -681,7 +686,8 @@ class Producto_model extends CI_Model {
 
 			$this->db->select('*');
 	        $this->db->from(self::impuestos);
-	        $this->db->where('id_tipos_impuestos = 1');
+			$this->db->where('id_tipos_impuestos = 1');
+			$this->db->where('imp_empresa', $this->session->empresa[0]->id_empresa );
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[0];
 	        
@@ -689,6 +695,36 @@ class Producto_model extends CI_Model {
 	        {
 	            return $query->result();
 	        }
+		}
+
+		function eliminar( $producto_id ){
+
+			$this->db->select('*');
+	        $this->db->from(self::producto_atributo);
+			$this->db->where('Producto', $producto_id );
+	        $query = $this->db->get(); 
+	        
+			$prod = $query->result();
+			
+			if($prod){
+				
+				foreach ($prod as $key => $value) {
+					
+					$this->db->where('id_prod_atributo', $value->id_prod_atrri );
+					$this->db->delete(self::producto_valor);
+
+
+					$this->db->where('id_prod_atrri', $value->id_prod_atrri );
+					$this->db->delete(self::producto_atributo);
+				
+				}		
+				
+				
+			}
+
+			$this->db->where('id_entidad', $producto_id);
+			$this->db->delete(self::producto);
+
 		}
 
 		// Aqui se activa o desactiva producto en bodega

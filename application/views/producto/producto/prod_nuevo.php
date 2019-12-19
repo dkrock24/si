@@ -210,7 +210,7 @@
                                                             <?php
                                                             foreach ($proveedor as $value) {
                                                                 ?>
-                                                                <option value="<?php echo  $value->id_proveedor; ?>"><?php echo $value->empresa; ?>     
+                                                                <option value="<?php echo  $value->id_proveedor; ?>"><?php echo $value->empresa_proveedor; ?>     
                                                                 </option>
                                                                 <?php
                                                             }
@@ -229,7 +229,7 @@
                                                             <?php
                                                             foreach ($proveedor as $value) {
                                                                 ?>
-                                                                <option value="<?php echo  $value->id_proveedor; ?>"><?php echo $value->empresa; ?>     
+                                                                <option value="<?php echo  $value->id_proveedor; ?>"><?php echo $value->empresa_proveedor; ?>     
                                                                 </option>
                                                                 <?php
                                                             }

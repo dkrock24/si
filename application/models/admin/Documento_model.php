@@ -2,6 +2,7 @@
 class Documento_model extends CI_Model {
 
     const documento = 'pos_tipo_documento';
+    const pos_temp_sucursal = 'pos_temp_sucursal';
 
 
     function getDocumento($limit, $id , $filters){
@@ -19,6 +20,20 @@ class Documento_model extends CI_Model {
         {
             return $query->result();
         }
+    }
+
+    function getDocTemplate(){
+
+        $this->db->select('*');
+        $this->db->from(self::documento.' as d');   
+        $this->db->join(self::pos_temp_sucursal.' as t',' on d.id_tipo_documento = t.Documento');   
+        $this->db->where('d.Empresa', $this->session->empresa[0]->id_empresa);      
+        $query = $this->db->get();    
+                
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
     }
 
     function getAllDocumento(){

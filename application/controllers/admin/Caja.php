@@ -47,7 +47,7 @@ class Caja extends MY_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;	
-		$data['doc'] = $this->Documento_model->getAllDocumento();
+		$data['doc'] = $this->Documento_model->getDocTemplate();
 		$data['suc'] = $this->Sucursal_model->getSucursal();
 		$data['title'] = "Nueva Caja";
 		$data['home'] = 'admin/caja/c_nuevo';
