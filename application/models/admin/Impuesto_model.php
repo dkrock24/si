@@ -123,6 +123,7 @@ class Impuesto_model extends CI_Model {
         $this->db->join($table_intermedia . ' as inter', 'on inter.'.$columna1.' = i.id_tipos_impuestos');
         $this->db->join($tabla_destino . ' as destino', 'on destino.'.$columna3.' = inter.'.$columna2);
         $this->db->where('i.imp_estado', 1);
+        $this->db->where('i.imp_empresa', $this->session->empresa[0]->id_empresa );
         $this->db->order_by('valor_field','asc');
         $query = $this->db->get();
         //echo $this->db->queries[0];
@@ -211,6 +212,7 @@ class Impuesto_model extends CI_Model {
         $this->db->from(self::impuesto .' as i');
         $this->db->join(self::impuesto_categoria.' as c',' on i.id_tipos_impuestos = c.Impuesto');
         $this->db->where('i.imp_estado',1);
+        $this->db->where('i.imp_empresa', $this->session->empresa[0]->id_empresa );
         $this->db->where('c.estado',1);
         $query = $this->db->get();
         //$this->db->queries[0];
@@ -226,6 +228,7 @@ class Impuesto_model extends CI_Model {
         $this->db->from(self::impuesto .' as i');
         $this->db->join(self::impuesto_cliente.' as c',' on i.id_tipos_impuestos = c.Impuesto');
         $this->db->where('i.imp_estado',1);
+        $this->db->where('i.imp_empresa', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get();
         //$this->db->queries[0];
                 
@@ -240,6 +243,7 @@ class Impuesto_model extends CI_Model {
         $this->db->from(self::impuesto .' as i');
         $this->db->join(self::impuesto_documento.' as d',' on i.id_tipos_impuestos = d.Impuesto');
         $this->db->where('i.imp_estado',1);
+        $this->db->where('i.imp_empresa', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get();
         //$this->db->queries[0];
                 
@@ -254,6 +258,7 @@ class Impuesto_model extends CI_Model {
         $this->db->from(self::impuesto .' as i');
         $this->db->join(self::impuesto_proveedor.' as p',' on i.id_tipos_impuestos = p.Impuesto');
         $this->db->where('i.imp_estado',1);
+        $this->db->where('i.imp_empresa', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get();
         //$this->db->queries[0];
                 

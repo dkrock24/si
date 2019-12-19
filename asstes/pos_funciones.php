@@ -358,8 +358,10 @@
 
                 success: function(data) {
                     var datos = JSON.parse(data);
+
+                    console.log(datos);
                                         
-                    var precio_unidad   = datos['producto'][8].valor;
+                    var precio_unidad   = datos['producto'][0].unidad;
                     _productos_precio2  = datos["prod_precio"];
                     producto_escala     = datos['producto'][0].Escala;
                     
@@ -383,7 +385,7 @@
                         //console.log(13);
                     }
 
-                    $("#producto").val(datos['producto'][12].valor);
+                    $("#producto").val(datos['producto'][0].unidad);
                     $("#bodega").val(datos['producto'][0].nombre_bodega);
                     $("#precioUnidad").val(_productos_precio.unidad);
 

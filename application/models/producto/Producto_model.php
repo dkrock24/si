@@ -124,6 +124,7 @@ class Producto_model extends CI_Model {
 	            'Empresa' 			=> $producto['empresa'],
 				'Giro' 				=> $producto['giro'],
 				'codigo_barras' 	=> $producto['codigo_barras'],
+				'codigo_producto' 	=> $producto['codigo_barras'],
 				'modelo' 			=> $producto['modelo'],
 				'costo' 			=> $producto['costo'],
 				'minimos' 			=> $producto['minimos'],
@@ -274,7 +275,7 @@ class Producto_model extends CI_Model {
 	            // Contador es el ultimo caracter numerico del string del campo que se envie				
 	            similar_text( $key, $similar_key, $percent );
 				
-				if( round( $percent) >= 90  and isset($producto['14']) ){
+				if( round( $percent) >= 90 ){
 
 					$contador = substr($key, -1);
 

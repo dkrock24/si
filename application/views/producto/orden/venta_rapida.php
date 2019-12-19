@@ -268,14 +268,14 @@ include("asstes/pos_orden.php");
                                     <?php
                                     foreach ($tipoDocumento as $d) {
 
-                                        $doc = strtoupper($d->nombre);
+                                        $doc = strtoupper($d->nombre);                                        
                                         
-                                        if(strpos($doc, 'ORDEN') === true ){
+                                        if ($d->id_temp_suc == $terminal[0]->pred_id_tpdoc) {
 
-                                            if ($d->id_temp_suc == $terminal[0]->pred_id_tpdoc) {
+                                            if(strpos($doc, 'ORDEN') === false ){
                                                 ?>
-                                                <option value="<?php echo $d->id_tipo_documento; ?>"><?php echo $d->nombre . ' - ' . $d->factura_nombre; ?></option>
-                                            <?php
+                                                    <option value="<?php echo $d->id_tipo_documento; ?>"><?php echo $d->nombre . ' - ' . $d->factura_nombre; ?></option>
+                                                <?php
                                             }
                                         }
                                     }

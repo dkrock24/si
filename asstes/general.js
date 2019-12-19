@@ -52,7 +52,7 @@ function impuestos(){
     docVal = imp_list(_impuestos.doc , _tipo_documento);
 	imp_cli_val();
 
-    if(docVal){
+    if(docVal){		
 		
     	_orden.forEach(function(element) {
 
