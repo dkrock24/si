@@ -4,11 +4,11 @@
         <div class="content-wrapper">
             <h3 style="height: 50px; ">Lista Menus </h3>
             <div class="panel panel-default">
-                <div class="panel-heading">Lista Menus</div>
+                
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
-                        <thead>
+                        <thead class="linea_superior">
                             <tr>
                                 <th>#</th>
                                 <th>Nombre</th>
@@ -83,8 +83,17 @@
                                 	?>                       
                                    
                                 </tbody>
+                                
                             </table>
                         </div>
+
+                        <div class="text-right  panel-footer bg-gray-light">
+                                    <ul class="pagination pagination-md">
+                                        
+                                    </ul>
+                                </div>
+
+
                     </div>
                 </div>
 

@@ -42,6 +42,7 @@
 
         <div class="panel menu_title_bar">
             <!-- START table-responsive-->
+            
             <div class="dataList">
 
                 <table id="datatable1" class="table table-striped table-hover" width="100%">
@@ -242,6 +243,7 @@
                     } ?>
                 </ul>
             </div>
+            
 
 
 

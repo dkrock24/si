@@ -13,7 +13,7 @@
                 <!-- START table-responsive-->
                 <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
-                        <thead>
+                        <thead class="linea_superior">
                             <tr>
                                 <th>#</th>
                                 <th>Sub Menu Nombre</th>

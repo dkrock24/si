@@ -153,6 +153,7 @@ class Categorias_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::categorias);
         $this->db->where('id_categoria_padre !=""');  
+        $this->db->where('Empresa ',$this->session->empresa[0]->id_empresa );
         $this->db->order_by('nombre_categoria','asc');    
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
