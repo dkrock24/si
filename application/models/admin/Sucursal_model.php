@@ -114,8 +114,28 @@ class Sucursal_model extends CI_Model {
             //'Empresa_Suc' => $this->session->empresa[0]->Empresa_Suc
             'Empresa_Suc' => $datos['Empresa_Suc']            
         );
-        return $insert = $this->db->insert(self::pos_sucursal, $data ); 
+        
+        $this->db->insert(self::pos_sucursal, $data );
+
+        $id = $this->db->insert_id();
+        $empleado = $this->session->userdata['usuario'][0]->id_empleado;
+
+        $this->insert_empleado_sucursal( $empleado , $id);
+
+        return $id;  
     }
+
+    function insert_empleado_sucursal($empleado, $sucursal ){
+
+        $data = array(
+            'es_empleado' => $empleado,
+            'es_sucursal' => $sucursal,
+            'es_creado' => date("Y-m-d h:i:s"),
+            'es_estado' => 1
+        );
+        $this->db->insert(self::sys_empleado_sucursal, $data ); 
+   
+    }    
 
     function actualizar_giro( $datos ){
         

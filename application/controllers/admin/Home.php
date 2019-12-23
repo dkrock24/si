@@ -53,13 +53,12 @@ class Home extends CI_Controller {
 	    }else{
 	    	$_SESSION['msj'] = "No Existen Menus Asignados";
 			header("location: info");
-	    }
+		}
 
 		// Obtener toda la informacion de la empresa en session.
-		$empresa_id = $this->Usuario_model->permiso_empresa( $empleado_id );
+		$empresa_id = $this->Usuario_model->permiso_empresa( $empleado_id );		
 
-
-		$empresa_session = $this->session->empresa_id[0];
+		$empresa_session = $this->session->empresa_id;
 				
 		if(isset($empresa_id)){
 			if(isset($empresa_session)){

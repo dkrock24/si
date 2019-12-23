@@ -44,7 +44,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Interno</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="cod_interno_caja" name="cod_interno_caja" placeholder="Numero" value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                        <input type="text" class="form-control" id="cod_interno_caja" name="cod_interno_caja" placeholder="Codigo" value="<?php //echo $onMenu[0]->url_submenu ?>">
                                         
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Num. Resolucion</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="resol_num_caja" name="resol_num_caja" placeholder="Marca" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" class="form-control" id="resol_num_caja" name="resol_num_caja" placeholder="Resolucion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
@@ -88,7 +88,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Numero Ticket Resolucion</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="resol_num_tiq_caja" name="resol_num_tiq_caja" placeholder="Apertura" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" class="form-control" id="resol_num_tiq_caja" name="resol_num_tiq_caja" placeholder="Numero Ticket Resolucion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
@@ -102,7 +102,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">CTB</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="cod_ctb_caja" name="cod_ctb_caja" placeholder="Ubicacion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" class="form-control" id="cod_ctb_caja" name="cod_ctb_caja" placeholder="CTB" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
                             </div>
@@ -112,28 +112,28 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Abrir Caja</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="abrir_caja" name="abrir_caja" placeholder="Ubicacion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" class="form-control" id="abrir_caja" name="abrir_caja" placeholder="Abrir Caja" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Impresion Journ</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="impr_journ" name="impr_journ" placeholder="Ubicacion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" class="form-control" id="impr_journ" name="impr_journ" placeholder="Impresion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puerto Dos</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="impr_puerto_DOS" name="impr_puerto_DOS" placeholder="Ubicacion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" class="form-control" id="impr_puerto_DOS" name="impr_puerto_DOS" placeholder="Puerto Dos" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puerto Win</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="impr_puerto_WIN" name="impr_puerto_WIN" placeholder="Ubicacion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" class="form-control" id="impr_puerto_WIN" name="impr_puerto_WIN" placeholder="Puerto Win" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
@@ -141,21 +141,21 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Es Pos</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="es_pos" name="es_pos" placeholder="Ubicacion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" class="form-control" id="es_pos" name="es_pos" placeholder="Es Pos" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Numero Turnos</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="num_turnos" name="num_turnos" placeholder="Ubicacion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" class="form-control" id="num_turnos" name="num_turnos" placeholder="Numero" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Caja</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="pred_cod_cajr" name="pred_cod_cajr" placeholder="Ubicacion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" class="form-control" id="pred_cod_cajr" name="pred_cod_cajr" placeholder="Codigo" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 

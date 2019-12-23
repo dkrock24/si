@@ -230,7 +230,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Seccion</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="seccion" name="seccion" placeholder="" value="<?php echo $empleado[0]->seccion ?>">
+                                                <input type="text" class="form-control" id="seccion" name="seccion" placeholder="Seccion" value="<?php echo $empleado[0]->seccion ?>">
 
                                             </div>
                                         </div>
@@ -398,23 +398,24 @@
                                                                                     $check = "checked";
                                                                                 }
                                                                                 ?>
-                                                                            <input type="checkbox" <?php echo $check ?> class="" value="<?php echo $s->id_sucursal ?>" name="<?php echo $s->id_sucursal ?>">
-                                                                            <label><?php echo $s->nombre_sucursal; ?></label>
-                                                                            <br>
-                                                                        <?php
-                                                                                        }
-                                                                                    }
-                                                                                }
+                                                                                <input type="checkbox" <?php echo $check ?> class="" value="<?php echo $s->id_sucursal ?>" name="<?php echo $s->id_sucursal ?>">
+                                                                                <label><?php echo $s->nombre_sucursal; ?></label>
+                                                                                <br>
+                                                                                <?php
                                                                             }
-                                                                            if ($sucursal_lista) {
-                                                                                foreach ($sucursal_lista as $value) {
-                                                                                    if ($value->id_empresa == $e->id_empresa) {
-                                                                                        $check = "";
-                                                                                        ?>
-                                                                        <input type="checkbox" <?php echo $check ?> class="" value="<?php echo $value->id_sucursal ?>" name="<?php echo $value->id_sucursal ?>">
-                                                                        <label><?php echo $value->nombre_sucursal; ?></label>
-                                                                        <br>
-                                                            <?php
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                                if ($sucursal_lista) {
+                                                                    foreach ($sucursal_lista as $value) {
+                                                                        if ($value->id_empresa == $e->id_empresa) {
+                                                                            $check = "";
+                                                                            ?>
+                                                                            <input type="checkbox" <?php echo $check ?> class="" value="<?php echo $value->id_sucursal ?>" name="<?php echo $value->id_sucursal ?>">
+                                                                            <label><?php echo $value->nombre_sucursal; ?></label>
+                                                                            <br>
+                                                                            <?php
                                                                         }
                                                                     }
                                                                 }

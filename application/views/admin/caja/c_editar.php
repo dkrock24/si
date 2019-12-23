@@ -83,7 +83,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Num. Resolucion</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="resol_num_caja" name="resol_num_caja" placeholder="Marca" value="<?php echo $caja[0]->resol_num_caja ?>">
+                                        <input type="text" class="form-control" id="resol_num_caja" name="resol_num_caja" placeholder="Resolucion" value="<?php echo $caja[0]->resol_num_caja ?>">
                                     </div>
                                 </div>
 
@@ -97,21 +97,21 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Numero Ticket Resolucion</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="resol_num_tiq_caja" name="resol_num_tiq_caja" placeholder="Apertura" value="<?php echo $caja[0]->resol_num_tiq_caja ?>">
+                                        <input type="text" class="form-control" id="resol_num_tiq_caja" name="resol_num_tiq_caja" placeholder="Ticket Resolucion" value="<?php echo $caja[0]->resol_num_tiq_caja ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Ticket Resolucion</label>
                                     <div class="col-sm-9">
-                                        <input type="date" class="form-control" id="resol_fec_tiq_caja" name="resol_fec_tiq_caja" placeholder="Cajero" value="<?php $date = new DateTime($caja[0]->resol_fec_tiq_caja); echo $date->format('Y-m-d'); ?>">
+                                        <input type="date" class="form-control" id="resol_fec_tiq_caja" name="resol_fec_tiq_caja" placeholder="Fecha Ticket Resolucion" value="<?php $date = new DateTime($caja[0]->resol_fec_tiq_caja); echo $date->format('Y-m-d'); ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">CTB</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="cod_ctb_caja" name="cod_ctb_caja" placeholder="Ubicacion" value="<?php echo $caja[0]->cod_ctb_caja ?>">
+                                        <input type="text" class="form-control" id="cod_ctb_caja" name="cod_ctb_caja" placeholder="CTB" value="<?php echo $caja[0]->cod_ctb_caja ?>">
                                     </div>
                                 </div>
                             </div>
@@ -121,28 +121,28 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Abrir Caja</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="abrir_caja" name="abrir_caja" placeholder="Ubicacion" value="<?php echo $caja[0]->abrir_caja ?>">
+                                        <input type="text" class="form-control" id="abrir_caja" name="abrir_caja" placeholder="Abrir Caja" value="<?php echo $caja[0]->abrir_caja ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Impresion Journ</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="impr_journ" name="impr_journ" placeholder="Ubicacion" value="<?php echo $caja[0]->impr_journ ?>">
+                                        <input type="text" class="form-control" id="impr_journ" name="impr_journ" placeholder="Impresion Journ" value="<?php echo $caja[0]->impr_journ ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puerto Dos</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="impr_puerto_DOS" name="impr_puerto_DOS" placeholder="Ubicacion" value="<?php echo $caja[0]->impr_puerto_DOS ?>">
+                                        <input type="text" class="form-control" id="impr_puerto_DOS" name="impr_puerto_DOS" placeholder="Puerto Dos" value="<?php echo $caja[0]->impr_puerto_DOS ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puerto Win</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="impr_puerto_WIN" name="impr_puerto_WIN" placeholder="Ubicacion" value="<?php echo $caja[0]->impr_puerto_WIN ?>">
+                                        <input type="text" class="form-control" id="impr_puerto_WIN" name="impr_puerto_WIN" placeholder="Puerto Win" value="<?php echo $caja[0]->impr_puerto_WIN ?>">
                                     </div>
                                 </div>
 
@@ -150,21 +150,21 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Es Pos</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="es_pos" name="es_pos" placeholder="Ubicacion" value="<?php echo $caja[0]->es_pos ?>">
+                                        <input type="text" class="form-control" id="es_pos" name="es_pos" placeholder="Es Pos" value="<?php echo $caja[0]->es_pos ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Numero Turnos</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="num_turnos" name="num_turnos" placeholder="Ubicacion" value="<?php echo $caja[0]->num_turnos ?>">
+                                        <input type="text" class="form-control" id="num_turnos" name="num_turnos" placeholder="Numero Turnos" value="<?php echo $caja[0]->num_turnos ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Caja</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="pred_cod_cajr" name="pred_cod_cajr" placeholder="Ubicacion" value="<?php echo $caja[0]->pred_cod_cajr ?>">
+                                        <input type="text" class="form-control" id="pred_cod_cajr" name="pred_cod_cajr" placeholder="Codigo Caja" value="<?php echo $caja[0]->pred_cod_cajr ?>">
                                     </div>
                                 </div>
 

@@ -15,11 +15,11 @@ class Empresa_model extends CI_Model {
         $this->db->join(self::sys_moneda.' m', 'on e.Moneda = m.id_moneda');
         
         if($this->session->usuario[0]->id_rol == 1){
-            $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
-            //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+            //$this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
+            $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         }else{
-            $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
-            //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+            //$this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
+            $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         }
         
         $query = $this->db->get();
@@ -44,8 +44,8 @@ class Empresa_model extends CI_Model {
         $this->db->join(self::sucursal.' s', 'on s.Empresa_Suc = e.id_empresa','left');
         $this->db->join(self::empleado_sucursal.' es', 'on es.es_sucursal = s.id_sucursal','left');
         $this->db->join(self::sys_moneda.' m', 'on e.Moneda = m.id_moneda');
-        $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa );
-        //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+        //$this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa );
+        $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         
         $this->db->where('  (es.es_empleado = '.$empleado_id .')');
         //$this->db->group_by('s.id_sucursal');

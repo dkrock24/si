@@ -241,7 +241,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Seccion</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="seccion" name="seccion" placeholder="" value="<?php //echo $onMenu[0]->seccion 
+                                                <input type="text" class="form-control" id="seccion" name="seccion" placeholder="Seccion" value="<?php //echo $onMenu[0]->seccion 
                                                                                                                                             ?>">
 
                                             </div>

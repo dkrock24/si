@@ -88,10 +88,10 @@
                             </form>
 
                             <th class="alignRigth">
-                                <div class="btn-group" role="group">
+                                <div class="btn-group dropleft" role="group">
                                     <button type="button" class="btn btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opcion</button>
                                     
-                                    <ul role="menu" class="dropdown-menu">
+                                    <ul role="menu" class="dropdown-menu dropdown-menu-right">
                                         <?php
                                         if ($acciones) {
                                             foreach ($acciones as $key => $value) {
@@ -177,11 +177,11 @@
 
                                     <td class="alignRigth">
 
-                                        <div class="btn-group mb-sm">
+                                        <div class="btn-group dropright mb-sm">
                                             <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-xs" style="background: #dde6e9">Opcion
                                                 <span class="caret"></span>
                                             </button>
-                                            <ul role="menu" class="dropdown-menu">
+                                            <ul role="menu" class="dropdown-menu dropdown-menu-right">
                                                 <?php
 
                                                         if ($acciones) {

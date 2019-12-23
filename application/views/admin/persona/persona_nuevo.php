@@ -43,7 +43,7 @@
             <div class="col-lg-12">
                 <div id="panelDemo10" class="panel menu_title_bar">   
                                                 
-                    <div class="panel-heading menuTop">Crear Persona</div>
+                    <div class="panel-heading menuTop"><i class="fa fa-plus-circle"></i> Crear Persona</div>
                     <div class="panel-body menuContent">        
                     
                         <form class="form-horizontal" name="persona" action='crear' method="post">
