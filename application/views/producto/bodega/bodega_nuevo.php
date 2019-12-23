@@ -46,13 +46,20 @@
                             <div class="form-group">
                                 <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Sucursal</label>
                                 <div class="col-sm-10">
+                                    
                                     <select name="Sucursal" class="form-control">
                                         <?php
-                                        foreach ($sucursal as $sucursales) {
+                                        if(isset($sucursal)){
+                                            foreach ($sucursal as $sucursales) {
+                                                ?>
+                                                <option value="<?php echo $sucursales->id_sucursal; ?>"><?php echo $sucursales->nombre_sucursal; ?></option>
+                                                <?php
+                                            }
+                                        }else{
                                             ?>
-                                            <option value="<?php echo $sucursales->id_sucursal; ?>"><?php echo $sucursales->nombre_sucursal; ?></option>
+                                            <option value="">No Hay Sucursal</option>
                                             <?php
-                                        }
+                                        }                                   
                                         ?>
                                     </select>
                                     

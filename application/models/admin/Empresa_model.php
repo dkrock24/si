@@ -14,12 +14,12 @@ class Empresa_model extends CI_Model {
         $this->db->from(self::pos_empresa.' e');
         $this->db->join(self::sys_moneda.' m', 'on e.Moneda = m.id_moneda');
         
-        if($this->session->usuario[0]->id_rol == 1){
+        if($this->session->empresa[0]->id_empresa == 1){
             //$this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
             $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         }else{
-            //$this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
-            $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+            $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
+            //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         }
         
         $query = $this->db->get();

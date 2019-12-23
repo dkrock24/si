@@ -86,7 +86,11 @@ class Orden extends MY_Controller {
 			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] 		= $this->Cliente_model->get_cliente();
-			$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente(current($data['cliente'][0]));
+			
+			if($data['cliente'][0] ){
+				$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente(current($data['cliente'][0]));
+			}
+
 			$data['title'] 			= "Nueva Orden";
 			$data['home'] 			= 'producto/orden/orden_crear';
 

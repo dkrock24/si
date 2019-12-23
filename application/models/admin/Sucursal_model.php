@@ -26,8 +26,9 @@ class Sucursal_model extends CI_Model {
         $this->db->join(self::sys_empleado_sucursal.' as es', ' on s.id_sucursal = es.es_sucursal');
         $this->db->join(self::sys_usuario.' as u', ' u.Empleado = es.es_empleado');
         $this->db->where('u.id_usuario', $id_usuario );
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];
+        //echo $this->db->queries[2];
         
         if($query->num_rows() > 0 )
         {

@@ -110,11 +110,19 @@
                                         <div class="col-sm-10">
                                             <select name="categoria" id="categoria" class="form-control">
                                                 <?php
-                                                foreach ($categoria as $key => $c) {
-                                                    ?>
-                                                    <option value="<?php echo $c->id_categoria ?>"><?php echo $c->nombre_categoria ?></option>
-                                                <?php
+                                                if(isset($categoria)){
+                                                    foreach ($categoria as $key => $c) {
+                                                        ?>
+                                                        <option value="<?php echo $c->id_categoria ?>"><?php echo $c->nombre_categoria ?></option>
+                                                    <?php
+                                                    }
                                                 }
+                                                else{
+                                                    ?>
+                                                    <option value="">No Hay Categoria</option>
+                                                    <?php
+                                                }
+                                                
                                                 ?>
                                             </select>
 

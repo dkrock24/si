@@ -28,10 +28,17 @@
                                         <div class="col-sm-8">
                                             <select name="codigo_giro" class="form-control">
                                                 <?php
-                                                foreach ($giros as $g) {
+                                                if(isset($giros)){
+                                                
+                                                    foreach ($giros as $g) {
+                                                        ?>
+                                                        <option value="<?php echo $g->id_giro ?>"><?php echo $g->nombre_giro ?></option>
+                                                    <?php
+                                                    }
+                                                }else{
                                                     ?>
-                                                    <option value="<?php echo $g->id_giro ?>"><?php echo $g->nombre_giro ?></option>
-                                                <?php
+                                                        <option value="">No Hay Giro</option>
+                                                    <?php
                                                 }
                                                 ?>
                                             </select>

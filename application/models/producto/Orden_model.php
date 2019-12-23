@@ -218,12 +218,12 @@ class Orden_model extends CI_Model
 
 		$this->db->select('*');
         $this->db->from(self::sucursal.' as s');
-		$this->db->join(self::sys_empleado_sucursal.' as es', ' on s.id_sucursal = es.es_sucursal');
-		$this->db->join(self::pos_bodega.' as b', ' on b.Sucursal = es.es_sucursal');
-        $this->db->join(self::sys_usuario.' as u', ' u.Empleado = es.es_empleado');
-        $this->db->where('u.id_usuario', $usuario );
+		//$this->db->join(self::sys_empleado_sucursal.' as es', ' on s.id_sucursal = es.es_sucursal','LEFT');
+		$this->db->join(self::pos_bodega.' as b', ' on b.Sucursal = s.id_sucursal','');
+        //$this->db->join(self::sys_usuario.' as u', ' u.Empleado = es.es_empleado','LEFT');
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];
+		//echo $this->db->queries[4];
         
         if($query->num_rows() > 0 )
         {

@@ -258,11 +258,18 @@
                                             <div class="col-sm-9">
                                                 <select id="Cargo_Laboral_E" name="Cargo_Laboral_E" class="form-control">
                                                     <?php
-                                                    foreach ($cargos as $key => $p) {
+                                                    if($cargos){
+                                                        foreach ($cargos as $key => $p) {
+                                                            ?>
+                                                            <option value="<?php echo $p->id_cargo_laboral; ?>"><?php echo $p->cargo_laboral; ?></option>
+                                                        <?php
+                                                        }
+                                                    }else{
                                                         ?>
-                                                        <option value="<?php echo $p->id_cargo_laboral; ?>"><?php echo $p->cargo_laboral; ?></option>
-                                                    <?php
+                                                        <option value=""><?php echo "No Exiten Cargos"; ?></option>
+                                                        <?php 
                                                     }
+                                                    
                                                     ?>
                                                 </select>
                                             </div>
@@ -402,7 +409,22 @@
                                 <div class="panel-footer text-right">
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-9">
-                                            <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
+                                            <?php
+                                            if($cargos){
+                                                ?>
+                                                <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
+                                                <?php
+                                            }else{
+                                                ?>
+                                                <span class="btn btn-danger">
+                                                    <i class="fa fa-info-circle fa-lg"> Boton Desactivado. </i>
+                                                </span>
+                                                
+                                                
+                                                <?php
+                                            }
+                                            ?>
+                                            
                                         </div>
                                     </div>
                                 </div>

@@ -148,10 +148,20 @@
                                             <div class="col-sm-9">
                                                 <select id="Persona_Proveedor" name="Persona_Proveedor" class="form-control">
                                                     <?php
-                                                    foreach ($persona as $key => $p) {
+                                                    if($Persona){
+
+                                                        foreach ($persona as $key => $p) {
                                                         ?>
-                                                        <option value="<?php echo $p->id_persona; ?>"><?php echo $p->primer_nombre_persona . ' ' . $p->segundo_nombre_persona . ' ' . $p->primer_apellido_persona . ' ' . $p->segundo_apellido_persona; ?></option>
-                                                    <?php
+                                                            <option value="<?php echo $p->id_persona; ?>"><?php echo $p->primer_nombre_persona . ' ' . $p->segundo_nombre_persona . ' ' . $p->primer_apellido_persona . ' ' . $p->segundo_apellido_persona; ?></option>
+                                                        <?php
+                                                        }
+
+                                                    }else{
+
+                                                        ?>
+                                                        <option value=""><?php echo "No Existe Persona" ?></option>
+                                                        <?php
+                                                    
                                                     }
                                                     ?>
                                                 </select>
@@ -181,11 +191,18 @@
                                             <div class="col-sm-9">
                                                 <select id="lineas" name="lineas" class="form-control">
                                                     <?php
-                                                    foreach ($linea as $key => $l) {
+                                                    if($linea){
+                                                        
+                                                        foreach ($linea as $key => $l) {
                                                         ?>
-                                                        <option value="<?php echo $l->id_linea; ?>"><?php echo $l->tipo_producto; ?></option>
-                                                    <?php
-                                                    }
+                                                            <option value="<?php echo $l->id_linea; ?>"><?php echo $l->tipo_producto; ?></option>
+                                                        <?php
+                                                        }                                                        
+                                                    }else{
+                                                        ?>
+                                                            <option value=""><?php echo "No Existe Linea"; ?></option>
+                                                        <?php
+                                                    }                                                
                                                     ?>
                                                 </select>
                                             </div>
@@ -209,7 +226,22 @@
                                 <div class="panel-footer text-right">
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-9">
-                                            <button type="submit" class="btn btn-info">Guardar</button>
+                                            
+                                            <?php
+                                            if($linea && $Persona){
+
+                                                ?>
+                                                <button type="submit" class="btn btn-info">Guardar</button>
+                                                <?php
+                                                
+                                            }else{
+                                                ?>
+                                                <span class="btn btn-danger">
+                                                    <i class="fa fa-info-circle fa-lg"> Boton Desactivado. </i>
+                                                </span>
+                                                <?php
+                                                }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>

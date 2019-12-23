@@ -76,9 +76,15 @@
                                     <div class="col-sm-9">
                                         <select id="Sucursal" name="Sucursal" class="form-control">
                                             <?php
-                                            foreach ($sucursal as $key => $p) {
+                                            if(isset($sucursal)){
+                                                foreach ($sucursal as $key => $p) {
+                                                    ?>
+                                                    <option value="<?php echo $p->id_sucursal; ?>"><?php echo $p->nombre_sucursal; ?></option>
+                                                    <?php
+                                                }
+                                            }else{
                                                 ?>
-                                                <option value="<?php echo $p->id_sucursal; ?>"><?php echo $p->nombre_sucursal; ?></option>
+                                                <option value="">No Hay Sucursal</option>
                                                 <?php
                                             }
                                             ?>
@@ -91,9 +97,15 @@
                                     <div class="col-sm-9">
                                         <select id="TipoDocumento" name="TipoDocumento" class="form-control">
                                             <?php
-                                            foreach ($documento as $key => $p) {
+                                            if(isset($documento)){
+                                                foreach ($documento as $key => $p) {
+                                                    ?>
+                                                    <option value="<?php echo $p->id_tipo_documento; ?>"><?php echo $p->nombre; ?></option>
+                                                    <?php
+                                                }
+                                            }else{
                                                 ?>
-                                                <option value="<?php echo $p->id_tipo_documento; ?>"><?php echo $p->nombre; ?></option>
+                                                <option value="">No Hay Documento</option>
                                                 <?php
                                             }
                                             ?>

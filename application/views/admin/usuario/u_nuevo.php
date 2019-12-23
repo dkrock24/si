@@ -200,10 +200,16 @@
                                             <div class="col-sm-9">
                                                 <select id="id_rol" name="id_rol" class="form-control">
                                                     <?php
-                                                    foreach ($roles as $key => $p) {
+                                                    if($roles){
+                                                        foreach ($roles as $key => $p) {
+                                                            ?>
+                                                            <option value="<?php echo $p->id_rol; ?>"><?php echo $p->role; ?></option>
+                                                            <?php
+                                                        }
+                                                    }else{
                                                         ?>
-                                                        <option value="<?php echo $p->id_rol; ?>"><?php echo $p->role; ?></option>
-                                                        <?php
+                                                        <option value=""><?php echo "No Exiten Roles"; ?></option>
+                                                        <?php                                                        
                                                     }
                                                     ?>
                                                 </select>
@@ -219,7 +225,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empleado</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control persona_codigo" id="nombre_persona" name="nombre_persona" placeholder="Nombre Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                                 <input type="hidden" class="form-control persona_codigo" id="persona" name="persona" placeholder="Persona" value="">
@@ -248,7 +254,22 @@
 
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
+                                                <?php
+                                                if($roles){
+                                                    ?>
+                                                    <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                    <span class="btn btn-danger">
+                                                        <i class="fa fa-info-circle fa-lg"> Boton Desactivado. </i>
+                                                    </span>
+                                                    
+                                                    <br><br>
+                                                    <?php
+                                                }
+                                                ?>
+                                                
                                             </div>
                                         </div>
                             </div>
@@ -266,9 +287,10 @@
 
                                     <tbody>
                                     <?php
-                                        $cont =1;
                                     
-
+                                    $cont =1;
+                                    
+                                    if($roles){
                                         foreach ($roles as $r) {   
                                         ?>
                                         <tr>
@@ -283,7 +305,8 @@
                                         </tr>
                                         <?php
                                         }
-                                        ?>
+                                    }
+                                    ?>
                                     </tbody>
                                    
                                 </table>
