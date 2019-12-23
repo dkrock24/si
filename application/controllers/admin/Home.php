@@ -31,6 +31,7 @@ class Home extends CI_Controller {
 		$this->load->model('admin/Menu_model');
 		$this->load->model('admin/Usuario_model');
 		$this->load->model('admin/Empresa_model');
+		$this->load->model('admin/Vistas_model');
 	}
 
 	public function index()
@@ -122,6 +123,23 @@ class Home extends CI_Controller {
 			$empresa = false;
 		}
 		echo json_encode($empresa);
+	}
+
+	function buscar(){
+		if(isset($_POST['buscar'])){
+			
+			$buscar_vista = $_POST['buscar'];
+
+			$data['vistas'] = $this->Vistas_model->buscar_vista( $buscar_vista );
+
+			if( $data['vistas'] ){
+
+				redirect(base_url().$data['vistas'][0]->vista_url);
+			}else{
+				redirect(base_url()."admin/home/index");
+			}
+
+		}
 	}
 
 	function get_empresa_informacion( $empleado_id ){

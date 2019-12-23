@@ -269,9 +269,9 @@
             </div>
             <!-- END Nav wrapper-->
             <!-- START Search form-->
-            <form role="search" action="search.html" class="navbar-form">
+            <form role="search" action="<?php echo base_url().'admin/home/buscar' ?>" method="post" class="navbar-form">
                <div class="form-group has-feedback">
-                  <input type="text" placeholder="Type and hit enter ..." class="form-control">
+                  <input type="text" placeholder="Buscar" name="buscar" class="form-control">
                   <div data-search-dismiss="" class="fa fa-times form-control-feedback"></div>
                </div>
                <button type="submit" class="hidden btn btn-default">Submit</button>

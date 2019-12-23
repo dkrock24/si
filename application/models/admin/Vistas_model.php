@@ -312,4 +312,21 @@ class Vistas_model extends CI_Model {
         $this->vista_acceso_crear( $id_componente , $role );
     }
 
+    function buscar_vista( $vista ){
+
+        $this->db->select('*');
+        $this->db->from(self::sys_vistas);    
+        $this->db->where('vista_estado', 1);
+        $this->db->like('vista_nombre', $vista , 'both');
+        $query = $this->db->get();
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+        
+
+    }
+
 }
