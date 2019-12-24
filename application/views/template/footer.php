@@ -70,9 +70,87 @@
     $(document).ready(function() {
       var interval = setInterval(function() {
         var momentNow = moment();
-        $('#time-part').html(momentNow.format('MMMM DD'));
+//        $('#time-part').html(momentNow.format('MMMM DD'));
         $('#format-date').html(momentNow.format('hh:mm A'));
       }, 100);
+
+      var momentNow = moment();
+
+      var months = {
+
+        January: {
+          Name : "January",
+          Translate : "Enero"
+        },
+
+        February: {
+          Name : "February",
+          Translate : "Febrero"
+        }, 
+
+        March: {
+          Name : "March",
+          Translate : "Marzo"
+        }, 
+
+        April: {
+          Name : "April",
+          Translate : "Abril"
+        }, 
+
+        May: {
+          Name : "May",
+          Translate : "Mayo"
+        }, 
+
+        June: {
+          Name : "June",
+          Translate : "Junio"
+        }, 
+
+        July: {
+          Name : "July",
+          Translate : "julio"
+        }, 
+
+        August: {
+          Name : "August",
+          Translate : "Agosto"
+        },
+
+        September: {
+          Name : "September",
+          Translate : "Septiembre"
+        },
+
+        October: {
+          Name : "October",
+          Translate : "Octubre"
+        },
+
+        November: {
+          Name : "November",
+          Translate : "Noviembre"
+        },
+
+        December: {
+          Name : "December",
+          Translate : "Diciembre"
+        },
+
+      };
+
+      for(var i in months){
+        if(i ==  momentNow.format('MMMM') ){
+          console.log(months[i].Translate);
+          $('#time-part').html(months[i].Translate);
+        }
+      }
+
+  
+
+
+
     });
   </script>
 
