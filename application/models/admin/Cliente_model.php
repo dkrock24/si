@@ -103,19 +103,6 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function getTipoDocumento()
-    {
-        $this->db->select('*');
-        $this->db->from(self::pos_tipo_documento);
-        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
-        $query = $this->db->get();
-        //echo $this->db->queries[1];
-
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        }
-    }
-
     function record_count($filter)
     {
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa. ' '. $filter);
@@ -127,7 +114,6 @@ class Cliente_model extends CI_Model
 
     function crear_cliente($datos)
     {
-
         // Insertando Imagenes empresa
         $imagen = "";
         $imagen = file_get_contents($_FILES['logo_cli']['tmp_name']);

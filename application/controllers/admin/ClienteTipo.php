@@ -89,7 +89,6 @@ class ClienteTipo extends CI_Controller {
 
 		$id_rol = $this->session->roles;
 		$vista_id = 21; // Vista Orden Lista
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
 		$data['column'] = $this->column();
@@ -105,13 +104,7 @@ class ClienteTipo extends CI_Controller {
 
 	public function nuevo(){
 
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		$data['menu'] = $this->session->menu;		
-		$data['empresa'] = $this->Empresa_model->getEmpresas();
-		$data['documento'] = $this->Cliente_model->getTipoDocumento();
-		$data['pago'] = $this->Pagos_model->getTipoPago();
-		$data['persona'] = $this->Persona_model->getAllPersona();
+		$data['menu'] = $this->session->menu;
 		$data['title'] = "Nuevo Tipo Cliente";
 		$data['home'] = 'admin/clienteTipo/clientetipo_nuevo';
 
@@ -119,23 +112,19 @@ class ClienteTipo extends CI_Controller {
 	}
 
 	public function crear(){
-		// Insert Nuevo Cliente
 		
 		$data = $this->ClienteTipo_model->crear_clienteTipo( $_POST );
 
-
 		if($data){
-			$this->session->set_flashdata('success', "Cliente Fue Creado");
+			$this->session->set_flashdata('success', "Tipo Cliente Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Cliente No Fue Creado");
+			$this->session->set_flashdata('warning', "Tipo Cliente No Fue Creado");
 		}	
 
 		redirect(base_url()."admin/ClienteTipo/index");
 	}
 
 	public function editar( $cliente_id ){
-		
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;
 		$data['cliente'] = $this->ClienteTipo_model->get_clientes_tipo_id( $cliente_id );
@@ -149,13 +138,13 @@ class ClienteTipo extends CI_Controller {
 	}
 
 	public function update(){
-		// Actualizar Giro 
+		
 		$data = $this->ClienteTipo_model->update( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('success', "Cliente Fue Actualizado");
+			$this->session->set_flashdata('success', "Tipo Cliente Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('warning', "Cliente No Fue Actualizado");
+			$this->session->set_flashdata('warning', "Tipo Cliente No Fue Actualizado");
 		}
 
 		redirect(base_url()."admin/clienteTipo/index");

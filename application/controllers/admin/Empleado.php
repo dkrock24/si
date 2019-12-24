@@ -89,7 +89,7 @@ class Empleado extends MY_Controller {
 			$this->session->set_flashdata('success', "Empleado Fue Creado");
 		}else{
 			$this->session->set_flashdata('warning', "Empleado No Fue Creado");
-		}	
+		}
 		redirect(base_url()."admin/usuario/nuevo");
 	}
 
@@ -108,7 +108,6 @@ class Empleado extends MY_Controller {
 				$sucursales[] = $value->id_sucursal;
 			}
 		}
-
 		
 		if($sucursales){
 			$data['sucursal_lista']	= $this->Empresa_model->getEmpresasWithSucursal2($sucursales);

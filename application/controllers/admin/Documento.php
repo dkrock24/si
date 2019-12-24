@@ -49,7 +49,7 @@ class Documento extends MY_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['documento'] = $this->Documento_model->getDocumentoById( $documento_id );
-		$data['title'] = "Editar Documento";	
+		$data['title'] = "Editar Documento";
 		$data['home'] = 'admin/documento/d_editar';
 
 		$this->general->editar_valido($data['documento'], "admin/documento/index");

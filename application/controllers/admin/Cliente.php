@@ -42,6 +42,7 @@ class Cliente extends MY_Controller {
 		$this->load->model('admin/ClienteTipo_model');
 		$this->load->model('admin/Pagos_model');
 		$this->load->model('admin/Persona_model');
+		$this->load->model('admin/Documento_model');
 	}
 
 // Start  **********************************************************************************
@@ -75,7 +76,7 @@ class Cliente extends MY_Controller {
 		$data['clienteTipo'] = $this->ClienteTipo_model->get_cliente_tipo();
 		$data['menu'] = $this->session->menu;		
 		$data['empresa'] = $this->Empresa_model->getEmpresas();
-		$data['documento'] = $this->Cliente_model->getTipoDocumento();
+		$data['documento'] = $this->Documento_model->getAllDocumento();
 		$data['pago'] = $this->Pagos_model->getTipoPago();
 		$data['persona'] = $this->Persona_model->getAllPersona();
 		$data['title'] = "Nuevo Cliente";
@@ -106,7 +107,7 @@ class Cliente extends MY_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['cliente'] = $this->Cliente_model->get_clientes_id( $cliente_id );
-		$data['documento'] = $this->Cliente_model->getTipoDocumento();
+		$data['documento'] = $this->Documento_model->getAllDocumento();
 		$data['pagoCliente'] = $this->Pagos_model->getPagosClientes($cliente_id);
 		$data['pago'] = $this->Pagos_model->getTipoPago();
 		$data['persona'] = $this->Persona_model->getAllPersona();

@@ -107,7 +107,7 @@ class Sucursal extends MY_Controller {
 	}
 
 	public function update(){
-		$data = $this->Sucursal_model->actualizar_giro( $_POST );
+		$data = $this->Sucursal_model->actualizar( $_POST );
 
 		if($data){
 			$this->session->set_flashdata('success', "Sucursal Fue Actualizada");

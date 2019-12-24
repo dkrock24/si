@@ -138,7 +138,7 @@ class Sucursal_model extends CI_Model {
    
     }    
 
-    function actualizar_giro( $datos ){
+    function actualizar( $datos ){
         
         $data = array(
             'nombre_sucursal' => $datos['nombre_sucursal'],
