@@ -91,12 +91,12 @@ class Persona extends MY_Controller {
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
 
-		$data['menu'] 	= $this->session->menu;		
-		$data['persona']= $this->Persona_model->getPersonaId( $persona_id );
-		$data['sexo'] 	= $this->Sexo_model->getSexo();
-		$data['ciudad'] = $this->Ciudad_model->getCiudad();
-		$data['ciudad2'] = $this->Ciudad_model->getCiudadId( $data['persona'][0]->id_departamento );
-		$data['title'] = 'Editar Personas';
+		$data['menu'] 		= $this->session->menu;		
+		$data['persona']	= $this->Persona_model->getPersonaId( $persona_id );
+		$data['sexo'] 		= $this->Sexo_model->getSexo();
+		$data['ciudad'] 	= $this->Ciudad_model->getCiudad();
+		$data['ciudad2'] 	= $this->Ciudad_model->getCiudadId( $data['persona'][0]->id_departamento );
+		$data['title'] 		= 'Editar Personas';
 
 		$data['home'] 	= 'admin/persona/persona_editar';
 

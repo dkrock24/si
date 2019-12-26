@@ -31,9 +31,6 @@ class Sucursal extends MY_Controller {
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
 
-		$this->load->model('admin/Giros_model');  
-		$this->load->model('admin/Atributos_model');  
-		$this->load->model('admin/Menu_model');
 		$this->load->model('accion/Accion_model');
 		$this->load->model('admin/Sucursal_model');
 		$this->load->model('admin/Empresa_model');
@@ -46,8 +43,7 @@ class Sucursal extends MY_Controller {
 
 		$model = "Sucursal_model";
 		$url_page = "admin/sucursal/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 31);
-		
+		$pag = $this->MyPagination($model, $url_page , $vista = 31);		
 
 		$data['menu'] = $this->session->menu;
 		$data['links'] = $pag['links'];
@@ -86,7 +82,6 @@ class Sucursal extends MY_Controller {
 			$this->session->set_flashdata('warning', "Sucursal No Fue Creada");
 		}	
 
-
 		redirect(base_url()."admin/sucursal/index");
 	}
 
@@ -94,12 +89,12 @@ class Sucursal extends MY_Controller {
 		
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;		
-		$data['sucursal'] = $this->Sucursal_model->getSucursalId( $sucursla_id );
-		$data['empresa'] = $this->Empresa_model->getEmpresas();
-		$data['ciudad'] = $this->Ciudad_model->getCiudad();
-		$data['title'] = "Editar Sucursal";
-		$data['home'] = 'admin/sucursal/sucursal_editar';
+		$data['menu'] 		= $this->session->menu;		
+		$data['sucursal'] 	= $this->Sucursal_model->getSucursalId( $sucursla_id );
+		$data['empresa'] 	= $this->Empresa_model->getEmpresas();
+		$data['ciudad'] 	= $this->Ciudad_model->getCiudad();
+		$data['title'] 		= "Editar Sucursal";
+		$data['home'] 		= 'admin/sucursal/sucursal_editar';
 
 		$this->general->editar_valido($data['sucursal'], "admin/sucursal/index");
 
@@ -107,6 +102,7 @@ class Sucursal extends MY_Controller {
 	}
 
 	public function update(){
+
 		$data = $this->Sucursal_model->actualizar( $_POST );
 
 		if($data){
@@ -130,9 +126,9 @@ class Sucursal extends MY_Controller {
 			'nombre_comercial','nombre_sucursal','direct','tel','cel','encargado_sucursal','estado'
 		);
 		
-		$fields['id'] = array('id_sucursal');
-		$fields['estado'] = array('estado');
-		$fields['titulo'] = "Sucursales Lista";
+		$fields['id'] 		= array('id_sucursal');
+		$fields['estado'] 	= array('estado');
+		$fields['titulo'] 	= "Sucursales Lista";
 
 		return $fields;
 	}

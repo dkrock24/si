@@ -86,6 +86,7 @@ class Marca extends MY_Controller {
 	}
 
 	public function save(){
+
 		$data = $this->Marca_model->nuevo_marca( $_POST );
 
 		if($data){
@@ -97,15 +98,18 @@ class Marca extends MY_Controller {
 	}
 
 	public function save_categoria_marca(){
+
 		$val = $this->Marca_model->save_categoria_marca( $_POST );
 		echo json_encode($val);
 	}
 
 	public function delete_categoria_marca($id){
+
 		$this->Marca_model->delete_categoria_marca( $id );
 	}
 
 	public function eliminar($id){
+
 		$data = $this->Marca_model->eliminar_marca( $id );
 
 		if($data){
@@ -118,6 +122,7 @@ class Marca extends MY_Controller {
 	}
 
 	public function delete( $id_rol ){
+
 		$this->Roles_model->delete_rol( $id_rol );
 		redirect(base_url()."admin/roles/index");
 	}
@@ -131,6 +136,7 @@ class Marca extends MY_Controller {
 	}
 
 	public function fields(){
+		
 		$fields['field'] = array(
 			'nombre_marca','descripcion_marca','fecha_creado_marca','fecha_atualizado_marca','estado'
 		);

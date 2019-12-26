@@ -12,12 +12,10 @@ class Roles extends MY_Controller {
 		@$this->load->library('session');
 		$this->load->library('pagination');  
 		$this->load->library('../controllers/general');
-
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
 
-		$this->load->model('admin/Roles_model');
-		$this->load->model('admin/Menu_model');	
+		$this->load->model('admin/Roles_model');		
 		$this->load->model('accion/Accion_model');
 	}
 
@@ -47,10 +45,10 @@ class Roles extends MY_Controller {
 	{	
 		$id_rol = $this->session->roles;
 
-		$data['menu'] = $this->session->menu;		
-		$data['roles'] = $this->Roles_model->getRolesById( $id_role );		
-		$data['home'] = 'admin/roles/roles_editar';
-		$data['title'] = 'Editar Role';
+		$data['menu'] 	= $this->session->menu;		
+		$data['roles'] 	= $this->Roles_model->getRolesById( $id_role );		
+		$data['home'] 	= 'admin/roles/roles_editar';
+		$data['title'] 	= 'Editar Role';
 
 		$this->general->editar_valido($data['roles'], "admin/roles/index");
 
@@ -88,7 +86,6 @@ class Roles extends MY_Controller {
 		$id_rol = $this->session->roles;
 
 		$data['menu'] = $this->session->menu;
-						//$this->Roles_model->nuevo_rol( $_POST );
 		$data['home'] = 'admin/roles/roles_nuevo';
 		$data['title'] = 'Nuevo Role';
 
@@ -96,6 +93,7 @@ class Roles extends MY_Controller {
 	}
 
 	public function save_rol(){
+
 		$data['role'] = $this->Roles_model->nuevo_rol( $_POST );
 
 		if($data){
@@ -108,6 +106,7 @@ class Roles extends MY_Controller {
 	}
 
 	public function eliminar( $id_rol ){
+
 		$data['role'] = $this->Roles_model->delete_rol( $id_rol );
 
 		if($data){
@@ -132,9 +131,9 @@ class Roles extends MY_Controller {
 			'role','pagina','fecha_creacion','fecha_actualizacion','estado'
 		);
 		
-		$fields['id'] = array('id_rol');
-		$fields['estado'] = array('estado_rol');
-		$fields['titulo'] = "Roles Lista";
+		$fields['id'] 		= array('id_rol');
+		$fields['estado'] 	= array('estado_rol');
+		$fields['titulo'] 	= "Roles Lista";
 
 		return $fields;
 	}

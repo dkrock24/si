@@ -31,14 +31,7 @@ class Proveedor extends MY_Controller {
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
 
-		$this->load->model('admin/Giros_model');  
-		$this->load->model('admin/Atributos_model');  
-		$this->load->model('admin/Menu_model');
-		$this->load->model('accion/Accion_model');
-		$this->load->model('admin/Sucursal_model');
-		$this->load->model('admin/Empresa_model');
-		$this->load->model('admin/Ciudad_model');
-		$this->load->model('admin/Cliente_model');
+		$this->load->model('accion/Accion_model');	
 		$this->load->model('admin/Persona_model');
 		$this->load->model('admin/Proveedor_model');
 		$this->load->model('producto/Linea_model');
@@ -51,7 +44,6 @@ class Proveedor extends MY_Controller {
 		$model = "Proveedor_model";
 		$url_page = "admin/proveedor/index";
 		$pag = $this->MyPagination($model, $url_page , $vista = 32);
-
 
 		$data['menu'] = $this->session->menu;
 		$data['links'] = $pag['links'];
@@ -98,12 +90,12 @@ class Proveedor extends MY_Controller {
 		
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;		
-		$data['proveedor'] = $this->Proveedor_model->get_proveedor_id( $proveedor_id );
-		$data['linea'] = $this->Linea_model->getAllLinea();
-		$data['persona'] = $this->Persona_model->getAllPersona();
-		$data['title'] = "Editar Proveedor";
-		$data['home'] = 'admin/proveedor/proveedor_editar';
+		$data['menu'] 		= $this->session->menu;		
+		$data['proveedor'] 	= $this->Proveedor_model->get_proveedor_id( $proveedor_id );
+		$data['linea'] 		= $this->Linea_model->getAllLinea();
+		$data['persona'] 	= $this->Persona_model->getAllPersona();
+		$data['title'] 		= "Editar Proveedor";
+		$data['home'] 		= 'admin/proveedor/proveedor_editar';
 
 		$this->general->editar_valido($data['proveedor'], "admin/proveedor/index");
 
@@ -136,9 +128,9 @@ class Proveedor extends MY_Controller {
 			'codigo_proveedor','empresa_proveedor','titular_proveedor','nrc','giro','tel_empresa','cel_empresa','tipo_producto','primer_nombre_persona','primer_apellido_persona','estado'
 		);
 		
-		$fields['id'] = array('id_proveedor');
-		$fields['estado'] = array('estado');
-		$fields['titulo'] = "Proveedor Lista";
+		$fields['id'] 		= array('id_proveedor');
+		$fields['estado'] 	= array('estado');
+		$fields['titulo'] 	= "Proveedor Lista";
 
 		return $fields;
 	}

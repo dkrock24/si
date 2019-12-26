@@ -31,14 +31,9 @@ class Terminal extends MY_Controller {
 		$this->load->helper('url');
 		$this->load->helper('paginacion/paginacion_helper');
 
-		$this->load->model('admin/Terminal_model');  
-		$this->load->model('admin/Atributos_model');  
-		$this->load->model('admin/Menu_model');
+		$this->load->model('admin/Terminal_model');
 		$this->load->model('admin/Usuario_model');
-		$this->load->model('accion/Accion_model');
-		$this->load->model('admin/Roles_model');
-		$this->load->model('admin/Persona_model');
-		$this->load->model('admin/Empleado_model');
+		$this->load->model('accion/Accion_model');	
 		$this->load->model('admin/Caja_model');
 		$this->load->model('admin/Sucursal_model');
 		$this->load->model('admin/Usuario_model');
@@ -128,7 +123,7 @@ class Terminal extends MY_Controller {
 	}
 
 	public function eliminar($id){
-		// Actualizar Giro 
+		
 		$data = $this->Terminal_model->eliminar( $id );
 
 		if($data){
@@ -142,19 +137,18 @@ class Terminal extends MY_Controller {
 
 	public function asociar( $id_terminal ){
 
-		$data['menu'] = $this->session->menu;
-		$data['terminal'] = $this->Terminal_model->get_terminal( $id_terminal );
+		$data['menu'] 	= $this->session->menu;
+		$data['terminal'] 	= $this->Terminal_model->get_terminal( $id_terminal );
 		$data['terminal_usuario'] = $this->Terminal_model->get_terminal_users( $id_terminal );
-		$data['usuario'] = $this->Terminal_model->get_users( );
+		$data['usuario'] 	= $this->Terminal_model->get_users( );
 		
-		$data['title'] = "Terminal Usuarios";
-		$data['home'] = 'admin/terminal/t_asociar';
+		$data['title'] 	= "Terminal Usuarios";
+		$data['home'] 	= 'admin/terminal/t_asociar';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function agregar(){
-
 		
 		$data = $this->Terminal_model->agregar_usuario( $_POST );
 

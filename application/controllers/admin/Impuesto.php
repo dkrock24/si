@@ -16,11 +16,9 @@ class Impuesto extends MY_Controller {
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');
-
-		$this->load->model('admin/Menu_model');		
+	
 		$this->load->model('accion/Accion_model');
-		$this->load->model('admin/Categorias_model');
-		$this->load->model('admin/Sucursal_model');	
+		$this->load->model('admin/Categorias_model');		
 		$this->load->model('admin/Impuesto_model');	
 		$this->load->model('admin/Cliente_model');
 		$this->load->model('admin/Documento_model');
@@ -62,6 +60,7 @@ class Impuesto extends MY_Controller {
 	}
 
 	public function save(){
+
 		$data = $this->Impuesto_model->nuevo_impuesto( $_POST );
 		if($data){
 			$this->session->set_flashdata('danger', "Impuesto Fue Creado");
@@ -73,6 +72,7 @@ class Impuesto extends MY_Controller {
 	}
 
 	public function editar( $impuesto_id ){
+
 		$id_rol = $this->session->roles;
 
 		$data['menu'] = $this->session->menu;
@@ -99,6 +99,7 @@ class Impuesto extends MY_Controller {
 	}
 
 	public function eliminar($id){
+		
 		$data['impuesto'] = $this->Impuesto_model->eliminar( $id );
 
 		if($data){

@@ -32,12 +32,7 @@ class Pagos extends CI_Controller {
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');
 
-		$this->load->model('accion/Accion_model');	
-		$this->load->model('admin/Menu_model');
-		$this->load->model('admin/Terminal_model');
-		$this->load->model('admin/Giros_model');
-		$this->load->model('admin/Cliente_model');
-		$this->load->model('admin/Usuario_model');
+		$this->load->model('accion/Accion_model');
         $this->load->model('admin/ModoPago_model');
         $this->load->model('admin/Pagos_model');
 	}
@@ -115,9 +110,9 @@ class Pagos extends CI_Controller {
 			$data = $this->Pagos_model->save( $_POST );
 
 			if($data){
-				$this->session->set_flashdata('success', "Forma Pago Fue Creado");
+				$this->session->set_flashdata('success', "Tipo Pago Fue Creado");
 			}else{
-				$this->session->set_flashdata('danger', "Forma Pago No Fue Creado");
+				$this->session->set_flashdata('danger', "Tipo Pago No Fue Creado");
 			}
 		}
 
@@ -143,13 +138,14 @@ class Pagos extends CI_Controller {
 	}
 
 	public function update(){
+
 		if(isset($_POST)){
 			$data = $this->Pagos_model->update( $_POST );
 
 			if($data){
-				$this->session->set_flashdata('warning', "Forma Pago Fue Actualizado");
+				$this->session->set_flashdata('warning', "Tipo Pago Fue Actualizado");
 			}else{
-				$this->session->set_flashdata('danger', "Forma Pago No Fue Actualizado");
+				$this->session->set_flashdata('danger', "Tipo Pago No Fue Actualizado");
 			}
 		}
 
@@ -157,12 +153,13 @@ class Pagos extends CI_Controller {
 	}
 
 	public function eliminar($id){
+
 		$data = $this->Pagos_model->eliminar( $id );
 
 		if($data){
-			$this->session->set_flashdata('danger', "Forma Pago Fue Eliminado");
+			$this->session->set_flashdata('danger', "Tipo Pago Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('warning', "Forma Pago No Fue Eliminado");
+			$this->session->set_flashdata('warning', "Tipo Pago No Fue Eliminado");
 		}
 		redirect(base_url()."admin/pagos/index");
 	}
@@ -176,6 +173,7 @@ class Pagos extends CI_Controller {
 	}
 
 	public function fields(){
+		
 		$fields['field'] = array(
 			'nombre_modo_pago','codigo_modo_pago','descripcion_modo_pago','valor_modo_pago','creado_modo_pago','estado'
 		);

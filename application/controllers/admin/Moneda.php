@@ -34,15 +34,7 @@ class Moneda extends CI_Controller {
 
 		$this->load->model('accion/Accion_model');	
 		$this->load->model('admin/Menu_model');
-		$this->load->model('admin/Terminal_model');
-		$this->load->model('admin/Giros_model');
-		$this->load->model('admin/Cliente_model');
-		$this->load->model('admin/Usuario_model');
-		$this->load->model('admin/ModoPago_model');
-		$this->load->model('admin/Correlativo_model');
-		$this->load->model('admin/Empresa_model');
-		$this->load->model('admin/Moneda_model');
-		$this->load->model('producto/Producto_model');				
+		$this->load->model('admin/Moneda_model');					
 		$this->load->model('producto/Orden_model');
 	}
 
@@ -147,6 +139,7 @@ class Moneda extends CI_Controller {
 	}
 
 	public function update(){
+
 		if(isset($_POST)){
 			$data = $this->Moneda_model->update( $_POST );
 
@@ -161,6 +154,7 @@ class Moneda extends CI_Controller {
 	}
 
 	public function eliminar($id){
+
 		$data = $this->Moneda_model->eliminar( $id );
 
 		if($data){
@@ -180,6 +174,7 @@ class Moneda extends CI_Controller {
 	}
 
 	public function fields(){
+		
 		$fields['field'] = array(
 			'moneda_nombre','moneda_simbolo','moneda_alias','estado'
 		);
