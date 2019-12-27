@@ -295,4 +295,24 @@ class Cliente_model extends CI_Model
 
         return $result;
     }
+
+    function eliminar( $cliente_id ){
+
+        $data = array(
+            'Cliente_form_pago' => $cliente_id
+        );
+
+        $this->db->where($data);
+        $this->db->delete(self::pos_fp_cliente);
+
+        $data = array(
+            'id_cliente' => $cliente_id
+        );        
+
+        $this->db->where($data);
+        $this->db->delete(self::cliente);
+
+        return 1;
+
+    }
 }

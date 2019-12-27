@@ -108,7 +108,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Categoria</label>
                                         <div class="col-sm-10">
-                                            <select name="categoria" id="categoria" class="form-control">
+                                            <select name="main_categoria" id="categoria" class="form-control">
                                                 <?php
                                                 if(isset($categoria)){
                                                     foreach ($categoria as $key => $c) {

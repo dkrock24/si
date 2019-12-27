@@ -118,6 +118,19 @@ class Cliente extends MY_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function eliminar( $cliente_id ){
+
+		$data = $this->Cliente_model->eliminar( $cliente_id );
+
+		if($data){
+			$this->session->set_flashdata('success', "Cliente Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('warning', "Cliente No Fue Eliminado");
+		}
+
+		redirect(base_url()."admin/cliente/index");
+	}
+
 	public function update(){
 		// Actualizar Giro 
 		$data = $this->Cliente_model->update( $_POST );

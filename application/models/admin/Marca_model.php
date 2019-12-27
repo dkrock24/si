@@ -176,7 +176,7 @@ class Marca_model extends CI_Model {
 
         $data = array(
             'marca' => $this->db->insert_id(),
-            'categoria' => $marca['categoria'],
+            'categoria' => $marca['main_categoria'],
         );
 
         $this->save_categoria_marca( $data );

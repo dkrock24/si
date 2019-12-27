@@ -148,7 +148,7 @@
                                             <div class="col-sm-9">
                                                 <select id="Persona_Proveedor" name="Persona_Proveedor" class="form-control">
                                                     <?php
-                                                    if($Persona){
+                                                    if($persona){
 
                                                         foreach ($persona as $key => $p) {
                                                         ?>
@@ -228,7 +228,7 @@
                                         <div class="col-sm-offset-3 col-sm-9">
                                             
                                             <?php
-                                            if($linea && $Persona){
+                                            if($linea && $persona){
 
                                                 ?>
                                                 <button type="submit" class="btn btn-info">Guardar</button>
