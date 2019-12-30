@@ -19,6 +19,7 @@ class ModoPago_model extends CI_Model {
     }
 
 	function get_formas_pago(){
+
 		$this->db->select('*');
         $this->db->from(self::formas_pago .' as  fp');
         $this->db->join(self::pos_formas_pago_cliente.' as fpc',' on fp.id_modo_pago = fpc.Forma_pago');
@@ -26,6 +27,7 @@ class ModoPago_model extends CI_Model {
         $this->db->join(self::sys_persona.' as p', ' on p.id_persona = c.Persona');
         //$this->db->join(self::pos_tem_suc .' as ts', ' on ts.Pago = fp.id_modo_pago');
         $this->db->where('p.Empresa = '.$this->session->empresa[0]->id_empresa);
+        //$this->db->where('p.id_persona = '.$this->session->usuario[0]->Persona_E);
         $this->db->where('fp.estado_modo_pago = 1');
         
         $query = $this->db->get(); 

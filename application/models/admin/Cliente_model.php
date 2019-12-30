@@ -116,30 +116,39 @@ class Cliente_model extends CI_Model
     {
         // Insertando Imagenes empresa
         $imagen = "";
-        $imagen = file_get_contents($_FILES['logo_cli']['tmp_name']);
-        $imageProperties = getimageSize($_FILES['logo_cli']['tmp_name']);
+        if($_FILES['logo_cli']['tmp_name']){
+
+            $imagen = file_get_contents($_FILES['logo_cli']['tmp_name']);
+            $imageProperties = getimageSize($_FILES['logo_cli']['tmp_name']);
+        }
+        
 
         $data = array(
-            'website_cli'     =>  $datos['website_cli'],
-            'nrc_cli'    => $datos['nrc_cli'],
-            'nit_cliente'   => $datos['nit_cliente'],
-            'clase_cli'  => $datos['clase_cli'],
-            'mail_cli'  => $datos['mail_cli'],
-            'logo_cli'                       => $imagen,
-            'logo_type' => $imageProperties['mime'],
-            'TipoPago'                       => $datos['TipoPago'],
-            'TipoDocumento' => $datos['TipoDocumento'],
+            'website_cli'       =>  $datos['website_cli'],
+            'nrc_cli'           => $datos['nrc_cli'],
+            'nit_cliente'       => $datos['nit_cliente'],
+            'clase_cli'         => $datos['clase_cli'],
+            'mail_cli'          => $datos['mail_cli'],            
+            'TipoPago'          => $datos['TipoPago'],
+            'TipoDocumento'     => $datos['TipoDocumento'],
             'nombre_empresa_o_compania' => $datos['nombre_empresa_o_compania'],
-            'numero_cuenta'                       => $datos['numero_cuenta'],
-            'aplica_impuestos'                       => $datos['aplica_impuestos'],
-            'direccion_cliente'                      => $datos['direccion_cliente'],
-            'porcentage_descuentos'                  => $datos['porcentage_descuentos'],
-            'estado_cliente'                      => $datos['estado'],
-            'creado'                    => date("Y-m-d h:i:s"),
-            'Persona'               => $datos['Persona'],
-            'natural_juridica'            => $datos['natural_juridica'],
-            'id_cliente_tipo'            => $datos['id_cliente_tipo']
+            'numero_cuenta'     => $datos['numero_cuenta'],
+            'aplica_impuestos'  => $datos['aplica_impuestos'],
+            'direccion_cliente' => $datos['direccion_cliente'],
+            'porcentage_descuentos'=> $datos['porcentage_descuentos'],
+            'estado_cliente'    => $datos['estado'],
+            'creado'            => date("Y-m-d h:i:s"),
+            'Persona'           => $datos['Persona'],
+            'natural_juridica'  => $datos['natural_juridica'],
+            'id_cliente_tipo'   => $datos['id_cliente_tipo']
         );
+
+        if( $imagen && $imageProperties){
+
+            $data['logo_cli']  = $imagen;
+            $data['logo_type']  = $imageProperties['mime'];
+
+        }
 
         $result = $this->db->insert(self::cliente, $data);
 
@@ -280,7 +289,7 @@ class Cliente_model extends CI_Model
         );
 
         if (isset($_FILES['logo_cli']) && $_FILES['logo_cli']['tmp_name'] != null) {
-            // Insertando Imagenes Empresa
+            // Insertando Imagenes Cliente
             $imagen = "";
             $imagen = file_get_contents($_FILES['logo_cli']['tmp_name']);
             $imageProperties = getimageSize($_FILES['logo_cli']['tmp_name']);

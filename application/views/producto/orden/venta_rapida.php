@@ -98,7 +98,14 @@ include("asstes/pos_orden.php");
 
                                 <div class="pull-right">
                                     <div class="" style="font-size: 20px;overflow: hidden;">
-                                        <?php echo $empleado[0]->nombre_sucursal; ?>
+                                        <?php
+                                            if( isset($empleado[0]->nombre_sucursal) ){
+                                                echo $empleado[0]->nombre_sucursal; 
+                                            }else{
+                                                echo "Sin Sucursal";
+                                            }
+                                         
+                                         ?>
 
                                         <span class="label label-warning">
                                             <?php echo Date("d/M/y"); ?>
@@ -411,8 +418,23 @@ include("asstes/pos_orden.php");
                         </div>
                     </div>
 
-                    <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo $empleado[0]->id_empleado; ?>">
-                    <div class="label bg-gray"><a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona . " " . $empleado[0]->primer_apellido_persona; ?></a></div>
+                    <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo @$empleado[0]->id_empleado; ?>">
+                    <div class="label bg-gray">
+
+                        <?php
+                        if(isset($empleado[0]->id_sucursal)){
+
+                            ?>
+                            <a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona . " " . $empleado[0]->primer_apellido_persona; ?>
+                            </a>
+                            <?php
+
+                        }else{
+                            echo "No hay Vendedor";
+                        }
+                        ?>
+                        
+                    </div>
 
                 </div>
 

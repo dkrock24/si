@@ -56,7 +56,7 @@
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Website</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="website_cli" name="website_cli" placeholder="Website" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                                <input type="text" class="form-control" required id="website_cli" name="website_cli" placeholder="Website" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -64,7 +64,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">NRC</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="nrc_cli" name="nrc_cli" placeholder="NRC" value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                                <input type="text" class="form-control" required id="nrc_cli" name="nrc_cli" placeholder="NRC" value="<?php //echo $onMenu[0]->url_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -72,14 +72,14 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">NIT</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="nit_cliente" name="nit_cliente" placeholder="NIT" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                                <input type="text" class="form-control" required id="nit_cliente" name="nit_cliente" placeholder="NIT" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Clase Cliente</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="clase_cli" name="clase_cli" placeholder="Clase Cliente" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" class="form-control" required id="clase_cli" name="clase_cli" placeholder="Clase Cliente" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -87,7 +87,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Email</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="mail_cli" name="mail_cli" placeholder="Email" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" class="form-control" required id="mail_cli" name="mail_cli" placeholder="Email" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -95,7 +95,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Nombre Empresa</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="nombre_empresa_o_compania" name="nombre_empresa_o_compania" placeholder="Nombre Empresa" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" class="form-control" required id="nombre_empresa_o_compania" name="nombre_empresa_o_compania" placeholder="Nombre Empresa" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -103,7 +103,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">N Cuenta</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="numero_cuenta" name="numero_cuenta" placeholder="N Cuenta" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" class="form-control" required id="numero_cuenta" name="numero_cuenta" placeholder="N Cuenta" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -123,7 +123,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Direccion</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="direccion_cliente" name="direccion_cliente" placeholder="Direccion" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" class="form-control" required id="direccion_cliente" name="direccion_cliente" placeholder="Direccion" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -131,7 +131,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">% Descuento</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="porcentage_descuentos" name="porcentage_descuentos" placeholder="Descuento" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" class="form-control" required id="porcentage_descuentos" name="porcentage_descuentos" placeholder="Descuento" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                                 
                                             </div>
                                         </div>
@@ -154,19 +154,15 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Natural</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="natural_juridica" name="natural_juridica" placeholder="Natural Juridica" value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                                <input type="text" class="form-control" required id="natural_juridica" name="natural_juridica" placeholder="Natural Juridica" value="<?php //echo $onMenu[0]->url_submenu ?>">
                                                 
                                             </div>
-                                        </div>
-
-                                        
+                                        </div>                                       
 
                                     </div>
 
-
                                     <div class="col-lg-6">
-                                        <!-- Otro -->
-                                        
+                                        <!-- Otro -->                                        
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Logo</label>
@@ -225,8 +221,7 @@
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Formas Pago</label>
-                                            <div class="col-sm-9">
-                                                
+                                            <div class="col-sm-9">                                                
                                                
                                                    <?php
                                                    foreach ($pago as $key => $fp) {
@@ -267,7 +262,6 @@
                                                 <button type="submit" class="btn btn-info">Guardar</button>
                                             </div>
                                         </div>
-
 
                                     </div>
                                 </div>

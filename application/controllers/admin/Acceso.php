@@ -37,7 +37,7 @@ class Acceso extends CI_Controller {
 	{
 		if(isset($_POST['role']) and isset($_POST['menu'])){
 
-			$this->Acceso_model->sincronizar_componentes( $_POST['role'],  $_POST['menu']);
+			//$this->Acceso_model->sincronizar_componentes( $_POST['role'],  $_POST['menu']);
 
 			$_SESSION['accesos'] 				=  $this->Acceso_model->get_menu_acceso( $_POST['role'] , $_POST['menu'] , NULL );
 			
