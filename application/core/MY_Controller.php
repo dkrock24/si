@@ -65,12 +65,15 @@ class MY_Controller extends CI_Controller
                         $filtro .= " ". $key ." like '%$field%'  ";
                     }
 					$flag = true;
-                }
-                
-               
+                }               
 			}
-			$_SESSION['filters'] = $filtro ;
-			$_SESSION['filtros'] = $_POST ;
+
+			if(!isset($_POST['total_pagina'])){
+
+				$_SESSION['filters'] = $filtro ;
+				$_SESSION['filtros'] = $_POST ;
+			}			
+			
         }
         
         //Paginacion
@@ -122,13 +125,15 @@ class MY_Controller extends CI_Controller
                 $ff[$item] = "";
             }
             $_SESSION['filtros'] = $ff;
-        }
+		}
+		
 
         $data['field'] = $_SESSION['filtros'];
         $data['config'] = $config;
         $data['page'] = $page;
         $data['vista_id'] = $vista_id;
-        $data['id_rol'] = $id_rol;
+		$data['id_rol'] = $id_rol;
+		$data['total_records'] = $total_row;
         $data['contador_tabla'] = $contador_tabla;
         
         return $data;       

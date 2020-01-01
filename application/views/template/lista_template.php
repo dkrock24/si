@@ -236,12 +236,25 @@
                 </table>
             </div>
 
+            
+
+
             <div class="text-right  panel-footer bg-gray-light">
-                <ul class="pagination pagination-md">
+
+                <ul class="nav nav-pills" style="display:inline-block; color:black;">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" style="color:black;"><?php echo $total_pagina; ?> / <?php echo $total_records ?></a>
+                    </li>
+                </ul>
+
+                <ul class="pagination pagination-md">                
+
                     <?php foreach ($links as $link) {
                         echo "<li class='page-item '>" . $link . "</li>";
                     } ?>
                 </ul>
+                
             </div>
             
 
