@@ -5,7 +5,9 @@ class MY_Controller extends CI_Controller
 {
     public function __construct()
     {
-        parent::__construct(); //need this!!
+		parent::__construct(); //need this!!
+		
+		
         	
 		$this->load->database(); 
 
@@ -14,9 +16,16 @@ class MY_Controller extends CI_Controller
 		$this->load->library('pagination'); 
 		$this->load->library('../controllers/general');
 
+		
+
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');
+
+		if( ! isset($this->session->userdata['usuario'][0]->id_rol )){
+			
+			redirect(base_url()."login/index");
+        }
 
 		$this->load->model('admin/Menu_model');	
 
