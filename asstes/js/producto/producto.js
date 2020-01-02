@@ -105,6 +105,7 @@ $(document).ready(function () {
     $("#empresa").change(function () {
         $("#giro").empty();
         var id = $(this).val();
+        
         $.ajax({
             url: "get_giros_empresa/" + id,
             datatype: 'json',
@@ -113,7 +114,7 @@ $(document).ready(function () {
             success: function (data) {
 
                 var datos = JSON.parse(data);
-
+                console.log(datos);
                 $("#id_empresa").val(datos[0].Empresa);
                 $("#giro").append('<option value="0">Selecione Giro</option>');
                 $.each(JSON.parse(data), function (i, item) {

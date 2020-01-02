@@ -111,16 +111,28 @@
 
                                                 if ($value->accion_valor == 'btn_superior') {
                                                     ?>
-                                                    <li><a href="<?php echo $url;  ?>" onclick="<?php echo $value->accion_btn_nombre;  ?>" id=""><?php echo $value->accion_nombre;  ?></a></li>
+                                                    <li>
+                                                        <a href="<?php echo $url;  ?>" onclick="<?php echo $value->accion_btn_nombre;  ?>"  id="">
+                                                            <span class="btn btn-info">
+                                                                <i class='<?php echo $value->accion_btn_icon; ?>'></i>
+                                                            </span>
+                                                            <?php echo $value->accion_nombre;  ?>
+                                                        </a>
+                                                    </li>
                                                     <?php
                                                 }
                                             }
                                         }
                                         ?>
                                         <li class="divider"></li>
-                                        <li><a href="#">Otros</a> </li>
-                                        <li><a href="#" class="listar_giros" id="<?php //echo $giros->id_giro; 
-                                                                                    ?>" data-toggle="modal" data-target="#ModalEmpresa">Empresa</a></li>
+                                        
+                                        <li>
+                                            <a href="#" class="listar_giros" id="<?php ?>" data-toggle="modal" data-target="#ModalEmpresa">
+                                                <span class="btn btn-warning">
+                                                    <i class="fa fa-building-o"></i>
+                                                </span> Empresa
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </th>
@@ -198,9 +210,17 @@
                                                                 }
                                                                 $vista = $value->Vista;
                                                                 if ($value->accion_valor == 'btn_medio' && $value->accion_nombre != 'Eliminar') {
-                                                                    ?>
+                                                ?>
 
-                                                            <li><a href="<?php echo  $url;  ?>/<?php echo $table->$id; ?>"><i class="<?php echo $value->accion_btn_icon; ?>"></i> <?php echo $value->accion_nombre;  ?></a></li>
+                                                                <li>
+                                                                    <a href="<?php echo  $url;  ?>/<?php echo $table->$id; ?>">
+                                                                        <span class="btn btn-success">
+                                                                            <i class="<?php echo $value->accion_btn_icon; ?>"></i>
+                                                                        </span>
+                                                                        <?php echo $value->accion_nombre;  ?>
+                                                                        
+                                                                    </a>
+                                                                </li>
 
                                                         <?php
                                                                         }
@@ -209,10 +229,15 @@
                                                                             ?>
 
                                                             <li class="divider"></li>
-                                                            <li><a href="<?php echo $url;  ?>/<?php echo $table->$id; ?>">
-                                                                    <i class="<?php echo $value->accion_btn_icon; ?>"></i>
-                                                                    <?php echo $value->accion_nombre;  ?></a></li>
-                                                <?php
+                                                            <li>
+                                                                <a href="<?php echo $url;  ?>/<?php echo $table->$id; ?>">
+                                                                    <span class="btn btn-danger">
+                                                                        <i class="<?php echo $value->accion_btn_icon; ?>"></i>
+                                                                    </span>
+                                                                    <?php echo $value->accion_nombre;  ?>
+                                                                </a>
+                                                            </li>
+                                                        <?php
                                                                 }
                                                             }
                                                         }

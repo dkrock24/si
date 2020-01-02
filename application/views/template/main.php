@@ -131,11 +131,7 @@
                   </li>
                   <!-- END User avatar toggle-->
                   <!-- START lock screen-->
-                  <li>
-                     <a href="lock.html" title="Lock screen">
-                        <em class="icon-lock"></em>
-                     </a>
-                  </li>
+                  
                   <!-- END lock screen-->
                </ul>
                <!-- END Left navbar-->

@@ -94,6 +94,9 @@ class ClienteTipo extends CI_Controller {
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
 		$data['contador_tabla'] = $contador_tabla;
+		$data['total_pagina'] = 0;
+		$data['total_records'] 	= 0;
+
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['registros'] = $this->ClienteTipo_model->getAllClientesTipo( $config["per_page"], $page );
 		$data['title'] = "Clientes Tipo";

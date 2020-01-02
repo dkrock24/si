@@ -56,7 +56,7 @@
                                             <?php
                                             foreach ($doc as  $d) {
                                                 ?>
-                                                <option value="<?php echo $d->id_temp_suc ?>"><?php echo $d->nombre ?></option>
+                                                <option value="<?php echo $d->id_temp_suc ?>"><?php echo $d->nombre." - ".$d->nombre_sucursal ?></option>
                                                 <?php
                                             }
                                             ?>
