@@ -14,11 +14,11 @@ echo base_url();
                   <div class="panel widget bg-primary">
                      <div class="row row-table">
                         <div class="col-xs-4 text-center bg-primary-dark pv-lg">
-                           <em class="icon-cloud-upload fa-3x"></em>
+                           <em class="fa fa-clone fa-3x"></em>
                         </div>
                         <div class="col-xs-8 pv-lg">
-                           <div class="h2 mt0">1700</div>
-                           <div class="text-uppercase">Uploads</div>
+                           <div class="h2 mt0"><?php echo $data['ordenes']; ?></div>
+                           <div class="text-uppercase">Total Ordenes Diarias</div>
                         </div>
                      </div>
                   </div>
@@ -28,13 +28,13 @@ echo base_url();
                   <div class="panel widget bg-purple">
                      <div class="row row-table">
                         <div class="col-xs-4 text-center bg-purple-dark pv-lg">
-                           <em class="icon-globe fa-3x"></em>
+                           <em class="fa fa-shopping-cart fa-3x"></em>
                         </div>
                         <div class="col-xs-8 pv-lg">
-                           <div class="h2 mt0">700
+                           <div class="h2 mt0"><?php echo $data['ventas']; ?>
                               <small>GB</small>
                            </div>
-                           <div class="text-uppercase">Quota</div>
+                           <div class="text-uppercase">Total Ventas Diarias</div>
                         </div>
                      </div>
                   </div>
@@ -44,11 +44,11 @@ echo base_url();
                   <div class="panel widget bg-green">
                      <div class="row row-table">
                         <div class="col-xs-4 text-center bg-green-dark pv-lg">
-                           <em class="icon-bubbles fa-3x"></em>
+                           <em class="fa fa-desktop fa-3x"></em>
                         </div>
                         <div class="col-xs-8 pv-lg">
-                           <div class="h2 mt0">500</div>
-                           <div class="text-uppercase">Reviews</div>
+                           <div class="h2 mt0"><?php echo $data['cajas']; ?></div>
+                           <div class="text-uppercase">Cajas Activas</div>
                         </div>
                      </div>
                   </div>
@@ -59,16 +59,17 @@ echo base_url();
                      <div class="row row-table">
                         <div class="col-xs-4 text-center bg-green pv-lg">
                            <!-- See formats: https://docs.angularjs.org/api/ng/filter/date-->
-                           <div data-now="" data-format="MMMM" class="text-sm"></div>
-                           <br>
-                           <div data-now="" data-format="D" class="h2 mt0"></div>
+                           <em class="fa fa-bar-chart fa-3x"></em>
                         </div>
                         <div class="col-xs-8 pv-lg">
-                           <div data-now="" data-format="dddd" class="text-uppercase"></div>
-                           <br>
-                           <div data-now="" data-format="h:mm" class="h2 mt0"></div>
-                           <div data-now="" data-format="a" class="text-muted text-sm"></div>
+                           
+                           <div class="h2 mt0">
+                              <a href="#" class="btn btn-default">Reportes</a>
+                           </div>
+                           
+                           <div class="text-uppercase">Ir a Modulo Reporte</div>
                         </div>
+                        
                      </div>
                   </div>
                   <!-- END date widget-->

@@ -145,20 +145,20 @@ class Vistas extends MY_Controller {
 		}else{
 			$page = 0;
 			$contador_tabla =1;
-		}
-		
+		}		
 
 		$str_links = $this->pagination->create_links();
 		$data["links"] = explode('&nbsp;',$str_links );
 
 		$id_rol = $this->session->roles;
-		//$vista_id = 23; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
 		$data['registros'] = $this->Vistas_model->vistas_componente_by_id( $vista_id ,  $config["per_page"], $page);
 		//$data['home'] = 'admin/vistas/componentes_lista';
 		$data['column'] = $this->columnC();
 		$data['fields'] = $this->fieldsC();
+		$data['total_pagina'] = 0;
+		$data['total_records'] 	= 0;
 		$data['contador_tabla'] = $contador_tabla;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( 23 , $id_rol );
 		$data['home'] = 'template/lista_template';

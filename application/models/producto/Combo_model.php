@@ -43,6 +43,7 @@ class Combo_model extends CI_Model {
         $this->db->where('p.Empresa',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::pos_combo.' as c');
         $this->db->join(self::producto.' as p',' on c.Producto_Combo = p.id_entidad');
+        $this->db->group_by('c.Producto_Combo');
         $result = $this->db->count_all_results();
         return $result;
     }

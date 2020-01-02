@@ -32,6 +32,7 @@ class Home extends CI_Controller {
 		$this->load->model('admin/Usuario_model');
 		$this->load->model('admin/Empresa_model');
 		$this->load->model('admin/Vistas_model');
+		$this->load->model('Dashboard_model');
 	}
 
 	public function index()
@@ -75,10 +76,32 @@ class Home extends CI_Controller {
 		}
 		//echo $_SESSION['empresa'][0]->Empresa_Suc;
 
-		$data['home'] = 'home';
-		$data['menu'] = $this->session->menu;		
+		$data['home'] = 'login/logout';
+		$data['menu'] = $this->session->menu;
+
+		if( $this->session->usuario[0]->pagina ){
+			
+			redirect( base_url().$this->session->usuario[0]->pagina );
+		}
 
 		$this->parser->parse('template', $data);
+	}
+
+	function dashboard(){
+
+		$resultados = array(
+			'ordenes' 	=> $this->Dashboard_model->total_ordenes(),
+			'ventas' 	=> $this->Dashboard_model->total_ventas(),
+			'cajas' 	=> $this->Dashboard_model->terminal_caja(),
+			'terminales'=> $this->Dashboard_model->total_ordenes(),
+		);
+
+		$data['data'] = $resultados;
+		$data['home'] = 'home';
+		$data['menu'] = $this->session->menu;
+
+		$this->parser->parse('template', $data);
+
 	}
 
 	function seleccionar_empresa(){
