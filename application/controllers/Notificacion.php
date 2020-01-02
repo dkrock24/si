@@ -32,6 +32,7 @@ class Notificacion extends CI_Controller {
 	public function index()
 	{
 		$this->output->set_status_header('404');
+		$data['menu'] 		= $this->session->menu;
 		$data['home'] = '404';
 		$this->parser->parse('template', $data);
 	}
