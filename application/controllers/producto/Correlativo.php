@@ -47,6 +47,8 @@ class Correlativo extends MY_Controller {
 		$data['links'] = $pag['links'];
 		$data['filtros'] = $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
+		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['total_records'] 	= $pag['total_records'];
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
 		

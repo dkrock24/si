@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Venta extends CI_Controller {
+class Venta extends MY_Controller {
 
 	function __construct()
 	{
@@ -28,52 +28,25 @@ class Venta extends CI_Controller {
 	public function index()
 	{	
 
-		//Paginacion
-		$_SESSION['per_page'] = "";
-		$contador_tabla;
-		if( isset( $_POST['total_pagina'] )){
-			$per_page = $_POST['total_pagina'];
-			$_SESSION['per_page'] = $per_page;
-		}else{
-			if($_SESSION['per_page'] == ''){
-				$_SESSION['per_page'] = 10;
-			}			
-		}
-		
-		$total_row = $this->Venta_model->record_count();
-		$config = paginacion($total_row, $_SESSION['per_page'] , "producto/venta/index");
-		$this->pagination->initialize($config);
-		if($this->uri->segment(4)){
-			if($_SESSION['per_page']!=0){
-				$page = ($this->uri->segment(4) - 1 ) * $_SESSION['per_page'];
-				$contador_tabla = $page+1;
-			}else{
-				$page = 0;
-				$contador_tabla =1;
-			}
-		}else{
-			$page = 0;
-			$contador_tabla =1;
-		}
-
-		$str_links = $this->pagination->create_links();
-		$data["links"] = explode('&nbsp;',$str_links );
-
-		// paginacion End
+		$model = "Venta_model";
+		$url_page = "producto/venta/index";
+		$pag = $this->MyPagination($model, $url_page, $vista = 38) ;
 
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
 
-		$id_rol = $this->session->roles[0];
-		$vista_id = 38; // Vista Orden Lista
-
 		$data['menu'] = $this->session->menu;
-		$data['contador_tabla'] = $contador_tabla;
-		$data['registros'] = $this->Venta_model->getVentas( $config["per_page"], $page );
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['contador_tabla'] = $pag['contador_tabla'];
+		$data['registros'] = $this->Venta_model->getVentas( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
 		$data['fields'] = $this->fields();
 		$data['column'] = $this->column();
+		$data['links'] = $pag['links'];
+		$data['filtros'] = $pag['field'];
+		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['total_records'] 	= $pag['total_records'];
+		
 		$data['title'] = "Ventas";
 		$data['home'] = 'template/lista_template';
 

@@ -48,6 +48,8 @@ class Atributos extends MY_Controller {
 		$data['menu'] = $this->session->menu;
 		$data['links'] = $pag['links'];
 		$data['filtros'] = $pag['field'];
+		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['total_records'] 	= $pag['total_records'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();

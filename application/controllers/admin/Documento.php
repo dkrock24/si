@@ -36,6 +36,8 @@ class Documento extends MY_Controller {
 		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
+		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['total_records'] 	= $pag['total_records'];
 		
 		$data['title'] = "Documentos";	
 		$data['home'] = 'template/lista_template';

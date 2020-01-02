@@ -33,6 +33,8 @@ class Roles extends MY_Controller {
 		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
+		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['total_records'] 	= $pag['total_records'];
 
 		$data['registros'] = $this->Roles_model->getRoles( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
 		$data['home'] = 'template/lista_template';
