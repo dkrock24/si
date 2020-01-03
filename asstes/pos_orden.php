@@ -76,7 +76,7 @@
                         
                         _config_impuestos();
                         depurar_producto();
-                        console.log(2);
+                        
                     }
 
 

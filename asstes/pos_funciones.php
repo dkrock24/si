@@ -1774,6 +1774,8 @@
 
             var orden_estado = $("#orden_estado").val(); //$(this).attr('name');
 
+            var orden_numero = $("#orden_numero").val();
+
             if($("#orden_estado_venta").val()){
 
                 orden_estado = $("#orden_estado_venta").val();
@@ -1800,6 +1802,7 @@
                         cliente: cliente_id,
                         sucursal_origen: sucursal_origen,
                         correlativo_documento:correlativo_documento,
+                        orden_numero:orden_numero
                     },
                     url: path+method,
 
@@ -1813,13 +1816,13 @@
 
             if(method != "update_orden"){
                 
-                cerrar_orden($("#c_numero").val());
+                cerrar_orden($("#orden_numero").val());
 
             }
         }
 
         function cerrar_orden( correlativo_orden ){
-
+            
             $.ajax({
                 type: 'POST',
                 data: {

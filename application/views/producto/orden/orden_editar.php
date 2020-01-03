@@ -264,7 +264,7 @@
                                                 <div class="form-group has-success">
                                                     <label>Numero Orden</label>
 
-                                                    <input type="text" name="num_correlativo" value="<?php echo $orden[0]->num_correlativo; ?>" class="form-control" id="c_numero">
+                                                    <input type="text" name="orden_numero" value="<?php echo $orden[0]->num_correlativo; ?>" class="form-control" id="orden_numero">
                                                 </div>
                                             </div>
 

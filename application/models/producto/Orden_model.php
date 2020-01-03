@@ -453,7 +453,7 @@ class Orden_model extends CI_Model
 			'd_inc_imp0' 	=> $dataParametros['impuesto'], 
 			'id_tipod' 		=> $dataParametros['orden_documento'], 
 			'id_sucursal' 	=> $dataParametros['sucursal_destino'], 
-			'num_correlativo' => $dataParametros['num_correlativo'], 
+			'num_correlativo' => $dataParametros['orden_numero'], 
 			'id_cliente' 	=> $dataParametros['cliente_codigo'], 
 			'nombre' 		=> $dataParametros['cliente_nombre'], 
 			'direccion' 		=> $dataParametros['cliente_direccion'], 
@@ -490,7 +490,7 @@ class Orden_model extends CI_Model
 
 		/* 1.0 Si Orden es reservada Y se esta eliminado se regresara productos a bodega */
 
-		$estado_orden = $this->get_orden( $dataParametros['num_correlativo'] );
+		$estado_orden = $this->get_orden( $dataParametros['orden_numero'] );
 
 		if ($estado_orden[0]->orden_estado == 2) {
 

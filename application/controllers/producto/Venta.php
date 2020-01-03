@@ -22,6 +22,7 @@ class Venta extends MY_Controller {
 		$this->load->model('admin/Cliente_model');
 		$this->load->model('producto/Venta_model');
 		$this->load->model('admin/Documento_model');
+		$this->load->model('producto/Orden_model');
 		
 	}
 
