@@ -191,16 +191,17 @@ class Producto extends MY_Controller {
 	public function bodega(){
 
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
-		
+		$data['producto'] = "";
 		if($_POST){
-			$producto_id = $_POST['producto'];
-			$data['producto_id'] = $producto_id;
+			
 			$data['prod_bodega'] = $this->Bodega_model->getProductoByBodega($_POST);
+			$data['producto_id'] = $data['prod_bodega'][0]->id_entidad;
 			$data['bodega'] = $this->Bodega_model->getAllBodegas( $id_usuario );
+			$data['producto'] = $_POST['producto'];
 		}
-		
-		$data['prod'] = $this->Producto_model->getAllProducto();
+
 		$data['menu'] = $this->session->menu;
+		
 
 		$data['home'] = 'producto/producto/prod_bodega';
 
@@ -212,7 +213,11 @@ class Producto extends MY_Controller {
 
 		$this->Producto_model->producto_activar( $_POST );
 
-		redirect(base_url()."producto/producto/bodega");
+		$data['producto'] = $_POST['producto'];
+
+		$data['home'] = 'producto/producto/prod_bodega';
+
+		$this->parser->parse('template', $data);
 	}
 
 	// Asociar - Producto de la Bodega

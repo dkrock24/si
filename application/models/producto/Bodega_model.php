@@ -143,7 +143,7 @@ class Bodega_model extends CI_Model {
         $this->db->join(self::pos_producto_bodega.' as pb', 'on pb.Bodega = b.id_bodega');
         $this->db->join(self::producto.' as p', 'on p.id_entidad = pb.Producto');
 
-        $this->db->where('pb.Producto', $data['producto'] );
+        $this->db->where('p.codigo_barras', $data['producto'] );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

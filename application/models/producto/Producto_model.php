@@ -732,12 +732,15 @@ class Producto_model extends CI_Model {
 		function producto_activar( $datos ){
 
 			$bodega_producto = $this->get_bodega_by_producto( $datos['producto_id'] , 1 );
+			
 			$contador = 1;
-			$cantidad = 0;
+			
             foreach ($bodega_producto as $pb) 
             {
-            	if($datos['cantidad'.$contador] != ""){
-                	$cantidad = ($datos['cantidad'.$contador] + $pb->Cantidad );	
+				$cantidad = 0;
+			
+            	if($datos['cantidad'.$pb->id_pro_bod] != ""){
+                	$cantidad = ($datos['cantidad'.$pb->id_pro_bod] + $pb->Cantidad );	
                 }else{
                 	$cantidad =  $pb->Cantidad;	
                 }
