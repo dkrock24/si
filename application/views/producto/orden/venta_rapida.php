@@ -369,11 +369,11 @@ include("asstes/pos_orden.php");
                                 <select class="form-control" name="bodega" id="bodega_select">
                                     <?php
                                     foreach ($bodega as $b) {
-                                        if ($b->Sucursal == $id_sucursal) {
+                                        //if ($b->Sucursal == $id_sucursal) {
                                             ?>
                                             <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
                                     <?php
-                                        }
+                                        //}
                                     }
                                     ?>
                                 </select>

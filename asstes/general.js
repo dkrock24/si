@@ -88,7 +88,7 @@ function impuestos(){
 		    			//aplicar_imp_duplicado( element );
 		    		}
 		    	}else{
-
+					
 		    		if((element.iva ==0) && element.id_producto_combo == null  ){
 
 			    		if((element.id_producto_combo == null || element.id_producto_combo==0)){
@@ -457,6 +457,8 @@ function impuesto_valor(prod){
 		}
 	});
 
+	console.log("B");
+
 	_orden.forEach(function(element) {
 
 		if(!element.dinero){
@@ -521,7 +523,7 @@ function separar_iva(prod){
 	var inpuesto = 0;
 	_impuestos_orden_excluyentes = [];
 	
-	
+	console.log("A");
 	_orden.forEach(function(element) {
 
 		if(element.iva == 1 || element.iva=='on'){

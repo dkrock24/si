@@ -559,7 +559,6 @@
         <div class="row">
             <div class="col-lg-12">
 
-
                 <div class="col-lg-3">
                     <div id="" class="panel panel-default">
                         <div class="panel-heading menuTop"><i class="fa fa-pencil right"></i> Editar Producto :</div>
@@ -567,21 +566,36 @@
                             <div class="row">
 
                                 <?php
-                                $contador_break = 0;
-                                foreach ($acciones as $key => $value) {
-                                    ?>
-                                    <div class="col-sm-6 menu-cuadro " id="<?php echo $value->accion_btn_css; ?>">
-                                        <a href="<?php echo base_url() . $value->accion_btn_url; ?>" class="link_btn">
-                                            <h1 class="icon-center">
-                                                <i class="<?php echo $value->accion_btn_icon; ?>"></i>
-                                            </h1>
-                                        </a>
-                                        <span class="icon-center">
-                                            <?php echo $value->accion_nombre; ?>
-                                        </span>
 
-                                    </div>
-                                <?php
+                                $contador_break = 0;
+
+                                if($acciones){
+                                    foreach ($acciones as $key => $value) {
+                                        ?>
+                                        <div class="col-sm-6 menu-cuadro " id="<?php echo $value->accion_btn_css; ?>">
+                                            <a href="<?php echo base_url() . $value->accion_btn_url; ?>" class="link_btn">
+                                                <h1 class="icon-center">
+                                                    <i class="<?php echo $value->accion_btn_icon; ?>"></i>
+                                                </h1>
+                                            </a>
+                                            <span class="icon-center">
+                                                <?php echo $value->accion_nombre; ?>
+                                            </span>
+
+                                        </div>
+                                    <?php
+                                    }
+                                }else{
+                                    ?>
+                                    <div style="text-align:center">
+                                        <h2 >
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                            
+                                        </h2>
+                                        <label>Necesita permiso para ver esta sección.</label>
+                                    </div>                                   
+                                    
+                                    <?php
                                 }
                                 ?>
 

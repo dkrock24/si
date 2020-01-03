@@ -65,14 +65,17 @@
                                     <?php
                                 }
                             }else{
-                                ?>
-                                    <div class="col-sm-6 " id="">
+                                ?>                                   
                                         
-                                        <h4 class="icon-center">
-                                             Necesita Permiso!
-                                        </h4>
+                                    <div style="text-align:center">
+                                        <h2 >
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                            
+                                        </h2>
+                                        <label>Necesita permiso para ver esta sección.</label>
+                                    </div>  
                                         
-                                    </div>
+                                    
                                 <?php
                             }
                                 ?>
@@ -375,7 +378,7 @@
 
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <label for="inputPassword3" class="col-sm-offset-0 col-sm-3 control-label no-padding-right">Maimos</label>
+                                                    <label for="inputPassword3" class="col-sm-offset-0 col-sm-3 control-label no-padding-right">Maximos</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="maximos" value="" id="maximos" class="form-control">
                                                     </div>

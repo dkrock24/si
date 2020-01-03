@@ -146,12 +146,12 @@
 
                                                         foreach ($bodega as $b) {
 
-                                                            if($b->Sucursal == $id_sucursal){
+                                                            //if($b->Sucursal == $id_sucursal){
 
                                                             ?>
                                                                 <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
                                                             <?php
-                                                            }
+                                                            //}
                                                         }
 
                                                     }else{
