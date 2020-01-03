@@ -4,6 +4,7 @@
 
     var headers = <?php echo json_encode($fields['field']); ?>;
     var records = <?php echo json_encode($registros); ?>;
+    var documento_titulo = <?php echo json_encode($fields['titulo']); ?>;
 
         
     $(document).on("change", "#total_pagina", function() {

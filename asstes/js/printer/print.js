@@ -72,5 +72,5 @@ function generate(x) {
     // Simple html example
     //doc.autoTable({head: head, body: '#datosLista'});
 
-    doc.save('ProductsList.pdf');
+    doc.save(documento_titulo+'.pdf');
 }

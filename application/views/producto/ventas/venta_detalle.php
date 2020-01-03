@@ -10,17 +10,32 @@
 <section>
    <!-- Page content-->
    <div class="content-wrapper">
-      <h3>Venta Detalle</h3>
+        <h3 style="height: 50px; font-size: 13px;">  
+            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
+            <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Lista Ventas</button></a>
+            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Editar</button>
+        </h3>
+
       <div class="row menu_title_bar">
          <div class="col-md-8">
 
             <!-- Aside panel-->
             
                <div class="panel-body linea_superior">
-                  <p><h4>VENTA : <?php $date=date_create($venta[0]->fecha);  ?><span class="label label-success"><?php echo date_format($date,"M-d Y H:i a"); ?></span></h4></p>
+                  <p><h3><i class="fa fa-file-text-o"></i> VENTA : <?php $date=date_create($venta[0]->fecha);  ?><span class="label label-info 2x-lg"><?php echo date_format($date,"m/d/Y H:i a"); ?></span></h3></p>
   
                </div>
-               <table class="table">
+               <table class="table table-striped">
+
+                    <thead class="menuContent">
+                        <tr>
+                            <th>-</th>
+                            <th>-</th>
+                            <th>-</th>
+                            <th>-</th>
+
+                        </tr>
+                    </thead>
                    
                   <tbody>
 
@@ -71,7 +86,7 @@
 
          <div class="col-md-4">
             <div class="panel-body linea_superior">
-                <p><h4>PAGO : <?php //echo $venta[0]->fecha ?></h4></p>
+                <p><h3><i class="fa fa-money"></i> PAGO : <?php //echo $venta[0]->fecha ?></h3></p>
             </div>
             <table id="" class="table table-striped">
                     
@@ -86,13 +101,14 @@
                     </thead>
                     <tbody>
                         <?php
+                        
                         $cnt = 1;
                         foreach ($venta_pagos as $key => $value) {
                             ?>
                             <tr>
                                 <td><?php echo $cnt ?></td>
                                 <td><?php echo $value->nombre_metodo_pago ?></td>
-                                <td><?php echo $value->valor_metodo_pago ?></td>
+                                <td><?php echo $moneda[0]->moneda_simbolo ." ".$value->valor_metodo_pago ?></td>
                                 <td><?php if($value->estado_venta_pago == 1){ echo "Cancelado"; }else{ echo "Pendiente"; }   ?></td>
                             </tr>
                             <?php
@@ -107,7 +123,7 @@
          <div class="col-md-12">
 
             <div class="panel-body linea_superior">
-                <p><h4>ARTICULOS </h4></p>
+                <p><h4><i class="fa fa-shopping-cart"></i> ARTICULOS </h4></p>
   
             </div>
                     
@@ -144,10 +160,10 @@
                                 <td><?php echo $value->modelo ?></td>
                                 <td><?php echo $value->nombre_bodega ?></td>
                                 <td><?php echo $value->presentacion ?></td>
-                                <td><?php echo $value->precio_venta ?></td>                                    
+                                <td><?php echo $moneda[0]->moneda_simbolo ." ".$value->precio_venta ?></td>                                    
                                 <td><?php echo $value->factor ?></td>
                                 <td><?php echo $value->cantidad ?></td>
-                                <td><?php echo $value->total ?></td>
+                                <td><?php echo $moneda[0]->moneda_simbolo ." ".$value->total ?></td>
                                 <td><?php echo $value->incluye_iva ?></td>
 
                             </tr>

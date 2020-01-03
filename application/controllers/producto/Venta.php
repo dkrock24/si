@@ -23,7 +23,7 @@ class Venta extends MY_Controller {
 		$this->load->model('producto/Venta_model');
 		$this->load->model('admin/Documento_model');
 		$this->load->model('producto/Orden_model');
-		
+		$this->load->model('admin/Moneda_model');
 	}
 
 	public function index()
@@ -85,6 +85,7 @@ class Venta extends MY_Controller {
 		$data['venta'] = $this->Venta_model->getVentaId( $id_venta );
 		$data['venta_detalle'] = $this->Venta_model->getVentaDetalleId( $id_venta );
 		$data['venta_pagos'] = $this->Venta_model->getVentaPagosId( $id_venta );
+		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 
 		$data['menu'] = $this->session->menu;
 		$data['title'] = "Ventas Detalle";
