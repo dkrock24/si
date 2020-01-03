@@ -59,6 +59,39 @@ class Documento extends MY_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function ver( $id = 0){
+
+		if( $id ==0 ){
+			redirect(base_url()."admin/documento/index");
+		}
+
+		$data['title'] = "Ver";
+
+		$data['home'] = 'template/ver_general';
+
+		$data['menu'] = $this->session->menu;		
+
+		$data['data'] = $this->Documento_model->getDocumentoById( $id );	
+		
+		if($data['data']){
+
+			foreach ($data['data']  as $key => $value) {
+			
+				$vars = get_object_vars ( $value );
+				
+				continue;
+			}
+	
+			$data['columns'] = $vars;
+	
+			$this->parser->parse('template', $data);
+
+		}else{
+			redirect(base_url()."admin/documento/index");
+		}
+
+	}
+
 	public function update()
 	{	
 		$data['documento'] = $this->Documento_model->setDocumento( $_POST );

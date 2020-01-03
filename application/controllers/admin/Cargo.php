@@ -105,6 +105,41 @@ class Cargo extends MY_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function ver( $id = 0){
+
+		if( $id ==0 ){
+			redirect(base_url()."admin/cargo/index");
+		}
+
+		$data['title'] = "Ver";
+
+		$data['home'] = 'template/ver_general';
+
+		$data['menu'] = $this->session->menu;		
+
+		$data['data'] = $this->Cargos_model->get_cargo_id( $id );	
+
+		if($data['data']){
+
+			foreach ($data['data']  as $key => $value) {
+			
+				$vars = get_object_vars ( $value );
+				
+				continue;
+			}
+	
+			$data['columns'] = $vars;
+	
+			$this->parser->parse('template', $data);
+
+		}else{
+			redirect(base_url()."admin/cargo/index");
+		}
+		
+		
+
+	}
+
 	public function update(){
 		if(isset($_POST)){
 			$data = $this->Cargos_model->update( $_POST );

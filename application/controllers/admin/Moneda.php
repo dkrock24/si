@@ -110,6 +110,39 @@ class Moneda extends MY_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function ver( $id = 0){
+
+		if( $id ==0 ){
+			redirect(base_url()."admin/moneda/index");
+		}
+
+		$data['title'] = "Ver";
+
+		$data['home'] = 'template/ver_general';
+
+		$data['menu'] = $this->session->menu;		
+
+		$data['data'] = $this->Moneda_model->getMonedaId( $id );	
+		
+		if($data['data']){
+
+			foreach ($data['data']  as $key => $value) {
+			
+				$vars = get_object_vars ( $value );
+				
+				continue;
+			}
+	
+			$data['columns'] = $vars;
+	
+			$this->parser->parse('template', $data);
+
+		}else{
+			redirect(base_url()."admin/moneda/index");
+		}
+
+	}
+
 	public function update(){
 
 		if(isset($_POST)){

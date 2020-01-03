@@ -102,6 +102,39 @@ class Linea extends MY_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function ver( $id = 0){
+
+		if( $id ==0 ){
+			redirect(base_url()."producto/linea/index");
+		}
+
+		$data['title'] = "Ver";
+
+		$data['home'] = 'template/ver_general';
+
+		$data['menu'] = $this->session->menu;		
+
+		$data['data'] = $this->Linea_model->getLineaId( $id );	
+		
+		if($data['data']){
+
+			foreach ($data['data']  as $key => $value) {
+			
+				$vars = get_object_vars ( $value );
+				
+				continue;
+			}
+	
+			$data['columns'] = $vars;
+	
+			$this->parser->parse('template', $data);
+
+		}else{
+			redirect(base_url()."producto/linea/index");
+		}
+
+	}
+
 	public function update(){
 
 		$data['bodegas'] = $this->Linea_model->update_linea( $_POST );

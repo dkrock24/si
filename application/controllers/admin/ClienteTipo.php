@@ -140,6 +140,39 @@ class ClienteTipo extends CI_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function ver( $id = 0){
+
+		if( $id ==0 ){
+			redirect(base_url()."admin/cliente/index");
+		}
+
+		$data['title'] = "Ver";
+
+		$data['home'] = 'template/ver_general';
+
+		$data['menu'] = $this->session->menu;		
+
+		$data['data'] = $this->ClienteTipo_model->get_clientes_tipo_id( $id );	
+		
+		if($data['data']){
+
+			foreach ($data['data']  as $key => $value) {
+			
+				$vars = get_object_vars ( $value );
+				
+				continue;
+			}
+	
+			$data['columns'] = $vars;
+	
+			$this->parser->parse('template', $data);
+
+		}else{
+			redirect(base_url()."admin/cliente/index");
+		}
+
+	}
+
 	public function update(){
 		
 		$data = $this->ClienteTipo_model->update( $_POST );

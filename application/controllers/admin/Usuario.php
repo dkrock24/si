@@ -135,6 +135,38 @@ class Usuario extends MY_Controller {
 		redirect(base_url()."admin/usuario/index");
 	}
 
+	public function ver( $id = 0){
+
+		if( $id ==0 ){
+			redirect(base_url()."admin/usuario/index");
+		}
+
+		$data['title'] = "Ver";
+
+		$data['home'] = 'template/ver_general';
+
+		$data['menu'] = $this->session->menu;		
+
+		$data['data'] = $this->Usuario_model->get_usuario_id( $id );	
+		
+		if($data['data']){
+
+			foreach ($data['data']  as $key => $value) {
+			
+				$vars = get_object_vars ( $value );
+				
+				continue;
+			}
+	
+			$data['columns'] = $vars;
+	
+			$this->parser->parse('template', $data);
+
+		}else{
+			redirect(base_url()."admin/cargo/index");
+		}
+
+	}
 	
 	public function column(){
 
