@@ -21,6 +21,7 @@
   <script src="<?php echo base_url(); ?>../asstes/js/printer/pdf/jspdf.plugin.autotable.js"></script>
 
   <script src="<?php echo base_url(); ?>../asstes/js/printer/print.js"></script>
+  <script src="<?php echo base_url(); ?>../asstes/js/printer/xls.js"></script>
 
   <script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
 

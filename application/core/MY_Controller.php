@@ -15,6 +15,7 @@ class MY_Controller extends CI_Controller
 		@$this->load->library('session');
 		$this->load->library('pagination'); 
 		$this->load->library('../controllers/general');
+		$this->load->library('excel');
 
 		
 
@@ -149,5 +150,66 @@ class MY_Controller extends CI_Controller
 
 
 
-    }
+	}
+	
+	public function xls( $registros ){
+
+		require_once APPPATH . "/libraries/PHPExcel.php";
+		
+		$this->load->library('PHPExcel');
+
+
+		$fileName = 'data-'.time().'.xlsx';  
+        // load excel library
+        $this->load->library('excel');
+        $listInfo = $registros;
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->setActiveSheetIndex(0);
+        // set Header
+        $objPHPExcel->getActiveSheet()->SetCellValue('A1', 'First Name');
+        $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'Last Name');
+        $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'Email');
+        $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'DOB');
+        $objPHPExcel->getActiveSheet()->SetCellValue('E1', 'Contact_No');       
+        // set Row
+        $rowCount = 2;
+        foreach ($listInfo as $list) {
+            $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, $list->nombre_empresa_o_compania);
+            $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, $list->nit_cliente);
+            $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, $list->id_cliente);
+            $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, $list->nit_cliente);
+            $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, $list->nit_cliente);
+            $rowCount++;
+        }
+        $filename = "tutsmake". date("Y-m-d-H-i-s").".csv";
+        header('Content-Type: application/vnd.ms-excel'); 
+        header('Content-Disposition: attachment;filename="'.$filename.'"');
+        header('Cache-Control: max-age=0'); 
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');  
+        $objWriter->save('php://output'); 
+
+		/*
+
+		// file name 
+		$filename = 'users_'.date('Ymd').'.csv'; 
+		header("Content-Description: File Transfer"); 
+		header("Content-Disposition: attachment; filename=$filename"); 
+		header("Content-Type: application/csv; ");
+	   
+		// get data 
+		$usersData = array('uno','dos','tres','cuatro');
+		
+		// file creation 
+		$file = fopen('php://output','w');
+		$header = array("Username","Name","Gender","Email"); 
+		fputcsv($file, $header);
+		foreach ($usersData as $key=>$line){ 
+			fputcsv($file,$usersData); 
+		}
+		fclose($file);	
+		
+		*/
+
+		//return $file;
+	}
 }

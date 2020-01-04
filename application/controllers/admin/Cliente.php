@@ -68,6 +68,8 @@ class Cliente extends MY_Controller {
 		$data['title'] = "Clientes";
 		$data['home'] = 'template/lista_template';
 
+		$_SESSION['registros']  = $data['registros'];
+
 		$this->parser->parse('template', $data);
 	}
 
@@ -197,6 +199,11 @@ class Cliente extends MY_Controller {
 		$fields['titulo'] = "Cliente Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$this->xls( $_SESSION['registros'] );
 	}
 	
 
