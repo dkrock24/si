@@ -203,7 +203,12 @@ class Cliente extends MY_Controller {
 
 	function export(){
 
-		$this->xls( $_SESSION['registros'] );
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] ,$column, $fields  );
+
+		//redirect(base_url().'admin/cliente/index');
 	}
 	
 
