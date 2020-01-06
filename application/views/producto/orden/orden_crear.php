@@ -430,12 +430,12 @@
                     <div class="row" style="border-top: 1px dashed grey;">
                         <div class="col-lg-12 col-md-12" >
                             <div class="row" style="font-size: 22px">
-                                <div class="col-lg-2 col-md-2" style="color:#0f4871;"><span style="float: left;">Cant. </span> <span class="cantidad_tabla"></span></div>
-                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871; float: left;">Desc. </span><?php echo $moneda[0]->moneda_simbolo; ?><span class="descuento_tabla"></span></div>
-                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871;float: left;">SubTotal </span> <?php echo $moneda[0]->moneda_simbolo; ?><span class="sub_total_tabla"></span></div>
-                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871; float: left;" class="iva_nombre">Iva</span> <span class="iva_valor"></span><br><span class="iva_total"></span></div>
-                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871; float: left;" class="impuestos_nombre">Impu</span><span class="impuestos_valor"></span><span class="impuestos_total"></span></div>
-                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871; float: left;" class="">Total</span> <?php echo $moneda[0]->moneda_simbolo; ?> <span class="total_tabla"></span></div>
+                                <div class="col-lg-2 col-md-2" style="color:#0f4871;"><span style="float: left;">Cant </span> <span class="cantidad_tabla"></span></div>
+                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871; float: left;">Desc </span> <?php echo $moneda[0]->moneda_simbolo; ?> <span class="descuento_tabla"></span></div>
+                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871;float: left;">SubTotal </span> <?php echo $moneda[0]->moneda_simbolo; ?> <span class="sub_total_tabla"></span></div>
+                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871; float: left;" class="iva_nombre">Iva</span> <span class="iva_valor"> </span> <br> <span class="iva_total"></span></div>
+                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871; float: left;" class="impuestos_nombre">Impu</span><span class="impuestos_valor"> </span><span class="impuestos_total"></span></div>
+                                <div class="col-lg-2 col-md-2"><span style="color:#0f4871; float: left;" class="">Total </span> <?php echo $moneda[0]->moneda_simbolo; ?> <span class="total_tabla"></span></div>
                             </div>                              
                         </div>
                     </div>

@@ -76,7 +76,7 @@ class Categorias extends MY_Controller {
 		$data['menu'] = $this->session->menu;	
 		$data['categorias']	= $this->Categorias_model->get_categorias_padres();
 		$data['marcas'] = $this->Marca_model->getAllMarca();
-		$data['empresa'] = $this->Empresa_model->getEmpresas();
+		//$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['giros'] = $this->Giros_model->getAllgiros();
 		$data['home'] = 'admin/categorias/categorias_nuevo';
 		$data['title'] = "Crear Categoria";
@@ -103,7 +103,7 @@ class Categorias extends MY_Controller {
 		$data['menu'] = $this->session->menu;		
 		$data['categorias'] = $this->Categorias_model->get_categoria_id( $id_categoria );
 		$data['categorias_padres']	= $this->Categorias_model->get_categorias_padres();
-		$data['empresa'] = $this->Empresa_model->getEmpresas();
+		//$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['giros'] = $this->Giros_model->getAllgiros();
 		$data['home'] = 'admin/categorias/categorias_editar';
 		$data['title'] = "Editar Categoria";

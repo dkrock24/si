@@ -244,7 +244,7 @@
 					<button type="button" data-dismiss="modal" aria-label="Close" class="close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 id="myModalLabelLarge" class="modal-title">Giros Empresa</h4>
+					<h4 id="myModalLabelLarge" class="modal-title">Crear Documento Template Empresa</h4>
 				</div>
 				<div class="modal-body">
 

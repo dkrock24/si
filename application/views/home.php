@@ -31,8 +31,7 @@ echo base_url();
                            <em class="fa fa-shopping-cart fa-3x"></em>
                         </div>
                         <div class="col-xs-8 pv-lg">
-                           <div class="h2 mt0"><?php echo $data['ventas']; ?>
-                              <small>GB</small>
+                           <div class="h2 mt0"><?php echo $data['ventas']; ?>                              
                            </div>
                            <div class="text-uppercase">Total Ventas Diarias</div>
                         </div>
