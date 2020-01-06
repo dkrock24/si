@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Empresa extends CI_Controller {
+class Empresa extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -38,18 +38,33 @@ class Empresa extends CI_Controller {
 
 	public function index(){
 
+		$model = "Empresa_model";
+		$url_page = "admin/empresa/index";
+		$pag = $this->MyPagination($model, $url_page , $vista = 37);
+
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
 		parametros($menu_session);
 
 		$id_rol = $this->session->roles;
-		$vista_id = 37; // Vista Orden Lista
 
-		$data['menu'] 		= $this->session->menu;
-		$data['empresas'] 	= $this->Empresa_model->getEmpresas( );
-		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['home'] 		= 'admin/empresa/empresa_lista';
+		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
+
+		$data['menu'] = $this->session->menu;
+		$data['links'] = $pag['links'];
+		$data['filtros'] = $pag['field'];
+		$data['contador_tabla'] = $pag['contador_tabla'];
+		$data['column'] = $this->column();
+		$data['fields'] = $this->fields();
+		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['total_records'] 	= $pag['total_records'];
+
+		$data['registros'] = $this->Empresa_model->getEmpresas( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
+		$data['home'] = 'template/lista_template';
 		$data['title'] 		= 'Lista Empresas';
+
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
 		
 		$this->parser->parse('template', $data);
 	}
@@ -176,5 +191,35 @@ class Empresa extends CI_Controller {
 
 		}
 		redirect(base_url()."admin/Empresa/index");
+	}
+
+	public function column(){
+
+		$column = array(
+			'Nombre','NRC','NIT','GIRO','TEL','MONEDA','CODIGO','CREADO','ACTUA.','ESTADO'
+		);
+		return $column;
+	}
+
+	public function fields(){
+
+		$fields['field'] = array(
+			'nombre_razon_social','nrc','nit','giro','tel','moneda_nombre','codigo','empresa_creado','empresa_actualizado','estado'
+		);
+		
+		$fields['id'] 		= array('id_empresa');
+		$fields['estado'] 	= array('empresa_estado');
+		$fields['titulo'] 	= "Empresa Lista";
+
+		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista']  ,$column, $fields  );
+
 	}
 }

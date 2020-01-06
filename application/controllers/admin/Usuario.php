@@ -63,6 +63,9 @@ class Usuario extends MY_Controller {
 		$data['title'] = "Usuarios";
 		$data['home'] = 'template/lista_template';
 
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
+
 		$this->parser->parse('template', $data);
 	}
 
@@ -187,7 +190,15 @@ class Usuario extends MY_Controller {
 
 		return $fields;
 	}
-	
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
+
+	}	
 
 }
 

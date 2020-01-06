@@ -67,6 +67,9 @@ class Empleado extends MY_Controller {
 		$data['title'] = "Empleados";
 		$data['home'] = 'template/lista_template';
 
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
+
 		$this->parser->parse('template', $data);
 	}
 
@@ -208,6 +211,15 @@ class Empleado extends MY_Controller {
 		$fields['titulo'] = "Empleado Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista']  ,$column, $fields  );
+
 	}
 	
 

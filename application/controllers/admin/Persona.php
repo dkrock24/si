@@ -54,6 +54,9 @@ class Persona extends MY_Controller {
 		$data['title'] = 'Lista Personas';
 
 		$this->parser->parse('template', $data);
+
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
 	}
 
 	public function nuevo(){
@@ -190,5 +193,14 @@ class Persona extends MY_Controller {
 		$fields['titulo'] = "Persona Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista']  ,$column, $fields  );
+
 	}
 }

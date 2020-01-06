@@ -8,9 +8,10 @@ class Empresa_model extends CI_Model {
     const pos_empresa = 'pos_empresa';
     const sys_moneda = 'sys_moneda';
 
-    function getEmpresas(){
+    function getEmpresas( $limit, $id , $filters){
         
-        $this->db->select('*');
+        $this->db->select('id_empresa , nombre_razon_social ,nombre_comercial,nrc,nit,autorizacion,giro,direccion,slogan,resolucion,representante,
+        ,website,tiraje,tel,moneda_nombre,natural_juridica,metodo_inventario,admin,codigo,empresa_creado,empresa_actualizado,empresa_estado');
         $this->db->from(self::pos_empresa.' e');
         $this->db->join(self::sys_moneda.' m', 'on e.Moneda = m.id_moneda');
         
@@ -18,9 +19,13 @@ class Empresa_model extends CI_Model {
             //$this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
             $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         }else{
-            $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
+            $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa );
             //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         }
+        if($filters!=""){
+            $this->db->where($filters);
+        }
+        $this->db->limit($limit, $id);
         
         $query = $this->db->get();
         //echo $this->db->queries[0];
@@ -29,6 +34,22 @@ class Empresa_model extends CI_Model {
         {
             return $query->result();
         }
+    }
+
+    function record_count($filter){
+
+        //return $this->db->count_all(self::correlativos);
+        if($this->session->empresa[0]->id_empresa == 1){
+            //$this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
+            $this->db->where('e.codigo', $this->session->empresa[0]->codigo . ' '. $filter);
+        }else{
+            $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa . ' '. $filter );
+            //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+        }
+
+        $this->db->from(self::pos_empresa.' as e');
+        $result = $this->db->count_all_results();
+        return $result;
     }
 
     function getEmpresasWithSucursal( $empleado_id ){

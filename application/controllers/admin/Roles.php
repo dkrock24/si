@@ -41,6 +41,9 @@ class Roles extends MY_Controller {
 		$data['title'] = 'Roles';
 
 		$this->parser->parse('template', $data);
+
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
 	}
 
 	public function editar( $id_role )
@@ -138,6 +141,15 @@ class Roles extends MY_Controller {
 		$fields['titulo'] 	= "Roles Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+		
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
+
 	}
 
 	

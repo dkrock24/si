@@ -48,6 +48,9 @@ class Impuesto extends MY_Controller {
 		$data['home'] = 'template/lista_template';
 		$data['title'] = "Impuestos";
 
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
+
 		$this->parser->parse('template', $data);
 	}
 
@@ -207,6 +210,15 @@ class Impuesto extends MY_Controller {
 
 		$data['impuesto_option'] = $this->Impuesto_model->getImpuestoDatos($table_intermedia, $tabla_destino , $columna1, $columna2 , $columna3 ,$field);
 		echo json_encode($data);
+
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista']  ,$column, $fields  );
 
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Giros extends CI_Controller {
+class Giros extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -92,6 +92,9 @@ class Giros extends CI_Controller {
 		$data['registros'] = $this->Giros_model->get_giros( $config["per_page"], $page );
 		$data['home'] = 'admin/giros/giros_lista';
 		$data['title'] = 'Lista Giros';
+
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
@@ -271,6 +274,15 @@ class Giros extends CI_Controller {
 		$fields['titulo'] = "Giros Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista']  ,$column, $fields  );
+
 	}
 	
 

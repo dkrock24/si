@@ -70,7 +70,10 @@ class Template extends MY_Controller {
 		$data['title'] = "Templates";
 		$data['home'] = 'template/lista_template';
 
-		$this->parser->parse('template', $data);
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
+
+		$this->parser->parse('template', $data);		
 	}
 	
 	public function nuevo(){
@@ -223,6 +226,15 @@ class Template extends MY_Controller {
 		}
 
 		$this->parser->parse('template', $data);
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
+
 	}
 	
 

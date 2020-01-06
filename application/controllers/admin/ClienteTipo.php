@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ClienteTipo extends CI_Controller {
+class ClienteTipo extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -101,6 +101,9 @@ class ClienteTipo extends CI_Controller {
 		$data['registros'] = $this->ClienteTipo_model->getAllClientesTipo( $config["per_page"], $page );
 		$data['title'] = "Clientes Tipo";
 		$data['home'] = 'template/lista_template';
+
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
@@ -204,6 +207,15 @@ class ClienteTipo extends CI_Controller {
 		$fields['titulo'] = "Cliente Tipo Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista']  ,$column, $fields  );
+
 	}
 	
 

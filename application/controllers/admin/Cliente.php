@@ -69,6 +69,7 @@ class Cliente extends MY_Controller {
 		$data['home'] = 'template/lista_template';
 
 		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
@@ -206,11 +207,9 @@ class Cliente extends MY_Controller {
 		$column = $this->column();
 		$fields = $this->fields();
 
-		$this->xls( $_SESSION['registros'] ,$column, $fields  );
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista']  ,$column, $fields  );
 
-		//redirect(base_url().'admin/cliente/index');
-	}
-	
+	}	
 
 }
 

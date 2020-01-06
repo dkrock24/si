@@ -59,6 +59,9 @@ class Sucursal extends MY_Controller {
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
+
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
 	}
 
 	public function nuevo(){
@@ -166,6 +169,15 @@ class Sucursal extends MY_Controller {
 		$fields['titulo'] 	= "Sucursales Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
+
 	}
 	
 

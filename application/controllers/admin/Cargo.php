@@ -63,6 +63,9 @@ class Cargo extends MY_Controller {
 		$data['title'] = "Cargos Laborales";
 		$data['home'] = 'template/lista_template';
 
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
+
 		$this->parser->parse('template', $data);
 	}
 
@@ -183,6 +186,15 @@ class Cargo extends MY_Controller {
 		$fields['titulo'] = "Cargos Laborales Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista']  ,$column, $fields  );
+
 	}
 	
 

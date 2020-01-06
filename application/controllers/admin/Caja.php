@@ -41,6 +41,8 @@ class Caja extends MY_Controller {
 		$data['title'] = "Terminales";
 		$data['home'] = 'template/lista_template';
 
+		$_SESSION['registros']  = $data['registros'];
+
 		$this->parser->parse('template', $data);
 	}
 
@@ -151,5 +153,14 @@ class Caja extends MY_Controller {
 		$fields['titulo'] = "Caja Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] ,$column, $fields  );
+
 	}
 }

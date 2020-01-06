@@ -152,22 +152,19 @@ class MY_Controller extends CI_Controller
 
 	}
 	
-	public function xls( $registros , $column, $fields ){
+	public function xls( $registros , $titulo,  $column, $fields ){
 
 		require_once APPPATH . "/libraries/PHPExcel.php";
 		
 		$this->load->library('PHPExcel');
 
-
-		$fileName = 'data-'.time().'.xlsx';  
-		
+		$fileName = 'data-'.time().'.xlsx'; 		
 		
 		// load excel library
         $this->load->library('excel');
         $listInfo = $registros;
         $objPHPExcel = new PHPExcel();
-        $objPHPExcel->setActiveSheetIndex(0);
-		
+        $objPHPExcel->setActiveSheetIndex(0);		
 		
 		// set Header
 
@@ -193,15 +190,16 @@ class MY_Controller extends CI_Controller
 				if( isset( $fields['field'][$indice] )){
 
 					$a =  $fields['field'][$indice];
+					
 
 					if(isset($list->$a)){
+
+						$list->$a;
 						
-						$objPHPExcel->getActiveSheet()->SetCellValue(chr($i) . $rowCount, $list->$a );
-				
-						$indice++;
-
-					}					
-
+						$objPHPExcel->getActiveSheet()->SetCellValue(chr($i) . $rowCount, $list->$a );				
+						
+					}
+					$indice++;
 				}
 			}
 			
@@ -210,7 +208,7 @@ class MY_Controller extends CI_Controller
 		}
 		$i++;
 
-        $filename = "tutsmake". date("Y-m-d-H-i-s").".csv";
+        $filename = $titulo. date("Y-m-d-H-i-s").".csv";
         header('Content-Type: application/vnd.ms-excel'); 
         header('Content-Disposition: attachment;filename="'.$filename.'"');
         header('Cache-Control: max-age=0'); 

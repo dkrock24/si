@@ -8,12 +8,16 @@ class Pagos_model extends CI_Model {
     const pos_tipo_documento= 'pos_tipo_documento';
     const pos_formas_pago_cliente = 'pos_formas_pago_cliente';
 
-    function getPagos($limit, $id){
+    function getPagos($limit, $id, $filters ){
 
         $this->db->select('*');
         $this->db->from(self::formas_pago);  
-        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
-        $this->db->limit($limit, $id);          
+        //$this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
+        
+        if($filters!=""){
+            $this->db->where($filters);
+        }
+        $this->db->limit($limit, $id);      
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -51,9 +55,11 @@ class Pagos_model extends CI_Model {
         }
     }
 
-    function record_count(){
+    function record_count($filter){
         
-        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
+        if($filter){
+            $this->db->where($filter);
+        }        
         $this->db->from(self::formas_pago);
         $result = $this->db->count_all_results();
         return $result;
