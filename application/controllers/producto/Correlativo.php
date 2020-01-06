@@ -50,9 +50,12 @@ class Correlativo extends MY_Controller {
 		$data['total_pagina'] = $pag['config']["per_page"];
 		$data['total_records'] 	= $pag['total_records'];
 		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		
+		$data['fields'] = $this->fields();		
 		$data['title'] = "Correlativos";
+
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
+
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -190,5 +193,14 @@ class Correlativo extends MY_Controller {
 		$fields['titulo'] = "Correlativos Lista";
 
 		return $fields;
+	}
+	
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+		
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
+
 	}
 }

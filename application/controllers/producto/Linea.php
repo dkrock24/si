@@ -50,6 +50,9 @@ class Linea extends MY_Controller {
 		$data['home'] = 'template/lista_template';
 		$data['title'] = 'Lineas';
 
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
+
 		$this->parser->parse('template', $data);
 	}
 
@@ -179,5 +182,14 @@ class Linea extends MY_Controller {
 		$fields['titulo'] = "Linea Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+		
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
+
 	}
 }

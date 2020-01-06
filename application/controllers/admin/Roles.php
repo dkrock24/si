@@ -147,10 +147,9 @@ class Roles extends MY_Controller {
 
 		$column = $this->column();
 		$fields = $this->fields();
-		
+
 		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
 
 	}
-
 	
 }

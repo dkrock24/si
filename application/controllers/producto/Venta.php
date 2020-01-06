@@ -49,6 +49,10 @@ class Venta extends MY_Controller {
 		$data['total_records'] 	= $pag['total_records'];
 		
 		$data['title'] = "Ventas";
+
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
+
 		$data['home'] = 'template/lista_template';
 
 		$this->parser->parse('template', $data);
@@ -112,6 +116,15 @@ class Venta extends MY_Controller {
 		$fields['titulo'] = "Ventas Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+		
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
+
 	}
 
 }

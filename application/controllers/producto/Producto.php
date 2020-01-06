@@ -28,6 +28,9 @@ class Producto extends MY_Controller {
 		$data['total_records'] 	= $pag['total_records'];
 		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
 
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
+
 		$this->parser->parse('template', $data);
 	}
 
@@ -264,6 +267,15 @@ class Producto extends MY_Controller {
 		$fields['titulo'] = "Producto Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+		
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
+
 	}
 
 	

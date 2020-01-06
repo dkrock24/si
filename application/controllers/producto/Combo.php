@@ -57,8 +57,11 @@ class Combo extends MY_Controller {
 
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']);
 		$data['registros'] = $this->Combo_model->getAllCombo( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']);
-		
+		$data['title'] = "Combos Lista";
 		$data['home'] = 'template/lista_template';
+
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
@@ -196,5 +199,14 @@ class Combo extends MY_Controller {
 		$fields['titulo'] = "Combo Lista";
 
 		return $fields;
+	}
+
+	function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+		
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
+
 	}
 }
