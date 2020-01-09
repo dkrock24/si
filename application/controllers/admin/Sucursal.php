@@ -96,7 +96,7 @@ class Sucursal extends MY_Controller {
 
 		$data['menu'] 		= $this->session->menu;		
 		$data['sucursal'] 	= $this->Sucursal_model->getSucursalId( $sucursla_id );
-		$data['empresa'] 	= $this->Empresa_model->getEmpresas();
+		$data['empresa'] 	= $this->Empresa_model->getEmpresaOnly();
 		$data['ciudad'] 	= $this->Ciudad_model->getCiudad();
 		$data['title'] 		= "Editar Sucursal";
 		$data['home'] 		= 'admin/sucursal/sucursal_editar';

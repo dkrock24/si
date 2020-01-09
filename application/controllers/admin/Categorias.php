@@ -100,7 +100,7 @@ class Categorias extends MY_Controller {
 	public function editar( $id_categoria ){
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;		
+		$data['menu'] = $this->session->menu;
 		$data['categorias'] = $this->Categorias_model->get_categoria_id( $id_categoria );
 		$data['categorias_padres']	= $this->Categorias_model->get_categorias_padres();
 		//$data['empresa'] = $this->Empresa_model->getEmpresas();

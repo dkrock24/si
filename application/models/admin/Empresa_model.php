@@ -52,6 +52,21 @@ class Empresa_model extends CI_Model {
         return $result;
     }
 
+    function getEmpresaOnly( ){
+
+        $this->db->select('*');
+        $this->db->from(self::pos_empresa.' e');
+        $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
+        
+        $query = $this->db->get();
+        //echo $this->db->queries[3];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function getEmpresasWithSucursal( $empleado_id ){
         
         if($empleado_id){
