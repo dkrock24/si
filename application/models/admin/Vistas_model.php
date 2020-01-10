@@ -6,6 +6,7 @@ class Vistas_model extends CI_Model {
     const sys_vistas_componentes = 'sys_vistas_componentes';
     const sys_vistas_acceso = 'sys_vistas_acceso';
     const roles = 'sys_role';
+    const menus = 'sys_menu_submenu';
 
 	function get_vistas( $limit, $id ,$filters){
 
@@ -315,9 +316,10 @@ class Vistas_model extends CI_Model {
     function buscar_vista( $vista ){
 
         $this->db->select('*');
-        $this->db->from(self::sys_vistas);    
-        $this->db->where('vista_estado', 1);
-        $this->db->like('vista_nombre', $vista , 'both');
+        $this->db->from(self::sys_vistas.' as v');
+        $this->db->join(self::menus.' as m',' on v.id_vista = m.id_vista');
+        $this->db->where('v.vista_estado', 1);
+        $this->db->like('v.vista_nombre', $vista , 'both');
         $query = $this->db->get();
         //echo $this->db->queries[1];
         

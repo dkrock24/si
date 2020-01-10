@@ -2,6 +2,7 @@
 
     function validarUrl_method($menu_session)
     {
+
     	$flag = FALSE;
 		foreach ($menu_session as $key => $menu_url) {
 
@@ -24,18 +25,22 @@
 					$flag = TRUE;
 				}
 			}
+
+			if($flag){
+				continue;
+			}
 		}
 
         return $flag;
     }
 
-   	function parametros($menu_session){
+   	function parametros($menu_session , $pagina){
    		// Validar Permiso a la Url
-
+		
    		if(isset($menu_session)){
-   			$url_acceso = validarUrl_method($menu_session);
+   			$url_acceso = validarUrl_method($menu_session );
 			if( !$url_acceso ){
-				//header("location: ".base_url()."login/logout");
+				//header("location: ".base_url(). $pagina);
 			}
    		}
    	}

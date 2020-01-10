@@ -41,8 +41,6 @@ class Orden extends MY_Controller {
 		$url_page = "producto/orden/index";
 		$pag = $this->MyPagination($model, $url_page, $vista = 26) ;
 
-		parametros($this->session->menu);
-
 		$data['menu'] = $this->session->menu;
 		$data['links'] = $pag['links'];
 		$data['filtros'] = $pag['field'];
@@ -73,7 +71,6 @@ class Orden extends MY_Controller {
 		$terminal_acceso = FALSE;
 
 		$menu_session 	= $this->session->menu;	
-		parametros($menu_session);
 
 		$id_rol 		= $this->session->roles[0];
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
@@ -154,7 +151,6 @@ class Orden extends MY_Controller {
 		$terminal_acceso = FALSE;
 
 		$menu_session 	= $this->session->menu;	
-		parametros($menu_session);
 
 		$id_rol 		= $this->session->roles[0];
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
@@ -378,7 +374,7 @@ class Orden extends MY_Controller {
 		$terminal_acceso = FALSE;
 
 		$menu_session 	= $this->session->menu;	
-		parametros($menu_session);
+		
 
 		$id_rol 		= $this->session->roles[0];
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;

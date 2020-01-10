@@ -26,7 +26,9 @@ class MY_Controller extends CI_Controller
 		if( ! isset($this->session->userdata['usuario'][0]->id_rol )){
 			
 			redirect(base_url()."login/index");
-        }
+		}
+		
+		parametros($this->session->menu ,  $this->session->usuario[0]->pagina);
 
 		$this->load->model('admin/Menu_model');	
 
@@ -123,7 +125,6 @@ class MY_Controller extends CI_Controller
 
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
-		parametros($menu_session);
 
 		$id_rol = $this->session->roles;
         $vista_id = $vista;

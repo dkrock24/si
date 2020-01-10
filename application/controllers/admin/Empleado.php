@@ -79,7 +79,7 @@ class Empleado extends MY_Controller {
 
 		$data['menu'] = $this->session->menu;	
 		$data['cargos']	= $this->Cargos_model->get_cargos();
-		$data['empresa']	= $this->Empresa_model->getEmpresas();
+		$data['empresa']	= $this->Empresa_model->getEmpresaOnly();
 		$data['sucursal_lista']	= $this->Empresa_model->getEmpresasWithSucursal2(1);
 		$data['title'] = "Crear Empleado";
 		$data['home'] = 'admin/empleado/e_nuevo';
@@ -105,7 +105,7 @@ class Empleado extends MY_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['cargos']	= $this->Cargos_model->get_cargos();
-		$data['empresa']	= $this->Empresa_model->getEmpresas();
+		$data['empresa']	= $this->Empresa_model->getEmpresaOnly();
 		$data['sucursal']	= $this->Empresa_model->getEmpresasWithSucursal( $empleado_id);
 		$data['title'] = "Editar Empleado";
 		if($data['sucursal']){

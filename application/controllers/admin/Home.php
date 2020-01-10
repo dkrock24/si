@@ -149,6 +149,7 @@ class Home extends CI_Controller {
 	}
 
 	function buscar(){
+
 		if(isset($_POST['buscar'])){
 			
 			$buscar_vista = $_POST['buscar'];
@@ -157,8 +158,30 @@ class Home extends CI_Controller {
 
 			if( $data['vistas'] ){
 
-				redirect(base_url().$data['vistas'][0]->vista_url);
+				$menu = $this->session->menu;
+
+				$result = "";
+
+				foreach ($menu as $key => $value) {
+
+					
+					if($value->id_submenu == $data['vistas'][0]->id_submenu ){
+
+						$result = $value->id_submenu;
+						continue;
+					}
+				}
+
+				if($result == $data['vistas'][0]->id_submenu ){
+
+					redirect(base_url().$data['vistas'][0]->vista_url);
+				}else{
+					redirect(base_url()."admin/home/index");
+				}
+
+				
 			}else{
+				
 				redirect(base_url()."admin/home/index");
 			}
 
