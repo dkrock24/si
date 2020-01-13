@@ -222,9 +222,7 @@ class Empresa_model extends CI_Model {
         $result = $this->db->update(self::pos_empresa, $data ); 
 
         return $result;
-    }
-
-    
+    }    
 
     function eliminar($id){
         $data = array(

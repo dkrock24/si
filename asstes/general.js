@@ -230,8 +230,15 @@ function aplicar_imp( prod){
 				if( item.condicion == 0 && item.especial==0 && yes == true){
 					
 					aplicable = true;
-					total += (element.total_anterior * item.porcentage);
-					console.log("1 aplicar_imp", total);
+					var calcu = (parseFloat(element.total_anterior) * parseFloat( element.cantidad));
+					console.log(element.total_anterior,  element.cantidad, calcu);
+					var calcu2 = (calcu / (parseFloat (item.porcentage) + 1 ));
+					console.log(calcu2 );
+					var calcu3 = (calcu2  * item.porcentage);
+
+					total += calcu3;
+
+					console.log("1 aplicar_imp",  total );
 					return false;
 				}
 

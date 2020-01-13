@@ -39,7 +39,7 @@ class Bodega extends MY_Controller {
 		$pag = $this->MyPagination($model, $url_page, $vista = 20) ;
 
 		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+
 
 		$data['registros'] = $this->Bodega_model->getBodegas( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
 			

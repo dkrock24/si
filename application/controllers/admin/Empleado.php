@@ -49,6 +49,8 @@ class Empleado extends MY_Controller {
 
 	public function index(){
 
+		$this->abc();
+
 		$model = "Empleado_model";
 		$url_page = "admin/empleado/index";
 		$pag = $this->MyPagination($model, $url_page , $vista = 33);
@@ -71,6 +73,10 @@ class Empleado extends MY_Controller {
 		$_SESSION['Vista']  = $data['title'];
 
 		$this->parser->parse('template', $data);
+	}
+
+	function abc(){
+		return 5;
 	}
 
 	public function nuevo(){

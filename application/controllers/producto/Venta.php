@@ -34,8 +34,7 @@ class Venta extends MY_Controller {
 		$pag = $this->MyPagination($model, $url_page, $vista = 38) ;
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;			
 
 		$data['menu'] = $this->session->menu;
 		$data['contador_tabla'] = $pag['contador_tabla'];

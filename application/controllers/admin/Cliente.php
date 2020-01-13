@@ -80,7 +80,7 @@ class Cliente extends MY_Controller {
 
 		$data['clienteTipo'] = $this->ClienteTipo_model->get_cliente_tipo();
 		$data['menu'] = $this->session->menu;		
-		$data['empresa'] = $this->Empresa_model->getEmpresas();
+		//	$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['documento'] = $this->Documento_model->getAllDocumento();
 		$data['pago'] = $this->Pagos_model->getTipoPago();
 		$data['persona'] = $this->Persona_model->getAllPersona();

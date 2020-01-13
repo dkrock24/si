@@ -15,9 +15,7 @@ class MY_Controller extends CI_Controller
 		@$this->load->library('session');
 		$this->load->library('pagination'); 
 		$this->load->library('../controllers/general');
-		$this->load->library('excel');
-
-		
+		$this->load->library('excel');	
 
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
@@ -45,19 +43,22 @@ class MY_Controller extends CI_Controller
     {
         $filtro="";
 		if(isset($_SESSION['filters']) ){
+
             if($_SESSION['filters']== ""){
+
                 $filtro = "";
                 $_SESSION['filtros'] = null;
-            }  
+			}  
+			
             if($_SESSION['url'] != $url_page){
                 
                 $_SESSION['filters'] = $filtro;
                 $_SESSION['filtros'] = null;
                 $_SESSION['url'] = $url_page;
-
             }        
            
 		}else{
+			
             $_SESSION['filters'] = $filtro;
             $_SESSION['filtros'] = null;
             $_SESSION['url'] = $url_page;
@@ -122,10 +123,6 @@ class MY_Controller extends CI_Controller
         
         // paginacion End
 
-
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-
 		$id_rol = $this->session->roles;
         $vista_id = $vista;
         
@@ -136,8 +133,7 @@ class MY_Controller extends CI_Controller
                 $ff[$item] = "";
             }
             $_SESSION['filtros'] = $ff;
-		}
-		
+		}		
 
         $data['field'] = $_SESSION['filtros'];
         $data['config'] = $config;
@@ -147,9 +143,7 @@ class MY_Controller extends CI_Controller
 		$data['total_records'] = $total_row;
         $data['contador_tabla'] = $contador_tabla;
         
-        return $data;       
-
-
+        return $data;
 
 	}
 	

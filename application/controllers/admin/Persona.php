@@ -63,7 +63,7 @@ class Persona extends MY_Controller {
 
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		
 
 		$id_rol = $this->session->roles;
 		$vista_id = 20; // Vista Orden Lista
