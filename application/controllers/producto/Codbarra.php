@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Codbarra extends CI_Controller {
+class Codbarra extends MY_Controller {
 
 	function __construct()
 	{
@@ -31,7 +31,6 @@ class Codbarra extends CI_Controller {
 	{
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
-		parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
@@ -48,8 +47,7 @@ class Codbarra extends CI_Controller {
 	public function nuevo(){
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
@@ -72,8 +70,7 @@ class Codbarra extends CI_Controller {
 	public function editar( $codbarra_id ){
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista

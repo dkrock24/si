@@ -65,7 +65,6 @@ class Bodega extends MY_Controller {
 
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
-		parametros($menu_session);
 
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
@@ -94,11 +93,7 @@ class Bodega extends MY_Controller {
 
 	public function editar($bodega_id){
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
-
-		//$id_rol = $this->session->roles[0];
-		//$vista_id = 8; // Vista Orden Lista
+		$menu_session = $this->session->menu;
 
 		$data['menu'] = $this->session->menu;
 		//$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );

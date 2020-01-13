@@ -45,8 +45,7 @@ class Moneda extends MY_Controller {
 		$pag = $this->MyPagination($model, $url_page, $vista = 6) ;
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$data['menu'] = $this->session->menu;
 		$data['registros'] = $this->Moneda_model->getMoneda(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
@@ -70,8 +69,7 @@ class Moneda extends MY_Controller {
 	public function nuevo(){
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$data['menu'] = $this->session->menu;
 		$data['home'] = 'admin/moneda/moneda_nuevo';
@@ -98,8 +96,7 @@ class Moneda extends MY_Controller {
 	public function editar( $moneda_id ){
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$id_rol = $this->session->roles;
 		$vista_id = 8; // Vista Orden Lista

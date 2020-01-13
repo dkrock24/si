@@ -46,8 +46,7 @@ class Pagos extends MY_Controller {
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$data['menu'] = $this->session->menu;
 		$data['links'] = $pag['links'];
@@ -74,8 +73,7 @@ class Pagos extends MY_Controller {
 	public function nuevo(){
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$data['menu'] = $this->session->menu;
 		$data['home'] = 'admin/pagos/p_nuevo';
@@ -102,8 +100,7 @@ class Pagos extends MY_Controller {
 	public function editar( $pago_id ){
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$id_rol = $this->session->roles;
 		$vista_id = 8; // Vista Orden Lista

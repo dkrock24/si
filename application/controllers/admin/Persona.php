@@ -93,8 +93,7 @@ class Persona extends MY_Controller {
 
 	public function editar( $persona_id ){
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$data['menu'] 		= $this->session->menu;		
 		$data['persona']	= $this->Persona_model->getPersonaId( $persona_id );

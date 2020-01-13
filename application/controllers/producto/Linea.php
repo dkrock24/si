@@ -60,8 +60,7 @@ class Linea extends MY_Controller {
 
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;	
-		//parametros($menu_session);
-
+		
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
@@ -89,8 +88,7 @@ class Linea extends MY_Controller {
 	public function editar( $linea_id ){
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		//parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Menu extends CI_Controller {
+class Menu extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -40,8 +40,7 @@ class Menu extends CI_Controller {
 	public function index(){
 		
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		// Construir Menu basado en el rol de usuario
 		$usuario_id = $this->session->usuario[0]->id_usuario;
@@ -58,8 +57,7 @@ class Menu extends CI_Controller {
 	public function nuevo(){
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
@@ -73,8 +71,7 @@ class Menu extends CI_Controller {
 	public function save_menu(){
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$this->Menu_model->save_menu( $_POST );
 
@@ -83,8 +80,7 @@ class Menu extends CI_Controller {
 
 	public function submenu( $id_menu ){
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		// Selecionar todos los submenus de cada menu
 
@@ -100,8 +96,7 @@ class Menu extends CI_Controller {
 
 	public function editar_menu( $id_menu ){
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		// Cargar menu para editar
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;

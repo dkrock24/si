@@ -48,8 +48,7 @@ class Pais extends MY_Controller {
 		//$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		//parametros($menu_session);
+		$menu_session = $this->session->menu;
 
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 

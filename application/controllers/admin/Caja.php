@@ -74,7 +74,6 @@ class Caja extends MY_Controller {
 	public function editar($caja_id){
 		
 		$menu_session = $this->session->menu;	
-		//parametros($menu_session);
 
 		$id_rol = $this->session->roles;
 		$vista_id = 8; // Vista Orden Lista
