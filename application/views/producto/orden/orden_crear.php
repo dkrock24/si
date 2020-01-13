@@ -64,7 +64,7 @@
                         <div class="panel-heading" style="text-align: right; font-size: 20px;overflow: hidden;"> 
                             <?php
                             if($empleado[0]){
-                                echo $empleado[0]->nombre_sucursal;
+                                echo $empleado[0]->nombre_sucursal ." [ ". $terminal[0]->nombre." ]";
                             }else{
                                 echo " No hay Sucursal"; 
                             }                           

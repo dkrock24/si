@@ -39,23 +39,27 @@
                    
                   <tbody>
 
+                        <tr>                          
+
+                           <td>CLIENTE</td>
+                           <td>
+                            <strong><?php echo $venta[0]->nombre_empresa_o_compania; ?></strong>
+                           </td>
+                           
+
+                           <td>SUCURSAL</td>
+                           <td> <strong><?php echo $venta[0]->nombre_sucursal ?></strong></td>
+                         
+                        </tr>
+
                         <tr>
                             <td>CORRELATIVO</td>
                            <td>
                             <strong><?php echo $venta[0]->num_correlativo; ?></strong>
                            </td>
+                           
                            <td>CAJA</td>
                            <td> <strong><?php echo $venta[0]->num_caja ?></strong></td>
-                         
-                        </tr>
-
-                        <tr>
-                            <td>CLIENTE</td>
-                           <td>
-                            <strong><?php echo $venta[0]->nombre_empresa_o_compania; ?></strong>
-                           </td>
-                           <td>SUCURSAL</td>
-                           <td> <strong><?php echo $venta[0]->nombre_sucursal ?></strong></td>
                           
                         </tr>
 

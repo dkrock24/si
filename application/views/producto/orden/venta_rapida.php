@@ -100,7 +100,7 @@ include("asstes/pos_orden.php");
                                     <div class="" style="font-size: 20px;overflow: hidden;">
                                         <?php
                                             if( isset($empleado[0]->nombre_sucursal) ){
-                                                echo $empleado[0]->nombre_sucursal; 
+                                                echo $empleado[0]->nombre_sucursal." [ ". $terminal[0]->nombre." ]"; 
                                             }else{
                                                 echo "Sin Sucursal";
                                             }

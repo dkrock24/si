@@ -64,7 +64,7 @@
                         </a>
 
                         <div class="panel-heading" style="text-align: right; font-size: 20px;overflow: hidden;">
-                            <?php echo $empleado[0]->nombre_sucursal; ?>
+                            <?php echo $empleado[0]->nombre_sucursal ." [ ". $terminal[0]->nombre." ]"; ?>
 
                             <span class="label label-warning">
                                 <?php echo Date("d/M/y"); ?>
