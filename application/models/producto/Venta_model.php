@@ -239,7 +239,7 @@ class Venta_model extends CI_Model {
 					'id_cajero'		=> $this->session->db[0]->id_usuario,
 					'num_caja' 		=> $form['caja_numero'], //terminal_numero
 					'd_inc_imp0' 	=> $form['impuesto'], //impuesto
-					'id_tipod' 		=> $form['modo_pago_id'], //modo_pago_id
+					'id_tipod' 		=> $documento[0]->id_tipo_documento, //modo_pago_id
 					'id_sucursal' 	=> $form['sucursal_destino'], //sucursal_destino
 					'num_correlativo'=>$correlativo_final,
 					'id_cliente' 	=> $form['cliente_codigo'], //cliente_codigo

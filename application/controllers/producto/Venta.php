@@ -100,7 +100,7 @@ class Venta extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Correlativo','Sucursal','Terminal','Cliente','F. Pago','Tipo Doc.','Cajero','Creado','Estado'
+			'Correlativo','Sucursal','Terminal','Cliente','C Pago','Tipo Doc','Cajero','Creado','Estado'
 		);
 		return $column;
 	}
