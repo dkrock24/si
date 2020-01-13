@@ -224,7 +224,7 @@ class Venta_model extends CI_Model {
 			//$desc_val = ($total_iva * $total_orden);
 
 			$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal , $documento );
-
+			
 			if($siguiente_correlativo[0]){
 
 				$numero = 0;
@@ -551,11 +551,11 @@ class Venta_model extends CI_Model {
 
 		}
 
-		function get_siguiente_correlativo($sucursal){
+		function get_siguiente_correlativo($sucursal , $documento){
 			$this->db->select('*');
 	        $this->db->from(self::pos_correlativos);
 			$this->db->where('Sucursal',$sucursal);
-			$this->db->where('TipoDocumento',$sucursal);
+			$this->db->where('TipoDocumento',$documento[0]->id_tipo_documento);
 	        $query = $this->db->get(); 
 	        
 	        if($query->num_rows() > 0 )

@@ -28,12 +28,13 @@ class Producto_model extends CI_Model {
         
         function getProd( $limit, $id , $filters ){
 
+			$limite = " Limit ".$id.','.$limit;
 			
 			if($filters!=null || $filters != ""){
 				
 				$filters = " and ".$filters;
+				$limite = "";
 			}
-
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, 
 			 `sub_c`.`nombre_categoria` , e.nombre_razon_social,
@@ -47,8 +48,8 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
 				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where P.Empresa = '".$this->session->empresa[0]->id_empresa."'
-				$filters  
-				Limit ".$id.','.$limit );
+				$filters   $limite "
+				 );
 
 				//echo $this->db->queries[1];
 				
