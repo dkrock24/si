@@ -18,6 +18,7 @@ var _impuestos_orden_excluyentes = [];
 var _impuestos_total = [];
 var exist_cat;
 var _conf = [];
+var sub_total_ = 0;
 
 /* Impuestos Acumulados */
 
@@ -630,6 +631,9 @@ function ivaTotal(){
 			var tmp = item.impSuma.toFixed(2);
 
 			total_iva += parseFloat(tmp);
+
+			sub_total_ += parseFloat(item.total_anterior ) - parseFloat( tmp ) ;
+			console.log(  sub_total_ );
 
 			if(item.iva==0){
 				total_iva_suma += parseFloat(tmp);
