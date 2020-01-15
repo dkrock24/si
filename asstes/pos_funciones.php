@@ -24,7 +24,8 @@
         var pagos_array = [];
         var bodega = 0;
         var _productos_precio2;
-        var interno_bodega=0;            
+        var interno_bodega=0;
+        var producto_cantidad_linea = 1;
 
         getImpuestosLista();          
         bodega = $("#bodega_select").val();
@@ -284,9 +285,12 @@
             var table_tr = "";
 
             if(_productos_lista.length == 1){
+
                 get_producto_completo(_productos_lista[0].id_producto_detalle);
+   
                 grabar();
-                depurar_producto();
+                _config_impuestos();
+                depurar_producto();                             
                 
             }else{
                        
@@ -362,8 +366,6 @@
 
                 success: function(data) {
                     var datos = JSON.parse(data);
-
-                    console.log(datos);
                                         
                     var precio_unidad   = datos['producto'][0].unidad;
                     _productos_precio2  = datos["prod_precio"];
@@ -395,8 +397,14 @@
 
                     $("#descripcion").val(datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca);
 
-                    producto_cantidad_linea = datos['producto'][0].factor;
-                    $("#cantidad").val(1);
+                    if( producto_cantidad_linea == 1 ){
+
+                        producto_cantidad_linea = datos['producto'][0].factor;                        
+
+                    }else{
+                        _productos_precio.precio = _productos_precio.precio * producto_cantidad_linea;
+                    }
+                    
                     precioUnidad = _productos_precio.unidad;
 
                     set_calculo_precio(precioUnidad, producto_cantidad_linea);
@@ -422,11 +430,21 @@
                     _productos.total            = _productos_precio.precio;
                     _productos.categoria        = datos['producto'][0].categoria;
 
+                    grabar();
+                    _config_impuestos();
+                    agregar_producto();
+                    depurar_producto();
+
+                    producto_cantidad_linea = 1;
+                    
+                    
+
                 },
                 error: function() {
                     alert("Error : Verificar Producto y Bodega");
                 }
             });
+            
         }
 
         function get_presentacio_lista(_productos_precio) {
@@ -796,6 +814,7 @@
 
         function grabar() {
             // 7 - Grabar producto en la orden
+            console.log("Grabando Producto"); 
             $(".producto_buscar").empty();
             $(".producto_buscar").focus();
             if (_productos.cantidad != null) {
@@ -806,6 +825,7 @@
 
                     grabar_combo();
                     grabar_primeraves();
+                    
 
                 } else {
                     grabar_mas();
@@ -821,7 +841,7 @@
 
                 this.value = '';
                 $("#grabar").val("Agregar");
-                $("#cantidad").val(1);
+                //$("#cantidad").val(1);
             });
 
         }
@@ -841,6 +861,8 @@
         function grabar_mas() {
             var existe = 0;
             var cnt = 0;
+
+            console.log("la cantidad ", _orden.length);
             
             if (_productos != "") {
 
@@ -1214,9 +1236,15 @@
         }
 
         $(document).on('change', '#cantidad', function() {
-            // Actualizar la cantidad
+            changeCantidad();
+        });
 
-            var cantidad = $("#cantidad").val();
+        function changeCantidad(){
+             // Actualizar la cantidad
+
+             var cantidad = $("#cantidad").val();
+
+            producto_cantidad_linea = cantidad;
 
             if (_productos.producto != null && _productos.combo != 1) {
                 
@@ -1253,7 +1281,7 @@
                 factor_precio = 0;
                 factor_total = 0;
             }
-        });
+        }
 
         function calcularTotalProducto(precio, cantidad) {
             // total Producto

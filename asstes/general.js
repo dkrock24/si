@@ -42,7 +42,7 @@ function _config_impuestos(){
 	_impuestos_total = [];
 	_impuestos_orden_condicion = [];
 	_impuestos_orden_especial = [];
-	_impuestos_orden_excluyentes = [];
+	//_impuestos_orden_excluyentes = [];
 
 	impuestos();
 }
@@ -231,14 +231,13 @@ function aplicar_imp( prod){
 				if( item.condicion == 0 && item.especial==0 && yes == true){
 					
 					aplicable = true;
-					var calcu = (parseFloat(element.total_anterior) * parseFloat( element.cantidad));
+					var calcu = (parseFloat(element.precioUnidad) * parseFloat( element.cantidad));
 					
 					var calcu2 = (calcu / (parseFloat (item.porcentage) + 1 ));
 					
 					var calcu3 = (calcu2  * item.porcentage);
 
 					total += calcu3;
-
 					
 					return false;
 				}
@@ -469,7 +468,7 @@ function impuesto_valor(prod){
 
 	_orden.forEach(function(element) {
 
-		if(!element.dinero){
+		if(!element.dinero && (_orden[_orden.indexOf(prod)].id_producto_detalle == element.id_producto_detalle) ){
 			is_money = true;
 			do{
 				result = prompt("Monto en Dinero");
@@ -479,32 +478,69 @@ function impuesto_valor(prod){
 					is_money = false;
 					_orden[_orden.indexOf(prod)].total = dinero;
 					_orden[_orden.indexOf(prod)].dinero = dinero;
+				}else{
+					is_money = false;
+					dinero = (_orden[_orden.indexOf(prod)].total_anterior * _orden[_orden.indexOf(prod)].cantidad);
+					_orden[_orden.indexOf(prod)].total = _orden[_orden.indexOf(prod)].total_anterior;
+					_orden[_orden.indexOf(prod)].dinero = (_orden[_orden.indexOf(prod)].total_anterior * _orden[_orden.indexOf(prod)].cantidad);
 				}
 			}while(is_money);
-		}
 
-		if(imp_asociados!= 0 && element.dinero){			
+			if(imp_asociados!= 0 && element.dinero){
 
-			precio_galon = _orden[_orden.indexOf(prod)].total_anterior + imp_asociados;
-			cant_galon = dinero / precio_galon;
-			_orden[_orden.indexOf(prod)].cantidad = cant_galon.toFixed(3);
-			
-			$.each(_impuestos.cat, function(i, item) {	
-				if(_orden[_orden.indexOf(prod)].categoria == item.Categoria){
-					if(item.excluyente ==0 && item.especial==1 ){
+				precio_galon = _orden[_orden.indexOf(prod)].total_anterior + imp_asociados;
+				cant_galon = dinero / precio_galon;
+				//console.log("G = ", cant_galon , precio_galon, imp_asociados);
+				
+				_orden[_orden.indexOf(prod)].cantidad = cant_galon.toFixed(3);
+				
+				$.each(_impuestos.cat, function(i, item) {
+					if(_orden[_orden.indexOf(prod)].categoria == item.Categoria){
+						if(item.excluyente ==0 && item.especial==1 ){
 
-						_impuestos_orden_excluyentes[_impuestos_orden_excluyentes.length] = {
-							ordenImpName : item.nombre,
-							ordenImpVal  : item.porcentage,
-							ordenImpTotal: (cant_galon * item.porcentage),
-							ordenEspecial: item.excluyente,
-							ordenSimbolo : item.condicion_simbolo
-						};
+							if(_impuestos_orden_excluyentes.length ==0){
+
+								_impuestos_orden_excluyentes[_impuestos_orden_excluyentes.length] = {
+									ordenImpName : item.nombre,
+									ordenImpVal  : item.porcentage,
+									ordenImpTotal: (cant_galon * item.porcentage),
+									ordenEspecial: item.excluyente,
+									ordenSimbolo : item.condicion_simbolo
+								};
+							}else{
+
+								$imp_flag = true;
+								_impuestos_orden_excluyentes.forEach(function(impuestos_especial){
+									
+									if(impuestos_especial.ordenImpName == item.nombre){
+										
+										$imp_flag = false;
+										_impuestos_orden_excluyentes[_impuestos_orden_excluyentes.indexOf(impuestos_especial)].ordenImpTotal += (cant_galon * item.porcentage);
+										
+									}
+									
+								});
+
+								if($imp_flag){
+									_impuestos_orden_excluyentes[_impuestos_orden_excluyentes.length] = {
+										ordenImpName : item.nombre,
+										ordenImpVal  : item.porcentage,
+										ordenImpTotal: (cant_galon * item.porcentage),
+										ordenEspecial: item.excluyente,
+										ordenSimbolo : item.condicion_simbolo
+									};
+								}
+							}				
+
+						}
 					}
-				}
-			});	
+					
+				});					
+			}			
 		}
+		
 	});
+	console.log(_impuestos_orden_excluyentes);
 }
 
 function producto_valido_especial(prod){
@@ -634,9 +670,7 @@ function ivaTotal(){
 
 			total_iva += parseFloat(tmp);
 
-			sub_total_ += parseFloat(item.total_anterior ) - parseFloat( tmp ) ;
-			console.log(  sub_total_ );
-						
+			sub_total_ += parseFloat(item.total_anterior ) - parseFloat( tmp ) ;						
 
 			if(item.iva==0){
 
@@ -650,8 +684,6 @@ function ivaTotal(){
 	});
 
 	//total_iva_suma =  sub_total_;
-
-	console.log(total_orden , sub_total_ ,total_sin_impuesto );
 
 	sub_total();
 
@@ -668,11 +700,7 @@ function sub_total(){
 		
 	});
 
-	sub_total_ = total_orden - _total_impues_exclu ;
-
-	console.log("Sub ", sub_total_ );
-
-	
+	sub_total_ = total_orden - _total_impues_exclu ;	
 
 }
 
