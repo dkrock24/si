@@ -4,6 +4,7 @@ var _tipo_cliente;
 var total_orden = 0;
 var total_iva = 0;
 var total_iva_suma = 0;
+var total_sin_impuesto = 0;
 var result = 0;
 var docVal, catVal, proVal, cliVal;
 var _ImpList = [];
@@ -622,6 +623,7 @@ function separar_iva(prod){
 function ivaTotal(){
 	total_iva = 0;
 	total_iva_suma = 0;
+	sub_total_ = 0;
 	var c = 1;
 	
 	$.each(_orden, function(i, item) {
@@ -634,16 +636,44 @@ function ivaTotal(){
 
 			sub_total_ += parseFloat(item.total_anterior ) - parseFloat( tmp ) ;
 			console.log(  sub_total_ );
+						
 
 			if(item.iva==0){
-				total_iva_suma += parseFloat(tmp);
+
+				//total_iva_suma += parseFloat(tmp);
+
 			}
-			
 
 		}
 		c++;
 		
 	});
+
+	//total_iva_suma =  sub_total_;
+
+	console.log(total_orden , sub_total_ ,total_sin_impuesto );
+
+	sub_total();
+
+	
+}
+
+function sub_total(){
+
+	var _total_impues_exclu=0;
+
+	$.each(_impuestos_orden_excluyentes , function(i, item){
+
+		_total_impues_exclu += parseFloat( item.ordenImpTotal );
+		
+	});
+
+	sub_total_ = total_orden - _total_impues_exclu ;
+
+	console.log("Sub ", sub_total_ );
+
+	
+
 }
 
 /*********** Orden  ************/
