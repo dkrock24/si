@@ -1,6 +1,10 @@
 <script>
     $(document).ready(function() {
 
+        var input_producto_buscar = $(".producto_buscar");
+        var input_bodega_select = $("#bodega_select");
+        var input_sucursal  = $("#sucursal_id").val();
+
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
         $('#cliente_modal').appendTo("body");
@@ -12,13 +16,11 @@
         $('#en_reserva').appendTo("body");
         $('.dataSelect').hide();
         $('.dataSelect2').hide();
-        $(".producto_buscar").focus();
         $('.1dataSelect').hide();
         $('.1dataSelect2').hide();
 
-        $("input").focus(function() {
-            //$(this).css('background', 'red');
-        });
+        input_producto_buscar.focus();
+        bodega = input_bodega_select.val();       
 
         var pagos_mostrados = [];
         var pagos_array = [];
@@ -27,9 +29,8 @@
         var interno_bodega=0;
         var producto_cantidad_linea = 1;
 
-        getImpuestosLista();          
-        bodega = $("#bodega_select").val();
-
+        getImpuestosLista();         
+        
         function getImpuestosLista(){ /** Load Impuestos everytime */
 
             $.ajax({
@@ -73,8 +74,8 @@
 
         function get_existencia(texto){ /** Load existencias - Producto filtrados */
 
-            sucursal    = $("#sucursal_id").val();
-            var bodega  = $("#bodega_select").val();
+            sucursal    = input_sucursal;
+            var bodega  = input_bodega_select.val();
 
             interno_sucursal    = sucursal;            
             interno_bodega      = bodega;
@@ -140,7 +141,7 @@
             if (event.which == 13) {
                 get_producto_completo2(this.value);
                 event.preventDefault();
-                $(".producto_buscar").empty();
+                input_producto_buscar.empty();
                 $('.1dataSelect').hide();
                 $('.1dataSelect').empty();
                 $(".existencia_buscar").focus();
@@ -211,18 +212,17 @@
             });
         }
 
-        $(document).on('keypress', '.producto_buscar', function(e) {
-            /* 1 - Input Buscar Producto */
+        $(document).on('keypress', '.producto_buscar', function(e) { /* 1 - Input Buscar Producto */
 
-            var texto_busqueda = $(".producto_buscar").val();
+            var texto_busqueda = input_producto_buscar.val();
 
             if (texto_busqueda.length != 0) {
 
-                if ($(".producto_buscar").is(":focus")) {
+                if (input_producto_buscar.is(":focus")) {
                     
                     if (e.keyCode == 13) {
                         
-                        search_texto($(".producto_buscar").val());
+                        search_texto(input_producto_buscar.val());
                         
                     }
                 }
@@ -232,12 +232,11 @@
                 $('.dataSelect').hide();
             }
         });
+        
+        function search_texto(texto) { /* 2 - Filtrado del texto a buscar en productos */
 
-        /* 2 - Filtrado del texto a buscar en productos */
-        function search_texto(texto) {
-
-            sucursal = $("#sucursal_id").val();
-            var bodega = $("#bodega_select").val();
+            sucursal = input_sucursal;
+            var bodega = input_bodega_select.val();
 
             interno_sucursal = sucursal;
             
@@ -283,6 +282,7 @@
             var contador_precios = 1;
             interno_bodega = bodega;
             var table_tr = "";
+            $(".dataSelect").html(table_tr);
 
             if(_productos_lista.length == 1){
 
@@ -293,18 +293,20 @@
                 depurar_producto();                             
                 
             }else{
-                       
+                
                 $.each(_productos_lista, function(i, item) {
-
+                    if(item.precio_venta != 0){
                         producto_id = item.id_entidad;
                         precio =  parseInt(item.precio_venta);
                         table_tr += '<option value="' + item.id_producto_detalle + '">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + ' - ' + precio.toFixed(2) +'</option>';
                         contador_precios++;
                     
-                    $('.dataSelect').show();
+                    
+                    }
                 });
-
+                $('.dataSelect').show();
                 $(".dataSelect").html(table_tr);
+                
             }
         }
 
@@ -312,7 +314,7 @@
 
             if (event.keyCode == 40) {
                 $('.dataSelect').focus();
-                $(".producto_buscar").val("");
+                input_producto_buscar.val("");
                 document.getElementById('dataSelect').selectedIndex = 0;
             }
         });
@@ -327,7 +329,7 @@
                 $('#dataSelect').hide();
                 $('#dataSelect').empty();
                 $("#grabar").focus();
-                $(".producto_buscar").val("");
+                input_producto_buscar.val("");
             }
 
         });
@@ -338,7 +340,7 @@
             var codigo, presentacion, tipo, precioUnidad, descuento, total
 
             //alert(bodega);
-            interno_bodega = $("#bodega_select").val();
+            interno_bodega = input_bodega_select.val();
 
             if(!interno_bodega){
 
@@ -382,13 +384,11 @@
                     _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);
 
                     if (parseInt(_productos_precio.length) >= 1 && producto_escala != 1) {
-                        //get_presentacio_lista( _productos_precio );
-                        
+                        //get_presentacio_lista( _productos_precio );                        
                         seleccionar_productos_array(producto_id);
 
                     } else {
                         enLinea();
-                        //console.log(13);
                     }
 
                     $("#producto").val(datos['producto'][0].unidad);
@@ -522,7 +522,6 @@
                 event.preventDefault();
                 $('.dataSelect2').hide();
                 $('.dataSelect2').empty();
-                //$(".producto_buscar").focus();
                 $("#grabar").focus();
 
                 seleccionar_productos_array(precio_id);
@@ -560,40 +559,32 @@
             document.onkeydown = function(e) {
 
                 switch (e.keyCode) {
-                    case 37:
-                        //alert('left');
-                        $(".producto_buscar").focus();
+                    case 37: //alert('left');                        
+                        input_producto_buscar.focus();
                         break;
-                    case 38:
-                        //alert('up');
+                    case 38: //alert('up');                        
                         break;
-                    case 39:
-                        //alert('right');
+                    case 39: //alert('right');                        
                         $("#cantidad").focus();
                         break;
                     case 40:
                         //alert('down');
                         break;
-                    case 91:
-                        // F1
+                    case 91: // F1                        
                         $("#documentoModel").modal();
-                    case 113:
-                        // F2
+                    case 113: // F2                        
                         producto_tabla_foco();
                         break;
-                    case 114:
-                        //F3
+                    case 114: //F3                        
                         eliminar_elemento_tabla(id_celda);
                         break;
-                    case 115:
-                        //F4
+                    case 115: //F4                        
                         f4_guardar();
                         break;
-                    case 118:
-                        //F7
+                    case 118: //F7                        
                         f7_foco_efectivo();
                         break;
-                    case 177:
+                    case 177: //
                         f8_table_pagos();
                         break;
                 }
@@ -777,8 +768,6 @@
 
                 if (precio_id == item.id_producto_detalle) {
 
-                    //console.log("-> ", precio_id, item.precio);
-
                     _productos.presentacion = item.presentacion;
                     _productos.id_producto_detalle = item.id_producto_detalle;
                     _productos.presentacionFactor = item.factor;
@@ -815,8 +804,8 @@
         function grabar() {
             // 7 - Grabar producto en la orden
             console.log("Grabando Producto"); 
-            $(".producto_buscar").empty();
-            $(".producto_buscar").focus();
+            input_producto_buscar.empty();
+            input_producto_buscar.focus();
             if (_productos.cantidad != null) {
                 _productos.descuento = $("#descuento").val();
 
@@ -1299,7 +1288,7 @@
 
         function correlativos_sucursales(sucursal) {
             // Cambiar Bodega
-            $("#bodega_select").empty();
+            input_bodega_select.empty();
             var select_option;
             $.ajax({
                 url: path+"get_bodega_sucursal/" + sucursal,
@@ -1313,7 +1302,7 @@
                         select_option += '<option value="' + item.id_bodega + '">' + item.nombre_bodega + '</option>';
                     });
 
-                    $("#bodega_select").html(select_option);
+                    input_bodega_select.html(select_option);
 
                     var correlativo = datos['correlativo'];
                     $("#c_numero").val(correlativo[0].siguiente_valor);
@@ -1510,7 +1499,7 @@
 
         function guardarX(cli_form_pago, tipo_documento ,sucursal_id) {
 
-            var sucursal_id = $("#sucursal_id").val();
+            var sucursal_id = input_sucursal;
             
             $.ajax({
                 url: path+"get_form_pago/" + cli_form_pago + "/" + tipo_documento + "/"+ sucursal_id,
@@ -1556,6 +1545,8 @@
                     generar_select_pagos(metodo_pago);
 
                     $("#metodos_pagos").html(_html);
+
+                    $("input[name='pagoInput1']").focus();
                 },
                 error: function() {}
             });
@@ -1593,6 +1584,8 @@
                 return;
             }
 
+            
+
             var temp = 0.00;
             var cambio = 0.00;
             var leng = $(this).attr('count');
@@ -1600,7 +1593,7 @@
 
             pagos_array = [];
             while (count <= leng) {
-
+                
                 types = $(":input[name=pagoInput" + count + "]").attr('id');
                 value = $(":input[name=pagoInput" + count + "]").val();
                 ids = $(":input[name=pagoInput" + count + "]").attr('ids');
@@ -1633,11 +1626,14 @@
             cambio = temp.toFixed(2) - total_msg.toFixed(2);
             cambio = cambio * 1;
 
+            $("#cambio_venta").text(11);
+
             if (cambio == 0) {
                 $("#cambio_venta").text(0.00);
                 $("#restante_venta").text(0.00);
                 $('#procesar_btn').show();
             } else if (cambio >= 0.01) {
+                console.log(cambio);
                 $("#cambio_venta").text(cambio.toFixed(2));
                 $('#procesar_btn').show();
             } else if (cambio <= 0) {

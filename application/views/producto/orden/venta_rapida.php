@@ -676,11 +676,17 @@ include("asstes/pos_orden.php");
                                 <div class="panel widget bg-success" style="height: 80px;">
                                     <div class="row row-table">
                                         <div class="col-xs-4 text-center bg-success-dark pv-lg">
-                                            <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
+                                            
+                                            <em class="fa-1x"><div class="text-uppercase">PAGAR</div></em>
+                                            
                                         </div>
                                         <div class="col-xs-8 pv-lg">
-                                            <div class="h1 m0 text-bold"><span id="compra_venta">0.00</span></div>
-                                            <div class="text-uppercase">PAGAR</div>
+
+                                            <div class="h1 m0 text-bold currency_procesar_pago">
+                                            <?php echo $moneda[0]->moneda_simbolo; ?>
+                                            <span id="compra_venta">0.00</span>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -690,11 +696,15 @@ include("asstes/pos_orden.php");
                                 <div class="panel widget bg-green" style="height: 80px;">
                                     <div class="row row-table">
                                         <div class="col-xs-4 text-center bg-green-dark pv-lg">
-                                            <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
+                                            <em class="fa-1x"><div class="text-uppercase">RESTANTE</div></em>
                                         </div>
                                         <div class="col-xs-8 pv-lg">
-                                            <div class="h1 m0 text-bold"><span id="restante_venta">0.00</span></div>
-                                            <div class="text-uppercase">RESTANTE</div>
+
+                                            <div class="h1 m0 text-bold currency_procesar_pago">
+                                                <?php echo $moneda[0]->moneda_simbolo; ?>
+                                                <span id="restante_venta">0.00</span>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -704,11 +714,16 @@ include("asstes/pos_orden.php");
                                 <div class="panel widget bg-warning" style="height: 80px;">
                                     <div class="row row-table">
                                         <div class="col-xs-4 text-center bg-warning-dark pv-lg">
-                                            <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
+                                            <em class="fa-1x"><div class="text-uppercase">CAMBIO</div></em>
                                         </div>
                                         <div class="col-xs-8 pv-lg">
-                                            <div class="h1 m0 text-bold"><span id="cambio_venta">0.00</span></div>
-                                            <div class="text-uppercase">CAMBIO</div>
+
+                                            <div class="h1 m0 text-bold currency_procesar_pago">
+                                                <?php echo $moneda[0]->moneda_simbolo; ?>
+                                                <span id="cambio_venta">0.00</span>
+                                            </div>
+                                            
+                                            
                                         </div>
                                     </div>
                                 </div>

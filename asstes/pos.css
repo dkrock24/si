@@ -17,11 +17,22 @@ body{
 .total_msg{
     font-family: monospace;
 }
+.currency_procesar_pago{
+    font-family: monospace;
+}
 .formas_pagos_valores > tr{
     color: black;
 }
 .metodo_pago_input{
-    border-radius: 3px; 
+    order: 2px solid #333;
+  border-radius: 5px;
+  color: #333;
+  font-size: 32px;
+  margin: 0 0 20px;
+  padding: .5rem 1rem;
+  width: 100%;
+
+    padding: 2px;
     color: black;
 }
 .paper_cut{
