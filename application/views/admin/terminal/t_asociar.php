@@ -68,8 +68,20 @@
                 <?php $this->load->view('notificaciones/success'); ?>
             </h3>
             <div class="panel menu_title_bar">
+                <table class="table">
+                    <tr>
+                        <td><h3>Terminal :<?php echo $terminal[0]->nombre; ?></h3></td>
+                        <td><h3>Codigo :<?php echo $terminal[0]->codigo; ?></h3></td>
+                        <td><h3>Numero :<?php echo $terminal[0]->numero; ?></h3></td>
+                        <td><h3>Dispositivo :<?php echo $terminal[0]->dispositivo; ?></h3></td>
+                        <td><h3>SO :<?php echo $terminal[0]->sist_operativo; ?></h3></td>
+                        <td><h3>Numero :<?php echo $terminal[0]->marca; ?></h3></td>
+                        <td><h3>M :<?php echo $terminal[0]->modelo; ?></h3></td>
+                        <td><h3>S :<?php echo $terminal[0]->series; ?></h3></td>
+                    </tr>
+                </table>
 
-            <h3>Terminal : <?php echo $terminal[0]->nombre." ".$terminal[0]->codigo." ".$terminal[0]->numero; ?></h3>
+             
             <hr>
   
                 <div class="row">

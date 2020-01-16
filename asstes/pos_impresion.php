@@ -11,6 +11,6 @@ if ($temp) {
         }
     }
 } else {
-    echo "<h5> Documento Sin Template Para Impresion.</h5>";
+    echo "<h5> Documento Sin Formato Para Impresion.</h5>";
 }
 ?>
