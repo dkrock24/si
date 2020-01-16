@@ -120,67 +120,52 @@ class Orden extends MY_Controller {
 			$data['productos'][$cnt]['combo_cantidad'] = $value->cantidad;
 			$cnt +=1;
 		}
-		//$data['productos'][0] += $data['p_combos'];
-		//var_dump($data['productos']);
 
 		echo json_encode($data['productos']);
 		
 	}
 
 	function get_producto_completo2( $producto_id, $id_bodega ){
+
 		$data['producto'] = $this->Orden_model->get_producto_completo3($producto_id, $id_bodega);
 
-		$contador=0;
-		$atributos= array();
+		$contador	=0;
+		$atributos	= array();
+
 		foreach ($data['producto'] as $key => $value) {
 			$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
 			$contador+=1;
 		}
 
-		$data['atributos'] = $atributos;
-		$data['precios'] = $this->Orden_model->get_producto_precios($producto_id);
-		$data['prod_precio'] = $this->Orden_model->get_producto_precios( $producto_id );
+		$data['atributos'] 	= $atributos;
+		$data['precios'] 	= $this->Orden_model->get_producto_precios($producto_id);
+		$data['prod_precio']= $this->Orden_model->get_producto_precios( $producto_id );
 
 		return $data;
-		//echo json_encode( $data );
 	}
 
 	public function editar($order_id){
 
 		// Seguridad :: Validar URL usuario	
-		$terminal_acceso = FALSE;
-
-		$menu_session 	= $this->session->menu;	
-
-		$id_rol 		= $this->session->roles[0];
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
-
-		$terminal_acceso = $this->validar_usuario_terminal( $id_usuario );
-
-		$data['menu'] 	= $this->session->menu;
+		$terminal_acceso 	= FALSE;
+		$id_usuario 		= $this->session->usuario[0]->id_usuario;
+		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
+		$data['menu'] 		= $this->session->menu;
 
 		if($terminal_acceso){
 
-			$data['orden'] = $this->Orden_model->get_orden($order_id);
-			
-			$data['orden_detalle'] = $this->Orden_model->get_orden_detalle($order_id);
-			
-			$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
-
-			$data['sucursales'] = $this->Producto_model->get_sucursales();
-			$data['modo_pago'] = $this->ModoPago_model->get_pagos_by_cliente($data['orden'][0]->id_cliente);
-			$data['empleado'] = $this->Usuario_model->get_empleado( $data['orden'][0]->id_vendedor );
-
-			$data['terminal'] = $terminal_acceso;
-			
-			
-			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
-			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
-			$data['title'] = "Editar Orden";
-			
-			$data['cliente'] = $this->get_clientes_id(@$data['orden'][0]->id_cliente);
-
-			$data['temp'] = $this->Template_model->printer( $data['orden_detalle'] , @$data['orden'][0]->id_sucursal , @$data['orden'][0]->id_tipod, @$data['orden'][0]->id_condpago);
+			$data['orden'] 			= $this->Orden_model->get_orden($order_id);
+			$data['orden_detalle'] 	= $this->Orden_model->get_orden_detalle($order_id);
+			$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
+			$data['sucursales'] 	= $this->Producto_model->get_sucursales();
+			$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente($data['orden'][0]->id_cliente);
+			$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['orden'][0]->id_vendedor );
+			$data['terminal'] 		= $terminal_acceso;
+			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
+			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
+			$data['title'] 			= "Editar Orden";
+			$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
+			$data['temp'] 			= $this->Template_model->printer( $data['orden_detalle'] , @$data['orden'][0]->id_sucursal , @$data['orden'][0]->id_tipod, @$data['orden'][0]->id_condpago);
 	
 			$this->general->editar_valido($data['orden'], "producto/orden/index");
 
@@ -189,7 +174,7 @@ class Orden extends MY_Controller {
 			$this->parser->parse('template', $data);
 		}else{
 			$data['home'] = 'producto/orden/orden_editar';
-			$data['temp'] = $this->Template_model->printer( $orden_id );
+			$data['temp'] = $this->Template_model->printer( $order_id );
 			$this->parser->parse('template', $data);
 		}
 	}
@@ -214,6 +199,7 @@ class Orden extends MY_Controller {
 				$dataParametros[$value['name']] = $value['value'];
 			}
 		}
+
 		// Obteniendo informacion del cliente
 
 		$cliente = $this->get_clientes_id( $dataParametros['cliente_codigo'] );
@@ -232,18 +218,16 @@ class Orden extends MY_Controller {
 			$this->Orden_model->cerrar_orden( $correlativo_orden );
 
 		}
-
 	}
 
 	public function autoload_orden(){
 
-		$componente_conf = "combo";
-		
-		$impuesto_conf = "impuestos";
+		$componente_conf = "combo";		
+		$impuesto_conf 	 = "impuestos";
 
-		$data['orden_detalle'] = $this->Orden_model->get_orden_detalle($_POST['id']);
-		$data['conf'] = $this->Orden_model->getConfg($componente_conf);
-		$data['impuesto'] = $this->Orden_model->getConfgImpuesto($impuesto_conf);
+		$data['orden_detalle'] 	= $this->Orden_model->get_orden_detalle($_POST['id']);
+		$data['conf'] 			= $this->Orden_model->getConfg($componente_conf);
+		$data['impuesto'] 		= $this->Orden_model->getConfgImpuesto($impuesto_conf);
 		
 		echo json_encode($data);
 	}
@@ -251,7 +235,7 @@ class Orden extends MY_Controller {
 	public function guardar_orden(){
 
 		$dataParametros = array();
-		$id_usuario = $this->session->usuario[0]->id_usuario;
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		foreach ($_POST['encabezado'] as $key => $value) {
 			
@@ -281,49 +265,59 @@ class Orden extends MY_Controller {
 	}
 
 	function get_impuestos_lista(){
+
 		$data['impuesto_categoria'] = $this->Impuesto_model->getAllImpCat();
-		$data['impuesto_cliente'] = $this->Impuesto_model->getAllImpCli();
+		$data['impuesto_cliente'] 	= $this->Impuesto_model->getAllImpCli();
 		$data['impuesto_documento'] = $this->Impuesto_model->getAllImpDoc();
 		$data['impuesto_proveedor'] = $this->Impuesto_model->getAllImpProv();
+
 		echo json_encode( $data );
 	}
 
 	function get_bodega( ){
-		$id_usuario = $this->session->usuario[0]->id_usuario;
+
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 		$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
+
 		echo json_encode( $data );
 	}
 
 	function get_bodega_sucursal( $Sucursal ){
-		$data['bodega'] = $this->Orden_model->get_bodega_sucursal( $Sucursal );
-		$data['correlativo'] = $this->Correlativo_model->get_by_id($Sucursal);
+
+		$data['bodega'] 		= $this->Orden_model->get_bodega_sucursal( $Sucursal );
+		$data['correlativo'] 	= $this->Correlativo_model->get_by_id($Sucursal);
+
 		echo json_encode( $data );
 	}
 
 	function get_clientes_lista(){
-		// Obteniendo Lista Cliente desde Model Cliente
 
+		// Obteniendo Lista Cliente desde Model Cliente
 		$data['clientes'] = $this->Cliente_model->get_cliente();
+
 		echo json_encode( $data );
 	}
 
 	function get_clientes_documento($id){
-		$data['clienteDocumento'] = $this->Cliente_model->get_cliente_by_id2($id);
-		$data['cliente_tipo_pago'] = $this->ModoPago_model->get_pagos_by_cliente($id);
-		$data['tipoDocumento'] = $this->Orden_model->get_tipo_documentos();
-		$data['tipoPago'] = $this->ModoPago_model->get_pagos_by_cliente($id); //$this->Cliente_model->getTipoPago();
+
+		$data['clienteDocumento'] 	= $this->Cliente_model->get_cliente_by_id2($id);
+		$data['cliente_tipo_pago'] 	= $this->ModoPago_model->get_pagos_by_cliente($id);
+		$data['tipoDocumento'] 		= $this->Orden_model->get_tipo_documentos();
+		$data['tipoPago'] 			= $this->ModoPago_model->get_pagos_by_cliente($id);
 
 		echo json_encode( $data );
 	}
 
 	function get_clientes_id( $cliente_id ){
-		// Obteniendo el cliente by ID desde Model Cliente
 
+		// Obteniendo el cliente by ID desde Model Cliente
 		$data = $this->Cliente_model->get_clientes_id( $cliente_id );
+
 		return $data;
 	}
 
 	function get_empleados_by_sucursal($sucursal){
+
 		$data['empleados'] = $this->Usuario_model->get_empleados_by_sucursal($sucursal);
 		
 		echo json_encode( $data );
@@ -331,8 +325,8 @@ class Orden extends MY_Controller {
 
 	function get_producto_completo($id_producto_detalle, $id_bodega ){
 
-		$combo_conf = "combo";
-		$impuesto_conf = "impuestos";
+		$combo_conf 	= "combo";
+		$impuesto_conf 	= "impuestos";
 
 		$data['producto'] = $this->Orden_model->get_producto_completo($id_producto_detalle, $id_bodega);
 		
@@ -340,16 +334,18 @@ class Orden extends MY_Controller {
 		
 		$contador=0;
 		$atributos= array();
+
 		foreach ($data['producto'] as $key => $value) {
+
 			$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
 			$contador+=1;
 		}
 
-		$data['atributos'] = $atributos;
-		$data['precios'] = $this->Orden_model->get_producto_precios($producto_id);
-		$data['prod_precio'] = $this->Orden_model->get_producto_precios( $producto_id );
-		$data['conf'] = $this->Orden_model->getConfg($combo_conf);
-		$data['impuesto'] = $this->Orden_model->getConfgImpuesto($impuesto_conf);
+		$data['atributos'] 		= $atributos;
+		$data['precios'] 		= $this->Orden_model->get_producto_precios($producto_id);
+		$data['prod_precio'] 	= $this->Orden_model->get_producto_precios( $producto_id );
+		$data['conf'] 			= $this->Orden_model->getConfg($combo_conf);
+		$data['impuesto'] 		= $this->Orden_model->getConfgImpuesto($impuesto_conf);
 		//$data['producto_imagen'] = $this->Producto_model->get_productos_imagen($producto_id);	
 		echo json_encode( $data );
 	}
@@ -371,32 +367,23 @@ class Orden extends MY_Controller {
 	public function venta_rapida(){
 
 		// Seguridad :: Validar URL usuario	
-		$terminal_acceso = FALSE;
-
-		$menu_session 	= $this->session->menu;	
-		
-
-		$id_rol 		= $this->session->roles[0];
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
-
-		$terminal_acceso = $this->validar_usuario_terminal( $id_usuario );
-
-		$data['menu'] 	= $this->session->menu;
+		$terminal_acceso 	= FALSE;
+		$id_usuario 		= $this->session->usuario[0]->id_usuario;
+		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
+		$data['menu'] 		= $this->session->menu;
 
 		if($terminal_acceso){
 			
-			$data['tipoDocumento'] = $this->Orden_model->get_doc_suc_pre();
-
-			$data['sucursales'] = $this->Producto_model->get_sucursales();
-			$data['modo_pago'] = $this->ModoPago_model->getAllFormasPago();
-			$data['empleado'] = $this->Usuario_model->get_empleado( $id_usuario );
-			$data['terminal'] = $terminal_acceso;
-			//var_dump($data['terminal']);
+			$data['tipoDocumento'] 	= $this->Orden_model->get_doc_suc_pre();
+			$data['sucursales'] 	= $this->Producto_model->get_sucursales();
+			$data['modo_pago'] 		= $this->ModoPago_model->getAllFormasPago();
+			$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );
+			$data['terminal'] 		= $terminal_acceso;
 			//$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal(  ,$data['empleado'][0]->id_sucursal );
-			$data['bodega'] = $this->Orden_model->get_bodega( $id_usuario );
-			$data['moneda'] = $this->Moneda_model->get_modena_by_user();
-			$data['cliente'] = $this->Cliente_model->get_cliente();
-			$data['title']	= "Ventas Rapidas";
+			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
+			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
+			$data['cliente'] 		= $this->Cliente_model->get_cliente();
+			$data['title']			= "Ventas Rapidas";
 		
 			$data['home'] = 'producto/orden/venta_rapida';
 
@@ -408,7 +395,8 @@ class Orden extends MY_Controller {
 	}
 
 	public function get_form_pago( $id_cliente ,$tipo_documento , $sucursal_id ){
-		$data['metodo_pago'] = $this->ModoPago_model->get_pagos_by_cliente( $id_cliente );
+
+		$data['metodo_pago'] 	= $this->ModoPago_model->get_pagos_by_cliente( $id_cliente );
 		$data['metodo_pago_doc'] = $this->ModoPago_model->get_pagos_by_doc( $tipo_documento , $sucursal_id );
 
 		echo json_encode($data);
@@ -417,14 +405,16 @@ class Orden extends MY_Controller {
 	public function get_productos_imagen($producto_id){
 
 		if($producto_id){
-			$data['producto_imagen'] = $this->Producto_model->get_productos_imagen($producto_id);
-			$info['imagen'] = base64_encode($data['producto_imagen'][0]->producto_img_blob);
-			$info['type'] = $data['producto_imagen'][0]->imageType;
+
+			$data['producto_imagen']= $this->Producto_model->get_productos_imagen($producto_id);
+			$info['imagen'] 		= base64_encode($data['producto_imagen'][0]->producto_img_blob);
+			$info['type'] 			= $data['producto_imagen'][0]->imageType;
 			echo json_encode($info);
 		}
 	}
 
 	public function table(){
+
 		$this->load->view('producto/orden/table.html');
 	}
 
@@ -437,13 +427,14 @@ class Orden extends MY_Controller {
 	}
 
 	public function fields(){
+
 		$fields['field'] = array(
 			'num_correlativo','nombre_sucursal','num_caja','nombre_empresa_o_compania','nombre_modo_pago','tipo_documento','nombre_usuario','fecha','orden_estado_nombre','estado'
 		);
 		
-		$fields['id'] = array('num_correlativo');
-		$fields['estado'] = array('orden_estado');
-		$fields['titulo'] = "Orden Lista";
+		$fields['id'] 		= array('num_correlativo');
+		$fields['estado'] 	= array('orden_estado');
+		$fields['titulo'] 	= "Orden Lista";
 
 		return $fields;
 	}
