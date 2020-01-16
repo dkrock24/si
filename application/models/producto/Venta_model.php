@@ -296,7 +296,7 @@ class Venta_model extends CI_Model {
 				$this->incremento_correlativo( $numero, $sucursal , $documento[0]->id_tipo_documento);
 
 				/* PROCESAR EFECTOS DE INVENTARIO SOBRE TIPO DOCUMENTO EN BODEGA */
-				$this->efecto_bodega($id_orden , $orden ,$documento);
+				//$this->efecto_bodega($id_orden , $orden ,$documento);
 			}else{
 				echo "No hay correlativo";
 			}
@@ -408,28 +408,7 @@ class Venta_model extends CI_Model {
 			}
 		}
 
-		function efecto_bodega($id_orden , $orden , $documento){
-
-			$cantidad = 0;
-			foreach ($orden['orden'] as $key => $productos) {
-
-				$cantidad = $this->get_cantidad_bodega($productos['producto_id'], $productos['id_bodega']);
-				
-				if($documento[0]->efecto_inventario ==1){
-					$cantidad_nueva = ($cantidad[0]->Cantidad + $productos['cantidad']);
-				}else if($documento[0]->efecto_inventario ==2){
-					$cantidad_nueva = ($cantidad[0]->Cantidad - $productos['cantidad']);
-				}
-				
-				$data = array(
-					'Cantidad'	=>  $cantidad_nueva
-				);
-
-				$this->db->where('Producto', $productos['producto_id'] );
-				$this->db->where('Bodega', $productos['id_bodega'] );
-				$this->db->update(self::producto_bodega, $data ); 
-			}
-		}
+		
 
 		function regreso_a_bodega( $orden ){
 

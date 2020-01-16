@@ -12,7 +12,6 @@ class Venta extends MY_Controller {
 		@$this->load->library('session');
 		$this->load->library('pagination');
 		$this->load->library('../controllers/general');
-
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');
@@ -24,11 +23,11 @@ class Venta extends MY_Controller {
 		$this->load->model('admin/Documento_model');
 		$this->load->model('producto/Orden_model');
 		$this->load->model('admin/Moneda_model');
+		$this->load->model('producto/EfectosDocumento_model');
 	}
 
 	public function index()
 	{	
-
 		$model = "Venta_model";
 		$url_page = "producto/venta/index";
 		$pag = $this->MyPagination($model, $url_page, $vista = 38) ;
@@ -73,6 +72,8 @@ class Venta extends MY_Controller {
 		$cliente = $this->get_clientes_id($_POST['cliente']);
 
 		$this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo , $_POST['sucursal_origen'] , $correlativo_documento);
+
+		$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
 
 		redirect(base_url()."producto/orden/nuevo");
 	}
