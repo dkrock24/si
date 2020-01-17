@@ -212,6 +212,12 @@ class Venta_model extends CI_Model {
 			$total_orden = $orden['orden'][0]['total'];
 			$total_orden = (float) $total_orden;
 
+			$efecto_inventario = $documento[0]->efecto_inventario;
+
+			if($efecto_inventario == 1){ // Si suma en inventario la venta, es devolucion
+				$total_orden = $total_orden* -1;
+			}
+
 			//$total_iva = $orden['orden'][0]['por_iva'];
 			//$total_iva = (float) $total_iva;
 
@@ -283,7 +289,7 @@ class Venta_model extends CI_Model {
 				$id_orden = $this->db->insert_id();
 
 				/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
-				$this->guardar_venta_detalle( $id_orden , $orden );	
+				$this->guardar_venta_detalle( $id_orden , $orden , $efecto_inventario );	
 				
 				/* GUARDAR FORMATOS DE PAGO */
 				$this->save_forma_pago($id_orden , $orden['pagos']);
@@ -357,7 +363,7 @@ class Venta_model extends CI_Model {
 			}
 		}
 
-		function guardar_venta_detalle( $id_orden , $datos ){
+		function guardar_venta_detalle( $id_orden , $datos ,$efecto_inventario ){
 			
 			foreach ($datos['orden'] as $key => $orden) {
 
@@ -383,11 +389,11 @@ class Venta_model extends CI_Model {
 		            'cantidad' 		=> $orden['cantidad'],
 		            'presentacion' 	=> $orden['presentacion'],
 		            'tipoprec' 		=> $orden['presentacion'],
-		            'precioUnidad' 	=> $orden['precioUnidad'],
+		            'precioUnidad' 	=> ($efecto_inventario == 1) ?  ($orden['precioUnidad']*-1): $orden['precioUnidad'],
 		            'factor' 		=> $orden['presentacionFactor'],
-		            'total' 		=> $orden['total'],
+		            'total' 		=> ($efecto_inventario == 1) ? ( $orden['total'] * -1 ) : $orden['total'] ,
 		            'gen' 			=> $orden['gen'],
-		            'descuento' 	=> $orden['descuento'],
+		            'descuento' 	=> ($efecto_inventario == 1) ? ( $orden['descuento'] * -1 ) :$orden['descuento'] ,
 		            'por_desc' 		=> $descuento_porcentaje,
 		            'descuento_limite' 		=> $orden['descuento_limite'],
 		            'descuento_calculado' 	=> $orden['descuento_calculado'],

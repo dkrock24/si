@@ -171,7 +171,7 @@ class MY_Controller extends CI_Controller
 			$cnt++;
 
 		}
-				
+	
         // set Row
 		
 		$rowCount = 2;

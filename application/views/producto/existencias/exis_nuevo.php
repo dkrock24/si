@@ -45,13 +45,10 @@
                 data:{texto:texto},
 
                 success: function(data) {
-                    var datos = JSON.parse(data);
-                    var productos = datos["productos"];
+                    var datos       = JSON.parse(data);
+                    var productos   = datos["productos"];
                     var producto_id = 0;
-                    _productos_lista = productos;
-                    
-
-                    //var productos = _productos_lista;
+                    _productos_lista= productos;
                     var producto_id = 0;
                                         
                     if(productos==0){
@@ -62,32 +59,33 @@
                         var boton = "info";
                         var  finalMessage = "Gracias..."
 
-                        generalAlert(type , mensaje , title , boton, finalMessage);               
-
+                        generalAlert(type , mensaje , title , boton, finalMessage);
                                                
                     }else{
 
-                        $('.dataSelect').show();  
+                        if(productos.length == 1){
+                            
+                            get_producto_completo(productos[0].id_entidad);
 
-                        $.each(productos, function(i, item) {
+                        }else{
+                            $('.dataSelect').show();  
+                            $.each(productos, function(i, item) {
 
-                        var name = item.name_entidad.toUpperCase();
-                        var cod_barra = item.cod_barra;
+                                var name = item.name_entidad.toUpperCase();
+                                var cod_barra = item.cod_barra;
+                                
+                                    producto_id = item.id_entidad;
+                                    var precio = 0;
 
-                        
-                            producto_id = item.id_entidad;
-                            var precio = 0;
+                                    table_tr += '<option value="' + item.id_entidad + '">' + item.name_entidad +" " +item.nombre_marca +" " +item.precio_venta + '</option>';
+                                    contador_precios++;
+                                
+                                });
+                            }
 
-                            table_tr += '<option value="' + item.id_entidad + '">' + item.name_entidad +" " +item.nombre_marca +" " +item.precio_venta + '</option>';
-                            contador_precios++;
-                        
-                        });
-
-                        $(".dataSelect").html(table_tr);
-
-                    }
-
-                    
+                            $(".dataSelect").html(table_tr);
+                            $(".dataSelect").css("height","300px");
+                        }
 
                 },
                 error: function() {}
@@ -140,7 +138,7 @@
                     var existencias_total = 0;
                     var html = '';
 
-                    $("#nombre_producto").text("Producto : " + datos['producto'][0].codigo_barras +" "+ datos['producto'][0].name_entidad);
+                    $("#nombre_producto").text("[ Codigo " + datos['producto'][0].codigo_barras +" ] [ Producto "+ datos['producto'][0].name_entidad +" ]");
 
                     $.each(datos['producto'], function(i, item) {
 
@@ -193,6 +191,7 @@
         float: left;
         display: none;
         position: absolute;
+        
     }
 </style>
 <title><?php echo $title; ?></title>
@@ -209,7 +208,9 @@
                     <div class="input-group m-b" style="position: relative;">
                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                         <input type="text" placeholder="Buscar Producto" name="producto_buscar" class="form-control producto_buscar" autocomplete="off">
+                        
                     </div>
+                    
                 </div>
 
                 <div class="col-lg-6 col-md-6">
@@ -217,13 +218,14 @@
 
                         <a href="<?php echo base_url() . 'producto/producto/nuevo' ?>" style='float: right;' class="btn btn-info"><i class="fa fa-arrow-left"></i> Producto</a>
                         <span id="nombre_producto" style="position: relative;float: right;margin-right: 50px;font-size: 20px;color:black;"></span>
+                        <a href="export" style="position: relative;float: right;margin-right: 50px;font-size: 20px;color:black;"> <i class="fa fa-file-excel-o"> </i> Xls </a>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <div class="table-responsive">
+        <div class="table-responsive" style="height: 500px;">
             <table class="table table-sm table-hover">
                 <div class="col-lg-4">
 

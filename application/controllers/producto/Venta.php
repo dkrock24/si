@@ -71,9 +71,9 @@ class Venta extends MY_Controller {
 
 		$cliente = $this->get_clientes_id($_POST['cliente']);
 
-		$this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo , $_POST['sucursal_origen'] , $correlativo_documento);
-
 		$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
+
+		$this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo , $_POST['sucursal_origen'] , $correlativo_documento);
 
 		redirect(base_url()."producto/orden/nuevo");
 	}

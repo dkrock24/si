@@ -31,12 +31,9 @@ class Existencias extends MY_Controller {
 
 	public function index()
 	{
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
 		
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
 		$data['codbarra'] = $this->Codbarra_model->getCodbarra( );
@@ -48,13 +45,9 @@ class Existencias extends MY_Controller {
 	}
 
 	public function nuevo(){
-
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
 		
 		$id_rol = $this->session->roles[0];
 		$vista_id = 2; // Vista Orden Lista
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] = $this->session->menu;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
@@ -65,14 +58,20 @@ class Existencias extends MY_Controller {
 	}
 
 	function get_productos_lista( ){
+
 		$data['productos'] = $this->Orden_model->get_productos_existencias( $_POST['texto']);
 		echo json_encode( $data );
 	}
 
 	function get_producto_completo($producto_id){
+
+		$_SESSION['registros'] = null;
+
 		$data['producto'] = $this->Existencias_model->get_producto_completo($producto_id);
-		//$data['precios'] = $this->Orden_model->get_producto_precios($producto_id);
-		//$data['prod_precio'] = $this->Orden_model->get_producto_precios( $producto_id );
+
+		$_SESSION['Vista'] = "Existencias";
+		$_SESSION['registros'] = $data['producto'];
+
 		echo json_encode( $data );
 	}
 
@@ -83,14 +82,10 @@ class Existencias extends MY_Controller {
 	}
 
 	public function editar( $codbarra_id ){
-
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
 		
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
-
+		
 		$data['menu'] = $this->session->menu;
 		$data['codbarra'] = $this->Codbarra_model->getCodbarraId( $codbarra_id );
 		$data['productos'] = $this->Producto_model->get_producto_tabla();
@@ -103,12 +98,52 @@ class Existencias extends MY_Controller {
 	public function update(){
 
 		$data['bodegas'] = $this->Codbarra_model->update_codbarra( $_POST );
-
 		redirect(base_url()."producto/existencias/index");
 	}
 
 	public function get_productos_id( $producto_id ){
+
 		$data['productos'] = $this->Producto_model->get_productos_id( $producto_id );
 		echo json_encode($data);
+	}
+
+	function export(){
+
+		if($_SESSION['registros']){
+
+			$column = $this->column();
+			$fields = $this->fields();
+
+			$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
+			
+		}else{
+			redirect(base_url(). "producto/existencias/nuevo");
+		}		
+		
+		$_SESSION['registros'] = null;
+
+	}
+
+	public function column(){
+
+		$data = $_SESSION['registros'];
+
+		$column = array();
+
+		foreach ($data as $key => $value) {
+			foreach ($value as $key2 => $value2) {
+				$column[] = $key2;				
+			}
+			break;
+		}	
+		
+		return $column;
+	}
+
+	public function fields(){
+		
+		$fields['field'] = $this->column();
+
+		return $fields;
 	}
 }
