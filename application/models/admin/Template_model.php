@@ -342,4 +342,36 @@ class Template_model extends CI_Model {
             return $query->result();
         }
     }
+
+    function getOrdencolumnsTables(){
+        return $fields = $this->db->list_fields('pos_ordenes');
+    }
+    function getOrdenDetallecolumnsTables(){
+        return $fields = $this->db->list_fields('pos_orden_detalle');
+    }
+    function getEmpresalumnsTables(){
+        return $fields = $this->db->list_fields('pos_empresa');
+    }
+    function getCajaColumnsTables(){
+        return $fields = $this->db->list_fields('pos_caja');
+    }
+    function getSucursalColumnsTables(){
+        return $fields = $this->db->list_fields('pos_sucursal');
+    }
+    function getPagosColumnsTables(){
+        return $fields = $this->db->list_fields('pos_formas_pago');
+    }
+    function getDocumentoColumnsTables(){
+        return $fields = $this->db->list_fields('pos_tipo_documento');
+    }
+    function getCorrelativosColumnsTables(){
+        return $fields = $this->db->list_fields('pos_correlativos');
+    }
+    function getClienteColumnsTables(){
+        return $fields = $this->db->list_fields('pos_cliente');
+    }
+    function getUsuarioColumnsTables(){
+        return $fields = $this->db->list_fields('sys_usuario');
+    }
+    
 }

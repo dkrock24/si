@@ -147,7 +147,7 @@
 					editor.innerHTML = editorHTML;
 				}
 				var x = editor.value.substring(selectionStart, selectionEnd);
-				console.log(x);
+				
 				$('#template_html').html(x);
 			}
 
@@ -328,11 +328,154 @@
 									</div>
 									<div class="col-md-11 content" style="height: 100%">
 										<div class="panel ">
-											<div class="panel-heading">
-												Modelador
-											</div>
+									
 											<form action="crear" method="post">
 												<div class="panel-body"><br>
+
+													<div class="row">
+														<div class="col-md-12 content">
+															<div class="panel panel-info">
+																<div class="panel-heading">
+																	CAMPOS
+																</div>
+																<div class="panel-body">
+																	<div class="row">
+
+																	
+																		Tabla : ORDEN
+																		<ul>
+																			<?php
+																				foreach ($orden_fields as $key => $value) {
+																					?>
+																					<li style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																				}
+																			?>
+																		</ul>
+																		Tabla : ORDEN DETALLE
+																		<ul>
+																			<?php
+																				foreach ($ordenDetalle_fields as $key => $value) {
+																					?>
+																					<li style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																				}
+																			?>
+																		</ul>
+																		Tabla : EMPRESA
+																		<ul>
+																			<?php
+																				foreach ($empresa_fields as $key => $value) {
+																					?>
+																					<li style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																				}
+																			?>
+																		</ul>
+																		Tabla : CAJA
+																		<ul>
+																			<?php
+																				foreach ($caja_fields as $key => $value) {
+																					?>
+																					<li style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																				}
+																			?>
+																		</ul>
+																		Tabla : SUCURSAL
+																		<ul>
+																			<?php
+																				foreach ($sucursal_fields as $key => $value) {
+																					?>
+																					<li style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																				}
+																			?>
+																		</ul>
+																		Tabla : PAGOS
+																		<ul>
+																			<?php
+																				foreach ($pagos_fields as $key => $value) {
+																					?>
+																					<li style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																				}
+																			?>
+																		</ul>
+																		Tabla : DOCUMENTOS
+																		<ul>
+																			<?php
+																				foreach ($documento_fields as $key => $value) {
+																					?>
+																					<li style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																				}
+																			?>
+																		</ul>
+																		Tabla : CORRELATIVOS
+																		<ul>
+																			<?php
+																				foreach ($correlativos_fields as $key => $value) {
+																					?>
+																					<li style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																				}
+																			?>
+																		</ul>
+																		Tabla : CLIENTES
+																		<ul>
+																			<?php
+																				foreach ($clientes_fields as $key => $value) {
+																					?>
+																					<li style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																				}
+																			?>
+																		</ul>
+																		Tabla : VENDEDOR
+																		<ul>
+																			<?php
+																				foreach ($usuario_fields as $key => $value) {
+																					?>
+																					<li style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																				}
+																			?>
+																		</ul>
+																	</div>
+																	
+																</div>
+															</div>
+														</div>
+													</div>
+
+
+													<div class="row">
+
+														<div class="col-md-6 content">
+															<div class="panel panel-info">
+																<?php
+																$data = [1, 2, 3, 4, 5];
+																?>
+																<div class="panel-heading">
+																	EDITOR <span><input type="submit" class="btn btn-default" name="enviar" value="Guardar" style="float: right;" /></span>
+																</div>
+																<div class="panel-body">
+																	<textarea name="template_html" id="template_html" cols="30" rows="10" class="form-control"></textarea>
+																</div>
+															</div>
+														</div>
+														<div class="col-md-6 content">
+															<div class="panel panel-success">
+																<div class="panel-heading">
+																	VISTA PREVIA
+																</div>
+																<div class="panel-body">
+																	<span class="html" style="width:100%; height:100px; "></span>
+																</div>
+															</div>
+														</div>
+													</div>
 
 													<div class="row">
 
@@ -363,36 +506,6 @@
 															</div>
 														</div>
 
-													</div>
-
-													<hr>
-
-
-													<div class="row">
-
-														<div class="col-md-6 content">
-															<div class="panel panel-info">
-																<?php
-																$data = [1, 2, 3, 4, 5];
-																?>
-																<div class="panel-heading">
-																	EDITOR <span><input type="submit" class="btn btn-default" name="enviar" value="Guardar" style="float: right;" /></span>
-																</div>
-																<div class="panel-body">
-																	<textarea name="template_html" id="template_html" cols="30" rows="10" class="form-control"></textarea>
-																</div>
-															</div>
-														</div>
-														<div class="col-md-6 content">
-															<div class="panel panel-success">
-																<div class="panel-heading">
-																	VISTA PREVIA
-																</div>
-																<div class="panel-body">
-																	<span class="html" style="width:100%; height:100px; "></span>
-																</div>
-															</div>
-														</div>
 													</div>
 
 

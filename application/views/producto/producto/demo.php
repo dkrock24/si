@@ -9,7 +9,7 @@
     <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
     <script>
-        
+        window.print();
     </script>
 
 </head>
@@ -17,7 +17,7 @@
 <body>
     
     <?php
-        printer_list();
+        //printer_list();
         //echo exec("lpstat -d -p",$o);
         //print_r($o);
         print_r( function_exists("print_file") );

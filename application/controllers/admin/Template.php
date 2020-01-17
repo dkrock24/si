@@ -44,7 +44,7 @@ class Template extends MY_Controller {
 		$this->load->model('admin/Documento_model');
 		$this->load->model('producto/Orden_model');
 		$this->load->model('admin/ModoPago_model');
-		
+		$this->load->model('producto/Orden_model');		
 
 	}
 
@@ -79,6 +79,17 @@ class Template extends MY_Controller {
 	public function nuevo(){
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
+
+		$data['orden_fields'] 		= $this->Template_model->getOrdencolumnsTables();
+		$data['ordenDetalle_fields']= $this->Template_model->getOrdenDetallecolumnsTables();
+		$data['empresa_fields'] 	= $this->Template_model->getEmpresalumnsTables();
+		$data['caja_fields'] 		= $this->Template_model->getCajaColumnsTables();
+		$data['sucursal_fields'] 	= $this->Template_model->getSucursalColumnsTables();
+		$data['pagos_fields'] 		= $this->Template_model->getPagosColumnsTables();
+		$data['documento_fields'] 	= $this->Template_model->getDocumentoColumnsTables();
+		$data['correlativos_fields']= $this->Template_model->getCorrelativosColumnsTables();
+		$data['clientes_fields']= $this->Template_model->getClienteColumnsTables();
+		$data['usuario_fields']= $this->Template_model->getUsuarioColumnsTables();		
 
 		$data['menu'] = $this->session->menu;
 		$data['title'] = "Nuevo Template";

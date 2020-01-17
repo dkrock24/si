@@ -557,9 +557,6 @@ class Orden_model extends CI_Model
 	// Fin ordenes
 
 
-
-
-
 	//	Creacion de un nuevo producto
 	function nuevo_producto($producto, $usuario)
 	{
