@@ -23,11 +23,27 @@ class Categorias_model extends CI_Model {
         return $query->result();
 	}
 
-    function record_count(){
-        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
+    function record_count($filter){
+        /*
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa . ' '. $filter);
         $this->db->from(self::categorias);
+        
         $result = $this->db->count_all_results();
-        return $result;
+        */
+
+        if($filter){
+            $filter = " and ". $filter;
+        }
+
+        $query = $this->db->query('
+                SELECT count(*) as total FROM categoria 
+                LEFT JOIN categoria AS c2 on categoria.id_categoria_padre = c2.id_categoria
+                LEFT JOIN pos_empresa as e on e.id_empresa = categoria.Empresa 
+                LEFT JOIN pos_giros as g on g.id_giro = categoria.codigo_giro
+                where categoria.Empresa='.$this->session->empresa[0]->id_empresa .' '.$filter );
+                $data = $query->result();        
+
+        return $data[0]->total;
     }
 
 	function crear_categoria( $categorias){

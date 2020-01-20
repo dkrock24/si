@@ -1,6 +1,18 @@
 	<script>
 		$(document).ready(function() {
 
+			(function($) {
+
+				var allPanels = $('.accordion > dd').hide();
+
+				$('.accordion > dt > a').click(function() {
+					allPanels.slideUp();
+					$(this).parent().next().slideDown();
+					return false;
+				});
+
+			})(jQuery);
+
 			$("#ModalEmpresa").appendTo('body');
 
 			// Mostrar contenido en Vista Previa
@@ -30,11 +42,12 @@
 			$(".control").click(function() {
 				var accion = $(this).attr("name");
 				var method = $(this).attr("id");
+				var valor = $(this).text();
 
 				switch (accion) {
 
 					case 'html':
-						html_element(method);
+						html_element(method, valor);
 						break;
 					case 'table':
 						table_element(method);
@@ -52,7 +65,7 @@
 				}
 			});
 
-			function html_element(method) {
+			function html_element(method, valor) {
 				var html_form
 				if (method == 'div') {
 					html_form = "<div> </div>";
@@ -60,6 +73,8 @@
 					html_form = "<p> </p>";
 				} else if (method == 'label') {
 					html_form = "<label> </label>";
+				} else if (method == 'key') {
+					html_form = '$' + valor;
 				}
 				dibujar(html_form);
 			}
@@ -173,6 +188,10 @@
 			margin-top: -5px;
 		}
 
+		.panel-body {
+			padding: 0px;
+		}
+
 		.sidebar {
 			padding-left: 0;
 		}
@@ -220,6 +239,38 @@
 			min-height: 100%;
 			border-radius: 0;
 		}
+
+		.accordion {
+			margin-left:50px;
+
+			dt,
+			dd {
+
+				border: 1px solid black;
+				border-bottom: 0;
+
+				&:last-of-type {
+					border-bottom: 1px solid black;
+				}
+
+				a {
+					display: block;
+					color: black;
+					font-weight: bold;
+				}
+			}
+
+			dd {
+				border-top: 0;
+				font-size: 12px;
+
+				&:last-of-type {
+					border-top: 1px solid white;
+					position: relative;
+					top: -1px;
+				}
+			}
+		}
 	</style>
 	<!-- Main section-->
 	<section>
@@ -236,7 +287,7 @@
 				<div class="col-lg-12">
 					<div class="row">
 
-					<a href="#" class="listar_giros" id="<?php ?>" data-toggle="modal" data-target="#ModalEmpresa">
+						<a href="#" class="listar_giros" id="<?php ?>" data-toggle="modal" data-target="#ModalEmpresa">
 							<span class="btn btn-warning">
 								<i class="fa fa-building-o"></i>
 							</span> Empresa
@@ -338,72 +389,231 @@
 											</li>
 										</ul>
 									</div>
+
 									<div class="col-md-11 content" style="height: 100%">
 										<div class="panel ">
 											<form action="../update" method="post">
 												<input type="hidden" name="id_factura" value="<?php echo $formato[0]->id_factura ?>">
 												<div class="panel-body">
 
-													<div class="container-fluid main-container">
-
-														<div class="col-md-6 content">
+													<div class="row">
+														<div class="col-md-12 content">
 															<div class="panel panel-info">
 																<div class="panel-heading">
-																	PARAMETROS
+																	CAMPOS
 																</div>
 																<div class="panel-body">
 																	<div class="row">
-																		<div class="col-md-6"><b>Nombre</b> <input type="text" name="factura_nombre" value="<?php echo $formato[0]->factura_nombre ?>" class="form-control"></div>
-																		<div class="col-md-6"><b>Descripcion</b> <input type="text" name="factura_descripcion" value="<?php echo $formato[0]->factura_descripcion ?>" class="form-control"><br></div>
-																		<div class="col-md-6"><b>Lineas</b> <input type="text" name="factura_lineas" value="<?php echo $formato[0]->factura_lineas ?>" class="form-control"></div>
-																		<div class="col-md-6"><b>Estado</b> <input type="text" name="factura_estatus" value="<?php echo $formato[0]->factura_estatus ?>" class="form-control"></div>
+
+																		<dl class="accordion">
+
+																			<dt><a href="">Tabla : ORDEN</a></dt>
+																			<dd>
+																				<ul>
+																					<?php
+																					foreach ($orden_fields as $key => $value) {
+																					?>
+																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																					}
+																					?>
+																				</ul>
+																			</dd>
+
+																			<dt><a href="">Tabla : ORDEN DETALLE</a></dt>
+																			<dd>
+																				<ul>
+																					<?php
+																					foreach ($ordenDetalle_fields as $key => $value) {
+																					?>
+																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																					}
+																					?>
+																				</ul>
+																			</dd>
+
+																			<dt><a href="">Tabla : EMPRESA</a></dt>
+																			<dd>
+																				<ul>
+																					<?php
+																					foreach ($empresa_fields as $key => $value) {
+																					?>
+																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																					}
+																					?>
+																				</ul>
+																			</dd>
+
+																			<dt><a href="">Tabla : CAJA</a></dt>
+																			<dd>
+																				<ul>
+																					<?php
+																					foreach ($caja_fields as $key => $value) {
+																					?>
+																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																					}
+																					?>
+																				</ul>
+																			</dd>
+
+																			<dt><a href="">Tabla : SUCURSAL</a></dt>
+																			<dd>
+																				<ul>
+																					<?php
+																					foreach ($sucursal_fields as $key => $value) {
+																					?>
+																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																					}
+																					?>
+																				</ul>
+																			</dd>
+
+																			<dt><a href="">Tabla : PAGOS</a></dt>
+																			<dd>
+																				<ul>
+																					<?php
+																					foreach ($pagos_fields as $key => $value) {
+																					?>
+																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																					}
+																					?>
+																				</ul>
+																			</dd>
+
+																			<dt><a href="">Tabla : DOCUMENTOS</a></dt>
+																			<dd>
+																				<ul>
+																					<?php
+																					foreach ($documento_fields as $key => $value) {
+																					?>
+																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																					}
+																					?>
+																				</ul>
+																			</dd>
+
+																			<dt><a href="">Tabla : CORRELATIVOS</a></dt>
+																			<dd>
+																				<ul>
+																					<?php
+																					foreach ($correlativos_fields as $key => $value) {
+																					?>
+																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																					}
+																					?>
+																				</ul>
+																			</dd>
+
+																			<dt><a href="">Tabla : CLIENTES</a></dt>
+																			<dd>
+																				<ul>
+																					<?php
+																					foreach ($clientes_fields as $key => $value) {
+																					?>
+																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																					}
+																					?>
+																				</ul>
+																			</dd>
+
+																			<dt><a href="">Tabla : VENDEDOR</a></dt>
+																			<dd>
+																				<ul>
+																					<?php
+																					foreach ($usuario_fields as $key => $value) {
+																					?>
+																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
+																					<?php
+																					}
+																					?>
+																				</ul>
+																			</dd>
+
+																		</dl>
+
 																	</div>
 
 																</div>
 															</div>
 														</div>
-														<div class="col-md-6 content">
-															<div class="panel panel-success">
-																<div class="panel-heading">
-																	CODIGO FUENTE
-																</div>
-																<div class="panel-body">
-																	<span class="template_php" name="template_php" id="template_php" style="width:100%; height:100px; "></span>
-																</div>
-															</div>
-														</div>
+													</div>
 
-													</div><br>
+													<div class="row">
 
-													<div class="container-fluid main-container">
+														<div class="container-fluid main-container">
 
-														<div class="col-md-6 content">
-															<div class="panel panel-info">
+															<div class="col-md-6 content">
+																<div class="panel panel-info">
 
-																<div class="panel-heading">
-																	EDITOR <span><input type="submit" class="btn btn-default" name="enviar" value="Guardar" style="float: right;" /></span>
-																</div>
-																<div class="panel-body">
+																	<div class="panel-heading">
+																		EDITOR <span><input type="submit" class="btn btn-default" name="enviar" value="Guardar" style="float: right;" /></span>
+																	</div>
+																	<div class="panel-body">
 
-																	<textarea name="template_html" id="template_html" cols="30" rows="10" class="form-control" value=""></textarea>
-																	<a href="#" class="btn btn-primary" id="button">Copiar</a>
+																		<textarea name="template_html" id="template_html" cols="30" rows="10" class="form-control" value=""></textarea>
+																		<a href="#" class="btn btn-primary" id="button">Copiar</a>
 
+																	</div>
 																</div>
 															</div>
-														</div>
-														<div class="col-md-6 content">
-															<div class="panel panel-success">
-																<div class="panel-heading">
-																	VISTA PREVIA
-																</div>
-																<div class="panel-body">
-																	<span class="html" style="width:100%; height:100px; "></span>
+															<div class="col-md-6 content">
+																<div class="panel panel-success">
+																	<div class="panel-heading">
+																		VISTA PREVIA
+																	</div>
+																	<div class="panel-body">
+																		<span class="html" style="width:100%; height:100px; "></span>
+																	</div>
 																</div>
 															</div>
+
 														</div>
 
 													</div>
-													
+
+													<div class="row">
+														<div class="container-fluid main-container">
+
+															<div class="col-md-6 content">
+																<div class="panel panel-success">
+																	<div class="panel-heading">
+																		CODIGO FUENTE
+																	</div>
+																	<div class="panel-body">
+																		<span class="template_php" name="template_php" id="template_php" style="width:100%; height:100px; "></span>
+																	</div>
+																</div>
+															</div>
+
+															<div class="col-md-6 content">
+																<div class="panel panel-info">
+																	<div class="panel-heading">
+																		PARAMETROS
+																	</div>
+																	<div class="panel-body">
+																		<div class="row">
+																			<div class="col-md-6"><b>Nombre</b> <input type="text" name="factura_nombre" value="<?php echo $formato[0]->factura_nombre ?>" class="form-control"></div>
+																			<div class="col-md-6"><b>Descripcion</b> <input type="text" name="factura_descripcion" value="<?php echo $formato[0]->factura_descripcion ?>" class="form-control"><br></div>
+																			<div class="col-md-6"><b>Lineas</b> <input type="text" name="factura_lineas" value="<?php echo $formato[0]->factura_lineas ?>" class="form-control"></div>
+																			<div class="col-md-6"><b>Estado</b> <input type="text" name="factura_estatus" value="<?php echo $formato[0]->factura_estatus ?>" class="form-control"></div>
+																		</div>
+
+																	</div>
+																</div>
+															</div>
+
+
+														</div>
+													</div>
+
 													<div class="row">
 														<div class="col-md-12 content">
 															<xmp id="myData"> <?php echo $formato[0]->factura_template; ?> </xmp>
