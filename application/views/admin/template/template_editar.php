@@ -177,6 +177,17 @@
 				//textArea.select();
 			}
 
+			jQuery(function() {
+				jQuery('#ModalEmpresa').click();
+				const copyText = document.getElementById("myData").textContent;
+				const textArea = document.getElementById('template_html');
+				textArea.textContent = copyText;
+
+				$('.html').html(textArea.textContent);
+				document.execCommand("copy");
+				$('.html').select();
+			});
+
 			document.getElementById('button').addEventListener('click', copyFunction);
 
 
@@ -241,7 +252,7 @@
 		}
 
 		.accordion {
-			margin-left:50px;
+			margin-left: 50px;
 
 			dt,
 			dd {
