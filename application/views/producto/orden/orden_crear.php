@@ -33,7 +33,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 
 <script language="JavaScript">
-window.print();
+//window.print();
 </script>
 
 <!-- Main section-->

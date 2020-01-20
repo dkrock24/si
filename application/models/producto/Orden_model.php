@@ -325,6 +325,8 @@ class Orden_model extends CI_Model
 		if ($order_estado == 2) {
 			$this->descontar_de_bodega($orden);
 		}
+
+		return $correlativo_final;
 	}
 
 	function guardar_orden_detalle($id_orden, $datos)

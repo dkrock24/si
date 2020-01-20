@@ -1,6 +1,6 @@
 
 <?php
-if ($temp) {
+if (isset($temp)) {
     foreach ($temp as $t) {
 
         $data = $t->factura_template;

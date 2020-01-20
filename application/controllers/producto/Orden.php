@@ -249,9 +249,10 @@ class Orden extends MY_Controller {
 		// Obteniendo informacion del cliente
 		$cliente = $this->get_clientes_id($dataParametros['cliente_codigo']);
 
-		$this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente , $dataParametros );
+		$id = $this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente , $dataParametros );
+		echo $id;
 
-		redirect(base_url()."producto/orden/nuevo");
+		//redirect(base_url()."producto/orden/nuevo");
 	}
 
 	function get_productos_lista(){

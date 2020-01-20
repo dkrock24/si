@@ -12,6 +12,7 @@ class Template_model extends CI_Model {
     const pos_temp_sucursal = 'pos_temp_sucursal';
     const pos_empresa = 'pos_empresa';
     const pos_orden = 'pos_ordenes';
+    const pos_ventas = 'pos_ventas';
 
 
 	function get_cliente(){
@@ -325,6 +326,33 @@ class Template_model extends CI_Model {
         $this->db->join(self::pos_sucursal.' as s',' on s.id_sucursal = ts.Sucursal');
         $this->db->join(self::pos_empresa.' as e',' on e.id_empresa = s.Empresa_Suc');
         $this->db->join(self::pos_orden.' as o',' on o.id_tipod = ts.Documento');
+        $this->db->join(self::cliente.' as c',' on c.id_cliente = o.id_cliente');
+        
+        $this->db->where('ts.Sucursal', $sucursal_id);
+        $this->db->where('ts.Documento', $documento_id);
+        //$this->db->where('ts.Pago', $pago);
+        $this->db->where('ts.estado_suc_tem', 1);
+        $this->db->limit(1);
+        $query = $this->db->get();
+
+        //echo $this->db->queries[11];
+        //die;
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    //Test Printer Venta
+    function printer_venta( $orden , $sucursal_id , $documento_id , $pago){
+        
+        $this->db->select('td.*,ts.*,s.*,e.nombre_comercial,o.*,c.nombre_empresa_o_compania');
+        $this->db->from(self::pos_doc_temp.' as td');
+        $this->db->join(self::pos_temp_sucursal.' as ts',' on td.id_factura = ts.Template');
+        $this->db->join(self::pos_sucursal.' as s',' on s.id_sucursal = ts.Sucursal');
+        $this->db->join(self::pos_empresa.' as e',' on e.id_empresa = s.Empresa_Suc');
+        $this->db->join(self::pos_ventas.' as o',' on o.id_tipod = ts.Documento');
         $this->db->join(self::cliente.' as c',' on c.id_cliente = o.id_cliente');
         
         $this->db->where('ts.Sucursal', $sucursal_id);

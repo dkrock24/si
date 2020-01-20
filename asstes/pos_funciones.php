@@ -1814,7 +1814,14 @@
 
                     success: function(data) {
 
-                        location.reload();
+                        if("guardar_orden"){
+                            
+                            window.location.href = "editar/"+data;
+                        }else{
+                            location.reload();
+                        }
+
+                        
                     },
                     error: function() {}
                 });

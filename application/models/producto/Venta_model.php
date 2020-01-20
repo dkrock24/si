@@ -41,7 +41,7 @@ class Venta_model extends CI_Model {
 
 			$query = $this->db->query("select ventas.id,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,
 			ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
-			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
+			,tdoc.nombre as tipo_documento,total_doc, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
 
 			from pos_ventas as ventas 
 
@@ -1158,17 +1158,25 @@ class Venta_model extends CI_Model {
 
 		function getVentaId($id_venta){
 
-			$query = $this->db->query("select ventas.id,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,
+			$query = $this->db->query("select ventas.id,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,id_tipod,id_condpago,
 			ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
-			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
+			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre, empresa.nombre_comercial, empresa.direccion
+			, giro.nombre_giro as giro, emp.alias, t.nombre as terminal
 
-			from pos_ventas as ventas 
+			from pos_ventas as ventas
 
 			left join pos_cliente as cliente on cliente.id_cliente = ventas.id_cliente
 			left join pos_sucursal as sucursal on sucursal.id_sucursal=ventas.id_sucursal
+			left join pos_empresa as empresa on empresa.id_empresa = sucursal.Empresa_Suc
+			left join pos_giros as giro on giro.Empresa = empresa.id_empresa
+			left join sys_empleado as emp on emp.id_empleado = ventas.id_cajero
+
+			left join pos_caja as caja on caja.id_caja = ventas.id_caja
+			left join pos_terminal as t on t.Caja = caja.id_caja
+
 			left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = ventas.id_tipod
 			left join sys_usuario as usuario on usuario.id_usuario = ventas.id_usuario
-			left join pos_formas_pago as pago on pago.id_modo_pago = ventas.id_condpago 
+			left join pos_formas_pago as pago on pago.id_modo_pago = ventas.id_condpago
 			left join pos_orden_estado as oe  on oe.id_orden_estado= ventas.orden_estado
 			where ventas.id=".$id_venta);
 

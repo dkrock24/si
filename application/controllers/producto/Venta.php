@@ -24,6 +24,10 @@ class Venta extends MY_Controller {
 		$this->load->model('producto/Orden_model');
 		$this->load->model('admin/Moneda_model');
 		$this->load->model('producto/EfectosDocumento_model');
+		$this->load->model('admin/Template_model');
+		$this->load->model('admin/Terminal_model');
+
+		
 	}
 
 	public function index()
@@ -86,29 +90,51 @@ class Venta extends MY_Controller {
 	}
 
 	public function ver($id_venta){
-		$data['venta'] = $this->Venta_model->getVentaId( $id_venta );
-		$data['venta_detalle'] = $this->Venta_model->getVentaDetalleId( $id_venta );
-		$data['venta_pagos'] = $this->Venta_model->getVentaPagosId( $id_venta );
-		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 
-		$data['menu'] = $this->session->menu;
-		$data['title'] = "Ventas Detalle";
-		$data['home'] = 'producto/ventas/venta_detalle';
+		$id_usuario 		= $this->session->usuario[0]->id_usuario;
+		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
+
+		$data['venta'] = $this->Venta_model->getVentaId( $id_venta );
+		$data['orden'] = $this->Venta_model->getVentaId( $id_venta );
+		$data['venta_detalle'] 	= $this->Venta_model->getVentaDetalleId( $id_venta );
+		$data['orden_detalle'] 	= $this->Venta_model->getVentaDetalleId( $id_venta );
+		$data['venta_pagos'] 	= $this->Venta_model->getVentaPagosId( $id_venta );
+		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
+		$data['terminal'] 		= $terminal_acceso;
+
+		$data['temp'] 			= $this->Template_model->printer_venta( $data['venta_detalle'] , @$data['venta'][0]->id_sucursal , @$data['venta'][0]->id_tipod, @$data['venta'][0]->id_condpago);
+
+		$data['menu'] 			= $this->session->menu;
+		$data['title'] 			= "Ventas Detalle";
+		$data['home'] 			= 'producto/ventas/venta_detalle';
 
 		$this->parser->parse('template', $data);
+	}
+
+	function validar_usuario_terminal( $usuario_id  ){
+
+		$terminal_nombe = $_SERVER['REMOTE_ADDR'];//gethostbyaddr($_SERVER['REMOTE_ADDR']);
+
+		$terminal_datos = $this->Terminal_model->validar_usuario_terminal($usuario_id, $terminal_nombe);
+		
+		if(!$terminal_datos){
+			$terminal_datos == FALSE;
+		}
+
+		return $terminal_datos;
 	}
 
 	public function column(){
 
 		$column = array(
-			'Correlativo','Sucursal','Terminal','Cliente','C Pago','Tipo Doc','Cajero','Creado','Estado'
+			'Correlativo','Sucursal','Terminal','Cliente','C Pago','Tipo Doc','Total','Cajero','Creado','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'num_correlativo','nombre_sucursal','num_caja','nombre_empresa_o_compania','nombre_modo_pago','tipo_documento','nombre_usuario','fecha','orden_estado_nombre'
+			'num_correlativo','nombre_sucursal','num_caja','nombre_empresa_o_compania','nombre_modo_pago','tipo_documento','total_doc','nombre_usuario','fecha','orden_estado_nombre'
 		);
 		
 		$fields['id'] = array('id');
