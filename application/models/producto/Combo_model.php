@@ -6,14 +6,14 @@ class Combo_model extends CI_Model {
 
     function getAllCombo( $limit, $id  ){
 
-        $this->db->select(' *, (select sum(cc.cantidad) from db_store.pos_combo as cc where cc.Producto_Combo = p.id_entidad) as total');
+        $this->db->select(' *, (select sum(cc.cantidad) from pos_combo as cc where cc.Producto_Combo = p.id_entidad) as total');
         $this->db->from(self::pos_combo.' as c');
         $this->db->join(self::producto.' as p', ' on c.Producto_Combo= p.id_entidad');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa );
 
         $this->db->group_by('c.Producto_Combo');
         $this->db->limit($limit, $id);
-        $query = $this->db->get(); 
+        $query = $this->db->get();
         //echo $this->db->queries[3];
 
         if($query->num_rows() > 0 )
@@ -24,10 +24,10 @@ class Combo_model extends CI_Model {
 
 	
 	function getCombo( ){
+
 		$this->db->select(' c.*,p.*');
         $this->db->from(self::pos_combo.' as c');
         $this->db->join(self::producto.' as p', ' on c.Producto_Combo= p.id_entidad');
-        //$this->db->join(self::producto.' as p2', ' on c.producto_a_descargar_Combo= p2.id_entidad');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         $this->db->group_by('c.Producto_Combo');
         $query = $this->db->get(); 
@@ -40,6 +40,7 @@ class Combo_model extends CI_Model {
 	}
 
     function record_count($filter){
+
         $this->db->where('p.Empresa',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::pos_combo.' as c');
         $this->db->join(self::producto.' as p',' on c.Producto_Combo = p.id_entidad');
@@ -70,16 +71,18 @@ class Combo_model extends CI_Model {
 
     function save_Combo( $datos ){
 
-
         foreach ($datos as $key => $value) {
 
-            //echo "Id:".$key." - Valor =".$value."<br>";
             if(is_numeric( $key )){
+
                 $data = array(
-                    'Producto_Combo'     =>  $datos['produto_principal'],
-                    'producto_a_descargar_Combo'  => $key,
-                    'cantidad'     => $value,
+
+                    'Producto_Combo'=>  $datos['produto_principal'],                    
+                    'cantidad'      => $value,
+                    'combo_estado'  => 1,
+                    'producto_a_descargar_Combo'  => $key
                 );
+
                 $this->db->insert(self::pos_combo, $data);
             }
         }
@@ -87,6 +90,7 @@ class Combo_model extends CI_Model {
     }
 
     function eliminar($id){
+
         $this->db->where('Producto_Combo', $id);
         $result = $this->db->delete(self::pos_combo);
         return $result;
@@ -105,8 +109,7 @@ class Combo_model extends CI_Model {
         if($query->num_rows() > 0 )
         {
             return $query->result();
-        }
-        
+        }        
     }
 
     function update_combo( $datos ){

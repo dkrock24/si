@@ -889,6 +889,21 @@ class Producto_model extends CI_Model {
 	        }
 		}
 
+		function get_productos_codigo( $producto_codigo ){
+
+			$this->db->select('*');
+	        $this->db->from(self::producto);	        
+	        $this->db->where('codigo_barras', $producto_codigo );
+	        
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[1];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
 		function get_productos_imagen( $producto_id ){
 			
 			$this->db->select('*');

@@ -63,22 +63,18 @@ class Combo extends MY_Controller {
 	}
 
 	public function nuevo(){
-
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
 		
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
-		$data['menu'] = $this->session->menu;
-		$param1 = ['combo'=>1];
-		$param2 = ['combo'=>0];
+		$data['menu'] 	= $this->session->menu;
+		$param1 		= ['combo'=>1];
+		$param2 		= ['combo'=>0];
 		$data['productos_combo'] = $this->Producto_model->get_producto_tabla($param1);
-		$data['productos'] = $this->Producto_model->get_producto_tabla($param2);
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['title'] = "Nuevo Combo";
-		$data['home'] = 'producto/combo/combo_nuevo';
+		$data['productos'] 	= $this->Producto_model->get_producto_tabla($param2);
+		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['title'] 		= "Nuevo Combo";
+		$data['home'] 		= 'producto/combo/combo_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
@@ -158,6 +154,14 @@ class Combo extends MY_Controller {
 		$data['productos'] = $this->Producto_model->get_productos_id( $producto_id );
 		echo json_encode($data);
 	}
+
+	public function get_productos_codigo( $producto_codigo ){
+
+		$data['productos'] = $this->Producto_model->get_productos_codigo( $producto_codigo );
+		echo json_encode($data);
+	}
+
+	
 
 	public function eliminar($id){
 

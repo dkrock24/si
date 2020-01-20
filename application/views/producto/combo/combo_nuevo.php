@@ -7,13 +7,44 @@
 
     $(document).ready(function() {
         $(".producto_combo").hide();
+        $("#codigo").hide();
     });
 
+    $(document).keydown(function(event) {
+
+        if (event.keyCode == 13) {
+
+            event.preventDefault()
+            var codigo = $("#codigo").val();
+
+            $.ajax({
+                url: "get_productos_codigo/" + codigo,
+                datatype: 'json',
+                cache: false,
+
+                success: function(data) {
+                    var datos = JSON.parse(data);
+                    var p = {};
+                    p = datos["productos"];
+
+                    productos = p;
+                    producto();
+                },
+                error: function() {}
+            });
+
+        }
+    });
+
+
     $(document).on("change", "#producto", function() {
+
         var val = $(this).val();
-        if(val != 0) {
+
+        if (val != 0) {
             $(".producto_combo").show();
             $("#produto_principal").val($(this).val());
+            $("#codigo").show();
         } else {
             $(".producto_combo").hide();
             $("#produto_principal").val();
@@ -83,7 +114,7 @@
             var flag = false;
 
             $.each(producto_almacen, function(i, item) {
-                
+
                 var valor = $('input[name=' + item[0].id_entidad + ']').val();
 
                 if (valor == "") {
@@ -91,7 +122,7 @@
                     $('i[id=' + item[0].id_entidad + ']').text("Ingrese Valor");
                 } else {
                     flag = true;
-                    
+
                     $('i[id=' + item[0].id_entidad + ']').text("");
                 }
             });
@@ -124,23 +155,23 @@
                             <div id="" class="panel">
                                 <div class="panel-heading menuTop">Crear Combo : </div>
 
-                                
+
 
                                 <div class="panel-body menuContent">
 
-                                <div class="panel ">
-                                    <div class="panel-body">
-                                        <div class="alert alert-default">
-                                            <i class="fa fa-info-circle"></i>
-                                            <strong>Info!</strong> Seleccionar Producto creado como combo.
-                                        </div>
+                                    <div class="panel ">
+                                        <div class="panel-body">
+                                            <div class="alert alert-default">
+                                                <i class="fa fa-info-circle"></i>
+                                                <strong>Info!</strong> Seleccionar Producto creado como combo.
+                                            </div>
 
-                                        <div class="alert alert-default">
-                                            <i class="fa fa-info-circle"></i>
-                                            <strong>Info!</strong> Agregar Producto al combo.
+                                            <div class="alert alert-default">
+                                                <i class="fa fa-info-circle"></i>
+                                                <strong>Info!</strong> Agregar Producto al combo.
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
                                     <div class="form-group">
 
@@ -152,7 +183,7 @@
                                                 <option value="0">Selecionar</option>
                                                 <?php
                                                 foreach ($productos_combo as $key => $value) {
-                                                    ?>
+                                                ?>
                                                     <option value="<?php echo $value->id_entidad ?>"><?php echo $value->name_entidad ?></option>
                                                 <?php
                                                 }
@@ -173,7 +204,7 @@
                                                 <option value="0">Selecionar</option>
                                                 <?php
                                                 foreach ($productos as $key => $value) {
-                                                    ?>
+                                                ?>
                                                     <option value="<?php echo $value->id_entidad ?>"><?php echo $value->name_entidad ?></option>
                                                 <?php
                                                 }
@@ -185,10 +216,17 @@
 
                                     <br><br>
 
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right"><br>Codigo</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="codigo" id="codigo" placeholder="Codigo Barras" class="form-control" />
+                                        </div>
+                                    </div>
+
                                     <br><br>
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-9">
-                                            <button type="submit" class="btn btn-primary" id="btn_agregar">Agregar Producto</button>
+                                            <button type="submit" class="btn btn-primary" id="btn_agregar"><i class="fa fa-plus-circle"> </i> Agregar Producto</button>
                                         </div>
                                     </div>
 
