@@ -346,7 +346,8 @@ class Producto_model extends CI_Model {
 			$this->db->select('*');
 	        $this->db->from(self::categoria);
 	        $this->db->where('id_categoria_padre IS NULL' );
-	        $this->db->where('categoria_estado = 1');
+			$this->db->where('categoria_estado = 1');
+			$this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];
 	        
@@ -388,7 +389,8 @@ class Producto_model extends CI_Model {
 			$this->db->select('*');
 			$this->db->from(self::marcas);
 			$this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
-	        $this->db->where('estado_marca = 1');
+			$this->db->where('estado_marca = 1');
+			$this->db->order_by('nombre_marca','asc');
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[0];
 	        

@@ -36,20 +36,17 @@ class Producto extends MY_Controller {
 
 	public function nuevo(){
 
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-		
-		$vista_id = 12;
-
-		$data['menu'] = $this->session->menu;
+		$id_rol 			= $this->session->userdata['usuario'][0]->id_rol;
+		$vista_id 			= 12;
+		$data['menu'] 		= $this->session->menu;
 		$data['categorias'] = $this->Producto_model->get_sub_categorias();
-		$data['lineas'] = $this->Producto_model->get_lineas();
-		$data['proveedor'] = $this->Producto_model->get_proveedor();
-		$data['marcas'] = $this->Producto_model->get_marcas();
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['title'] = "Nuevo Producto";
-		$data['empresa'] = $this->Giros_model->get_empresa();
-
-		$data['home'] = 'producto/producto/prod_nuevo';
+		$data['lineas'] 	= $this->Producto_model->get_lineas();
+		$data['proveedor'] 	= $this->Producto_model->get_proveedor();
+		$data['marcas'] 	= $this->Producto_model->get_marcas();
+		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['title'] 		= "Nuevo Producto";
+		$data['empresa'] 	= $this->Giros_model->get_empresa();
+		$data['home'] 		= 'producto/producto/prod_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
