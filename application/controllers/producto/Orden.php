@@ -326,19 +326,16 @@ class Orden extends MY_Controller {
 
 	function get_producto_completo($id_producto_detalle, $id_bodega ){
 
-		$combo_conf 	= "combo";
-		$impuesto_conf 	= "impuestos";
-
-		$data['producto'] = $this->Orden_model->get_producto_completo($id_producto_detalle, $id_bodega);
+		$combo_conf 		= "combo";
+		$impuesto_conf 		= "impuestos";
+		$data['producto'] 	= $this->Orden_model->get_producto_completo($id_producto_detalle, $id_bodega);		
+		$producto_id 		= $data['producto'][0]->id_entidad;		
+		$contador			= 0;
+		$atributos			= array();
 		
-		$producto_id = $data['producto'][0]->id_entidad;
-		
-		$contador=0;
-		$atributos= array();
-
 		foreach ($data['producto'] as $key => $value) {
 
-			$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
+			//$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
 			$contador+=1;
 		}
 
