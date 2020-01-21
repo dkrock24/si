@@ -392,6 +392,14 @@ class Orden extends MY_Controller {
 		}
 	}
 
+	public function unload(){
+
+		$termnal 	= $_POST['terminal'];
+		$estado 	= $_POST['estado'];
+
+		$this->Terminal_model->unload( $termnal , $estado );
+	}
+
 	public function get_form_pago( $id_cliente ,$tipo_documento , $sucursal_id ){
 
 		$data['metodo_pago'] 	= $this->ModoPago_model->get_pagos_by_cliente( $id_cliente );

@@ -159,6 +159,24 @@ class Terminal_model extends CI_Model {
         return $flag;
     }
 
+    function unload($terminal , $estado){
+
+        $usuario = $this->session->userdata['usuario'][0]->id_usuario;
+
+        $condition = array(
+            'Terminal' => $terminal,
+            'Cajero_terminal' => $usuario
+        );
+
+        $array = array(
+            'activa' => $estado,
+        );
+
+        $this->db->where(  $condition );
+        $this->db->update( self::pos_terminal_cajero , $array );
+
+    }
+
     function eliminar_usuario( $data ){
 
         $existe = $this->get_user_terminal($data);
