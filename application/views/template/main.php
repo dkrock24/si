@@ -109,7 +109,7 @@
             </div>
             <!-- END navbar header-->
             <!-- START Nav wrapper-->
-            <div class="nav-wrapper linea_superior">
+            <div class="nav-wrapper linea_superior2">
                <!-- START Left navbar-->
                <ul class="nav navbar-nav">
                   <li>
