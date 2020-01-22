@@ -876,6 +876,9 @@
                             existe = 1;
 
                             var cantidad = parseInt(_productos.cantidad) + parseInt(item.cantidad);
+                            if(cantidad<=0){
+                                cantidad=1;
+                            }
 
                             if (producto_escala != 0) {
 
