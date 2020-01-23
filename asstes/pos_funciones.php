@@ -567,15 +567,25 @@
                 getImagen(producto_imagen_id);
             }
 
-            function cantidadCambio() {
-
-                $("#cantidad").focus().val();
-
-            }
-
             function moveCursorToEnd(input_producto_buscar) {
                 var v = input_producto_buscar.val();
                 input_producto_buscar.val("Demo").focus().val(v);
+            }
+
+            function focus_general_input(input, valor){
+
+                input.focus(); 
+                
+                if(valor == 0){
+
+                    setTimeout(function(){
+                        input.val("");
+                    }, 50);
+                }else{
+
+                    input.focus().val();
+                }
+                
             }
 
             document.onkeydown = function(e) {
@@ -588,7 +598,7 @@
                     case 38: //alert('up');                        
                         break;
                     case 39: //alert('right');
-                        cantidadCambio();
+                        focus_general_input($("#cantidad") , 1);
                         break;
                     case 40:
                         //alert('down');
@@ -610,6 +620,13 @@
                     case 177: //
                         f8_table_pagos();
                         break;
+                    case 106: // *
+                        focus_general_input($("#orden_numero"), 0);
+                        break;
+                    case 190: // *
+                        focus_general_input($("#descuento"), 0);
+                        break;
+
                 }
 
                 var c = "";
@@ -1264,18 +1281,16 @@
                 var precion = $("#precioUnidad").val();
                 var cantidad = producto_cantidad_linea;
 
-
                 if (producto_escala == 1) {
 
                     var escala_precio = validar_escalas(cantidad);
-
-                    $("#total").val(calcularTotalProducto(escala_precio, cantidad));
+                    calcularTotalProducto(escala_precio, cantidad)
                     $("#precioUnidad").val(escala_precio);
                     _productos.precioUnidad = escala_precio;
 
                 } else {
 
-                    $("#total").val(calcularTotalProducto(_productos.presentacionPrecio, cantidad));
+                    calcularTotalProducto(_productos.presentacionPrecio, cantidad)
                     $("#precioUnidad").val(_productos.precioUnidad);
                 }
 
@@ -1283,11 +1298,12 @@
                 _productos.total = $("#total").val();
                 factor_precio = 0;
                 factor_total = 0;
+
             } else {
-                $("#total").val(calcularTotalProducto(_productos.presentacionPrecio, cantidad));
+
+                calcularTotalProducto(_productos.presentacionPrecio, cantidad)
                 $("#precioUnidad").val(_productos.precioUnidad);
                 _productos.cantidad = cantidad;
-                //_productos.total = $("#total").val();
                 factor_precio = 0;
                 factor_total = 0;
             }
@@ -1471,23 +1487,15 @@
         });
 
         $(document).on('click', '.guardar', function() {
-            // Recargar Los Tipos de Pago Por Cliente
-            var cli_form_pago = $("#cliente_codigo").val();
-            var tipo_documento = $("#id_tipo_documento").val();
-
-            guardarX(cli_form_pago, tipo_documento);
-
-            $("#procesar_venta").modal();
-            $('#procesar_btn').hide();
+            f4_guardar();
         });
 
         function f4_guardar() {
 
-            var cli_form_pago = $("#cliente_codigo").val();
-            var tipo_documento = parseInt($("#id_tipo_documento").val());
-            var sucursal_id = $("#sucursal_id2").val();
-
-            var id_modo_pag = $("#modo_pago_id").val();
+            var cli_form_pago   = $("#cliente_codigo").val();
+            var tipo_documento  = parseInt($("#id_tipo_documento").val());
+            var sucursal_id     = $("#sucursal_id2").val();
+            var id_modo_pag     = $("#modo_pago_id").val();
 
             if (!pagos_mostrados.includes(id_modo_pag)) {
                 pagos_mostrados[pagos_mostrados.length] = id_modo_pag;

@@ -93,7 +93,7 @@ include("asstes/pos_orden.php");
                                 <div class="col-lg-5">
 
                                     <div class="input-group m-b">
-                                        <span class="input-group-addon bg-green"><i class="fa fa-search"></i></span>
+                                        <span class="input-group-addon bg-green">[ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
                                         <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
                                     </div>
 
@@ -109,7 +109,7 @@ include("asstes/pos_orden.php");
                                 <div class="col-lg-7" style="text-align: left;">
                                     <button class="btn bg-green" id="grabar" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Agregar"><i class='fa fa-shopping-cart'></i></button>
 
-                                    <span class='btn bg-green guardar' name="1" id="../venta/guardar_venta" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Procesar"><i class='fa fa-save'></i></span>
+                                    <span class='btn bg-green guardar' name="1" id="../venta/guardar_venta" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Procesar"><i class='fa fa-money'></i> <span style="font-size:18;">[ F4 ]</span></span>
 
                                     <span class="btn bg-green" id="btn_existencias" data-toggle="tooltip" data-placement="bottom" title="Existencias" style="font-size: 25px;"><i class="fa fa-dropbox"></i></span>
 
@@ -131,7 +131,7 @@ include("asstes/pos_orden.php");
                                         </ul>
                                     </div>
 
-                                    <input type="text" name="orden_numero" id="orden_numero" placeholder="N° Orden" value="" class="form-control" style="width:200px; display: inline-block;" />
+                                    <input type="text" name="orden_numero" id="orden_numero" placeholder="N° Orden [ * ]" value="" class="form-control" style="width:200px; display: inline-block;" />
 
                                     <div class="pull-right">
                                         <input type="hidden" name="terminal" id="terminal_id" value="<?php echo $terminal[0]->id_terminal ?>" />
@@ -167,7 +167,7 @@ include("asstes/pos_orden.php");
                                         <th style="color: black;">#</th>
                                         <th style="color: black;">Producto</th>
                                         <th style="color: black;">Descripción</th>
-                                        <th style="color: black;">Cantidad</th>
+                                        <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ]</th>
                                         <th style="color: black;">Presentación</th>
                                         <th style="color: black;">Factor</th>
                                         <th style="color: black;">Unidad</th>

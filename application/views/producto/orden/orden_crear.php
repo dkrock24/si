@@ -336,7 +336,7 @@
                <table class="table table-sm table-hover">
                     <div class="col-lg-4">
                         <div class="input-group m-b">
-                            <span class="input-group-addon bg-green"><i class="fa fa-search"></i></span>
+                            <span class="input-group-addon bg-green">[ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
                             <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
                         </div>
 
@@ -356,7 +356,7 @@
                     <?php
                     if(isset($tipoDocumento) && isset($sucursales) && isset($bodega) && isset($cliente) ){
                         ?>
-                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="guardar_orden" id="guardar_orden" ><i class='fa fa-save'></i></button>
+                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="guardar_orden" id="guardar_orden" ><i class='fa fa-save'></i> <span style="font-size:18;">[ F4 ]</span></button>
                         <?php
                     }else{
                         ?>
@@ -395,7 +395,7 @@
                         <th style="color: black;">#</th>
                         <th style="color: black;">Producto</th>
                         <th style="color: black;">Descripción</th>
-                        <th style="color: black;">Cantidad</th>
+                        <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ] </th>
                         <th style="color: black;">Presentación</th>
                         <th style="color: black;">Factor</th>
                         <th style="color: black;">Unidad</th>
