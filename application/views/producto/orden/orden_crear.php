@@ -205,6 +205,7 @@
                                                     if(isset($cliente[0]->id_cliente)){
                                                         ?>
                                                         <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $cliente[0]->id_cliente ?>">
+                                                        <select multiple="" class="form-control cliente_codigo2" id="cliente_codigo2" name="abc"></select>
                                                         <?php
                                                     }else{
                                                         echo "No Hay Cliente";

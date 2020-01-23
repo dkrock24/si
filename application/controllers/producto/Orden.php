@@ -291,10 +291,10 @@ class Orden extends MY_Controller {
 		echo json_encode( $data );
 	}
 
-	function get_clientes_lista(){
+	function get_clientes_lista($cliente_texto){
 
 		// Obteniendo Lista Cliente desde Model Cliente
-		$data['clientes'] = $this->Cliente_model->get_cliente();
+		$data['clientes'] = $this->Cliente_model->get_cliente_filtro($cliente_texto);
 
 		echo json_encode( $data );
 	}

@@ -22,25 +22,25 @@
     var _conf = [];
     var _impuestos = [];
 
-    window.onload = function(event){
-        
+    window.onload = function(event) {
+
         var terminal = $("#terminal_id").val();
 
-        setAction(terminal , 1);
+        setAction(terminal, 1);
 
     };
 
     window.onbeforeunload = function(event) {
 
-        var message     = '';
-        var terminal    = $("#terminal_id").val();
+        var message = '';
+        var terminal = $("#terminal_id").val();
 
-        setAction(terminal , 0);
+        setAction(terminal, 0);
 
         return message;
     };
 
-    function setAction(terminal , action){
+    function setAction(terminal, action) {
 
         $.ajax({
             type: "POST",
@@ -48,7 +48,8 @@
             datatype: 'json',
             cache: false,
             data: {
-                terminal: terminal, estado :action
+                terminal: terminal,
+                estado: action
             },
 
             success: function(data) {
@@ -58,7 +59,6 @@
         });
 
     }
-
 </script>
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
@@ -76,6 +76,15 @@ include("asstes/pos_orden.php");
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 
 <!-- Main section-->
+
+<style>
+    .modal-header {
+        background: #0f4871;
+        color: white;
+        border-top: 2px solid white;
+        border-bottom: 2px solid #27c24c;
+    }
+</style>
 
 
 <section onunload="con();">
@@ -307,7 +316,8 @@ include("asstes/pos_orden.php");
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
-                                            <label>Tipo Documento <?php echo $terminal[0]->pred_id_tpdoc; ?></label>
+                                            <label> <span class="fa fa-edit"></span> Tipo Documento [ -> ] <?php //echo $terminal[0]->pred_id_tpdoc; 
+                                                                                                            ?></label>
                                             <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
 
                                                 <?php
@@ -345,9 +355,11 @@ include("asstes/pos_orden.php");
                                     <div class="col-lg-6 col-md-6">
 
                                         <div class="form-group has-success">
-                                            <label>Cliente Codigo</label>
+                                            <span class="fa fa-user"></span> <label>Cliente Codigo</label>
+
                                             <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $cliente[0]->id_cliente ?>">
 
+                                            <select multiple="" class="form-control cliente_codigo2" id="cliente_codigo2" name="abc"></select>
                                         </div>
 
                                     </div>
@@ -356,7 +368,7 @@ include("asstes/pos_orden.php");
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
-                                            <label>Forma Pago</label>
+                                            <span class="fa fa-money"></span> <label>Forma Pago</label>
                                             <select class="form-control" id="modo_pago_id" name="modo_pago_id">
                                                 <?php
                                                 foreach ($modo_pago as $value) {
@@ -368,7 +380,8 @@ include("asstes/pos_orden.php");
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
-                                            <label>Cliente Nombre</label>
+                                            <span class="fa fa-user"></span>
+                                            <label>Cliente Nombre [ ]</label>
                                             <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania ?>">
                                             <input type="hidden" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $cliente[0]->direccion_cliente ?>">
                                         </div>
@@ -378,6 +391,7 @@ include("asstes/pos_orden.php");
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
+                                            <span class="fa fa-home"></span>
                                             <label>Sucursal Destino</label>
                                             <select class="form-control" name="sucursal_destino" id="sucursal_id">
                                                 <?php
@@ -403,6 +417,7 @@ include("asstes/pos_orden.php");
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
+                                            <span class="fa fa-building"></span>
                                             <label>Bodega</label>
                                             <select class="form-control" name="bodega" id="bodega_select">
                                                 <?php
@@ -420,14 +435,10 @@ include("asstes/pos_orden.php");
                                 </div>
 
                                 <div class="row">
+
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
-                                            <label>Fecha</label>
-                                            <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group has-success">
+                                            <span class="fa fa-home"></span>
                                             <label>Sucursal Origin</label>
                                             <select class="form-control" name="sucursal_origin" id="sucursal_id2">
                                                 <?php
@@ -451,8 +462,13 @@ include("asstes/pos_orden.php");
                                             </select>
                                         </div>
 
-
-
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group has-success">
+                                            <span class="fa fa-clock-o"></span>
+                                            <label>Fecha</label>
+                                            <input type="date" name="fecha" id="fecha_factura" value="<?php echo date("Y-m-d"); ?>" class="form-control">
+                                        </div>
                                     </div>
                                 </div>
 
@@ -524,6 +540,9 @@ include("asstes/pos_orden.php");
                 <h4 id="myModalLabelLarge" class="modal-title">Buscar Cliente</h4>
             </div>
             <div class="modal-body">
+                <tr>
+                    <td colspan='9'><input type='text' placeholder='Buscar Cliente' class='form-control buscar_cliente' name='buscar_cliente' id='buscar_producto' /> </td>
+                </tr>
                 <p class="cliente_lista_datos">
 
                 </p>

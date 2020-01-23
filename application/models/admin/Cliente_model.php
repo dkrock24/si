@@ -29,6 +29,24 @@ class Cliente_model extends CI_Model
         }
     }
 
+    function get_cliente_filtro($cliente_texto)
+    {
+        $this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,TipoDocumento');
+        $this->db->from(self::cliente);
+        $this->db->join(self::tipos_documentos, ' on ' . self::cliente . '.TipoDocumento=' . self::tipos_documentos . '.id_tipo_documento');
+        $this->db->join(self::formas_pago, ' on ' . self::cliente . '.TipoPago=' . self::formas_pago . '.id_modo_pago');
+        $this->db->join(self::sys_persona . ' as p', ' on p.id_persona = Persona');
+        $this->db->where(self::cliente . '.estado_cliente = 1');
+        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->where("(id_cliente LIKE '%$cliente_texto%' || nombre_empresa_o_compania LIKE '%$cliente_texto%' || nit_cliente LIKE '%$cliente_texto%') ");
+        $query = $this->db->get();
+        //echo $this->db->queries[0];
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+    }
+
     function get_cliente_by_id2($id)
     {
         $this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,porcentage_descuentos,TipoDocumento,TipoPago');

@@ -18,6 +18,9 @@
         $('.dataSelect2').hide();
         $('.1dataSelect').hide();
         $('.1dataSelect2').hide();
+        $('.cliente_codigo2').hide();
+
+
 
         input_producto_buscar.focus();
         bodega = input_bodega_select.val();
@@ -441,7 +444,7 @@
                     _config_impuestos();
                     agregar_producto();
                     depurar_producto();
-                    
+
 
                     producto_cantidad_linea = 1;
 
@@ -572,33 +575,33 @@
                 input_producto_buscar.val("Demo").focus().val(v);
             }
 
-            function focus_general_input(input, valor){
+            function focus_general_input(input, valor) {
 
-                input.focus(); 
-                
-                if(valor == 0){
+                input.focus();
 
-                    setTimeout(function(){
+                if (valor == 0) {
+
+                    setTimeout(function() {
                         input.val("");
                     }, 50);
-                }else{
+                } else {
 
                     input.focus().val();
                 }
-                
+
             }
 
             document.onkeydown = function(e) {
 
                 switch (e.keyCode) {
                     case 37: //alert('left');                  
-                        input_producto_buscar.focus();   
-                        moveCursorToEnd(input_producto_buscar);                     
+                        input_producto_buscar.focus();
+                        moveCursorToEnd(input_producto_buscar);
                         break;
                     case 38: //alert('up');                        
                         break;
                     case 39: //alert('right');
-                        focus_general_input($("#cantidad") , 1);
+                        focus_general_input($("#cantidad"), 1);
                         break;
                     case 40:
                         //alert('down');
@@ -1492,10 +1495,10 @@
 
         function f4_guardar() {
 
-            var cli_form_pago   = $("#cliente_codigo").val();
-            var tipo_documento  = parseInt($("#id_tipo_documento").val());
-            var sucursal_id     = $("#sucursal_id2").val();
-            var id_modo_pag     = $("#modo_pago_id").val();
+            var cli_form_pago = $("#cliente_codigo").val();
+            var tipo_documento = parseInt($("#id_tipo_documento").val());
+            var sucursal_id = $("#sucursal_id2").val();
+            var id_modo_pag = $("#modo_pago_id").val();
 
             if (!pagos_mostrados.includes(id_modo_pag)) {
                 pagos_mostrados[pagos_mostrados.length] = id_modo_pag;
@@ -1741,22 +1744,41 @@
             }
         }
 
+        $(document).on('keydown keyup input click', function(e) {
+            if ($('#documentoModel').is(':visible')) {
 
+                var key = e.which;
 
-        function get_clientes_lista() {
+                if (key == 39) { //Modal de Facturacion en Venta Rapida
+                    $("#id_tipo_documento").focus();
+                    $("#id_tipo_documento").css("background", "#27c24c");
+                    clear_color( $("#id_tipo_documento") , "#fff");
+                }
 
-            var table = "<table class='table table-sm table-hover'>";
-            table += "<tr><td colspan='9'><input type='text' placeholder='Buscar Cliente' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
-            table += "<tr class='bg-info-dark'><th>#</th><th>Codigo</th><th>Nombre Cliente</th><th>NRC</th><th>NIT</th><th>Action</th></tr>";
-            var table_tr = "<tbody id='list'>";
-            var contador_precios = 1;
+                $(this).css("background", "white");
+            }
+        });
+
+        function clear_color(input, color) {
+            setTimeout(function() {
+                input.css("background", color);
+            }, 3000);
+        }
+
+        function get_clientes_lista(texto_cliente) {
+
+            $(".buscar_cliente").focus();
+            $(".cliente_codigo2").html(table_tr);
+
+            var table_tr = "";
 
             $.ajax({
-                url: path + "get_clientes_lista",
+                url: path + "get_clientes_lista/" + texto_cliente,
                 datatype: 'json',
                 cache: false,
 
                 success: function(data) {
+
                     var datos = JSON.parse(data);
                     var clientes = datos["clientes"];
                     var cliente_id = 0;
@@ -1766,21 +1788,24 @@
 
                         if (cliente_id != item.id_cliente) {
                             cliente_id = item.id_cliente;
-                            var precio = 0;
 
-                            table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.id_cliente + '</td><td>' + item.nombre_empresa_o_compania + '</td><td>' + item.nrc_cli + '</td><td>' + item.nit_cliente + '</td><td><a href="#" class="btn btn-info btn-xs seleccionar_cliente" id="' + item.id_cliente + '" name="' + item.nombre_empresa_o_compania + '" rel="' + item.direccion_cliente + '" impuesto="' + item.aplica_impuestos + '">Agregar</a></td></tr>';
-                            contador_precios++;
+                            table_tr += '<option value="' + item.id_cliente + '" name="' + item.nombre_empresa_o_compania + '" rel="' + item.direccion_cliente + '" impuesto="' + item.aplica_impuestos + '">' + item.nombre_empresa_o_compania + ' ' + item.nrc_cli + ' - ' + item.nit_cliente + '</option>';
+
                         }
 
                     });
-                    table += table_tr;
-                    table += "</tbody></table>";
 
-                    $(".cliente_lista_datos").html(table);
+                    $('.cliente_codigo2').show();
+                    $(".cliente_codigo2").html(table_tr);
+                    document.getElementById('cliente_codigo2').selectedIndex = 0;
+                    document.getElementById('cliente_codigo2').focus();
+
+                    $(".buscar_cliente").focus();
 
                 },
                 error: function() {}
             });
+
         }
 
         // filtrar producto
@@ -1791,8 +1816,6 @@
                 $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
             });
         });
-
-
 
         function procesar_venta(method) {
 
@@ -1879,14 +1902,18 @@
             });
         }
 
-        $(document).on('click', '.seleccionar_cliente', function() {
-            var id = $(this).attr('id');
+        $(document).on('keypress', '.cliente_codigo2', function() {
 
-            $("#cliente_codigo").val($(this).attr('id'));
-            $("#cliente_nombre").val($(this).attr('name'));
-            $("#direccion_cliente").val($(this).attr('rel'));
+            var id = $(this).val();
+            var cliente_nombre = $(this).find('option:selected').attr("name");
+            var cliente_direccion = $(this).find('option:selected').attr("rel");
+
+
+            $("#cliente_codigo").val(id);
+            $("#cliente_nombre").val(cliente_nombre);
+            $("#direccion_cliente").val(cliente_direccion);
             $("#impuesto").val($(this).attr('impuesto'));
-            $('#cliente_modal').modal('hide');
+            $('#cliente_codigo2').modal('hide');
 
             $.ajax({
                 url: path + "get_clientes_documento/" + id,
@@ -1934,6 +1961,9 @@
                 },
                 error: function() {}
             });
+
+            $(".cliente_codigo2").hide();
+            $(".cliente_codigo").focus();
         });
 
         $(document).on('click', '.seleccionar_empleado', function() {
@@ -1987,9 +2017,21 @@
             location.reload();
         });
 
-        $(document).on('click', '.cliente_codigo', function() {
-            $('#cliente_modal').modal('show');
-            get_clientes_lista();
+        $(document).on('keypress', '.cliente_codigo', function() {
+
+            if (event.which == 13) {
+                get_clientes_lista($(this).val());
+            }
+
+        });
+
+        $(document).on('keyup', '.cliente_codigo', function() {
+
+            setTimeout(function() {
+                //$(".buscar_cliente").focus();
+            }, 1000);
+
+            //get_clientes_lista();
         });
 
         $(document).on('click', '.vendedores_lista1', function() {
