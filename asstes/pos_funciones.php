@@ -144,6 +144,9 @@
 
             $(".1dataSelect").html(table_tr);
 
+            $('.1dataSelect').focus();
+            document.getElementById('1dataSelect').selectedIndex = 0;
+
         }
 
         $(document).on('keypress', '.1dataSelect', function() {
@@ -619,6 +622,9 @@
                         break;
                     case 118: //F7                        
                         f7_foco_efectivo();
+                        break;
+                    case 119: //F8
+                        show_existencias();
                         break;
                     case 177: //
                         f8_table_pagos();
@@ -1752,7 +1758,7 @@
                 if (key == 39) { //Modal de Facturacion en Venta Rapida
                     $("#id_tipo_documento").focus();
                     $("#id_tipo_documento").css("background", "#27c24c");
-                    clear_color( $("#id_tipo_documento") , "#fff");
+                    clear_color($("#id_tipo_documento"), "#fff");
                 }
 
                 $(this).css("background", "white");
@@ -2041,13 +2047,7 @@
 
         $(document).on('click', '#btn_existencias', function() {
 
-            $(".existencia_buscar").focus();
-            $('#existencias').modal('show');
-
-            setTimeout(function() {
-                $('.existencia_buscar').focus();
-            }, 1000);
-
+            show_existencias();
         });
 
         $(document).on('click', '#btn_impuestos', function() {
@@ -2056,6 +2056,17 @@
         });
 
     });
+
+    function show_existencias() {
+
+        $(".existencia_buscar").focus();
+        $('#existencias').modal('show');
+
+        setTimeout(function() {
+            $('.existencia_buscar').focus();
+        }, 1000);
+
+    }
 
     function depurar_producto() {
         // Remueve los productos selecionados

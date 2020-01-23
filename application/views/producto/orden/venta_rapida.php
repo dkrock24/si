@@ -99,7 +99,7 @@ include("asstes/pos_orden.php");
                         <div class="panel-heading" style="background: #2D3B48; color: white;">
                             <div class="row">
 
-                                <div class="col-lg-5">
+                                <div class="col-lg-4">
 
                                     <div class="input-group m-b">
                                         <span class="input-group-addon bg-green">[ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
@@ -115,12 +115,13 @@ include("asstes/pos_orden.php");
                                     </select>
                                 </div>
 
-                                <div class="col-lg-7" style="text-align: left;">
+                                <div class="col-lg-8" style="text-align: left;">
+                                <!--
                                     <button class="btn bg-green" id="grabar" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Agregar"><i class='fa fa-shopping-cart'></i></button>
-
+-->
                                     <span class='btn bg-green guardar' name="1" id="../venta/guardar_venta" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Procesar"><i class='fa fa-money'></i> <span style="font-size:18;">[ F4 ]</span></span>
 
-                                    <span class="btn bg-green" id="btn_existencias" data-toggle="tooltip" data-placement="bottom" title="Existencias" style="font-size: 25px;"><i class="fa fa-dropbox"></i></span>
+                                    <span class="btn bg-green" id="btn_existencias" data-toggle="tooltip" data-placement="bottom" title="Existencias" style="font-size: 25px;"><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span> </span>
 
                                     <div class="btn-group ">
                                         <button type="button" class="btn bg-green" data-toggle="tooltip" data-placement="bottom" title="Opciones"><i class="fa fa-plus" style="font-size: 25px;"></i></button>

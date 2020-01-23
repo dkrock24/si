@@ -351,9 +351,9 @@
 
                     </div>
                 <div class="col-lg-6">
-
+                    <!--                                
                     <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" id="grabar"><i class='fa fa-shopping-cart'></i></button>
-
+                                                -->
                     <?php
                     if(isset($tipoDocumento) && isset($sucursales) && isset($bodega) && isset($cliente) ){
                         ?>
@@ -366,7 +366,7 @@
                     }
                     ?>                   
 
-                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 17px;" data-target='#existencias'><i class="fa fa-dropbox"></i></span>                            
+                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>                            
 
                     
                     <div class="btn-group ">
