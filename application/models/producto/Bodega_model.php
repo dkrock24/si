@@ -17,6 +17,7 @@ class Bodega_model extends CI_Model {
         if($filters!=""){
             $this->db->where($filters);
         }
+        $this->db->order_by('b.id_bodega','asc');
         $this->db->limit($limit, $id);
         $this->db->order_by('s.id_sucursal');
         $this->db->group_by('b.id_bodega');

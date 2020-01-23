@@ -69,7 +69,7 @@ class Sucursal extends MY_Controller {
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;		
-		$data['empresa'] = $this->Empresa_model->getEmpresas();
+		$data['empresa'] = $this->Empresa_model->getEmpresaOnly();
 		$data['ciudad'] = $this->Ciudad_model->getCiudad();
 		$data['title'] = "Nueva Sucursal";
 		$data['home'] = 'admin/sucursal/sucursal_nuevo';

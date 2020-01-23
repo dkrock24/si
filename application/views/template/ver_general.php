@@ -34,7 +34,7 @@
                                     $cnt=1;
                                     
                                         foreach ($columns as $key => $value) {
-                                            //if( !base64_decode($data[0]->$key)  ){
+                                            if( !base64_decode($data[0]->$key)  ){
                                             ?>
                                             <tr>
                                                 <td>
@@ -50,7 +50,7 @@
                                                 </td>                                            
                                             </tr>
                                             <?php    
-                                            //}                                        
+                                            }                                        
                                         }
 
                                     ?>       

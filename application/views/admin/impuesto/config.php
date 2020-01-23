@@ -15,7 +15,7 @@ var columna1 = 'Impuesto';
 
         $(function() {   
 
-            $('#filtro').change(function() {
+            $('#filtro').keydown(function() {
                 var texto = $(this).val().toUpperCase();
                 $(".datos td.col1:contains('" + texto + "')").parent().show();
 
@@ -196,7 +196,7 @@ var columna1 = 'Impuesto';
 
             data = {"entidad":item.eId , "impuesto":item.iId, "columna":entidad, "tabla":tabla};
             
-            html += "<td><button type='button' class='btn btn-info' onclick='disable("+JSON.stringify(data)+")'><i class='fa fa-pencil'></i></button> <button type='button' class='btn btn-warning' onclick='myFunction("+JSON.stringify(data)+")'><i class='fa fa-trash'></i></button> </td> ";
+            html += "<td><button type='button' class='btn btn-info' onclick='disable("+JSON.stringify(data)+")'><i class='fa fa-pencil'></i></button> <button type='button' class='btn btn-warning' onclick='myFuncttion("+JSON.stringify(data)+")'><i class='fa fa-trash'></i></button> </td> ";
             
             html += "</tr>";
             num++;

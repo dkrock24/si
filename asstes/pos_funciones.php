@@ -301,6 +301,7 @@
             if (_productos_lista.length == 1) {
 
                 get_producto_completo(_productos_lista[0].id_producto_detalle);
+                input_producto_buscar.val("");
 
             } else {
 
@@ -440,6 +441,7 @@
                     _config_impuestos();
                     agregar_producto();
                     depurar_producto();
+                    
 
                     producto_cantidad_linea = 1;
 
@@ -566,16 +568,22 @@
             }
 
             function cantidadCambio() {
-                
+
                 $("#cantidad").focus().val();
 
+            }
+
+            function moveCursorToEnd(input_producto_buscar) {
+                var v = input_producto_buscar.val();
+                input_producto_buscar.val("Demo").focus().val(v);
             }
 
             document.onkeydown = function(e) {
 
                 switch (e.keyCode) {
-                    case 37: //alert('left');                        
-                        input_producto_buscar.focus();
+                    case 37: //alert('left');                  
+                        input_producto_buscar.focus();   
+                        moveCursorToEnd(input_producto_buscar);                     
                         break;
                     case 38: //alert('up');                        
                         break;
@@ -783,17 +791,17 @@
 
                 if (precio_id == item.id_producto_detalle) {
 
-                    _productos.presentacion         = item.presentacion;
-                    _productos.id_producto_detalle  = item.id_producto_detalle;
-                    _productos.presentacionFactor   = item.factor;
-                    _productos.presentacionPrecio   = item.precio;
-                    _productos.presentacionUnidad   = item.unidad;
-                    _productos.presentacionCliente  = item.Cliente;
-                    _productos.presentacionCliente  = item.Sucursal;
+                    _productos.presentacion = item.presentacion;
+                    _productos.id_producto_detalle = item.id_producto_detalle;
+                    _productos.presentacionFactor = item.factor;
+                    _productos.presentacionPrecio = item.precio;
+                    _productos.presentacionUnidad = item.unidad;
+                    _productos.presentacionCliente = item.Cliente;
+                    _productos.presentacionCliente = item.Sucursal;
                     _productos.presentacionCodBarra = item.cod_barra;
-                    _productos.precioUnidad         = item.unidad;
-                    _productos.total                = item.precio;
-                    _productos.producto2            = item.id_producto_detalle
+                    _productos.precioUnidad = item.unidad;
+                    _productos.total = item.precio;
+                    _productos.producto2 = item.id_producto_detalle
 
                     $("#presentacion").val(_productos.presentacion);
                     $("#precioUnidad").val(_productos.presentacionUnidad);
@@ -876,8 +884,8 @@
                             existe = 1;
 
                             var cantidad = parseInt(_productos.cantidad) + parseInt(item.cantidad);
-                            if(cantidad<=0){
-                                cantidad=1;
+                            if (cantidad <= 0) {
+                                cantidad = 1;
                             }
 
                             if (producto_escala != 0) {
