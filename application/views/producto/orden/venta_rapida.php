@@ -181,7 +181,7 @@ include("asstes/pos_orden.php");
                                         <th style="color: black;">Presentación</th>
                                         <th style="color: black;">Factor</th>
                                         <th style="color: black;">Unidad</th>
-                                        <th style="color: black;">Descuento</th>
+                                        <th style="color: black;">Descuento [ : ]</th>
                                         <th style="color: black;">Total</th>
                                         <th style="color: black;">Bodega</th>
                                         <th style="color: black;">

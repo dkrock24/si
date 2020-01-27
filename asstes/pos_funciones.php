@@ -20,7 +20,7 @@
         $('.1dataSelect2').hide();
         $('.cliente_codigo2').hide();
 
-
+        var height = 39;
 
         input_producto_buscar.focus();
         bodega = input_bodega_select.val();
@@ -851,7 +851,10 @@
 
         function grabar() {
             // 7 - Grabar producto en la orden
-
+            
+            $('.lista_productos').animate({scrollTop: height}, 500);
+            height += 39;
+            
             input_producto_buscar.empty();
             input_producto_buscar.focus();
             if (_productos.cantidad != null) {
@@ -2071,7 +2074,6 @@
     function depurar_producto() {
         // Remueve los productos selecionados
         contador_tabla = 1;
-
 
         if (_orden.length >= 1) {
             var tr_html = "";

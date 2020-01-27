@@ -9,7 +9,7 @@ body{
 }
 
 .lista_productos{
-    max-height: 50%;
+    max-height: 60%;
     overflow-y: scroll;
     scroll-behavior: smooth;
 }
