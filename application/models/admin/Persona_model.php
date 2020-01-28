@@ -72,10 +72,10 @@ class Persona_model extends CI_Model {
 	function crear($datos){
 
 		$data = array(
-          	'primer_nombre_persona' 	=> 	$datos['primer_nombre_persona'],
-            'segundo_nombre_persona' 	=> $datos['segundo_nombre_persona'],
-            'primer_apellido_persona' 	=> $datos['primer_apellido_persona'],
-            'segundo_apellido_persona' 	=> $datos['segundo_apellido_persona'],
+          	'primer_nombre_persona' 	=> strtoupper($datos['primer_nombre_persona']),
+            'segundo_nombre_persona' 	=> strtoupper($datos['segundo_nombre_persona']),
+            'primer_apellido_persona' 	=> strtoupper($datos['primer_apellido_persona']),
+            'segundo_apellido_persona' 	=> strtoupper($datos['segundo_apellido_persona']),
             'fecha_cumpleaños_persona' 	=> $datos['fecha_cumpleaños_persona'],
             'dui'                       => $datos['dui'],
             'nit'                       => $datos['nit'],
@@ -100,10 +100,10 @@ class Persona_model extends CI_Model {
 	function update($datos){
 
 		$data = array(
-            'primer_nombre_persona'     =>  $datos['primer_nombre_persona'],
-            'segundo_nombre_persona'    => $datos['segundo_nombre_persona'],
-            'primer_apellido_persona'   => $datos['primer_apellido_persona'],
-            'segundo_apellido_persona'  => $datos['segundo_apellido_persona'],
+            'primer_nombre_persona' 	=> strtoupper($datos['primer_nombre_persona']),
+            'segundo_nombre_persona' 	=> strtoupper($datos['segundo_nombre_persona']),
+            'primer_apellido_persona' 	=> strtoupper($datos['primer_apellido_persona']),
+            'segundo_apellido_persona' 	=> strtoupper($datos['segundo_apellido_persona']),
             'fecha_cumpleaños_persona'  => $datos['fecha_cumpleaños_persona'],
             'dui'                       => $datos['dui'],
             'nit'                       => $datos['nit'],

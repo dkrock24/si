@@ -410,9 +410,9 @@
 
                     $("#descripcion").val(datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca);
 
-                    if (producto_cantidad_linea == 1) {
+                    if ($("#cantidad").val() == "") {
 
-                        producto_cantidad_linea = datos['producto'][0].factor;
+                        producto_cantidad_linea = 1; //datos['producto'][0].factor;
 
                     } else {
                         _productos_precio.precio = _productos_precio.precio * producto_cantidad_linea;
