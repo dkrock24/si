@@ -1,17 +1,14 @@
 <?php
 class Roles_model extends CI_Model {
 
-    const menu = 'sys_menu';
-    const submenu = 'sys_menu_submenu';
+    const menu      = 'sys_menu';
+    const submenu   = 'sys_menu_submenu';
     const sub_men_acceso = 'sys_submenu_acceso';
-    const empresa = 'sys_empresa';
-    const usuarios = 'sr_usuarios';    
-    const roles = 'sys_role';
-    const cargos = 'sr_cargos';
+    const empresa   = 'sys_empresa';
+    const usuarios  = 'sr_usuarios';    
+    const roles     = 'sys_role';
+    const cargos    = 'sr_cargos';
     
-    
-    
-
     function getRoles($limit, $id , $filters ){
 
         $this->db->select('*');
@@ -44,6 +41,7 @@ class Roles_model extends CI_Model {
     }
 
     function record_count($filter){
+
         $this->db->where('Empresa',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::roles);
         $result = $this->db->count_all_results();
@@ -67,11 +65,12 @@ class Roles_model extends CI_Model {
     function setRoles( $roles ){
 
         $data = array(
-           'role' => $roles['role'],
-            'pagina' => $roles['pagina'],
+            'role'      => $roles['role'],
+            'pagina'    => $roles['pagina'],            
+            'estado_rol'=> $roles['estado_rol'],
             'fecha_actualizacion' => date('Y-m-d'),
-            'estado_rol' => $roles['estado_rol'],
         );
+
         $this->db->where('id_rol', $roles['role_id']);
         $this->db->update(self::roles, $data);
     }
@@ -86,15 +85,14 @@ class Roles_model extends CI_Model {
             'estado_rol' => $nuevo_rol['estado_rol'],
         );
 
-        $result = $this->db->insert(self::roles, $data );
-
-        $ultimo_id = $this->db->insert_id();
-
-        $query = "select distinct id_submenu from sys_menu_submenu";
-        $query = $this->db->query($query);  
-        $data_menu = $query->result_array(); 
+        $result     = $this->db->insert(self::roles, $data );
+        $ultimo_id  = $this->db->insert_id();
+        $query      = "select distinct id_submenu from sys_menu_submenu";
+        $query      = $this->db->query($query);  
+        $data_menu  = $query->result_array(); 
 
         foreach ($data_menu as $value) {
+
             $a = $value['id_submenu'];
             $inset_acceso = "insert into sys_submenu_acceso (id_submenu,id_role,submenu_acceso_estado)
             values($a,$ultimo_id,0)";
@@ -128,7 +126,7 @@ class Roles_model extends CI_Model {
         
         $rol_nombre = $data['nom_nue_rol'];
 
-        $accesos = $this->getRolAccesos( $data['role_id'] );
+        $accesos = $this->get_accesos( $data['role_id'] );
     }
 
     function createRolCopia( $nuevo_rol ){

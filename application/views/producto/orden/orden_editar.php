@@ -63,6 +63,17 @@
                             <button type="button" class="mb-sm btn btn-pill-right btn-primary btn-outline"> Lista Ordenes </button>
                         </a>
 
+                        <span style="text-align: left; font-size: 20px;overflow: hidden;margin-left:20px;">
+                                <?php echo $sucursales[0]->nombre_razon_social ." / "; ?>
+                                <?php echo $empleado[0]->nombre_sucursal ." / "; ?>
+                                <?php echo $this->session->usuario[0]->nombre_usuario ." / "; ?>
+                                <?php echo $this->session->usuario[0]->role ." / "; ?>
+                                <?php echo date("D") ." / "; ?>
+                                <?php echo $terminal[0]->nombre_caja ." / "; ?>
+                                <?php echo $terminal[0]->nombre ." / "; ?>
+                                <?php echo Date("d/m/y") ; ?>
+                            </span>
+
                         <div class="panel-heading" style="text-align: right; font-size: 20px;overflow: hidden;">
                             <?php echo $empleado[0]->nombre_sucursal ." [ ". $terminal[0]->nombre." ]"; ?>
 
@@ -78,7 +89,7 @@
                         <div class="panel-wrapper collapse in">
                             <div class="panel-body">
                                 <p>
-                                    <div class="panel-body bt">
+                                    <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
@@ -314,8 +325,6 @@
                 </form>
                 <!-- END panel-->
 
-
-
                 <!-- START table-responsive-->
 
                 <table class="table table-sm table-hover">
@@ -374,7 +383,7 @@
                             <th style="color: black;">Cantidad</th>
                             <th style="color: black;">Presentación</th>
                             <th style="color: black;">Factor</th>
-                            <th style="color: black;">Unidad</th>
+                            <th style="color: black;">Precio Unidad</th>
                             <th style="color: black;">Descuento</th>
                             <th style="color: black;">Total</th>
                             <th style="color: black;">Bodega</th>

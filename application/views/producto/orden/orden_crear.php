@@ -65,18 +65,26 @@ include("asstes/pos_funciones.php");
                             <button type="button" class="mb-sm btn btn-pill-right btn-primary btn-outline"> Lista Ordenes </button>
                         </a>
 
-                        <div class="panel-heading" style="text-align: right; font-size: 20px;overflow: hidden;">
+                        <span style="text-align: left; font-size: 20px;overflow: hidden;margin-left:20px;">
+                                <?php echo $sucursales[0]->nombre_razon_social ." / "; ?>
+                                <?php echo $empleado[0]->nombre_sucursal ." / "; ?>
+                                <?php echo $this->session->usuario[0]->nombre_usuario ." / "; ?>
+                                <?php echo $this->session->usuario[0]->role ." / "; ?>
+                                <?php echo date("D") ." / "; ?>
+                                <?php echo $terminal[0]->nombre_caja ." / "; ?>
+                                <?php echo $terminal[0]->nombre ." / "; ?>
+                                <?php echo Date("d/m/y") ; ?>
+                            </span>
+
+                        <div class="panel-heading" style="text-align: right; font-size: 20px;">
+                            
                             <?php
                             if ($empleado[0]) {
-                                echo $empleado[0]->nombre_sucursal . " [ " . $terminal[0]->nombre . " ]";
+                                //echo $empleado[0]->nombre_sucursal . " [ " . $terminal[0]->nombre . " ]";
                             } else {
                                 echo " No hay Sucursal";
                             }
-                            ?>
-
-                            <span class="label label-warning">
-                                <?php echo Date("d/M/y"); ?>
-                            </span>
+                            ?>                
 
                             <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
                                 <em class="fa fa-minus"></em>
@@ -86,7 +94,7 @@ include("asstes/pos_funciones.php");
                         <div class="panel-wrapper collapse in">
                             <div class="panel-body">
                                 <p>
-                                    <div class="panel-body bt">
+                                    <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
@@ -194,7 +202,7 @@ include("asstes/pos_funciones.php");
                                         </div>
                                     </div>
 
-                                    <div class="panel-body bt">
+                                    <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
@@ -260,7 +268,7 @@ include("asstes/pos_funciones.php");
                                         </div>
                                     </div>
 
-                                    <div class="panel-body bt">
+                                    <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
@@ -400,7 +408,7 @@ include("asstes/pos_funciones.php");
                                             <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ] </th>
                                             <th style="color: black;">Presentación</th>
                                             <th style="color: black;">Factor</th>
-                                            <th style="color: black;">Unidad</th>
+                                            <th style="color: black;">Precio Unidad</th>
                                             <th style="color: black;">Descuento [ : ]</th>
                                             <th style="color: black;">Total</th>
                                             <th style="color: black;">Bodega</th>

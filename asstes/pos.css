@@ -93,3 +93,8 @@ body{
 .linea_superior{
     border-bottom: 2px solid #82b74b;
 }
+
+.panel-body {
+    padding: 5px;
+    margin-top: -10px;
+}

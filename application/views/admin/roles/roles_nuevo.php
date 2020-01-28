@@ -33,7 +33,7 @@
                                             <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control" id="role" name="role" placeholder="Nombre Rol" required value="<?php //echo $roles[0]->role 
-                                                                                                                                                ?>">
+                                                                                                                                                        ?>">
 
                                             </div>
                                         </div>
@@ -42,7 +42,7 @@
                                             <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Url</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control" id="pagina" name="pagina" placeholder="URL" required value="<?php //echo $roles[0]->pagina 
-                                                                                                                                            ?>">
+                                                                                                                                                    ?>">
 
                                             </div>
                                         </div>

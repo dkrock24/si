@@ -233,7 +233,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empleado</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control persona_codigo" id="nombre_persona" name="nombre_persona" placeholder="Nombre Persona" value="<?php echo $usuario[0]->Empleado ?>">
                                         <input type="hidden" class="form-control persona_codigo" id="persona" name="persona" placeholder="Persona" value="<?php echo $usuario[0]->Empleado ?>">

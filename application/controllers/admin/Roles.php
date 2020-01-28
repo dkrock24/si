@@ -21,24 +21,23 @@ class Roles extends MY_Controller {
 
 	public function index()
 	{	
-		$model = "Roles_model";
-		$url_page = "admin/roles/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 3);
+		$model 		= "Roles_model";
+		$url_page 	= "admin/roles/index";
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 3);
 
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
-
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
-		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
+		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
+		$data['menu'] 		= $this->session->menu;
+		$data['links'] 		= $pag['links'];
+		$data['filtros'] 	= $pag['field'];		
+		$data['column'] 	= $this->column();
+		$data['fields'] 	= $this->fields();
 		$data['total_pagina'] = $pag['config']["per_page"];
-		$data['total_records'] 	= $pag['total_records'];
+		$data['total_records']= $pag['total_records'];
+		$data['contador_tabla'] = $pag['contador_tabla'];
 
-		$data['registros'] = $this->Roles_model->getRoles( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
-		$data['home'] = 'template/lista_template';
-		$data['title'] = 'Roles';
+		$data['registros'] 	= $this->Roles_model->getRoles( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
+		$data['home'] 		= 'template/lista_template';
+		$data['title'] 		= 'Roles';
 
 		$this->parser->parse('template', $data);
 
@@ -132,6 +131,7 @@ class Roles extends MY_Controller {
 	}
 
 	public function fields(){
+		
 		$fields['field'] = array(
 			'role','pagina','fecha_creacion','fecha_actualizacion','estado'
 		);
