@@ -121,7 +121,7 @@
                                                     <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Empresa</label>
                                                     <div class="col-sm-8">
                                                         <select class="form-control" id="empresa" name="empresa" required>
-                                                            <option value="0">Empresa</option>
+                                                            
                                                             <?php
                                                             foreach ($empresa as $value) {
                                                                 ?>

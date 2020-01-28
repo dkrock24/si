@@ -1927,7 +1927,8 @@
 
                 success: function(data) {
 
-                    location.reload();
+                    //location.reload();
+                    window.location.href = "../nuevo";
                 },
                 error: function() {}
             });

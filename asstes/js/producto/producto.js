@@ -16,6 +16,8 @@ $(document).ready(function () {
 
     // Llamadas de funciones catalogos
     get_cliente();
+
+    loadEmpresa($("#empresa").val());
     
     $(document).on('click', '#procuto_asociado', function () {
         $('#producto_asociado_modal').modal('show');
@@ -101,6 +103,32 @@ $(document).ready(function () {
             }
         });
     });
+
+   function loadEmpresa(id_empresa_select) {
+        
+        $("#giro").empty();
+        var id = id_empresa_select;
+        
+        $.ajax({
+            url: "get_giros_empresa/" + id,
+            datatype: 'json',
+            cache: false,
+
+            success: function (data) {
+
+                var datos = JSON.parse(data);
+                console.log(datos);
+                $("#id_empresa").val(datos[0].Empresa);
+                $("#giro").append('<option value="0">Selecione Giro</option>');
+                $.each(JSON.parse(data), function (i, item) {
+                    $("#giro").append('<option value=' + item.id_giro_empresa + '>' + item.nombre_giro + '</option>');
+                });
+
+            },
+            error: function () {
+            }
+        });
+    }
 
     $("#empresa").change(function () {
         $("#giro").empty();
