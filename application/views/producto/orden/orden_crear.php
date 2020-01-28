@@ -66,25 +66,25 @@ include("asstes/pos_funciones.php");
                         </a>
 
                         <span style="text-align: left; font-size: 20px;overflow: hidden;margin-left:20px;">
-                                <?php echo $sucursales[0]->nombre_razon_social ." / "; ?>
-                                <?php echo $empleado[0]->nombre_sucursal ." / "; ?>
-                                <?php echo $this->session->usuario[0]->nombre_usuario ." / "; ?>
-                                <?php echo $this->session->usuario[0]->role ." / "; ?>
-                                <?php echo date("D") ." / "; ?>
-                                <?php echo $terminal[0]->nombre_caja ." / "; ?>
-                                <?php echo $terminal[0]->nombre ." / "; ?>
-                                <?php echo Date("d/m/y") ; ?>
-                            </span>
+                            <?php echo $sucursales[0]->nombre_razon_social . " / "; ?>
+                            <?php echo $empleado[0]->nombre_sucursal . " / "; ?>
+                            <?php echo $this->session->usuario[0]->nombre_usuario . " / "; ?>
+                            <?php echo $this->session->usuario[0]->role . " / "; ?>
+                            <?php echo date("D") . " / "; ?>
+                            <?php echo $terminal[0]->nombre_caja . " / "; ?>
+                            <?php echo $terminal[0]->nombre . " / "; ?>
+                            <?php echo Date("d/m/y"); ?>
+                        </span>
 
                         <div class="panel-heading" style="text-align: right; font-size: 20px;">
-                            
+
                             <?php
                             if ($empleado[0]) {
                                 //echo $empleado[0]->nombre_sucursal . " [ " . $terminal[0]->nombre . " ]";
                             } else {
                                 echo " No hay Sucursal";
                             }
-                            ?>                
+                            ?>
 
                             <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
                                 <em class="fa fa-minus"></em>
@@ -345,6 +345,7 @@ include("asstes/pos_funciones.php");
                                 <div class="col-md-4">
                                     <div class="input-group m-b">
                                         <span class="input-group-addon bg-green">[ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
+                                        
                                         <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
                                     </div>
 
