@@ -25,17 +25,17 @@
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
+                                            <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Razon Social</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="nombre_razon_social" name="nombre_razon_social" placeholder="Nombre Razon Social" value="<?php echo $empresa[0]->nombre_razon_social ?>">
+                                                <input type="text" class="form-control" id="nombre_razon_social" name="nombre_razon_social" required="" placeholder="Nombre Razon Social" value="<?php echo $empresa[0]->nombre_razon_social ?>">
 
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Nombre</label>
+                                            <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Nombre Comercial</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="nombre_comercial" name="nombre_comercial" placeholder="Nombre Comercial" value="<?php echo $empresa[0]->nombre_comercial ?>">
+                                                <input type="text" class="form-control" id="nombre_comercial" name="nombre_comercial" required="" placeholder="Nombre Comercial" value="<?php echo $empresa[0]->nombre_comercial ?>">
 
                                             </div>
                                         </div>
@@ -43,14 +43,14 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">NRC</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="nrc" name="nrc" placeholder="NRC" value="<?php echo $empresa[0]->nrc ?>">
+                                                <input type="text" class="form-control" id="nrc" name="nrc" placeholder="NRC" required="" value="<?php echo $empresa[0]->nrc ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">NIT</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="nit" name="nit" placeholder="NIT" value="<?php echo $empresa[0]->nit ?>">
+                                                <input type="text" class="form-control" id="nit" name="nit" placeholder="NIT" required="" value="<?php echo $empresa[0]->nit ?>">
 
                                             </div>
                                         </div>
@@ -98,9 +98,25 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">N. J.</label>
+                                            <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Tipo Persona</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="natural_juridica" name="natural_juridica" placeholder="Natural Juridico" value="<?php echo $empresa[0]->natural_juridica ?>">
+                                                <select id="natural_juridica" name="natural_juridica" class="form-control">
+                                                <?php
+                                                    if( $empresa[0]->natural_juridica == 0){
+                                                        ?>
+                                                            <option value="0">Natural</option>  
+                                                            <option value="1">Juridica</option>                                          
+                                                        <?php
+
+                                                    }else{
+                                                        ?>
+                                                            <option value="1">Juridica</option>
+                                                            <option value="0">Natural</option>                                            
+                                                        <?php
+
+                                                    }
+                                                ?>
+                                                </select>
 
                                             </div>
                                         </div>
@@ -116,15 +132,17 @@
                                         <div class="form-group img_logo">
                                             <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Logo</label>
                                             <div class="col-sm-10">
-                                                <input type="file" class="form-control" id="logo_empresa" name="logo_empresa" placeholder="Autorizacion" value="<?php //echo $onMenu[0]->titulo_submenu 
-                                                                                                                                                                ?>">
-                                                <img src="data: <?php echo $empresa[0]->logo_type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($empresa[0]->logo_empresa) ?>" class="preview_producto polaroid" style="width:50%" />
+                                                <input type="file" class="form-control" id="logo_empresa" name="logo_empresa" placeholder="Autorizacion" value="<?php //echo $onMenu[0]->titulo_submenu ?>"/>
+                                                <?php
+                                                if($empresa[0]->logo_empresa){
+                                                    ?>
+                                                    <img src="data: <?php echo $empresa[0]->logo_type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($empresa[0]->logo_empresa) ?>" class="preview_producto polaroid" style="width:50%" />
+                                                    <?php
+                                                }
+                                                ?>
+                                                
                                             </div>
-
                                         </div>
-
-
-
                                     </div>
 
 

@@ -22,7 +22,7 @@
 
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
+                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Razon Social</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="nombre_razon_social" name="nombre_razon_social" placeholder="Nombre Razon Social" required="" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
                                         
@@ -30,7 +30,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Nombre</label>
+                                    <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Nombre Comercial</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="nombre_comercial" name="nombre_comercial" placeholder="Nombre Comercial" required="" value="<?php //echo $onMenu[0]->url_submenu ?>">
                                         
@@ -55,7 +55,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Autorizacion</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="autorizacion" name="autorizacion" required="" placeholder="Autorizacion" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        <input type="text" class="form-control" id="autorizacion" name="autorizacion" placeholder="Autorizacion" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                         
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Giro</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="giro" name="giro" placeholder="Giro" required="" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        <input type="text" class="form-control" id="giro" name="giro" placeholder="Giro" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                         
                                     </div>
                                 </div>
@@ -93,9 +93,13 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">N. J.</label>
+                                    <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Tipo Persona</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="natural_juridica" required="" name="natural_juridica" placeholder="Natural Juridico" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        <select id="natural_juridica" name="natural_juridica" class="form-control">
+                                            <option value="0">Natural</option>
+                                            <option value="1">Juridica</option>
+
+                                        </select>                                       
                                         
                                     </div>
                                 </div>
@@ -103,7 +107,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">M. I.</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="metodo_inventario" required="" name="metodo_inventario" placeholder="Metodo Inventario" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        <input type="text" class="form-control" id="metodo_inventario" name="metodo_inventario" placeholder="Metodo Inventario" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                         
                                     </div>
                                 </div>
@@ -118,7 +122,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Direccion</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="direccion" required="" name="direccion" placeholder="Direccion" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                        <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Direccion" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
                                         
                                     </div>
                                 </div>
@@ -165,7 +169,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Telefono</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="tel" required="" name="tel" placeholder="Telefono" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        <input type="text" class="form-control" id="tel" name="tel" placeholder="Telefono" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                         
                                     </div>
                                 </div>
@@ -173,7 +177,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Codigo</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="codigo" required="" name="codigo" placeholder="Codigo" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Codigo" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                         
                                     </div>
                                 </div>

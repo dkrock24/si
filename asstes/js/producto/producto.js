@@ -309,7 +309,7 @@ $(document).ready(function () {
             "<td><input type='text' size='4' name='utilidad" + contador + "' readonly class='utilidad" + contador + "' value=''/></td>" +
             "<td>" +
             "<div class='btn-group mb-sm'>" +
-            " <a href='#' class='btn btn-danger btn-sm deletePrecio' name='" + contador + "'><i class='fa fa-trash'></i></a>" +
+            " <span class='btn btn-warning btn-sm deletePrecio' name='" + contador + "'><i class='fa fa-trash'></i></span>" +
 
             " </div>" +
             "   </td>" +

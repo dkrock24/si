@@ -25,6 +25,16 @@
     .link_btn{
         text-decoration: none;
     }
+    .deletePrecio{
+        background: #0f4871;
+    }
+
+    #AgregarPrecios{
+        background:#82b74b;
+        color:black;
+    }
+
+    
 </style>
 <!-- Main section-->
     <section>
@@ -287,7 +297,7 @@
                                                 <div class="form-group">
                                                      <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Relacion</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="procuto_asociado" id="procuto_asociado" class="form-control" value="1" required>
+                                                        <input type="text" name="procuto_asociado" id="procuto_asociado" class="form-control" value="">
                                                         
                                                         
                                                     </div>
@@ -510,9 +520,9 @@
                                                     <th>
                                                         <div class="btn-group">
                                                         
-                                                            <a href="#" id="AgregarPrecios" class="btn btn-default">Agregar</a>
+                                                            <span id="AgregarPrecios" class="btn btn-info"><i class="fa fa-plus-circle"></i></span>
                                                       
-                                                        </div>  
+                                                        </div>
                                                     </th>
                                                  </tr>
                                               </thead>

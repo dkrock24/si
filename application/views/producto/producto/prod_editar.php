@@ -292,7 +292,7 @@
                 "<td><input type='text' size='4' name='utilidad" + contador + "' readonly class='utilidad" + contador + "' value=''/></td>" +
                 "<td>" +
                 "<div class='btn-group mb-sm'>" +
-                " <a href='#' class='btn btn-danger btn-sm deletePrecio' name='" + contador + "'><i class='fa fa-trash'></i></a>" +
+                " <span class='btn btn-warning btn-sm deletePrecio' name='" + contador + "'><i class='fa fa-trash'></i></span>" +
 
                 " </div>" +
                 "   </td>" +
@@ -544,6 +544,15 @@
     .right {
         text-align: right;
 
+    }
+
+    .deletePrecio{
+        background: #0f4871;
+    }
+
+    #AgregarPrecios{
+        background:#82b74b;
+        color:black;
     }
 </style>
 <!-- Main section-->
@@ -841,7 +850,6 @@
                                             <div class="col-sm-8">
                                                 <input type="text" name="procuto_asociado" value="<?php echo $producto[0]->id_producto_relacionado ?>" id="procuto_asociado" class="form-control">
 
-
                                             </div>
                                             <div class="col-sm-1"></div>
                                         </div>
@@ -1092,7 +1100,7 @@
                                                         <th>
                                                             <div class="btn-group">
 
-                                                                <a href="#" id="AgregarPrecios" class="btn btn-default">Agregar</a>
+                                                                <span id="AgregarPrecios" class="btn btn-default"><i class="fa fa-plus-circle"></i></span>
 
                                                             </div>
                                                         </th>
@@ -1174,7 +1182,7 @@
                                                                 <td><input type="text" size='4' class='utilidad<?php echo $cont_table ?>' name="utilidad<?php echo $cont_table ?>" value="<?php echo $precio->Utilidad; ?>"></td>
                                                                 <td>
                                                                     <div class='btn-group mb-sm'>
-                                                                        <a href='#' class='btn btn-danger btn-sm deletePrecio' name='<?php echo $cont_table ?>'><i class='fa fa-trash'></i></a>
+                                                                        <span class='btn btn-warning btn-sm deletePrecio' name='<?php echo $cont_table ?>'><i class='fa fa-trash'></i></span>
                                                                     </div>
                                                                 </td>
 

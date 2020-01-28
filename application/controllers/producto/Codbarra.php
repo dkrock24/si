@@ -51,10 +51,10 @@ class Codbarra extends MY_Controller {
 
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
+		$param['combo'] = 0;
 
 		$data['menu'] = $this->session->menu;
-		$data['productos'] = $this->Producto_model->get_producto_tabla();
+		$data['productos'] = $this->Producto_model->get_producto_tabla($param);
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'producto/codbarra/codbarra_nuevo';
 
