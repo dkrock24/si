@@ -431,9 +431,9 @@ include("asstes/pos_funciones.php");
                             </div>
                         </table>
 
-                        <div class="lista_productos" style="height:400px;">
-                            <table class="table table-sm table-hover">
-                                <tbody class="producto_agregados" style="border-top:  0px solid black">
+                        <div class="lista_productos" style="height:100px;">
+                            <table class="table table-sm table-hover" id="lista_productos">
+                                <tbody class="producto_agregados" style="border-top:  0px solid black" id="prod_list">
                                 </tbody>
                             </table>
                         </div>

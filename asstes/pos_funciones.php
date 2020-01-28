@@ -546,8 +546,7 @@
         });
 
         /* CONTROL DE ACCESOS DIRECTOS */
-
-
+        
         jQuery(document).ready(function() {
 
             var currCell = $('.producto_agregados > tr').first();
@@ -564,6 +563,7 @@
                 $(this).css('color', '#fff');
 
                 currCell = $(this);
+                
                 currCell.focus();
                 var producto_imagen_id = $(this).attr('id');
                 //imagen(producto_imagen_id);
@@ -594,7 +594,9 @@
 
             }
 
+            
             document.onkeydown = function(e) {
+                //productos_tabla
 
                 switch (e.keyCode) {
                     case 37: //alert('left');                  
@@ -645,10 +647,14 @@
                 } else if (e.keyCode == 37) {
                     // Left Arrow
                     c = currCell.prev();
-                } else if (e.keyCode == 38) {
+                } else if (e.keyCode == 38) {                    
+                    
                     // Up Arrow
                     c = currCell.closest('tr').prev().find('td:eq(' +
-                        currCell.index() + ')');
+                    currCell.index() + ')');
+                    height = (height/2) - 39;
+                    
+                    //$('.lista_productos').animate({scrollIntoView: height}, 1);                        
 
                     id_celda = $(currCell.closest('tr').prev()).attr('name');
 
@@ -665,9 +671,13 @@
 
 
                 } else if (e.keyCode == 40) {
-                    // Down Arrow
+                    // Down Arrow                   
+                    
                     c = currCell.closest('tr').next().find('td:eq(' +
                         currCell.index() + ')');
+                    
+                    $('.lista_productos').animate({scrollIntoView: height}, 1);
+                    height += 39;
 
                     id_celda = $(currCell.closest('tr').next()).attr('name');
 
@@ -710,6 +720,7 @@
                     currCell.parent().css('color', '#fff');
                 }
             }
+            
 
             $('#edit').keydown(function(e) {
                 if (editing && e.which == 27) {
@@ -722,11 +733,22 @@
 
             function producto_tabla_foco() {
 
-                currCell = $('.productos_tabla').first();
+                //$("#lista_productos").select();
+                $('.lista_productos').select();
+
+                $(this).css("background","red");
+
+                $('.lista_productos').animate({scrollTop: 0}, 100);
+
+                currCell    = $('.producto_agregados > tr').first();
+
+                $('tr').css('background', 'none');
+                $('tr').css('color', 'black');
                 id_celda = $(currCell).attr('name');
-                currCell.focus();
                 $(currCell).css('background', '#0f4871');
                 $(currCell).css('color', '#fff');
+                //currCell.focus();
+                
             }
 
             function f7_foco_efectivo() {
@@ -1905,7 +1927,7 @@
 
                 success: function(data) {
 
-                    //location.reload();
+                    location.reload();
                 },
                 error: function() {}
             });
