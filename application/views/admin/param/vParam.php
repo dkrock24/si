@@ -354,7 +354,7 @@
                <h4 id="myModalLabelLarge" class="modal-title" style="text-align: center;"> Crear Nuevo Parametro </h4>
             </div>
             <div class="modal-body">  
-               <form name="param_form" id="save_params" >
+               <form name="param_form" id="save_params" class="save_params" >
                   <div class="row">
                      <div class="col-md-4">Modulo</div>
                      <div class="col-md-8">

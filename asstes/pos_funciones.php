@@ -11,6 +11,7 @@
         $('#vendedor_modal').appendTo("body");
         $('#vendedores_modal').appendTo("body");
         $('#presentacion_modal').appendTo("body");
+        $("#autorizacion_descuento").appendTo("body");
         $('#imprimir').appendTo("body");
         $('#en_proceso').appendTo("body");
         $('#en_reserva').appendTo("body");
@@ -31,6 +32,7 @@
         var _productos_precio2;
         var interno_bodega = 0;
         var producto_cantidad_linea = 1;
+        var input_autorizacion_descuento = 0;
 
         getImpuestosLista();
 
@@ -303,8 +305,6 @@
             interno_bodega = bodega;
             var table_tr = "";
             $(".dataSelect").html(table_tr);
-
-            console.log(_productos_lista);
 
             if (_productos_lista.length == 1) {
 
@@ -865,7 +865,7 @@
                 depurar_producto();
             }
 
-        });
+        });        
 
         function grabar() {
             // 7 - Grabar producto en la orden
@@ -878,6 +878,14 @@
             if (_productos.cantidad != null) {
                 _productos.descuento = $("#descuento").val();
 
+                if(_productos.descuento != null && _productos.descuento !="" && _productos.descuento != 0){
+                    
+                    $( "#autorizacion_descuento_div" ).load( "/asstes/modalDiscountAutorization.html", function() {
+                        
+                    });
+                    
+                }
+                
                 if (contador_productos == 0) {
                     _productos.descuento = $("#descuento").val();
 
@@ -2262,5 +2270,17 @@
         $("#compra_venta").text(total_msg.toFixed(2));
         $("#restante_venta").text(total_msg.toFixed(2));
 
+        function validar_autorizacion(){
+            alert(input_autorizacion_descuento);
+        }
+
+    }
+
+    function existAutorizatio(){
+
+        $(document).ready(function() {
+            validar_autorizacion();
+        });     
+        
     }
 </script>

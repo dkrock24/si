@@ -1,0 +1,47 @@
+<!-- METODO DE PAGOS MODAL-->
+<div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento"
+    class="modal flip">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #dde6e9">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span style="font-size: 20px; ">[ Autorizacion - Descuento ]</span>
+
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control has-success" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success bg-green btn_aut_desc"
+                    name="5">Autorizar</button>
+                <button type="button" data-dismiss="modal" class="btn btn-warning">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Small-->
+
+<script>
+    $(document).ready(function () {
+
+        $("#autorizacion_descuento").appendTo("body");
+
+        $("#autorizacion_descuento").modal();
+
+        $("#input_autorizacion_descuento").focus();        
+
+        $(".btn_aut_desc").click(function () {
+            
+            input_autorizacion_descuento = $("#input_autorizacion_descuento").val();
+
+            if(input_autorizacion_descuento){
+                existAutorizatio();
+            }
+
+        });
+
+    })
+</script>

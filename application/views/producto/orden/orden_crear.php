@@ -649,7 +649,9 @@ include("asstes/pos_funciones.php");
     </div>
 </div>
 <!-- Modal Small-->
+<div id="autorizacion_descuento_div">
 
+</div>
 <!-- Modal Large PRODUCTOS MODAL-->
 <div id="en_proceso" tabindex="-1" role="dialog" aria-labelledby="en_proceso" class="modal fade">
     <div class="modal-dialog modal-sm">
