@@ -304,27 +304,51 @@
             var table_tr = "";
             $(".dataSelect").html(table_tr);
 
+            console.log(_productos_lista);
+
             if (_productos_lista.length == 1) {
 
                 get_producto_completo(_productos_lista[0].id_producto_detalle);
                 input_producto_buscar.val("");
 
             } else {
+                
+                var prod_escala_prev = 0;
+                var prod_escala_next = 0;
+                var prod_escala_cont = 0;
+                var prod_temp_id = 0;
 
                 $.each(_productos_lista, function(i, item) {
 
-                    if (item.precio_venta != 0) {
-                        producto_id = item.id_entidad;
-                        precio = parseFloat(item.precio);
-                        table_tr += '<option value="' + item.id_producto_detalle + '">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + ' - ' + precio.toFixed(2) + '</option>';
-                        contador_precios++;
+                    if (item.precio_venta != 0 ) {
+                        prod_escala_prev = item.id_entidad;
 
+                        if(prod_escala_prev != prod_escala_next || item.Escala ==0 ){
+                            prod_escala_next = item.id_entidad;
+                            prod_temp_id = item.id_producto_detalle;
+                            producto_id = item.id_entidad;
+                            precio = parseFloat(item.precio);
+                            table_tr += '<option value="' + item.id_producto_detalle + '">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + ' - ' + precio.toFixed(2) + '</option>';
+                            contador_precios++;
+                            prod_escala_cont++;
+                        }
                     }
                 });
-                $('.dataSelect').show();
-                $(".dataSelect").html(table_tr);
-                document.getElementById('dataSelect').selectedIndex = 0;
-                document.getElementById('dataSelect').focus();
+
+                if(prod_escala_cont <= 1 ){
+
+                    get_producto_completo( prod_temp_id );
+                    input_producto_buscar.val("");
+
+                }else{
+
+                    $('.dataSelect').show();
+                    $(".dataSelect").html(table_tr);
+                    document.getElementById('dataSelect').selectedIndex = 0;
+                    document.getElementById('dataSelect').focus();
+
+                }
+
 
             }
         }
@@ -333,7 +357,6 @@
 
             if (event.keyCode == 40) {
                 $('.dataSelect').focus();
-                input_producto_buscar.val("");
                 document.getElementById('dataSelect').selectedIndex = 0;
             }
         });
@@ -344,10 +367,8 @@
             if (event.which == 13) {
                 get_producto_completo(this.value);
                 event.preventDefault();
-                $("#producto_buscar").val(this.value);
                 $('#dataSelect').hide();
-                $('#dataSelect').empty();
-                $("#grabar").focus();
+                $('#dataSelect').empty();                
                 input_producto_buscar.val("");
             }
 
@@ -358,7 +379,6 @@
             $("#grabar").attr('disabled');
             var codigo, presentacion, tipo, precioUnidad, descuento, total
 
-            //alert(bodega);
             interno_bodega = input_bodega_select.val();
 
             if (!interno_bodega) {
@@ -394,10 +414,10 @@
                     });
 
                     _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
-                    _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);
+                    _conf.impuesto      = parseInt(datos['impuesto'][0].valor_conf);
 
                     if (parseInt(_productos_precio.length) >= 1 && producto_escala != 1) {
-                        //get_presentacio_lista( _productos_precio );
+                        
                         seleccionar_productos_array(producto_id);
 
                     } else {
@@ -448,9 +468,7 @@
                     agregar_producto();
                     depurar_producto();
 
-
                     producto_cantidad_linea = 1;
-
 
                 },
                 error: function() {
@@ -458,28 +476,6 @@
                 }
             });
 
-        }
-
-        function get_presentacio_lista(_productos_precio) {
-            /* 5 - Retornando lista de presentaciones dentro de la tabla */
-            var contador_precios = 1;
-            var table_tr;
-
-            if (_productos_precio.length > 1) {
-                // Productos con una lista de presentaciones
-                $.each(_productos_precio, function(i, item) {
-                    table_tr += '<option value="' + item.id_producto_detalle + '">' + item.presentacion + '</option>';
-                    contador_precios++;
-                });
-                $(".dataSelect2").html(table_tr);
-                $('.dataSelect2').show();
-            } else {
-                // Productos con 1 Unica Presentacion 
-                seleccionar_productos_array(_productos_precio[0].id_producto_detalle);
-            }
-            $('.dataSelect2').focus();
-
-            document.getElementById('dataSelect2').selectedIndex = 0;
         }
 
         function enLinea() {
