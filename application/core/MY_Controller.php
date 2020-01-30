@@ -211,4 +211,11 @@ class MY_Controller extends CI_Controller
         $objWriter->save('php://output'); 
 
 	}
+
+	public function generarDocumento( $name ,  $data ){
+
+		$file = fopen('asstes/temp/'.$name.'.php', 'w');
+        fwrite($file, $data);
+		fclose($file);  
+	}
 }

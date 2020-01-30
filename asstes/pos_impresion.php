@@ -5,7 +5,8 @@ if (isset($temp)) {
 
         $data = $t->factura_template;
         try {
-            eval($data);
+            //eval($data);
+            echo $data;
         } catch (Exception $e) {
             echo "Error";
         }

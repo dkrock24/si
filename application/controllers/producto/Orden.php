@@ -167,12 +167,16 @@ class Orden extends MY_Controller {
 			$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
 			$data['temp'] 			= $this->Template_model->printer( $data['orden_detalle'] , @$data['orden'][0]->id_sucursal , @$data['orden'][0]->id_tipod, @$data['orden'][0]->id_condpago);
 	
-			$this->general->editar_valido($data['orden'], "producto/orden/index");
+			$data['home'] 			= 'producto/orden/orden_editar';
+			$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
+			$data['file'] 			= $name;
 
-			$data['home'] = 'producto/orden/orden_editar';
-
+			$this->general->editar_valido($data['orden'], "producto/orden/index");			
+			$this->generarDocumento( $name , $data['temp'][0]->factura_template );
 			$this->parser->parse('template', $data);
+
 		}else{
+
 			$data['home'] = 'producto/orden/orden_editar';
 			$data['temp'] = $this->Template_model->printer( $order_id );
 			$this->parser->parse('template', $data);
