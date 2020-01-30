@@ -43,6 +43,8 @@ class Cliente extends MY_Controller {
 		$this->load->model('admin/Pagos_model');
 		$this->load->model('admin/Persona_model');
 		$this->load->model('admin/Documento_model');
+		$this->load->model('admin/Empleado_model');
+		
 	}
 
 // Start  **********************************************************************************
@@ -88,6 +90,11 @@ class Cliente extends MY_Controller {
 		$data['home'] = 'admin/cliente/cliente_nuevo';
 
 		$this->parser->parse('template', $data);
+	}
+
+	function get_empleado(){
+		$data['empleado'] = $this->Empleado_model->get_empleados2();
+		echo json_encode($data);
 	}
 
 	public function crear(){

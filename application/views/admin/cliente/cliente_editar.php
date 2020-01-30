@@ -72,7 +72,14 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">NIT</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="nit_cliente" name="nit_cliente" placeholder="NIT" value="<?php echo $cliente[0]->nit_cliente ?>">
+                                                <input type="text" class="form-control" required id="nit_cliente" name="nit_cliente" placeholder="NIT" value="<?php echo $cliente[0]->nit_cliente ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">DUI</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="dui_cliente" name="dui_cliente" placeholder="DUI" value="<?php echo $cliente[0]->dui_cli ?>">
                                             </div>
                                         </div>
 
@@ -103,18 +110,17 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">N Cuenta</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="numero_cuenta" name="numero_cuenta" placeholder="N Cuenta" value="<?php echo $cliente[0]->numero_cuenta ?>">
+                                                <input type="text" class="form-control" required id="numero_cuenta" name="numero_cuenta" placeholder="N Cuenta" value="<?php echo $cliente[0]->numero_cuenta ?>">
 
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Impuesto</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Exento</label>
                                             <div class="col-sm-9">
                                                 <select id="aplica_impuestos" name="aplica_impuestos" class="form-control">
                                                     <option value="0">No</option>
                                                     <option value="1">Si</option>
-
                                                 </select>
 
                                             </div>
@@ -177,8 +183,23 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Natural</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="natural_juridica" name="natural_juridica" placeholder="Natural Juridica" value="<?php echo $cliente[0]->natural_juridica ?>">
+                                                
+                                                <select class="form-control" id="natural_juridica" name="natural_juridica">
+                                                <?php 
+                                                    if($cliente[0]->natural_juridica == 0){
+                                                        ?>
+                                                        <option value="0">Natural</option>
+                                                        <option value="1">Juridica</option>
+                                                        <?php
 
+                                                    }else{
+                                                        ?>
+                                                        <option value="1">Juridica</option>
+                                                        <option value="0">Natural</option>                                                    
+                                                        <?php
+                                                    }
+                                                ?>                                                   
+                                                </select>    
                                             </div>
                                         </div>
 
