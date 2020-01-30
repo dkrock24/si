@@ -108,6 +108,7 @@ class Empleado extends MY_Controller {
 		$sucursales = array();
 
 		$data['empleado'] = $this->Empleado_model->getEmpleadoId( $empleado_id );
+		$data['encargado'] = $this->Empleado_model->getEncargado( $data['empleado'][0]->encargado );
 
 		$data['menu'] = $this->session->menu;
 		$data['cargos']	= $this->Cargos_model->get_cargos();

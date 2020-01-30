@@ -78,7 +78,7 @@
 
                     } else {
                         if (accion == 'encargado_nombre') {
-                            $("#encargado").val(id);
+                            $("#encargado_id").val(id);
                             $("#encargado_nombre").val(name);
                         } else {
                             $("#Persona_E").val(id);
@@ -314,8 +314,8 @@
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
                                             <div class="col-sm-9">
 
-                                                <input type="text" class="form-control encargado_codigo" id="encargado" name="encargado" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu 
-                                                                                                                                                                        ?>">
+                                                <input type="text" class="form-control seleccionar_encargado" required id="encargado_nombre" name="" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="hidden" class="form-control seleccionar_encargado" id="encargado_id" name="encargado" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
 
                                             </div>
                                         </div>

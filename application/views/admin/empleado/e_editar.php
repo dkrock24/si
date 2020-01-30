@@ -72,21 +72,25 @@
                 cache: false,
 
                 success: function(data) {
-                    if (data) {
-                        $(".notificacion_texto").text("Empleado ya vinculado a un usuario existente.");
-                        $('#error').modal('show');
-
-                    } else {
+                     
                         if (accion == 'encargado_nombre') {
                             $("#encargado").val(id);
                             $("#encargado_nombre").val(name);
                         } else {
-                            $("#Persona_E").val(id);
-                            $("#persona_nombre").val(name);
-                        }
 
-                        $('#persona_modal').modal('hide');
-                    }
+                            if (data) {
+
+                                $(".notificacion_texto").text("Empleado ya vinculado a un usuario existente.");
+                                $('#error').modal('show');
+
+                            }else{
+
+                                $("#Persona_E").val(id);
+                                $("#persona_nombre").val(name);
+                            }
+                        } 
+                        $('#persona_modal').modal('hide');        
+                        
                 },
                 error: function() {}
             });
@@ -309,8 +313,8 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="encargado" name="encargado" placeholder="Encargado" value="<?php echo $empleado[0]->encargado ?>">
-
+                                                <input type="text" class="form-control seleccionar_encargado" required id="encargado_nombre" name="" placeholder="Persona" value="<?php echo $encargado[0]->primer_nombre_persona." ".$encargado[0]->segundo_nombre_persona." ".$encargado[0]->primer_apellido_persona." ".$encargado[0]->segundo_apellido_persona ?>">
+                                                <input type="hidden" class="form-control seleccionar_encargado" id="encargado" name="encargado" placeholder="Persona" value="<?php echo $empleado[0]->encargado ?>">
                                             </div>
                                         </div>
 
