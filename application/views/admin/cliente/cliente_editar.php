@@ -3,6 +3,69 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
+        $('#persona_modal').appendTo("body");
+
+
+        $(document).on('click', '.persona_codigo', function() {
+            $('#persona_modal').modal('show');
+            get_clientes_lista();
+        });
+
+        function get_clientes_lista() {
+
+            var table = "<table class='table table-sm table-hover'>";
+            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
+            table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
+            var table_tr = "<tbody id='list'>";
+            var contador_precios = 1;
+
+            $.ajax({
+                url: "../get_empleado",
+                datatype: 'json',
+                cache: false,
+
+                success: function(data) {
+                    var datos = JSON.parse(data);
+                    var clientes = datos["empleado"];
+
+                    $.each(clientes, function(i, item) {
+
+                        table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.tel + '</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_persona" id="' + item.id_empleado + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
+                        contador_precios++;
+
+
+                    });
+                    table += table_tr;
+                    table += "</tbody></table>";
+
+                    $(".cliente_lista_datos").html(table);
+
+                },
+                error: function() {}
+            });
+        }
+
+        // filtrar producto
+    $(document).on('keyup', '#buscar_producto', function(){
+        var texto_input = $(this).val();
+
+        $("#list tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
+        });        
+    });
+
+        // Seleccionar persona
+        $(document).on('click', '.seleccionar_persona', function(){
+            var id = $(this).attr("id");
+            var name = $(this).attr("name");
+
+            $("#persona").val(id);
+            $(".persona_codigo").val(name);
+            $('#persona_modal').modal('hide');
+
+        });
+
+
         $("#departamento").change(function() {
             $("#ciudad").empty();
             var html_option;
@@ -159,6 +222,10 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
                                             <div class="col-sm-9">
+
+                                                <input type="text" class="form-control persona_codigo" value="<?php echo $cliente[0]->primer_nombre_persona . ' ' . $cliente[0]->segundo_nombre_persona . ' ' . $cliente[0]->primer_apellido_persona . ' ' . $cliente[0]->segundo_apellido_persona; ?>">
+                                                <input type="hidden" class="form-control" id="persona" name="Persona" placeholder="Persona" value="<?php echo $cliente[0]->id_persona; ?>">
+                                            <!--
                                                 <select id="Persona" name="Persona" class="form-control">
                                                     <?php
                                                     foreach ($persona as $key => $p) {
@@ -177,6 +244,7 @@
                                                     }
                                                     ?>
                                                 </select>
+                                                -->
                                             </div>
                                         </div>
 
@@ -386,3 +454,27 @@
         </div>
     </div>
 </section>
+
+<!-- Modal Large CLIENTES MODAL-->
+<div id="persona_modal" tabindex="-1" role="dialog" aria-labelledby="persona_modal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info-dark">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 id="myModalLabelLarge" class="modal-title">Buscar Persona</h4>
+            </div>
+            <div class="modal-body">
+                <p class="cliente_lista_datos">
+
+                </p>
+
+            </div>
+            <div class="modal-footer bg-gray-light">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Small-->
