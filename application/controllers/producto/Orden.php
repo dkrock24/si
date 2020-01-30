@@ -332,6 +332,8 @@ class Orden extends MY_Controller {
 
 		$combo_conf 		= "combo";
 		$impuesto_conf 		= "impuestos";
+		$descuento_conf		= "descuentos";
+		
 		$data['producto'] 	= $this->Orden_model->get_producto_completo($id_producto_detalle, $id_bodega);		
 		$producto_id 		= $data['producto'][0]->id_entidad;		
 		$contador			= 0;
@@ -348,6 +350,7 @@ class Orden extends MY_Controller {
 		$data['prod_precio'] 	= $this->Orden_model->get_producto_precios( $producto_id );
 		$data['conf'] 			= $this->Orden_model->getConfg($combo_conf);
 		$data['impuesto'] 		= $this->Orden_model->getConfgImpuesto($impuesto_conf);
+		$data['descuentos'] 		= $this->Orden_model->getConfgDescuento($descuento_conf);
 		//$data['producto_imagen'] = $this->Producto_model->get_productos_imagen($producto_id);	
 		echo json_encode( $data );
 	}

@@ -1156,4 +1156,16 @@ class Orden_model extends CI_Model
 			return $query->result();
 		}
 	}
+
+	function getConfgDescuento($descuento_conf){
+		$this->db->select('*');
+		$this->db->from(self::sys_conf . ' as c');
+		$this->db->where('c.modulo_conf', 1); // 1 = ordenes modulo
+		$this->db->where('c.componente_conf', $descuento_conf); // 1 = ordenes modulo
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}
+	}
 }

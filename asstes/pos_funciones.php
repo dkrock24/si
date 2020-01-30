@@ -400,11 +400,10 @@
 
                 success: function(data) {
 
-                    var datos = JSON.parse(data);
-
-                    var precio_unidad = datos['producto'][0].unidad;
-                    _productos_precio2 = datos["prod_precio"];
-                    producto_escala = datos['producto'][0].Escala;
+                    var datos           = JSON.parse(data);
+                    var precio_unidad   = datos['producto'][0].unidad;
+                    _productos_precio2  = datos["prod_precio"];
+                    producto_escala     = datos['producto'][0].Escala;
 
                     $.each(_productos_precio2, function(i, item) {
                         if (item.id_producto_detalle == producto_id) {
@@ -415,6 +414,7 @@
 
                     _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
                     _conf.impuesto      = parseInt(datos['impuesto'][0].valor_conf);
+                    _conf.descuentos    = parseInt(datos['descuentos'][0].valor_conf)
 
                     if (parseInt(_productos_precio.length) >= 1 && producto_escala != 1) {
                         
@@ -879,10 +879,14 @@
                 _productos.descuento = $("#descuento").val();
 
                 if(_productos.descuento != null && _productos.descuento !="" && _productos.descuento != 0){
-                    
-                    $( "#autorizacion_descuento_div" ).load( "/asstes/modalDiscountAutorization.html", function() {
+
+                    if(_conf.descuentos == 1){
+
+                        $( "#autorizacion_descuento_div" ).load( "/asstes/modalDiscountAutorization.html", function() {
                         
-                    });
+                        });
+
+                    }
                     
                 }
                 
