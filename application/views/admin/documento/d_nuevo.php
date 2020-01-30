@@ -55,7 +55,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Cajas</label>
+                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Caja</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" required id="efecto_en_caja" name="efecto_en_caja" placeholder="Efecto Cajas" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
                                             

@@ -2270,17 +2270,21 @@
         $("#compra_venta").text(total_msg.toFixed(2));
         $("#restante_venta").text(total_msg.toFixed(2));
 
-        function validar_autorizacion(){
-            alert(input_autorizacion_descuento);
-        }
+        
 
     }
 
     function existAutorizatio(){
 
         $(document).ready(function() {
+
             validar_autorizacion();
-        });     
+        });    
+
+        function validar_autorizacion(){
+            
+            alert(input_autorizacion_descuento);
+        } 
         
     }
 </script>

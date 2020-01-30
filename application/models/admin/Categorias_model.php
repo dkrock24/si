@@ -94,6 +94,7 @@ class Categorias_model extends CI_Model {
                 'nombre_categoria'  => $categorias['nombre_categoria'],                
                 'id_categoria_padre'=> $categorias['categoria_padre'],
                 'Empresa' => $categorias['Empresa'],
+                'codigo_giro' => $categorias['codigo_giro'],
                 'categoria_estado'  => $categorias['categoria_estado'],
                 'actualizado_categoria'  => date("Y-m-d h:i:s")
             );
@@ -101,7 +102,8 @@ class Categorias_model extends CI_Model {
         }else{
             $data = array(
                 'nombre_categoria'  => $categorias['nombre_categoria'],                 
-                'Empresa' => $categorias['Empresa'],            
+                'Empresa' => $categorias['Empresa'],   
+                'codigo_giro' => $categorias['codigo_giro'],         
                 'categoria_estado'  => $categorias['categoria_estado'],
                 'actualizado_categoria'  => date("Y-m-d h:i:s")
             );

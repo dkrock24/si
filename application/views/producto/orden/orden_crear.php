@@ -35,7 +35,6 @@ include("asstes/pos_funciones.php");
 <script language="JavaScript">
     //window.print();
 </script>
-
 <!-- Main section-->
 <section>
     <!-- Page content-->
