@@ -288,24 +288,24 @@ class Cliente_model extends CI_Model
     {
 
         $data = array(
-            'website_cli'     =>  $datos['website_cli'],
-            'nrc_cli'    => $datos['nrc_cli'],
-            'nit_cliente'   => $datos['nit_cliente'],
-            'dui_cli'       => $datos['dui_cliente'],
-            'clase_cli'  => $datos['clase_cli'],
-            'mail_cli'  => $datos['mail_cli'],
-            'TipoPago'                       => $datos['TipoPago'],
+            'website_cli'       =>  $datos['website_cli'],
+            'nrc_cli'           => $datos['nrc_cli'],
+            'nit_cliente'       => $datos['nit_cliente'],
+            'dui_cli'           => $datos['dui_cliente'],
+            'clase_cli'         => $datos['clase_cli'],
+            'mail_cli'          => $datos['mail_cli'],
+            'TipoPago'          => $datos['TipoPago'],
             'TipoDocumento' => $datos['TipoDocumento'],
             'nombre_empresa_o_compania' => $datos['nombre_empresa_o_compania'],
-            'numero_cuenta'                       => $datos['numero_cuenta'],
-            'aplica_impuestos'                       => $datos['aplica_impuestos'],
-            'direccion_cliente'                      => $datos['direccion_cliente'],
-            'porcentage_descuentos'                  => $datos['porcentage_descuentos'],
-            'estado_cliente'                      => $datos['estado'],
+            'numero_cuenta'             => $datos['numero_cuenta'],
+            'aplica_impuestos'          => $datos['aplica_impuestos'],
+            'direccion_cliente'         => $datos['direccion_cliente'],
+            'porcentage_descuentos'     => $datos['porcentage_descuentos'],
+            'estado_cliente'            => $datos['estado'],
             'creado'                    => date("Y-m-d h:i:s"),
-            'Persona'               => $datos['Persona'],
-            'natural_juridica'            => $datos['natural_juridica'],
-            'id_cliente_tipo'            => $datos['id_cliente_tipo']
+            'Persona'                   => $datos['Persona'],
+            'natural_juridica'          => $datos['natural_juridica'],
+            'id_cliente_tipo'           => $datos['id_cliente_tipo']
         );
 
         if (isset($_FILES['logo_cli']) && $_FILES['logo_cli']['tmp_name'] != null) {
