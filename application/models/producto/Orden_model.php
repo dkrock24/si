@@ -36,6 +36,7 @@ class Orden_model extends CI_Model
 	const sys_empleado_sucursal = 'sys_empleado_sucursal';	
 	const sys_usuario = 'sys_usuario';	
 	const pos_bodega = "pos_bodega";
+	const empleado = "sys_empleado";
 
 	// Ordenes
 	const pos_tipo_documento = 'pos_tipo_documento';

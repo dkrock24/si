@@ -277,4 +277,39 @@ class Usuario_model extends CI_Model {
         return $result ;
 
     }
+
+    function autenticar_usuario_descuento( $credencials ){
+
+        $user       = $this->get_user_by_credencials($credencials);
+        $encargado  = $this->session->usuario[0]->encargado;
+        $flag       = false;
+        
+        if( $user ){
+            
+            if( $user[0]->encargado ==  $encargado){
+                $flag = true;
+            }
+        }
+
+        return $flag;
+
+    }
+
+    function get_user_by_credencials($credencials){
+
+        $this->db->select('u.id_usuario,u.id_rol,e.encargado');
+        $this->db->from(self::sys_usuario.' as u');
+        $this->db->join(self::empleado.' as e',' on u.Empleado = e.id_empleado ');
+        //$this->db->join(self::persona.' as p',' on p.id_persona = e.Persona_E ');
+        $this->db->where('u.nombre_usuario',$credencials['user']);
+        $this->db->where('u.contrasena_usuario', sha1($credencials['passwd']));
+        //echo $this->db->queries[1];
+
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
 }

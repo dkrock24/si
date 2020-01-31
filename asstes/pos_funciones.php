@@ -33,6 +33,7 @@
         var interno_bodega = 0;
         var producto_cantidad_linea = 1;
         var input_autorizacion_descuento = 0;
+        var flag_autenticacion = false;
 
         getImpuestosLista();
 
@@ -312,7 +313,7 @@
                 input_producto_buscar.val("");
 
             } else {
-                
+
                 var prod_escala_prev = 0;
                 var prod_escala_next = 0;
                 var prod_escala_cont = 0;
@@ -320,10 +321,10 @@
 
                 $.each(_productos_lista, function(i, item) {
 
-                    if (item.precio_venta != 0 ) {
+                    if (item.precio_venta != 0) {
                         prod_escala_prev = item.id_entidad;
 
-                        if(prod_escala_prev != prod_escala_next || item.Escala ==0 ){
+                        if (prod_escala_prev != prod_escala_next || item.Escala == 0) {
                             prod_escala_next = item.id_entidad;
                             prod_temp_id = item.id_producto_detalle;
                             producto_id = item.id_entidad;
@@ -335,12 +336,12 @@
                     }
                 });
 
-                if(prod_escala_cont <= 1 ){
+                if (prod_escala_cont <= 1) {
 
-                    get_producto_completo( prod_temp_id );
+                    get_producto_completo(prod_temp_id);
                     input_producto_buscar.val("");
 
-                }else{
+                } else {
 
                     $('.dataSelect').show();
                     $(".dataSelect").html(table_tr);
@@ -368,13 +369,14 @@
                 get_producto_completo(this.value);
                 event.preventDefault();
                 $('#dataSelect').hide();
-                $('#dataSelect').empty();                
+                $('#dataSelect').empty();
                 input_producto_buscar.val("");
             }
 
         });
 
         function get_producto_completo(producto_id) {
+
             /* 4 - Buscar producto por Id para agregarlo a la linea */
             $("#grabar").attr('disabled');
             var codigo, presentacion, tipo, precioUnidad, descuento, total
@@ -400,10 +402,10 @@
 
                 success: function(data) {
 
-                    var datos           = JSON.parse(data);
-                    var precio_unidad   = datos['producto'][0].unidad;
-                    _productos_precio2  = datos["prod_precio"];
-                    producto_escala     = datos['producto'][0].Escala;
+                    var datos = JSON.parse(data);
+                    var precio_unidad = datos['producto'][0].unidad;
+                    _productos_precio2 = datos["prod_precio"];
+                    producto_escala = datos['producto'][0].Escala;
 
                     $.each(_productos_precio2, function(i, item) {
                         if (item.id_producto_detalle == producto_id) {
@@ -413,11 +415,11 @@
                     });
 
                     _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
-                    _conf.impuesto      = parseInt(datos['impuesto'][0].valor_conf);
-                    _conf.descuentos    = parseInt(datos['descuentos'][0].valor_conf)
+                    _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);
+                    _conf.descuentos = parseInt(datos['descuentos'][0].valor_conf);
 
                     if (parseInt(_productos_precio.length) >= 1 && producto_escala != 1) {
-                        
+
                         seleccionar_productos_array(producto_id);
 
                     } else {
@@ -542,7 +544,7 @@
         });
 
         /* CONTROL DE ACCESOS DIRECTOS */
-        
+
         jQuery(document).ready(function() {
 
             var currCell = $('.producto_agregados > tr').first();
@@ -559,7 +561,7 @@
                 $(this).css('color', '#fff');
 
                 currCell = $(this);
-                
+
                 currCell.focus();
                 var producto_imagen_id = $(this).attr('id');
                 //imagen(producto_imagen_id);
@@ -590,7 +592,7 @@
 
             }
 
-            
+
             document.onkeydown = function(e) {
                 //productos_tabla
 
@@ -643,13 +645,13 @@
                 } else if (e.keyCode == 37) {
                     // Left Arrow
                     c = currCell.prev();
-                } else if (e.keyCode == 38) {                    
-                    
+                } else if (e.keyCode == 38) {
+
                     // Up Arrow
                     c = currCell.closest('tr').prev().find('td:eq(' +
-                    currCell.index() + ')');
-                    height = (height/2) - 39;
-                    
+                        currCell.index() + ')');
+                    height = (height / 2) - 39;
+
                     //$('.lista_productos').animate({scrollIntoView: height}, 1);                        
 
                     id_celda = $(currCell.closest('tr').prev()).attr('name');
@@ -668,11 +670,13 @@
 
                 } else if (e.keyCode == 40) {
                     // Down Arrow                   
-                    
+
                     c = currCell.closest('tr').next().find('td:eq(' +
                         currCell.index() + ')');
-                    
-                    $('.lista_productos').animate({scrollIntoView: height}, 1);
+
+                    $('.lista_productos').animate({
+                        scrollIntoView: height
+                    }, 1);
                     height += 39;
 
                     id_celda = $(currCell.closest('tr').next()).attr('name');
@@ -716,7 +720,7 @@
                     currCell.parent().css('color', '#fff');
                 }
             }
-            
+
 
             $('#edit').keydown(function(e) {
                 if (editing && e.which == 27) {
@@ -732,11 +736,13 @@
                 //$("#lista_productos").select();
                 $('.lista_productos').select();
 
-                $(this).css("background","red");
+                $(this).css("background", "red");
 
-                $('.lista_productos').animate({scrollTop: 0}, 100);
+                $('.lista_productos').animate({
+                    scrollTop: 0
+                }, 100);
 
-                currCell    = $('.producto_agregados > tr').first();
+                currCell = $('.producto_agregados > tr').first();
 
                 $('tr').css('background', 'none');
                 $('tr').css('color', 'black');
@@ -744,7 +750,7 @@
                 $(currCell).css('background', '#0f4871');
                 $(currCell).css('color', '#fff');
                 //currCell.focus();
-                
+
             }
 
             function f7_foco_efectivo() {
@@ -865,33 +871,23 @@
                 depurar_producto();
             }
 
-        });        
+        });
 
         function grabar() {
             // 7 - Grabar producto en la orden
-            
-            $('.lista_productos').animate({scrollTop: height}, 500);
+            $('.lista_productos').animate({
+                scrollTop: height
+            }, 500);
             height += 39;
-            
+
             input_producto_buscar.empty();
             input_producto_buscar.focus();
             if (_productos.cantidad != null) {
-                _productos.descuento = $("#descuento").val();
 
-                if(_productos.descuento != null && _productos.descuento !="" && _productos.descuento != 0){
+                // Verificar si se tiene permiso de descuento
+                check_descuento_permiso();               
 
-                    if(_conf.descuentos == 1){
-
-                        $( "#autorizacion_descuento_div" ).load( "/asstes/modalDiscountAutorization.html", function() {
-                        
-                        });
-
-                    }
-                    
-                }
-                
                 if (contador_productos == 0) {
-                    _productos.descuento = $("#descuento").val();
 
                     grabar_combo();
                     grabar_primeraves();
@@ -916,6 +912,71 @@
 
         }
 
+        function check_descuento_permiso(){
+
+            if(_conf.descuentos == 1){
+                
+                // Validar Descuento 
+                if(flag_autenticacion){
+                    _productos.descuento = $("#descuento").val();
+                }else{
+                    _productos.descuento = 0.00;
+                }
+                
+            }
+            else{
+                // Aplicar Descuento sin validacion
+                _productos.descuento = $("#descuento").val();
+            }
+
+        }
+
+        $(document).on('click', '#btn_discount', function() {
+
+            // Descuento Aprobacion flag_autenticacion
+
+            $("#autorizacion_descuento").modal();
+
+        });
+
+        $(".btn_aut_desc").click(function () {
+
+            var user    =  input_autorizacion_descuento = $("#input_autorizacion_descuento").val();
+            var passwd  =  input_autorizacion_descuento = $("#input_autorizacion_passwd").val();
+
+            autenticar_usuario_descuento(user, passwd);
+
+        });
+
+        function autenticar_usuario_descuento(user, passwd) {
+
+            if (user && passwd) {
+
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        user: user,
+                        passwd: passwd,
+                    },
+                    dataType: 'json',
+                    url: "autenticar_usuario_descuento",
+
+                    success: function(data) {
+
+                        flag_autenticacion = data;
+
+                        if(flag_autenticacion){
+                            $("#btn_discount").css("background","orange");
+                        }
+                        
+                    },
+                    error: function() {
+                        alert("Error En autenticar_usuario_descuento");
+                    }
+                });
+            }
+        }
+
         function grabar_primeraves() {
 
             _orden[contador_productos] = _productos;
@@ -923,7 +984,6 @@
             _productos.descuento_calculado = calcular_descuento(_productos.descuento, _productos.total, _productos.descuento_limite);
 
             agregar_producto();
-
         }
 
         function grabar_mas() {
@@ -2274,21 +2334,21 @@
         $("#compra_venta").text(total_msg.toFixed(2));
         $("#restante_venta").text(total_msg.toFixed(2));
 
-        
+
 
     }
 
-    function existAutorizatio(){
+    function existAutorizatio() {
 
         $(document).ready(function() {
 
             validar_autorizacion();
-        });    
+        });
 
-        function validar_autorizacion(){
-            
+        function validar_autorizacion() {
+
             alert(input_autorizacion_descuento);
-        } 
-        
+        }
+
     }
 </script>

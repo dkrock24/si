@@ -35,8 +35,7 @@ class Orden extends MY_Controller {
 	}
 
 	public function index()
-	{	
-
+	{
 		$model = "Orden_model";
 		$url_page = "producto/orden/index";
 		$pag = $this->MyPagination($model, $url_page, $vista = 26) ;
@@ -424,6 +423,13 @@ class Orden extends MY_Controller {
 			$info['type'] 			= $data['producto_imagen'][0]->imageType;
 			echo json_encode($info);
 		}
+	}
+
+	public function autenticar_usuario_descuento(){
+
+		$data = $this->Usuario_model->autenticar_usuario_descuento($_POST);
+
+		echo json_encode($data);
 	}
 
 	public function table(){

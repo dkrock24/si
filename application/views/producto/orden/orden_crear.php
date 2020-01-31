@@ -374,6 +374,7 @@ include("asstes/pos_funciones.php");
                                     ?>
 
                                     <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
+                                    <span class="btn bg-green" id="btn_discount" style="font-size: 18px;"><i class="fa fa-percent" aria-hidden="true"></i> <span style="font-size:18;">[ F9 ]</span></span>
 
 
                                     <div class="btn-group ">
@@ -847,3 +848,33 @@ include("asstes/pos_funciones.php");
         </div>
     </div>
     <!-- Modal Small-->
+
+
+<!-- METODO DE PAGOS MODAL-->
+    <div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento"
+        class="modal flip">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #dde6e9">
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span style="font-size: 20px; ">[ Autorizacion - Descuento ]</span>
+
+                </div>
+                <div class="modal-body">
+                    Usuario
+                    <input type="text" class="form-control has-success" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
+                    Password
+                    <input type="password" class="form-control has-success" name="input_autorizacion_passwd" id="input_autorizacion_passwd">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-success bg-green btn_aut_desc"
+                        name="5">Autorizar</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-warning">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Modal Small-->
