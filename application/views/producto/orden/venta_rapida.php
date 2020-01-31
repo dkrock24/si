@@ -122,9 +122,10 @@ include("asstes/pos_orden.php");
                                     <span class='btn bg-green guardar' name="1" id="../venta/guardar_venta" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Procesar"><i class='fa fa-money'></i> <span style="font-size:18;">[ F4 ]</span></span>
 
                                     <span class="btn bg-green" id="btn_existencias" data-toggle="tooltip" data-placement="bottom" title="Existencias" style="font-size: 25px;"><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span> </span>
+                                    <span class="btn bg-green" id="btn_discount" style="font-size: 25px;"><i class="fa fa-percent" aria-hidden="true"></i> <span style="font-size:18;">[ F9 ]</span></span>
 
-                                    <div class="btn-group ">
-                                        <button type="button" class="btn bg-green" data-toggle="tooltip" data-placement="bottom" title="Opciones"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
                                         <button type="button" data-toggle="dropdown" class="btn dropdown-toggle bg-green" style="font-size: 17px;">
                                             <span class="caret"></span>
                                             <span class="sr-only">default</span>
@@ -135,9 +136,8 @@ include("asstes/pos_orden.php");
                                             <li><a href="#" class="btn btn-warning" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
 
                                             <li class="divider"></li>
-                                            <li>
-                                            <li><a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a>
-                                            </li>
+                                            
+                                            <li><a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a></li>
                                         </ul>
                                     </div>
 
@@ -814,5 +814,35 @@ include("asstes/pos_orden.php");
         </div>
     </div>
     <!-- Modal Small-->
+
+
+    <!-- METODO DE PAGOS MODAL-->
+    <div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento"
+        class="modal flip">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #dde6e9">
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span style="font-size: 20px; ">[ Autorizacion - Descuento ]</span>
+
+                </div>
+                <div class="modal-body">
+                    Usuario
+                    <input type="text" class="form-control has-success" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
+                    Password
+                    <input type="password" class="form-control has-success" name="input_autorizacion_passwd" id="input_autorizacion_passwd">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-success bg-green btn_aut_desc"
+                        name="5">Autorizar</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-warning">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Modal Small-->
 
     <?php $this->load->view('scripts_files.php'); ?>

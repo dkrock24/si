@@ -377,7 +377,7 @@ include("asstes/pos_funciones.php");
                                     <span class="btn bg-green" id="btn_discount" style="font-size: 18px;"><i class="fa fa-percent" aria-hidden="true"></i> <span style="font-size:18;">[ F9 ]</span></span>
 
 
-                                    <div class="btn-group ">
+                                    <div class="btn-group">
                                         <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
                                         <button type="button" data-toggle="dropdown" class="btn dropdown-toggle bg-green" style="font-size: 17px;">
                                             <span class="caret"></span>
@@ -389,7 +389,7 @@ include("asstes/pos_funciones.php");
                                             <li><a href="#" class="btn btn-warning" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
 
                                             <li class="divider"></li>
-                                            <li>
+                                            
                                             <li><a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a>
                                             </li>
                                         </ul>
