@@ -265,6 +265,10 @@ include("asstes/pos_orden.php");
                                     <td><span class="iva_valor"></span></td>
                                 </tr>
                                 <tr>
+                                    <td><b>Desc</b></td>
+                                        <td><span class="descuento_tabla"></span></td>
+                                    </tr>
+                                <tr>
                                     <td><span class="impuestos_nombre"></span></td>
                                     <td><span class="impuestos_total"></span></td>
                                 </tr>

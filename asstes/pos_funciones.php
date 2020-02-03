@@ -646,11 +646,12 @@
                     // Left Arrow
                     c = currCell.prev();
                 } else if (e.keyCode == 38) {
-
+                    
                     // Up Arrow
                     c = currCell.closest('tr').prev().find('td:eq(' +
                         currCell.index() + ')');
-                    height = (height / 2) - 39;
+
+                    height -= 39;                    
 
                     //$('.lista_productos').animate({scrollIntoView: height}, 1);                        
 
@@ -667,10 +668,14 @@
                         imagen($(currCell.closest('tr').prev()).attr('id'));
                     }
 
+                    $('.lista_productos').animate({
+                        scrollTop: height
+                    }, 1);
+
 
                 } else if (e.keyCode == 40) {
                     // Down Arrow                   
-
+                    
                     c = currCell.closest('tr').next().find('td:eq(' +
                         currCell.index() + ')');
 
@@ -691,6 +696,11 @@
                     if ($(currCell.closest('tr')).attr('id')) {
                         imagen($(currCell.closest('tr').next()).attr('id'));
                     }
+
+                    $('.lista_productos').animate({
+                        scrollTop: height
+                    }, 1);
+
 
                 } else if (!editing && (e.keyCode == 13 || e.keyCode == 32)) {
                     // Enter or Spacebar - edit cell
@@ -734,10 +744,10 @@
             function producto_tabla_foco() {
 
                 //$("#lista_productos").select();
-                $('.lista_productos').select();
+                $('.lista_productos').focus();
 
                 $(this).css("background", "red");
-
+                
                 $('.lista_productos').animate({
                     scrollTop: 0
                 }, 100);
