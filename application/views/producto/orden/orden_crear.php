@@ -66,7 +66,7 @@ include("asstes/pos_funciones.php");
 
                         <span style="text-align: left; font-size: 20px;overflow: hidden;margin-left:20px;">
                             <?php echo $sucursales[0]->nombre_razon_social . " / "; ?>
-                            <?php echo $empleado[0]->nombre_sucursal . " / "; ?>
+                            <?php echo @$empleado[0]->nombre_sucursal . " / "; ?>
                             <?php echo $this->session->usuario[0]->nombre_usuario . " / "; ?>
                             <?php echo $this->session->usuario[0]->role . " / "; ?>
                             <?php echo date("D") . " / "; ?>
