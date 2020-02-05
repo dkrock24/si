@@ -244,7 +244,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 vista_ticket">
 
-                        <?php include("asstes/pos_impresion.php"); ?>
+                    <?php include("asstes/temp/".$file.".php"); ?>
 
                     </div>
                     <div class="col-lg-8 col-md-8">

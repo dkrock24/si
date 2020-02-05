@@ -1129,6 +1129,18 @@ class Orden_model extends CI_Model
 		}
 	}
 
+	function get_impuestos( $order_id ){
+
+		$this->db->select('*');
+		$this->db->from(self::pos_orden_impuestos);
+		$this->db->where('id_orden', $order_id);
+		$query = $this->db->get();
+		
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}
+	}
+
 	function get_orden_detalle($order_id)
 	{
 			

@@ -1,4 +1,4 @@
-      
+                  
 <br>
 
 <div style="height:100px"> </div>
@@ -10,12 +10,12 @@
   <table  width="100%" border=1>
      <tr>
           <td style="background:none;width:100px">CLIENTE:</td>
-          <td colspan="6"> *$nombre_empresa_o_compania </td>
+          <td colspan="6"> <?php echo $cliente[0]->nombre_empresa_o_compania ?> </td>
     </tr>
 
       <tr>
               <td>DIRECCION:</td>
-              <td colspan="6"> $direccion_cliente </td>
+              <td colspan="6"> <?php echo $cliente[0]->direccion_cliente ?> </td>
        </tr>
 
            <tr>
@@ -29,7 +29,7 @@
 
          <tr>
              <td>GIRO:</td>
-            <td colspan=3>  $orden[0]->giro </td>
+            <td colspan=3>   <?php echo $orden[0]->giro ?>  </td>
 
                 <td>FECHA</td>
               <td>  $resol_fecha_caja </td>
@@ -54,7 +54,7 @@
 
     </tr>
   <tr>
-          <td style="background:none;width:100px">CON.DEPAGO: </td>
+          <td style="background:none;width:100px">CON.DEPAGO: <?php $modo_pago[0]->codigo_modo_pago ?> </td>
 
     </tr>
  </table>
@@ -113,7 +113,6 @@ $productos_total+= $value->cantidad ;
           <td colspan=3 rowspan=2>
 SUMAS<br>
 IVA<br>
-IVA<br>
 SUB-TOTAL<br>
 FOVIAL<br>
 CONTRANS<br>
@@ -125,7 +124,14 @@ VENTA TOTAL<br>
             </td>
           <td rowspan=2>
                    <?php echo number_format($value->precioUnidad*$value->cantidad,2) ?>
-<br><br><br><br><br><br><br><br><br><br>
+                     <br><br>
+                     <?php
+                     foreach($impuestos as $value){
+                              echo number_format($value->ordenImpTotal,2); echo "<br>";
+                     }
+                    ?>
+                    <br><br><br><br>
+                   <?php echo number_format($orden[0]->total_doc,2) ?>
            </td>
     </tr>
 
@@ -261,4 +267,4 @@ $productos_total+= $value->cantidad ;
  </td>
 </tr>
   </table>
-<?php              
+<?php                          

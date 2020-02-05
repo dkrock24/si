@@ -164,6 +164,7 @@ class Orden extends MY_Controller {
 			$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['orden'][0]->id_vendedor );
 			$data['terminal'] 		= $terminal_acceso;
 			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
+			$data['impuestos'] 		= $this->Orden_model->get_impuestos( $data['orden'][0]->id );
 			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 			$data['title'] 			= "Editar Orden";
 			$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
@@ -406,15 +407,23 @@ class Orden extends MY_Controller {
 
 		$data['venta'] = $this->Venta_model->getVentaId( $id_venta );
 		$data['orden'] = $this->Venta_model->getVentaId( $id_venta );
+		//var_dump($data['orden'][0]->giro);
 		$data['venta_detalle'] 	= $this->Venta_model->getVentaDetalleId( $id_venta );
 		$data['orden_detalle'] 	= $this->Venta_model->getVentaDetalleId( $id_venta );
 		$data['venta_pagos'] 	= $this->Venta_model->getVentaPagosId( $id_venta );
 		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 		$data['terminal'] 		= $terminal_acceso;
-
+		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 		$data['temp'] 			= $this->Template_model->printer_venta( $data['venta_detalle'] , @$data['venta'][0]->id_sucursal , @$data['venta'][0]->id_tipod, @$data['venta'][0]->id_condpago);
 
-		//$data['menu'] 			= $this->session->menu;
+		$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
+		$data['file'] 			= $name;
+		$data['msj_title'] = "Su orden ha sido grabada satisfactoriamente";
+		$data['msj_orden'] = "Su número de transacción es: # ". $data['orden'][0]->num_correlativo;
+
+						
+		$this->generarDocumento( $name , $data['temp'][0]->factura_template );
+
 		$data['title'] 			= "Ventas Detalle";
 		$data['home'] = 'producto/ventas/venta_detalle2';		
 

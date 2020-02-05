@@ -239,7 +239,7 @@ class Venta_model extends CI_Model {
 				}
 
 				$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $numero );
-
+				
 				$data = array(
 					'id_caja' 		=> $form['caja_id'], //terminal_id
 					'id_cajero'		=> $this->session->db[0]->id_usuario,
