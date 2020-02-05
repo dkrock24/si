@@ -77,9 +77,14 @@ class Venta extends MY_Controller {
 
 		$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
 
-		$this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo , $_POST['sucursal_origen'] , $correlativo_documento);
+		$id = $this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo , $_POST['sucursal_origen'] , $correlativo_documento);
 
-		redirect(base_url()."producto/orden/nuevo");
+		$data['msj_title'] = "Venta grabada Correctamente ";
+		$data['msj_orden'] = "Número Transacción : ". $id;
+		$data['id'] = $id;
+
+		echo json_encode($data);
+		//redirect(base_url()."producto/orden/nuevo");
 	}
 
 	function get_clientes_id( $cliente_id ){

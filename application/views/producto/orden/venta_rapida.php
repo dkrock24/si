@@ -30,7 +30,7 @@
 
     };
 
-    window.onbeforeunload = function(event) {
+    /*window.onbeforeunload = function(event) {
 
         var message = '';
         var terminal = $("#terminal_id").val();
@@ -38,7 +38,7 @@
         setAction(terminal, 0);
 
         return message;
-    };
+    };*/
 
     function setAction(terminal, action) {
 
@@ -74,6 +74,14 @@ include("asstes/pos_orden.php");
 <title><?php echo $title; ?></title>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
+
+<script>
+    $(document).ready(function(){
+        $(".print_venta").click(function(){
+            location.reload();
+        });
+    });
+</script>
 
 <!-- Main section-->
 
@@ -796,6 +804,12 @@ include("asstes/pos_orden.php");
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-lg-12 col-md-12">
+                                <a href="" target="_blank" class="print_venta">
+                                    <h1><i class="fa fa-print"></i></h1>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -805,8 +819,9 @@ include("asstes/pos_orden.php");
                 </div>
                 <div class="row">
                     <div class="col-lg-6 col-md-6" id="metodo_pago_lista">
-
+                            
                     </div>
+                    <h2><span class="transacion"></span></h2>
                 </div>
 
                 <div class="modal-footer">

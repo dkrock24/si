@@ -1,4 +1,4 @@
-  
+      
 <br>
 
 <div style="height:100px"> </div>
@@ -94,11 +94,11 @@ foreach($orden_detalle as $value){
   <tr style="">
           <td><?php echo (int) $value->cantidad ?></td>
           <td> <?php echo $value->descripcion ?></td>
-          <td><?php echo (int) $value->cantidad ?></td>
+          <td><?php echo  $value->cantidad ?></td>
          <td><?php echo number_format($value->precioUnidad,2) ?></td>
           <td></td>
           <td></td>
-          <td><?php echo number_format($value->precioUnidad*$value->presentacionFactor,2) ?></td>
+          <td><?php echo number_format($value->precioUnidad*$value->cantidad,2) ?></td>
     </tr>
 
 <?php
@@ -123,7 +123,10 @@ VTAS.NOSUJETAS<br>
 (+)IVA PERCIBIDO<br>
 VENTA TOTAL<br>
             </td>
-          <td rowspan=2></td>
+          <td rowspan=2>
+                   <?php echo number_format($value->precioUnidad*$value->cantidad,2) ?>
+<br><br><br><br><br><br><br><br><br><br>
+           </td>
     </tr>
 
     <tr style="height:50px">
@@ -258,4 +261,4 @@ $productos_total+= $value->cantidad ;
  </td>
 </tr>
   </table>
-<?php          
+<?php              

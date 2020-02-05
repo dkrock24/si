@@ -31,6 +31,9 @@ class Orden extends MY_Controller {
 		$this->load->model('admin/Template_model');
 		$this->load->model('admin/Impuesto_model');
 		$this->load->model('admin/Sucursal_model');
+		$this->load->model('producto/Venta_model');
+
+		
 		
 	}
 
@@ -169,10 +172,12 @@ class Orden extends MY_Controller {
 			$data['home'] 			= 'producto/orden/orden_editar';
 			$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
 			$data['file'] 			= $name;
+			$data['msj_title'] = "Su orden ha sido grabada satisfactoriamente";
+			$data['msj_orden'] = "Su número de transacción es: # ". $data['orden'][0]->num_correlativo;
 
 			$this->general->editar_valido($data['orden'], "producto/orden/index");			
 			$this->generarDocumento( $name , $data['temp'][0]->factura_template );
-			$this->parser->parse('template', $data);
+			$this->parser->parse('template', $data);			
 
 		}else{
 
@@ -252,10 +257,7 @@ class Orden extends MY_Controller {
 		// Obteniendo informacion del cliente
 		$cliente = $this->get_clientes_id($dataParametros['cliente_codigo']);
 
-		$id = $this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente , $dataParametros );
-		echo $id;
-
-		//redirect(base_url()."producto/orden/nuevo");
+		echo $id = $this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente , $dataParametros );
 	}
 
 	function get_productos_lista(){
@@ -396,6 +398,28 @@ class Orden extends MY_Controller {
 			$data['home'] = 'producto/orden/orden_denegado';
 			$this->parser->parse('template', $data);
 		}
+	}
+
+	function venta($id_venta){
+		$id_usuario 		= $this->session->usuario[0]->id_usuario;
+		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
+
+		$data['venta'] = $this->Venta_model->getVentaId( $id_venta );
+		$data['orden'] = $this->Venta_model->getVentaId( $id_venta );
+		$data['venta_detalle'] 	= $this->Venta_model->getVentaDetalleId( $id_venta );
+		$data['orden_detalle'] 	= $this->Venta_model->getVentaDetalleId( $id_venta );
+		$data['venta_pagos'] 	= $this->Venta_model->getVentaPagosId( $id_venta );
+		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
+		$data['terminal'] 		= $terminal_acceso;
+
+		$data['temp'] 			= $this->Template_model->printer_venta( $data['venta_detalle'] , @$data['venta'][0]->id_sucursal , @$data['venta'][0]->id_tipod, @$data['venta'][0]->id_condpago);
+
+		//$data['menu'] 			= $this->session->menu;
+		$data['title'] 			= "Ventas Detalle";
+		$data['home'] = 'producto/ventas/venta_detalle2';		
+
+		//$this->parser->parse('template', $data);
+		$this->load->view('producto/ventas/venta_detalle2', $data);
 	}
 
 	public function unload(){

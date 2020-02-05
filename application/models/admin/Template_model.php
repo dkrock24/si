@@ -335,7 +335,7 @@ class Template_model extends CI_Model {
         $this->db->limit(1);
         $query = $this->db->get();
 
-        //echo $this->db->queries[11];
+        //echo $this->db->queries[10];
         //die;
 
         if($query->num_rows() > 0 )

@@ -15,6 +15,7 @@
         $('#imprimir').appendTo("body");
         $('#en_proceso').appendTo("body");
         $('#en_reserva').appendTo("body");
+        $('#m_orden_creada').appendTo("body");
         $('.dataSelect').hide();
         $('.dataSelect2').hide();
         $('.1dataSelect').hide();
@@ -1974,11 +1975,17 @@
 
                     success: function(data) {
 
-                        if ("guardar_orden") {
+                        if(method == "guardar_orden") {
 
                             window.location.href = "editar/" + data;
-                        } else {
-                            location.reload();
+                        }else if(method == "../venta/guardar_venta") {
+                            //location.reload();
+                            var datos = JSON.parse(data);
+                            
+                            $(".transacion").text(datos['msj_title']+ datos['msj_orden']);
+                            $(".print_venta").attr("href","venta/"+datos['id']);
+                            
+                            //window.location.href = "../venta/ver/" + data;
                         }
 
 
@@ -1989,7 +1996,7 @@
 
             if (method != "update_orden") {
 
-                cerrar_orden($("#orden_numero").val());
+                //cerrar_orden($("#orden_numero").val());
 
             }
         }
@@ -2006,7 +2013,7 @@
                 success: function(data) {
 
                     //location.reload();
-                    window.location.href = "../nuevo";
+                    window.location.href = "nuevo";
                 },
                 error: function() {}
             });

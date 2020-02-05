@@ -1,9 +1,9 @@
-  
+        ?>
 <br>
 
 <div style="height:100px"> </div>
 
-<table width="100%" border=0>
+<table width="100%" border=1>
 <tr>
 <td >
 
@@ -54,7 +54,7 @@
 
     </tr>
   <tr>
-          <td style="background:none;width:100px">CON.DEPAGO: </td>
+          <td style="background:none;width:100px">CON.DEPAGO: $nombre_modo_pago </td>
 
     </tr>
  </table>
@@ -80,33 +80,16 @@
           <td width=50px>V. NO SUJETAS</td>
 
     </tr>
-<?php
-$var_total=0;
-$cesc=0.00;
-$vns=0.00;
-$gravado=0.00;
-$exento=0.00;
-$sub_total=0.00;
-$productos_total=0; 
-foreach($orden_detalle as $value){
-?>
 
-  <tr style="">
-          <td><?php echo (int) $value->cantidad ?></td>
-          <td> <?php echo $value->descripcion ?></td>
-          <td><?php echo (int) $value->cantidad ?></td>
-         <td><?php echo number_format($value->precioUnidad,2) ?></td>
+  <tr style="height:100px">
           <td></td>
           <td></td>
-          <td><?php echo number_format($value->precioUnidad*$value->presentacionFactor,2) ?></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
     </tr>
-
-<?php
-$var_total += $value->total ;
-$productos_total+= $value->cantidad ; 
-}
-
-?>
 
   <tr style="height:50px">
           <td colspan=3>SON:</td>
@@ -258,4 +241,4 @@ $productos_total+= $value->cantidad ;
  </td>
 </tr>
   </table>
-<?php          
+<?php       

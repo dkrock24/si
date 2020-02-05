@@ -37,6 +37,7 @@ class Orden_model extends CI_Model
 	const sys_usuario = 'sys_usuario';	
 	const pos_bodega = "pos_bodega";
 	const empleado = "sys_empleado";
+	const pos_orden_impuestos = "pos_orden_impuestos";
 
 	// Ordenes
 	const pos_tipo_documento = 'pos_tipo_documento';
@@ -268,13 +269,13 @@ class Orden_model extends CI_Model
 		//Precio Orden con Impuesto
 		$cliente_aplica_impuesto = $cliente[0]->aplica_impuestos;
 		if ($cliente_aplica_impuesto == 1) {
-			$total_orden += ($orden['orden'][0]['total'] * $orden['orden'][0]['impuesto_porcentaje']);
+			//$total_orden += ($orden['orden'][0]['total'] * $orden['orden'][0]['impuesto_porcentaje']);
 		}
 
 		$desc_val = ($orden['orden'][0]['descuento_limite'] * $orden['orden'][0]['total']);
 
 		$siguiente_correlativo = $this->get_siguiente_correlativo( $dataParametros['sucursal_origin'] , $dataParametros['id_tipo_documento'] );
-
+		
 		$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor, $siguiente_correlativo[0]->siguiente_valor);
 
 		$data = array(
@@ -323,11 +324,43 @@ class Orden_model extends CI_Model
 		$this->guardar_orden_detalle($id_orden, $orden);
 		$this->incremento_correlativo($siguiente_correlativo);
 
+		/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
+		$this->save_venta_impuestos( $id_orden , $orden , 2);
+
 		if ($order_estado == 2) {
 			$this->descontar_de_bodega($orden);
 		}
 
 		return $correlativo_final;
+	}
+
+	function save_venta_impuestos($id_orden , $datos , $impTipo){
+		/* 
+			Insertando los impuestos generados en la vista de Ventas rapidas.
+			$impTipo = 1 -> Orden
+			$impTipo = 2 -> Venta Rapida
+		*/
+
+		if(isset($datos['impuestos'])){
+			foreach ($datos['impuestos'] as $impuestos_datos) {
+
+				foreach ($impuestos_datos as $key => $value) {
+					
+					$data = array(
+						'id_orden' => $id_orden, 
+						'ordenEspecial' => $value['ordenEspecial'],
+						'ordenImpName' => $value['ordenImpName'],
+						'ordenImpTotal' => $value['ordenImpTotal'],
+						'ordenImpVal' => $value['ordenImpVal'],
+						'ordenSimbolo' => $value['ordenSimbolo'],
+						'orden_imp_tipo' => $impTipo ,
+						'orden_imp_estado' => 1
+					);
+
+					$this->db->insert(self::pos_orden_impuestos, $data ); 
+				}
+			}	
+		}		
 	}
 
 	function guardar_orden_detalle($id_orden, $datos)

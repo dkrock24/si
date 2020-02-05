@@ -21,6 +21,9 @@
     var combo_descuento = 0.00;
     var _conf = [];
     var _impuestos = [];
+
+    
+
 </script>
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
@@ -31,6 +34,22 @@ include("asstes/pos_orden.php");
 <script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
+
+<script>
+    $(document).ready(function(){
+
+        $("#m_orden_creada").modal();
+        
+        $(".printer").click(function(){
+
+            $("#m_orden_creada").modal('hide');
+
+            $("#imprimir").modal();            
+            
+        });
+        
+    });
+</script>
 
 <!-- Main section-->
 <section>
@@ -64,14 +83,6 @@ include("asstes/pos_orden.php");
                         </a>
 
                         <span style="text-align: left; font-size: 20px;overflow: hidden;margin-left:20px;">
-                            <?php echo $sucursales[0]->nombre_razon_social . " / "; ?>
-                            <?php echo $empleado[0]->nombre_sucursal . " / "; ?>
-                            <?php echo $this->session->usuario[0]->nombre_usuario . " / "; ?>
-                            <?php echo $this->session->usuario[0]->role . " / "; ?>
-                            <?php echo date("D") . " / "; ?>
-                            <?php echo $terminal[0]->nombre_caja . " / "; ?>
-                            <?php echo $terminal[0]->nombre . " / "; ?>
-                            <?php echo Date("d/m/y"); ?>
                         </span>
 
                         <div class="panel-heading" style="text-align: right; font-size: 20px;">
@@ -830,6 +841,9 @@ include("asstes/pos_orden.php");
                 <i class="icon-printer"></i> Imprimir
             </div>
             <div class="modal-body">
+                <p style="font-size:24px;text-align:center"><?php  echo $msj_title ?></p>
+                <h1 style="text-align:center"><?php  echo $msj_orden ?></h1>
+
                 <div class="row">
                     <div class="col-lg-12 col-md-12 vista_ticket">
 
@@ -846,4 +860,41 @@ include("asstes/pos_orden.php");
         </div>
     </div>
 </div>
+<!-- Modal Small-->
+
+<!-- METODO DE PAGOS MODAL-->
+<div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada"
+        class="modal flip">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #dde6e9">
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span style="font-size: 20px; ">[ Orden Creada ]</span>
+
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <p style="font-size:24px;text-align:center">
+                                <?php  echo $msj_title ?>
+                                </p>
+                                <h1>
+                                <?php  echo $msj_orden ?>
+                                </h1>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="modal-footer">
+                    <a href="../nuevo" class="btn btn-info printer"><i class="icon-plus"></i> Nueva</a>
+                    <a href="#" class="btn btn-info printer"><i class="icon-printer"></i> Imprimir</a>
+                    <button type="button" data-dismiss="modal" class="btn btn-warning"><i class="icon-close"></i> Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <!-- Modal Small-->

@@ -134,6 +134,26 @@
                   
                   <!-- END lock screen-->
                </ul>
+               
+                  <?php
+
+                  if(isset($sucursales) && isset($terminal)){
+                     ?>
+                     <span style="text-align: left; font-size: 30px;overflow: hidden;margin-left:20px;">
+                            <?php echo $sucursales[0]->nombre_razon_social . " / "; ?>
+                            <?php echo @$empleado[0]->nombre_sucursal . " / "; ?>
+                            <?php echo $this->session->usuario[0]->nombre_usuario . " / "; ?>
+                            <?php echo $this->session->usuario[0]->role . " / "; ?>
+                            <?php echo date("D") . " / "; ?>
+                            <?php echo $terminal[0]->nombre_caja . " / "; ?>
+                            <?php echo $terminal[0]->nombre . " / "; ?>
+                            <?php echo Date("d-m-y"); ?>
+                        </span>
+                     <?php
+                  }
+
+                  ?>
+               
                <!-- END Left navbar-->
                <!-- START Right Navbar-->
                <ul class="nav navbar-nav navbar-right">

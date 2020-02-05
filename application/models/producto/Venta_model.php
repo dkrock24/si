@@ -307,6 +307,8 @@ class Venta_model extends CI_Model {
 				echo "No hay correlativo";
 			}
 
+			return $id_orden;
+
 		}
 
 		function getTerminal($id_caja){
