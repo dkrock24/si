@@ -13,7 +13,7 @@ class Template_model extends CI_Model {
     const pos_empresa = 'pos_empresa';
     const pos_orden = 'pos_ordenes';
     const pos_ventas = 'pos_ventas';
-
+    const sucursal = 'pos_sucursal';
 
 	function get_cliente(){
 		$this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,TipoDocumento');
@@ -103,7 +103,7 @@ class Template_model extends CI_Model {
         }
     }
 
-    function getTemplateBySucursal($factura_id){
+    function getTemplateBySucursal( $template , $documento ){
         //$this->db->select('td.id_factura,td.factura_nombre,td.factura_descripcion , dt.nombre, s.nombre_sucursal,ts.id_temp_suc,ts.estado_suc_tem');
         $this->db->select('*');
         $this->db->from(self::pos_doc_temp.' as td');
@@ -111,10 +111,25 @@ class Template_model extends CI_Model {
         $this->db->join(self::tipos_documentos.' dt',' on dt.id_tipo_documento=ts.Documento');
         $this->db->join(self::pos_sucursal.' s',' on ts.Sucursal=s.id_sucursal');
         $this->db->join(self::pos_formas_pago.' fp',' on fp.id_modo_pago=ts.Pago', 'left');
-        $this->db->where('ts.Template', $factura_id );
+        $this->db->where('ts.Template', $template );
+        $this->db->where('ts.Documento', $documento );
         
         $query = $this->db->get();  
         //echo $this->db->queries[0];       
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function get_sucursales(){
+        $this->db->select('*');        
+        $this->db->from(self::sucursal);
+        $this->db->where('estado = 1');
+        $this->db->where('Empresa_Suc', $this->session->empresa[0]->id_empresa );
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
         if($query->num_rows() > 0 )
         {
             return $query->result();
@@ -132,9 +147,14 @@ class Template_model extends CI_Model {
 
     function eliminar( $id_template ){
 
+        // Delete Template Sucursal
         $this->db->where('id_factura' , $id_template );
         $this->db->delete(self::pos_doc_temp);
+        $data = $this->db->affected_rows();
 
+        // Delete Template
+        $this->db->where('id_factura' , $id_template );
+        $this->db->delete(self::pos_doc_temp);
         $data = $this->db->affected_rows();
 
         $result = false;
@@ -357,12 +377,11 @@ class Template_model extends CI_Model {
         
         $this->db->where('ts.Sucursal', $sucursal_id);
         $this->db->where('ts.Documento', $documento_id);
-        //$this->db->where('ts.Pago', $pago);
         $this->db->where('ts.estado_suc_tem', 1);
         $this->db->limit(1);
         $query = $this->db->get();
 
-        //echo $this->db->queries[11];
+        //echo $this->db->queries[6];
         //die;
 
         if($query->num_rows() > 0 )

@@ -126,16 +126,18 @@ class Template extends MY_Controller {
 			
 			$data['factura_id'] = $_POST['factura_id'];
 			
-			$factura_id = $_POST['factura_id'];
+			$template = $_POST['factura_id'];
+
+			$documento = $_POST['documento'];
 			
-			$data['result'] = $this->Template_model->getTemplateBySucursal($factura_id);
+			$data['result'] = $this->Template_model->getTemplateBySucursal( $template , $documento );
 			
 		}
 
 		$data['menu'] = $this->session->menu;
 		$data['pagos'] = $this->ModoPago_model->getAllFormasPago();
 		$data['template'] = $this->Template_model->get_template();
-		$data['sucursales'] = $this->Producto_model->get_sucursales();
+		$data['sucursales'] = $this->Template_model->get_sucursales();
 		$data['documento'] = $this->Documento_model->getAllDocumento();
 		$data['home'] = 'admin/template/template_asociar';
 

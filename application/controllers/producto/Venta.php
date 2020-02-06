@@ -96,18 +96,32 @@ class Venta extends MY_Controller {
 
 	public function ver($id_venta){
 
-		$id_usuario 		= $this->session->usuario[0]->id_usuario;
-		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
+		$id_usuario 			= $this->session->usuario[0]->id_usuario;
+		$terminal_acceso 		= $this->validar_usuario_terminal( $id_usuario );
 
-		$data['venta'] = $this->Venta_model->getVentaId( $id_venta );
-		$data['orden'] = $this->Venta_model->getVentaId( $id_venta );
-		$data['venta_detalle'] 	= $this->Venta_model->getVentaDetalleId( $id_venta );
-		$data['orden_detalle'] 	= $this->Venta_model->getVentaDetalleId( $id_venta );
-		$data['venta_pagos'] 	= $this->Venta_model->getVentaPagosId( $id_venta );
+		$data['encabezado'] 	= $this->Venta_model->getVentaId( $id_venta );		
+		$data['detalle'] 		= $this->Venta_model->getVentaDetalleId( $id_venta );
+		$data['cliente'] 		=  $this->Cliente_model->get_clientes_id($data['encabezado'][0]->id_cliente);
+		$data['impuestos'] 		= $this->Orden_model->get_impuestos_venta( $data['encabezado'][0]->id );		
+		$data['modo_pago'] 		= $this->Venta_model->getVentaPagosId( $id_venta );
 		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 		$data['terminal'] 		= $terminal_acceso;
+		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );//$this->Producto_model->get_sucursales();
+		
+		$data['temp'] 			= $this->Template_model->printer_venta( 
+									$data['detalle'] , 
+									$data['encabezado'][0]->id_sucursal , 
+									$data['encabezado'][0]->id_tipod, 
+									$data['encabezado'][0]->id_condpago
+								);
 
-		$data['temp'] 			= $this->Template_model->printer_venta( $data['venta_detalle'] , @$data['venta'][0]->id_sucursal , @$data['venta'][0]->id_tipod, @$data['venta'][0]->id_condpago);
+		$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
+		$data['file'] 			= $name;
+		$data['msj_title'] = "Su orden ha sido grabada satisfactoriamente";
+		$data['msj_orden'] = "Su número de transacción es: # ". $data['encabezado'][0]->num_correlativo;
+
+		$this->general->editar_valido($data['encabezado'], "producto/orden/index");			
+		$this->generarDocumento( $name , $data['temp'][0]->factura_template );
 
 		$data['menu'] 			= $this->session->menu;
 		$data['title'] 			= "Ventas Detalle";

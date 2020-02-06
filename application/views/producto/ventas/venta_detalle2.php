@@ -50,7 +50,7 @@
                     <p>
                         <h3>
                             <i class="fa fa-file-text-o"></i>
-                            VENTA : <?php $date = date_create($venta[0]->fecha);  ?>
+                            VENTA : <?php $date = date_create($encabezado[0]->fecha);  ?>
                             <span class="label label-info 2x-lg"><?php echo date_format($date, "m/d/Y H:i a"); ?></span>
                             <a href="#" class="">
                                 <i class="fa fa-print" data-toggle='modal' data-target='#imprimir' >
@@ -78,43 +78,43 @@
 
                             <td>CLIENTE</td>
                             <td>
-                                <strong><?php echo $venta[0]->nombre_empresa_o_compania; ?></strong>
+                                <strong><?php echo $encabezado[0]->nombre_empresa_o_compania; ?></strong>
                             </td>
 
 
                             <td>SUCURSAL</td>
-                            <td> <strong><?php echo $venta[0]->nombre_sucursal ?></strong></td>
+                            <td> <strong><?php echo $encabezado[0]->nombre_sucursal ?></strong></td>
 
                         </tr>
 
                         <tr>
                             <td>CORRELATIVO</td>
                             <td>
-                                <strong><?php echo $venta[0]->num_correlativo; ?></strong>
+                                <strong><?php echo $encabezado[0]->num_correlativo; ?></strong>
                             </td>
 
                             <td>CAJA</td>
-                            <td> <strong><?php echo $venta[0]->num_caja ?></strong></td>
+                            <td> <strong><?php echo $encabezado[0]->num_caja ?></strong></td>
 
                         </tr>
 
                         <tr>
                             <td>DOCUMENTO</td>
                             <td>
-                                <strong><?php echo $venta[0]->tipo_documento; ?></strong>
+                                <strong><?php echo $encabezado[0]->tipo_documento; ?></strong>
                             </td>
                             <td>MODO PAGO</td>
-                            <td> <strong><?php echo $venta[0]->nombre_modo_pago ?></strong></td>
+                            <td> <strong><?php echo $encabezado[0]->nombre_modo_pago ?></strong></td>
 
                         </tr>
 
                         <tr>
                             <td>ESTADO</td>
                             <td>
-                                <strong><?php echo $venta[0]->orden_estado_nombre; ?></strong>
+                                <strong><?php echo $encabezado[0]->orden_estado_nombre; ?></strong>
                             </td>
                             <td>USUARIO</td>
-                            <td> <strong><?php echo $venta[0]->nombre_usuario ?></strong></td>
+                            <td> <strong><?php echo $encabezado[0]->nombre_usuario ?></strong></td>
 
                         </tr>
 
@@ -126,7 +126,7 @@
             <div class="col-md-4">
                 <div class="panel-body linea_superior">
                     <p>
-                        <h3><i class="fa fa-money"></i> PAGO : <?php //echo $venta[0]->fecha 
+                        <h3><i class="fa fa-money"></i> PAGO : <?php //echo $encabezado[0]->fecha 
                                                                 ?></h3>
                     </p>
                 </div>
@@ -198,7 +198,7 @@
                         <tbody>
                             <?php
                             $cnt = 1;
-                            foreach ($venta_detalle as $key => $value) {
+                            foreach ($detalle as $key => $value) {
                             ?>
                                 <tr>
                                     <td><?php echo $cnt ?></td>

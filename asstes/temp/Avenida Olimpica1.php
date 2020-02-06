@@ -1,4 +1,4 @@
-  
+    
 <br>
 
 <div style="height:100px"> </div>
@@ -29,7 +29,7 @@
 
          <tr>
              <td>GIRO:</td>
-            <td colspan=3>  $orden[0]->giro </td>
+            <td colspan=3>  $encabezado[0]->giro </td>
 
                 <td>FECHA</td>
               <td>  $resol_fecha_caja </td>
@@ -88,7 +88,7 @@ $gravado=0.00;
 $exento=0.00;
 $sub_total=0.00;
 $productos_total=0; 
-foreach($orden_detalle as $value){
+foreach($detalle as $value){
 ?>
 
   <tr style="">
@@ -145,15 +145,15 @@ VENTA TOTAL<br>
 
 <table width="100%">
 	<tr style="border-top:1px dashed black;">
-	<td><b><?php echo $orden[0]->nombre_comercial ?></b></td>
+	<td><b><?php echo $encabezado[0]->nombre_comercial ?></b></td>
 	</tr>
 
 	<tr>
-	<td><b>Direccion: <?php echo $orden[0]->direccion ?></b></td>
+	<td><b>Direccion: <?php echo $encabezado[0]->direccion ?></b></td>
 	</tr>
 
 	<tr>
-	<td><b>Giro : <?php echo $orden[0]->giro ?></b></td>
+	<td><b>Giro : <?php echo $encabezado[0]->giro ?></b></td>
 	</tr>
 
 
@@ -168,12 +168,12 @@ VENTA TOTAL<br>
 	
 	<tr>
 	<td><b>Sucursal: </b></td>
-	<td><b> <?php echo $orden[0]->nombre_sucursal; ?></b></td>
+	<td><b> <?php echo $encabezado[0]->nombre_sucursal; ?></b></td>
 	</tr>
 
 	<tr>
 	<td><b>Cajero:</b>  </td>
-	<td> <b><?php echo $orden[0]->alias; ?></b> </td>
+	<td> <b><?php echo $encabezado[0]->alias; ?></b> </td>
 	</tr>
 
 	<tr>
@@ -193,7 +193,7 @@ $gravado=0.00;
 $exento=0.00;
 $sub_total=0.00;
 $productos_total=0; 
-foreach($orden_detalle as $value){
+foreach($detalle as $value){
 ?>
 <tr><td><?php echo (int) $value->cantidad ?></td>
 <td> <?php echo $value->descripcion ?></td>
@@ -258,4 +258,4 @@ $productos_total+= $value->cantidad ;
  </td>
 </tr>
   </table>
-<?php          
+<?php            

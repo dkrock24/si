@@ -108,10 +108,10 @@ class Documento_model extends CI_Model {
         return $result;
     }
 
-    function delete_documento( $role_id ){
+    function delete_documento( $documento_id ){
         
         $data = array(
-            'id_tipo_documento' => $role_id
+            'id_tipo_documento' => $documento_id
         );
 
         $result = $this->db->delete(self::documento, $data);

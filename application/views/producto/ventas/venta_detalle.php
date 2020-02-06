@@ -24,7 +24,7 @@
                     <p>
                         <h3>
                             <i class="fa fa-file-text-o"></i>
-                            VENTA : <?php $date = date_create($venta[0]->fecha);  ?>
+                            VENTA : <?php $date = date_create($encabezado[0]->fecha);  ?>
                             <span class="label label-info 2x-lg"><?php echo date_format($date, "m/d/Y H:i a"); ?></span>
                             <a href="#" class="">
                                 <i class="fa fa-print" data-toggle='modal' data-target='#imprimir' >
@@ -52,43 +52,43 @@
 
                             <td>CLIENTE</td>
                             <td>
-                                <strong><?php echo $venta[0]->nombre_empresa_o_compania; ?></strong>
+                                <strong><?php echo $encabezado[0]->nombre_empresa_o_compania; ?></strong>
                             </td>
 
 
                             <td>SUCURSAL</td>
-                            <td> <strong><?php echo $venta[0]->nombre_sucursal ?></strong></td>
+                            <td> <strong><?php echo $encabezado[0]->nombre_sucursal ?></strong></td>
 
                         </tr>
 
                         <tr>
                             <td>CORRELATIVO</td>
                             <td>
-                                <strong><?php echo $venta[0]->num_correlativo; ?></strong>
+                                <strong><?php echo $encabezado[0]->num_correlativo; ?></strong>
                             </td>
 
                             <td>CAJA</td>
-                            <td> <strong><?php echo $venta[0]->num_caja ?></strong></td>
+                            <td> <strong><?php echo $encabezado[0]->num_caja ?></strong></td>
 
                         </tr>
 
                         <tr>
                             <td>DOCUMENTO</td>
                             <td>
-                                <strong><?php echo $venta[0]->tipo_documento; ?></strong>
+                                <strong><?php echo $encabezado[0]->tipo_documento; ?></strong>
                             </td>
                             <td>MODO PAGO</td>
-                            <td> <strong><?php echo $venta[0]->nombre_modo_pago ?></strong></td>
+                            <td> <strong><?php echo $encabezado[0]->nombre_modo_pago ?></strong></td>
 
                         </tr>
 
                         <tr>
                             <td>ESTADO</td>
                             <td>
-                                <strong><?php echo $venta[0]->orden_estado_nombre; ?></strong>
+                                <strong><?php echo $encabezado[0]->orden_estado_nombre; ?></strong>
                             </td>
                             <td>USUARIO</td>
-                            <td> <strong><?php echo $venta[0]->nombre_usuario ?></strong></td>
+                            <td> <strong><?php echo $encabezado[0]->nombre_usuario ?></strong></td>
 
                         </tr>
 
@@ -119,7 +119,7 @@
                         <?php
 
                         $cnt = 1;
-                        foreach ($venta_pagos as $key => $value) {
+                        foreach ($modo_pago as $key => $value) {
                         ?>
                             <tr>
                                 <td><?php echo $cnt ?></td>
@@ -172,7 +172,7 @@
                         <tbody>
                             <?php
                             $cnt = 1;
-                            foreach ($venta_detalle as $key => $value) {
+                            foreach ($detalle as $key => $value) {
                             ?>
                                 <tr>
                                     <td><?php echo $cnt ?></td>
@@ -218,7 +218,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 vista_ticket">
 
-                        <?php include("asstes/pos_impresion.php"); ?>
+                    <?php include("asstes/temp/".$file.".php"); ?>
 
                     </div>
                     <div class="col-lg-8 col-md-8">

@@ -111,7 +111,7 @@ include("asstes/pos_orden.php");
 
                                                             if (strpos($doc, 'ORDEN') !== FALSE) {
 
-                                                                //if($orden[0]->id_tipod == $documento->id_tipo_documento){
+                                                                //if($encabezado[0]->id_tipod == $documento->id_tipo_documento){
                                                         ?>
                                                                 <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
                                                         <?php
@@ -121,7 +121,7 @@ include("asstes/pos_orden.php");
                                                         /*
                                                         foreach ($tipoDocumento as $documento) {
                                                         
-                                                            if($orden[0]->id_tipod != $documento->id_tipo_documento){
+                                                            if($encabezado[0]->id_tipod != $documento->id_tipo_documento){
                                                                 ?>
                                                                 <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
                                                                 <?php
@@ -221,7 +221,7 @@ include("asstes/pos_orden.php");
                                                         <?php
                                                         foreach ($modo_pago as $value) {
 
-                                                            if ($orden[0]->id_condpago == $value->id_modo_pago) {
+                                                            if ($encabezado[0]->id_condpago == $value->id_modo_pago) {
                                                         ?>
                                                                 <option value="<?php echo $value->id_modo_pago; ?>">
                                                                     <?php echo $value->nombre_modo_pago; ?>
@@ -231,7 +231,7 @@ include("asstes/pos_orden.php");
                                                         }
                                                         foreach ($modo_pago as $value) {
 
-                                                            if ($orden[0]->id_condpago != $value->id_modo_pago) {
+                                                            if ($encabezado[0]->id_condpago != $value->id_modo_pago) {
                                                             ?>
                                                                 <option value="<?php echo $value->id_modo_pago; ?>">
                                                                     <?php echo $value->nombre_modo_pago; ?>
@@ -257,7 +257,7 @@ include("asstes/pos_orden.php");
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label>Fecha</label>
-                                                    <input type="date" name="fecha" value="<?php $date = new DateTime($orden[0]->fecha);
+                                                    <input type="date" name="fecha" value="<?php $date = new DateTime($encabezado[0]->fecha);
                                                                                             echo $date->format('Y-m-d'); ?>" class="form-control">
                                                 </div>
                                             </div>
@@ -292,7 +292,7 @@ include("asstes/pos_orden.php");
                                                 <div class="form-group has-success">
                                                     <label>Numero Orden</label>
 
-                                                    <input type="text" name="orden_numero" value="<?php echo $orden[0]->num_correlativo; ?>" class="form-control" id="orden_numero">
+                                                    <input type="text" name="orden_numero" value="<?php echo $encabezado[0]->num_correlativo; ?>" class="form-control" id="orden_numero">
                                                 </div>
                                             </div>
 
@@ -689,7 +689,7 @@ include("asstes/pos_orden.php");
                                     <?php
 
                                     foreach ($tipoDocumento as $documento) {
-                                        if ($orden[0]->id_tipod != $documento->id_tipo_documento) {
+                                        if ($encabezado[0]->id_tipod != $documento->id_tipo_documento) {
                                     ?>
                                             <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
                                     <?php

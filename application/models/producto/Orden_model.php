@@ -38,6 +38,7 @@ class Orden_model extends CI_Model
 	const pos_bodega = "pos_bodega";
 	const empleado = "sys_empleado";
 	const pos_orden_impuestos = "pos_orden_impuestos";
+	const pos_ventas_impuestos = "pos_ventas_impuestos";
 
 	// Ordenes
 	const pos_tipo_documento = 'pos_tipo_documento';
@@ -1134,6 +1135,18 @@ class Orden_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from(self::pos_orden_impuestos);
 		$this->db->where('id_orden', $order_id);
+		$query = $this->db->get();
+		
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}
+	}
+
+	function get_impuestos_venta( $order_id ){
+
+		$this->db->select('*');
+		$this->db->from(self::pos_ventas_impuestos);
+		$this->db->where('id_venta', $order_id);
 		$query = $this->db->get();
 		
 		if ($query->num_rows() > 0) {
