@@ -1,4 +1,4 @@
-                             
+                              
 <br>
 
 <div style="height:100px"> </div>
@@ -54,7 +54,7 @@
 
     </tr>
   <tr>
-          <td style="background:none;width:100px">CON.DEPAGO: <?php echo $modo_pago[0]->nombre_metodo_pago ?> </td>
+          <td style="background:none;width:100px">CON.DEPAGO: <?php //echo $modo_pago[0]->nombre_metodo_pago ?> </td>
 
     </tr>
  </table>
@@ -267,4 +267,4 @@ $productos_total+= $value->cantidad ;
  </td>
 </tr>
   </table>
-<?php                                     
+<?php                                      

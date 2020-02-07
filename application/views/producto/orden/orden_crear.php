@@ -357,7 +357,7 @@ include("asstes/pos_funciones.php");
                                     <?php
                                     if (isset($tipoDocumento) && isset($sucursales) && isset($bodega) && isset($cliente)) {
                                     ?>
-                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="guardar_orden" id="guardar_orden"><i class='fa fa-save'></i> <span style="font-size:18;">[ F4 ]</span></button>
+                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="guardar_orden" id="guardar_orden"><i class='fa fa-save'></i> </button>
                                     <?php
                                     } else {
                                     ?>
@@ -533,10 +533,11 @@ include("asstes/pos_funciones.php");
             <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F3
                 <i class="icon-trash"></i>
             </span>
-
+            <!--
             <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
                 <i class="fa fa-credit-card"></i>
-            </span>
+            </span>2
+            -->
 
 
         </div>
@@ -691,6 +692,7 @@ include("asstes/pos_funciones.php");
 <!-- Modal Small-->
 
 <!-- METODO DE PAGOS MODAL-->
+<!--
 <div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta" class="modal flip">
     <div class="modal-dialog modal-lg" style="width: 80%;">
         <div class="modal-content">
@@ -840,6 +842,8 @@ include("asstes/pos_funciones.php");
             </div>
         </div>
     </div>
+</div>
+-->
     <!-- Modal Small-->
 
 

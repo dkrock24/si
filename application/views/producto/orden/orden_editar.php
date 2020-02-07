@@ -38,18 +38,35 @@ include("asstes/pos_orden.php");
 <script>
     $(document).ready(function(){
 
-        $("#m_orden_creada").modal();
+        setTimeout(function() {
+            $("#m_orden_creada").modal();
+            //$("#imprimir").modal(); 
+        }, 1000);
         
         $(".printer").click(function(){
 
-            $("#m_orden_creada").modal('hide');
-
-            $("#imprimir").modal();            
+            $("#m_orden_creada").modal();           
             
         });
         
     });
 </script>
+
+<style>
+    .modal-dialog {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding-left: 10%;
+	}
+
+	.modal-content {
+		height: auto;
+		min-height: 100%;
+		border-radius: 5;
+	}
+
+</style>
 
 <!-- Main section-->
 <section>
@@ -363,7 +380,7 @@ include("asstes/pos_orden.php");
                                         <span class="sr-only">default</span>
                                     </button>
                                     <ul role="menu" class="dropdown-menu">
-                                        <li><a href="#" data-toggle='modal' data-target='#imprimir'><i class="icon-printer"></i> Imprimir</a></li>
+                                        <li><a href="#" data-toggle='modal' data-target='#m_orden_creada'><i class="icon-printer"></i> Imprimir</a></li>
                                         <li><a href="#" class="btn btn-warning" id="btn_impuestos" data-toggle='modal'><i class="fa fa-money"></i> Impuestos</a></li>
 
                                         <li><a href="#" class="btn btn-warning" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
@@ -866,33 +883,53 @@ include("asstes/pos_orden.php");
 <div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada"
         class="modal flip">
         <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header" style="background: #dde6e9">
+            <div class="modal-content" style="background:#dadada;">
+                <div class="modal-header" style="background: #2c71b5;color: white;">
                     <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <span style="font-size: 20px; ">[ Orden Creada ]</span>
+                    <span style="font-size: 20px; ">Documento : <?= $temp[0]->documento_nombre ?> | Formato : <?= $temp[0]->factura_nombre ?> </span>
 
                 </div>
                 <div class="modal-body">
-                    <table class="table">
-                        <tr>
-                            <td>
-                                <p style="font-size:24px;text-align:center">
+
+                <div class="row">
+                    <div class="col-lg-8 col-md-8" >
+                        <?php include("asstes/temp/".$file.".php"); ?>
+                    </div>
+                    <div class="col-lg-4 col-md-4" style="border-left:1px dashed black;height:900px;position: relative;float:right;margin:0px;">
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                 <?php  echo $msj_title ?>
-                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                 <h1>
-                                <?php  echo $msj_orden ?>
+                                    <?php  echo $msj_orden ?>
                                 </h1>
-                            </td>
-                        </tr>
-                    </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <hr style="border-bottom:1px dashed black">
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                
+                                <a href="../nuevo" class="btn btn-default printer"><h3> <i class="icon-plus"></i> Nueva </h3></a>
+                                <a href="#" class="btn btn-success printer" style="color:black"><h3> <i class="icon-printer"></i>  Imprimir </h3></a>
+                                 <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black"><h3> <i class="icon-close"></i> Cerrar </h3> </button>
+                               
+                            </div>
+                        </div>
+
+                        
+                    </div>
                 </div>
 
-                <div class="modal-footer">
-                    <a href="../nuevo" class="btn btn-info printer"><i class="icon-plus"></i> Nueva</a>
-                    <a href="#" class="btn btn-info printer"><i class="icon-printer"></i> Imprimir</a>
-                    <button type="button" data-dismiss="modal" class="btn btn-warning"><i class="icon-close"></i> Cerrar</button>
+                </div>
+
+                <div class="modal-footer">                   
+                   
                 </div>
             </div>
         </div>

@@ -1,6 +1,11 @@
 	<script>
 		$(document).ready(function() {
 
+			setTimeout(function() {
+				$("#ModalEmpresa").modal();
+
+			}, 1000);
+
 			(function($) {
 
 				var allPanels = $('.accordion > dd').hide();
@@ -242,7 +247,7 @@
 			width: 100%;
 			height: 100%;
 			margin: 0;
-			padding: 0;
+			padding-left: 10%;
 		}
 
 		.modal-content {
@@ -314,343 +319,355 @@
 	<div id="ModalEmpresa" tabindex="-1" role="dialog" aria-labelledby="ModalEmpresa" aria-hidden="true" class="modal fade">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header" style="background: #fff;color: black;">
 					<button type="button" data-dismiss="modal" aria-label="Close" class="close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 id="myModalLabelLarge" class="modal-title">Editar Documento Template Empresa</h4>
+					<h4 id="myModalLabelLarge" class="modal-title">Editar Template</h4>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" style="background:#dadada">
 
 					<!-- START panel-->
-					<div class="panel">
+					<form action="../update" method="post">
+					<div class="panel" style="background:#dadada">
 						<div class="panel-heading" id="giro_nombre2"></div>
 						<!-- START table-responsive-->
-						<div class="table-responsive">
-							<div class="row">
 
-								<div class="container-fluid main-container ">
-									<div class="col-md-1 ">
-										<ul class="nav nav-pills nav-stacked collapse navbar-collapse navbar-ex1-collapse">
-											<li style="padding:10px;">
-												<div class="btn-group btn-left">
-													<button data-toggle="dropdown" class="btn btn-default btn-left">HTML <b class="caret"></b>
-													</button>
-													<ul role="menu" class="dropdown-menu animated bounceIn">
-														<li><a href="#" id="div" name="html" class="control">Div</a></li>
-														<li><a href="#" id="p" name="html" class="control">P</a></li>
-														<li><a href="#" id="label" name="html" class="control">Label</a></li>
-													</ul>
-												</div>
-											</li>
-											<li style="padding:10px;">
-												<div class="btn-group btn-left">
-													<button data-toggle="dropdown" class="btn btn-default btn-left">TABLE <b class="caret"></b>
-													</button>
-													<ul role="menu" class="dropdown-menu animated bounceIn">
-														<li><a href="#" id="table2" name="table" class="control"> Super Table</a></li>
-														<li><a href="#" id="<table></table>" name="table" class="control"> Table</a></li>
-														<li><a href="#" id="<tr></tr>" name="table" class="control"> Tr</a></li>
-														<li><a href="#" id="<td></td>" name="table" class="control"> Td</a></li>
-														<li><a href="#" id="colspan=" name="table" class="control"> Colspan</a></li>
-														<li><a href="#" id="celspan=" name="table"> Celspan</a></li>
-														<li><a href="#" id="border=" name="table" class="control"> Border</a></li>
-													</ul>
-												</div>
-											</li>
-											<li style="padding:10px;">
+						<div class="row">
 
-												<div class="btn-group btn-left">
-													<button data-toggle="dropdown" class="btn btn-default btn-left">STYLE <b class="caret"></b>
-													</button>
-													<ul role="menu" class="dropdown-menu animated bounceIn">
-														<li><a href="#" id="color" name="style" class="control"> Color</a></li>
-														<li><a href="#" id="style" name="style" class="control"> Style</a></li>
-														<li><a href="#" id="height" name="style" class="control"> Height</a></li>
-														<li><a href="#" id="width" name="style" class="control"> Width</a></li>
-														<li><a href="#" id="padding" name="style" class="control"> Padding</a></li>
-														<li><a href="#" id="margin" name="style" class="control"> Margin</a></li>
-														<li><a href="#" id="bgcolor" name="style" class="control"> Bgcolor</a></li>
-														<li><a href="#" id="background" name="style" class="control"> Background</a></li>
-													</ul>
-												</div>
-											</li>
-											<li style="padding:10px;">
+							<div class="container-fluid main-container" style="background:#dadada">
+								<div class="col-md-2 ">
+									<ul class="nav nav-pills nav-stacked collapse navbar-collapse navbar-ex1-collapse">
+										<li style="padding:10px;">
+											<div class="btn-group btn-left">
+												<button data-toggle="dropdown" class="btn btn-info btn-left">HTML <b class="caret"></b>
+												</button>
+												<ul role="menu" class="dropdown-menu animated bounceIn">
+													<li><a href="#" id="div" name="html" class="control">Div</a></li>
+													<li><a href="#" id="p" name="html" class="control">P</a></li>
+													<li><a href="#" id="label" name="html" class="control">Label</a></li>
+												</ul>
+											</div>
+										</li>
+										<li style="padding:10px;">
+											<div class="btn-group btn-left">
+												<button data-toggle="dropdown" class="btn btn-info btn-left">TABLE <b class="caret"></b>
+												</button>
+												<ul role="menu" class="dropdown-menu animated bounceIn">
+													<li><a href="#" id="table2" name="table" class="control"> Super Table</a></li>
+													<li><a href="#" id="<table></table>" name="table" class="control"> Table</a></li>
+													<li><a href="#" id="<tr></tr>" name="table" class="control"> Tr</a></li>
+													<li><a href="#" id="<td></td>" name="table" class="control"> Td</a></li>
+													<li><a href="#" id="colspan=" name="table" class="control"> Colspan</a></li>
+													<li><a href="#" id="celspan=" name="table"> Celspan</a></li>
+													<li><a href="#" id="border=" name="table" class="control"> Border</a></li>
+												</ul>
+											</div>
+										</li>
+										<li style="padding:10px;">
 
-												<div class="btn-group btn-left">
-													<button data-toggle="dropdown" class="btn btn-default btn-left">PHP <b class="caret"></b>
-													</button>
-													<ul role="menu" class="dropdown-menu animated bounceIn">
-														<li><a href="#" id="date" name="php" class="control"> Date</a></li>
-														<li><a href="#" id="subtotal" name="php" class="control"> Sub Total</a></li>
-														<li><a href="#" id="total" name="php" class="control"> Total</a></li>
-														<li><a href="#" id="foreach" name="php" class="control"> Foreach</a></li>
-													</ul>
-												</div>
-											</li>
-											<li id="delete" class="control" style="padding:10px;">
+											<div class="btn-group btn-left">
+												<button data-toggle="dropdown" class="btn btn-info btn-left">STYLE <b class="caret"></b>
+												</button>
+												<ul role="menu" class="dropdown-menu animated bounceIn">
+													<li><a href="#" id="color" name="style" class="control"> Color</a></li>
+													<li><a href="#" id="style" name="style" class="control"> Style</a></li>
+													<li><a href="#" id="height" name="style" class="control"> Height</a></li>
+													<li><a href="#" id="width" name="style" class="control"> Width</a></li>
+													<li><a href="#" id="padding" name="style" class="control"> Padding</a></li>
+													<li><a href="#" id="margin" name="style" class="control"> Margin</a></li>
+													<li><a href="#" id="bgcolor" name="style" class="control"> Bgcolor</a></li>
+													<li><a href="#" id="background" name="style" class="control"> Background</a></li>
+												</ul>
+											</div>
+										</li>
+										<li style="padding:10px;">
 
-												<div class="btn-group btn-left">
-													<button data-toggle="dropdown" class="btn btn-default btn-left">Delete <b class="caret"></b>
-													</button>
-													<ul role="menu" class="dropdown-menu animated bounceIn">
-														<a href="#"> Delete</a>
-													</ul>
+											<div class="btn-group btn-left">
+												<button data-toggle="dropdown" class="btn btn-info btn-left">PHP <b class="caret"></b>
+												</button>
+												<ul role="menu" class="dropdown-menu animated bounceIn">
+													<li><a href="#" id="date" name="php" class="control"> Date</a></li>
+													<li><a href="#" id="subtotal" name="php" class="control"> Sub Total</a></li>
+													<li><a href="#" id="total" name="php" class="control"> Total</a></li>
+													<li><a href="#" id="foreach" name="php" class="control"> Foreach</a></li>
+												</ul>
+											</div>
+										</li>
+										<li id="delete" class="control" style="padding:10px;">
+
+											<div class="btn-group btn-left">
+												<button data-toggle="dropdown" class="btn btn-info btn-left">Delete <b class="caret"></b>
+												</button>
+												<ul role="menu" class="dropdown-menu animated bounceIn">
+													<a href="#"> Delete</a>
+												</ul>
+											</div>
+										</li>
+										<li style="padding:10px;">
+											<button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+										</li>
+									</ul>
+								</div>
+
+								<div class="col-md-10 content" style="height: 100%">
+									<div class="panel " style="background:#dadada">
+										
+											<input type="hidden" name="id_factura" value="<?php echo $formato[0]->id_factura ?>">
+											<div class="panel-body">
+
+												<div class="row">
+													<div class="col-md-12 content">
+														<div class="panel panel-info">
+															<div class="panel-heading" style="background: ##4d555d;color: white;">
+																CAMPOS
+															</div>
+															<div class="panel-body" style="background:#102225">
+																<div class="row">
+
+																	<dl class="accordion">
+
+																		<dt><a href="">Tabla : ORDEN</a></dt>
+																		<dd>
+																			<ul>
+																				<?php
+																				foreach ($orden_fields as $key => $value) {
+																				?>
+																					<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:#102225;"><?php echo $value ?></li>
+																				<?php
+																				}
+																				?>
+																			</ul>
+																		</dd>
+
+																		<dt><a href="">Tabla : ORDEN DETALLE</a></dt>
+																		<dd>
+																			<ul>
+																				<?php
+																				foreach ($ordenDetalle_fields as $key => $value) {
+																				?>
+																					<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:#102225;"><?php echo $value ?></li>
+																				<?php
+																				}
+																				?>
+																			</ul>
+																		</dd>
+
+																		<dt><a href="">Tabla : EMPRESA</a></dt>
+																		<dd>
+																			<ul>
+																				<?php
+																				foreach ($empresa_fields as $key => $value) {
+																				?>
+																					<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:#102225;"><?php echo $value ?></li>
+																				<?php
+																				}
+																				?>
+																			</ul>
+																		</dd>
+
+																		<dt><a href="">Tabla : CAJA</a></dt>
+																		<dd>
+																			<ul>
+																				<?php
+																				foreach ($caja_fields as $key => $value) {
+																				?>
+																					<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:#102225;"><?php echo $value ?></li>
+																				<?php
+																				}
+																				?>
+																			</ul>
+																		</dd>
+
+																		<dt><a href="">Tabla : SUCURSAL</a></dt>
+																		<dd>
+																			<ul>
+																				<?php
+																				foreach ($sucursal_fields as $key => $value) {
+																				?>
+																					<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:#102225;"><?php echo $value ?></li>
+																				<?php
+																				}
+																				?>
+																			</ul>
+																		</dd>
+
+																		<dt><a href="">Tabla : PAGOS</a></dt>
+																		<dd>
+																			<ul>
+																				<?php
+																				foreach ($pagos_fields as $key => $value) {
+																				?>
+																					<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:#102225;"><?php echo $value ?></li>
+																				<?php
+																				}
+																				?>
+																			</ul>
+																		</dd>
+
+																		<dt><a href="">Tabla : DOCUMENTOS</a></dt>
+																		<dd>
+																			<ul>
+																				<?php
+																				foreach ($documento_fields as $key => $value) {
+																				?>
+																					<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:#102225;"><?php echo $value ?></li>
+																				<?php
+																				}
+																				?>
+																			</ul>
+																		</dd>
+
+																		<dt><a href="">Tabla : CORRELATIVOS</a></dt>
+																		<dd>
+																			<ul>
+																				<?php
+																				foreach ($correlativos_fields as $key => $value) {
+																				?>
+																					<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:#102225;"><?php echo $value ?></li>
+																				<?php
+																				}
+																				?>
+																			</ul>
+																		</dd>
+
+																		<dt><a href="">Tabla : CLIENTES</a></dt>
+																		<dd>
+																			<ul>
+																				<?php
+																				foreach ($clientes_fields as $key => $value) {
+																				?>
+																					<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:#102225;"><?php echo $value ?></li>
+																				<?php
+																				}
+																				?>
+																			</ul>
+																		</dd>
+
+																		<dt><a href="">Tabla : VENDEDOR</a></dt>
+																		<dd>
+																			<ul>
+																				<?php
+																				foreach ($usuario_fields as $key => $value) {
+																				?>
+																					<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:#102225;"><?php echo $value ?></li>
+																				<?php
+																				}
+																				?>
+																			</ul>
+																		</dd>
+
+																	</dl>
+
+																</div>
+
+															</div>
+														</div>
+													</div>
 												</div>
-											</li>
-										</ul>
+
+
+
+
+
+
+
+											</div>
+										
 									</div>
 
-									<div class="col-md-11 content" style="height: 100%">
-										<div class="panel ">
-											<form action="../update" method="post">
-												<input type="hidden" name="id_factura" value="<?php echo $formato[0]->id_factura ?>">
-												<div class="panel-body">
-
-													<div class="row">
-														<div class="col-md-12 content">
-															<div class="panel panel-info">
-																<div class="panel-heading">
-																	CAMPOS
-																</div>
-																<div class="panel-body">
-																	<div class="row">
-
-																		<dl class="accordion">
-
-																			<dt><a href="">Tabla : ORDEN</a></dt>
-																			<dd>
-																				<ul>
-																					<?php
-																					foreach ($orden_fields as $key => $value) {
-																					?>
-																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
-																					<?php
-																					}
-																					?>
-																				</ul>
-																			</dd>
-
-																			<dt><a href="">Tabla : ORDEN DETALLE</a></dt>
-																			<dd>
-																				<ul>
-																					<?php
-																					foreach ($ordenDetalle_fields as $key => $value) {
-																					?>
-																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
-																					<?php
-																					}
-																					?>
-																				</ul>
-																			</dd>
-
-																			<dt><a href="">Tabla : EMPRESA</a></dt>
-																			<dd>
-																				<ul>
-																					<?php
-																					foreach ($empresa_fields as $key => $value) {
-																					?>
-																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
-																					<?php
-																					}
-																					?>
-																				</ul>
-																			</dd>
-
-																			<dt><a href="">Tabla : CAJA</a></dt>
-																			<dd>
-																				<ul>
-																					<?php
-																					foreach ($caja_fields as $key => $value) {
-																					?>
-																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
-																					<?php
-																					}
-																					?>
-																				</ul>
-																			</dd>
-
-																			<dt><a href="">Tabla : SUCURSAL</a></dt>
-																			<dd>
-																				<ul>
-																					<?php
-																					foreach ($sucursal_fields as $key => $value) {
-																					?>
-																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
-																					<?php
-																					}
-																					?>
-																				</ul>
-																			</dd>
-
-																			<dt><a href="">Tabla : PAGOS</a></dt>
-																			<dd>
-																				<ul>
-																					<?php
-																					foreach ($pagos_fields as $key => $value) {
-																					?>
-																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
-																					<?php
-																					}
-																					?>
-																				</ul>
-																			</dd>
-
-																			<dt><a href="">Tabla : DOCUMENTOS</a></dt>
-																			<dd>
-																				<ul>
-																					<?php
-																					foreach ($documento_fields as $key => $value) {
-																					?>
-																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
-																					<?php
-																					}
-																					?>
-																				</ul>
-																			</dd>
-
-																			<dt><a href="">Tabla : CORRELATIVOS</a></dt>
-																			<dd>
-																				<ul>
-																					<?php
-																					foreach ($correlativos_fields as $key => $value) {
-																					?>
-																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
-																					<?php
-																					}
-																					?>
-																				</ul>
-																			</dd>
-
-																			<dt><a href="">Tabla : CLIENTES</a></dt>
-																			<dd>
-																				<ul>
-																					<?php
-																					foreach ($clientes_fields as $key => $value) {
-																					?>
-																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
-																					<?php
-																					}
-																					?>
-																				</ul>
-																			</dd>
-
-																			<dt><a href="">Tabla : VENDEDOR</a></dt>
-																			<dd>
-																				<ul>
-																					<?php
-																					foreach ($usuario_fields as $key => $value) {
-																					?>
-																						<li id="key" name="html" class="control" style="display:inline-block;margin:3px;padding:5px;background:#1aacda;color:white;"><?php echo $value ?></li>
-																					<?php
-																					}
-																					?>
-																				</ul>
-																			</dd>
-
-																		</dl>
-
-																	</div>
-
-																</div>
-															</div>
-														</div>
-													</div>
-
-													<div class="row">
-
-														<div class="container-fluid main-container">
-
-															<div class="col-md-6 content">
-																<div class="panel panel-info">
-
-																	<div class="panel-heading">
-																		EDITOR <span><input type="submit" class="btn btn-default" name="enviar" value="Guardar" style="float: right;" /></span>
-																	</div>
-																	<div class="panel-body">
-
-																		<textarea name="template_html" id="template_html" cols="30" rows="10" class="form-control" value=""></textarea>
-																		<a href="#" class="btn btn-primary" id="button">Copiar</a>
-
-																	</div>
-																</div>
-															</div>
-															<div class="col-md-6 content">
-																<div class="panel panel-success">
-																	<div class="panel-heading">
-																		VISTA PREVIA
-																	</div>
-																	<div class="panel-body">
-																		<span class="html" style="width:100%; height:100px; "></span>
-																	</div>
-																</div>
-															</div>
-
-														</div>
-
-													</div>
-
-													<div class="row">
-														<div class="container-fluid main-container">
-
-															<div class="col-md-6 content">
-																<div class="panel panel-success">
-																	<div class="panel-heading">
-																		CODIGO FUENTE
-																	</div>
-																	<div class="panel-body">
-																		<span class="template_php" name="template_php" id="template_php" style="width:100%; height:100px; "></span>
-																	</div>
-																</div>
-															</div>
-
-															<div class="col-md-6 content">
-																<div class="panel panel-info">
-																	<div class="panel-heading">
-																		PARAMETROS
-																	</div>
-																	<div class="panel-body">
-																		<div class="row">
-																			<div class="col-md-6"><b>Nombre</b> <input type="text" name="factura_nombre" value="<?php echo $formato[0]->factura_nombre ?>" class="form-control"></div>
-																			<div class="col-md-6"><b>Descripcion</b> <input type="text" name="factura_descripcion" value="<?php echo $formato[0]->factura_descripcion ?>" class="form-control"><br></div>
-																			<div class="col-md-6"><b>Lineas</b> <input type="text" name="factura_lineas" value="<?php echo $formato[0]->factura_lineas ?>" class="form-control"></div>
-																			<div class="col-md-6"><b>Estado</b> <input type="text" name="factura_estatus" value="<?php echo $formato[0]->factura_estatus ?>" class="form-control"></div>
-																		</div>
-
-																	</div>
-																</div>
-															</div>
-
-
-														</div>
-													</div>
-
-													<div class="row">
-														<div class="col-md-12 content">
-															<xmp id="myData"> <?php echo $formato[0]->factura_template; ?> </xmp>
-														</div>
-													</div>
-
-												</div>
-											</form>
-										</div>
-
-
-									</div>
 
 								</div>
 
 							</div>
 						</div>
+
+						<div class="row">
+							<div class="col-md-12 ">
+								<div class="container-fluid main-container" style="background:#dadada">
+
+									<div class="col-md-6 content">
+										<div class="panel panel-info" style="padding:10px;">
+
+											<div class="panel-heading" style="background: ##4d555d;color: white;">
+												EDITOR <span>
+													<input type="submit" class="btn btn-info" name="enviar" value="Guardar" style="float: right;" />
+													<a href="#" class="btn btn-default" id="button">Copiar</a>
+												</span>
+											</div>
+											<div class="panel-body">
+
+												<textarea name="template_html" id="template_html" cols="30" rows="25" class="form-control" value=""></textarea>
+
+
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6 content">
+										<div class="panel panel-info" style="border: 1px dashed #0f4871;padding:10px;overflow-x: scroll;">
+											<div class="panel-heading" style="background: ##4d555d;color: white;">
+												VISTA PREVIA
+											</div>
+											<div class="panel-body">
+												<span class="html" style="width:100%; height:100px; "></span>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12 ">
+								<div class="container-fluid main-container" style="background:#dadada">
+
+									<div class="col-md-6 content">
+										<div class="panel panel-info" style="border: 1px dashed #0f4871;padding:10px;">
+											<div class="panel-heading" style="background: ##4d555d;color: white;">
+												CODIGO FUENTE
+											</div>
+											<div class="panel-body">
+												<span class="template_php" name="template_php" id="template_php" style="width:100%; height:100px; "></span>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-6 content">
+										<div class="panel panel-info" style="border: 1px dashed #0f4871;padding:10px;">
+											<div class="panel-heading" style="background: #4d555d;color: white;">
+												PARAMETROS
+											</div>
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-6"><b>Nombre</b> <input type="text" name="factura_nombre" value="<?php echo $formato[0]->factura_nombre ?>" class="form-control"></div>
+													<div class="col-md-6"><b>Descripcion</b> <input type="text" name="factura_descripcion" value="<?php echo $formato[0]->factura_descripcion ?>" class="form-control"><br></div>
+													<div class="col-md-6"><b>Lineas</b> <input type="text" name="factura_lineas" value="<?php echo $formato[0]->factura_lineas ?>" class="form-control"></div>
+													<div class="col-md-6"><b>Estado</b> <input type="text" name="factura_estatus" value="<?php echo $formato[0]->factura_estatus ?>" class="form-control"></div>
+												</div>
+
+											</div>
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>						
+
+						<div class="row">
+							<div class="col-md-12 content">
+								<xmp id="myData"> <?php echo $formato[0]->factura_template; ?> </xmp>
+							</div>
+						</div>
+
 						<!-- END table-responsive-->
-						<div class="panel-footer">
+						<div class="panel-footer" style="background:#dadada">
 						</div>
 					</div>
+					</form>
 					<!-- END panel-->
 
-				</div>
-				<div class="modal-footer">
-					<button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
 				</div>
 			</div>
 		</div>

@@ -2,6 +2,11 @@
 <script>
 	$(document).ready(function() {
 
+		setTimeout(function() {
+            $("#ModalEmpresa").modal();
+            
+        }, 1000);
+
 		(function($) {
 
 			var allPanels = $('.accordion > dd').hide();
@@ -21,7 +26,7 @@
 		$("#template_html").keyup(function() {
 			$('.html').html($(this).val());
 			//$('.source_code').html($(this).val());
-		});
+		});		
 
 		var entityMap = {
 			'&': '&amp;',
