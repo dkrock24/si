@@ -21,6 +21,7 @@
     var combo_descuento = 0.00;
     var _conf = [];
     var _impuestos = [];
+
 </script>
 
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
@@ -65,7 +66,7 @@ include("asstes/pos_funciones.php");
                         </a>
 
                         <span style="text-align: left; font-size: 20px;overflow: hidden;margin-left:20px;">
-                           
+
                         </span>
 
                         <div class="panel-heading" style="text-align: right; font-size: 20px;">
@@ -328,7 +329,7 @@ include("asstes/pos_funciones.php");
                 <!-- END panel-->
 
                 <!-- START table-responsive-->
-                <div class="row">
+                <div class="row" style="padding:20px;">
                     <div class="col-md-10">
                         <table class="table table-sm table-hover">
 
@@ -337,7 +338,7 @@ include("asstes/pos_funciones.php");
                                 <div class="col-md-4">
                                     <div class="input-group m-b">
                                         <span class="input-group-addon bg-green">[ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
-                                        
+
                                         <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
                                     </div>
 
@@ -382,7 +383,7 @@ include("asstes/pos_funciones.php");
                                             <li><a href="#" class="btn btn-warning" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
 
                                             <li class="divider"></li>
-                                            
+
                                             <li><a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a>
                                             </li>
                                         </ul>
@@ -469,7 +470,7 @@ include("asstes/pos_funciones.php");
                                         <td><span class="descuento_tabla"></span></td>
                                     </tr>
                                     <tr>
-                                        <td><span class="impuestos_nombre"></span></td>
+                                        <td style="font-size:14px;"><span class="impuestos_nombre"></span></td>
                                         <td><span class="impuestos_total"></span></td>
                                     </tr>
                                     <tr>
@@ -844,34 +845,32 @@ include("asstes/pos_funciones.php");
     </div>
 </div>
 -->
-    <!-- Modal Small-->
+<!-- Modal Small-->
 
 
 <!-- METODO DE PAGOS MODAL-->
-    <div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento"
-        class="modal flip">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header" style="background: #dde6e9">
-                    <button type="button" data-dismiss="modal" aria-label="Close" class="close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <span style="font-size: 20px; ">[ Autorizacion - Descuento ]</span>
+<div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento" class="modal flip">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #dde6e9">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span style="font-size: 20px; ">[ Autorizacion - Descuento ]</span>
 
-                </div>
-                <div class="modal-body">
-                    Usuario
-                    <input type="text" class="form-control has-success" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
-                    Password
-                    <input type="password" class="form-control has-success" name="input_autorizacion_passwd" id="input_autorizacion_passwd">
-                </div>
+            </div>
+            <div class="modal-body">
+                Usuario
+                <input type="text" class="form-control has-success" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
+                Password
+                <input type="password" class="form-control has-success" name="input_autorizacion_passwd" id="input_autorizacion_passwd">
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-success bg-green btn_aut_desc"
-                        name="5">Autorizar</button>
-                    <button type="button" data-dismiss="modal" class="btn btn-warning">Cancelar</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success bg-green btn_aut_desc" name="5">Autorizar</button>
+                <button type="button" data-dismiss="modal" class="btn btn-warning">Cancelar</button>
             </div>
         </div>
     </div>
+</div>
 <!-- Modal Small-->

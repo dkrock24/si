@@ -1,12 +1,13 @@
 <?php
 class Empresa_model extends CI_Model {
-	const empleado =  'sys_empleado';
-    const sucursal = 'pos_sucursal';
-    const persona = 'sys_persona';
+
+	const empleado      = 'sys_empleado';
+    const sucursal      = 'pos_sucursal';
+    const persona       = 'sys_persona';  
+    const pos_empresa   = 'pos_empresa';
+    const sys_moneda    = 'sys_moneda';
     const usuario_roles = 'sys_usuario_roles';
     const empleado_sucursal = 'sys_empleado_sucursal';
-    const pos_empresa = 'pos_empresa';
-    const sys_moneda = 'sys_moneda';
 
     function getEmpresas( $limit, $id , $filters){
         
@@ -80,7 +81,6 @@ class Empresa_model extends CI_Model {
         $this->db->join(self::sucursal.' s', 'on s.Empresa_Suc = e.id_empresa','left');
         $this->db->join(self::empleado_sucursal.' es', 'on es.es_sucursal = s.id_sucursal','left');
         $this->db->join(self::sys_moneda.' m', 'on e.Moneda = m.id_moneda');
-        //$this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa );
         $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         
         $this->db->where('  (es.es_empleado = '.$empleado_id .')');
@@ -107,7 +107,6 @@ class Empresa_model extends CI_Model {
         $this->db->from(self::pos_empresa.' e');
         $this->db->join(self::sucursal.' s', 'on s.Empresa_Suc = e.id_empresa','right');
         $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
-        //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         $this->db->where_not_in('s.id_sucursal', $datos);
         $this->db->order_by('e.id_empresa');
        
@@ -122,9 +121,9 @@ class Empresa_model extends CI_Model {
     }
 
 	function get_empresa_by_id( $empresa_id ){
+
 		$this->db->select('*');
         $this->db->from(self::pos_empresa);
-
         $this->db->where(self::pos_empresa.'.id_empresa = ', $empresa_id);
         $this->db->where(self::pos_empresa.'.empresa_estado = 1');
         $query = $this->db->get(); 
@@ -150,15 +149,15 @@ class Empresa_model extends CI_Model {
             'nombre_comercial'      => $empresa['nombre_comercial'],
             'nrc'                   => $empresa['nrc'],
             'nit'                   => $empresa['nit'],
-            'autorizacion'          => $empresa['autorizacion'],
+            //'autorizacion'          => $empresa['autorizacion'],
             'giro'                  => $empresa['giro'],
             'logo_empresa'          => $imagen,
             'direccion'             => $empresa['direccion'],
             'slogan'                => $empresa['slogan'],
-            'resolucion'            => $empresa['resolucion'],
+            //'resolucion'            => $empresa['resolucion'],
             'representante'         => $empresa['representante'],
             'website'               => $empresa['website'],
-            'tiraje'                => $empresa['tiraje'],
+            //'tiraje'                => $empresa['tiraje'],
             'tel'                   => $empresa['tel'],
             'codigo'                => $empresa['codigo'],
             'Moneda'                => $empresa['Moneda'],
@@ -194,25 +193,25 @@ class Empresa_model extends CI_Model {
         $imageProperties = @getimageSize($_FILES['logo_empresa']['tmp_name']);
 
         $data = array(
-            'nombre_razon_social' => $empresa['nombre_razon_social'],
-            'nombre_comercial' => $empresa['nombre_comercial'],
-            'nrc' => $empresa['nrc'],
-            'nit' => $empresa['nit'],
-            'autorizacion' => $empresa['autorizacion'],
-            'giro' => $empresa['giro'],
-            'direccion' => $empresa['direccion'],
-            'slogan' => $empresa['slogan'],
-            'resolucion' => $empresa['resolucion'],
-            'representante' => $empresa['representante'],
-            'website' => $empresa['website'],
-            'tiraje' => $empresa['tiraje'],
-            'tel' => $empresa['tel'],
-            'codigo' => $empresa['codigo'],
-            'Moneda' => $empresa['Moneda'],
-            'natural_juridica' => $empresa['natural_juridica'],
-            'metodo_inventario' => $empresa['metodo_inventario'],
-            'empresa_creado' => date("Y-m-d h:i:s"),
-            'empresa_estado' => $empresa['empresa_estado']
+            'nombre_razon_social'   => $empresa['nombre_razon_social'],
+            'nombre_comercial'      => $empresa['nombre_comercial'],
+            'nrc'                   => $empresa['nrc'],
+            'nit'                   => $empresa['nit'],
+            //'autorizacion'        => $empresa['autorizacion'],
+            'giro'                  => $empresa['giro'],
+            'direccion'             => $empresa['direccion'],
+            'slogan'                => $empresa['slogan'],
+            //'resolucion'          => $empresa['resolucion'],
+            'representante'         => $empresa['representante'],
+            'website'               => $empresa['website'],
+            //'tiraje'              => $empresa['tiraje'],
+            'tel'                   => $empresa['tel'],
+            'codigo'                => $empresa['codigo'],
+            'Moneda'                => $empresa['Moneda'],
+            'natural_juridica'      => $empresa['natural_juridica'],
+            'metodo_inventario'     => $empresa['metodo_inventario'],
+            'empresa_creado'        => date("Y-m-d h:i:s"),
+            'empresa_estado'        => $empresa['empresa_estado']
         );
 
         if(isset($_FILES['logo_empresa']) && $_FILES['logo_empresa']['tmp_name']!=null){
@@ -227,6 +226,7 @@ class Empresa_model extends CI_Model {
     }    
 
     function eliminar($id){
+        
         $data = array(
             'id_empresa' => $id
         );

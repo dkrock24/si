@@ -99,11 +99,12 @@ class Producto extends MY_Controller {
 		$data['categorias'] = $this->Producto_model->get_categorias();
 		$data['sub_categorias'] = $this->Producto_model->get_sub_categorias();
 		$data['empresa'] 	= $this->Giros_model->get_empresa();
+		$data['empresa_giro'] = $this->Giros_model->get_empresa_giro2();
 		$data['marcas'] 	= $this->Producto_model->get_marcas();
 		$data['proveedor'] 	= $this->Producto_model->get_proveedor();
 		$data['producto_proveedor'] = $this->Producto_model->get_producto_proveedor( $id_producto  );
 		$data['clientes'] 	= $this->Producto_model->get_clientes();
-		$data['sucursal'] 	= $this->Producto_model->get_sucursales();
+		$data['sucursal'] 	= $this->Producto_model->get_sucursal_producto();
 		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['title'] 		= "Editar Producto";
 		$data['home'] 		= 'producto/producto/prod_editar';
@@ -145,7 +146,7 @@ class Producto extends MY_Controller {
 	public function get_clientes(){
 
 		$clientes['cliente'] 	= $this->Producto_model->get_clientes2( );
-		$clientes['sucursal'] 	= $this->Producto_model->get_sucursales( );
+		$clientes['sucursal'] 	= $this->Producto_model->get_sucursal_producto( );
 		$clientes['impuesto'] 	= $this->Producto_model->get_inpuesto( );
 
 		echo json_encode( $clientes );

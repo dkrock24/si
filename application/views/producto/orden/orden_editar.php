@@ -22,8 +22,6 @@
     var _conf = [];
     var _impuestos = [];
 
-    
-
 </script>
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
@@ -346,7 +344,7 @@ include("asstes/pos_orden.php");
                 <!-- END panel-->
 
                 <!-- START table-responsive-->
-                <div class="row">
+                <div class="row" style="padding:20px;">
                     <div class="col-md-10">
                         <table class="table table-sm table-hover">
                             <div class="col-lg-4">
@@ -468,7 +466,7 @@ include("asstes/pos_orden.php");
                                         <td><span class="descuento_tabla"></span></td>
                                     </tr>
                                     <tr>
-                                        <td><span class="impuestos_nombre"></span></td>
+                                        <td style="font-size:14px;"><span class="impuestos_nombre"></span></td>
                                         <td><span class="impuestos_total"></span></td>
                                     </tr>
                                     <tr>
@@ -883,7 +881,7 @@ include("asstes/pos_orden.php");
 <div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada"
         class="modal flip">
         <div class="modal-dialog modal-md">
-            <div class="modal-content" style="background:#dadada;">
+            <div class="modal-content" style="background:#f1f1f1;">
                 <div class="modal-header" style="background: #2c71b5;color: white;">
                     <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                         <span aria-hidden="true">&times;</span>

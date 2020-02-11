@@ -20,6 +20,7 @@ var _impuestos_total = [];
 var exist_cat;
 var _conf = [];
 var sub_total_ = 0;
+var registro_editado = 0;
 
 /* Impuestos Acumulados */
 
@@ -43,7 +44,6 @@ function _config_impuestos(){
 	_impuestos_orden_condicion = [];
 	_impuestos_orden_especial = [];
 	//_impuestos_orden_excluyentes = [];
-
 	impuestos();
 }
 
@@ -471,8 +471,11 @@ function impuesto_valor(prod){
 		if(!element.dinero && (_orden[_orden.indexOf(prod)].id_producto_detalle == element.id_producto_detalle) ){
 			is_money = true;
 			do{
-				result = prompt("Monto en Dinero");
-				dinero = parseFloat(result);
+				if(registro_editado!=1){
+					result = prompt("Monto en Dinero");
+					dinero = parseFloat(result);
+				}			
+				
 				
 				if(dinero){
 					is_money = false;

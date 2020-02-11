@@ -80,6 +80,8 @@ include("asstes/pos_orden.php");
         $(".print_venta").click(function(){
             location.reload();
         });
+
+        registro_editado = 0;
     });
 </script>
 

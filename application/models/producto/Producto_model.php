@@ -113,10 +113,9 @@ class Producto_model extends CI_Model {
 
 		//	Creacion de un nuevo producto
 		function nuevo_producto( $producto , $usuario ){
-
 			//	Creando cabecera de la tabla producto
 			$data = array(
-	            'name_entidad' 		=> $producto['name_entidad'],
+	            'name_entidad' 		=> strtoupper($producto['name_entidad']),
 	            'producto_estado' 	=> $producto['producto_estado'],
 	            'Marca' 			=> $producto['Marca'],
 	            'Linea' 			=> $producto['Linea'],
@@ -124,14 +123,14 @@ class Producto_model extends CI_Model {
 	            'creado_producto' 	=> date("Y-m-d h:i:s"),
 	            'Empresa' 			=> $producto['empresa'],
 				'Giro' 				=> $producto['giro'],
-				'codigo_barras' 	=> $producto['codigo_barras'],
-				'codigo_producto' 	=> $producto['codigo_barras'],
-				'modelo' 			=> $producto['modelo'],
+				'codigo_barras' 	=> strtoupper($producto['codigo_barras']),
+				'codigo_producto' 	=> strtoupper($producto['codigo_barras']),
+				'modelo' 			=> strtoupper($producto['modelo']),
 				'costo' 			=> $producto['costo'],
 				'minimos' 			=> $producto['minimos'],
 				'medios' 			=> $producto['medios'],
 				'maximos' 			=> $producto['maximos'],
-				'almacenaje' 		=> $producto['almacenaje'],
+				'almacenaje' 		=> strtoupper($producto['almacenaje']),
 				'descuento_limite' 	=> $producto['descuento_limite'],
 				'precio_venta' 		=> $producto['precio_venta'],
 				'iva' 				=> $producto['iva'],
@@ -459,7 +458,7 @@ class Producto_model extends CI_Model {
 	            'Empresa' => $producto['empresa'],
 	            'id_producto_relacionado' => $producto['procuto_asociado'],
 				'actualizado_producto' => date('Y-m-d h:i:s'),				
-				'name_entidad' 		=> $producto['name_entidad'],
+				'name_entidad' 		=> strtoupper($producto['name_entidad']),
 	            'producto_estado' 	=> $producto['producto_estado'],
 	            'Marca' 			=> $producto['Marca'],
 	            //'Linea' 			=> $producto['Linea'],
@@ -467,13 +466,13 @@ class Producto_model extends CI_Model {
 	            'creado_producto' 	=> date("Y-m-d h:i:s"),
 	            'Empresa' 			=> $producto['empresa'],
 				'Giro' 				=> $producto['giro'],
-				'codigo_barras' 	=> $producto['codigo_barras'],
-				'modelo' 			=> $producto['modelo'],
+				'codigo_barras' 	=> strtoupper($producto['codigo_barras']),
+				'modelo' 			=> strtoupper($producto['modelo']),
 				'costo' 			=> $producto['costo'],
 				'minimos' 			=> $producto['minimos'],
 				'medios' 			=> $producto['medios'],
 				'maximos' 			=> $producto['maximos'],
-				'almacenaje' 		=> $producto['almacenaje'],
+				'almacenaje' 		=> strtoupper($producto['almacenaje']),
 				'descuento_limite' 	=> $producto['descuento_limite'],
 				'precio_venta' 		=> $producto['precio_venta'],
 				'iva' 				=> $producto['iva'],
@@ -645,8 +644,10 @@ class Producto_model extends CI_Model {
 
 		function get_clientes(){
 			$this->db->select('*');
-	        $this->db->from(self::cliente);
-	        $this->db->where('estado_cliente = 1');
+			$this->db->from(self::cliente.' as c');
+			$this->db->join(self::persona .' as p' ,' on c.Persona = p.id_persona ');
+			$this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
+	        $this->db->where('c.estado_cliente = 1');
 	        $query = $this->db->get();
 	        //echo $this->db->queries[1];
 	        
@@ -675,6 +676,20 @@ class Producto_model extends CI_Model {
 			$this->db->select('*');
 	        $this->db->from(self::correlativos.' as c');
         	$this->db->join(self::sucursal.' as s', 'on c.Sucursal = s.id_sucursal');
+	        $this->db->where('estado = 1');
+	        $this->db->where('Empresa_Suc', $this->session->empresa[0]->id_empresa );
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[1];
+	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function get_sucursal_producto(){
+			$this->db->select('*');
+        	$this->db->from(self::sucursal);
 	        $this->db->where('estado = 1');
 	        $this->db->where('Empresa_Suc', $this->session->empresa[0]->id_empresa );
 	        $query = $this->db->get(); 

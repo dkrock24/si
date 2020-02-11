@@ -117,7 +117,7 @@ $(document).ready(function () {
             success: function (data) {
 
                 var datos = JSON.parse(data);
-                console.log(datos);
+                
                 $("#id_empresa").val(datos[0].Empresa);
                 $("#giro").append('<option value="0">Selecione Giro</option>');
                 $.each(JSON.parse(data), function (i, item) {

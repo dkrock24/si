@@ -691,6 +691,15 @@
                                             <div class="col-sm-8">
                                                 <select class="form-control" id="giro" name="giro">
                                                     <option value="<?php echo $producto[0]->Giro ?>"><?php echo $producto[0]->nombre_giro ?></option>
+                                                    <?php
+                                                    foreach ($empresa_giro as $key => $value) {
+                                                        if($value->id_giro_empresa != $producto[0]->Giro ){
+                                                        ?>
+                                                        <option value="<?php echo $value->id_giro_empresa ?>"><?php echo $value->nombre_giro ?></option>
+                                                        <?php
+                                                        }
+                                                    }
+                                                    ?>
                                                 </select>
 
                                             </div>

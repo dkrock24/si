@@ -154,8 +154,13 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Clase Cliente</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="clase_cli" name="clase_cli" placeholder="Clase Cliente" value="<?php //echo $onMenu[0]->titulo_submenu 
-                                                                                                                                                            ?>">
+                                                
+                                                <select class="form-control" id="clase_cli" name="clase_cli"  >
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="C">C</option>
+                                                    <option value="D">D</option>
+                                                 </select>
 
                                             </div>
                                         </div>

@@ -139,7 +139,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="datosLista">
+                    <tbody id="datosLista" class="menuContent">
 
                         <?php
                         $contador = $contador_tabla;

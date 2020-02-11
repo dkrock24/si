@@ -149,7 +149,24 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Clase Cliente</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="clase_cli" name="clase_cli" placeholder="Clase Cliente" value="<?php echo $cliente[0]->clase_cli ?>">
+                                                
+                                                <select class="form-control" id="clase_cli" name="clase_cli"  >
+                                                    
+                                                <option value="<?php echo $cliente[0]->clase_cli;  ?>"><?php echo $cliente[0]->clase_cli;  ?></option>
+                                                    <?php 
+                                                        $cliente_class = array("A","B","C","D");
+                                                        foreach ($cliente_class as $value) {
+
+                                                            if($cliente[0]->clase_cli != $value){
+                                                                ?>
+                                                                <option value="<?php echo $value;  ?>"><?php echo $value;  ?></option>
+                                                                <?php
+                                                            }
+                                                            
+                                                        }                                                    
+                                                    ?>                                                  
+
+                                                 </select>
 
                                             </div>
                                         </div>

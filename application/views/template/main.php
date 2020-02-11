@@ -140,14 +140,13 @@
                   if(isset($sucursales) && isset($terminal)){
                      ?>
                      <span style="text-align: left; font-size: 30px;overflow: hidden;margin-left:20px;">
-                            <?php echo $sucursales[0]->nombre_razon_social . " / "; ?>
-                            <?php echo @$empleado[0]->nombre_sucursal . " / "; ?>
-                            <?php echo $this->session->usuario[0]->nombre_usuario . " / "; ?>
-                            <?php echo $this->session->usuario[0]->role . " / "; ?>
-                            <?php echo date("D") . " / "; ?>
-                            <?php echo $terminal[0]->nombre_caja . " / "; ?>
-                            <?php echo $terminal[0]->nombre . " / "; ?>
-                            <?php echo Date("d-m-y"); ?>
+                           [ <?php echo $sucursales[0]->nombre_razon_social . " : "; ?>
+                            <?php echo @$empleado[0]->nombre_sucursal . " ] [ "; ?>
+                            <?php echo $this->session->usuario[0]->role . " : "; ?>
+                            <?php echo $this->session->usuario[0]->nombre_usuario . " ] [ "; ?>
+                            <?php echo $terminal[0]->nombre_caja . " "; ?>
+                            <?php echo $terminal[0]->nombre . " ] "; ?>
+                            [<label id="time-part" style="position:relative"></label>]
                         </span>
                      <?php
                   }

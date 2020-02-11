@@ -78,7 +78,7 @@ class Vistas extends MY_Controller {
 		redirect(base_url()."admin/vistas/index");
 	}
 
-	public function edit( $vista_id ){
+	public function editar( $vista_id ){
 		
 		$data['menu'] = $this->session->menu;
 		$data['vistas'] = $this->Vistas_model->vistas_by_id( $vista_id );

@@ -82,7 +82,6 @@ class Orden extends MY_Controller {
 		$data['menu'] 	= $this->session->menu;		
 
 		if($terminal_acceso){
-			
 			$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
 			$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 			$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );
@@ -155,13 +154,13 @@ class Orden extends MY_Controller {
 		$data['menu'] 		= $this->session->menu;
 
 		if($terminal_acceso){
-
+			
 			$data['encabezado'] 	= $this->Orden_model->get_orden($order_id);
 			$data['detalle'] 		= $this->Orden_model->get_orden_detalle($order_id);
 			$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
 			$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );//$this->Producto_model->get_sucursales();
 			$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente($data['encabezado'][0]->id_cliente);
-			$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['encabezado'][0]->id_vendedor );
+			$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['encabezado'][0]->id_usuario );
 			$data['terminal'] 		= $terminal_acceso;
 			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 			$data['impuestos'] 		= $this->Orden_model->get_impuestos( $data['encabezado'][0]->id );

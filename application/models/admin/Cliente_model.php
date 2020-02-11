@@ -142,7 +142,7 @@ class Cliente_model extends CI_Model
         
 
         $data = array(
-            'website_cli'       =>  $datos['website_cli'],
+            'website_cli'       => $datos['website_cli'],
             'nrc_cli'           => $datos['nrc_cli'],
             'nit_cliente'       => $datos['nit_cliente'],
             'dui_cli'       => $datos['dui_cliente'],

@@ -284,7 +284,23 @@ class Giros_model extends CI_Model {
         }
     }
 
-    function get_empresa_giro( $empresa ){
+    function get_empresa_giro2( ){
+        
+        $this->db->select('*');
+        $this->db->from(self::empresa_plantilla.' as ep');
+        $this->db->join(self::giros.' as g',' on g.id_giro = ep.Giro');
+        $this->db->where('ep.Empresa ='. $this->session->empresa[0]->id_empresa );
+        $query = $this->db->get(); 
+        //echo $this->db->queries[10];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function get_empresa_giro( $empresa = null){
+
         $this->db->select('*');
         $this->db->from(self::empresa_plantilla.' as ep');
         $this->db->join(self::giros.' as g',' on g.id_giro = ep.Giro');

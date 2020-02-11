@@ -91,18 +91,19 @@ class Empleado_model extends CI_Model {
         $imageProperties = getimageSize($_FILES['img_empleado']['tmp_name']);
 
 		$data = array(
-          	'fecha_contratacion_empleado' 	=> 	$datos['fecha_contratacion_empleado'],
-            'horas_laborales_mensuales_empleado' 	=> $datos['horas_laborales_mensuales_empleado'],
+          	
             'turno' 	=> $datos['turno'],
-            'alias' 	=> $datos['alias'],
-            'seccion' 	=> $datos['seccion'],
-            'puesto'    => $datos['puesto'],
+            'alias' 	=> strtoupper($datos['alias']),
+            'seccion' 	=> strtoupper($datos['seccion']),
+            'puesto'    => strtoupper($datos['puesto']),
             'encargado' => $datos['encargado'],
-            'nivel'=> $datos['nivel'],
+            'nivel'     => strtoupper($datos['nivel']),
             'Cargo_Laboral_E'   => $datos['Cargo_Laboral_E'],
             'Persona_E' => $datos['Persona_E'],
             'Sucursal'  => $datos['Sucursal'],
             'creado'    => date("Y-m-d"),
+            'fecha_contratacion_empleado' 	    => 	$datos['fecha_contratacion_empleado'],
+            'horas_laborales_mensuales_empleado'=> $datos['horas_laborales_mensuales_empleado'],
             'estado'    => $datos['estado']
         );
          if(isset($_FILES['img_empleado']) && $_FILES['img_empleado']['tmp_name']!=null){

@@ -3,6 +3,8 @@
 
         // OBTENER ORDENES PARA CONVERTIRLAS A VENTA
 
+        registro_editado = 1;
+
         var contador_ingreso = 0;
         var cnt22 = 0;
 
