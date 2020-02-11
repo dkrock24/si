@@ -144,22 +144,24 @@ class Empresa_model extends CI_Model {
             $imageProperties = getimageSize($_FILES['logo_empresa']['tmp_name']);
         }
 
+        $data = array();
+
+        if( isset($empresa['codigo']) ){
+            $data['codigo'] = $empresa['codigo'];
+        }
+
         $data = array(
             'nombre_razon_social'   => $empresa['nombre_razon_social'],
             'nombre_comercial'      => $empresa['nombre_comercial'],
             'nrc'                   => $empresa['nrc'],
             'nit'                   => $empresa['nit'],
-            //'autorizacion'          => $empresa['autorizacion'],
             'giro'                  => $empresa['giro'],
             'logo_empresa'          => $imagen,
             'direccion'             => $empresa['direccion'],
             'slogan'                => $empresa['slogan'],
-            //'resolucion'            => $empresa['resolucion'],
             'representante'         => $empresa['representante'],
             'website'               => $empresa['website'],
-            //'tiraje'                => $empresa['tiraje'],
-            'tel'                   => $empresa['tel'],
-            'codigo'                => $empresa['codigo'],
+            'tel'                   => $empresa['tel'],    
             'Moneda'                => $empresa['Moneda'],
             'natural_juridica'      => $empresa['natural_juridica'],
             'metodo_inventario'     => $empresa['metodo_inventario'],
@@ -192,21 +194,23 @@ class Empresa_model extends CI_Model {
         $imagen = @file_get_contents($_FILES['logo_empresa']['tmp_name']);
         $imageProperties = @getimageSize($_FILES['logo_empresa']['tmp_name']);
 
+        $data = array();
+
+        if( isset($empresa['codigo']) ){
+            $data['codigo'] = $empresa['codigo'];
+        }
+
         $data = array(
             'nombre_razon_social'   => $empresa['nombre_razon_social'],
             'nombre_comercial'      => $empresa['nombre_comercial'],
             'nrc'                   => $empresa['nrc'],
             'nit'                   => $empresa['nit'],
-            //'autorizacion'        => $empresa['autorizacion'],
             'giro'                  => $empresa['giro'],
             'direccion'             => $empresa['direccion'],
             'slogan'                => $empresa['slogan'],
-            //'resolucion'          => $empresa['resolucion'],
             'representante'         => $empresa['representante'],
             'website'               => $empresa['website'],
-            //'tiraje'              => $empresa['tiraje'],
             'tel'                   => $empresa['tel'],
-            'codigo'                => $empresa['codigo'],
             'Moneda'                => $empresa['Moneda'],
             'natural_juridica'      => $empresa['natural_juridica'],
             'metodo_inventario'     => $empresa['metodo_inventario'],

@@ -176,14 +176,20 @@
                                         
                                     </div>
                                 </div>
-
+                                <?php
+                                if( $this->session->usuario[0]->id_rol == 1 )
+                                {
+                                ?>
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo</label>
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Licencia</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Codigo" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Licencia" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                         
                                     </div>
                                 </div>
+                                <?php
+                                }
+                                ?>
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">

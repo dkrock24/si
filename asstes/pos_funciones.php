@@ -2192,7 +2192,7 @@
                     tr_html += "<td class='border-table-left'>" + contador_tabla + "</td>";
                     tr_html += "<td class=''>" + element.producto + "</td>";
                     tr_html += "<td class=''>" + element.descripcion + "</td>";
-                    tr_html += "<td class=''>" + element.cantidad + "</td>";
+                    tr_html += "<td class=''><input type='text' id='"+ element.producto +"' value='"+ element.cantidad +"'></input></td>";
                     tr_html += "<td class=''>" + element.presentacion + "</td>";
                     tr_html += "<td class=''>" + element.presentacionFactor + "</td>";
                     tr_html += "<td class=''>" + element.precioUnidad + "</td>";
