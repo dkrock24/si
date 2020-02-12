@@ -12,6 +12,8 @@ class Reporte_model extends CI_Model {
     const empleado  = 'sys_empleado';
     const documento = 'pos_tipo_documento';
     const cliente   = 'pos_cliente';
+    const pagos     = 'pos_venta_pagos';
+    const estados   = 'pos_orden_estado';
     
     function index($limit, $id , $filters ){
 
@@ -28,10 +30,18 @@ class Reporte_model extends CI_Model {
         if($query->num_rows() > 0 )
         {
             return $query->result();
-        } 
+        }
     }
 
     function filtrar_venta( $filters ){
+
+        $filter = "";
+
+        if( $filters['cajero'] ){
+            
+            $filter .= " v.id_cajero = ". $filters['cajero'];
+
+        }
 
         $this->db->select('*');
         $this->db->from(self::ventas.' as v');  
@@ -39,8 +49,15 @@ class Reporte_model extends CI_Model {
         $this->db->join(self::empleado.' as e','e.id_empleado = u.Empleado');
         $this->db->join(self::documento.' as d','d.id_tipo_documento = v.id_tipod');
         $this->db->join(self::cliente.' as c','c.id_cliente = v.id_cliente');
+        $this->db->join(self::pagos.' as p','p.venta_pagos = v.id');
+        $this->db->join(self::estados.' as s','s.id_orden_estado = v.orden_estado');
+        
         $this->db->where('v.fh_inicio >=' , $filters['fh_inicio']);
         $this->db->where('v.fh_final <=' , $filters['fh_fin']);
+        if( $filter != ""){
+            $this->db->where($filter);
+        }
+        
         
         $query = $this->db->get();
         //echo $this->db->queries[2];
