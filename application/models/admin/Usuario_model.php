@@ -8,6 +8,7 @@ class Usuario_model extends CI_Model {
     const pos_empresa = 'pos_empresa';
     const sys_usuario = 'sys_usuario';
     const sys_role = 'sys_role';
+    const sys_cargo_laboral = ' sys_cargo_laboral';
 
     function get_usuarios( $limit, $id , $filters){;
         $this->db->select('r.*,s.*,u.nombre_usuario,u.contrasena_usuario,u.hora_inicio,u.hora_salida,u.usuario_encargado,u.Empleado,u.id_usuario,e.alias,e.id_empleado');
@@ -36,6 +37,21 @@ class Usuario_model extends CI_Model {
         $this->db->join(self::persona.' as p', 'p.id_persona = e.Persona_E');
         $this->db->join(self::sucursal.' as s', 's.id_sucursal = e.Sucursal');
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
+    function get_cajeros( $role ){;
+        $this->db->select('*');
+        $this->db->from(self::empleado.' as e');
+        $this->db->join(self::persona.' as p', 'p.id_persona = e.Persona_E');
+        $this->db->join(self::sys_cargo_laboral.' as c', 'c.id_cargo_laboral = e.Cargo_Laboral_E');
+        $this->db->where('c.cargo_laboral' , $role );
+        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
         
         if($query->num_rows() > 0 )

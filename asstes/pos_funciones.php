@@ -558,8 +558,8 @@
 
                 id_celda = $(this).attr('name');
 
-                $(this).css('background', '#0f4871');
-                $(this).css('color', '#fff');
+                $(this).css('background', '#c4e0b3');
+                $(this).css('color', 'black');
 
                 currCell = $(this);
 
@@ -728,7 +728,7 @@
                     currCell.focus();
 
                     currCell.parent().css('background', '#0f4871');
-                    currCell.parent().css('color', '#fff');
+                    currCell.parent().css('color', 'black');
                 }
             }
 
@@ -759,7 +759,7 @@
                 $('tr').css('color', 'black');
                 id_celda = $(currCell).attr('name');
                 $(currCell).css('background', '#0f4871');
-                $(currCell).css('color', '#fff');
+                $(currCell).css('color', 'black');
                 //currCell.focus();
 
             }
@@ -1862,7 +1862,7 @@
                 if (key == 39) { //Modal de Facturacion en Venta Rapida
                     $("#id_tipo_documento").focus();
                     $("#id_tipo_documento").css("background", "#27c24c");
-                    clear_color($("#id_tipo_documento"), "#fff");
+                    clear_color($("#id_tipo_documento"), "black");
                 }
 
                 $(this).css("background", "white");
@@ -2187,17 +2187,21 @@
             var tr_html = "";
 
             _orden.forEach(function(element) {
+
+                var precio_tag = parseFloat(element.precioUnidad);
+                var desc_tag = parseFloat(element.descuento_calculado);
+                var total_tag = parseFloat(element.total);
                 if (element.invisible == 0) {
                     tr_html += "<tr class='productos_tabla' style='' id='" + element.producto_id + "' name='" + element.id_producto_detalle + "'>";
                     tr_html += "<td class='border-table-left'>" + contador_tabla + "</td>";
                     tr_html += "<td class=''>" + element.producto + "</td>";
                     tr_html += "<td class=''>" + element.descripcion + "</td>";
-                    tr_html += "<td class=''><input type='text' id='"+ element.producto +"' value='"+ element.cantidad +"'></input></td>";
+                    tr_html += "<td class=''><input type='text' id='c"+ element.producto +"' value='"+ element.cantidad +"'></input></td>";
                     tr_html += "<td class=''>" + element.presentacion + "</td>";
                     tr_html += "<td class=''>" + element.presentacionFactor + "</td>";
-                    tr_html += "<td class=''>" + element.precioUnidad + "</td>";
-                    tr_html += "<td class=''>" + element.descuento_calculado + "</td>";
-                    tr_html += "<td class=' total'>" + element.total + "</td>";
+                    tr_html += "<td class=''><input type='text' id='p"+ element.producto +"' value='"+ precio_tag.toFixed(2) +"'></input></td>";
+                    tr_html += "<td class=''><input type='text' id='d"+ element.producto +"' value='"+ desc_tag.toFixed(2) +"'></input></td>";
+                    tr_html += "<td class=' total'>" + total_tag.toFixed(2) + "</td>";
                     tr_html += "<td class=' '>" + element.bodega + "</td>";
                     if (element.combo == 1 || !element.id_producto_combo || element.invisible == 0) {
                         tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled bg-green eliminar' name='" + element.id_producto_detalle + "' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
