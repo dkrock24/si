@@ -105,7 +105,7 @@
                                                         <?php
                                                         foreach ($turno as $key => $value) {
                                                         ?>
-                                                            <option><?= $value->nombre_turno ?></option>
+                                                            <option value="<?= $value->id_turno ?>"><?= $value->nombre_turno ?></option>
                                                         <?php
                                                         }
                                                         ?>
@@ -133,6 +133,8 @@
 
                                     <div class="row">
                                         <?php
+
+                                        echo date("h:i:s");
 
                                         if (isset($result)) {
                                         ?>

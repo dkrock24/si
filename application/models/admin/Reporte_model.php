@@ -14,6 +14,7 @@ class Reporte_model extends CI_Model {
     const cliente   = 'pos_cliente';
     const pagos     = 'pos_venta_pagos';
     const estados   = 'pos_orden_estado';
+    const turnos    = ' pos_turnos';
     
     function index($limit, $id , $filters ){
 
@@ -35,13 +36,28 @@ class Reporte_model extends CI_Model {
 
     function filtrar_venta( $filters ){
 
-        $filter = "";
+        $filter     = "";
+        $mask       = " 00:00:00";
+        $f_inicio   = $filters['fh_inicio'].$mask;
+        $f_fin      = $filters['fh_fin'].$mask;
+
+        if( $filters['turno'] != 0 ){
+
+            $turnos = $this->get_turno($filters['turno']);
+            
+            $f_inicio   = $filters['fh_inicio']." ".$turnos[0]->hora_inicio;
+            $f_fin      = $filters['fh_fin']." ".$turnos[0]->hora_fin;
+
+        }else{
+            $filter = " DATE(v.fh_inicio) BETWEEN ".  DATE($f_inicio) . " AND ".  DATE($f_fin);
+            
+        }
 
         if( $filters['cajero'] ){
             
             $filter .= " v.id_cajero = ". $filters['cajero'];
 
-        }
+        }        
 
         $this->db->select('*');
         $this->db->from(self::ventas.' as v');  
@@ -52,19 +68,35 @@ class Reporte_model extends CI_Model {
         $this->db->join(self::pagos.' as p','p.venta_pagos = v.id');
         $this->db->join(self::estados.' as s','s.id_orden_estado = v.orden_estado');
         
-        $this->db->where('v.fh_inicio >=' , $filters['fh_inicio']);
-        $this->db->where('v.fh_final <=' , $filters['fh_fin']);
-        if( $filter != ""){
-            $this->db->where($filter);
+        $this->db->where('DATE(v.fh_inicio)'  . ' >= ' , $f_inicio );
+        $this->db->where('DATE(v.fh_final) <=' , $f_fin );
+
+        if( $filter){
+           // $this->db->where(DATE('v.fh_inicio') . " BETWEEN ". DATE("2020-02-04 00:00:00") ." AND ". "2020-02-05 00:00:00");
         }
-        
-        
+              
         $query = $this->db->get();
         //echo $this->db->queries[2];
+              
                 
         if($query->num_rows() > 0 )
         {
             return $query->result();
         }
+    }
+
+    function get_turno( $turno_id ){
+
+        $this->db->select('*');
+        $this->db->from(self::turnos);  
+        $this->db->where('id_turno' , $turno_id );  
+        $this->db->where(self::turnos.'.Empresa', $this->session->empresa[0]->id_empresa);
+        $query = $this->db->get();
+                
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+
     }
 }

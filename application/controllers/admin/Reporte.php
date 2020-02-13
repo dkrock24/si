@@ -45,7 +45,7 @@ class Reporte extends My_Controller {
         $data['turno'] = $this->Turnos_model->getTurnos();
         $data['cajero'] = $this->Usuario_model->get_cajeros('Cajero');
 
-        if(isset($_POST['fecha_i'])){
+        if( isset( $_POST['fecha_i'])){
             
             $filters = array(
                 'fh_inicio' => $_POST['fecha_i'],
