@@ -115,7 +115,7 @@ class Venta extends MY_Controller {
 									$data['encabezado'][0]->id_condpago
 								);
 
-		$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
+		$name 					= $data['sucursales'][0]->nombre_sucursal.@$data['terminal'][0]->id_terminal;
 		$data['file'] 			= $name;
 		$data['msj_title'] = "Su orden ha sido grabada satisfactoriamente";
 		$data['msj_orden'] = "Su número de transacción es: # ". $data['encabezado'][0]->num_correlativo;

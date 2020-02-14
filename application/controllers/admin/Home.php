@@ -65,9 +65,10 @@ class Home extends CI_Controller {
 		if(isset($empresa_id)){
 			if(isset($empresa_session)){
 				//$_SESSION['empresa'] = $this->Usuario_model->permiso_empresa( $empresa_session );
-				$_SESSION['empresa'] = $this->Empresa_model->get_empresa_by_id( $empresa_session );		
+				//get_empresa_by_id
+				$_SESSION['empresa'] = $this->Empresa_model->getEmpresaId( $empresa_session );		
 			}else{
-				$_SESSION['empresa'] = $this->Empresa_model->get_empresa_by_id( $empresa_id[0]->id_empresa );				
+				$_SESSION['empresa'] = $this->Empresa_model->getEmpresaId( $empresa_id[0]->id_empresa );				
 			}
 		}else{
 			

@@ -32,37 +32,89 @@ class Reporte extends My_Controller {
 		$this->load->helper('paginacion/paginacion_helper');
 
         $this->load->model('admin/Reporte_model');  
-        $this->load->model('admin/Turnos_model');  
+		$this->load->model('admin/Turnos_model');  
+		$this->load->model('admin/Sucursal_model');  
         $this->load->model('admin/Usuario_model');  
 		$this->load->model('admin/Menu_model');
 		$this->load->model('accion/Accion_model');
+
+		
 	}
 
 // Start Report **********************************************************************************
 
 	public function index(){
 
-        $data['turno'] = $this->Turnos_model->getTurnos();
-        $data['cajero'] = $this->Usuario_model->get_cajeros('Cajero');
+        $data['turno'] 	= $this->Turnos_model->getTurnos();
+		$data['cajero'] = $this->Usuario_model->get_cajeros('Cajero');
+		$data['sucursal'] = $this->Sucursal_model->getSucursal();
 
         if( isset( $_POST['fecha_i'])){
             
             $filters = array(
                 'fh_inicio' => $_POST['fecha_i'],
                 'fh_fin'    => $_POST['fecha_f'],
-                'turno'     => $_POST['turno'],
+				'sucursal'  => $_POST['sucursal'],
+				'turno'     => $_POST['turno'],
                 'cajero'    => $_POST['cajero']
-            );
+			);
+			$data['filters'] = $filters;
     
-            $data['result'] = $this->Reporte_model->filtrar_venta($filters);
-        }
+            $data['registros'] = $this->Reporte_model->filtrar_venta($filters);
+        }else{
+			$data['registros'] = 1;
 
-        $data['menu'] = $this->session->menu;
+			$data['filters'] = array(
+				'fh_inicio' => date('Y-m-d'),
+				'fh_fin'    => date('Y-m-d'),
+				'sucursal'  => 0,
+				'turno'     => 0,
+				'cajero'    => 0,
+			);
+		}		
+
+		
+
+		$data['fields'] 	= $this->fields();
+		$data['menu'] = $this->session->menu;
+		$data['moneda'] = $this->session->empresa[0]->moneda_simbolo;
         $data['title'] = 'Reportes';
-        $data['home'] = 'admin/reporte/index';
+		$data['home'] = 'admin/reporte/index';
+		
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
 
 		$this->parser->parse('template', $data);
-    }
+	}
+
+	public function export(){
+
+		$column = $this->column();
+		$fields = $this->fields();
+
+		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
+	}
+
+	public function column(){
+
+		$column = array(
+			'id','nombre','num_correlativo','nombre_empresa_o_compania','orden_estado_nombre'
+		);
+		return $column;
+	}
+	
+	public function fields(){
+		
+		$fields['field'] = array(
+			'id','nombre','num_correlativo','nombre_empresa_o_compania','orden_estado_nombre'
+		);
+		
+		$fields['id'] 		= array('id');
+		$fields['estado'] 	= array('orden_estado_nombre');
+		$fields['titulo'] 	= "Reporte - Ventas";
+
+		return $fields;
+	}
 	
 
 }

@@ -1,20 +1,36 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
 <script type="text/javascript">
+    var headers = <?php echo json_encode($fields['field']); ?>;
+    var records = <?php echo json_encode($registros); ?>
+
+    var documento_titulo = <?php echo json_encode($fields['titulo']); ?>;
+
     $(document).ready(function() {
 
-
+        console.log(1);
     });
 </script>
 
 <style>
     .sz {
         font-size: 20px;
+        font-style: bold;
     }
 
     .sz2 {
         font-size: 30px;
         color: #0f4871;
+    }
+    .btn-process{
+        display:inline-block;
+        float: right;
+    }
+    .header_report{
+        background: #eef5be;
+    }
+    .filters_report{
+        background: #fff;
     }
 </style>
 <!-- Main section-->
@@ -34,7 +50,25 @@
 
                 <div id="panelDemo10" class="panel menu_title_bar">
 
-                    <div class="panel-heading menuTop"> <i class="fa fa-cart-arrow-down sz2"></i> VENTAS </div>
+                    <div class="panel-heading menuTop">
+                        <i class="fa fa-cart-arrow-down sz2"></i> VENTAS
+                        <div class="row btn-process">
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <br>
+
+                                    <a href="#" class="btn btn-info" onclick="exportPdf()">
+                                        <i class="fa fa-file-pdf-o sz"></i> PDF
+                                    </a>
+                                    <a href="export" class="btn btn-info">
+                                        <i class="fa fa-file-excel-o h sz"></i> XLS
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div><br><br>
+                    </div>
                     <div class="panel-body menuContent">
 
                         <form class="form-horizontal" name="reporte_ventas" action='index' method="post">
@@ -42,20 +76,17 @@
                                                         ?>" name="id_submenu">
 
                             <div class="panel b">
-                                <div class="panel-heading">
-
-
-                                </div>
+                                
 
                                 <div class="panel-body">
-                                    <div class="row">
+                                    <div class="row filters_report">
 
                                         <div class="col-lg-2">
 
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <label for="" class=""> <i class="fa fa-clock-o sz"></i> Fecha Inicio</label>
-                                                    <input type="date" class="form-control" id="fecha_i" name="fecha_i" value="<?php echo date("Y-m-d"); ?>">
+                                                    <input type="date" class="form-control" id="fecha_i" name="fecha_i" value="<?php echo $filters['fh_inicio']; ?>">
 
                                                 </div>
                                             </div>
@@ -67,7 +98,48 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <label for="" class=""><i class="fa fa-clock-o sz"></i> Fecha Fin</label>
-                                                    <input type="date" class="form-control" id="fecha_f" name="fecha_f" value="<?php echo date("Y-m-d"); ?>">
+                                                    <input type="date" class="form-control" id="fecha_f" name="fecha_f" value="<?php echo $filters['fh_fin']; ?>">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-2">
+
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <label for="" class=""><i class="fa fa-home sz"></i> Sucursal</label>
+                                                    <select name="sucursal" class="form-control">
+
+                                                        <?php
+                                                        if ($filters['sucursal']) {
+
+
+                                                            foreach ($sucursal as $key => $value) {
+                                                                if ($filters['sucursal'] == $value->id_sucursal) {
+                                                        ?>
+                                                                    <option value="<?= $value->id_sucursal ?>"><?= $value->nombre_sucursal ?></option>
+                                                                    <option value="0">-</option>
+                                                            <?php
+                                                                }
+                                                            }
+                                                        } else {
+                                                            ?>
+                                                            <option value="0">-</option>
+                                                            <?php
+                                                        }
+
+                                                        foreach ($sucursal as $key => $value) {
+                                                            if ($filters['sucursal'] != $value->id_sucursal) {
+                                                            ?>
+                                                                <option value="<?= $value->id_sucursal ?>"><?= $value->nombre_sucursal ?></option>
+                                                        <?php
+                                                            }
+                                                        }
+                                                        ?>
+
+                                                    </select>
 
                                                 </div>
                                             </div>
@@ -101,12 +173,30 @@
                                                 <div class="col-sm-12">
                                                     <label for="" class=""><i class="fa fa-edit sz"></i> Turno</label>
                                                     <select name="turno" class="form-control">
-                                                        <option value="0"> - </option>
+
                                                         <?php
-                                                        foreach ($turno as $key => $value) {
+                                                        if ($filters['turno']) {
+
+                                                            foreach ($turno as $key => $value) {
+                                                                if ($filters['turno'] == $value->id_turno) {
                                                         ?>
-                                                            <option value="<?= $value->id_turno ?>"><?= $value->nombre_turno ?></option>
+                                                                    <option value="<?= $value->id_turno ?>"><?= $value->nombre_turno ?></option>
+                                                                    <option value="0">-</option>
+                                                            <?php
+                                                                }
+                                                            }
+                                                        } else {
+                                                            ?>
+                                                            <option value="0">-</option>
+                                                            <?php
+                                                        }
+
+                                                        foreach ($turno as $key => $value) {
+                                                            if ($filters['turno'] != $value->id_turno) {
+                                                            ?>
+                                                                <option value="<?= $value->id_turno ?>"><?= $value->nombre_turno ?></option>
                                                         <?php
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -129,18 +219,18 @@
 
                                         </div>
 
+
+
                                     </div>
 
                                     <div class="row">
                                         <?php
 
-                                        echo date("h:i:s");
-
-                                        if (isset($result)) {
+                                        if (isset($registros) && $registros != 1) {
                                         ?>
                                             <table id="tablePreview" class="table table-striped table-hover table-sm table-borderless">
 
-                                                <thead>
+                                                <thead class="header_report">
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Id</th>
@@ -154,21 +244,7 @@
                                                         <th>Valor Exento Total</th>
                                                         <th>Estado</th>
                                                         <th>
-                                                            <div class="btn-group dropright mb-sm">
-                                                                <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-xs" style="background: #dde6e9">Opcion
-                                                                    <span class="caret"></span>
-                                                                </button>
-                                                                <ul role="menu" class="dropdown-menu dropdown-menu-right">
-                                                                    <li>
-                                                                        <a href="">
-                                                                            <span class="btn btn-success">
-                                                                                <i class="">Hola</i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </li>
-
-                                                                </ul>
-                                                            </div>
+                                                            Detalle
                                                         </th>
                                                     </tr>
                                                 </thead>
@@ -176,7 +252,7 @@
                                                 //$date=date_create("2013-03-15");
                                                 //echo date_format($date,"Y/m/d H:i:s");
                                                 $cnt = 1;
-                                                foreach ($result as $key => $value) {
+                                                foreach ($registros as $key => $value) {
                                                 ?>
                                                     <tbody>
                                                         <tr>
@@ -188,25 +264,19 @@
                                                             <td><?= $value->id_cliente ?></td>
                                                             <td><?= $value->nombre_empresa_o_compania ?></td>
                                                             <td><?= $value->nombre_metodo_pago ?></td>
-                                                            <td><?= number_format($value->total_doc, 2) ?></td>
+                                                            <td><?= $moneda . number_format($value->total_doc, 2) ?></td>
                                                             <td><?= number_format($value->total_doc, 2) ?></td>
                                                             <td><?= $value->orden_estado_nombre ?></td>
                                                             <td>
-                                                                <div class="btn-group dropright mb-sm">
-                                                                    <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-xs" style="background: #dde6e9">Opcion
-                                                                        <span class="caret"></span>
-                                                                    </button>
-                                                                    <ul role="menu" class="dropdown-menu dropdown-menu-right">
-                                                                        <li>
-                                                                            <a href="">
-                                                                                <span class="btn btn-success">
-                                                                                    <i class="">Hola</i>
-                                                                                </span>
-                                                                            </a>
-                                                                        </li>
 
-                                                                    </ul>
-                                                                </div>
+                                                                <a href="../../producto/venta/ver/<?php echo  $value->id ?>" target="_blank">
+                                                                    <span class="btn btn-success btn-sm" style="background:#5d9cec">
+                                                                        <i class="fa fa-arrow-right"></i> Detalle
+                                                                    </span>
+                                                                </a>
+
+
+
                                                             </td>
 
 
