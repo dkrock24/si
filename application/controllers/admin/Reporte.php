@@ -87,6 +87,48 @@ class Reporte extends My_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function concentrado(){
+
+		$data['turno'] 		= $this->Turnos_model->getTurnos();
+		$data['cajero'] 	= $this->Usuario_model->get_cajeros('Cajero');
+		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
+
+        if( isset( $_POST['fecha_i'])){
+            
+            $filters = array(
+                'fh_inicio' => $_POST['fecha_i'],
+                'fh_fin'    => $_POST['fecha_f'],
+				'sucursal'  => $_POST['sucursal'],
+				'turno'     => $_POST['turno'],
+                'cajero'    => $_POST['cajero']
+			);
+			$data['filters'] = $filters;
+    
+            $data['registros'] = $this->Reporte_model->concentrado($filters);
+        }else{
+			$data['registros'] = 1;
+
+			$data['filters'] = array(
+				'fh_inicio' => date('Y-m-d'),
+				'fh_fin'    => date('Y-m-d'),
+				'sucursal'  => 0,
+				'turno'     => 0,
+				'cajero'    => 0,
+			);
+		}				
+
+		$data['fields'] 	= $this->fields();
+		$data['menu'] = $this->session->menu;
+		$data['moneda'] = $this->session->empresa[0]->moneda_simbolo;
+        $data['title'] = 'Reportes';
+		$data['home'] = 'admin/reporte/concentrado';
+		
+		$_SESSION['registros']  = $data['registros'];
+		$_SESSION['Vista']  = $data['title'];
+
+		$this->parser->parse('template', $data);
+	}
+
 	public function export(){
 
 		$column = $this->column();

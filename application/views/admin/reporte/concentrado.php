@@ -8,7 +8,7 @@
 
     $(document).ready(function() {
 
-        console.log(1);
+        
     });
 </script>
 
@@ -51,7 +51,7 @@
                 <div id="panelDemo10" class="panel menu_title_bar">
 
                     <div class="panel-heading menuTop">
-                        <i class="fa fa-cart-arrow-down sz2"></i> VENTAS GENERALES
+                        <i class="fa fa-cart-arrow-down sz2"></i> VENTAS CONCENTRADAS
                         <div class="row btn-process">
 
                             <div class="form-group">
@@ -71,7 +71,7 @@
                     </div>
                     <div class="panel-body menuContent">
 
-                        <form class="form-horizontal" name="reporte_ventas" action='index' method="post">
+                        <form class="form-horizontal" name="reporte_ventas" action='concentrado' method="post">
                             <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; 
                                                         ?>" name="id_submenu">
 
@@ -233,58 +233,69 @@
                                                 <thead class="header_report">
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Id</th>
+                                                        
                                                         <th>Documento</th>
-                                                        <th>Numero</th>
-                                                        <th>Fecha</th>
-                                                        <th>Id Cliente</th>
-                                                        <th>Nombre</th>
-                                                        <th>Cond-Pago</th>
-                                                        <th>Valor Grabado</th>
-                                                        <th>Valor Exento Total</th>
-                                                        <th>Estado</th>
-                                                        <th>
-                                                            Detalle
-                                                        </th>
+                                                        <th>N Inical</th>
+                                                        <th>N Final</th>
+                                                        <th>C. Anulada</th>
+                                                        <th>Desc</th>
+                                                        <th>N Dev</th>
+                                                        <th>Monto</th>
+                                                        <th>Apli</th>
+                                                        <th>Efectivo</th>
+                                                        <th>Cheque</th>
+                                                        <th>T.Credito</th>
+                                                        <th>Credito</th>
+                                                        <th>Estado</th>                                                       
                                                     </tr>
                                                 </thead>
+                                                <tbody>
                                                 <?php
                                                 //$date=date_create("2013-03-15");
                                                 //echo date_format($date,"Y/m/d H:i:s");
                                                 $cnt = 1;
                                                 foreach ($registros as $key => $value) {
                                                 ?>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th><?= $cnt++; ?></th>
-                                                            <td><?= $value->id ?></td>
-                                                            <td><?= $value->nombre ?></td>
-                                                            <td><?= $value->num_correlativo ?></td>
-                                                            <td><?= $value->fh_inicio ?></td>
-                                                            <td><?= $value->id_cliente ?></td>
-                                                            <td><?= $value->nombre_empresa_o_compania ?></td>
-                                                            <td><?= $value->nombre_metodo_pago ?></td>
-                                                            <td><?= $moneda . number_format($value->total_doc, 2) ?></td>
-                                                            <td><?= number_format($value->total_doc, 2) ?></td>
-                                                            <td><?= $value->orden_estado_nombre ?></td>
-                                                            <td>
-
-                                                                <a href="../../producto/venta/ver/<?php echo  $value->id ?>" target="_blank">
-                                                                    <span class="btn btn-success btn-sm" style="background:#5d9cec">
-                                                                        <i class="fa fa-arrow-right"></i> Detalle
-                                                                    </span>
-                                                                </a>
-
-
-
-                                                            </td>
-
-
-                                                        </tr>
-                                                    </tbody>
+                                                   
+                                                    <tr>
+                                                        <th><?= $cnt++; ?></th>                                                            
+                                                        <td><?= $value->nombre ?></td>
+                                                        <td><?= $value->inicio ?></td>
+                                                        <td><?= $value->fin ?></td>
+                                                        <td><?= $value->fh_inicio ?></td>
+                                                        <td><?= $value->id_cliente ?></td>
+                                                        <td><?= $value->nombre_empresa_o_compania ?></td>
+                                                        <td><?= $value->nombre_metodo_pago ?></td>
+                                                        <td><?= $moneda . number_format($value->total_doc, 2) ?></td>
+                                                        <td><?= number_format($value->total_doc, 2) ?></td>
+                                                        <td><?= $value->orden_estado_nombre ?></td>
+                                                        <td><?= $value->orden_estado_nombre ?></td>
+                                                        <td><?= $value->orden_estado_nombre ?></td>
+                                                        <td><?= $value->orden_estado_nombre ?></td>
+                                                    </tr>
+                                                    
                                                 <?php
                                                 }
                                                 ?>
+                                                <thead class="header_report">
+                                                    <tr class="">
+                                                        <th></th>                                                        
+                                                        <th>TOTALES</th>
+                                                        <th></th>
+                                                        <th>DEV</th>
+                                                        <th>4</th>
+                                                        <th>Desc</th>
+                                                        <th>N Dev</th>
+                                                        <th>Monto</th>
+                                                        <th>Apli</th>
+                                                        <th>Efectivo</th>
+                                                        <th>Cheque</th>
+                                                        <th>T.Credito</th>
+                                                        <th>Credito</th>
+                                                        <th></th>                                                        
+                                                    </tr>
+                                                 </thead>
+                                                </tbody>
                                             </table>
                                         <?php
 
@@ -297,7 +308,6 @@
                                 <div class="panel-footer text-right">
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-9">
-
 
                                         </div>
                                     </div>
