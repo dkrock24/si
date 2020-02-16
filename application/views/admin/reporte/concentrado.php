@@ -246,7 +246,7 @@
                                                         <th>Cheque</th>
                                                         <th>T.Credito</th>
                                                         <th>Credito</th>
-                                                        <th>Estado</th>                                                       
+                                                                                                            
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -262,16 +262,16 @@
                                                         <td><?= $value->nombre ?></td>
                                                         <td><?= $value->inicio ?></td>
                                                         <td><?= $value->fin ?></td>
-                                                        <td><?= $value->fh_inicio ?></td>
-                                                        <td><?= $value->id_cliente ?></td>
-                                                        <td><?= $value->nombre_empresa_o_compania ?></td>
-                                                        <td><?= $value->nombre_metodo_pago ?></td>
-                                                        <td><?= $moneda . number_format($value->total_doc, 2) ?></td>
-                                                        <td><?= number_format($value->total_doc, 2) ?></td>
-                                                        <td><?= $value->orden_estado_nombre ?></td>
-                                                        <td><?= $value->orden_estado_nombre ?></td>
-                                                        <td><?= $value->orden_estado_nombre ?></td>
-                                                        <td><?= $value->orden_estado_nombre ?></td>
+                                                        <td><?=$moneda .   $value->total_anulado ?></td>
+                                                        <td><?= $value->descuento ?></td>
+                                                        <td><?= $value->descuento ?></td>
+                                                        <td><?= $value->descuento ?></td>
+                                                        <td><?= $value->descuento ?></td>
+                                                        <td><?= $moneda . number_format($value->efectivo, 2) ?></td>
+                                                        <td><?= $moneda . number_format($value->cheque, 2) ?></td>
+                                                        <td><?= $moneda . number_format($value->tcredito, 2) ?></td>
+                                                        <td><?= $moneda . number_format($value->credito, 2) ?></td>
+                                                        
                                                     </tr>
                                                     
                                                 <?php
@@ -292,7 +292,7 @@
                                                         <th>Cheque</th>
                                                         <th>T.Credito</th>
                                                         <th>Credito</th>
-                                                        <th></th>                                                        
+                                                                                                           
                                                     </tr>
                                                  </thead>
                                                 </tbody>

@@ -135,7 +135,12 @@ class Reporte_model extends CI_Model {
         }
 
         $this->db->select('v.id , v.num_correlativo, v.fh_inicio, v.id_cliente , v.total_doc , d.nombre ,
-        MIN(v.num_correlativo ) AS inicio , MAX(v.num_correlativo )AS fin ,
+        MIN(v.num_correlativo ) AS inicio , MAX(v.num_correlativo )AS fin , (SELECT SUM(v2.total_doc) FROM pos_ventas AS v2 WHERE v2.anulado=1 ) AS total_anulado,
+        SUM(v.desc_val) AS descuento,
+        (SELECT SUM(v.total_doc) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = v.id AND vp.id_forma_pago=1) AS efectivo,
+        (SELECT SUM(v.total_doc) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = v.id AND vp.id_forma_pago=3) AS cheque,
+        (SELECT SUM(v.total_doc) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = v.id AND vp.id_forma_pago=2) AS tcredito,
+        (SELECT SUM(v.total_doc) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = v.id AND vp.id_forma_pago=7) AS credito,
         c.nombre_empresa_o_compania ,p.nombre_metodo_pago, s.orden_estado_nombre');
         $this->db->from(self::ventas.' as v');  
         $this->db->join(self::usuarios.' as u','u.id_usuario = v.id_cajero');  
