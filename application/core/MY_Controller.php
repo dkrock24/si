@@ -36,7 +36,7 @@ class MY_Controller extends CI_Controller
 		$this->load->model('accion/Accion_model');	
 		$this->load->model('admin/Giros_model');	
 		$this->load->model('admin/Sucursal_model');	
-		$this->load->model('admin/Categorias_model');	
+		$this->load->model('admin/Categorias_model');
     }
 
     public function MyPagination($model , $url_page, $vista)
