@@ -50,20 +50,15 @@ class Traslado extends MY_Controller {
 		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
-		$data['registros'] = $this->Orden_model->getOrdenes( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['registros'] = $this->Traslado_model->getTraslado( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
-		$data['title'] = "Ordenes";
-		$data['home'] = 'template/lista_template';
+		$data['title'] = "Traslados";
+		$data['home'] = 'template/lista_template';		
 
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
-	}
-
-	public function get_correlativo_by_sucursal($sucursal_id){
-		$data['correlativo'] = $this->Correlativo_model->get_by_id($sucursal_id);
-		echo json_encode($data);
 	}
 
 	public function nuevo(){
@@ -91,6 +86,12 @@ class Traslado extends MY_Controller {
 			$this->parser->parse('template', $data);
 		}
 		
+	}
+
+	public function save_traslado(){
+
+		$data = $this->Traslado_model->save_traslado($_POST['productos'] , $_POST['encabezado']);
+
 	}
 
 	public function producto_combo(){
@@ -458,7 +459,7 @@ class Traslado extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Correlativo','Sucursal','Terminal','Cliente','F. Pago','Tipo Doc.','Cajero','Creado','Actual','Estado'
+			'Correlativo','Firma Salida','Firma Llegada','Salida','Llegada','Placa','Descripcion','Creado','Estado'
 		);
 		return $column;
 	}
@@ -466,12 +467,12 @@ class Traslado extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'num_correlativo','nombre_sucursal','num_caja','nombre_empresa_o_compania','nombre_modo_pago','tipo_documento','nombre_usuario','fecha','orden_estado_nombre','estado'
+			'correlativo_tras','firma_salida','firma_llegada','fecha_salida','fecha_llegada','transporte_placa','descripcion_tras','creado_tras','estado'
 		);
 		
-		$fields['id'] 		= array('num_correlativo');
-		$fields['estado'] 	= array('orden_estado');
-		$fields['titulo'] 	= "Orden Lista";
+		$fields['id'] 		= array('id_tras');
+		$fields['estado'] 	= array('estado_tras');
+		$fields['titulo'] 	= "Traslados Lista";
 
 		return $fields;
 	}

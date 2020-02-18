@@ -39,6 +39,8 @@ class Traslado_model extends CI_Model
 	const empleado = "sys_empleado";
 	const pos_orden_impuestos = "pos_orden_impuestos";
 	const pos_ventas_impuestos = "pos_ventas_impuestos";
+	const sys_traslados = "sys_traslados";
+	const sys_traslados_detalle = "sys_traslados_detalle";
 
 	// Ordenes
 	const pos_tipo_documento = 'pos_tipo_documento';
@@ -48,101 +50,74 @@ class Traslado_model extends CI_Model
 		if($filters){
 			$filters = " and ".$filters;
 		}
-		$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,
-			orden.num_correlativo,orden.fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
-			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
-
-			from pos_ordenes as orden 
-
-			left join pos_cliente as cliente on cliente.id_cliente = orden.id_cliente
-			left join pos_sucursal as sucursal on sucursal.id_sucursal=orden.id_sucursal
-			left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = orden.id_tipod
-			left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
-			left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago 
-			left join pos_orden_estado as oe  on oe.id_orden_estado= orden.orden_estado
-			where oe.id_orden_estado in (1,2,5) and  sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. " Order By orden.num_correlativo DESC Limit " . $id . ',' . $limit);
+		$query = $this->db->query("select * from sys_traslados where  Empresa =" . $this->session->empresa[0]->id_empresa . $filters. " Limit " . $id . ',' . $limit);
 
 		//echo $this->db->queries[1];
 		return $query->result();
+	}
+
+	function save_traslado( $producto, $encabezado )
+	{
+		$fecha = date_create();
+
+		$registros = array();
+
+		foreach ($encabezado as $key => $value) {
+			$registros[$value['name']] = $encabezado[$key]['value'];
+		}
+
+		$data = array(
+			'id_usuario_tras' 	=> $this->session->usuario[0]->id_usuario,
+			'correlativo_tras' 	=> date_timestamp_get($fecha),
+			'firma_salida' 		=> $registros['firma_salida'],
+			'firma_llegada' 	=> $registros['firma_llegada'],
+			'fecha_salida' 		=> $registros['fecha_salida'],
+			'fecha_llegada' 	=> $registros['fecha_llegada'],
+			'transporte_placa' 	=> $registros['transporte_placa'],
+			'descripcion_tras' 	=> $registros['descripcion_tras'],
+			'creado_tras' 		=> date("Y-m-d H:i:s"),
+			'Empresa' 			=> $this->session->empresa[0]->id_empresa,
+			'estado_tras' 		=> $registros['estado_tras'],
+		);
+
+		$this->db->insert(self::sys_traslados, $data);
+
+		$id_orden = $this->db->insert_id();
+
+		$this->traslado_detalle( $id_orden ,$producto );
+	}
+
+	function traslado_detalle( $id_orden ,$producto ){	
+
+		foreach ($producto as $key => $value) {
+
+			$data = array(
+				'traslado' 				=> $id_orden,
+				'id_producto_tras' 		=> $value['id_producto_detalle'],
+				'codigo_producto_tras' 	=> $value['producto'],
+				'cantidad_product_tras' => $value['cantidad'],
+				'bodega_origen' 		=> $value['id_bodega'],
+				'bodega_destino' 		=> $value['id_bodega'],
+				'descripcion_producto_tras' => $value['descripcion'],
+				'estado_tras_detalle' 	=> 0,
+			);
+	
+			$this->db->insert(self::sys_traslados_detalle, $data);
+			
+		}		
+
 	}
 
 	function record_count($filter)
 	{
 
-		$this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa. ' '. $filter);
-		$this->db->from(self::pos_ordenes . ' as o');
-		$this->db->join(self::sucursal . ' as s', ' on o.id_sucursal = s.id_sucursal');
-		$this->db->where('o.orden_estado in (1,2,5)');
+		$this->db->where('Empresa', $this->session->empresa[0]->id_empresa. ' '. $filter);
+		$this->db->from(self::sys_traslados );
+		
 		$result = $this->db->count_all_results();
 		return $result;
 	}
 
-	function get_tipo_documentos()
-	{
-		$this->db->select('*');
-		$this->db->from(self::pos_tipo_documento);
-		$this->db->where('Empresa' , $this->session->empresa[0]->id_empresa );
-		$query = $this->db->get();
-		//echo $this->db->queries[1];
-
-		if ($query->num_rows() > 0) {
-			return $query->result();
-		}
-	}
-
-	function get_doc_suc_pre()
-	{
-
-		$this->db->select('*');
-		$this->db->from(self::pos_tipo_documento . ' as tp');
-		$this->db->join(self::pos_temp_suc . ' as ts', ' on tp.id_tipo_documento = ts.Documento');
-		$this->db->join(self::pos_doc_temp . ' as dt', ' on dt.id_factura = ts.Template');
-		$this->db->where('ts.Sucursal', $this->session->usuario[0]->Sucursal);
-		$query = $this->db->get();
-		//echo $this->db->queries[1];
-
-		if ($query->num_rows() > 0) {
-			return $query->result();
-		}
-	}
-
-	function get_productos_valor($sucursal, $bodega, $texto)
-	{
-		
-		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*,  m.nombre_marca,	b.nombre_bodega
-	        		, pde.presentacion , pde.cod_barra as pres_cod_bar , pde.id_producto_detalle, pde.precio
-				FROM `producto` as `P`
-				
-				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca				
-				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
-				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
-				LEFT JOIN prouducto_detalle AS `pde` ON pde.Producto = P.id_entidad
-				WHERE b.id_bodega='" . $bodega . "' and pde.precio !=0 and b.Sucursal='" . $sucursal . "' and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%' || P.descripcion_producto LIKE '%$texto%') ");
-
-		//echo $this->db->queries[0];
-		return $query->result();
-	}
-
-	function get_productos_existencias($texto)
-	{
-
-		$query = $this->db->query("SELECT `P`.*, 
-		 e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-	        		
-				FROM `producto` as `P`
-				
-				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
-				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
-				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
-				-- LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
-				-- LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
-				
-				WHERE  P.Empresa='" . $this->session->empresa[0]->id_empresa . "' and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%' || P.descripcion_producto LIKE '%$texto%') ");
-
-		//echo $this->db->queries[0];
-		return $query->result();
-	}
 
 	function get_producto_completo($producto_id, $id_bodega)
 	{

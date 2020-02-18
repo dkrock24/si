@@ -1789,7 +1789,7 @@
         });
 
         $(document).on('click', '#guardar_orden', function() {
-
+            
             procesar_venta($(this).attr('name'));
         });
 
@@ -1929,63 +1929,29 @@
 
         function procesar_venta(method) {
 
-            var tipo_documento = $("#id_tipo_documento").val();
-
-            var sucursal_origen = $("#sucursal_id2").val();
-
-            var cliente_id = $("#cliente_codigo").val();
-
-            var correlativo_documento = $("#correlativo_documento").val();;
-
             var formulario = $('#encabezado_form').serializeArray();
-
-            var orden_estado = $("#orden_estado").val(); //$(this).attr('name');
-
-            var orden_numero = $("#orden_numero").val();
-
-            if ($("#orden_estado_venta").val()) {
-
-                orden_estado = $("#orden_estado_venta").val();
-
-            }
-
-            var impuestos_data = {
-                'imp_condicion': _impuestos_orden_condicion,
-                'imp_especial': _impuestos_orden_especial,
-                'imp_excluyente': _impuestos_orden_excluyentes
-            }
 
             if (_orden.length != 0) {
 
                 $.ajax({
                     type: 'POST',
                     data: {
-                        orden: _orden,
-                        encabezado: formulario,
-                        estado: orden_estado,
-                        impuestos: impuestos_data,
-                        pagos: pagos_array,
-                        documento_tipo: tipo_documento,
-                        cliente: cliente_id,
-                        sucursal_origen: sucursal_origen,
-                        correlativo_documento: correlativo_documento,
-                        orden_numero: orden_numero
+                        productos: _orden,
+                        encabezado: formulario,                                                                  
                     },
                     url: path + method,
 
                     success: function(data) {
 
-                        if(method == "guardar_orden") {
+                        if(method == "save_traslado") {
 
-                            window.location.href = "editar/" + data;
-                        }else if(method == "../venta/guardar_venta") {
-                            //location.reload();
+                            //window.location.href = "editar/" + data;
+                        }else if(method == "../traslado/guardar_venta") {
+                            
                             var datos = JSON.parse(data);
                             
                             $(".transacion").text(datos['msj_title']+ datos['msj_orden']);
                             $(".print_venta").attr("href","venta/"+datos['id']);
-                            
-                            //window.location.href = "../venta/ver/" + data;
                         }
 
 
