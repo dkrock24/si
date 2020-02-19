@@ -21,6 +21,64 @@
     var combo_descuento = 0.00;
     var _conf = [];
     var _impuestos = [];
+
+    
+
+    $(document).ready(function() {
+
+        $("#persona_modal").appendTo("body");
+
+        $(document).on('click', '#firma_llegada', function() {
+            $('#persona_modal').modal('show');
+            accion = $(this).attr("id");
+            get_encargado_lista();
+        });
+
+        // Seleccionar Persona
+        function get_encargado_lista() {
+
+            var table = "<table class='table table-sm table-hover'>";
+            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
+            table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
+            var table_tr = "<tbody id='list'>";
+            var contador_precios = 1;
+
+            $.ajax({
+                url: "../../admin/empleado/get_persona",
+                datatype: 'json',
+                cache: false,
+
+                success: function(data) {
+                    var datos = JSON.parse(data);
+                    var persona = datos["persona"];
+
+                    $.each(persona, function(i, item) {
+
+                        table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.cel + '</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_persona" id="' + item.id_persona + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
+                        contador_precios++;
+                    });
+                    table += table_tr;
+                    table += "</tbody></table>";
+
+                    $(".cliente_lista_datos").html(table);
+
+                },
+                error: function() {}
+            });
+        }
+
+        // Seleccionar Persona
+        $(document).on('click', '.seleccionar_persona', function() {
+            var id = $(this).attr("id");
+            var name = $(this).attr("name");           
+  
+            $("#firma_llegada").val(id);
+            $("#firma_llegada").val(name);
+    
+               
+        });
+
+    });
 </script>
 
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
@@ -83,7 +141,7 @@ include("asstes/traslados_funciones.php");
 
                         </span>
 
-                        <div class="panel-heading" style="text-align: right; font-size: 20px;">                           
+                        <div class="panel-heading" style="text-align: right; font-size: 20px;">
                             <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
                                 <em class="fa fa-minus"></em>
                             </a>
@@ -114,21 +172,12 @@ include("asstes/traslados_funciones.php");
                                                     <label><i class="fa fa-user sz"></i> Envia :</label>
                                                     <select class="form-control" name="firma_salida" id="firma_salida">
                                                         <?php
-                                                        $id_sucursal = 0;
 
-                                                        foreach ($empleado as $sucursal) {
-                                                            $id_sucursal = $sucursal->id_sucursal;
+                                                        foreach ($empleado as $emp) {
+
                                                         ?>
-                                                            <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                            <?php
-                                                        }
-
-                                                        foreach ($sucursales as $sucursal) {
-                                                            if ($sucursal->id_sucursal != $id_sucursal) {
-                                                            ?>
-                                                                <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                                            <option value="<?php echo $emp->id_persona; ?>"><?php echo $emp->primer_nombre_persona; ?></option>
                                                         <?php
-                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -138,27 +187,8 @@ include("asstes/traslados_funciones.php");
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label><i class="fa fa-user sz"></i> Recibe :</label>
-                                                    <select class="form-control" name="firma_llegada" id="firma_llegada">
-                                                        <?php
-
-                                                        if (isset($bodega[0]->nombre_bodega)) {
-
-                                                            foreach ($bodega as $b) {
-
-                                                                if ($b->Sucursal == $id_sucursal) {
-
-                                                        ?>
-                                                                    <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
-                                                            <?php
-                                                                }
-                                                            }
-                                                        } else {
-                                                            ?>
-                                                            <option value="">No hay Bodega</option>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </select>
+                                                    <input type="text" class="form-control" name="firma_llegada" id="firma_llegada"/>
+                                         
                                                 </div>
                                             </div>
 
@@ -345,7 +375,7 @@ include("asstes/traslados_funciones.php");
 
                                 </div>
                                 <div class="col-md-6">
-                                    
+
                                     <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="save_traslado" id="guardar_orden"><i class='fa fa-save'></i> </button>
                                     <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
 
@@ -433,40 +463,16 @@ include("asstes/traslados_funciones.php");
 
 </section>
 
+
 <!-- Modal Large CLIENTES MODAL-->
-<div id="vendedor_modal" tabindex="-1" role="dialog" aria-labelledby="vendedor_modal" class="modal fade">
+<div id="persona_modal" tabindex="-1" role="dialog" aria-labelledby="persona_modal" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="panel-header" style="background: #535D67; color: white;">
+            <div class="modal-header">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 id="myModalLabelLarge" class="modal-title">Buscar Vendedor</h4>
-            </div>
-            <div class="modal-body">
-                <p class="vendedor_lista_datos">
-
-                </p>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal Small-->
-
-
-<!-- Modal Large CLIENTES MODAL-->
-<div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal" class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="panel-header" style="background: #535D67; color: white;">
-                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 id="myModalLabelLarge" class="modal-title">Buscar Cliente</h4>
+                <h4 id="myModalLabelLarge" class="modal-title">Buscar Persona</h4>
             </div>
             <div class="modal-body">
                 <p class="cliente_lista_datos">
@@ -481,6 +487,8 @@ include("asstes/traslados_funciones.php");
     </div>
 </div>
 <!-- Modal Small-->
+
+
 
 <!-- Modal Large PRODUCTOS MODAL-->
 <div id="existencias" tabindex="-1" role="dialog" aria-labelledby="existencias" class="modal fade">

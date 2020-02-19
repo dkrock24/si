@@ -647,12 +647,12 @@
                     // Left Arrow
                     c = currCell.prev();
                 } else if (e.keyCode == 38) {
-                    
+
                     // Up Arrow
                     c = currCell.closest('tr').prev().find('td:eq(' +
                         currCell.index() + ')');
 
-                    height -= 39;                    
+                    height -= 39;
 
                     //$('.lista_productos').animate({scrollIntoView: height}, 1);                        
 
@@ -676,7 +676,7 @@
 
                 } else if (e.keyCode == 40) {
                     // Down Arrow                   
-                    
+
                     c = currCell.closest('tr').next().find('td:eq(' +
                         currCell.index() + ')');
 
@@ -748,7 +748,7 @@
                 $('.lista_productos').focus();
 
                 $(this).css("background", "red");
-                
+
                 $('.lista_productos').animate({
                     scrollTop: 0
                 }, 100);
@@ -896,7 +896,7 @@
             if (_productos.cantidad != null) {
 
                 // Verificar si se tiene permiso de descuento
-                check_descuento_permiso();               
+                check_descuento_permiso();
 
                 if (contador_productos == 0) {
 
@@ -923,19 +923,18 @@
 
         }
 
-        function check_descuento_permiso(){
+        function check_descuento_permiso() {
 
-            if(_conf.descuentos == 1){
-                
+            if (_conf.descuentos == 1) {
+
                 // Validar Descuento 
-                if(flag_autenticacion){
+                if (flag_autenticacion) {
                     _productos.descuento = $("#descuento").val();
-                }else{
+                } else {
                     _productos.descuento = 0.00;
                 }
-                
-            }
-            else{
+
+            } else {
                 // Aplicar Descuento sin validacion
                 _productos.descuento = $("#descuento").val();
             }
@@ -950,10 +949,10 @@
 
         });
 
-        $(".btn_aut_desc").click(function () {
+        $(".btn_aut_desc").click(function() {
 
-            var user    =  input_autorizacion_descuento = $("#input_autorizacion_descuento").val();
-            var passwd  =  input_autorizacion_descuento = $("#input_autorizacion_passwd").val();
+            var user = input_autorizacion_descuento = $("#input_autorizacion_descuento").val();
+            var passwd = input_autorizacion_descuento = $("#input_autorizacion_passwd").val();
 
             autenticar_usuario_descuento(user, passwd);
 
@@ -976,10 +975,10 @@
 
                         flag_autenticacion = data;
 
-                        if(flag_autenticacion){
-                            $("#btn_discount").css("background","orange");
+                        if (flag_autenticacion) {
+                            $("#btn_discount").css("background", "orange");
                         }
-                        
+
                     },
                     error: function() {
                         alert("Error En autenticar_usuario_descuento");
@@ -1570,7 +1569,7 @@
                     tr_html += "<td class='border-left presentacion" + _productos.producto2 + "'>" + _productos.presentacion + "</td>";
                     tr_html += "<td class='border-left factor" + _productos.producto2 + "'>" + _productos.presentacionFactor + "</td>";
                     tr_html += "<td class='border-left precioUnidad" + _productos.producto2 + "'>" + _productos.precioUnidad + "</td>";
-                    
+
                     tr_html += "<td class='border-left total" + _productos.producto2 + "'>" + _productos.total + "</td>";
                     tr_html += "<td class='border-left '>" + _productos.bodega + "</td>";
                     tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled bg-green eliminar' name='" + _productos.id_producto_detalle + "' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
@@ -1789,7 +1788,7 @@
         });
 
         $(document).on('click', '#guardar_orden', function() {
-            
+
             procesar_venta($(this).attr('name'));
         });
 
@@ -1937,21 +1936,21 @@
                     type: 'POST',
                     data: {
                         productos: _orden,
-                        encabezado: formulario,                                                                  
+                        encabezado: formulario,
                     },
                     url: path + method,
 
                     success: function(data) {
 
-                        if(method == "save_traslado") {
+                        if (method == "save_traslado") {
 
                             //window.location.href = "editar/" + data;
-                        }else if(method == "../traslado/guardar_venta") {
-                            
+                        } else if (method == "../traslado/guardar_venta") {
+
                             var datos = JSON.parse(data);
-                            
-                            $(".transacion").text(datos['msj_title']+ datos['msj_orden']);
-                            $(".print_venta").attr("href","venta/"+datos['id']);
+
+                            $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
+                            $(".print_venta").attr("href", "venta/" + datos['id']);
                         }
 
 
@@ -2127,6 +2126,26 @@
             show_existencias();
         });
 
+        $(document).on('keypress', '.cntProducto', function() {
+
+            if (event.which == 13) {
+
+            var prod_id_input = $(this).attr('id');
+            var prod_val_input = $(this).val();
+            _orden.forEach(function(element) {
+
+                if (element.producto == prod_id_input) {
+                    
+                    _orden[_orden.indexOf(element)].cantidad = prod_val_input;
+                    depurar_producto();
+                }
+            });
+            }
+            
+        });
+
+
+
         $(document).on('click', '#btn_impuestos', function() {
             _config_impuestos();
             depurar_producto();
@@ -2162,11 +2181,11 @@
                     tr_html += "<td class='border-table-left'>" + contador_tabla + "</td>";
                     tr_html += "<td class=''>" + element.producto + "</td>";
                     tr_html += "<td class=''>" + element.descripcion + "</td>";
-                    tr_html += "<td class=''><input type='text' id='c"+ element.producto +"' value='"+ element.cantidad +"'></input></td>";
+                    tr_html += "<td class=''><input type='text' class='form-control cntProducto' size='2' id='" + element.producto + "' value='" + element.cantidad + "'></input></td>";
                     tr_html += "<td class=''>" + element.presentacion + "</td>";
                     tr_html += "<td class=''>" + element.presentacionFactor + "</td>";
-                    tr_html += "<td class=''>"+ precio_tag.toFixed(2) +"</input></td>";
-                    
+                    tr_html += "<td class=''>" + precio_tag.toFixed(2) + "</input></td>";
+
                     tr_html += "<td class=' total'>" + total_tag.toFixed(2) + "</td>";
                     tr_html += "<td class=' '>" + element.bodega + "</td>";
                     if (element.combo == 1 || !element.id_producto_combo || element.invisible == 0) {

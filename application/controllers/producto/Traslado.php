@@ -63,28 +63,21 @@ class Traslado extends MY_Controller {
 
 	public function nuevo(){
 
-		// Seguridad :: Validar URL usuario	
-		$terminal_acceso    = FALSE;
-		$id_usuario 	    = $this->session->usuario[0]->id_usuario;
-		$terminal_acceso    = $this->validar_usuario_terminal( $id_usuario );
-		$data['menu'] 	    = $this->session->menu;		
+		// Seguridad :: Validar URL usuario			
+		$id_usuario 	    = $this->session->usuario[0]->id_usuario;		
+		$data['menu'] 	    = $this->session->menu;			
 
-		if($terminal_acceso){
+		$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
+		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
+		$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );			
+		$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
+		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
+		$data['cliente'] 		= $this->Cliente_model->get_cliente();
+		$data['title'] 			= "Nuevo Traslado";
+		$data['home'] 			= 'producto/traslado/nuevo';
 
-			$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
-			$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
-			$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );			
-			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
-			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
-			$data['cliente'] 		= $this->Cliente_model->get_cliente();
-			$data['title'] 			= "Nuevo Traslado";
-			$data['home'] 			= 'producto/traslado/nuevo';
-
-			$this->parser->parse('template', $data);
-		}else{
-			$data['home'] = 'producto/traslado/nuevo';
-			$this->parser->parse('template', $data);
-		}
+		$this->parser->parse('template', $data);
+		
 		
 	}
 
