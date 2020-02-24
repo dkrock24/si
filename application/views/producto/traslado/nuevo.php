@@ -230,7 +230,7 @@ include("asstes/traslados_funciones.php");
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label><i class="fa fa-home sz"></i> Bodega Destino</label>
-                                                    <select class="form-control" name="bodega" id="bodega_select">
+                                                    <select class="form-control" name="bodega_destino" id="bodega_select">
                                                         <?php
 
                                                         if (isset($bodega[0]->nombre_bodega)) {

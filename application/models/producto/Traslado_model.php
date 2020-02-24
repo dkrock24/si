@@ -57,7 +57,7 @@ class Traslado_model extends CI_Model
 									left join sys_persona as p2 On p2.id_persona = t.firma_salida
 									
 									where  t.Empresa =" 
-									. $this->session->empresa[0]->id_empresa . $filters. " Limit " . $id . ',' . $limit);
+									. $this->session->empresa[0]->id_empresa . $filters. " ORDER BY id_tras desc Limit " . $id . ',' . $limit);
 
 		//echo $this->db->queries[1];
 		return $query->result();

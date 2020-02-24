@@ -2104,7 +2104,7 @@
 
                         if (method == "save_traslado") {
 
-                            window.location.href = "nuevo";
+                            //window.location.href = "nuevo";
                         }
 
                         if (method == "update_traslado") {
