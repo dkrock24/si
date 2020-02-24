@@ -3,6 +3,7 @@
 
         var input_producto_buscar = $(".producto_buscar");
         var input_bodega_select = $("#bodega_select");
+        var input_bodega_destino = $("#bodega_destino");
         var input_sucursal = $("#sucursal_id").val();
 
         $('#existencias').appendTo("body");
@@ -37,6 +38,53 @@
         var flag_autenticacion = false;
 
         getImpuestosLista();
+
+        if (path == "../") {
+
+            var id_orden = window.location.pathname.split("/").pop();
+
+            get_traslado(id_orden);
+
+        }
+
+        function get_traslado(orden_id) {
+
+            $.ajax({
+                type: "POST",
+                url: path + "autoload_traslado",
+                datatype: 'json',
+                data: {
+                    id: orden_id
+                },
+                cache: false,
+
+                success: function(data) {
+                    var datos = JSON.parse(data);
+                    var registros = datos["traslado"];
+
+                    if (!registros) {
+
+                        var type = "info";
+                        var title = "Traslado No Valida ";
+                        var mensaje = "Traslado Estado No Valida : get_orden";
+                        var boton = "info";
+                        var finalMessage = "Gracias..."
+
+                        generalAlert(type, mensaje, title, boton, finalMessage);
+                    }
+
+                    _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
+                    _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);
+
+
+                    registros.forEach(function(element) {                        
+                        get_producto_traslado(element.id_producto_tras, element.bodega_origen);
+                    });
+
+                },
+                error: function() {}
+            });
+        }
 
         function getImpuestosLista() {
             /** Load Impuestos everytime */
@@ -375,6 +423,97 @@
             }
 
         });
+
+        function get_producto_traslado(producto_id , bodega ) {
+
+            /* 4 - Buscar producto por Id para agregarlo a la linea */
+            $("#grabar").attr('disabled');
+            var codigo, presentacion, tipo, precioUnidad, descuento, total            
+
+            $.ajax({
+                url: path + "get_producto_completo/" + producto_id + "/" + bodega,
+                datatype: 'json',
+                cache: false,
+
+                success: function(data) {
+
+                    var datos = JSON.parse(data);
+                    var precio_unidad = datos['producto'][0].unidad;
+                    _productos_precio2 = datos["prod_precio"];
+                    producto_escala = datos['producto'][0].Escala;
+
+                    $.each(_productos_precio2, function(i, item) {
+                        if (item.id_producto_detalle == producto_id) {
+
+                            _productos_precio = item;
+                        }
+                    });
+
+                    _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
+                    _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);
+                    _conf.descuentos = parseInt(datos['descuentos'][0].valor_conf);
+
+                    if (parseInt(_productos_precio.length) >= 1 && producto_escala != 1) {
+
+                        seleccionar_productos_array(producto_id);
+
+                    } else {
+                        enLinea();
+                    }
+
+                    $("#producto").val(datos['producto'][0].unidad);
+                    $("#bodega").val(datos['producto'][0].nombre_bodega);
+                    $("#precioUnidad").val(_productos_precio.unidad);
+
+                    $("#descripcion").val(datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca);
+
+                    if ($("#cantidad").val() == "") {
+
+                        producto_cantidad_linea = 1; //datos['producto'][0].factor;
+
+                    } else {
+                        _productos_precio.precio = _productos_precio.precio * producto_cantidad_linea;
+                    }
+
+                    precioUnidad = _productos_precio.unidad;
+
+                    set_calculo_precio(precioUnidad, producto_cantidad_linea);
+
+                    _productos.producto_id = datos['producto'][0].id_entidad;
+                    _productos.combo = datos['producto'][0].combo;
+                    _productos.inventario_id = datos['producto'][0].id_inventario;
+                    _productos.producto = datos['producto'][0].codigo_producto;
+                    _productos.descuento_limite = datos['producto'][0].descuento_limite;
+                    _productos.descuento = 0.00; // datos['producto'][7].valor;
+                    _productos.cantidad = producto_cantidad_linea;
+                    _productos.total = 0.00; //$("#total").val();
+                    _productos.id_producto_combo = null;
+                    _productos.combo_total = null;
+                    _productos.invisible = 0;
+                    _productos.bodega = datos['producto'][0].nombre_bodega;
+                    _productos.id_bodega = datos['producto'][0].id_bodega;
+                    _productos.impuesto_id = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
+                    _productos.por_iva = datos['producto'][0].porcentage;
+                    _productos.gen = datos['producto'][0].iva;
+                    _productos.iva = datos['producto'][0].incluye_iva; //datos['producto'][9].valor;
+                    _productos.descripcion = datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca;
+                    _productos.total = _productos_precio.precio;
+                    _productos.categoria = datos['producto'][0].categoria;
+
+                    grabar();
+                    _config_impuestos();
+                    agregar_producto();
+                    depurar_producto();
+
+                    producto_cantidad_linea = 1;
+
+                },
+                error: function() {
+                    alert("Error : Verificar Producto y Bodega");
+                }
+            });
+
+        }
 
         function get_producto_completo(producto_id) {
 
@@ -1432,7 +1571,7 @@
         });
 
         $(document).on('change', '#sucursal_id2', function() {
-            //correlativos_sucursales($(this).val());
+            bodega_destino($(this).val());
         });
 
         function correlativos_sucursales(sucursal) {
@@ -1455,6 +1594,27 @@
 
                     var correlativo = datos['correlativo'];
                     $("#c_numero").val(correlativo[0].siguiente_valor);
+                },
+                error: function() {}
+            });
+        }
+
+        function bodega_destino(sucursal) {
+            // Cambiar Bodega
+            input_bodega_destino.empty();
+            var select_option;
+            $.ajax({
+                url: path + "get_bodega_sucursal/" + sucursal,
+                datatype: 'json',
+                cache: false,
+
+                success: function(data) {
+                    var datos = JSON.parse(data);
+                    var bodega = datos["bodega"];
+                    $.each(bodega, function(i, item) {
+                        select_option += '<option value="' + item.id_bodega + '">' + item.nombre_bodega + '</option>';
+                    });
+                    input_bodega_destino.html(select_option);
                 },
                 error: function() {}
             });
@@ -1944,13 +2104,12 @@
 
                         if (method == "save_traslado") {
 
-                            //window.location.href = "editar/" + data;
-                        } else if (method == "../traslado/guardar_venta") {
+                            window.location.href = "nuevo";
+                        }
 
-                            var datos = JSON.parse(data);
+                        if (method == "update_traslado") {
 
-                            $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
-                            $(".print_venta").attr("href", "venta/" + datos['id']);
+                            //window.location.href = "nuevo";
                         }
 
 
@@ -1959,11 +2118,6 @@
                 });
             }
 
-            if (method != "update_orden") {
-
-                //cerrar_orden($("#orden_numero").val());
-
-            }
         }
 
         function cerrar_orden(correlativo_orden) {
@@ -2130,18 +2284,19 @@
 
             if (event.which == 13) {
 
-            var prod_id_input = $(this).attr('id');
-            var prod_val_input = $(this).val();
-            _orden.forEach(function(element) {
+                var prod_id_input = $(this).attr('id');
+                var prod_val_input = $(this).val();
+                _orden.forEach(function(element) {
 
-                if (element.producto == prod_id_input) {
-                    
-                    _orden[_orden.indexOf(element)].cantidad = prod_val_input;
-                    depurar_producto();
-                }
-            });
+                    if (element.producto == prod_id_input) {
+
+                        _orden[_orden.indexOf(element)].cantidad = prod_val_input;
+                        _orden[_orden.indexOf(element)].total = calcularTotalProducto(_orden[_orden.indexOf(element)].presentacionPrecio, prod_val_input);
+                        depurar_producto();
+                    }
+                });
             }
-            
+
         });
 
 

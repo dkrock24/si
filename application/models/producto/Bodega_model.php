@@ -46,6 +46,19 @@ class Bodega_model extends CI_Model {
         }
     }
 
+    function get_bodega_sucursal($sucursal ){
+        $this->db->select('*');
+        $this->db->from(self::pos_bodega.' as b');        
+        $this->db->where('b.Sucursal' , $sucursal );        
+        $query = $this->db->get(); 
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function getBodegaProducto(){
         $this->db->select('*');
         $this->db->from(self::pos_bodega.' as b');

@@ -87,6 +87,44 @@ class Traslado extends MY_Controller {
 
 	}
 
+	public function editar($traslado_id){
+
+		$id_usuario 	    = $this->session->usuario[0]->id_usuario;		
+		$data['menu'] 	    = $this->session->menu;			
+	
+		$data['traslado'] 	= $this->Traslado_model->editar_traslado($traslado_id);
+		$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );
+		$data['sucursal'] 		= $this->Sucursal_model->getSucursal(  );
+		$data['bodega'] 		= $this->Bodega_model->get_bodega_sucursal( $data['traslado'][0]->sucursal_destino );
+		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
+		$data['cliente'] 		= $this->Cliente_model->get_cliente();			
+		//var_dump($data['bodega']);
+		//die;
+		
+		$data['home'] = 'producto/traslado/traslado_editar';		
+		$this->parser->parse('template', $data);
+		
+	}
+
+	public function autoload_traslado(){
+		$id = $_POST['id'];
+		$componente_conf = "combo";		
+		$impuesto_conf 	 = "impuestos";
+
+		$data['traslado'] 	= $this->Traslado_model->get_traslado_detalle($id);
+		$data['conf'] 			= $this->Orden_model->getConfg($componente_conf);
+		$data['impuesto'] 		= $this->Orden_model->getConfgImpuesto($impuesto_conf);
+
+		echo json_encode($data);
+	}
+
+	public function update_traslado(){
+
+		$this->Traslado_model->update( $_POST['productos'] , $_POST['encabezado'] );
+
+		redirect(base_url()."producto/orden/index");
+	}
+
 	public function producto_combo(){
 		
 		$producto_id = $_POST['producto_id'];
@@ -127,47 +165,7 @@ class Traslado extends MY_Controller {
 		return $data;
 	}
 
-	public function editar($order_id){
-
-		// Seguridad :: Validar URL usuario	
-		$terminal_acceso 	= FALSE;
-		$id_usuario 		= $this->session->usuario[0]->id_usuario;
-		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
-		$data['menu'] 		= $this->session->menu;
-
-		if($terminal_acceso){
-			
-			$data['encabezado'] 	= $this->Orden_model->get_orden($order_id);
-			$data['detalle'] 		= $this->Orden_model->get_orden_detalle($order_id);
-			$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
-			$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );//$this->Producto_model->get_sucursales();
-			$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente($data['encabezado'][0]->id_cliente);
-			$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['encabezado'][0]->id_usuario );
-			$data['terminal'] 		= $terminal_acceso;
-			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
-			$data['impuestos'] 		= $this->Orden_model->get_impuestos( $data['encabezado'][0]->id );
-			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
-			$data['title'] 			= "Editar Orden";
-			$data['cliente'] 		= $this->get_clientes_id(@$data['encabezado'][0]->id_cliente);
-			$data['temp'] 			= $this->Template_model->printer( $data['detalle'] , @$data['encabezado'][0]->id_sucursal , @$data['encabezado'][0]->id_tipod, @$data['encabezado'][0]->id_condpago);
 	
-			$data['home'] 			= 'producto/orden/orden_editar';
-			$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
-			$data['file'] 			= $name;
-			$data['msj_title'] = "Su orden ha sido grabada satisfactoriamente";
-			$data['msj_orden'] = "Su número de transacción es: # ". $data['encabezado'][0]->num_correlativo;
-
-			$this->general->editar_valido($data['encabezado'], "producto/orden/index");			
-			$this->generarDocumento( $name , $data['temp'][0]->factura_template );
-			$this->parser->parse('template', $data);			
-
-		}else{
-
-			$data['home'] = 'producto/orden/orden_editar';
-			$data['temp'] = $this->Template_model->printer( $order_id );
-			$this->parser->parse('template', $data);
-		}
-	}
 
 	public function get_correlativo_documento( $documento , $sucursal ){
 		
@@ -460,7 +458,7 @@ class Traslado extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'correlativo_tras','firma_salida','firma_llegada','fecha_salida','fecha_llegada','transporte_placa','descripcion_tras','creado_tras','estado'
+			'correlativo_tras','envia','recibe','fecha_salida','fecha_llegada','transporte_placa','descripcion_tras','creado_tras','estado'
 		);
 		
 		$fields['id'] 		= array('id_tras');
