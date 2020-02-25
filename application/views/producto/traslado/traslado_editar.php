@@ -603,7 +603,7 @@ include("asstes/traslados_funciones.php");
                                     <h3> <i class="icon-plus"></i> Nueva </h3>
                                 </a>
                                 <a href="#" class="btn btn-success printer" style="color:black">
-                                    <h3 onclick="exportPdf2()"> <i class="icon-printer"></i> Imprimir </h3>
+                                    <h3 onclick=""> <i class="icon-printer"></i> Imprimir </h3>
                                 </a>
                                 <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
                                     <h3> <i class="icon-close"></i> Cerrar </h3>
