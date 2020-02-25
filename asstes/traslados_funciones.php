@@ -78,7 +78,7 @@
 
 
                     registros.forEach(function(element) {                        
-                        get_producto_traslado(element.id_producto_tras, element.bodega_origen);
+                        get_producto_traslado(element.id_producto_tras, element.bodega_origen , element.cantidad_product_tras);
                     });
 
                 },
@@ -424,7 +424,7 @@
 
         });
 
-        function get_producto_traslado(producto_id , bodega ) {
+        function get_producto_traslado(producto_id , bodega , cantidad) {
 
             /* 4 - Buscar producto por Id para agregarlo a la linea */
             $("#grabar").attr('disabled');
@@ -466,7 +466,7 @@
                     $("#precioUnidad").val(_productos_precio.unidad);
 
                     $("#descripcion").val(datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca);
-
+                    producto_cantidad_linea = cantidad;
                     if ($("#cantidad").val() == "") {
 
                         producto_cantidad_linea = 1; //datos['producto'][0].factor;
@@ -2104,7 +2104,7 @@
 
                         if (method == "save_traslado") {
 
-                            //window.location.href = "nuevo";
+                            window.location.href = "editar/"+data;
                         }
 
                         if (method == "update_traslado") {

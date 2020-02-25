@@ -22,11 +22,19 @@
     var _conf = [];
     var _impuestos = [];
 
-    
+    var records = <?php echo json_encode($registros); ?>;
+    var documento_titulo = <?php echo json_encode($fields['titulo']); ?>;  
 
     $(document).ready(function() {
 
-        $("#persona_modal").appendTo("body");
+        $("#persona_modal").appendTo("body");      
+
+        setTimeout(function() {
+
+            $("#m_orden_creada").modal();
+            
+
+        }, 1000);
 
         $(document).on('click', '#firma_llegada', function() {
             $('#persona_modal').modal('show');
@@ -44,7 +52,7 @@
             var contador_precios = 1;
 
             $.ajax({
-                url: path+"../../admin/empleado/get_persona",
+                url: path + "../../admin/empleado/get_persona",
                 datatype: 'json',
                 cache: false,
 
@@ -70,12 +78,12 @@
         // Seleccionar Persona
         $(document).on('click', '.seleccionar_persona', function() {
             var id = $(this).attr("id");
-            var name = $(this).attr("name");           
-  
+            var name = $(this).attr("name");
+
             $("#recibe_nombre").val(id);
             $("#firma_llegada").val(name);
-    
-               
+
+
         });
 
     });
@@ -118,6 +126,20 @@ include("asstes/traslados_funciones.php");
         background: #fff;
     }
 </style>
+<style>
+    .modal-dialog {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding-left: 10%;
+    }
+
+    .modal-content {
+        height: auto;
+        min-height: 100%;
+        border-radius: 5;
+    }
+</style>
 <!-- Main section-->
 <section>
     <!-- Page content-->
@@ -157,7 +179,7 @@ include("asstes/traslados_funciones.php");
                                                 <div class="form-group has-success">
                                                     <label><i class="fa fa-clock-o sz"></i> Fecha Salida</label>
                                                     <input type="date" name="fecha_salida" value="<?php $date = new DateTime($traslado[0]->fecha_salida);
-                                                                                            echo $date->format('Y-m-d');  ?>" class="form-control">
+                                                                                                    echo $date->format('Y-m-d');  ?>" class="form-control">
                                                 </div>
                                             </div>
 
@@ -165,7 +187,7 @@ include("asstes/traslados_funciones.php");
                                                 <div class="form-group has-success">
                                                     <label><i class="fa fa-clock-o sz"></i> Fecha Llegada</label>
                                                     <input type="date" name="fecha_llegada" value="<?php $date = new DateTime($traslado[0]->fecha_llegada);
-                                                                                            echo $date->format('Y-m-d');  ?>" class="form-control">
+                                                                                                    echo $date->format('Y-m-d');  ?>" class="form-control">
                                                 </div>
                                             </div>
 
@@ -189,10 +211,10 @@ include("asstes/traslados_funciones.php");
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label><i class="fa fa-user sz"></i> Recibe :</label>
-                                                    <input type="hidden" class="form-control" name="recibe_nombre" id="recibe_nombre"  value="<?php echo $traslado[0]->id1; ?>"/>
-                                                    <input type="text" class="form-control" name="firma_llegada" id="firma_llegada" value="<?php echo $traslado[0]->recibe; ?>"/>
-                                                    <input type="hidden" class="form-control" name="id_tras" id="id_tras" value="<?php echo $traslado[0]->id_tras; ?>"/>
-                                         
+                                                    <input type="hidden" class="form-control" name="recibe_nombre" id="recibe_nombre" value="<?php echo $traslado[0]->id1; ?>" />
+                                                    <input type="text" class="form-control" name="firma_llegada" id="firma_llegada" value="<?php echo $traslado[0]->recibe; ?>" />
+                                                    <input type="hidden" class="form-control" name="id_tras" id="id_tras" value="<?php echo $traslado[0]->id_tras; ?>" />
+
                                                 </div>
                                             </div>
 
@@ -212,21 +234,21 @@ include("asstes/traslados_funciones.php");
                                                         $id_sucursal = 0;
 
                                                         foreach ($sucursal as $s) {
-                                                            if( $traslado[0]->sucursal_destino ==  $s->id_sucursal ){
-                                                            
-                                                            $id_sucursal = $s->id_sucursal;
+                                                            if ($traslado[0]->sucursal_destino ==  $s->id_sucursal) {
+
+                                                                $id_sucursal = $s->id_sucursal;
                                                         ?>
-                                                            <option value="<?php echo $s->id_sucursal; ?>"><?php echo $s->nombre_sucursal; ?></option>
-                                                        <?php
+                                                                <option value="<?php echo $s->id_sucursal; ?>"><?php echo $s->nombre_sucursal; ?></option>
+                                                            <?php
                                                             }
                                                         }
 
                                                         foreach ($sucursal as $s) {
-                                                            if( $traslado[0]->sucursal_destino !=  $s->id_sucursal ){
+                                                            if ($traslado[0]->sucursal_destino !=  $s->id_sucursal) {
 
                                                             ?>
                                                                 <option value="<?php echo $s->id_sucursal; ?>"><?php echo $s->nombre_sucursal; ?></option>
-                                                            <?php
+                                                        <?php
                                                             }
                                                         }
                                                         ?>
@@ -237,15 +259,15 @@ include("asstes/traslados_funciones.php");
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label><i class="fa fa-home sz"></i> Bodega Destino</label>
-                                                    <select class="form-control" name="bodega" id="bodega_select">
+                                                    <select class="form-control" name="bodega_destino" id="bodega_select">
                                                         <?php
-                                                        echo $traslado[0]->bodega_destino;
-                                                        foreach ($bodega as $b) {  
-                                                            if($b->id_bodega == $traslado[0]->bodega_destino){
+
+                                                        foreach ($bodega as $b) {
+                                                            if ($b->id_bodega == $traslado[0]->bodega_destino) {
                                                         ?>
-                                                            <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
+                                                                <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
                                                         <?php
-                                                            }                                                                
+                                                            }
                                                         }
                                                         ?>
 
@@ -260,23 +282,23 @@ include("asstes/traslados_funciones.php");
                                                     <select class="form-control" name="sucursal_origin" id="sucursal_id2">
                                                         <?php
                                                         $id_sucursal = 0;
-                                                        
+
                                                         foreach ($sucursal as $s) {
-                                                            if( $traslado[0]->sucursal_origin ==  $s->id_sucursal ){
-                                                            
-                                                            $id_sucursal = $s->id_sucursal;
+                                                            if ($traslado[0]->sucursal_origin ==  $s->id_sucursal) {
+
+                                                                $id_sucursal = $s->id_sucursal;
                                                         ?>
-                                                            <option value="<?php echo $s->id_sucursal; ?>"><?php echo $s->nombre_sucursal; ?></option>
-                                                        <?php
+                                                                <option value="<?php echo $s->id_sucursal; ?>"><?php echo $s->nombre_sucursal; ?></option>
+                                                            <?php
                                                             }
                                                         }
 
                                                         foreach ($sucursal as $s) {
-                                                            if( $traslado[0]->sucursal_origin !=  $s->id_sucursal ){
+                                                            if ($traslado[0]->sucursal_origin !=  $s->id_sucursal) {
 
                                                             ?>
                                                                 <option value="<?php echo $s->id_sucursal; ?>"><?php echo $s->nombre_sucursal; ?></option>
-                                                            <?php
+                                                        <?php
                                                             }
                                                         }
                                                         ?>
@@ -291,7 +313,7 @@ include("asstes/traslados_funciones.php");
                                                 </div>
                                             </div>
 
-                                           
+
 
                                         </div>
                                     </div>
@@ -306,27 +328,27 @@ include("asstes/traslados_funciones.php");
                                                 </div>
                                             </div>
 
-                                            
+
 
                                             <div class="btn-group col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label>Estado</label>
                                                     <select name="estado_tras" id="estado_tras" class="form-control">
-                                                        <?php 
-                                                        if($traslado[0]->estado_tras == 1){
-                                                            ?>     
-                                                            <option value="1">Creado</option>                                                      
+                                                        <?php
+                                                        if ($traslado[0]->estado_tras == 1) {
+                                                        ?>
+                                                            <option value="1">Creado</option>
                                                             <option value="2">Enviado</option>
-                                                            
-                                                            <?php
 
-                                                        }else{
-                                                            ?>
+                                                        <?php
+
+                                                        } else {
+                                                        ?>
                                                             <option value="2">Enviado</option>
-                                                            <option value="1">Creado</option>                                                            
-                                                            <?php
-                                                        }                                                        
-                                                        ?>                                                        
+                                                            <option value="1">Creado</option>
+                                                        <?php
+                                                        }
+                                                        ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -367,6 +389,19 @@ include("asstes/traslados_funciones.php");
 
                                     <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="update_traslado" id="guardar_orden"><i class='fa fa-save'></i> </button>
                                     <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
+
+                                    <div class="btn-group ">
+                                        <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
+                                        <button type="button" data-toggle="dropdown" class="btn dropdown-toggle bg-green" style="font-size: 17px;">
+                                            <span class="caret"></span>
+                                            <span class="sr-only">default</span>
+                                        </button>
+                                        <ul role="menu" class="dropdown-menu">
+                                            <li><a href="#" data-toggle='modal' data-target='#m_orden_creada'><i class="icon-printer"></i> Imprimir</a></li>
+
+                                            </li>
+                                        </ul>
+                                    </div>
 
                                 </div>
                             </div>
@@ -523,6 +558,68 @@ include("asstes/traslados_funciones.php");
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default bg-green">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Small-->
+
+<!-- METODO DE PAGOS MODAL-->
+<div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content" style="background:#f1f1f1;">
+            <div class="modal-header" style="background: #2c71b5;color: white;">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span style="font-size: 20px; ">Documento : <?= $temp[0]->nombre ?> | Formato : <?= $temp[0]->factura_nombre  ?> </span>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-8 col-md-8">
+                        <?php include("asstes/temp/" . $file . ".php"); ?>
+                    </div>
+                    <div class="col-lg-4 col-md-4" style="border-left:1px dashed black;height:900px;position: relative;float:right;margin:0px;">
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                <?php echo $msj_title ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                <h1>
+                                    <?php echo $msj_orden ?>
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <hr style="border-bottom:1px dashed black">
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+
+                                <a href="../nuevo" class="btn btn-default printer">
+                                    <h3> <i class="icon-plus"></i> Nueva </h3>
+                                </a>
+                                <a href="#" class="btn btn-success printer" style="color:black">
+                                    <h3 onclick="exportPdf2()"> <i class="icon-printer"></i> Imprimir </h3>
+                                </a>
+                                <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
+                                    <h3> <i class="icon-close"></i> Cerrar </h3>
+                                </button>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
             </div>
         </div>
     </div>

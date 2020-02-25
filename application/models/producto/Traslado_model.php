@@ -92,17 +92,19 @@ class Traslado_model extends CI_Model
 
 		$this->db->insert(self::sys_traslados, $data);
 
-		$id_orden = $this->db->insert_id();
+		$traslado_id = $this->db->insert_id();
 
-		$this->traslado_detalle( $id_orden ,$producto );
+		$this->traslado_detalle( $traslado_id ,$producto );
+
+		return $traslado_id;
 	}
 
-	function traslado_detalle( $id_orden ,$producto ){	
+	function traslado_detalle( $traslado_id ,$producto ){	
 
 		foreach ($producto as $key => $value) {
 
 			$data = array(
-				'traslado' 				=> $id_orden,
+				'traslado' 				=> $traslado_id,
 				'id_producto_tras' 		=> $value['id_producto_detalle'],
 				'codigo_producto_tras' 	=> $value['producto'],
 				'cantidad_product_tras' => $value['cantidad'],
@@ -304,11 +306,13 @@ class Traslado_model extends CI_Model
 
 	function editar_traslado($traslado_id)
 	{
-		$query = $this->db->query("select t.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
+		$query = $this->db->query("select e.nombre_razon_social,s.*, t.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
 									CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2
 									from sys_traslados as t
 									left join sys_persona as p On p.id_persona = t.firma_llegada 
 									left join sys_persona as p2 On p2.id_persona = t.firma_salida
+									left join pos_sucursal as s on s.id_sucursal = t.sucursal_origin
+									left join pos_empresa as e on e.id_empresa = s.Empresa_Suc
 									
 									where  t.Empresa =" 
 									. $this->session->empresa[0]->id_empresa . ' and t.id_tras = ' . $traslado_id );
@@ -324,7 +328,7 @@ class Traslado_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from(self::sys_traslados . ' as t');
 		$this->db->join(self::sys_traslados_detalle . ' as d',' on t.id_tras = d.traslado');
-		
+		$this->db->join(self::producto. ' as p', ' on p.id_entidad = d.id_producto_tras');		
 		$this->db->where_in('t.id_tras', $valores );
 		$query = $this->db->get();
 		//echo $this->db->queries[0];
@@ -333,6 +337,27 @@ class Traslado_model extends CI_Model
 			return $query->result();
 		}
 
+	}
+
+	function printer($data ){
+
+		$this->db->select('*');
+		$this->db->from(self::pos_doc_temp.' as dt');
+		$this->db->join(self::pos_temp_suc.' as st',' on dt.id_factura = st.Template');
+		$this->db->join(self::sucursal.' as s',' on s.id_sucursal = st.Sucursal');		
+		$this->db->join(self::pos_empresa.' as e',' on e.id_empresa = s.Empresa_Suc');		
+		$this->db->join(self::sys_traslados.' as t', ' on t.doc_tras = st.Documento');
+        $this->db->join(self::pos_tipo_documento.' as d',' on d.id_tipo_documento = st.Documento');
+        
+        $this->db->where('st.Sucursal', $data[0]->sucursal_origin );
+        $this->db->where('st.Documento', $data[0]->doc_tras );
+        $this->db->limit(1);
+        $query = $this->db->get();
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
 	}
 
 	function update( $producto, $encabezado ){
