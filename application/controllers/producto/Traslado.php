@@ -98,21 +98,46 @@ class Traslado extends MY_Controller {
 		$data['bodega'] 	= $this->Bodega_model->get_bodega_sucursal( $data['traslado'][0]->sucursal_destino );
 		$data['moneda'] 	= $this->Moneda_model->get_modena_by_user();
 		$data['cliente'] 	= $this->Cliente_model->get_cliente();
-		$data['fields']		= $this->fields();
-		$data['registros']	= $data['detalle'];
 
 		$data['temp'] 		= $this->Traslado_model->printer( $data['traslado'] );
 		$name 				= $data['traslado'][0]->sucursal_origin.$data['traslado'][0]->Empresa;
 		$data['file'] 		= $name;
 
+		//$mpdf = new \Mpdf\Mpdf();
+		//$html = file_get_contents("asstes/temp/".$name.".php");
+
+		//$mpdf->WriteHTML($html);
+		//$mpdf->Output();
+
 		$data['msj_title'] = "Traslado Creado Correctamente";
 		$data['msj_orden'] = "Transación: # ". $data['traslado'][0]->correlativo_tras ;
 
 		$this->generarDocumento( $name , $data['temp'][0]->factura_template );
+
 		
-		$data['home'] = 'producto/traslado/traslado_editar';		
+		$data['home'] = 'producto/traslado/traslado_editar';
 		$this->parser->parse('template', $data);
-		
+	}
+
+	public function print_traslado($traslado_id){
+
+		$id_usuario 	    = $this->session->usuario[0]->id_usuario;		
+		$data['menu'] 	    = $this->session->menu;	
+		$data['traslado'] 	= $this->Traslado_model->editar_traslado($traslado_id);
+		$data['detalle'] 	= $this->Traslado_model->get_traslado_detalle($traslado_id);
+		$data['empleado'] 	= $this->Usuario_model->get_empleado( $id_usuario );
+		$data['sucursal'] 	= $this->Sucursal_model->getSucursal(  );
+		$data['bodega'] 	= $this->Bodega_model->get_bodega_sucursal( $data['traslado'][0]->sucursal_destino );
+		$data['moneda'] 	= $this->Moneda_model->get_modena_by_user();
+		$data['cliente'] 	= $this->Cliente_model->get_cliente();	
+
+		$data['temp'] 		= $this->Traslado_model->printer( $data['traslado'] );
+		$name 				= $data['traslado'][0]->sucursal_origin.$data['traslado'][0]->Empresa;
+		$data['file'] 		= $name;
+
+		$data['home'] = 'producto/traslado/print';
+		$this->parser->parse('template', $data);		
+
 	}
 
 	public function autoload_traslado(){

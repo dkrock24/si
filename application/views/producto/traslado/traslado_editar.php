@@ -22,12 +22,19 @@
     var _conf = [];
     var _impuestos = [];
 
-    var records = <?php echo json_encode($registros); ?>;
-    var documento_titulo = <?php echo json_encode($fields['titulo']); ?>;  
-
     $(document).ready(function() {
 
-        $("#persona_modal").appendTo("body");      
+        $("#persona_modal").appendTo("body");
+
+        $("#printer").click(function(){
+
+            var printContents = document.getElementById('formato').innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+
+        });
 
         setTimeout(function() {
 
@@ -579,7 +586,10 @@ include("asstes/traslados_funciones.php");
 
                 <div class="row">
                     <div class="col-lg-8 col-md-8">
-                        <?php include("asstes/temp/" . $file . ".php"); ?>
+                        <?php 
+                            include("asstes/temp/" . $file . ".php");
+                        
+                        ?>
                     </div>
                     <div class="col-lg-4 col-md-4" style="border-left:1px dashed black;height:900px;position: relative;float:right;margin:0px;">
 
@@ -602,7 +612,7 @@ include("asstes/traslados_funciones.php");
                                 <a href="../nuevo" class="btn btn-default printer">
                                     <h3> <i class="icon-plus"></i> Nueva </h3>
                                 </a>
-                                <a href="#" class="btn btn-success printer" style="color:black">
+                                <a href="../print_traslado/<?= $traslado[0]->id_tras ?>" target="_blank" class="btn btn-success" style="color:black">
                                     <h3 onclick=""> <i class="icon-printer"></i> Imprimir </h3>
                                 </a>
                                 <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
