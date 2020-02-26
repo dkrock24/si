@@ -37,6 +37,23 @@ class MY_Controller extends CI_Controller
 		$this->load->model('admin/Giros_model');	
 		$this->load->model('admin/Sucursal_model');	
 		$this->load->model('admin/Categorias_model');
+
+		$this->load->model('accion/Accion_model');
+		$this->load->model('admin/Menu_model');
+		$this->load->model('admin/Terminal_model');
+		$this->load->model('admin/Giros_model');
+		$this->load->model('admin/Cliente_model');
+		$this->load->model('admin/Usuario_model');
+		$this->load->model('admin/ModoPago_model');
+		$this->load->model('admin/Correlativo_model');
+		$this->load->model('producto/Producto_model');				
+		$this->load->model('producto/Orden_model');
+		$this->load->model('admin/Moneda_model');
+		$this->load->model('admin/Template_model');
+		$this->load->model('admin/Impuesto_model');
+		$this->load->model('admin/Sucursal_model');
+        $this->load->model('producto/Venta_model');
+        $this->load->model('producto/Traslado_model');
     }
 
     public function MyPagination($model , $url_page, $vista)

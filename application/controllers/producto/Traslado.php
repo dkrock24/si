@@ -17,22 +17,7 @@ class Traslado extends MY_Controller {
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');
 
-		$this->load->model('accion/Accion_model');
-		$this->load->model('admin/Menu_model');
-		$this->load->model('admin/Terminal_model');
-		$this->load->model('admin/Giros_model');
-		$this->load->model('admin/Cliente_model');
-		$this->load->model('admin/Usuario_model');
-		$this->load->model('admin/ModoPago_model');
-		$this->load->model('admin/Correlativo_model');
-		$this->load->model('producto/Producto_model');				
-		$this->load->model('producto/Orden_model');
-		$this->load->model('admin/Moneda_model');
-		$this->load->model('admin/Template_model');
-		$this->load->model('admin/Impuesto_model');
-		$this->load->model('admin/Sucursal_model');
-        $this->load->model('producto/Venta_model');
-        $this->load->model('producto/Traslado_model');		
+		
 		
 	}
 
@@ -122,7 +107,7 @@ class Traslado extends MY_Controller {
 	public function print_traslado($traslado_id){
 
 		$id_usuario 	    = $this->session->usuario[0]->id_usuario;		
-		$data['menu'] 	    = $this->session->menu;	
+		
 		$data['traslado'] 	= $this->Traslado_model->editar_traslado($traslado_id);
 		$data['detalle'] 	= $this->Traslado_model->get_traslado_detalle($traslado_id);
 		$data['empleado'] 	= $this->Usuario_model->get_empleado( $id_usuario );
@@ -136,7 +121,7 @@ class Traslado extends MY_Controller {
 		$data['file'] 		= $name;
 
 		$data['home'] = 'producto/traslado/print';
-		$this->parser->parse('template', $data);		
+		$this->load->view('producto/traslado/print', $data);		
 
 	}
 
@@ -162,8 +147,8 @@ class Traslado extends MY_Controller {
 		$impuesto_conf 	 = "impuestos";
 
 		$data['traslado'] 	= $this->Traslado_model->get_traslado_detalle($id);
-		$data['conf'] 			= $this->Orden_model->getConfg($componente_conf);
-		$data['impuesto'] 		= $this->Orden_model->getConfgImpuesto($impuesto_conf);
+		$data['conf'] 		= $this->Orden_model->getConfg($componente_conf);
+		$data['impuesto'] 	= $this->Orden_model->getConfgImpuesto($impuesto_conf);
 
 		echo json_encode($data);
 	}

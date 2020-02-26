@@ -24,6 +24,13 @@
 
     $(document).ready(function() {
 
+        $("#prin").click(function(){
+            var strWindowFeatures = "location=yes,height=670,width=820,scrollbars=yes,status=yes";
+            var URL = "http://localhost:8080/index.php/producto/traslado/print_traslado/11";
+            var win = window.open(URL, "_blank", strWindowFeatures);
+            //window.open('http://localhost:8080/index.php/producto/traslado/print_traslado/11');
+        });
+
         $("#persona_modal").appendTo("body");
 
         $("#printer").click(function(){
@@ -612,8 +619,8 @@ include("asstes/traslados_funciones.php");
                                 <a href="../nuevo" class="btn btn-default printer">
                                     <h3> <i class="icon-plus"></i> Nueva </h3>
                                 </a>
-                                <a href="../print_traslado/<?= $traslado[0]->id_tras ?>" target="_blank" class="btn btn-success" style="color:black">
-                                    <h3 onclick=""> <i class="icon-printer"></i> Imprimir </h3>
+                                <a href="#" id="prin" class="btn btn-success" style="color:black">
+                                    <h3 > <i class="icon-printer"></i> Imprimir </h3>
                                 </a>
                                 <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
                                     <h3> <i class="icon-close"></i> Cerrar </h3>
