@@ -351,15 +351,15 @@ include("asstes/traslados_funciones.php");
                                                         <?php
                                                         if ($traslado[0]->estado_tras == 1) {
                                                         ?>
-                                                            <option value="1">Creado</option>
-                                                            <option value="2">Enviado</option>
+                                                            <option value="1">Pendiente</option>
+                                                            <option value="2">Procesado</option>
 
                                                         <?php
 
                                                         } else {
                                                         ?>
-                                                            <option value="2">Enviado</option>
-                                                            <option value="1">Creado</option>
+                                                            <option value="2">Procesado</option>
+                                                            <option value="1">Pendiente</option>
                                                         <?php
                                                         }
                                                         ?>

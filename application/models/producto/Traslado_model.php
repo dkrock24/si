@@ -307,13 +307,14 @@ class Traslado_model extends CI_Model
 	function editar_traslado($traslado_id)
 	{
 		$query = $this->db->query("select e.nombre_razon_social,s.*, t.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
-									CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2
+									CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2,
+									s2.nombre_sucursal as sucursal_destino
 									from sys_traslados as t
 									left join sys_persona as p On p.id_persona = t.firma_llegada 
 									left join sys_persona as p2 On p2.id_persona = t.firma_salida
 									left join pos_sucursal as s on s.id_sucursal = t.sucursal_origin
-									left join pos_empresa as e on e.id_empresa = s.Empresa_Suc
-									
+									left join pos_sucursal as s2 on s2.id_sucursal = t.sucursal_destino
+									left join pos_empresa as e on e.id_empresa = s.Empresa_Suc									
 									where  t.Empresa =" 
 									. $this->session->empresa[0]->id_empresa . ' and t.id_tras = ' . $traslado_id );
 
@@ -328,7 +329,10 @@ class Traslado_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from(self::sys_traslados . ' as t');
 		$this->db->join(self::sys_traslados_detalle . ' as d',' on t.id_tras = d.traslado');
-		$this->db->join(self::producto. ' as p', ' on p.id_entidad = d.id_producto_tras');		
+		$this->db->join(self::producto. ' as p', ' on p.id_entidad = d.id_producto_tras');
+		$this->db->join(self::pos_bodega. ' as b', ' on b.id_bodega = d.bodega_origen');
+		$this->db->join(self::producto_detalle. ' as pd', ' on pd.id_producto_detalle = d.id_producto_tras');
+		
 		$this->db->where_in('t.id_tras', $valores );
 		$query = $this->db->get();
 		//echo $this->db->queries[0];

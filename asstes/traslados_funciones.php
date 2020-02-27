@@ -2109,7 +2109,7 @@
 
                         if (method == "update_traslado") {
 
-                            //window.location.href = "nuevo";
+                            window.location.href = "../index";
                         }
 
 
