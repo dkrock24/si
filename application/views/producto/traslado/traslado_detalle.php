@@ -118,6 +118,10 @@
                                             ?>
                                             <input type="submit" class="btn btn-info" value="ACEPTAR">
                                             <?php
+                                        }else{
+                                            ?>
+                                            <h2><label class="label label-success">Traslado Completado!</label></h2>
+                                            <?php
                                         }
                                     ?>                                    
                                 </td>

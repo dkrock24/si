@@ -174,10 +174,16 @@
                                             ?>
                                             <span class="label label-success" style="background: #39b2d6">Activo</span>
                                             <?php
-                                                } else {
+                                                } else if($table->$estado == 0) {
                                             ?>
                                             <span class="label label-warning" style="background: #d26464">Inactivo</span>
                                             <?php
+                                                }
+                                                else
+                                                {
+                                            ?>
+                                                <span class="label label-warning" style="background: #5ad246">Completado</span>
+                                                <?php
                                                 }
                                             ?>
                                         </td>

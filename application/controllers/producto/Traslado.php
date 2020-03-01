@@ -147,7 +147,6 @@ class Traslado extends MY_Controller {
 		if(isset($_POST)){
 			$data['traslado'] 	= $this->Traslado_model->aceptar_traslado($_POST);
 		}
-
 		redirect(base_url()."producto/traslado/index");
 		
 	}
@@ -343,6 +342,7 @@ class Traslado extends MY_Controller {
 		$fields['id'] 		= array('id_tras');
 		$fields['estado'] 	= array('estado_tras');
 		$fields['titulo'] 	= "Traslados Lista";
+		$fields['estado_alterno'] 	= "Completado";
 
 		return $fields;
 	}

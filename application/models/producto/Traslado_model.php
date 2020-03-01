@@ -206,12 +206,9 @@ class Traslado_model extends CI_Model
 
 	function get_bodega($usuario)
 	{
-
 		$this->db->select('*');
         $this->db->from(self::sucursal.' as s');
-		//$this->db->join(self::sys_empleado_sucursal.' as es', ' on s.id_sucursal = es.es_sucursal','LEFT');
 		$this->db->join(self::pos_bodega.' as b', ' on b.Sucursal = s.id_sucursal','');
-        //$this->db->join(self::sys_usuario.' as u', ' u.Empleado = es.es_empleado','LEFT');
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get(); 
 		//echo $this->db->queries[4];
@@ -247,14 +244,9 @@ class Traslado_model extends CI_Model
 		}
 		return $valor;
 	}
-
-
-
-	
 	
 	function descontar_de_bodega($orden)
 	{
-
 		$cantidad = 0;
 		foreach ($orden['orden'] as $key => $productos) {
 
@@ -294,7 +286,6 @@ class Traslado_model extends CI_Model
 
 	function get_cantidad_bodega($id_producto, $id_bodega)
 	{
-
 		$this->db->select('*');
 		$this->db->from(self::producto_bodega);
 		$this->db->where('Producto', $id_producto);
@@ -351,6 +342,12 @@ class Traslado_model extends CI_Model
 		$traslado_id 	= $this->get_id_traslado($id[0]);
 		$traslado 		= $this->get_traslado_detalle( $traslado_id[0]->traslado );
 
+		$cambio = array(
+			"estado_tras" => 3
+		);
+		$this->db->where('id_tras', $traslado_id[0]->traslado );
+		$this->db->update(self::sys_traslados, $cambio);	
+
 		foreach ($datos as $key => $value) {
 
 			$data = array(
@@ -359,9 +356,8 @@ class Traslado_model extends CI_Model
 			);
 
 			$this->db->where('id_tras_detalle', $key );
-			$this->db->update(self::sys_traslados_detalle, $data);
-						
-		}
+			$this->db->update(self::sys_traslados_detalle, $data);						
+		}	
 
 		$this->traslado_bodega( $traslado , $datos );
 	}
@@ -369,6 +365,7 @@ class Traslado_model extends CI_Model
 	function traslado_bodega($traslado , $datos ){
 
 		foreach ($traslado as $key => $value) {
+			//echo $value->id_producto_tras." - ". $value->bodega_destino."<br>";
 			$cantidad = $this->get_cantidad_bodega($value->id_producto_tras, $value->bodega_destino);
 			$cantidad_nueva = ($cantidad[0]->Cantidad + $value->cantidad_product_recibido);
 
@@ -380,7 +377,6 @@ class Traslado_model extends CI_Model
 			$this->db->where('Bodega', $value->bodega_destino);
 			$this->db->update(self::producto_bodega, $data);						
 		}
-
 	}
 
 	function get_id_traslado( $id_tras_detalle ){
