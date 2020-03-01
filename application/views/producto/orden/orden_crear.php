@@ -331,7 +331,7 @@ include("asstes/pos_funciones.php");
                 <!-- START table-responsive-->
                 <div class="row" style="padding:20px;">
                     <div class="col-md-10">
-                        <table class="table table-sm table-hover">
+                        <table class="table table-sm table-hover" style="margin-bottom: 0px;">
 
                             <div class="row">
 
@@ -388,14 +388,20 @@ include("asstes/pos_funciones.php");
                                             </li>
                                         </ul>
                                     </div>
+                                    <span>
+                                        Can.<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;">
+                                        Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display:inline-block;">
+                                    </span>                                   
 
                                 </div>
                             </div>
 
-                            <div class="row">
+                         
+                        </table>
 
-                                <div class="col-md-9">
-                                    <thead class="bg-info-dark" style="background: #cfdbe2;">
+                        <div class="lista_productos" style="height:400px;">
+                            <table class="table table-sm table-hover" id="lista_productos">
+                            <thead class="bg-info-dark" style="background: #cfdbe2;">
                                         <tr>
                                             <th style="color: black;">#</th>
                                             <th style="color: black;">Producto</th>
@@ -412,30 +418,6 @@ include("asstes/pos_funciones.php");
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody class="uno bg-gray-light" style="border-bottom: 0px solid grey">
-                                        <tr style="border-bottom: 1px dashed grey">
-                                            <td colspan="2">
-                                                <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar" readonly="1" style="width: 100px;">
-                                            </td>
-                                            <td><input type="text" class="form-control border-input" id="descripcion" name="descripcion" readonly="1"></td>
-                                            <td><input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;"></td>
-                                            <td><input type="text" class="form-control border-input" id="presentacion" name="presentacion" size="3px" readonly="1"></td>
-                                            <td><input type="text" class="form-control border-input" id="factor" name="factor" size="2px" readonly="1" style="width: 50px;"></td>
-                                            <td><input type="text" class="form-control border-input" id="precioUnidad" name="precioUnidad" size="2px" readonly="1" style="width: 70px;"></td>
-                                            <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;"></td>
-                                            <td><input type="text" class="form-control border-input" id="total" name="total" size="2px" readonly="1"></td>
-                                            <td><input type="text" class="form-control border-input" id="bodega" name="bodega" size="5px" readonly="1"></td>
-                                            <td><button type="button" id="btn_delete" class="btn btn-labeled bg-green" name="1"><span class='btn-label'><i class='fa fa-trash'></i></span></button></td>
-
-                                        </tr>
-                                    </tbody>
-                                </div>
-
-                            </div>
-                        </table>
-
-                        <div class="lista_productos" style="height:100px;">
-                            <table class="table table-sm table-hover" id="lista_productos">
                                 <tbody class="producto_agregados" style="border-top:  0px solid black" id="prod_list">
                                 </tbody>
                             </table>

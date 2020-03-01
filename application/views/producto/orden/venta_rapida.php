@@ -76,8 +76,8 @@ include("asstes/pos_orden.php");
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 
 <script>
-    $(document).ready(function(){
-        $(".print_venta").click(function(){
+    $(document).ready(function() {
+        $(".print_venta").click(function() {
             location.reload();
         });
 
@@ -126,7 +126,7 @@ include("asstes/pos_orden.php");
                                 </div>
 
                                 <div class="col-lg-8" style="text-align: left;">
-                                <!--
+                                    <!--
                                     <button class="btn bg-green" id="grabar" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Agregar"><i class='fa fa-shopping-cart'></i></button>
 -->
                                     <span class='btn bg-green guardar' name="1" id="../venta/guardar_venta" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Procesar"><i class='fa fa-money'></i> <span style="font-size:18;">[ F4 ]</span></span>
@@ -146,42 +146,22 @@ include("asstes/pos_orden.php");
                                             <li><a href="#" class="btn btn-warning" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
 
                                             <li class="divider"></li>
-                                            
+
                                             <li><a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a></li>
                                         </ul>
                                     </div>
 
-                                    <input type="text" name="orden_numero" id="orden_numero" placeholder="N° Orden [ * ]" value="" class="form-control" style="width:200px; display: inline-block;" />
-
-                                    <div class="pull-right">
-                                        <input type="hidden" name="terminal" id="terminal_id" value="<?php echo $terminal[0]->id_terminal ?>" />
-                                        <div class="" style="font-size: 20px;overflow: hidden;">
-                                            <?php
-                                            if (isset($empleado[0]->nombre_sucursal)) {
-                                                echo $empleado[0]->nombre_sucursal . " [ " . $terminal[0]->nombre . " ]";
-                                            } else {
-                                                echo "Sin Sucursal";
-                                            }
-
-                                            ?>
-
-                                            <span class="label label-warning">
-                                                <?php echo Date("d/M/y"); ?>
-                                            </span>
-                                        </div>
-                                        <?php //echo gethostbyaddr($_SERVER['REMOTE_ADDR'])  ; 
-                                        ?>
-                                    </div>
+                                    <input type="text" name="orden_numero" id="orden_numero" placeholder="Orden [ * ]" value="" class="form-control" style="width:100px; display: inline-block;" />
+                                    Can.<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display: inline-block;">
+                                    Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display: inline-block;">
                                 </div>
                             </div>
                         </div>
 
                         <!-- START table-responsive-->
-                        <div class="table-responsive" style="width: 100%;">
-                            <table class="table table-sm table-hover">
-
-
-
+                        <div class="table-responsive" style="width: 100%;">                            
+                            <div class="lista_productos">
+                                <table class="table table-sm table-hover">
                                 <thead class="bg-info-dark" style="background: #cfdbe2;">
                                     <tr>
                                         <th style="color: black;">#</th>
@@ -199,27 +179,6 @@ include("asstes/pos_orden.php");
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="uno bg-gray-light" style="border-bottom: 0px solid grey">
-                                    <tr style="border-bottom: 1px dashed grey">
-                                        <td colspan="2">
-                                            <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar" readonly="1" style="width: 100px;">
-                                        </td>
-                                        <td><input type="text" class="form-control border-input" id="descripcion" name="descripcion" readonly="1"></td>
-                                        <td><input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;"></td>
-                                        <td><input type="text" class="form-control border-input" id="presentacion" name="presentacion" size="3px" readonly="1"></td>
-                                        <td><input type="text" class="form-control border-input" id="factor" name="factor" size="2px" readonly="1" style="width: 50px;"></td>
-                                        <td><input type="text" class="form-control border-input" id="precioUnidad" name="precioUnidad" size="2px" readonly="1" style="width: 70px;"></td>
-                                        <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;"></td>
-                                        <td><input type="text" class="form-control border-input" id="total" name="total" size="2px" readonly="1"></td>
-                                        <td><input type="text" class="form-control border-input" id="bodega" name="bodega" size="5px" readonly="1"></td>
-                                        <td><button type="button" id="btn_delete" class="btn btn-labeled bg-green" name="1"><span class='btn-label'><i class='fa fa-trash'></i></span></button></td>
-
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                            <div class="lista_productos">
-                                <table class="table table-sm table-hover">
                                     <tbody class="producto_agregados" style="border-top:  0px solid black; color: black; background: white; overflow: scroll;">
                                     </tbody>
                                 </table>
@@ -276,8 +235,8 @@ include("asstes/pos_orden.php");
                                 </tr>
                                 <tr>
                                     <td><b>Desc</b></td>
-                                        <td><span class="descuento_tabla"></span></td>
-                                    </tr>
+                                    <td><span class="descuento_tabla"></span></td>
+                                </tr>
                                 <tr>
                                     <td><span class="impuestos_nombre"></span></td>
                                     <td><span class="impuestos_total"></span></td>
@@ -537,6 +496,26 @@ include("asstes/pos_orden.php");
 
             <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
                 <i class="fa fa-credit-card"></i>
+            </span>
+            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">
+                
+                    <input type="hidden" name="terminal" id="terminal_id" value="<?php echo $terminal[0]->id_terminal ?>" />
+                    <div class="" style="font-size: 30px;overflow: hidden;">
+                        <?php
+                        if (isset($empleado[0]->nombre_sucursal)) {
+                            echo $empleado[0]->nombre_sucursal . " [ " . $terminal[0]->nombre . " ]";
+                        } else {
+                            echo "Sin Sucursal";
+                        }
+
+                        ?>
+
+                        <span class="label label-warning">
+                            <?php echo Date("d/M/y"); ?>
+                        </span>
+                    </div>
+
+                
             </span>
         </div>
     </div>
@@ -821,7 +800,7 @@ include("asstes/pos_orden.php");
                 </div>
                 <div class="row">
                     <div class="col-lg-6 col-md-6" id="metodo_pago_lista">
-                            
+
                     </div>
                     <h2><span class="transacion"></span></h2>
                 </div>
@@ -838,8 +817,7 @@ include("asstes/pos_orden.php");
 
 
     <!-- METODO DE PAGOS MODAL-->
-    <div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento"
-        class="modal flip">
+    <div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento" class="modal flip">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header" style="background: #dde6e9">
@@ -857,13 +835,12 @@ include("asstes/pos_orden.php");
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-success bg-green btn_aut_desc"
-                        name="5">Autorizar</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-success bg-green btn_aut_desc" name="5">Autorizar</button>
                     <button type="button" data-dismiss="modal" class="btn btn-warning">Cancelar</button>
                 </div>
             </div>
         </div>
     </div>
-<!-- Modal Small-->
+    <!-- Modal Small-->
 
     <?php $this->load->view('scripts_files.php'); ?>

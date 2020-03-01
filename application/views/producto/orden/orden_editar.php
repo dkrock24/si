@@ -21,7 +21,6 @@
     var combo_descuento = 0.00;
     var _conf = [];
     var _impuestos = [];
-
 </script>
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
@@ -34,36 +33,35 @@ include("asstes/pos_orden.php");
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
 
         setTimeout(function() {
             $("#m_orden_creada").modal();
             //$("#imprimir").modal(); 
         }, 1000);
-        
-        $(".printer").click(function(){
 
-            $("#m_orden_creada").modal();           
-            
+        $(".printer").click(function() {
+
+            $("#m_orden_creada").modal();
+
         });
-        
+
     });
 </script>
 
 <style>
     .modal-dialog {
-		width: 100%;
-		height: 100%;
-		margin: 0;
-		padding-left: 10%;
-	}
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding-left: 10%;
+    }
 
-	.modal-content {
-		height: auto;
-		min-height: 100%;
-		border-radius: 5;
-	}
-
+    .modal-content {
+        height: auto;
+        min-height: 100%;
+        border-radius: 5;
+    }
 </style>
 
 <!-- Main section-->
@@ -346,7 +344,7 @@ include("asstes/pos_orden.php");
                 <!-- START table-responsive-->
                 <div class="row" style="padding:20px;">
                     <div class="col-md-10">
-                        <table class="table table-sm table-hover">
+                        <table class="table table-sm table-hover" style="margin-bottom: 0px;">
                             <div class="col-lg-4">
                                 <div class="input-group m-b">
                                     <span class="input-group-addon bg-green"> [ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
@@ -390,48 +388,35 @@ include("asstes/pos_orden.php");
                                     </ul>
                                 </div>
 
+                                <span>
+                                    Can.<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;" />
+                                    Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" value="0.00" style="width: 80px;display:inline-block;" />
+                                </span>
+
                             </div>
 
                             </span>
-
-                            <thead class="bg-info-dark" style="background: #cfdbe2;">
-                                <tr>
-                                    <th style="color: black;">#</th>
-                                    <th style="color: black;">Producto</th>
-                                    <th style="color: black;">Descripción</th>
-                                    <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ]</th>
-                                    <th style="color: black;">Presentación</th>
-                                    <th style="color: black;">Factor</th>
-                                    <th style="color: black;">Precio Unidad</th>
-                                    <th style="color: black;">Descuento [ : ]</th>
-                                    <th style="color: black;">Total</th>
-                                    <th style="color: black;">Bodega</th>
-                                    <th style="color: black;">
-                                        <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="uno bg-gray-light" style="border-bottom: 0px solid grey">
-                                <tr style="border-bottom: 1px dashed grey">
-                                    <td colspan="2">
-                                        <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar" readonly="1" style="width: 100px;">
-                                    </td>
-                                    <td><input type="text" class="form-control border-input" id="descripcion" name="descripcion" readonly="1"></td>
-                                    <td><input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;"></td>
-                                    <td><input type="text" class="form-control border-input" id="presentacion" name="presentacion" size="3px" readonly="1"></td>
-                                    <td><input type="text" class="form-control border-input" id="factor" name="factor" size="2px" readonly="1" style="width: 50px;"></td>
-                                    <td><input type="text" class="form-control border-input" id="precioUnidad" name="precioUnidad" size="2px" readonly="1" style="width: 70px;"></td>
-                                    <td><input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;"></td>
-                                    <td><input type="text" class="form-control border-input" id="total" name="total" size="2px" readonly="1"></td>
-                                    <td><input type="text" class="form-control border-input" id="bodega" name="bodega" size="5px" readonly="1"></td>
-                                    <td><button type="button" id="btn_delete" class="btn btn-labeled bg-green" name="1"><span class='btn-label'><i class='fa fa-trash'></i></span></button></td>
-
-                                </tr>
-                            </tbody>
                         </table>
 
-                        <div class="lista_productos" style="height:100px;">
+                        <div class="lista_productos" style="height:600px;">
                             <table class="table table-sm table-hover" id="lista_productos">
+                                <thead class="bg-info-dark" style="background: #cfdbe2;">
+                                    <tr>
+                                        <th style="color: black;">#</th>
+                                        <th style="color: black;">Producto</th>
+                                        <th style="color: black;">Descripción</th>
+                                        <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ]</th>
+                                        <th style="color: black;">Presentación</th>
+                                        <th style="color: black;">Factor</th>
+                                        <th style="color: black;">Precio Unidad</th>
+                                        <th style="color: black;">Descuento [ : ]</th>
+                                        <th style="color: black;">Total</th>
+                                        <th style="color: black;">Bodega</th>
+                                        <th style="color: black;">
+                                            <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
+                                        </th>
+                                    </tr>
+                                </thead>
                                 <tbody class="producto_agregados" style="border-top:  0px solid black" id="prod_list">
                                 </tbody>
                             </table>
@@ -856,13 +841,13 @@ include("asstes/pos_orden.php");
                 <i class="icon-printer"></i> Imprimir
             </div>
             <div class="modal-body">
-                <p style="font-size:24px;text-align:center"><?php  echo $msj_title ?></p>
-                <h1 style="text-align:center"><?php  echo $msj_orden ?></h1>
+                <p style="font-size:24px;text-align:center"><?php echo $msj_title ?></p>
+                <h1 style="text-align:center"><?php echo $msj_orden ?></h1>
 
                 <div class="row">
                     <div class="col-lg-12 col-md-12 vista_ticket">
 
-                        <?php include("asstes/temp/".$file.".php"); ?>
+                        <?php include("asstes/temp/" . $file . ".php"); ?>
 
                     </div>
                     <div class="col-lg-8 col-md-8">
@@ -878,58 +863,63 @@ include("asstes/pos_orden.php");
 <!-- Modal Small-->
 
 <!-- METODO DE PAGOS MODAL-->
-<div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada"
-        class="modal flip">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content" style="background:#f1f1f1;">
-                <div class="modal-header" style="background: #2c71b5;color: white;">
-                    <button type="button" data-dismiss="modal" aria-label="Close" class="close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <span style="font-size: 20px; ">Documento : <?= $temp[0]->documento_nombre ?> | Formato : <?= $temp[0]->factura_nombre ?> </span>
+<div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content" style="background:#f1f1f1;">
+            <div class="modal-header" style="background: #2c71b5;color: white;">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span style="font-size: 20px; ">Documento : <?= $temp[0]->documento_nombre ?> | Formato : <?= $temp[0]->factura_nombre ?> </span>
 
-                </div>
-                <div class="modal-body">
+            </div>
+            <div class="modal-body">
 
                 <div class="row">
-                    <div class="col-lg-8 col-md-8" >
-                        <?php include("asstes/temp/".$file.".php"); ?>
+                    <div class="col-lg-8 col-md-8">
+                        <?php include("asstes/temp/" . $file . ".php"); ?>
                     </div>
                     <div class="col-lg-4 col-md-4" style="border-left:1px dashed black;height:900px;position: relative;float:right;margin:0px;">
 
                         <div class="row">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                <?php  echo $msj_title ?>
+                                <?php echo $msj_title ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                 <h1>
-                                    <?php  echo $msj_orden ?>
+                                    <?php echo $msj_orden ?>
                                 </h1>
                             </div>
                         </div>
                         <div class="row">
                             <hr style="border-bottom:1px dashed black">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                
-                                <a href="../nuevo" class="btn btn-default printer"><h3> <i class="icon-plus"></i> Nueva </h3></a>
-                                <a href="#" class="btn btn-success printer" style="color:black"><h3> <i class="icon-printer"></i>  Imprimir </h3></a>
-                                 <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black"><h3> <i class="icon-close"></i> Cerrar </h3> </button>
-                               
+
+                                <a href="../nuevo" class="btn btn-default printer">
+                                    <h3> <i class="icon-plus"></i> Nueva </h3>
+                                </a>
+                                <a href="#" class="btn btn-success printer" style="color:black">
+                                    <h3> <i class="icon-printer"></i> Imprimir </h3>
+                                </a>
+                                <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
+                                    <h3> <i class="icon-close"></i> Cerrar </h3>
+                                </button>
+
                             </div>
                         </div>
 
-                        
+
                     </div>
                 </div>
 
-                </div>
+            </div>
 
-                <div class="modal-footer">                   
-                   
-                </div>
+            <div class="modal-footer">
+
             </div>
         </div>
     </div>
+</div>
 <!-- Modal Small-->
