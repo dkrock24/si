@@ -392,8 +392,11 @@ include("asstes/traslados_funciones.php");
                 <!-- START table-responsive-->
                 <div class="row" style="padding:20px;">
                     <div class="col-md-12">
-                        <table class="table table-sm table-hover">
+                        <table class="table table-sm table-hover" style="margin-bottom: 0px;">
 
+                            <?php 
+                                if($traslado[0]->estado_tras == 1 ){
+                            ?>
                             <div class="row">
 
                                 <div class="col-md-4">
@@ -432,6 +435,9 @@ include("asstes/traslados_funciones.php");
 
                                 </div>
                             </div>
+                            <?php
+                                }
+                            ?>
 
                             <div class="row">
 
@@ -453,7 +459,8 @@ include("asstes/traslados_funciones.php");
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody class="uno bg-gray-light" style="border-bottom: 0px solid grey">
+                                    
+                                        <!--
                                         <tr style="border-bottom: 1px dashed grey">
                                             <td colspan="2">
                                                 <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar" readonly="1" style="width: 100px;">
@@ -469,7 +476,8 @@ include("asstes/traslados_funciones.php");
                                             <td><button type="button" id="btn_delete" class="btn btn-labeled bg-green" name="1"><span class='btn-label'><i class='fa fa-trash'></i></span></button></td>
 
                                         </tr>
-                                    </tbody>
+                                        -->
+                                    
                                 </div>
 
                             </div>
