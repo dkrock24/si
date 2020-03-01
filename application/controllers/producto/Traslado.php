@@ -80,7 +80,8 @@ class Traslado extends MY_Controller {
 		$data['detalle'] 	= $this->Traslado_model->get_traslado_detalle($traslado_id);
 		$data['empleado'] 	= $this->Usuario_model->get_empleado( $id_usuario );
 		$data['sucursal'] 	= $this->Sucursal_model->getSucursal(  );
-		$data['bodega'] 	= $this->Bodega_model->get_bodega_sucursal( $data['traslado'][0]->sucursal_destino );
+		$data['bodega'] 	= $this->Bodega_model->get_bodega_sucursal( $data['traslado'][0]->sucursal_origin );
+		$data['bodega2'] 	= $this->Bodega_model->get_bodega_sucursal( $data['traslado'][0]->sucursal_destino );
 		$data['moneda'] 	= $this->Moneda_model->get_modena_by_user();
 		$data['cliente'] 	= $this->Cliente_model->get_cliente();
 
@@ -139,6 +140,16 @@ class Traslado extends MY_Controller {
 
 		$data['home'] = 'producto/traslado/traslado_detalle';
 		$this->parser->parse('template', $data);
+	}
+
+	public function aceptar(){
+		
+		if(isset($_POST)){
+			$data['traslado'] 	= $this->Traslado_model->aceptar_traslado($_POST);
+		}
+
+		redirect(base_url()."producto/traslado/index");
+		
 	}
 
 	public function autoload_traslado(){
@@ -230,8 +241,7 @@ class Traslado extends MY_Controller {
 
 	function get_bodega_sucursal( $Sucursal ){
 
-		$data['bodega'] 		= $this->Orden_model->get_bodega_sucursal( $Sucursal );
-		$data['correlativo'] 	= $this->Correlativo_model->get_by_id($Sucursal);
+		$data['bodega'] 		= $this->Orden_model->get_bodega_sucursal_traslados( $Sucursal );
 
 		echo json_encode( $data );
 	}

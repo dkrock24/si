@@ -1577,7 +1577,8 @@
         function correlativos_sucursales(sucursal) {
             // Cambiar Bodega
             input_bodega_select.empty();
-            var select_option;
+            var select_option = "";
+            
             $.ajax({
                 url: path + "get_bodega_sucursal/" + sucursal,
                 datatype: 'json',
@@ -1586,14 +1587,14 @@
                 success: function(data) {
                     var datos = JSON.parse(data);
                     var bodega = datos["bodega"];
+                    console.log(bodega);
+                    
                     $.each(bodega, function(i, item) {
                         select_option += '<option value="' + item.id_bodega + '">' + item.nombre_bodega + '</option>';
                     });
 
                     input_bodega_select.html(select_option);
-
-                    var correlativo = datos['correlativo'];
-                    $("#c_numero").val(correlativo[0].siguiente_valor);
+                    
                 },
                 error: function() {}
             });

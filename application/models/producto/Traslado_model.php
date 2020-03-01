@@ -81,9 +81,11 @@ class Traslado_model extends CI_Model
 			'fecha_salida' 		=> $registros['fecha_salida'],
 			'fecha_llegada' 	=> $registros['fecha_llegada'],
 			'transporte_placa' 	=> $registros['transporte_placa'],
-			'sucursal_origin' 	=> $registros['sucursal_origin'],
+			'sucursal_origin' 	=> $registros['sucursal_origen'],
+			'bodega_origen' 	=> $registros['bodega_origen'],
 			'sucursal_destino' 	=> $registros['sucursal_destino'],
 			'bodega_destino' 	=> $registros['bodega_destino'],
+			'doc_tras' 			=> 17,
 			'descripcion_tras' 	=> $registros['descripcion_tras'],
 			'creado_tras' 		=> date("Y-m-d H:i:s"),
 			'Empresa' 			=> $this->session->empresa[0]->id_empresa,
@@ -308,7 +310,7 @@ class Traslado_model extends CI_Model
 	{
 		$query = $this->db->query("select e.nombre_razon_social,s.*, t.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
 									CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2,
-									s2.nombre_sucursal as sucursal_destino
+									s2.nombre_sucursal as nombre_sucursal_destino , s2.id_sucursal as sucursal_destino
 									from sys_traslados as t
 									left join sys_persona as p On p.id_persona = t.firma_llegada 
 									left join sys_persona as p2 On p2.id_persona = t.firma_salida
@@ -324,7 +326,7 @@ class Traslado_model extends CI_Model
 
 	function get_traslado_detalle( $id ){
 
-		$valores =  explode(",", $id);
+		$valores =   $id;
 		
 		$this->db->select('*');
 		$this->db->from(self::sys_traslados . ' as t');
@@ -333,13 +335,66 @@ class Traslado_model extends CI_Model
 		$this->db->join(self::pos_bodega. ' as b', ' on b.id_bodega = d.bodega_origen');
 		$this->db->join(self::producto_detalle. ' as pd', ' on pd.id_producto_detalle = d.id_producto_tras');
 		
-		$this->db->where_in('t.id_tras', $valores );
+		$this->db->where('t.id_tras', $id );
 		$query = $this->db->get();
 		//echo $this->db->queries[0];
 
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		}
+
+	}
+
+	function aceptar_traslado($datos){
+		
+		$id 			=  array_keys($datos);
+		$traslado_id 	= $this->get_id_traslado($id[0]);
+		$traslado 		= $this->get_traslado_detalle( $traslado_id[0]->traslado );
+
+		foreach ($datos as $key => $value) {
+
+			$data = array(
+				'cantidad_product_recibido' => $value,		
+				'estado_tras_detalle' => 1,
+			);
+
+			$this->db->where('id_tras_detalle', $key );
+			$this->db->update(self::sys_traslados_detalle, $data);
+						
+		}
+
+		$this->traslado_bodega( $traslado , $datos );
+	}
+
+	function traslado_bodega($traslado , $datos ){
+
+		foreach ($traslado as $key => $value) {
+			$cantidad = $this->get_cantidad_bodega($value->id_producto_tras, $value->bodega_destino);
+			$cantidad_nueva = ($cantidad[0]->Cantidad + $value->cantidad_product_recibido);
+
+			$data = array(
+				'Cantidad' 	=> $cantidad_nueva,
+			);
+
+			$this->db->where('Producto', $value->id_producto_tras);
+			$this->db->where('Bodega', $value->bodega_destino);
+			$this->db->update(self::producto_bodega, $data);						
+		}
+
+	}
+
+	function get_id_traslado( $id_tras_detalle ){
+
+		$this->db->select('d.traslado');
+		$this->db->from(self::sys_traslados . ' as t');
+		$this->db->join(self::sys_traslados_detalle . ' as d',' on t.id_tras = d.traslado');    
+        $this->db->where('d.id_tras_detalle', $id_tras_detalle );
+        $query = $this->db->get();
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
 
 	}
 

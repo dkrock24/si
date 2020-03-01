@@ -236,6 +236,15 @@ class Orden_model extends CI_Model
 
 	}
 
+	function get_bodega_sucursal_traslados($Sucursal)
+	{
+
+		$query = $this->db->query("SELECT * FROM pos_bodega where Sucursal= " . $Sucursal);
+
+		//echo $this->db->queries[1];
+		return $query->result();
+	}
+
 	function get_bodega_sucursal($Sucursal)
 	{
 
