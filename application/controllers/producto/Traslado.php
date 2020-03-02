@@ -285,7 +285,7 @@ class Traslado extends MY_Controller {
 		$descuento_conf		= "descuentos";
 		
 		$data['producto'] 	= $this->Orden_model->get_producto_completo($id_producto_detalle, $id_bodega);		
-		$producto_id 		= $data['producto'][0]->id_entidad;		
+		$producto_id 		= $data['producto'][0]->id_entidad;
 		$contador			= 0;
 		$atributos			= array();
 		

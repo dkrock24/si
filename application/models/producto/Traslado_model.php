@@ -107,14 +107,13 @@ class Traslado_model extends CI_Model
 
 			$data = array(
 				'traslado' 				=> $traslado_id,
-				'id_producto_tras' 		=> $value['id_producto_detalle'],
-				'codigo_producto_tras' 	=> $value['producto'],
+				'id_producto_tras' 		=> $value['producto_id'],
+				'codigo_producto_tras' 	=> $value['producto2'],
 				'cantidad_product_tras' => $value['cantidad'],
 				'bodega_origen' 		=> $value['id_bodega'],				
 				'descripcion_producto_tras' => $value['descripcion'],
 				'estado_tras_detalle' 	=> 0,
-			);
-	
+			);	
 			$this->db->insert(self::sys_traslados_detalle, $data);
 			
 		}		
@@ -324,11 +323,11 @@ class Traslado_model extends CI_Model
 		$this->db->join(self::sys_traslados_detalle . ' as d',' on t.id_tras = d.traslado');
 		$this->db->join(self::producto. ' as p', ' on p.id_entidad = d.id_producto_tras');
 		$this->db->join(self::pos_bodega. ' as b', ' on b.id_bodega = d.bodega_origen');
-		$this->db->join(self::producto_detalle. ' as pd', ' on pd.id_producto_detalle = d.id_producto_tras');
+		$this->db->join(self::producto_detalle. ' as pd', ' on pd.Producto = d.id_producto_tras');
 		
 		$this->db->where('t.id_tras', $id );
 		$query = $this->db->get();
-		//echo $this->db->queries[0];
+		//echo $this->db->queries[1];
 
 		if ($query->num_rows() > 0) {
 			return $query->result();

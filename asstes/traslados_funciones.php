@@ -78,7 +78,7 @@
 
 
                     registros.forEach(function(element) {                        
-                        get_producto_traslado(element.id_producto_tras, element.bodega_origen , element.cantidad_product_tras);
+                        get_producto_traslado(element.codigo_producto_tras, element.bodega_origen , element.cantidad_product_tras);
                     });
 
                 },
@@ -482,7 +482,7 @@
                     _productos.producto_id = datos['producto'][0].id_entidad;
                     _productos.combo = datos['producto'][0].combo;
                     _productos.inventario_id = datos['producto'][0].id_inventario;
-                    _productos.producto = datos['producto'][0].codigo_producto;
+                    _productos.producto = datos['producto'][0].codigo_barras;
                     _productos.descuento_limite = datos['producto'][0].descuento_limite;
                     _productos.descuento = 0.00; // datos['producto'][7].valor;
                     _productos.cantidad = producto_cantidad_linea;
@@ -587,7 +587,7 @@
                     _productos.producto_id = datos['producto'][0].id_entidad;
                     _productos.combo = datos['producto'][0].combo;
                     _productos.inventario_id = datos['producto'][0].id_inventario;
-                    _productos.producto = datos['producto'][0].codigo_producto;
+                    _productos.producto = datos['producto'][0].codigo_barras;
                     _productos.descuento_limite = datos['producto'][0].descuento_limite;
                     _productos.descuento = 0.00; // datos['producto'][7].valor;
                     _productos.cantidad = producto_cantidad_linea;
