@@ -398,26 +398,28 @@ include("asstes/pos_funciones.php");
 
                          
                         </table>
-
-                        <div class="lista_productos" style="height:400px;">
-                            <table class="table table-sm table-hover" id="lista_productos">
-                            <thead class="bg-info-dark" style="background: #cfdbe2;">
-                                        <tr>
-                                            <th style="color: black;">#</th>
-                                            <th style="color: black;">Producto</th>
-                                            <th style="color: black;">Descripción</th>
-                                            <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ] </th>
-                                            <th style="color: black;">Presentación</th>
-                                            <th style="color: black;">Factor</th>
-                                            <th style="color: black;">Precio Unidad</th>
-                                            <th style="color: black;">Descuento [ : ]</th>
-                                            <th style="color: black;">Total</th>
-                                            <th style="color: black;">Bodega</th>
-                                            <th style="color: black;">
-                                                <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
-                                            </th>
-                                        </tr>
+                        <table class="table table-sm table-hover">
+                                <thead class="bg-info-dark" style="background: #cfdbe2;">
+                                            <tr>
+                                                <th style="color: black;">#</th>
+                                                <th style="color: black;">Producto</th>
+                                                <th style="color: black;">Descripción</th>
+                                                <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ] </th>
+                                                <th style="color: black;">Presentación</th>
+                                                <th style="color: black;">Factor</th>
+                                                <th style="color: black;">Precio Unidad</th>
+                                                <th style="color: black;">Descuento [ : ]</th>
+                                                <th style="color: black;">Total</th>
+                                                <th style="color: black;">Bodega</th>
+                                                <th style="color: black;">
+                                                    <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
+                                                </th>
+                                            </tr>
                                     </thead>
+                            </table>
+
+                        <div class="lista_productos" style="height:400px;">                           
+                            <table class="table table-sm table-hover" id="lista_productos">                            
                                 <tbody class="producto_agregados" style="border-top:  0px solid black" id="prod_list">
                                 </tbody>
                             </table>
@@ -429,7 +431,7 @@ include("asstes/pos_funciones.php");
                         <div class="row">
                             <div class="col-md-12" style="width: 100%; background: #2D3B48/*#0f4871*/;text-align: center;color: white;">
 
-                                <span style="font-size: 50px;">
+                                <span style="font-size: 40px;">
                                     <?php echo $moneda[0]->moneda_simbolo; ?> <span class="total_msg">0.00</span>
                                 </span>
                             </div>

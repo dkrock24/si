@@ -159,9 +159,8 @@ include("asstes/pos_orden.php");
                         </div>
 
                         <!-- START table-responsive-->
-                        <div class="table-responsive" style="width: 100%;">                            
-                            <div class="lista_productos">
-                                <table class="table table-sm table-hover">
+                        <div class="table-responsive" style="width: 100%;">  
+                            <table class="table table-sm table-hover">
                                 <thead class="bg-info-dark" style="background: #cfdbe2;">
                                     <tr>
                                         <th style="color: black;">#</th>
@@ -179,6 +178,9 @@ include("asstes/pos_orden.php");
                                         </th>
                                     </tr>
                                 </thead>
+                            </table>
+                            <div class="lista_productos">                                
+                                <table class="table table-sm table-hover">                                
                                     <tbody class="producto_agregados" style="border-top:  0px solid black; color: black; background: white; overflow: scroll;">
                                     </tbody>
                                 </table>
