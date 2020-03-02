@@ -428,7 +428,7 @@ include("asstes/pos_orden.php");
                         <div class="row">
                             <div class="col-md-12" style="width: 100%; background: #2D3B48/*#0f4871*/;text-align: center;color: white;">
 
-                                <span style="font-size: 50px;">
+                                <span style="font-size: 40px;">
                                     <?php echo $moneda[0]->moneda_simbolo; ?> <span class="total_msg">0.00</span>
                                 </span>
                             </div>

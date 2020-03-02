@@ -2230,7 +2230,7 @@
                     tr_html += "<td class='border-table-left'>" + contador_tabla + "</td>";
                     tr_html += "<td class=''>" + element.producto + "</td>";
                     tr_html += "<td class=''>" + element.descripcion + "</td>";
-                    tr_html += "<td class=''><input type='text' class='form-control cntProducto' size='2' id='" + element.producto + "' value='" + element.cantidad + "' style='border:1px solid orange;width:60px;'></input></td>";
+                    tr_html += "<td class=''><input type='text' class='form-control cntProducto' size='3' id='" + element.producto + "' value='" + element.cantidad + "' style='border:1px solid orange;width:90px;'></input></td>";
                     tr_html += "<td class=''>" + element.presentacion + "</td>";
                     tr_html += "<td class=''>" + element.presentacionFactor + "</td>";
                     tr_html += "<td class=''><input type='text' class='form-control preProducto' size='4' id='" + element.producto + "' value='" + precio_tag.toFixed(2) + "' style='border:1px solid blue;'></input></td>";
