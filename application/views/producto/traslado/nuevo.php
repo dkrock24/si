@@ -320,7 +320,7 @@ include("asstes/traslados_funciones.php");
                                     <div class="panel-body">
                                         <div class="row">
 
-                                            <div class="col-lg-6 col-md-6">
+                                            <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label><i class="fa fa-comment sz"></i> Comentarios</label>
                                                     <input type="text" name="descripcion_tras" class="form-control">
@@ -332,7 +332,22 @@ include("asstes/traslados_funciones.php");
                                                     <label><i class="fa fa-truck sz"></i> Placa Transporte</label>
                                                     <input type="text" name="transporte_placa" class="form-control">
                                                 </div>
-                                            </div>                                           
+                                            </div>    
+                                            
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
+                                                    <label><i class="fa fa-file-o sz"></i> Documento</label>                                                    
+                                                    <select name="documento" class="form-control">
+                                                        <?php
+                                                        foreach ($vista_doc as $key => $value) {
+                                                            ?>
+                                                            <option value="<?= $value->id_tipo_documento ?>"><?= $value->nombre ?></option>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
 
                                             <div class="btn-group col-lg-3 col-md-3">
                                                 <div class="form-group has-success">

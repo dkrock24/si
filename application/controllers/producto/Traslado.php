@@ -15,10 +15,7 @@ class Traslado extends MY_Controller {
 
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
-		$this->load->helper('paginacion/paginacion_helper');
-
-		
-		
+		$this->load->helper('paginacion/paginacion_helper');	
 	}
 
 	public function index()
@@ -53,6 +50,7 @@ class Traslado extends MY_Controller {
 		$data['menu'] 	    = $this->session->menu;			
 
 		$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
+		$data['vista_doc']		= $this->Vistas_model->get_vista_documento($vista = 88);
 		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 		$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );			
 		$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
@@ -145,7 +143,7 @@ class Traslado extends MY_Controller {
 	public function aceptar(){
 		
 		if(isset($_POST)){
-			$data['traslado'] 	= $this->Traslado_model->aceptar_traslado($_POST);
+			$this->Traslado_model->aceptar_traslado($_POST);
 		}
 		redirect(base_url()."producto/traslado/index");
 		

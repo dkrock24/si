@@ -85,7 +85,7 @@ class Traslado_model extends CI_Model
 			'bodega_origen' 	=> $registros['bodega_origen'],
 			'sucursal_destino' 	=> $registros['sucursal_destino'],
 			'bodega_destino' 	=> $registros['bodega_destino'],
-			'doc_tras' 			=> 17,
+			'doc_tras' 			=> $registros['documento'],
 			'descripcion_tras' 	=> $registros['descripcion_tras'],
 			'creado_tras' 		=> date("Y-m-d H:i:s"),
 			'Empresa' 			=> $this->session->empresa[0]->id_empresa,
@@ -339,7 +339,7 @@ class Traslado_model extends CI_Model
 		
 		$id 			=  array_keys($datos);
 		$traslado_id 	= $this->get_id_traslado($id[0]);
-		$traslado 		= $this->get_traslado_detalle( $traslado_id[0]->traslado );
+		
 
 		$cambio = array(
 			"estado_tras" => 3
@@ -356,14 +356,15 @@ class Traslado_model extends CI_Model
 
 			$this->db->where('id_tras_detalle', $key );
 			$this->db->update(self::sys_traslados_detalle, $data);						
-		}	
+		}
+		$traslado 		= $this->get_traslado_detalle( $traslado_id[0]->traslado );
 
-		$this->traslado_bodega( $traslado , $datos );
+		$this->traslado_bodega( $traslado );
 	}
 
-	function traslado_bodega($traslado , $datos ){
+	function traslado_bodega($traslado  ){
 
-		foreach ($traslado as $key => $value) {
+		foreach ($traslado as $value) {
 			//echo $value->id_producto_tras." - ". $value->bodega_destino."<br>";
 			$cantidad = $this->get_cantidad_bodega($value->id_producto_tras, $value->bodega_destino);
 			$cantidad_nueva = ($cantidad[0]->Cantidad + $value->cantidad_product_recibido);
@@ -374,7 +375,7 @@ class Traslado_model extends CI_Model
 
 			$this->db->where('Producto', $value->id_producto_tras);
 			$this->db->where('Bodega', $value->bodega_destino);
-			$this->db->update(self::producto_bodega, $data);						
+			$this->db->update(self::producto_bodega, $data);									
 		}
 	}
 

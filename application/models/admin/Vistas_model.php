@@ -62,6 +62,21 @@ class Vistas_model extends CI_Model {
         } 
     }
 
+    function get_vista_documento($vista){
+        $this->db->select('*');
+        $this->db->from(self::sys_vistas.' as v');
+        $this->db->join(self::sys_vistas_documento.' as vd', ' on vd.vista_id = v.id_vista','left');
+        $this->db->join(self::pos_tipo_documento.' as td', ' on td.id_tipo_documento = vd.documento_id','left');
+        $this->db->where('v.id_vista', $vista);
+        $this->db->where('td.Empresa', $this->session->empresa[0]->id_empresa);
+        $query = $this->db->get();           
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function asociar($documento , $vista){
         $data = $this->validAsociar($documento , $vista);
         if(!$data){
