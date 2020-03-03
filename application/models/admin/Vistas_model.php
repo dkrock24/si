@@ -7,6 +7,8 @@ class Vistas_model extends CI_Model {
     const sys_vistas_acceso = 'sys_vistas_acceso';
     const roles = 'sys_role';
     const menus = 'sys_menu_submenu';
+    const sys_vistas_documento = 'sys_vistas_documento';
+    const pos_tipo_documento = 'pos_tipo_documento';
 
 	function get_vistas( $limit, $id ,$filters){
 
@@ -34,8 +36,54 @@ class Vistas_model extends CI_Model {
         $this->db->select('v.*,  count(vc.Vista) as total');
         $this->db->from(self::sys_vistas.' as v');
         $this->db->join(self::sys_vistas_componentes.' as vc', ' on vc.Vista = v.id_vista','left');
-         $this->db->join(self::sys_componentes.' as c', ' on c.id_vista_componente = vc.Componente','left');
+        $this->db->join(self::sys_componentes.' as c', ' on c.id_vista_componente = vc.Componente','left');
         $this->db->group_by('v.id_vista');
+        $this->db->order_by('v.vista_nombre', 'asc');
+        $query = $this->db->get();           
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
+    function get_vista_doc($documento){
+        $this->db->select('*');
+        $this->db->from(self::sys_vistas.' as v');
+        $this->db->join(self::sys_vistas_documento.' as vd', ' on vd.vista_id = v.id_vista','left');
+        $this->db->join(self::pos_tipo_documento.' as td', ' on td.id_tipo_documento = vd.documento_id','left');
+        $this->db->where('vd.documento_id', $documento);
+        $this->db->order_by('v.vista_nombre', 'asc');
+        $query = $this->db->get();           
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
+    function asociar($documento , $vista){
+        $data = $this->validAsociar($documento , $vista);
+        if(!$data){
+            $data = array(
+                'documento_id'  => $documento,
+                'vista_id'      => $vista,
+            );
+            $this->db->insert(self::sys_vistas_documento, $data );
+        }
+    }
+
+    function remover($documento , $vista){
+        $this->db->where("documento_id", $documento );
+        $this->db->where("vista_id", $vista );
+        $this->db->delete(self::sys_vistas_documento );        
+    }
+
+    function validAsociar($documento , $vista){
+        $this->db->select('*');
+        $this->db->from(self::sys_vistas_documento);
+        $this->db->where('documento_id', $documento);
+        $this->db->where('vista_id', $vista);
         $query = $this->db->get();           
         
         if($query->num_rows() > 0 )

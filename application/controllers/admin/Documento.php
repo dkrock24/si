@@ -52,14 +52,26 @@ class Documento extends MY_Controller {
 	{	
 		$id_rol = $this->session->roles;
 
-		$data['menu'] = $this->session->menu;
-		$data['documento'] = $this->Documento_model->getDocumentoById( $documento_id );
-		$data['title'] = "Editar Documento";
-		$data['home'] = 'admin/documento/d_editar';
+		$data['menu'] 		= $this->session->menu;
+		$data['documento'] 	= $this->Documento_model->getDocumentoById( $documento_id );
+		$data['vistas'] 	= $this->Vistas_model->get_all_vistas();
+		$data['vistas_doc'] = $this->Vistas_model->get_vista_doc($documento_id);
+		$data['title'] 		= "Editar Documento";
+		$data['home'] 		= 'admin/documento/d_editar';
 
 		$this->general->editar_valido($data['documento'], "admin/documento/index");
 
 		$this->parser->parse('template', $data);
+	}
+
+	public function asociar($documento , $vista){
+		$data['vistas'] 	= $this->Vistas_model->asociar($documento , $vista);
+		echo 1;
+	}
+
+	public function remover($documento , $vista){
+		$data['vistas'] 	= $this->Vistas_model->remover($documento , $vista);
+		echo 1;
 	}
 
 	public function ver( $id = 0){
