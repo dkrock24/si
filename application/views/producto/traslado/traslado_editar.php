@@ -27,7 +27,7 @@
         $("#prin").click(function(){
             var id = $(this).attr('name');
             var strWindowFeatures = "location=yes,height=670,width=820,scrollbars=yes,status=yes";
-            var URL = "http://localhost:8080/index.php/producto/traslado/print_traslado/"+id;
+            var URL = "../print_traslado/"+id;
             var win = window.open(URL, "_blank", strWindowFeatures);
             //window.open('http://localhost:8080/index.php/producto/traslado/print_traslado/11');
         });
