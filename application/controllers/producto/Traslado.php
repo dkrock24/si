@@ -104,13 +104,12 @@ class Traslado extends MY_Controller {
 	}
 
 	public function print_traslado($traslado_id){
-
 		$id_usuario 	    = $this->session->usuario[0]->id_usuario;		
 		
 		$data['traslado'] 	= $this->Traslado_model->editar_traslado($traslado_id);
 		$data['detalle'] 	= $this->Traslado_model->get_traslado_detalle($traslado_id);
 		$data['empleado'] 	= $this->Usuario_model->get_empleado( $id_usuario );
-		$data['sucursal'] 	= $this->Sucursal_model->getSucursal(  );
+		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
 		$data['bodega'] 	= $this->Bodega_model->get_bodega_sucursal( $data['traslado'][0]->sucursal_destino );
 		$data['moneda'] 	= $this->Moneda_model->get_modena_by_user();
 		$data['cliente'] 	= $this->Cliente_model->get_cliente();	
