@@ -366,6 +366,20 @@ class Traslado_model extends CI_Model
 
 		foreach ($traslado as $value) {
 			//echo $value->id_producto_tras." - ". $value->bodega_destino."<br>";
+
+			// Get Bodega Origen
+			$origen_cantidad = $this->get_cantidad_bodega($value->id_producto_tras, $value->bodega_origen);
+			$origen_nueva = ($origen_cantidad[0]->Cantidad - $value->cantidad_product_recibido);
+
+			$data = array(
+				'Cantidad' 	=> $origen_nueva,
+			);
+
+			$this->db->where('Producto', $value->id_producto_tras);
+			$this->db->where('Bodega', $value->bodega_origen);
+			$this->db->update(self::producto_bodega, $data);	
+
+			// Set bodega Destino
 			$cantidad = $this->get_cantidad_bodega($value->id_producto_tras, $value->bodega_destino);
 			$cantidad_nueva = ($cantidad[0]->Cantidad + $value->cantidad_product_recibido);
 
@@ -375,7 +389,8 @@ class Traslado_model extends CI_Model
 
 			$this->db->where('Producto', $value->id_producto_tras);
 			$this->db->where('Bodega', $value->bodega_destino);
-			$this->db->update(self::producto_bodega, $data);									
+			$this->db->update(self::producto_bodega, $data);		
+
 		}
 	}
 
