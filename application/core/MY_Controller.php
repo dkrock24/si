@@ -54,7 +54,8 @@ class MY_Controller extends CI_Controller
 		$this->load->model('admin/Sucursal_model');
 		$this->load->model('admin/Vistas_model');
         $this->load->model('producto/Venta_model');
-        $this->load->model('producto/Traslado_model');
+		$this->load->model('producto/Traslado_model');
+		$this->load->model('producto/Compras_model');
     }
 
     public function MyPagination($model , $url_page, $vista)
