@@ -45,7 +45,71 @@ class Compras extends MY_Controller {
 
     public function nuevo(){
         
-    }
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;	
+		$data['menu'] 	= $this->session->menu;		
+		$id_usuario 	= $this->session->usuario[0]->id_usuario;	
+
+		$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
+		$data['vista_doc']		= $this->Vistas_model->get_vista_documento($vista = 88);
+		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
+		$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );			
+		$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
+		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
+		$data['cliente'] 		= $this->Cliente_model->get_cliente();
+
+		$data['proveedor']		= $this->Proveedor_model->getAllProveedor();
+		$data['title'] 			= "Nuevo Traslado";
+		$data['home'] 			= 'producto/compras/nuevo';
+
+		$this->parser->parse('template', $data);
+	}
+	
+	function get_impuestos_lista(){
+
+		$data['impuesto_categoria'] = $this->Impuesto_model->getAllImpCat();
+		$data['impuesto_cliente'] 	= $this->Impuesto_model->getAllImpCli();
+		$data['impuesto_documento'] = $this->Impuesto_model->getAllImpDoc();
+		$data['impuesto_proveedor'] = $this->Impuesto_model->getAllImpProv();
+
+		echo json_encode( $data );
+	}
+
+	function get_productos_lista(){
+
+		$sucursal = $_POST['sucursal'];
+		$bodega = $_POST['bodega'];
+		$texto = $_POST['texto'];
+		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal ,$bodega, $texto );
+		
+		echo json_encode( $data );
+	}
+
+	function get_producto_completo($id_producto_detalle, $id_bodega ){
+
+		$combo_conf 		= "combo";
+		$impuesto_conf 		= "impuestos";
+		$descuento_conf		= "descuentos";
+		
+		$data['producto'] 	= $this->Orden_model->get_producto_completo($id_producto_detalle, $id_bodega);		
+		$producto_id 		= $data['producto'][0]->id_entidad;		
+		$contador			= 0;
+		$atributos			= array();
+		
+		foreach ($data['producto'] as $key => $value) {
+
+			//$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
+			$contador+=1;
+		}
+
+		$data['atributos'] 		= $atributos;
+		$data['precios'] 		= $this->Orden_model->get_producto_precios($producto_id);
+		$data['prod_precio'] 	= $this->Orden_model->get_producto_precios( $producto_id );
+		$data['conf'] 			= $this->Orden_model->getConfg($combo_conf);
+		$data['impuesto'] 		= $this->Orden_model->getConfgImpuesto($impuesto_conf);
+		$data['descuentos'] 		= $this->Orden_model->getConfgDescuento($descuento_conf);
+		//$data['producto_imagen'] = $this->Producto_model->get_productos_imagen($producto_id);	
+		echo json_encode( $data );
+	}
 
     public function column(){
 

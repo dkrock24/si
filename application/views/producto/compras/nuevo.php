@@ -21,7 +21,6 @@
     var combo_descuento = 0.00;
     var _conf = [];
     var _impuestos = [];
-
 </script>
 
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
@@ -49,10 +48,6 @@ include("asstes/pos_funciones.php");
                 <!-- START panel-->
                 <form name="encabezado_form" id="encabezado_form" method="post" action="">
 
-                    <!-- Campos de la terminal -->
-                    <input type="hidden" name="terminal_id" value="<?php echo $terminal[0]->id_terminal; ?>" />
-                    <input type="hidden" name="terminal_numero" value="<?php echo $terminal[0]->numero; ?>" />
-                    <!-- Fin Campos de la terminal -->
 
                     <!-- Campos del cliente -->
                     <input type="hidden" name="impuesto" value="" id="impuesto" />
@@ -62,7 +57,7 @@ include("asstes/pos_funciones.php");
                     <div id="panelDemo1" class="panel" style="margin-top: 60px;">
 
                         <a href="index" style="top: 0px;position: relative; text-decoration: none; float: left;">
-                            <button type="button" class="mb-sm btn btn-pill-right btn-primary btn-outline"> Lista Ordenes </button>
+                            <button type="button" class="mb-sm btn btn-pill-right btn-primary btn-outline"> Lista Compras </button>
                         </a>
 
                         <span style="text-align: left; font-size: 20px;overflow: hidden;margin-left:20px;">
@@ -182,16 +177,7 @@ include("asstes/pos_funciones.php");
                                                         <option value="5">En Espera</option>
                                                     </select>
                                                 </div>
-                                            </div>
-
-                                            <!--
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                  <label>Total a Pagar</label>                                                  
-                                                  <h2><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_msg"></span></h2>
-                                               </div>
-                                            </div>
-                                                -->
+                                            </div>                                           
                                         </div>
                                     </div>
 
@@ -199,11 +185,11 @@ include("asstes/pos_funciones.php");
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Cliente Codigo</label>
+                                                    <label>Proveedor Codigo</label>
                                                     <?php
-                                                    if (isset($cliente[0]->id_cliente)) {
+                                                    if (isset($proveedor[0]->id_proveedor)) {
                                                     ?>
-                                                        <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $cliente[0]->id_cliente ?>">
+                                                        <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $proveedor[0]->id_proveedor ?>">
                                                         <select multiple="" class="form-control cliente_codigo2" id="cliente_codigo2" name="abc"></select>
                                                     <?php
                                                     } else {
@@ -214,11 +200,11 @@ include("asstes/pos_funciones.php");
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Cliente Nombre</label>
+                                                    <label>Proveedor Nombre</label>
                                                     <?php
-                                                    if (isset($cliente[0]->id_cliente)) {
+                                                    if (isset($proveedor[0]->id_proveedor)) {
                                                     ?>
-                                                        <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania ?>">
+                                                        <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $proveedor[0]->empresa_proveedor ?>">
                                                     <?php
                                                     } else {
                                                         echo "No Hay Cliente";
@@ -228,17 +214,16 @@ include("asstes/pos_funciones.php");
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Cliente Direccion</label>
+                                                    <label>Cliente NRC</label>
                                                     <?php
-                                                    if (isset($cliente[0]->id_cliente)) {
+                                                    if (isset($proveedor[0]->id_proveedor)) {
                                                     ?>
-                                                        <input type="text" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $cliente[0]->direccion_cliente ?>">
+                                                        <input type="text" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $proveedor[0]->nrc ?>">
                                                     <?php
                                                     } else {
                                                         echo "No Hay Cliente";
                                                     }
                                                     ?>
-
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3">
@@ -271,7 +256,7 @@ include("asstes/pos_funciones.php");
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Fecha</label>
+                                                    <label>Fecha Compra</label>
                                                     <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                                 </div>
                                             </div>
@@ -391,35 +376,35 @@ include("asstes/pos_funciones.php");
                                     <span>
                                         Can.<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;">
                                         Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display:inline-block;">
-                                    </span>                                   
+                                    </span>
 
                                 </div>
                             </div>
 
-                         
+
                         </table>
                         <table class="table table-sm table-hover">
-                                <thead class="bg-info-dark" style="background: #cfdbe2;">
-                                            <tr>
-                                                <th style="color: black;">#</th>
-                                                <th style="color: black;">Producto</th>
-                                                <th style="color: black;">Descripción</th>
-                                                <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ] </th>
-                                                <th style="color: black;">Presentación</th>
-                                                <th style="color: black;">Factor</th>
-                                                <th style="color: black;">Precio Unidad</th>
-                                                <th style="color: black;">Descuento [ : ]</th>
-                                                <th style="color: black;">Total</th>
-                                                <th style="color: black;">Bodega</th>
-                                                <th style="color: black;">
-                                                    <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
-                                                </th>
-                                            </tr>
-                                    </thead>
-                            </table>
+                            <thead class="bg-info-dark" style="background: #cfdbe2;">
+                                <tr>
+                                    <th style="color: black;">#</th>
+                                    <th style="color: black;">Producto</th>
+                                    <th style="color: black;">Descripción</th>
+                                    <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ] </th>
+                                    <th style="color: black;">Presentación</th>
+                                    <th style="color: black;">Factor</th>
+                                    <th style="color: black;">Precio Unidad</th>
+                                    <th style="color: black;">Descuento [ : ]</th>
+                                    <th style="color: black;">Total</th>
+                                    <th style="color: black;">Bodega</th>
+                                    <th style="color: black;">
+                                        <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
 
-                        <div class="lista_productos" style="height:400px;">                           
-                            <table class="table table-sm table-hover" id="lista_productos">                            
+                        <div class="lista_productos" style="height:400px;">
+                            <table class="table table-sm table-hover" id="lista_productos">
                                 <tbody class="producto_agregados" style="border-top:  0px solid black" id="prod_list">
                                 </tbody>
                             </table>
