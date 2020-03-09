@@ -75,22 +75,19 @@ class Compras extends MY_Controller {
 	}
 
 	function get_productos_lista(){
-
-		$sucursal = $_POST['sucursal'];
-		$bodega = $_POST['bodega'];
 		$texto = $_POST['texto'];
-		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal ,$bodega, $texto );
+		$data['productos'] = $this->Compras_model->get_productos_valor($texto);
 		
 		echo json_encode( $data );
 	}
 
-	function get_producto_completo($id_producto_detalle, $id_bodega ){
+	function get_producto_completo($id_producto_detalle ){
 
 		$combo_conf 		= "combo";
 		$impuesto_conf 		= "impuestos";
 		$descuento_conf		= "descuentos";
 		
-		$data['producto'] 	= $this->Orden_model->get_producto_completo($id_producto_detalle, $id_bodega);		
+		$data['producto'] 	= $this->Compras_model->get_producto_completo($id_producto_detalle);		
 		$producto_id 		= $data['producto'][0]->id_entidad;		
 		$contador			= 0;
 		$atributos			= array();

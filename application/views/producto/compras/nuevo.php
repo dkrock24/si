@@ -26,7 +26,7 @@
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
 <?php
-include("asstes/pos_funciones.php");
+include("asstes/js/compras/pos_funciones.php");
 ?>
 <script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
 
@@ -290,10 +290,10 @@ include("asstes/pos_funciones.php");
                                             <div class="col-lg-3 col-md-3">
 
                                             </div>
-
+<!--
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Vendedor</label><br>
+                                                    <label>Comprador</label><br>
                                                     <div class="pull-left">
                                                         <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo @$empleado[0]->id_empleado; ?>">
                                                         <h3><a href="#" class="vendedores_lista1" id="<?php echo @$empleado[0]->id_sucursal; ?>"><?php echo @$empleado[0]->primer_nombre_persona . " " . @$empleado[0]->primer_apellido_persona; ?></a></h3>
@@ -302,7 +302,7 @@ include("asstes/pos_funciones.php");
                                                     </div>
                                                 </div>
                                             </div>
-
+                                                    -->
 
                                         </div>
                                     </div>
@@ -351,10 +351,10 @@ include("asstes/pos_funciones.php");
                                     <?php
                                     }
                                     ?>
-
+<!--
                                     <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
                                     <span class="btn bg-green" id="btn_discount" style="font-size: 18px;"><i class="fa fa-percent" aria-hidden="true"></i> <span style="font-size:18;">[ F9 ]</span></span>
-
+                                -->
 
                                     <div class="btn-group">
                                         <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
@@ -375,7 +375,7 @@ include("asstes/pos_funciones.php");
                                     </div>
                                     <span>
                                         Can.<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;">
-                                        Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display:inline-block;">
+                                        <!--Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display:inline-block;">-->
                                     </span>
 
                                 </div>
@@ -392,10 +392,8 @@ include("asstes/pos_funciones.php");
                                     <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ] </th>
                                     <th style="color: black;">Presentación</th>
                                     <th style="color: black;">Factor</th>
-                                    <th style="color: black;">Precio Unidad</th>
-                                    <th style="color: black;">Descuento [ : ]</th>
-                                    <th style="color: black;">Total</th>
-                                    <th style="color: black;">Bodega</th>
+                                    <th style="color: black;">Precio Unidad</th>                                    
+                                    <th style="color: black;">Total</th>                                    
                                     <th style="color: black;">
                                         <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
                                     </th>
