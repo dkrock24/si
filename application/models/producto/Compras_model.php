@@ -1,7 +1,7 @@
 <?php
 class Compras_model extends CI_Model
 {
-	const sys_compras = "sys_compras";
+	const pos_compras = "pos_compras";
 	const sys_traslados = "sys_traslados";
 	const sys_traslados_detalle = "sys_traslados_detalle";
 
@@ -67,5 +67,29 @@ class Compras_model extends CI_Model
 		WHERE pde.id_producto_detalle = " . $producto_id);
 			//echo $this->db->queries[0];
 		return $query->result();
+	}
+
+	function guardar_compra($datos){
+
+		$usuario_id = $this->session->usuario[0]->id_empleado;
+		$fecha 		 = date_create();		
+
+		foreach ($datos['encabezado'] as $key => $value) {
+			$compra[$value['name']] = $value['value'];
+		}
+		
+		$data = array(
+			'Usuario' 		=> $usuario_id,
+			'Empleado' 		=> $compra['empleado'],
+			'Sucursal' 		=> $compra['sucursal'],
+			'Bodega' 		=> $compra['bodega'],
+			'Proveedor' 	=> $compra['proveedor'],
+			'numero_serie' 	=> date_timestamp_get($fecha),
+			'fecha_compra' 	=> $compra['fecha_compra'],
+			'Tipo_Documento'=> $compra['id_tipo_documento'],
+            'fecha_creacion'=> date("Y-m-d h:i:s"),
+			'status_open_close' => 1,
+        );
+        $result = $this->db->insert(self::pos_compras, $data ); 
 	}
 }

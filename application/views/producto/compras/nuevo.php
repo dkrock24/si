@@ -21,6 +21,63 @@
     var combo_descuento = 0.00;
     var _conf = [];
     var _impuestos = [];
+
+
+    $(document).ready(function() {
+
+        $("#persona_modal").appendTo("body");
+
+        $(document).on('click', '#firma_llegada', function() {
+            $('#persona_modal').modal('show');
+            accion = $(this).attr("id");
+            get_encargado_lista();
+        });
+
+        // Seleccionar Persona
+        function get_encargado_lista() {
+
+            var table = "<table class='table table-sm table-hover'>";
+            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
+            table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
+            var table_tr = "<tbody id='list'>";
+            var contador_precios = 1;
+
+            $.ajax({
+                url: "../../admin/empleado/get_persona",
+                datatype: 'json',
+                cache: false,
+
+                success: function(data) {
+                    var datos = JSON.parse(data);
+                    var persona = datos["persona"];
+
+                    $.each(persona, function(i, item) {
+
+                        table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.cel + '</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_persona" id="' + item.id_persona + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
+                        contador_precios++;
+                    });
+                    table += table_tr;
+                    table += "</tbody></table>";
+
+                    $(".cliente_lista_datos").html(table);
+
+                },
+                error: function() {}
+            });
+        }
+
+        // Seleccionar Persona
+        $(document).on('click', '.seleccionar_persona', function() {
+            var id = $(this).attr("id");
+            var name = $(this).attr("name");
+
+            $("#recibe_nombre").val(id);
+            $("#firma_llegada").val(name);
+
+
+        });
+
+    });
 </script>
 
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
@@ -88,13 +145,13 @@ include("asstes/js/compras/pos_funciones.php");
                                                 <div class="form-group has-success">
                                                     <label>Tipo Documento</label>
                                                     <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
-                                                    <?php
+                                                        <?php
                                                         foreach ($vista_doc as $key => $value) {
-                                                            ?>
+                                                        ?>
                                                             <option value="<?= $value->id_tipo_documento ?>"><?= $value->nombre ?></option>
-                                                            <?php
+                                                        <?php
                                                         }
-                                                    ?>
+                                                        ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -102,7 +159,7 @@ include("asstes/js/compras/pos_funciones.php");
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label>Sucursal Destino</label>
-                                                    <select class="form-control" name="sucursal_destino" id="sucursal_id">
+                                                    <select class="form-control" name="sucursal" id="sucursal_id">
                                                         <?php
                                                         $id_sucursal = 0;
 
@@ -158,7 +215,7 @@ include("asstes/js/compras/pos_funciones.php");
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label>Fecha Compra</label>
-                                                    <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
+                                                    <input type="date" name="fecha_compra" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -172,7 +229,7 @@ include("asstes/js/compras/pos_funciones.php");
                                                     <?php
                                                     if (isset($proveedor[0]->id_proveedor)) {
                                                     ?>
-                                                        <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $proveedor[0]->id_proveedor ?>">
+                                                        <input type="text" name="proveedor" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $proveedor[0]->id_proveedor ?>">
                                                         <select multiple="" class="form-control cliente_codigo2" id="cliente_codigo2" name="abc"></select>
                                                     <?php
                                                     } else {
@@ -212,30 +269,19 @@ include("asstes/js/compras/pos_funciones.php");
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Sucursal Origin</label>
-                                                    <select class="form-control" name="sucursal_origin" id="sucursal_id2">
-                                                        <?php
-                                                        $id_sucursal = 0;
-                                                        $id_sucursal = $empleado[0]->id_sucursal;
-                                                        foreach ($empleado as $sucursal) {
+                                                    <label><i class="fa fa-user sz"></i> Empleado :</label>
+                                                    <input type="hidden" class="form-control" name="empleado" id="recibe_nombre" />
+                                                    <input type="text" class="form-control" name="empleado2" id="firma_llegada" />
 
-                                                        ?>
-                                                            <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                            <?php
-                                                        }
-
-                                                        foreach ($sucursales as $sucursal) {
-                                                            if ($sucursal->id_sucursal != $id_sucursal) {
-                                                            ?>
-                                                                <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                        <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </select>
                                                 </div>
-                                            </div>
-                                           
+                                            </div>                                            
+
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            
                                         </div>
                                     </div>
                                 </p>
@@ -275,7 +321,7 @@ include("asstes/js/compras/pos_funciones.php");
                                     <?php
                                     if (isset($tipoDocumento) && isset($sucursales) && isset($bodega) && isset($cliente)) {
                                     ?>
-                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="guardar_orden" id="guardar_orden"><i class='fa fa-save'></i> </button>
+                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="guardar_compra" id="guardar_orden"><i class='fa fa-save'></i> </button>
                                     <?php
                                     } else {
                                     ?>
@@ -283,7 +329,7 @@ include("asstes/js/compras/pos_funciones.php");
                                     <?php
                                     }
                                     ?>
-<!--
+                                    <!--
                                     <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
                                     <span class="btn bg-green" id="btn_discount" style="font-size: 18px;"><i class="fa fa-percent" aria-hidden="true"></i> <span style="font-size:18;">[ F9 ]</span></span>
                                 -->
@@ -324,8 +370,8 @@ include("asstes/js/compras/pos_funciones.php");
                                     <th style="color: black;">Cantidad </th>
                                     <th style="color: black;">Presentación</th>
                                     <th style="color: black;">Factor</th>
-                                    <th style="color: black;">Precio Unidad</th>                                    
-                                    <th style="color: black;">Total</th>                                    
+                                    <th style="color: black;">Precio Unidad</th>
+                                    <th style="color: black;">Total</th>
                                     <th style="color: black;">
                                         <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
                                     </th>
@@ -741,6 +787,30 @@ include("asstes/js/compras/pos_funciones.php");
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-success bg-green btn_aut_desc" name="5">Autorizar</button>
                 <button type="button" data-dismiss="modal" class="btn btn-warning">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Small-->
+
+<!-- Modal Large CLIENTES MODAL-->
+<div id="persona_modal" tabindex="-1" role="dialog" aria-labelledby="persona_modal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 id="myModalLabelLarge" class="modal-title">Buscar Persona</h4>
+            </div>
+            <div class="modal-body">
+                <p class="cliente_lista_datos">
+
+                </p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
             </div>
         </div>
     </div>
