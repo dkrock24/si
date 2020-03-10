@@ -50,7 +50,7 @@ class Compras extends MY_Controller {
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;	
 
 		$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
-		$data['vista_doc']		= $this->Vistas_model->get_vista_documento($vista = 88);
+		$data['vista_doc']		= $this->Vistas_model->get_vista_documento($vista = 89);
 		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 		$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );			
 		$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
@@ -58,7 +58,7 @@ class Compras extends MY_Controller {
 		$data['cliente'] 		= $this->Cliente_model->get_cliente();
 
 		$data['proveedor']		= $this->Proveedor_model->getAllProveedor();
-		$data['title'] 			= "Nuevo Traslado";
+		$data['title'] 			= "Nueva Compra";
 		$data['home'] 			= 'producto/compras/nuevo';
 
 		$this->parser->parse('template', $data);
@@ -105,6 +105,13 @@ class Compras extends MY_Controller {
 		$data['impuesto'] 		= $this->Orden_model->getConfgImpuesto($impuesto_conf);
 		$data['descuentos'] 		= $this->Orden_model->getConfgDescuento($descuento_conf);
 		//$data['producto_imagen'] = $this->Producto_model->get_productos_imagen($producto_id);	
+		echo json_encode( $data );
+	}
+
+	function get_proveedor_lista($proveedor_texto){
+		
+		$data['clientes'] = $this->Proveedor_model->get_proveedor_filtro($proveedor_texto);
+
 		echo json_encode( $data );
 	}
 

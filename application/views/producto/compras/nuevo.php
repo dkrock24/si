@@ -88,23 +88,13 @@ include("asstes/js/compras/pos_funciones.php");
                                                 <div class="form-group has-success">
                                                     <label>Tipo Documento</label>
                                                     <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
-                                                        <?php
-                                                        if ($tipoDocumento) {
-                                                            foreach ($tipoDocumento as $documento) {
-                                                                $doc = strtoupper($documento->nombre);
-                                                                if (strpos($doc, 'ORDEN') !== FALSE) {
-                                                        ?>
-                                                                    <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
-                                                            <?php
-                                                                }
-                                                            }
-                                                        } else {
+                                                    <?php
+                                                        foreach ($vista_doc as $key => $value) {
                                                             ?>
-                                                            <option value="">No Hay Documento</option>
-                                                        <?php
+                                                            <option value="<?= $value->id_tipo_documento ?>"><?= $value->nombre ?></option>
+                                                            <?php
                                                         }
-
-                                                        ?>
+                                                    ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -137,7 +127,7 @@ include("asstes/js/compras/pos_funciones.php");
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Bodega</label>
+                                                    <label>Bodega Destino</label>
                                                     <select class="form-control" name="bodega" id="bodega_select">
                                                         <?php
 
@@ -165,19 +155,12 @@ include("asstes/js/compras/pos_funciones.php");
                                                 </div>
                                             </div>
 
-                                            <div class="btn-group col-lg-3 col-md-3">
+                                            <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Estado Orden</label>
-                                                    <select name="orden_estado" id="orden_estado" class="form-control">
-                                                        <option value="1">En proceso</option>
-                                                        <option value="6">Cancelado</option>
-                                                        <option value="2">En Reservaa</option>
-                                                        <option value="3">Procesadaa</option>
-                                                        <option value="4">Facturada</option>
-                                                        <option value="5">En Espera</option>
-                                                    </select>
+                                                    <label>Fecha Compra</label>
+                                                    <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                                 </div>
-                                            </div>                                           
+                                            </div>
                                         </div>
                                     </div>
 
@@ -214,7 +197,7 @@ include("asstes/js/compras/pos_funciones.php");
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Cliente NRC</label>
+                                                    <label>Proveedor NRC</label>
                                                     <?php
                                                     if (isset($proveedor[0]->id_proveedor)) {
                                                     ?>
@@ -224,40 +207,6 @@ include("asstes/js/compras/pos_funciones.php");
                                                         echo "No Hay Cliente";
                                                     }
                                                     ?>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Forma Pago</label>
-                                                    <select class="form-control" id="modo_pago_id" name="modo_pago_id">
-                                                        <?php
-                                                        if ($modo_pago) {
-                                                            foreach ($modo_pago as $value) {
-                                                        ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
-                                                                                                                                                            }
-                                                                                                                                                        } else {
-                                                                                                                                                                ?><option value=""><?php echo "No Hay Pagos"; ?></option><?php
-                                                                                                                                                                                                                        }
-                                                                                                                                                                                                                            ?>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Comentarios</label>
-                                                    <input type="text" name="comentarios" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Fecha Compra</label>
-                                                    <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                                 </div>
                                             </div>
 
@@ -286,24 +235,7 @@ include("asstes/js/compras/pos_funciones.php");
                                                     </select>
                                                 </div>
                                             </div>
-
-                                            <div class="col-lg-3 col-md-3">
-
-                                            </div>
-<!--
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Comprador</label><br>
-                                                    <div class="pull-left">
-                                                        <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo @$empleado[0]->id_empleado; ?>">
-                                                        <h3><a href="#" class="vendedores_lista1" id="<?php echo @$empleado[0]->id_sucursal; ?>"><?php echo @$empleado[0]->primer_nombre_persona . " " . @$empleado[0]->primer_apellido_persona; ?></a></h3>
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                                    -->
-
+                                           
                                         </div>
                                     </div>
                                 </p>
@@ -389,7 +321,7 @@ include("asstes/js/compras/pos_funciones.php");
                                     <th style="color: black;">#</th>
                                     <th style="color: black;">Producto</th>
                                     <th style="color: black;">Descripción</th>
-                                    <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ] </th>
+                                    <th style="color: black;">Cantidad </th>
                                     <th style="color: black;">Presentación</th>
                                     <th style="color: black;">Factor</th>
                                     <th style="color: black;">Precio Unidad</th>                                    
@@ -482,34 +414,7 @@ include("asstes/js/compras/pos_funciones.php");
         </div>
     </div>
 
-    <div class="row bg-red" style="position: fixed;bottom: 0px; width: 100%;">
-        <div class="col-lg-12 col-md-12 abajo" style="height: 50px;">
-            <!--
-            <span 
-                class="btn btn-info" 
-                data-toggle="modal" 
-                data-target="#documentoModel" 
-                style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F1
-                <i class="icon-settings"></i>
-            </span>
-            -->
 
-            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F2
-                <i class="icon-grid"></i>
-            </span>
-
-            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F3
-                <i class="icon-trash"></i>
-            </span>
-            <!--
-            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
-                <i class="fa fa-credit-card"></i>
-            </span>2
-            -->
-
-
-        </div>
-    </div>
 
 </section>
 

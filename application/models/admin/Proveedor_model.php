@@ -4,6 +4,14 @@ class Proveedor_model extends CI_Model {
     const sys_persona =  'sys_persona';
     const pos_proveedor = 'pos_proveedor';
     const pos_linea = 'pos_linea';
+    const cliente =  'pos_cliente';
+    const cliente_tipo = 'pos_cliente_tipo';
+    const formas_pago =  'pos_formas_pago';
+    const tipos_documentos =  'pos_tipo_documento';
+    const pos_tipo_documento = 'pos_tipo_documento';
+    const pos_formas_pago = 'pos_formas_pago';
+    const pos_fp_cliente = 'pos_formas_pago_cliente';
+    const pos_formas_pago_cliente = 'pos_formas_pago_cliente';
 
 	function getAllProveedor(){
 		$this->db->select('*');
@@ -127,5 +135,20 @@ class Proveedor_model extends CI_Model {
         $this->db->where('id_proveedor', $datos['id_proveedor'] ); 
         $result = $this->db->update(self::pos_proveedor, $data ); 
         return $result;
+    }
+
+    function get_proveedor_filtro($proveedor){
+        $this->db->select('id_proveedor,empresa_proveedor,nrc,nit_empresa,direc_empresa');
+        $this->db->from(self::pos_proveedor.' as pro');
+        $this->db->join(self::sys_persona . ' as p', ' on p.id_persona = pro.Persona_Proveedor');
+        $this->db->where('pro.estado = 1');
+        $this->db->where('pro.Empresa_id', $this->session->empresa[0]->id_empresa);
+        $this->db->where("(pro.id_proveedor LIKE '%$proveedor%' || pro.empresa_proveedor LIKE '%$proveedor%' || pro.nrc LIKE '%$proveedor%' || pro.nit_empresa LIKE '%$proveedor%') ");
+        $query = $this->db->get();
+        //echo $this->db->queries[0];
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
     }
 }
