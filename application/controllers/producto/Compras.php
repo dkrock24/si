@@ -32,7 +32,7 @@ class Compras extends MY_Controller {
 		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
-		$data['registros'] = $this->Traslado_model->getTraslado( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['registros'] = $this->Compras_model->getCompras( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
 		$data['title'] = "Compras";
 		$data['home'] = 'template/lista_template';		
@@ -62,6 +62,52 @@ class Compras extends MY_Controller {
 		$data['home'] 			= 'producto/compras/nuevo';
 
 		$this->parser->parse('template', $data);
+	}
+
+	public function editar($compra_id){
+
+		$id_usuario 	    = $this->session->usuario[0]->id_usuario;		
+		$data['menu'] 	    = $this->session->menu;	
+		$data['compra'] 	= $this->Compras_model->editar_compra($compra_id);
+		$data['detalle'] 	= $this->Compras_model->get_compra_detalle($compra_id);
+		$data['empleado'] 	= $this->Usuario_model->get_empleado( $id_usuario );
+		$data['sucursal'] 	= $this->Sucursal_model->getSucursal(  );
+		$data['vista_doc']		= $this->Vistas_model->get_vista_documento($vista = 89);
+		$data['proveedor']		= $this->Proveedor_model->getAllProveedor();
+		//$data['bodega'] 	= $this->Bodega_model->get_bodega_sucursal( $data['compra'][0]->sucursal_origin );
+		//$data['bodega2'] 	= $this->Bodega_model->get_bodega_sucursal( $data['compra'][0]->sucursal_destino );
+		$data['moneda'] 	= $this->Moneda_model->get_modena_by_user();
+		$data['cliente'] 	= $this->Cliente_model->get_cliente();
+
+		$data['temp'] 		= $this->Compras_model->printer( $data['compra'] );
+		$name 				= $data['compra'][0]->Sucursal.$data['compra'][0]->Empresa;
+		$data['file'] 		= $name;
+
+		//$mpdf = new \Mpdf\Mpdf();
+		//$html = file_get_contents("asstes/temp/".$name.".php");
+
+		//$mpdf->WriteHTML($html);
+		//$mpdf->Output();
+
+		$data['msj_title'] = "Compra Creado Correctamente";
+		$data['msj_orden'] = "Transación: # ". $data['compra'][0]->numero_serie ;
+
+		$this->generarDocumento( $name , $data['temp'][0]->factura_template );
+		
+		$data['home'] = 'producto/compras/compra_editar';
+		$this->parser->parse('template', $data);
+	}
+
+	public function autoload_traslado(){
+		$id = $_POST['id'];
+		$componente_conf = "combo";		
+		$impuesto_conf 	 = "impuestos";
+
+		$data['traslado'] 	= $this->Compras_model->get_compra_detalle($id);
+		$data['conf'] 		= $this->Orden_model->getConfg($componente_conf);
+		$data['impuesto'] 	= $this->Orden_model->getConfgImpuesto($impuesto_conf);
+
+		echo json_encode($data);
 	}
 
 	function guardar_compra(){
@@ -123,7 +169,7 @@ class Compras extends MY_Controller {
     public function column(){
 
 		$column = array(
-			'Correlativo','Firma Salida','Firma Llegada','Salida','Llegada','Placa','Descripcion','Creado','Estado'
+			'Series','Compra','Sucursal','Bodega','Proveedor','Documento','Creado','Estado'
 		);
 		return $column;
 	}
@@ -131,11 +177,11 @@ class Compras extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'correlativo_tras','envia','recibe','fecha_salida','fecha_llegada','transporte_placa','descripcion_tras','creado_tras','estado'
+			'numero_serie','fecha_compra','nombre_sucursal','nombre_bodega','empresa_proveedor','Documento','fecha_creacion','estado'
 		);
 		
-		$fields['id'] 		= array('id_tras');
-		$fields['estado'] 	= array('estado_tras');
+		$fields['id'] 		= array('id_compras');
+		$fields['estado'] 	= array('status_open_close');
 		$fields['titulo'] 	= "Compras Lista";
 		$fields['estado_alterno'] 	= "Completado";
 

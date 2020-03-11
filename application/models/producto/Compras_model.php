@@ -1,24 +1,36 @@
 <?php
 class Compras_model extends CI_Model
 {
+	const producto =  'producto';
+	const producto_detalle = 'prouducto_detalle';
+	const pos_bodega = "pos_bodega";
 	const pos_compras = "pos_compras";
 	const pos_compras_detalle = "pos_compras_detalle";
 	const sys_traslados = "sys_traslados";
 	const sys_traslados_detalle = "sys_traslados_detalle";
+	const pos_doc_temp = 'pos_doc_temp';
+	const pos_temp_suc = 'pos_temp_sucursal';
+	const sucursal = 'pos_sucursal';
+	const pos_empresa = 'pos_empresa';
+	const pos_tipo_documento = 'pos_tipo_documento';
 
-	function getTraslado($limit, $id, $filters)
+	function getCompras($limit, $id, $filters)
 	{
 		if ($filters) {
 			$filters = " and " . $filters;
 		}
-		$query = $this->db->query("select t.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
-			CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2
-			from sys_traslados as t
-			left join sys_persona as p On p.id_persona = t.firma_llegada 
-			left join sys_persona as p2 On p2.id_persona = t.firma_salida
-			
-			where  t.Empresa ="
-			. $this->session->empresa[0]->id_empresa . $filters . " ORDER BY id_tras desc Limit " . $id . ',' . $limit);
+		$query = $this->db->query("select c.*,s.*,b.*,prov.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
+			CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2,
+			td.nombre as Documento
+			from pos_compras as c
+			left join sys_persona as p On p.id_persona = c.Usuario 
+			left join sys_persona as p2 On p2.id_persona = c.Empleado
+			left join pos_sucursal as s On  s.id_sucursal = c.Sucursal
+			left join pos_bodega as b On b.Sucursal = s.id_sucursal
+			left join pos_proveedor as prov On prov.id_proveedor = c.Proveedor
+			left join pos_tipo_documento as td On td.id_tipo_documento = c.Tipo_Documento			
+			where  c.Empresa ="
+			. $this->session->empresa[0]->id_empresa . $filters . " ORDER BY id_compras desc Limit " . $id . ',' . $limit);
 
 		//echo $this->db->queries[1];
 		return $query->result();
@@ -27,7 +39,7 @@ class Compras_model extends CI_Model
 	function record_count($filter)
 	{
 		$this->db->where('Empresa', $this->session->empresa[0]->id_empresa . ' ' . $filter);
-		$this->db->from(self::sys_traslados);
+		$this->db->from(self::pos_compras);
 
 		$result = $this->db->count_all_results();
 		return $result;
@@ -106,7 +118,7 @@ class Compras_model extends CI_Model
 
 		$data = array(
 			'id_compra' 			=> $compra_id,
-			'id_producto' 			=> $datos['producto2'],			
+			'id_producto' 			=> $datos['producto_id'],			
 			'total_pro_compra' 		=> $datos['total'],
 			'id_producto_detalle' 	=> $datos['id_producto_detalle'],
 			'presentacionPrecio' 	=> $datos['presentacionPrecio'],
@@ -114,5 +126,62 @@ class Compras_model extends CI_Model
 			'cantidad_pro_compra'	=> $datos['cantidad']
         );
 		$this->db->insert(self::pos_compras_detalle, $data ); 
+	}
+
+	function editar_compra($compra_id)
+	{
+		$query = $this->db->query("select c.*,s.*,b.*,prov.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
+				CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2,
+				td.nombre as Documento
+				from pos_compras as c
+				left join sys_persona as p On p.id_persona = c.Usuario 
+				left join sys_persona as p2 On p2.id_persona = c.Empleado
+				left join pos_sucursal as s On  s.id_sucursal = c.Sucursal
+				left join pos_bodega as b On b.Sucursal = s.id_sucursal
+				left join pos_proveedor as prov On prov.id_proveedor = c.Proveedor
+				left join pos_tipo_documento as td On td.id_tipo_documento = c.Tipo_Documento			
+				where  c.Empresa =" . $this->session->empresa[0]->id_empresa . ' and c.id_compras = ' . $compra_id );
+
+		//echo $this->db->queries[1];
+		return $query->result();
+	}
+
+	function get_compra_detalle( $id ){
+
+		$valores =   $id;
+		
+		$this->db->select('*');
+		$this->db->from(self::pos_compras . ' as c');
+		$this->db->join(self::pos_compras_detalle . ' as cd',' on c.id_compras = cd.id_compra');
+		$this->db->join(self::producto. ' as p', ' on p.id_entidad = cd.id_producto');
+		$this->db->join(self::producto_detalle. ' as pd', ' on pd.id_producto_detalle = cd.id_producto_detalle');
+		
+		$this->db->where('c.id_compras', $id );
+		$query = $this->db->get();
+		//echo $this->db->queries[1];		
+
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}
+	}
+
+	function printer($data ){
+
+		$this->db->select('*');
+		$this->db->from(self::pos_doc_temp.' as dt');
+		$this->db->join(self::pos_temp_suc.' as st',' on dt.id_factura = st.Template');
+		$this->db->join(self::sucursal.' as s',' on s.id_sucursal = st.Sucursal');		
+		$this->db->join(self::pos_empresa.' as e',' on e.id_empresa = s.Empresa_Suc');		
+		$this->db->join(self::pos_compras.' as c', ' on c.Tipo_Documento = st.Documento');
+        $this->db->join(self::pos_tipo_documento.' as d',' on d.id_tipo_documento = st.Documento');
+        $this->db->where('st.Sucursal', $data[0]->Sucursal );
+        $this->db->where('st.Documento', $data[0]->Tipo_Documento );
+        $this->db->limit(1);
+		$query = $this->db->get();
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
 	}
 }

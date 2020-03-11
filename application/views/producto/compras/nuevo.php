@@ -279,11 +279,7 @@ include("asstes/js/compras/pos_funciones.php");
                                         </div>
                                     </div>
 
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            
-                                        </div>
-                                    </div>
+                                   
                                 </p>
                             </div>
                         </div>
