@@ -274,12 +274,70 @@ include("asstes/js/compras/pos_funciones.php");
                                                     <input type="text" class="form-control" name="empleado2" id="firma_llegada" />
 
                                                 </div>
-                                            </div>                                            
+                                            </div>
 
                                         </div>
                                     </div>
 
-                                   
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
+                                                    <label>Forma Pago</label>
+                                                    <select class="form-control" id="modo_pago_id" name="modo_pago_id">
+                                                        <?php
+                                                        if ($modo_pago) {
+                                                            foreach ($modo_pago as $value) {
+                                                        ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
+                                                                                                                                                            }
+                                                                                                                                                        } else {
+                                                                                                                                                                ?><option value=""><?php echo "No Hay Pagos"; ?></option><?php
+                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                            ?>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
+                                                    <label>Proveedor Nombre</label>
+                                                    <?php
+                                                    if (isset($proveedor[0]->id_proveedor)) {
+                                                    ?>
+                                                        <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $proveedor[0]->empresa_proveedor ?>">
+                                                    <?php
+                                                    } else {
+                                                        echo "No Hay Cliente";
+                                                    }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
+                                                    <label>Proveedor NRC</label>
+                                                    <?php
+                                                    if (isset($proveedor[0]->id_proveedor)) {
+                                                    ?>
+                                                        <input type="text" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $proveedor[0]->nrc ?>">
+                                                    <?php
+                                                    } else {
+                                                        echo "No Hay Cliente";
+                                                    }
+                                                    ?>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
+                                                    <label><i class="fa fa-user sz"></i> Empleado :</label>
+                                                    <input type="hidden" class="form-control" name="empleado" id="recibe_nombre" />
+                                                    <input type="text" class="form-control" name="empleado2" id="firma_llegada" />
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </p>
                             </div>
                         </div>

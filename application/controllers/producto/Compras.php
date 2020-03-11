@@ -57,6 +57,10 @@ class Compras extends MY_Controller {
 		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 		$data['cliente'] 		= $this->Cliente_model->get_cliente();
 
+		if($data['cliente'][0] ){
+			$data['modo_pago'] 	= $this->ModoPago_model->get_pagos_by_cliente(current($data['cliente'][0]));
+		}
+
 		$data['proveedor']		= $this->Proveedor_model->getAllProveedor();
 		$data['title'] 			= "Nueva Compra";
 		$data['home'] 			= 'producto/compras/nuevo';
