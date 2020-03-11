@@ -2,6 +2,7 @@
 class Compras_model extends CI_Model
 {
 	const pos_compras = "pos_compras";
+	const pos_compras_detalle = "pos_compras_detalle";
 	const sys_traslados = "sys_traslados";
 	const sys_traslados_detalle = "sys_traslados_detalle";
 
@@ -90,6 +91,28 @@ class Compras_model extends CI_Model
             'fecha_creacion'=> date("Y-m-d h:i:s"),
 			'status_open_close' => 1,
         );
-        $result = $this->db->insert(self::pos_compras, $data ); 
+		$this->db->insert(self::pos_compras, $data ); 
+
+		$compra_id = $this->db->insert_id();
+
+		$this->guardar_compra_detalle($compra_id ,$datos);
+
+		return $compra_id;
+	}
+
+	function guardar_compra_detalle($compra_id ,$detalle){
+
+		$datos = $detalle['orden'][0];
+
+		$data = array(
+			'id_compra' 			=> $compra_id,
+			'id_producto' 			=> $datos['producto2'],			
+			'total_pro_compra' 		=> $datos['total'],
+			'id_producto_detalle' 	=> $datos['id_producto_detalle'],
+			'presentacionPrecio' 	=> $datos['presentacionPrecio'],
+			'presentacionUnidad' 	=> $datos['presentacionUnidad'],
+			'cantidad_pro_compra'	=> $datos['cantidad']
+        );
+		$this->db->insert(self::pos_compras_detalle, $data ); 
 	}
 }

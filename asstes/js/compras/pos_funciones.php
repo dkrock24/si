@@ -1954,7 +1954,7 @@
                     success: function(data) {
 
                         if (method == "guardar_compra") {
-                            //window.location.href = "editar/" + data;
+                            window.location.href = "editar/" + data;
                         } else if (method == "../venta/guardar_venta") {
                             //location.reload();
                             var datos = JSON.parse(data);

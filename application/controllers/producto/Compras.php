@@ -66,7 +66,7 @@ class Compras extends MY_Controller {
 
 	function guardar_compra(){
 		$data = $this->Compras_model->guardar_compra($_POST);
-		//echo $data;
+		echo $data;
 	}
 	
 	function get_impuestos_lista(){
