@@ -30,7 +30,9 @@ class Compras_model extends CI_Model
 			left join pos_proveedor as prov On prov.id_proveedor = c.Proveedor
 			left join pos_tipo_documento as td On td.id_tipo_documento = c.Tipo_Documento			
 			where  c.Empresa ="
-			. $this->session->empresa[0]->id_empresa . $filters . " ORDER BY id_compras desc Limit " . $id . ',' . $limit);
+			. $this->session->empresa[0]->id_empresa . $filters . " 
+			AND  b.id_bodega = (SELECT bodega FROM pos_compras AS compras WHERE id_compras = c.id_compras)
+			ORDER BY id_compras desc Limit " . $id . ',' . $limit);
 
 		//echo $this->db->queries[1];
 		return $query->result();
@@ -97,9 +99,11 @@ class Compras_model extends CI_Model
 			'Sucursal' 		=> $compra['sucursal'],
 			'Bodega' 		=> $compra['bodega'],
 			'Proveedor' 	=> $compra['proveedor'],
+			'modo_pago_id' 	=> $compra['modo_pago_id'],			
 			'numero_serie' 	=> date_timestamp_get($fecha),
 			'fecha_compra' 	=> $compra['fecha_compra'],
 			'Tipo_Documento'=> $compra['id_tipo_documento'],
+			'Empresa'		=> $this->session->empresa[0]->id_empresa,
             'fecha_creacion'=> date("Y-m-d h:i:s"),
 			'status_open_close' => 1,
         );
