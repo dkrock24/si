@@ -211,17 +211,19 @@ include("asstes/js/compras/pos_funciones.php");
                                                         <?php
                                                         $id_sucursal = 0;
 
-                                                        foreach ($empleado as $sucursal) {
-                                                            $id_sucursal = $sucursal->id_sucursal;
+                                                        foreach ($sucursal as $s) {
+                                                            $id_sucursal = $s->id_sucursal;
+                                                            if ($s->id_sucursal == $compra[0]->Sucursal) {
                                                         ?>
-                                                            <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                                                <option value="<?php echo $s->id_sucursal; ?>"><?php echo $s->nombre_sucursal; ?></option>
                                                             <?php
+                                                            }
                                                         }
 
-                                                        foreach ($sucursales as $sucursal) {
-                                                            if ($sucursal->id_sucursal != $id_sucursal) {
+                                                        foreach ($sucursal as $s) {
+                                                            if ($s->id_sucursal != $compra[0]->Sucursal) {
                                                             ?>
-                                                                <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                                                <option value="<?php echo $s->id_sucursal; ?>"><?php echo $s->nombre_sucursal; ?></option>
                                                         <?php
                                                             }
                                                         }
@@ -237,11 +239,8 @@ include("asstes/js/compras/pos_funciones.php");
                                                         <?php
 
                                                         if (isset($bodega[0]->nombre_bodega)) {
-
                                                             foreach ($bodega as $b) {
-
-                                                                if ($b->Sucursal == $id_sucursal) {
-
+                                                                if ($b->id_bodega == $compra[0]->Bodega) {
                                                         ?>
                                                                     <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
                                                             <?php
@@ -263,7 +262,8 @@ include("asstes/js/compras/pos_funciones.php");
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label>Fecha Compra</label>
-                                                    <input type="date" name="fecha_compra" value="<?php echo date("Y-m-d"); ?>" class="form-control">
+                                                    <input type="date" name="fecha_compra" value="<?php $date = new DateTime($compra[0]->fecha_compra);
+                                                                                                    echo $date->format('Y-m-d'); ?>" class="form-control">
 
                                                 </div>
                                             </div>
@@ -588,7 +588,7 @@ include("asstes/js/compras/pos_funciones.php");
                                 <a href="../nuevo" class="btn btn-default printer">
                                     <h3> <i class="icon-plus"></i> Nueva </h3>
                                 </a>
-                                <a href="#" id="prin" name="<?= $traslado[0]->id_tras ?>" class="btn btn-success" style="color:black">
+                                <a href="#" id="prin" name="<?= $compra[0]->id_compras ?>" class="btn btn-success" style="color:black">
                                     <h3> <i class="icon-printer"></i> Imprimir </h3>
                                 </a>
                                 <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">

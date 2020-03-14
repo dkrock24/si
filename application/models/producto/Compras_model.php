@@ -127,7 +127,15 @@ class Compras_model extends CI_Model
 			'id_producto_detalle' 	=> $datos['id_producto_detalle'],
 			'presentacionPrecio' 	=> $datos['presentacionPrecio'],
 			'presentacionUnidad' 	=> $datos['presentacionUnidad'],
-			'cantidad_pro_compra'	=> $datos['cantidad']
+			'cantidad_pro_compra'	=> $datos['cantidad'],
+			'presentacionFactor'	=> $datos['presentacionFactor'],
+			'presentacionCodBarra'	=> $datos['presentacionCodBarra'],
+			'combo'					=> $datos['combo'],
+			'impuesto_id'			=> $datos['impuesto_id'],
+			'por_iva'				=> $datos['por_iva'],
+			'categoria'				=> $datos['categoria'],
+			'total_anterior'		=> $datos['total_anterior'],
+			'impSuma'				=> $datos['impSuma'],
         );
 		$this->db->insert(self::pos_compras_detalle, $data ); 
 	}
@@ -136,14 +144,15 @@ class Compras_model extends CI_Model
 	{
 		$query = $this->db->query("select c.*,s.*,b.*,prov.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
 				CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2,
-				td.nombre as Documento
+				td.nombre as Documento, emp.*
 				from pos_compras as c
 				left join sys_persona as p On p.id_persona = c.Usuario 
 				left join sys_persona as p2 On p2.id_persona = c.Empleado
 				left join pos_sucursal as s On  s.id_sucursal = c.Sucursal
 				left join pos_bodega as b On b.Sucursal = s.id_sucursal
 				left join pos_proveedor as prov On prov.id_proveedor = c.Proveedor
-				left join pos_tipo_documento as td On td.id_tipo_documento = c.Tipo_Documento			
+				left join pos_tipo_documento as td On td.id_tipo_documento = c.Tipo_Documento
+				left join pos_empresa as emp On emp.id_empresa = c.Empresa
 				where  c.Empresa =" . $this->session->empresa[0]->id_empresa . ' and c.id_compras = ' . $compra_id );
 
 		//echo $this->db->queries[1];

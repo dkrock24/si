@@ -1,29 +1,29 @@
-  <div id="formato">                 
+   <div id="formato">                 
  <table width="100%" style="border:0px dashed black;">
 
 
  <tr>
               <td>EMPRESA:</td>
-              <td colspan=""> <?= $traslado[0]->nombre_razon_social ?> </td>
+              <td colspan=""> <?= $compra[0]->nombre_razon_social ?> </td>
        </tr>
 
      <tr>
           <td style="background:none; width:400px">SUCURSAL:</td>
-          <td colspan=""> <?= $traslado[0]->nombre_sucursal ?> </td>
+          <td colspan=""> <?= $compra[0]->nombre_sucursal ?> </td>
     </tr>
 
          <tr>
-                <td>CORRELATIVO: <?= $traslado[0]->correlativo_tras ?> </td>
+                <td>CORRELATIVO: <?= $compra[0]->correlativo_tras ?> </td>
                   <td> </td>
          </tr>
         <tr>
-               <td> ENVIA : <?= $traslado[0]->envia ?>   </td>
-                <td> RECIBE :  <?= $traslado[0]->recibe ?> </td>
+               <td> ENVIA : <?= $compra[0]->envia ?>   </td>
+                <td> RECIBE :  <?= $compra[0]->recibe ?> </td>
          </tr>
 
          <tr>
-             <td>SALIDA:  <?= $traslado[0]->fecha_salida ?> </td>
-                <td>LLEGADA : <?= $traslado[0]->fecha_llegada ?></td>
+             <td>SALIDA:  <?= $compra[0]->fecha_salida ?> </td>
+                <td>LLEGADA : <?= $compra[0]->fecha_llegada ?></td>
         </tr>
 </table>        
 <br> 
@@ -58,4 +58,4 @@ $contador++;
 ?>
  </table>
 </div>
-                                 
+                                  

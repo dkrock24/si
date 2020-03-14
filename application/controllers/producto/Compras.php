@@ -75,23 +75,16 @@ class Compras extends MY_Controller {
 		$data['compra'] 	= $this->Compras_model->editar_compra($compra_id);
 		$data['detalle'] 	= $this->Compras_model->get_compra_detalle($compra_id);
 		$data['empleado'] 	= $this->Usuario_model->get_empleado( $id_usuario );
-		$data['sucursal'] 	= $this->Sucursal_model->getSucursal(  );
-		$data['vista_doc']		= $this->Vistas_model->get_vista_documento($vista = 89);
-		$data['proveedor']		= $this->Proveedor_model->getAllProveedor();
-		//$data['bodega'] 	= $this->Bodega_model->get_bodega_sucursal( $data['compra'][0]->sucursal_origin );
-		//$data['bodega2'] 	= $this->Bodega_model->get_bodega_sucursal( $data['compra'][0]->sucursal_destino );
+		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
+		$data['vista_doc']	= $this->Vistas_model->get_vista_documento($vista = 89);
+		$data['proveedor']	= $this->Proveedor_model->get_proveedor_id( $data['compra'][0]->Proveedor  );
+		$data['bodega'] 	= $this->Bodega_model->get_bodega_sucursal( $data['compra'][0]->Sucursal );
 		$data['moneda'] 	= $this->Moneda_model->get_modena_by_user();
 		$data['cliente'] 	= $this->Cliente_model->get_cliente();
 
 		$data['temp'] 		= $this->Compras_model->printer( $data['compra'] );
-		$name 				= $data['compra'][0]->Sucursal.$data['compra'][0]->Empresa;
+		$name 				= $data['compra'][0]->Tipo_Documento.'_'.$data['compra'][0]->Sucursal.'_'.$data['compra'][0]->Empresa;
 		$data['file'] 		= $name;
-
-		//$mpdf = new \Mpdf\Mpdf();
-		//$html = file_get_contents("asstes/temp/".$name.".php");
-
-		//$mpdf->WriteHTML($html);
-		//$mpdf->Output();
 
 		$data['msj_title'] = "Compra Creado Correctamente";
 		$data['msj_orden'] = "Transación: # ". $data['compra'][0]->numero_serie ;
