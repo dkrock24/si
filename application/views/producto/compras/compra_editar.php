@@ -167,6 +167,8 @@ include("asstes/js/compras/pos_funciones.php");
                 <!-- START panel-->
                 <form name="encabezado_form" id="encabezado_form" method="post" action="#">
 
+                    <input type="hidden" name="id_compras" value="<?php echo $compra[0]->id_compras; ?>" />
+
                     <div id="panelDemo1" class="panel" style="margin-top: 60px;">
 
                         <a href="../index" style="top: 0px;position: relative; text-decoration: none; float: left;">
@@ -329,6 +331,30 @@ include("asstes/js/compras/pos_funciones.php");
                                         </div>
                                     </div>
 
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
+                                                    <label>Forma Pago</label>
+                                                    <select class="form-control" id="modo_pago_id" name="modo_pago_id">
+                                                        <?php
+                                                        if ($modo_pago) {
+                                                            foreach ($modo_pago as $value) {
+                                                        ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
+                                                                                                                                                            }
+                                                                                                                                                        } else {
+                                                                                                                                                                ?><option value=""><?php echo "No Hay Pagos"; ?></option><?php
+                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                            ?>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+
+                                        </div>
+                                    </div>
+
 
                                 </p>
                             </div>
@@ -365,7 +391,7 @@ include("asstes/js/compras/pos_funciones.php");
                                     </div>
                                     <div class="col-md-6">
 
-                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="update_traslado" id="guardar_orden"><i class='fa fa-save'></i> </button>
+                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="update_compra" id="guardar_orden"><i class='fa fa-save'></i> </button>
                                         <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
 
                                         <div class="btn-group ">

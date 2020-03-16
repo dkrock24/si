@@ -82,6 +82,10 @@ class Compras extends MY_Controller {
 		$data['moneda'] 	= $this->Moneda_model->get_modena_by_user();
 		$data['cliente'] 	= $this->Cliente_model->get_cliente();
 
+		if($data['cliente'][0] ){
+			$data['modo_pago'] 	= $this->ModoPago_model->get_pagos_by_cliente(current($data['cliente'][0]));
+		}
+
 		$data['temp'] 		= $this->Compras_model->printer( $data['compra'] );
 		$name 				= $data['compra'][0]->Tipo_Documento.'_'.$data['compra'][0]->Sucursal.'_'.$data['compra'][0]->Empresa;
 		$data['file'] 		= $name;
@@ -109,6 +113,11 @@ class Compras extends MY_Controller {
 
 	function guardar_compra(){
 		$data = $this->Compras_model->guardar_compra($_POST);
+		echo $data;
+	}
+
+	function update_compra(){
+		$data = $this->Compras_model->update_compra($_POST);
 		echo $data;
 	}
 	

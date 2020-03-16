@@ -178,6 +178,55 @@ class Compras_model extends CI_Model
 		}
 	}
 
+	// SAVE UPDATE
+
+	function update_compra($datos){
+
+		$usuario_id 	= $this->session->usuario[0]->id_empleado;	
+
+		foreach ($datos['encabezado'] as $key => $value) {
+			$compra[$value['name']] = $value['value'];
+		}
+		
+		$data = array(
+			'Usuario' 		=> $usuario_id,
+			'Empleado' 		=> $compra['empleado'],
+			'Sucursal' 		=> $compra['sucursal'],
+			'Bodega' 		=> $compra['bodega'],
+			'Proveedor' 	=> $compra['proveedor'],
+			'modo_pago_id' 	=> $compra['modo_pago_id'],
+			'fecha_compra' 	=> $compra['fecha_compra'],
+			'Tipo_Documento'=> $compra['id_tipo_documento'],
+            'fecha_actualizacion'=> date("Y-m-d h:i:s"),
+			'status_open_close' => 1,
+		);
+		$this->db->where('id_compras', $datos[0]->id_compras);
+		$this->db->update(self::pos_compras, $data ); 
+
+		$delete_result = $this->elimnar_compra_detalle($datos[0]->id_compras);
+
+		if($delete_result){
+			$this->guardar_compra_detalle($datos[0]->id_compras ,$datos);
+		}
+
+		return $datos[0]->id_compras;
+	}
+
+	function elimnar_compra_detalle($compra_id){
+
+		$flag = false;
+
+		$data = array('id_compra' => $compra_id);
+		$this->db->delete(self::pos_compras_detalle, $data);
+
+		$result = $this->db->affected_rows();
+		if($result){
+			$flag = true;
+		}
+
+		return $flag;
+	}
+
 	function printer($data ){
 
 		$this->db->select('*');
