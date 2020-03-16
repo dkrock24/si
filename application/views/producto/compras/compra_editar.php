@@ -66,7 +66,7 @@
             var contador_precios = 1;
 
             $.ajax({
-                url: path + "../../../admin/empleado/get_persona",
+                url: path + "../../admin/empleado/get_persona",
                 datatype: 'json',
                 cache: false,
 
@@ -320,8 +320,8 @@ include("asstes/js/compras/pos_funciones.php");
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
                                                     <label><i class="fa fa-user sz"></i> Empleado :</label>
-                                                    <input type="hidden" class="form-control" name="empleado" id="recibe_nombre" />
-                                                    <input type="text" class="form-control" name="empleado2" id="firma_llegada" />
+                                                    <input type="hidden" class="form-control" name="empleado" id="recibe_nombre" value="<?php echo $empleado[0]->id_empleado ?>" />
+                                                    <input type="text" class="form-control" name="empleado2" id="firma_llegada" value="<?php echo $empleado[0]->primer_nombre_persona." ".$empleado[0]->segundo_nombre_persona." ".$empleado[0]->primer_apellido_persona." ".$empleado[0]->segundo_apellido_persona ?>" />
 
                                                 </div>
                                             </div>

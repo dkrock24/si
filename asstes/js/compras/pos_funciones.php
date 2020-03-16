@@ -21,6 +21,7 @@
         $('.1dataSelect').hide();
         $('.1dataSelect2').hide();
         $('.cliente_codigo2').hide();
+        $("#persona_modal").appendTo("body");
 
         var height = 39;
 
