@@ -157,7 +157,6 @@ class Compras extends MY_Controller {
 		$atributos			= array();
 		
 		foreach ($data['producto'] as $key => $value) {
-
 			//$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
 			$contador+=1;
 		}
