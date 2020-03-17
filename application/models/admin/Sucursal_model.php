@@ -1,15 +1,17 @@
 <?php
 class Sucursal_model extends CI_Model {
 
-	const pos_sucursal = 'pos_sucursal';
+    const pos_sucursal = 'pos_sucursal';
+    const pos_bodega = 'pos_bodega';
 	const pos_empresa = 'pos_empresa';	
     const sys_empleado_sucursal = 'sys_empleado_sucursal';	
     const sys_usuario = 'sys_usuario';	
 	
 	function getSucursal(){
-		$this->db->select('*');
-        $this->db->from(self::pos_sucursal.' as b');
-        $this->db->where('b.Empresa_Suc', $this->session->empresa[0]->id_empresa );
+		$this->db->select('DISTINCT(s.id_sucursal) , s.*');
+        $this->db->from(self::pos_sucursal.' as s');
+        $this->db->join(self::pos_bodega.' as b', ' On s.id_sucursal = b.Sucursal', 'right');
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

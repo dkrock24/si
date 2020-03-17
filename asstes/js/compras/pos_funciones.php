@@ -58,6 +58,7 @@
                 success: function(data) {
                     var datos = JSON.parse(data);
                     var registros = datos["traslado"];
+                    console.log(compra);
 
                     if (!registros) {
 

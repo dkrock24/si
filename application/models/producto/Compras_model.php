@@ -118,26 +118,28 @@ class Compras_model extends CI_Model
 
 	function guardar_compra_detalle($compra_id ,$detalle){
 
-		$datos = $detalle['orden'][0];
+		$records = $detalle['orden'];
 
-		$data = array(
-			'id_compra' 			=> $compra_id,
-			'id_producto' 			=> $datos['producto_id'],			
-			'total_pro_compra' 		=> $datos['total'],
-			'id_producto_detalle' 	=> $datos['id_producto_detalle'],
-			'presentacionPrecio' 	=> $datos['presentacionPrecio'],
-			'presentacionUnidad' 	=> $datos['presentacionUnidad'],
-			'cantidad_pro_compra'	=> $datos['cantidad'],
-			'presentacionFactor'	=> $datos['presentacionFactor'],
-			'presentacionCodBarra'	=> $datos['presentacionCodBarra'],
-			'combo'					=> $datos['combo'],
-			'impuesto_id'			=> $datos['impuesto_id'],
-			'por_iva'				=> $datos['por_iva'],
-			'categoria'				=> $datos['categoria'],
-			'total_anterior'		=> $datos['total_anterior'],
-			'impSuma'				=> $datos['impSuma'],
-        );
-		$this->db->insert(self::pos_compras_detalle, $data ); 
+		foreach ($records as $key => $datos) {
+			$data = array(
+				'id_compra' 			=> $compra_id,
+				'id_producto' 			=> $datos['producto_id'],			
+				'total_pro_compra' 		=> $datos['total'],
+				'id_producto_detalle' 	=> $datos['id_producto_detalle'],
+				'presentacionPrecio' 	=> $datos['presentacionPrecio'],
+				'presentacionUnidad' 	=> $datos['presentacionUnidad'],
+				'cantidad_pro_compra'	=> $datos['cantidad'],
+				'presentacionFactor'	=> $datos['presentacionFactor'],
+				'presentacionCodBarra'	=> $datos['presentacionCodBarra'],
+				'combo'					=> $datos['combo'],
+				'impuesto_id'			=> $datos['impuesto_id'],
+				'por_iva'				=> $datos['por_iva'],
+				'categoria'				=> $datos['categoria'],
+				'total_anterior'		=> $datos['total_anterior'],
+				'impSuma'				=> $datos['impSuma'],
+			);
+			$this->db->insert(self::pos_compras_detalle, $data );			
+		}
 	}
 
 	function editar_compra($compra_id)
@@ -171,7 +173,7 @@ class Compras_model extends CI_Model
 		
 		$this->db->where('c.id_compras', $id );
 		$query = $this->db->get();
-		//echo $this->db->queries[1];		
+		//echo $this->db->queries[1];
 
 		if ($query->num_rows() > 0) {
 			return $query->result();
@@ -200,16 +202,15 @@ class Compras_model extends CI_Model
             'fecha_actualizacion'=> date("Y-m-d h:i:s"),
 			'status_open_close' => 1,
 		);
-		$this->db->where('id_compras', $datos[0]->id_compras);
+		$this->db->where('id_compras', $compra['id_compras']);
 		$this->db->update(self::pos_compras, $data ); 
 
-		$delete_result = $this->elimnar_compra_detalle($datos[0]->id_compras);
+		$delete_result = $this->elimnar_compra_detalle($compra['id_compras']);
 
-		if($delete_result){
-			$this->guardar_compra_detalle($datos[0]->id_compras ,$datos);
-		}
+		$this->guardar_compra_detalle($compra['id_compras'] ,$datos);
+		
 
-		return $datos[0]->id_compras;
+		return $compra['id_compras'];
 	}
 
 	function elimnar_compra_detalle($compra_id){

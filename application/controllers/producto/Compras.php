@@ -100,15 +100,22 @@ class Compras extends MY_Controller {
 	}
 
 	public function autoload_traslado(){
-		$id = $_POST['id'];
-		$componente_conf = "combo";		
-		$impuesto_conf 	 = "impuestos";
+		$id 				= $_POST['id'];
+		$componente_conf 	= "combo";		
+		$impuesto_conf 	 	= "impuestos";
 
 		$data['traslado'] 	= $this->Compras_model->get_compra_detalle($id);
 		$data['conf'] 		= $this->Orden_model->getConfg($componente_conf);
 		$data['impuesto'] 	= $this->Orden_model->getConfgImpuesto($impuesto_conf);
 
 		echo json_encode($data);
+	}
+
+	function get_bodega_sucursal( $Sucursal ){
+
+		$data['bodega']	= $this->Orden_model->get_bodega_sucursal_traslados( $Sucursal );
+
+		echo json_encode( $data );
 	}
 
 	function guardar_compra(){
