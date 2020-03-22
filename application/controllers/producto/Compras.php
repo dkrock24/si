@@ -178,6 +178,36 @@ class Compras extends MY_Controller {
 		echo json_encode( $data );
 	}
 
+	public function print_compra($compra_id){
+
+		$id_usuario 	    = $this->session->usuario[0]->id_usuario;		
+		$data['menu'] 	    = $this->session->menu;	
+		$data['compra'] 	= $this->Compras_model->editar_compra($compra_id);
+		$data['detalle'] 	= $this->Compras_model->get_compra_detalle($compra_id);
+		$data['empleado'] 	= $this->Usuario_model->get_empleado( $id_usuario );
+		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
+		$data['vista_doc']	= $this->Vistas_model->get_vista_documento($vista = 89);
+		$data['proveedor']	= $this->Proveedor_model->get_proveedor_id( $data['compra'][0]->Proveedor  );
+		$data['bodega'] 	= $this->Bodega_model->get_bodega_sucursal( $data['compra'][0]->Sucursal );
+		$data['moneda'] 	= $this->Moneda_model->get_modena_by_user();
+		$data['cliente'] 	= $this->Cliente_model->get_cliente();
+
+		if($data['cliente'][0] ){
+			$data['modo_pago'] 	= $this->ModoPago_model->get_pagos_by_cliente(current($data['cliente'][0]));
+		}
+
+		$data['temp'] 		= $this->Compras_model->printer( $data['compra'] );
+		$name 				= $data['compra'][0]->Tipo_Documento.'_'.$data['compra'][0]->Sucursal.'_'.$data['compra'][0]->Empresa;
+		$data['file'] 		= $name;
+
+		$data['msj_title'] = "Compra Creado Correctamente";
+		$data['msj_orden'] = "Transación: # ". $data['compra'][0]->numero_serie ;
+
+		$data['home'] = 'producto/print/print';
+		$this->load->view('producto/print/print', $data);		
+
+	}
+
     public function column(){
 
 		$column = array(

@@ -118,8 +118,8 @@ class Traslado extends MY_Controller {
 		$name 				= $data['traslado'][0]->sucursal_origin.$data['traslado'][0]->Empresa;
 		$data['file'] 		= $name;
 
-		$data['home'] = 'producto/traslado/print';
-		$this->load->view('producto/traslado/print', $data);		
+		$data['home'] = 'producto/print/print';
+		$this->load->view('producto/print/print', $data);		
 
 	}
 
