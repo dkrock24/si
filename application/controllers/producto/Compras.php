@@ -126,6 +126,8 @@ class Compras extends MY_Controller {
 
 		$data = $this->Compras_model->guardar_compra($_POST);
 		$documento = $this->Documento_model->getDocumentoById($compra['id_tipo_documento']);
+		$data = $_POST['orden'];
+		$data['']
 		$this->EfectosDocumento_model->accion($_POST['orden'] , $documento );
 		echo $data;
 	}
