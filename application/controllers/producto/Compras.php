@@ -119,7 +119,14 @@ class Compras extends MY_Controller {
 	}
 
 	function guardar_compra(){
+
+		foreach ($_POST['encabezado'] as $key => $value) {
+			$compra[$value['name']] = $value['value'];
+		}
+
 		$data = $this->Compras_model->guardar_compra($_POST);
+		$documento = $this->Documento_model->getDocumentoById($compra['id_tipo_documento']);
+		$this->EfectosDocumento_model->accion($_POST['orden'] , $documento );
 		echo $data;
 	}
 
