@@ -83,14 +83,10 @@ class Compras_model extends CI_Model
 		return $query->result();
 	}
 
-	function guardar_compra($datos){
+	function guardar_compra($datos , $compra){
 
 		$usuario_id = $this->session->usuario[0]->id_empleado;
 		$fecha 		 = date_create();		
-
-		foreach ($datos['encabezado'] as $key => $value) {
-			$compra[$value['name']] = $value['value'];
-		}
 		
 		$data = array(
 			'Usuario' 		=> $usuario_id,
@@ -181,13 +177,9 @@ class Compras_model extends CI_Model
 
 	// SAVE UPDATE
 
-	function update_compra($datos){
+	function update_compra($datos , $compra){
 
-		$usuario_id 	= $this->session->usuario[0]->id_empleado;	
-
-		foreach ($datos['encabezado'] as $key => $value) {
-			$compra[$value['name']] = $value['value'];
-		}
+		$usuario_id 	= $this->session->usuario[0]->id_empleado;
 		
 		$data = array(
 			'Usuario' 		=> $usuario_id,
@@ -206,8 +198,7 @@ class Compras_model extends CI_Model
 
 		$delete_result = $this->elimnar_compra_detalle($compra['id_compras']);
 
-		$this->guardar_compra_detalle($compra['id_compras'] ,$datos);
-		
+		$this->guardar_compra_detalle($compra['id_compras'] ,$datos);		
 
 		return $compra['id_compras'];
 	}

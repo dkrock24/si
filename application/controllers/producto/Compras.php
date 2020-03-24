@@ -124,17 +124,45 @@ class Compras extends MY_Controller {
 			$compra[$value['name']] = $value['value'];
 		}
 
-		$data = $this->Compras_model->guardar_compra($_POST);
-		$documento = $this->Documento_model->getDocumentoById($compra['id_tipo_documento']);
-		$data = $_POST['orden'];
-		$data['']
-		$this->EfectosDocumento_model->accion($_POST['orden'] , $documento );
+		$data 		= $this->Compras_model->guardar_compra($_POST , $compra);
+		$documento 	= $this->Documento_model->getDocumentoById($compra['id_tipo_documento']);
+
+		$_POST['orden'][0]['id_bodega'] = $compra['bodega'];
+
+		$this->EfectosDocumento_model->accion($_POST , $documento );
+
 		echo $data;
 	}
 
 	function update_compra(){
-		$data = $this->Compras_model->update_compra($_POST);
-		echo $data;
+
+		foreach ($_POST['encabezado'] as $key => $value) {
+			$compra[$value['name']] = $value['value'];
+		}
+
+		$data['compra'] 	= $this->Compras_model->editar_compra($compra['id_compras']);
+
+		$productos['orden'] = $this->Compras_model->get_compra_detalle($compra['id_compras']);
+		$data['result'] 	= $this->Compras_model->update_compra($_POST , $compra);
+		
+		$productos['orden'][0]->id_bodega = $data['compra'][0]->Bodega;
+		$productos['orden'][0]->producto_id = $productos['orden'][0]->id_producto;
+
+		$documento[0] = array(
+			"efecto_inventario" => 2
+		);
+		var_dump($documento[0]);
+		die;
+		//$documento[0]->efecto_inventario = 2;
+		
+		$productos['orden'] = json_decode(json_encode($productos['orden']), true);
+		
+		$this->EfectosDocumento_model->accion($productos , $documento );
+
+		$documento 			= $this->Documento_model->getDocumentoById($compra['id_tipo_documento']);
+		$this->EfectosDocumento_model->accion($productos , $documento );
+
+		echo $data['result'];
 	}
 	
 	function get_impuestos_lista(){
