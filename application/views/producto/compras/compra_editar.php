@@ -365,7 +365,7 @@ include("asstes/js/compras/pos_funciones.php");
 
                 <!-- START table-responsive-->
                 <div class="row" style="padding:20px;">
-                    <div class="col-md-12">
+                    <div class="col-md-10">
                         <table class="table table-sm table-hover" style="margin-bottom: 0px;">
 
                             <?php
@@ -464,6 +464,47 @@ include("asstes/js/compras/pos_funciones.php");
                             </table>
                         </div>
 
+                    </div>
+
+                    <div class="col-md-2"><br><br>
+                        <div class="row">
+                            <div class="col-md-12" style="width: 100%; background: #2D3B48/*#0f4871*/;text-align: center;color: white;">
+
+                                <span style="font-size: 40px;">
+                                    <?php echo $moneda[0]->moneda_simbolo; ?> <span class="total_msg">0.00</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12" style="width: 100%; background: white;">
+
+                                <table class="table table-sm table-hover" style="font-size: 22px;">
+                                    <tr>
+                                        <td style="color:#0f4871;"><b>Sub total</b></td>
+                                        <td><?php echo $moneda[0]->moneda_simbolo; ?> <span class="sub_total_tabla"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Iva</b></td>
+                                        <td><span class="iva_valor"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Desc</b></td>
+                                        <td><span class="descuento_tabla"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:14px;"><span class="impuestos_nombre"></span></td>
+                                        <td><span class="impuestos_total"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color:#0f4871"><b>Total</b></td>
+                                        <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+
+                        </div><br>
                     </div>
 
 

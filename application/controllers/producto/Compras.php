@@ -90,7 +90,7 @@ class Compras extends MY_Controller {
 		$name 				= $data['compra'][0]->Tipo_Documento.'_'.$data['compra'][0]->Sucursal.'_'.$data['compra'][0]->Empresa;
 		$data['file'] 		= $name;
 
-		$data['msj_title'] = "Compra Creado Correctamente";
+		$data['msj_title'] = "Compra Creada Correctamente";
 		$data['msj_orden'] = "Transación: # ". $data['compra'][0]->numero_serie ;
 
 		$this->generarDocumento( $name , $data['temp'][0]->factura_template );
@@ -252,7 +252,7 @@ class Compras extends MY_Controller {
     public function column(){
 
 		$column = array(
-			'Series','Compra','Sucursal','Bodega','Proveedor','Documento','Creado','Estado'
+			'Series','Sucursal','Bodega','Proveedor','Documento','Compra','Creado','Estado'
 		);
 		return $column;
 	}
@@ -260,7 +260,7 @@ class Compras extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'numero_serie','fecha_compra','nombre_sucursal','nombre_bodega','empresa_proveedor','Documento','fecha_creacion','estado'
+			'numero_serie','nombre_sucursal','nombre_bodega','empresa_proveedor','Documento','fecha_compra','fecha_creacion','estado'
 		);
 		
 		$fields['id'] 		= array('id_compras');
