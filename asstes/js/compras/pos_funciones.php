@@ -546,6 +546,7 @@
                     var precio_unidad = datos['producto'][0].unidad;
                     _productos_precio2 = datos["prod_precio"];
                     producto_escala = datos['producto'][0].Escala;
+                    console.log("precio ,", datos['prod_precio']);
 
                     $.each(_productos_precio2, function(i, item) {
                         if (item.id_producto_detalle == producto_id) {
@@ -587,7 +588,7 @@
                     _productos.producto_id = datos['producto'][0].id_entidad;
                     _productos.combo = datos['producto'][0].combo;
                     _productos.inventario_id = datos['producto'][0].id_inventario;
-                    _productos.producto = datos['producto'][0].codigo_producto;
+                    _productos.producto = datos['prod_precio'][0].cod_barra;
                     _productos.descuento_limite = datos['producto'][0].descuento_limite;
                     _productos.descuento = 0.00; // datos['producto'][7].valor;
                     _productos.cantidad = producto_cantidad_linea;
@@ -638,7 +639,7 @@
 
         function validar_escalas(c) {
             /* Valida las escalas de los productos cuando se aunmenta la cantidad */
-
+alert(1);
             var total_precio_escala = 0;
 
             $.each(_productos_precio2, function(i, item) {

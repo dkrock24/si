@@ -172,7 +172,7 @@ include("asstes/js/compras/pos_funciones.php");
                     <div id="panelDemo1" class="panel" style="margin-top: 60px;">
 
                         <a href="../index" style="top: 0px;position: relative; text-decoration: none; float: left;">
-                            <button type="button" class="mb-sm btn btn-pill-right btn-primary btn-outline"> Lista Traslados </button>
+                            <button type="button" class="mb-sm btn btn-pill-right btn-primary btn-outline"> Lista Compras </button>
                         </a>
 
                         <span style="text-align: left; font-size: 20px;overflow: hidden;margin-left:20px;">
