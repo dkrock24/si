@@ -546,8 +546,7 @@
                     var precio_unidad = datos['producto'][0].unidad;
                     _productos_precio2 = datos["prod_precio"];
                     producto_escala = datos['producto'][0].Escala;
-                    console.log("precio ,", datos['prod_precio']);
-
+                    
                     $.each(_productos_precio2, function(i, item) {
                         if (item.id_producto_detalle == producto_id) {
 
@@ -607,6 +606,7 @@
                     _productos.categoria = datos['producto'][0].categoria;
 
                     grabar();
+
                     _config_impuestos();
                     agregar_producto();
                     depurar_producto();
@@ -639,29 +639,35 @@
 
         function validar_escalas(c) {
             /* Valida las escalas de los productos cuando se aunmenta la cantidad */
-alert(1);
             var total_precio_escala = 0;
-
+            //console.log(_orden);
             $.each(_productos_precio2, function(i, item) {
 
                 pf = parseInt(item.factor);
 
                 if (c == pf) {
-
-                    total_precio_escala = item.unidad;
-                    _productos.presentacion = item.presentacion;
-                    _productos.presentacionFactor = item.factor;
-                    _productos.id_producto_detalle = item.id_producto_detalle;
+                    console.log("ID -> , ",item.cod_barra);
+                    
+                    _productos.producto             = item.cod_barra;
+                    total_precio_escala             = item.unidad;
+                    _productos.precioUnidad         = item.unidad;
+                    _productos.presentacion         = item.presentacion;
+                    _productos.presentacionFactor   = item.factor;
+                    _productos.id_producto_detalle  = item.id_producto_detalle;
+                    _productos.presentacionCodBarra = item.cod_barra;
                     $("#presentacion").val(item.presentacion);
-                    $("#factor").val(item.factor);
+                    $("#factor").val(item.factor);                    
 
                 } else {
-
+                    
                     if (c >= pf) {
-                        total_precio_escala = item.unidad;
-                        _productos.presentacionFactor = item.factor;
-                        _productos.presentacion = item.presentacion;
-                        _productos.id_producto_detalle = item.id_producto_detalle;
+                        _productos.producto             = item.cod_barra;
+                        total_precio_escala             = item.unidad;
+                        _productos.precioUnidad         = item.unidad;
+                        _productos.presentacion         = item.presentacion;
+                        _productos.presentacionFactor   = item.factor;
+                        _productos.id_producto_detalle  = item.id_producto_detalle;
+                        _productos.presentacionCodBarra = item.cod_barra;
                         $("#presentacion").val(item.presentacion);
                         $("#factor").val(item.factor);
                     }
@@ -1129,9 +1135,11 @@ alert(1);
 
         function grabar_primeraves() {
 
-            _orden[contador_productos] = _productos;
-
-            _productos.descuento_calculado = calcular_descuento(_productos.descuento, _productos.total, _productos.descuento_limite);
+            var cantidad = parseInt(_productos.cantidad);
+            var c = validar_escalas(cantidad);
+      
+            _orden[contador_productos]      = _productos;
+            _productos.descuento_calculado  = calcular_descuento(_productos.descuento, _productos.total, _productos.descuento_limite);
 
             agregar_producto();
         }
@@ -1161,9 +1169,9 @@ alert(1);
 
                                 var c = validar_escalas(cantidad);
 
-                                _orden[cnt].presentacion = _productos.presentacion;
-                                _orden[cnt].presentacionFactor = _productos.presentacionFactor;
-                                _orden[cnt].precioUnidad = c;
+                                _orden[cnt].precioUnidad        = c;
+                                _orden[cnt].presentacion        = _productos.presentacion;
+                                _orden[cnt].presentacionFactor  = _productos.presentacionFactor;
 
                                 var total_temp = calcularTotalProducto(c, cantidad);
                                 $(".total" + _orden[cnt]['producto2']).text(total_temp);
