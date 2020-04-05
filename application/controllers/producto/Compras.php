@@ -181,7 +181,10 @@ class Compras extends MY_Controller {
 
 	function get_productos_lista(){
 		$texto = $_POST['texto'];
-		$data['productos'] = $this->Compras_model->get_productos_valor($texto);
+		$data['productos'] = $this->Compras_model->get_productos_valor2($texto);
+		if(!$data['productos']){
+			$data['productos'] = $this->Compras_model->get_productos_valor($texto);
+		}
 		
 		echo json_encode( $data );
 	}
@@ -193,7 +196,7 @@ class Compras extends MY_Controller {
 		$descuento_conf		= "descuentos";
 		
 		$data['producto'] 	= $this->Compras_model->get_producto_completo($id_producto_detalle);		
-		$producto_id 		= $data['producto'][0]->id_entidad;		
+		$producto_id 		= $data['producto'][0]->id_entidad;
 		$contador			= 0;
 		$atributos			= array();
 		

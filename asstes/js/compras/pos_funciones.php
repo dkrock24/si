@@ -144,7 +144,7 @@
                     _productos.producto_id = datos['producto'][0].id_entidad;
                     _productos.combo = datos['producto'][0].combo;
                     _productos.inventario_id = datos['producto'][0].id_inventario;
-                    _productos.producto = datos['producto'][0].codigo_barras;
+                    _productos.producto = datos['producto'][0].cod_barra;
                     _productos.descuento_limite = datos['producto'][0].descuento_limite;
                     _productos.descuento = 0.00; // datos['producto'][7].valor;
                     _productos.cantidad = cantidad;
@@ -473,7 +473,6 @@
                 });
 
                 if (prod_escala_cont <= 1) {
-
                     get_producto_completo(prod_temp_id);
                     input_producto_buscar.val("");
 
@@ -536,28 +535,25 @@
                 datatype: 'json',
                 cache: false,
 
-                success: function(data) {
+                success: function(data) {                   
 
-                    var datos = JSON.parse(data);
-                    var precio_unidad = datos['producto'][0].unidad;
-                    _productos_precio2 = datos["prod_precio"];
-                    producto_escala = datos['producto'][0].Escala;
+                    var datos           = JSON.parse(data);
+                    var precio_unidad   = datos['producto'][0].unidad;
+                    _productos_precio2  = datos["prod_precio"];
+                    producto_escala     = datos['producto'][0].Escala;
                     
                     $.each(_productos_precio2, function(i, item) {
                         if (item.id_producto_detalle == producto_id) {
-
                             _productos_precio = item;
                         }
                     });
 
+                    _conf.impuesto      = parseInt(datos['impuesto'][0].valor_conf);
+                    _conf.descuentos    = parseInt(datos['descuentos'][0].valor_conf);
                     _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
-                    _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);
-                    _conf.descuentos = parseInt(datos['descuentos'][0].valor_conf);
 
                     if (parseInt(_productos_precio.length) >= 1 && producto_escala != 1) {
-
                         seleccionar_productos_array(producto_id);
-
                     } else {
                         enLinea();
                     }
@@ -569,38 +565,34 @@
                     $("#descripcion").val(datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca);
 
                     if ($("#cantidad").val() == "") {
-
                         producto_cantidad_linea = 1; //datos['producto'][0].factor;
-
                     } else {
                         _productos_precio.precio = _productos_precio.precio * producto_cantidad_linea;
                     }
 
                     precioUnidad = _productos_precio.unidad;
-
                     set_calculo_precio(precioUnidad, producto_cantidad_linea);
 
-                    _productos.producto_id = datos['producto'][0].id_entidad;
-                    _productos.combo = datos['producto'][0].combo;
-                    _productos.inventario_id = datos['producto'][0].id_inventario;
-                    _productos.producto = datos['prod_precio'][0].cod_barra;
+                    _productos.producto_id      = datos['producto'][0].id_entidad;
+                    _productos.combo            = datos['producto'][0].combo;
+                    _productos.inventario_id    = datos['producto'][0].id_inventario;
+                    _productos.producto         = datos['producto'][0].cod_barra;
                     _productos.descuento_limite = datos['producto'][0].descuento_limite;
-                    _productos.descuento = 0.00; // datos['producto'][7].valor;
-                    _productos.cantidad = producto_cantidad_linea;
-                    _productos.total = 0.00; //$("#total").val();
-                    _productos.id_producto_combo = null;
-                    _productos.combo_total = null;
-                    _productos.invisible = 0;
-                    _productos.bodega = datos['producto'][0].nombre_bodega;
-                    _productos.id_bodega = datos['producto'][0].id_bodega;
-                    _productos.impuesto_id = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
-                    _productos.por_iva = datos['producto'][0].porcentage;
-                    _productos.gen = datos['producto'][0].iva;
-                    _productos.iva = datos['producto'][0].incluye_iva; //datos['producto'][9].valor;
-                    _productos.descripcion = datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca;
-                    _productos.total = _productos_precio.precio;
-                    _productos.categoria = datos['producto'][0].categoria;
-
+                    _productos.descuento        = 0.00; // datos['producto'][7].valor;
+                    _productos.cantidad         = producto_cantidad_linea;
+                    _productos.total            = 0.00; //$("#total").val();
+                    _productos.id_producto_combo= null;
+                    _productos.combo_total      = null;
+                    _productos.invisible        = 0;
+                    _productos.bodega           = datos['producto'][0].nombre_bodega;
+                    _productos.id_bodega        = datos['producto'][0].id_bodega;
+                    _productos.impuesto_id      = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
+                    _productos.por_iva          = datos['producto'][0].porcentage;
+                    _productos.gen              = datos['producto'][0].iva;
+                    _productos.iva              = datos['producto'][0].incluye_iva; //datos['producto'][9].valor;
+                    _productos.descripcion      = datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca;
+                    _productos.total            = _productos_precio.precio;
+                    _productos.categoria        = datos['producto'][0].categoria;
                     grabar();
 
                     _config_impuestos();
@@ -620,8 +612,7 @@
         function enLinea() {
 
             $("#presentacion").val(_productos_precio.presentacion);
-            $("#factor").val(_productos_precio.factor);
-            _productos.producto2            = _productos_precio.id_producto_detalle;
+            $("#factor").val(_productos_precio.factor); 
             _productos.presentacion         = _productos_precio.presentacion;
             _productos.precioUnidad         = _productos_precio.unidad;
             _productos.presentacionFactor   = _productos_precio.factor;
@@ -988,17 +979,17 @@
 
                 if (precio_id == item.id_producto_detalle) {
 
-                    _productos.presentacion = item.presentacion;
-                    _productos.id_producto_detalle = item.id_producto_detalle;
-                    _productos.presentacionFactor = item.factor;
-                    _productos.presentacionPrecio = item.precio;
-                    _productos.presentacionUnidad = item.unidad;
-                    _productos.presentacionCliente = item.Cliente;
-                    _productos.presentacionCliente = item.Sucursal;
+                    _productos.presentacion         = item.presentacion;
+                    _productos.id_producto_detalle  = item.id_producto_detalle;
+                    _productos.presentacionFactor   = item.factor;
+                    _productos.presentacionPrecio   = item.precio;
+                    _productos.presentacionUnidad   = item.unidad;
+                    _productos.presentacionCliente  = item.Cliente;
+                    _productos.presentacionCliente  = item.Sucursal;
                     _productos.presentacionCodBarra = item.cod_barra;
-                    _productos.precioUnidad = item.unidad;
-                    _productos.total = item.precio;
-                    _productos.producto2 = item.id_producto_detalle
+                    _productos.precioUnidad         = item.unidad;
+                    _productos.total                = item.precio;
+                    _productos.producto2            = item.id_producto_detalle
 
                     $("#presentacion").val(_productos.presentacion);
                     $("#precioUnidad").val(_productos.presentacionUnidad);

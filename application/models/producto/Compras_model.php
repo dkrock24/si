@@ -56,9 +56,21 @@ class Compras_model extends CI_Model
 				WHERE (
 					P.name_entidad LIKE '%$texto%'||
 					P.codigo_barras LIKE '%$texto%'||
-					P.descripcion_producto LIKE '%$texto%'||
-					pde.cod_barra ='%$texto%'
+					P.descripcion_producto LIKE '%$texto%'
 					)
+				");
+
+		//echo $this->db->queries[0];
+		return $query->result();
+	}
+
+	function get_productos_valor2($texto)
+	{
+		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*,  m.nombre_marca, pde.presentacion , pde.cod_barra as pres_cod_bar , pde.id_producto_detalle, pde.precio
+				FROM `producto` as `P`
+				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
+				LEFT JOIN prouducto_detalle AS `pde` ON pde.Producto = P.id_entidad				
+				WHERE ( pde.cod_barra = '$texto' )
 				");
 
 		//echo $this->db->queries[0];
@@ -70,7 +82,7 @@ class Compras_model extends CI_Model
 		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 		,  pinv.id_inventario
 		, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, impuestos.porcentage ,
-		 `sub_c`.`id_categoria` as 'categoria',pde.presentacion,pde.factor,pde.precio,pde.unidad
+		 `sub_c`.`id_categoria` as 'categoria',pde.presentacion,pde.factor,pde.precio,pde.unidad,pde.cod_barra,pde.id_producto_detalle
 		FROM `producto` as `P`
 		LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
 		LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
