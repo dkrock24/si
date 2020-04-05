@@ -58,7 +58,6 @@
                 success: function(data) {
                     var datos = JSON.parse(data);
                     var registros = datos["traslado"];
-                    console.log(compra);
 
                     if (!registros) {
 
@@ -135,7 +134,7 @@
                         producto_cantidad_linea = 1; //datos['producto'][0].factor;
 
                     } else {
-                        _productos_precio.precio = _productos_precio.precio * cantidad;
+                        _productos_precio.precio = _productos_precio.unidad * cantidad;
                     }
 
                     precioUnidad = _productos_precio.unidad;
@@ -394,13 +393,10 @@
         function search_texto(texto) {
             /* 2 - Filtrado del texto a buscar en productos */
 
-            sucursal = input_sucursal;
-            var bodega = input_bodega_select.val();
-
-            interno_sucursal = sucursal;
-
-
-            interno_bodega = bodega;
+            sucursal        = input_sucursal;
+            var bodega      = input_bodega_select.val();
+            interno_sucursal= sucursal;
+            interno_bodega  = bodega;
             $.ajax({
                 type: "POST",
                 url: path + "get_productos_lista",

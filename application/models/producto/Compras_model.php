@@ -48,12 +48,18 @@ class Compras_model extends CI_Model
 	}
 
 	function get_productos_valor($texto)
-	{		
+	{
 		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*,  m.nombre_marca, pde.presentacion , pde.cod_barra as pres_cod_bar , pde.id_producto_detalle, pde.precio
 				FROM `producto` as `P`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
 				LEFT JOIN prouducto_detalle AS `pde` ON pde.Producto = P.id_entidad				
-				WHERE (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%' || P.descripcion_producto LIKE '%$texto%') ");
+				WHERE (
+					P.name_entidad LIKE '%$texto%'||
+					P.codigo_barras LIKE '%$texto%'||
+					P.descripcion_producto LIKE '%$texto%'||
+					pde.cod_barra ='%$texto%'
+					)
+				");
 
 		//echo $this->db->queries[0];
 		return $query->result();
