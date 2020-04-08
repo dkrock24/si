@@ -86,6 +86,7 @@ include("asstes/pos_funciones.php");
 
                         <div class="panel-wrapper collapse in">
                             <div class="panel-body">
+                                <br>
                                 <p>
                                     <div class="panel-body">
                                         <div class="row">

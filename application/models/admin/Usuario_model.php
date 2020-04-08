@@ -80,7 +80,7 @@ class Usuario_model extends CI_Model {
         $this->db->where('Empresa_Suc = ', $this->session->empresa[0]->id_empresa);
         $this->db->where(self::empleado.'.estado = 1');
         $query = $this->db->get();
-        //echo $this->db->queries[6];
+        //echo $this->db->queries[3];
         
         if($query->num_rows() > 0 )
         {

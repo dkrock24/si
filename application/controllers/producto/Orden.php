@@ -155,31 +155,31 @@ class Orden extends MY_Controller {
 
 		if($terminal_acceso){
 			
-			$data['encabezado'] 	= $this->Orden_model->get_orden($order_id);
-			if($data['encabezado']){
+			$data['orden'] 	= $this->Orden_model->get_orden($order_id);
+			if($data['orden']){
 				$data['detalle'] 		= $this->Orden_model->get_orden_detalle($order_id);
 				$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
 				$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );//$this->Producto_model->get_sucursales();
-				$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente($data['encabezado'][0]->id_cliente);
-				$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['encabezado'][0]->id_usuario );
+				$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente($data['orden'][0]->id_cliente);
+				$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['orden'][0]->id_usuario );
 				$data['terminal'] 		= $terminal_acceso;
 				$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
-				$data['impuestos'] 		= $this->Orden_model->get_impuestos( $data['encabezado'][0]->id );
+				$data['impuestos'] 		= $this->Orden_model->get_impuestos( $data['orden'][0]->id );
 				$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 				$data['title'] 			= "Editar Orden";
-				$data['cliente'] 		= $this->get_clientes_id(@$data['encabezado'][0]->id_cliente);
-				$data['temp'] 			= $this->Template_model->printer( $data['detalle'] , @$data['encabezado'][0]->id_sucursal , @$data['encabezado'][0]->id_tipod, @$data['encabezado'][0]->id_condpago);
+				$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
+				$data['temp'] 			= $this->Template_model->printer( $data['detalle'] , @$data['orden'][0]->id_sucursal , @$data['orden'][0]->id_tipod, @$data['orden'][0]->id_condpago);
 				
 				$data['home'] 			= 'producto/orden/orden_editar';
 				$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
 				$data['file'] 			= $name;
 				$data['msj_title'] = "Su orden ha sido grabada satisfactoriamente";
-				$data['msj_orden'] = "Su número de transacción es: # ". $data['encabezado'][0]->num_correlativo;
+				$data['msj_orden'] = "Su número de transacción es: # ". $data['orden'][0]->num_correlativo;
 				
 				$this->generarDocumento( $name , $data['temp'][0]->factura_template );
 				$this->parser->parse('template', $data);			
 			}else{
-				$this->general->editar_valido($data['encabezado'], "producto/orden/nuevo");
+				$this->general->editar_valido($data['orden'], "producto/orden/nuevo");
 			}
 				
 		}else{
