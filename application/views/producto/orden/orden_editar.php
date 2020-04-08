@@ -360,7 +360,7 @@ include("asstes/pos_orden.php");
                                 </select>
 
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-8">
 
                                 <!-- <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" id="grabar"><i class='fa fa-shopping-cart'></i></button> -->
 
@@ -391,6 +391,7 @@ include("asstes/pos_orden.php");
                                 <span>
                                     Can.<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;" />
                                     Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" value="0.00" style="width: 80px;display:inline-block;" />
+                                    Orden.<input type="text" class="form-control border-input" placeholder="[ * ]" id="buscar_orden" name="buscar_orden" style="width: 100px;display:inline-block;">
                                 </span>
 
                             </div>

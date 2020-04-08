@@ -4,7 +4,7 @@
         var input_producto_buscar = $(".producto_buscar");
         var input_bodega_select = $("#bodega_select");
         var input_sucursal = $("#sucursal_id").val();
-
+        
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
         $('#cliente_modal').appendTo("body");
@@ -153,6 +153,16 @@
 
         }
 
+        $(document).on('keypress', '#buscar_orden', function() {
+            /*
+            * Buscar una orden existente y editarla.
+            */
+            var buscar_orden = $("#buscar_orden").val();
+            if (event.which == 13) {
+                window.location.href = path +"editar/"+ buscar_orden;
+            }
+        });
+
         $(document).on('keypress', '.1dataSelect', function() {
 
             if (event.which == 13) {
@@ -240,7 +250,6 @@
                     if (e.keyCode == 13) {
 
                         search_texto(input_producto_buscar.val());
-
                     }
                 }
 
@@ -257,7 +266,6 @@
             var bodega = input_bodega_select.val();
 
             interno_sucursal = sucursal;
-
 
             interno_bodega = bodega;
             $.ajax({
@@ -292,12 +300,9 @@
                         generalAlert(type, mensaje, title, boton, finalMessage);
 
                     }
-
                 },
                 error: function() {}
             });
-
-
         }
 
         function showProducts(_productos_lista) {
@@ -350,8 +355,6 @@
                     document.getElementById('dataSelect').focus();
 
                 }
-
-
             }
         }
 
@@ -631,12 +634,12 @@
                         f8_table_pagos();
                         break;
                     case 106: // *
-                        focus_general_input($("#orden_numero"), 0);
+                        focus_general_input($("#buscar_orden"), 0);
                         break;
                     case 190: // *
                         focus_general_input($("#descuento"), 0);
+                        alert(1);
                         break;
-
                 }
 
                 var c = "";
