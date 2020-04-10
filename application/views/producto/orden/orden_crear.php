@@ -371,7 +371,7 @@ include("asstes/pos_funciones.php");
                                     <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
                                     <span class="btn bg-green" id="btn_discount" style="font-size: 18px;"><i class="fa fa-percent" aria-hidden="true"></i> <span style="font-size:18;">[ F9 ]</span></span>
 
-
+                                <!--
                                     <div class="btn-group">
                                         <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
                                         <button type="button" data-toggle="dropdown" class="btn dropdown-toggle bg-green" style="font-size: 17px;">
@@ -389,9 +389,10 @@ include("asstes/pos_funciones.php");
                                             </li>
                                         </ul>
                                     </div>
+                                -->
                                     <span style="">
-                                        Can.<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;">
-                                        Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display:inline-block;">
+                                        Can [ = ] <input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;">
+                                        Des.<input type="text" class="form-control border-input" placeholder="[ - ]" id="descuento" name="descuento" size="2px" style="width: 80px;display:inline-block;">
                                         Orden.<input type="text" class="form-control border-input" placeholder="[ * ]" id="buscar_orden" name="buscar_orden" style="width: 100px;display:inline-block;">
                                     </span>                                   
 
@@ -406,11 +407,11 @@ include("asstes/pos_funciones.php");
                                                 <th style="color: black;">#</th>
                                                 <th style="color: black;">Producto</th>
                                                 <th style="color: black;">Descripción</th>
-                                                <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ] </th>
+                                                <th style="color: black;">Cantidad</th>
                                                 <th style="color: black;">Presentación</th>
                                                 <th style="color: black;">Factor</th>
                                                 <th style="color: black;">Precio Unidad</th>
-                                                <th style="color: black;">Descuento [ : ]</th>
+                                                <th style="color: black;">Descuento</th>
                                                 <th style="color: black;">Total</th>
                                                 <th style="color: black;">Bodega</th>
                                                 <th style="color: black;">
