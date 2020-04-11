@@ -1,3 +1,4 @@
+
 <?php
 class Existencias_model extends CI_Model {
 
@@ -37,8 +38,8 @@ class Existencias_model extends CI_Model {
                                 left join pos_empresa as e on e.id_empresa = s.Empresa_Suc
                                 left join sys_moneda as m on m.id_moneda = e.Moneda
                                 
-                                where p.id_entidad = ". $producto_id);
-                //echo $this->db->queries[1];
+                                where pd.id_producto_detalle = ". $producto_id . " ORDER BY b.nombre_bodega desc");
+                //echo $this->db->queries[0];
                 return $query->result();
         }
 

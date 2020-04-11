@@ -2,6 +2,16 @@ body{
     background: #e9ebee;
 }
 
+.sz {
+    font-size: 20px;
+    font-style: bold;
+}
+
+.sz2 {
+    font-size: 30px;
+    color: #0f4871;
+}
+
 .producto_agregados{
     max-height: 25%;
     overflow: scroll;

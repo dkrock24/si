@@ -11,7 +11,7 @@
         $(document).on('keypress', '#orden_numero', function(e) {
 
             if (e.keyCode == 13) {
-
+                
                 if (this.value != "") {
                     getImpuestosLista();
                     get_orden(this.value);
@@ -23,7 +23,6 @@
                     contador_ingreso = 0;
                 }
             }
-
         });
 
         if(path == "../"){

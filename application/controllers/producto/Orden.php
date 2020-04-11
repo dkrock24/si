@@ -145,7 +145,11 @@ class Orden extends MY_Controller {
 		return $data;
 	}
 
-	public function editar($order_id){
+	public function editar($order_id = null){
+
+		if($order_id == null){
+			redirect(base_url()."producto/orden/nuevo");
+		}
 
 		// Seguridad :: Validar URL usuario	
 		$terminal_acceso 	= FALSE;

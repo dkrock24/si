@@ -212,9 +212,9 @@
                         html += '<td>' + item.nombre_sucursal + '</td>';
                         html += '<td>' + item.nombre_bodega + '</td>';
                         html += '<td>' + item.Cantidad + '</td>';
-                        html += '<td>' + item.moneda_simbolo + " " + item.precio_venta + '</td>';
-                        html += '<td>' + 0.00 + '</td>';
-                        html += '<td>' + item.moneda_simbolo + " " + item.Utilidad + '</td>';
+                        html += '<td>' + item.moneda_simbolo + " " + item.precio + '</td>';
+                        html += '<td>' + item.presentacion + '</td>';
+                        //html += '<td>' + item.moneda_simbolo + " " + item.Utilidad + '</td>';
                         html += '<td>' + item.cod_barra + '</td>';
                         html += '</tr>';
                         contador++;

@@ -92,7 +92,7 @@ include("asstes/pos_funciones.php");
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Tipo Documento</label>
+                                                    <label><i class="fa fa-file-o sz"></i>Tipo Documento :</label> 
                                                     <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
                                                         <?php
                                                         if ($tipoDocumento) {
@@ -117,7 +117,7 @@ include("asstes/pos_funciones.php");
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Sucursal Destino</label>
+                                                    <label><i class="fa fa-building sz"></i> Sucursal Destino :</label>
                                                     <select class="form-control" name="sucursal_destino" id="sucursal_id">
                                                         <?php
                                                         $id_sucursal = 0;
@@ -143,16 +143,13 @@ include("asstes/pos_funciones.php");
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Bodega</label>
+                                                <label><i class="fa fa-home sz"></i> Bodega :</label>
                                                     <select class="form-control" name="bodega" id="bodega_select">
                                                         <?php
 
                                                         if (isset($bodega[0]->nombre_bodega)) {
-
                                                             foreach ($bodega as $b) {
-
                                                                 if ($b->Sucursal == $id_sucursal) {
-
                                                         ?>
                                                                     <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
                                                             <?php
@@ -163,8 +160,6 @@ include("asstes/pos_funciones.php");
                                                             <option value="">No hay Bodega</option>
                                                         <?php
                                                         }
-
-
                                                         ?>
 
                                                     </select>
@@ -173,7 +168,7 @@ include("asstes/pos_funciones.php");
 
                                             <div class="btn-group col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Estado Orden</label>
+                                                    <label>Estado Orden :</label>
                                                     <select name="orden_estado" id="orden_estado" class="form-control">
                                                         <option value="1">En proceso</option>
                                                         <option value="6">Cancelado</option>
@@ -200,7 +195,7 @@ include("asstes/pos_funciones.php");
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Cliente Codigo</label>
+                                                    <label><i class="fa fa-user sz"></i> Cliente Codigo :</label>
                                                     <?php
                                                     if (isset($cliente[0]->id_cliente)) {
                                                     ?>
@@ -215,7 +210,7 @@ include("asstes/pos_funciones.php");
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Cliente Nombre</label>
+                                                    <label><i class="fa fa-user sz"></i> Cliente Nombre :</label>
                                                     <?php
                                                     if (isset($cliente[0]->id_cliente)) {
                                                     ?>
@@ -229,7 +224,7 @@ include("asstes/pos_funciones.php");
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Cliente Direccion</label>
+                                                    <label><i class="fa fa-user sz"></i> Cliente Direccion :</label>
                                                     <?php
                                                     if (isset($cliente[0]->id_cliente)) {
                                                     ?>
@@ -244,18 +239,21 @@ include("asstes/pos_funciones.php");
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Forma Pago</label>
+                                                    <label><i class="fa fa-money sz"></i> Forma Pago :</label>
                                                     <select class="form-control" id="modo_pago_id" name="modo_pago_id">
                                                         <?php
                                                         if ($modo_pago) {
                                                             foreach ($modo_pago as $value) {
-                                                        ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
-                                                                                                                                                            }
-                                                                                                                                                        } else {
-                                                                                                                                                                ?><option value=""><?php echo "No Hay Pagos"; ?></option><?php
-                                                                                                                                                                                                                        }
-                                                                                                                                                                                                                            ?>
-
+                                                            ?><option value="<?php echo $value->id_modo_pago; ?>">
+                                                            <?php echo $value->nombre_modo_pago; ?></option>
+                                                            <?php
+                                                                }
+                                                            } else {
+                                                            ?>
+                                                            <option value=""><?php echo "No Hay Pagos"; ?></option>
+                                                            <?php
+                                                            }
+                                                        ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -266,20 +264,20 @@ include("asstes/pos_funciones.php");
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Comentarios</label>
+                                                    <label><i class="fa fa-comment sz"></i> Comentarios :</label>
                                                     <input type="text" name="comentarios" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Fecha</label>
+                                                    <label><i class="fa fa-clock-o sz"></i> Fecha :</label>
                                                     <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Sucursal Origin</label>
+                                                <label><i class="fa fa-building sz"></i> Sucursal Origen :</label>
                                                     <select class="form-control" name="sucursal_origin" id="sucursal_id2">
                                                         <?php
                                                         $id_sucursal = 0;
@@ -309,7 +307,7 @@ include("asstes/pos_funciones.php");
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Vendedor</label><br>
+                                                    <label><i class="fa fa-user sz"></i> Vendedor :</label><br>
                                                     <div class="pull-left">
                                                         <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo @$empleado[0]->id_empleado; ?>">
                                                         <h3><a href="#" class="vendedores_lista1" id="<?php echo @$empleado[0]->id_sucursal; ?>"><?php echo @$empleado[0]->primer_nombre_persona . " " . @$empleado[0]->primer_apellido_persona; ?></a></h3>
@@ -613,9 +611,9 @@ include("asstes/pos_funciones.php");
                             <th style="color: black;">Bodega</th>
                             <th style="color: black;">Existencia</th>
                             <th style="color: black;">Costo</th>
-                            <th style="color: black;">Costo Anterior</th>
-                            <th style="color: black;">Costo utilidad</th>
-                            <th style="color: black;">Cod ubicacion</th>
+                            
+                            <th style="color: black;">Presentacion</th>
+                            <th style="color: black;">Codigo</th>
                         </tr>
                     </thead>
                     <tbody class="dos" style="border-bottom: 3px solid grey">

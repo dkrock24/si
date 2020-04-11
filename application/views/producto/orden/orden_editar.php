@@ -113,7 +113,7 @@ include("asstes/pos_orden.php");
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Tipo Documento</label>
+                                                <label><i class="fa fa-file-o sz"></i> Tipo Documento :</label> 
                                                     <select class="form-control" name="orden_documento" id="orden_documento">
                                                         <?php
 
@@ -148,7 +148,7 @@ include("asstes/pos_orden.php");
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Sucursal Destino</label>
+                                                <label><i class="fa fa-building sz"></i> Sucursal Destino :</label>
                                                     <select class="form-control" name="sucursal_destino" id="sucursal_id">
                                                         <?php
                                                         $id_sucursal = 0;
@@ -174,7 +174,7 @@ include("asstes/pos_orden.php");
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Bodega</label>
+                                                <label><i class="fa fa-home sz"></i> Bodega :</label>
                                                     <select class="form-control" name="bodega" id="bodega_select">
                                                         <?php
                                                         foreach ($bodega as $b) {
@@ -191,7 +191,7 @@ include("asstes/pos_orden.php");
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Estado Orden</label>
+                                                    <label>Estado Orden :</label>
                                                     <select name="orden_estado" id="orden_estado" class="form-control">
                                                         <option value="1">En proceso</option>
                                                         <option value="6">Cancelado</option>
@@ -209,26 +209,26 @@ include("asstes/pos_orden.php");
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Cliente Codigo</label>
+                                                <label><i class="fa fa-user sz"></i> Cliente Codigo :</label>
                                                     <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $cliente[0]->id_cliente ?>">
                                                     <select multiple="" class="form-control cliente_codigo2" id="cliente_codigo2" name="abc"></select>
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Cliente Nombre</label>
+                                                <label><i class="fa fa-user sz"></i> Cliente Nombre :</label>
                                                     <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania ?>">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Cliente Direccion</label>
+                                                <label><i class="fa fa-user sz"></i> Cliente Direccion :</label>                                                
                                                     <input type="text" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $cliente[0]->direccion_cliente ?>">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Forma Pago</label>
+                                                <label><i class="fa fa-money sz"></i> Forma Pago :</label>
                                                     <select class="form-control" id="modo_pago_id" name="modo_pago_id">
                                                         <?php
                                                         foreach ($modo_pago as $value) {
@@ -262,13 +262,13 @@ include("asstes/pos_orden.php");
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Comentarios</label>
+                                                <label><i class="fa fa-comment sz"></i> Comentarios :</label>
                                                     <input type="text" name="comentarios" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Fecha</label>
+                                                <label><i class="fa fa-clock-o sz"></i> Fecha :</label>
                                                     <input type="date" name="fecha" value="<?php $date = new DateTime($orden[0]->fecha);
                                                                                             echo $date->format('Y-m-d'); ?>" class="form-control">
                                                 </div>
@@ -276,7 +276,7 @@ include("asstes/pos_orden.php");
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Sucursal Origin</label>
+                                                    <label><i class="fa fa-building sz"></i> Sucursal Origin :</label>
                                                     <select class="form-control" name="sucursal_origin" id="sucursal_id2">
                                                         <?php
                                                         $id_sucursal = 0;
@@ -302,13 +302,11 @@ include("asstes/pos_orden.php");
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Numero Orden</label>
+                                                    <label><i class="fa fa-list-alt sz"></i> Número Orden :</label>
 
                                                     <input type="text" name="orden_numero" value="<?php echo $orden[0]->num_correlativo; ?>" class="form-control" id="orden_numero">
                                                 </div>
                                             </div>
-
-
 
                                         </div>
                                     </div>
@@ -320,7 +318,7 @@ include("asstes/pos_orden.php");
 
                                             <div class="col-lg-3 col-md-3">
                                                 <div class="form-group has-success">
-                                                    <label>Vendedor</label><br>
+                                                <label><i class="fa fa-user sz"></i> Vendedor :</label><br>
                                                     <div class="pull-left">
 
                                                         <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo $empleado[0]->id_empleado; ?>">
@@ -388,8 +386,8 @@ include("asstes/pos_orden.php");
                                 </div>
 
                                 <span>
-                                    Can.<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;" />
-                                    Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" value="0.00" style="width: 80px;display:inline-block;" />
+                                    Can [ = ] <input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;" />
+                                    Des.<input type="text" class="form-control border-input" placeholder="[ - ]" id="descuento" name="descuento" size="2px" value="" style="width: 80px;display:inline-block;" />
                                     Orden.<input type="text" class="form-control border-input" placeholder="[ * ]" id="buscar_orden" name="buscar_orden" style="width: 100px;display:inline-block;">
                                 </span>
 
