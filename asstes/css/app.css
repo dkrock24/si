@@ -2099,8 +2099,9 @@ fieldset[disabled] .btn-pink.focus {
 .panel-heading > a[data-tool] {
   display: inline-block;
   color: #fff;
-  width: 2em;
+  width: 6em;
   text-align: center;
+  margin-top: -40px;
 }
 .panel-default .panel-heading > a[data-tool] {
   color: #c1c2c3;

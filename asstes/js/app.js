@@ -2104,11 +2104,11 @@
   // Common use functions for panel collapse //
   /////////////////////////////////////////////
   function setIconShow(iconEl) {
-    iconEl.removeClass('fa-plus').addClass('fa-minus');
+    iconEl.removeClass('fa-expand').addClass('fa-compress');
   }
 
   function setIconHide(iconEl) {
-    iconEl.removeClass('fa-minus').addClass('fa-plus');
+    iconEl.removeClass('fa-compress').addClass('fa-expand');
   }
 
   function savePanelState(id, state) {

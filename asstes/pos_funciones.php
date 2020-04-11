@@ -2157,6 +2157,15 @@
             }
         });
 
+        $(document).keydown(function(e) {
+            // Collapsar Menu Information            
+            switch (e.which) {
+                case 219: // 0
+                    $("#information").trigger("click")
+                    break;
+            }
+        });
+
         $(document).on('keypress', '.preProducto', function() {
             
             if (event.which == 13) {

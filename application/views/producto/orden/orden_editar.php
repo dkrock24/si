@@ -100,8 +100,8 @@ include("asstes/pos_orden.php");
                             <?php //echo $empleado[0]->nombre_sucursal . " [ " . $terminal[0]->nombre . " ]"; 
                             ?>
 
-                            <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
-                                <em class="fa fa-minus"></em>
+                            <a href="#" data-tool="panel-collapse"  id="information" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
+                                <em class="fa fa-expand"></em> [ ? ]
                             </a>
                         </div>
 

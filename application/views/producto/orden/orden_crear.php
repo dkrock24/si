@@ -79,8 +79,8 @@ include("asstes/pos_funciones.php");
                             }
                             ?>
 
-                            <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
-                                <em class="fa fa-minus"></em>
+                            <a href="#" data-tool="panel-collapse" id="information" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
+                                <em class="fa fa-expand"></em> [ ? ]
                             </a>
                         </div>
 
