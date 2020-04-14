@@ -53,7 +53,8 @@ class Compras_model extends CI_Model
 				FROM `producto` as `P`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
 				LEFT JOIN prouducto_detalle AS `pde` ON pde.Producto = P.id_entidad				
-				WHERE (
+				WHERE P.Empresa = ". $this->session->empresa[0]->id_empresa ." and 
+				    (
 					P.name_entidad LIKE '%$texto%'||
 					P.codigo_barras LIKE '%$texto%'||
 					P.descripcion_producto LIKE '%$texto%'

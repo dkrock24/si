@@ -131,8 +131,8 @@ include("asstes/js/compras/pos_funciones.php");
                             }
                             ?>
 
-                            <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
-                                <em class="fa fa-minus"></em>
+                            <a href="#" data-tool="panel-collapse" id="information" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
+                                <em class="fa fa-expand"></em>[ ? ]
                             </a>
                         </div>
 
@@ -350,7 +350,7 @@ include("asstes/js/compras/pos_funciones.php");
                                     <!--
                                     <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
                                     <span class="btn bg-green" id="btn_discount" style="font-size: 18px;"><i class="fa fa-percent" aria-hidden="true"></i> <span style="font-size:18;">[ F9 ]</span></span>
-                                -->
+                                
 
                                     <div class="btn-group">
                                         <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
@@ -369,8 +369,9 @@ include("asstes/js/compras/pos_funciones.php");
                                             </li>
                                         </ul>
                                     </div>
+                                    -->
                                     <span>
-                                        Can.<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;">
+                                    Can [ = ]<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;">
                                         <!--Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display:inline-block;">-->
                                     </span>
 

@@ -4,6 +4,7 @@
         var input_producto_buscar = $(".producto_buscar");
         var input_bodega_select = $("#bodega_select");
         var input_sucursal = $("#sucursal_id").val();
+        var input_cantidad = $("#cantidad");
 
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
@@ -129,7 +130,7 @@
 
                     $("#descripcion").val(datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca);
                     producto_cantidad_linea = cantidad;
-                    if ($("#cantidad").val() == "") {
+                    if (input_cantidad.val() == "") {
 
                         producto_cantidad_linea = 1; //datos['producto'][0].factor;
 
@@ -564,7 +565,7 @@
 
                     $("#descripcion").val(datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca);
 
-                    if ($("#cantidad").val() == "") {
+                    if (input_cantidad.val() == "") {
                         producto_cantidad_linea = 1; //datos['producto'][0].factor;
                     } else {
                         _productos_precio.precio = _productos_precio.precio * producto_cantidad_linea;
@@ -733,8 +734,8 @@
                         break;
                     case 38: //alert('up');                        
                         break;
-                    case 39: //alert('right');
-                        focus_general_input($("#cantidad"), 1);
+                    case 48: // = ;
+                        focus_general_input(input_cantidad, 1);
                         break;
                     case 40:
                         //alert('down');
@@ -1470,7 +1471,7 @@
             $("#total").val(calcularTotalProducto(precioUnidad, producto_cantidad_linea));
         }
 
-        $(document).on('change', '#cantidad', function() {
+        $(document).on('change', input_cantidad, function() {
             changeCantidad();
         });
 
@@ -2188,6 +2189,15 @@
             }
         });
 
+        $(document).keydown(function(e) {
+            // Collapsar Menu Information            
+            switch (e.which) {
+                case 219: // 0
+                    $("#information").trigger("click")
+                    break;
+            }
+        });
+
         $(document).on('keypress', '.preProducto', function() {
 
             if (event.which == 13) {
@@ -2292,6 +2302,7 @@
             $(".sub_total_tabla").val(4);
 
             calculo_totales();
+            $("#cantidad").val(1);
 
             $(".producto_agregados").html(tr_html);
 

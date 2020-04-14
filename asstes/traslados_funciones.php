@@ -5,6 +5,7 @@
         var input_bodega_select = $("#bodega_select");
         var input_bodega_destino = $("#bodega_destino");
         var input_sucursal = $("#sucursal_id").val();
+        var input_cantidad = $("#cantidad");
 
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
@@ -467,7 +468,7 @@
 
                     $("#descripcion").val(datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca);
                     producto_cantidad_linea = cantidad;
-                    if ($("#cantidad").val() == "") {
+                    if (input_cantidad.val() == "") {
 
                         producto_cantidad_linea = 1; //datos['producto'][0].factor;
 
@@ -572,7 +573,7 @@
 
                     $("#descripcion").val(datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca);
 
-                    if ($("#cantidad").val() == "") {
+                    if (input_cantidad.val() == "") {
 
                         producto_cantidad_linea = 1; //datos['producto'][0].factor;
 
@@ -743,8 +744,8 @@
                         break;
                     case 38: //alert('up');                        
                         break;
-                    case 39: //alert('right');
-                        focus_general_input($("#cantidad"), 1);
+                    case 48: // = 
+                        focus_general_input(input_cantidad, 1);
                         break;
                     case 40:
                         //alert('down');
@@ -2300,7 +2301,14 @@
 
         });
 
-
+        $(document).keydown(function(e) {
+            // Collapsar Menu Information            
+            switch (e.which) {
+                case 219: // 0
+                    $("#information").trigger("click")
+                    break;
+            }
+        });
 
         $(document).on('click', '#btn_impuestos', function() {
             _config_impuestos();
@@ -2357,6 +2365,7 @@
             });
             $(".cantidad_tabla").val(4);
             $(".sub_total_tabla").val(4);
+            $("#cantidad").val(1);
 
             calculo_totales();
 

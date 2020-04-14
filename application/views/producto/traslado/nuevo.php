@@ -142,8 +142,8 @@ include("asstes/traslados_funciones.php");
                         </span>
 
                         <div class="panel-heading" style="text-align: right; font-size: 20px;">
-                            <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
-                                <em class="fa fa-minus"></em>
+                            <a href="#" data-tool="panel-collapse" id="information" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
+                                <em class="fa fa-expand"></em>[ ? ]
                             </a>
                         </div>
 
@@ -395,6 +395,10 @@ include("asstes/traslados_funciones.php");
 
                                     <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="save_traslado" id="guardar_orden"><i class='fa fa-save'></i> </button>
                                     <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
+                                    <span>
+                                    Can [ = ]<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;">
+                                        <!--Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display:inline-block;">-->
+                                    </span>
 
                                 </div>
                             </div>
