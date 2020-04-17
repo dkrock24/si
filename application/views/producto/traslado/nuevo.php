@@ -99,17 +99,14 @@ include("asstes/traslados_funciones.php");
         font-size: 20px;
         font-style: bold;
     }
-
     .sz2 {
         font-size: 30px;
         color: #0f4871;
     }
-
     .btn-process {
         display: inline-block;
         float: right;
     }
-
     .header_report {
         background: #eef5be;
     }
@@ -122,12 +119,10 @@ include("asstes/traslados_funciones.php");
 <section>
     <!-- Page content-->
 
-
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <!-- Team Panel-->
             <div class="">
-
                 <!-- START panel-->
                 <form name="encabezado_form" id="encabezado_form" method="post" action="#">
 
@@ -148,220 +143,216 @@ include("asstes/traslados_funciones.php");
                         </div>
 
                         <div class="panel-wrapper collapse in">
-                            <div class="panel-body"><br>
-                                <p>
-                                    <div class="panel-body">
-                                        <div class="row">
+                            <div class="panel-body">
+                                <div class="panel-body">
+                                    <div class="row">
 
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-clock-o sz"></i> Fecha Salida</label>
-                                                    <input type="date" name="fecha_salida" value="<?php echo date("Y-m-d"); ?>" class="form-control">
-                                                </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-clock-o sz"></i> Fecha Salida</label>
+                                                <input type="date" name="fecha_salida" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                             </div>
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-clock-o sz"></i> Fecha Llegada</label>
-                                                    <input type="date" name="fecha_llegada" value="<?php echo date("Y-m-d"); ?>" class="form-control">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-user sz"></i> Envia :</label>
-                                                    <select class="form-control" name="firma_salida" id="firma_salida">
-                                                        <?php
-
-                                                        foreach ($empleado as $emp) {
-
-                                                        ?>
-                                                            <option value="<?php echo $emp->id_persona; ?>"><?php echo $emp->primer_nombre_persona; ?></option>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-user sz"></i> Recibe :</label>
-                                                    <input type="hidden" class="form-control" name="recibe_nombre" id="recibe_nombre"/>
-                                                    <input type="text" class="form-control" name="firma_llegada" id="firma_llegada"/>
-                                         
-                                                </div>
-                                            </div>
-
                                         </div>
+
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-clock-o sz"></i> Fecha Llegada</label>
+                                                <input type="date" name="fecha_llegada" value="<?php echo date("Y-m-d"); ?>" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-user sz"></i> Envia :</label>
+                                                <select class="form-control" name="firma_salida" id="firma_salida">
+                                                    <?php
+
+                                                    foreach ($empleado as $emp) {
+
+                                                    ?>
+                                                        <option value="<?php echo $emp->id_persona; ?>"><?php echo $emp->primer_nombre_persona; ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-user sz"></i> Recibe :</label>
+                                                <input type="hidden" class="form-control" name="recibe_nombre" id="recibe_nombre"/>
+                                                <input type="text" class="form-control" name="firma_llegada" id="firma_llegada"/>
+                                        
+                                            </div>
+                                        </div>
+
                                     </div>
+                                </div>
 
+                                <div class="panel-body">
+                                    <div class="row">
 
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-building sz"></i> Sucursal Origen</label>
+                                                <select class="form-control" name="sucursal_origen" id="sucursal_id">
+                                                    <?php
+                                                    $id_sucursal = 0;
 
-                                    <div class="panel-body">
-                                        <div class="row">
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-building sz"></i> Sucursal Origen</label>
-                                                    <select class="form-control" name="sucursal_origen" id="sucursal_id">
+                                                    foreach ($empleado as $sucursal) {
+                                                        $id_sucursal = $sucursal->id_sucursal;
+                                                    ?>
+                                                        <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
                                                         <?php
-                                                        $id_sucursal = 0;
+                                                    }
 
-                                                        foreach ($empleado as $sucursal) {
-                                                            $id_sucursal = $sucursal->id_sucursal;
+                                                    foreach ($sucursales as $sucursal) {
+                                                        if ($sucursal->id_sucursal != $id_sucursal) {
                                                         ?>
                                                             <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                            <?php
+                                                    <?php
                                                         }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
 
-                                                        foreach ($sucursales as $sucursal) {
-                                                            if ($sucursal->id_sucursal != $id_sucursal) {
-                                                            ?>
-                                                                <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-home sz"></i> Bodega Origen</label>
+                                                <select class="form-control" name="bodega_origen" id="bodega_select">
+                                                    <?php
+
+                                                    if (isset($bodega[0]->nombre_bodega)) {
+
+                                                        foreach ($bodega as $b) {
+
+                                                            if ($b->Sucursal == $id_sucursal) {
+
+                                                    ?>
+                                                                <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
                                                         <?php
                                                             }
                                                         }
+                                                    } else {
                                                         ?>
-                                                    </select>
-                                                </div>
+                                                        <option value="">No hay Bodega</option>
+                                                    <?php
+                                                    }
+
+
+                                                    ?>
+
+                                                </select>
                                             </div>
+                                        </div>
 
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-home sz"></i> Bodega Origen</label>
-                                                    <select class="form-control" name="bodega_origen" id="bodega_select">
+
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-building sz"></i> Sucursal Destino</label>
+                                                <select class="form-control" name="sucursal_destino" id="sucursal_id2">
+                                                    <?php
+                                                    $id_sucursal = 0;
+                                                    $id_sucursal = $empleado[0]->id_sucursal;
+                                                    foreach ($empleado as $sucursal) {
+
+                                                    ?>
+                                                        <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
                                                         <?php
+                                                    }
 
-                                                        if (isset($bodega[0]->nombre_bodega)) {
-
-                                                            foreach ($bodega as $b) {
-
-                                                                if ($b->Sucursal == $id_sucursal) {
-
-                                                        ?>
-                                                                    <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
-                                                            <?php
-                                                                }
-                                                            }
-                                                        } else {
-                                                            ?>
-                                                            <option value="">No hay Bodega</option>
-                                                        <?php
-                                                        }
-
-
-                                                        ?>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-building sz"></i> Sucursal Destino</label>
-                                                    <select class="form-control" name="sucursal_destino" id="sucursal_id2">
-                                                        <?php
-                                                        $id_sucursal = 0;
-                                                        $id_sucursal = $empleado[0]->id_sucursal;
-                                                        foreach ($empleado as $sucursal) {
-
+                                                    foreach ($sucursales as $sucursal) {
+                                                        if ($sucursal->id_sucursal != $id_sucursal) {
                                                         ?>
                                                             <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                            <?php
+                                                    <?php
                                                         }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
 
-                                                        foreach ($sucursales as $sucursal) {
-                                                            if ($sucursal->id_sucursal != $id_sucursal) {
-                                                            ?>
-                                                                <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-home sz"></i> Bodega Destino</label>
+                                                <select class="form-control" name="bodega_destino" id="bodega_destino">
+                                                    <?php
+
+                                                    if (isset($bodega[0]->nombre_bodega)) {
+
+                                                        foreach ($bodega as $b) {
+
+                                                            if ($b->Sucursal == $id_sucursal) {
+
+                                                    ?>
+                                                                <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
                                                         <?php
                                                             }
                                                         }
+                                                    } else {
                                                         ?>
-                                                    </select>
-                                                </div>
+                                                        <option value="">No hay Bodega</option>
+                                                    <?php
+                                                    }
+
+
+                                                    ?>
+
+                                                </select>
                                             </div>
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-home sz"></i> Bodega Destino</label>
-                                                    <select class="form-control" name="bodega_destino" id="bodega_destino">
-                                                        <?php
-
-                                                        if (isset($bodega[0]->nombre_bodega)) {
-
-                                                            foreach ($bodega as $b) {
-
-                                                                if ($b->Sucursal == $id_sucursal) {
-
-                                                        ?>
-                                                                    <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
-                                                            <?php
-                                                                }
-                                                            }
-                                                        } else {
-                                                            ?>
-                                                            <option value="">No hay Bodega</option>
-                                                        <?php
-                                                        }
-
-
-                                                        ?>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
                                         </div>
+
                                     </div>
+                                </div>
 
-                                    <div class="panel-body">
-                                        <div class="row">
+                                <div class="panel-body">
+                                    <div class="row">
 
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-comment sz"></i> Comentarios</label>
-                                                    <input type="text" name="descripcion_tras" class="form-control">
-                                                </div>
-                                            </div>  
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-comment sz"></i> Comentarios</label>
+                                                <input type="text" name="descripcion_tras" class="form-control">
+                                            </div>
+                                        </div>  
 
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-truck sz"></i> Placa Transporte</label>
-                                                    <input type="text" name="transporte_placa" class="form-control">
-                                                </div>
-                                            </div>    
-                                            
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-file-o sz"></i> Documento</label>                                                    
-                                                    <select name="documento" class="form-control">
-                                                        <?php
-                                                        foreach ($vista_doc as $key => $value) {
-                                                            ?>
-                                                            <option value="<?= $value->id_tipo_documento ?>"><?= $value->nombre ?></option>
-                                                            <?php
-                                                        }
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-truck sz"></i> Placa Transporte</label>
+                                                <input type="text" name="transporte_placa" class="form-control">
+                                            </div>
+                                        </div>    
+                                        
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-file-o sz"></i> Documento</label>                                                    
+                                                <select name="documento" class="form-control">
+                                                    <?php
+                                                    foreach ($vista_doc as $key => $value) {
                                                         ?>
-                                                    </select>
-                                                </div>
+                                                        <option value="<?= $value->id_tipo_documento ?>"><?= $value->nombre ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
                                             </div>
-
-                                            <div class="btn-group col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Estado</label>
-                                                    <select name="estado_tras" id="estado_tras" class="form-control">
-                                                        <option value="1">Creado</option>
-                                                        <option value="2">Enviado</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
                                         </div>
+
+                                        <div class="btn-group col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label>Estado</label>
+                                                <select name="estado_tras" id="estado_tras" class="form-control">
+                                                    <option value="1">Creado</option>
+                                                    <option value="2">Enviado</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -415,11 +406,9 @@ include("asstes/traslados_funciones.php");
                                             <th style="color: black;">Presentación</th>
                                             <th style="color: black;">Factor</th>
                                             <th style="color: black;">Precio Unidad</th>
-
                                             <th style="color: black;">Total</th>
                                             <th style="color: black;">Bodega</th>
                                             <th style="color: black;">
-
                                             </th>
                                         </tr>
                                     </thead>
@@ -443,7 +432,6 @@ include("asstes/traslados_funciones.php");
                                                     -->
                                     </tbody>
                                 </div>
-
                             </div>
                         </table>
 
@@ -453,14 +441,8 @@ include("asstes/traslados_funciones.php");
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
-
-
-
                 </div>
-
-
 
                 <div class="row" style="border-top: 1px dashed grey;">
                     <div class="col-lg-12 col-md-12">
@@ -473,16 +455,11 @@ include("asstes/traslados_funciones.php");
 
                 <div class="col-lg-12 col-md-12 paper_cut1">
                 </div>
-
-
                 <!-- END table-responsive-->
-
-
             </div>
             <!-- end Team Panel-->
         </div>
     </div>
-
 
 </section>
 
@@ -499,9 +476,7 @@ include("asstes/traslados_funciones.php");
             </div>
             <div class="modal-body">
                 <p class="cliente_lista_datos">
-
                 </p>
-
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
@@ -510,8 +485,6 @@ include("asstes/traslados_funciones.php");
     </div>
 </div>
 <!-- Modal Small-->
-
-
 
 <!-- Modal Large PRODUCTOS MODAL-->
 <div id="existencias" tabindex="-1" role="dialog" aria-labelledby="existencias" class="modal fade">

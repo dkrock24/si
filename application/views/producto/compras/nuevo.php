@@ -132,13 +132,13 @@ include("asstes/js/compras/pos_funciones.php");
                             ?>
 
                             <a href="#" data-tool="panel-collapse" id="information" data-toggle="tooltip" title="Collapse Panel" class="pull-right bg-green">
-                                <em class="fa fa-expand"></em>[ ? ]
+                                <em class="fa fa-expand"></em> [ ? ]
                             </a>
                         </div>
 
                         <div class="panel-wrapper collapse in">
                             <div class="panel-body">
-                                <p>
+                                
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3">
@@ -302,7 +302,7 @@ include("asstes/js/compras/pos_funciones.php");
 
                                         </div>
                                     </div>
-                                </p>
+                                
                             </div>
                         </div>
                     </div>
