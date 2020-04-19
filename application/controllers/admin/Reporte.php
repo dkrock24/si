@@ -36,6 +36,7 @@ class Reporte extends My_Controller {
 		$this->load->model('admin/Sucursal_model');  
         $this->load->model('admin/Usuario_model');  
 		$this->load->model('admin/Menu_model');
+		$this->load->model('admin/Caja_model');
 		$this->load->model('accion/Accion_model');
 
 		
@@ -45,9 +46,9 @@ class Reporte extends My_Controller {
 
 	public function index(){
 
-        $data['turno'] 	= $this->Turnos_model->getTurnos();
-		$data['cajero'] = $this->Usuario_model->get_cajeros('Cajero');
-		$data['sucursal'] = $this->Sucursal_model->getSucursal();
+        $data['turno'] 		= $this->Turnos_model->getTurnos();
+		$data['cajero'] 	= $this->Usuario_model->get_cajeros('Cajero');
+		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
 
         if( isset( $_POST['fecha_i'])){
             
@@ -56,35 +57,38 @@ class Reporte extends My_Controller {
                 'fh_fin'    => $_POST['fecha_f'],
 				'sucursal'  => $_POST['sucursal'],
 				'turno'     => $_POST['turno'],
-                'cajero'    => $_POST['cajero']
+				'cajero'    => $_POST['cajero'],
+				'caja'		=> $_POST['caja']
 			);
-			$data['filters'] = $filters;
-    
-            $data['registros'] = $this->Reporte_model->filtrar_venta($filters);
+			$data['filters'] 	= $filters;    
+            $data['registros'] 	= $this->Reporte_model->filtrar_venta($filters);
         }else{
-			$data['registros'] = 1;
-
-			$data['filters'] = array(
+			$data['registros'] 	= 1;
+			$data['filters'] 	= array(
 				'fh_inicio' => date('Y-m-d'),
 				'fh_fin'    => date('Y-m-d'),
 				'sucursal'  => 0,
 				'turno'     => 0,
 				'cajero'    => 0,
+				'caja'		=> 0,
 			);
 		}		
 
-		
-
-		$data['fields'] 	= $this->fields();
-		$data['menu'] = $this->session->menu;
+		$data['fields']	= $this->fields();
+		$data['menu'] 	= $this->session->menu;
 		$data['moneda'] = $this->session->empresa[0]->moneda_simbolo;
-        $data['title'] = 'Reportes';
-		$data['home'] = 'admin/reporte/index';
+        $data['title'] 	= 'Reportes';
+		$data['home'] 	= 'admin/reporte/index';
 		
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
+	}
+
+	public function change_caja($sucursal){
+		$data['caja']		= $this->Caja_model->getCajaSucursal($sucursal);
+		echo json_encode($data);
 	}
 
 	public function concentrado(){

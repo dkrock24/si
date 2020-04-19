@@ -42,28 +42,26 @@ class Reporte_model extends CI_Model {
         $f_inicio   = $filters['fh_inicio'].$mask;
         $f_fin      = $filters['fh_fin'].$mask;
         $sucursal   = $filters['sucursal'];
+        $caja       = $filters['caja'];
 
         if( $filters['turno'] != 0 ){
-
-            $turnos = $this->get_turno($filters['turno']);
-            
+            $turnos = $this->get_turno($filters['turno']);            
             $f_hora_inicio   = $turnos[0]->hora_inicio;
             $f_hora_fin      = $turnos[0]->hora_fin;
-
             $time = "DATE_FORMAT(v.fh_inicio, '%h-%i-%s') >= '".$f_hora_inicio."' AND DATE_FORMAT(v.fh_inicio, '%h-%i-%s') <= '".$f_hora_fin."'" ;
 
         }else{
-            //$filter = " DATE(v.fh_inicio) BETWEEN ".  DATE($f_inicio) . " AND ".  DATE($f_fin);
-            
+            //$filter = " DATE(v.fh_inicio) BETWEEN ".  DATE($f_inicio) . " AND ".  DATE($f_fin);            
         }
 
-        if( $filters['cajero'] ){
-            
+        if( $filters['cajero'] != 0 ){            
             $cajero = " v.id_cajero = ". $filters['cajero'];
         }
-
-        if($sucursal){
+        if($sucursal != 0){
             $sucursal = " v.id_sucursal = ". $sucursal;
+        }
+        if(isset($caja) and $caja != 0){
+            $caja = " v.id_caja = ". $caja;
         }
 
         $this->db->select('v.id , v.num_correlativo, v.fh_inicio, v.id_cliente , v.total_doc , d.nombre , c.nombre_empresa_o_compania ,p.nombre_metodo_pago, s.orden_estado_nombre');
@@ -81,22 +79,18 @@ class Reporte_model extends CI_Model {
         if( $time != "" ){
             $this->db->where( $time );   
         }
-
-        if( $sucursal){
-          
+        if( $sucursal){          
             $this->db->where( $sucursal );            
            // $this->db->where(DATE('v.fh_inicio') . " BETWEEN ". DATE("2020-02-04 00:00:00") ." AND ". "2020-02-05 00:00:00");
         }
-
         if( $cajero ){
             $this->db->where( $cajero ); 
         }
-              
+        if($caja){
+            $this->db->where( $caja );
+        }
         $query = $this->db->get();
-        //echo $this->db->queries[4];
-        
-              
-                
+        //echo $this->db->queries[4];    
         if($query->num_rows() > 0 )
         {
             return $query->result();
