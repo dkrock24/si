@@ -23,6 +23,7 @@
                     $.each(caja, function(i, item) {
                         _htmlCaja += '<option value="' + item.id_caja + '">' + item.nombre_caja + ' ' + item.cod_interno_caja + '</option>';
                     });
+                    _htmlCaja += '<option value=0>' + ' - ' +'</option>';
 
                     $("#caja").html(_htmlCaja);
 
@@ -173,7 +174,7 @@
                                                 <div class="col-sm-12">
                                                     <label for="" class=""><i class="fa fa-desktop sz"></i> Caja</label>
                                                     <select name="caja" id="caja" class="form-control">
-                                                    <option value="0"> - </option>
+                                                        <option value="0"> - </option>
                                                     </select>
                                                 </div>
                                             </div>
