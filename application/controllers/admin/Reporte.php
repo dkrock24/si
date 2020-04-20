@@ -104,7 +104,8 @@ class Reporte extends My_Controller {
                 'fh_fin'    => $_POST['fecha_f'],
 				'sucursal'  => $_POST['sucursal'],
 				'turno'     => $_POST['turno'],
-                'cajero'    => $_POST['cajero']
+				'cajero'    => $_POST['cajero'],
+				'caja'		=> 0,
 			);
 			$data['filters'] = $filters;
     
@@ -118,6 +119,7 @@ class Reporte extends My_Controller {
 				'sucursal'  => 0,
 				'turno'     => 0,
 				'cajero'    => 0,
+				'caja'		=> 0,
 			);
 		}				
 

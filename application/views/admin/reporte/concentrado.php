@@ -7,8 +7,29 @@
     var documento_titulo = <?php echo json_encode($fields['titulo']); ?>;
 
     $(document).ready(function() {
+        $("#sucursal").change(function(){
+            var sucursal = $(this).val();
+            $.ajax({
+                url: "change_caja/"+sucursal,
+                datatype: 'json',
+                cache: false,
 
-        
+                success: function(data) {
+
+                    var datos   = JSON.parse(data);
+                    var caja    = datos["caja"];
+                    var _htmlCaja = "";
+                    $.each(caja, function(i, item) {
+                        _htmlCaja += '<option value="' + item.id_caja + '">' + item.nombre_caja + ' ' + item.cod_interno_caja + '</option>';
+                    });
+                    _htmlCaja += '<option value=0>' + ' - ' +'</option>';
+
+                    $("#caja").html(_htmlCaja);
+
+                },
+                error: function() {}
+            });
+        });        
     });
 </script>
 
@@ -110,12 +131,10 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <label for="" class=""><i class="fa fa-home sz"></i> Sucursal</label>
-                                                    <select name="sucursal" class="form-control">
+                                                    <select name="sucursal" id="sucursal" class="form-control">
 
                                                         <?php
                                                         if ($filters['sucursal']) {
-
-
                                                             foreach ($sucursal as $key => $value) {
                                                                 if ($filters['sucursal'] == $value->id_sucursal) {
                                                         ?>
@@ -145,19 +164,43 @@
                                             </div>
 
                                         </div>
-
+                                        
+                                        <div class="col-lg-2">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <label for="" class=""><i class="fa fa-desktop sz"></i> Caja</label>
+                                                    <select name="caja" id="caja" class="form-control">
+                                                        <option value="0"> - </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-2">
 
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <label for="" class=""><i class="fa fa-user-o sz"></i> Cajero</label>
                                                     <select name="cajero" class="form-control">
+                                                        <?php
+                                                        if ($filters['cajero']) {
+                                                            foreach ($cajero as $key => $value) {
+                                                                if ($filters['cajero'] == $value->id_empleado) {
+                                                                ?>
+                                                                    <option value="<?= $value->id_empleado ?>"><?= $value->primer_apellido_persona . " " . $value->primer_nombre_persona ?></option>
+                                                                <?php
+                                                                }
+                                                            }
+                                                        }
+                                                        ?>
                                                         <option value="0"> - </option>
                                                         <?php
+
                                                         foreach ($cajero as $key => $value) {
+                                                            if ($filters['cajero'] != $value->id_empleado) {
                                                         ?>
                                                             <option value="<?= $value->id_empleado ?>"><?= $value->primer_apellido_persona . " " . $value->primer_nombre_persona ?></option>
                                                         <?php
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -167,7 +210,8 @@
 
                                         </div>
 
-                                        <div class="col-lg-2">
+
+                                        <div class="col-lg-1">
 
                                             <div class="form-group">
                                                 <div class="col-sm-12">
@@ -206,7 +250,7 @@
 
                                         </div>
 
-                                        <div class="col-lg-2">
+                                        <div class="col-lg-1">
 
                                             <div class="form-group">
                                                 <div class="col-sm-12">
@@ -218,9 +262,6 @@
                                             </div>
 
                                         </div>
-
-
-
                                     </div>
 
                                     <div class="row">
