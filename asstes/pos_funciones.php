@@ -5,6 +5,7 @@
         var input_bodega_select = $("#bodega_select");
         var input_sucursal = $("#sucursal_id").val();
         var input_cantidad = $("#cantidad");
+        var total_venta = 0.00;
         
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
@@ -1586,7 +1587,6 @@
         });
 
         function f4_guardar() {
-
             var cli_form_pago = $("#cliente_codigo").val();
             var tipo_documento = parseInt($("#id_tipo_documento").val());
             var sucursal_id = $("#sucursal_id2").val();
@@ -1595,7 +1595,7 @@
             if (!pagos_mostrados.includes(id_modo_pag)) {
                 pagos_mostrados[pagos_mostrados.length] = id_modo_pag;
             }
-
+            
             guardarX(cli_form_pago, tipo_documento, sucursal_id);
             correlativo_documento(cli_form_pago, tipo_documento, sucursal_id);
 
@@ -1621,8 +1621,8 @@
         }
 
         function guardarX(cli_form_pago, tipo_documento, sucursal_id) {
-
             var sucursal_id = input_sucursal;
+            var internal_total = this.total_venta;
 
             $.ajax({
                 url: path + "get_form_pago/" + cli_form_pago + "/" + tipo_documento + "/" + sucursal_id,
@@ -1637,6 +1637,7 @@
 
                     var _html = "";
                     var cou = 1;
+                    
 
                     _html += '<table class="table formas_pagos_valores">';
 
@@ -1645,31 +1646,28 @@
                     pagos_mostrados.forEach(element => {
 
                         $.each(metodo_pago, function(i, item) {
-
+                            
                             if (element == parseInt(item.id_modo_pago)) {
                                 _html += '<tr class="pagos_tabla" id="' + cou + '"><td><div class="btn bg-green">' + item.nombre_modo_pago + '</div></td>';
-
                                 _html += '<td class="">' +
                                     '<input type="text" count=' + metodo_pago.length + ' size="9px" name="pagoInput' + cou + '" ids=' + item.id_modo_pago + ' id=' + item.nombre_modo_pago + ' class="metodo_pago_input"></td>';
-
+                                _html += '<td class="">' +
+                                    '<input type="text" count=' + metodo_pago.length + ' size="9px" name="pagoInput' + cou + '" ids=' + item.id_modo_pago + ' id=' + item.nombre_modo_pago + ' class="metodo_pago_input"></td>';
                                 _html += '<td><input type="text" count=' + metodo_pago.length + '  size="14px" name="val' + cou + '" placeholder="" class="metodo_pago_input" /></td>';
                                 _html += '<td><input type="text" count=' + metodo_pago.length + ' size="14px" name="ban' + cou + '" placeholder="" class="metodo_pago_input" /></td>';
                                 _html += '<td><input type="text" count=' + metodo_pago.length + ' size="14px" name="ser' + cou + '" placeholder="" class="metodo_pago_input" /></td>';
-
                                 _html += '</tr>';
-
                                 cou++;
-
                             }
                         });
                     });
                     _html += '</table>';
-
+                    
                     generar_select_pagos(metodo_pago);
-
                     $("#metodos_pagos").html(_html);
-
-                    $("input[name='pagoInput1']").focus();
+                    $("input[name='pagoInput1']:first").focus();
+                    $("input[name='pagoInput1']:first").val(internal_total);
+                    $("input[name='pagoInput1']:first").select();
                 },
                 error: function() {}
             });
@@ -1702,16 +1700,21 @@
         });
 
         $(document).on('change', '.metodo_pago_input', function() {
+            pagos_proceso($(this).attr('count'));
+        });
 
+        $(document).on('keypress', '.metodo_pago_input', function() {
+            pagos_proceso($(this).attr('count'));
+        });
+
+        function pagos_proceso(leng){
             if (total_msg <= 0) {
                 return;
             }
-
-
-
+            
             var temp = 0.00;
             var cambio = 0.00;
-            var leng = $(this).attr('count');
+            var leng = leng;
             var count = 1;
 
             pagos_array = [];
@@ -1762,8 +1765,7 @@
             } else if (cambio <= 0) {
                 $("#restante_venta").text(cambio.toFixed(2));
             }
-
-        });
+        }
 
         $(document).on('click', '#procesar_btn', function() {
 
@@ -2376,12 +2378,9 @@
         $(".sub_total_tabla").text(sub_total_.toFixed(2));
         $(".total_tabla").text(total_msg.toFixed(2));
         $(".descuento_tabla").text(descuento.toFixed(2));
-
         $("#compra_venta").text(total_msg.toFixed(2));
         $("#restante_venta").text(total_msg.toFixed(2));
-
-
-
+        this.total_venta = total_msg.toFixed(2);
     }
 
     function existAutorizatio() {
