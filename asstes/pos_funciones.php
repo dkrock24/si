@@ -649,9 +649,13 @@
 
                     id_celda = $(currCell.closest('tr').prev()).attr('name');
 
+                    var Xh = $(currCell.closest('tr').prev()).attr('id');
+                    $("input[alt=" + Xh + "]").focus();
+                    $("input[alt=" + Xh + "]").select();
+
                     var pagoLinea = $(currCell.closest('tr').prev()).attr('id');
                     pagoLinea = parseInt(pagoLinea);
-                    $("input[name=pagoInput" + pagoLinea + "]").focus();
+                    //$("input[name=pagoInput" + pagoLinea + "]").focus();
 
                     $('tr').css('background', 'none');
                     $('tr').css('color', 'black');
@@ -666,8 +670,8 @@
 
 
                 } else if (e.keyCode == 40) {
-                    // Down Arrow                   
-
+                    // Down Arrow                 
+                    
                     c = currCell.closest('tr').next().find('td:eq(' +
                         currCell.index() + ')');
 
@@ -679,8 +683,15 @@
                     id_celda = $(currCell.closest('tr').next()).attr('name');
 
                     var pagoLinea = $(currCell.closest('tr')).attr('id');
-                    pagoLinea = parseInt(pagoLinea) + 1;
-                    $("input[name=pagoInput" + pagoLinea + "]").focus();
+
+                    var Xh = $(currCell.closest('tr').next()).attr('id');
+                    $("input[alt=" + Xh + "]").focus();
+                    $("input[alt=" + Xh + "]").select();
+
+                    pagoLinea = parseInt(pagoLinea) + 1;                   
+                    
+
+                    //$("input[name=pagoInput" + pagoLinea + "]").focus();
 
                     $('tr').css('background', 'none');
                     $('tr').css('color', 'black');
@@ -734,17 +745,16 @@
             });
 
             function producto_tabla_foco() {
-
                 //$("#lista_productos").select();
                 $('.lista_productos').focus();
-
-                $(this).css("background", "red");
-
+                $("input[name='cntProducto']:first").focus();
+                $("input[name='cntProducto']:first").select();
                 $('.lista_productos').animate({
                     scrollTop: 0
                 }, 100);
 
                 currCell = $('.producto_agregados > tr').first();
+                //currCell = $('.producto_agregados > tr').next();
 
                 $('tr').css('background', 'none');
                 $('tr').css('color', 'black');
@@ -752,7 +762,6 @@
                 $(currCell).css('background', '#ececec');
                 $(currCell).css('color', 'black');
                 //currCell.focus();
-
             }
 
             function f7_foco_efectivo() {
@@ -2230,10 +2239,9 @@
     function depurar_producto() {
         // Remueve los productos selecionados
         _config_impuestos();
-        //agregar_producto();
         contador_tabla = 1;
         if (_orden.length >= 1) {
-            var tr_html = "";
+            var tr_html = "";           
 
             _orden.forEach(function(element) {
 
@@ -2245,7 +2253,7 @@
                     tr_html += "<td class='border-table-left'>" + contador_tabla + "</td>";
                     tr_html += "<td class=''>" + element.producto + "</td>";
                     tr_html += "<td class=''>" + element.descripcion + "</td>";
-                    tr_html += "<td class=''><input type='text' class='form-control cntProducto' size='3' id='" + element.producto + "' value='" + element.cantidad + "' style='border:1px solid orange;width:90px;'></input></td>";
+                    tr_html += "<td class=''><input type='text' name='cntProducto' alt='"+element.producto_id+"' class='form-control cntProducto' size='3' id='" + element.producto + "' value='" + element.cantidad + "' style='border:1px solid orange;width:90px;'></input></td>";
                     tr_html += "<td class=''>" + element.presentacion + "</td>";
                     tr_html += "<td class=''>" + element.presentacionFactor + "</td>";
                     tr_html += "<td class=''><input type='text' class='form-control preProducto' size='4' id='" + element.producto + "' value='" + precio_tag.toFixed(2) + "' style='border:1px solid blue;'></input></td>";

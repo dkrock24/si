@@ -114,7 +114,7 @@ include("asstes/pos_orden.php");
 
                                     <div class="input-group m-b" id="headerInputs">
                                         <span class="input-group-addon bg-green">[ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
-                                        <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
+                                        <input type="text" placeholder="Buscar Producto" autocomplete="off" name="[producto_buscar]" class="form-control producto_buscar">
                                     </div>
 
                                     <select multiple="" class="form-control dataSelect form-control note-editor" id="dataSelect" style="height: 200px;">
@@ -161,27 +161,23 @@ include("asstes/pos_orden.php");
 
                         <!-- START table-responsive-->
                         <div class="table-responsive" style="width: 100%;">  
-                            <table class="table table-sm table-hover">
+                            <div class="lista_productos">                                
+                                <table class="table table-sm table-hover">  
                                 <thead class="bg-info-dark" style="background: #cfdbe2;">
                                     <tr>
                                         <th style="color: black;">#</th>
                                         <th style="color: black;">Producto</th>
                                         <th style="color: black;">Descripción</th>
-                                        <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ]</th>
+                                        <th style="color: black;">Cantidad</th>
                                         <th style="color: black;">Presentación</th>
                                         <th style="color: black;">Factor</th>
                                         <th style="color: black;">Unidad</th>
-                                        <th style="color: black;">Descuento [ : ]</th>
+                                        <th style="color: black;">Descuento</th>
                                         <th style="color: black;">Total</th>
-                                        <th style="color: black;">Bodega</th>
-                                        <th style="color: black;">
-                                            <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
-                                        </th>
+                                        <th style="color: black;">Bodega</th>   
+                                        <th style="color: black;"></th>                                        
                                     </tr>
-                                </thead>
-                            </table>
-                            <div class="lista_productos">                                
-                                <table class="table table-sm table-hover">                                
+                                </thead>                              
                                     <tbody class="producto_agregados" style="border-top:  0px solid black; color: black; background: white; overflow: scroll;">
                                     </tbody>
                                 </table>
