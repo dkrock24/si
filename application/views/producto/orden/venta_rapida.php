@@ -89,10 +89,11 @@ include("asstes/pos_orden.php");
 
 <style>
     .modal-header {
-        background: #0f4871;
-        color: white;
+        background:#fff;
+        color: black;
         border-top: 2px solid white;
         border-bottom: 2px solid #27c24c;
+        font-size:22px;
     }
 </style>
 
@@ -111,7 +112,7 @@ include("asstes/pos_orden.php");
 
                                 <div class="col-lg-4">
 
-                                    <div class="input-group m-b">
+                                    <div class="input-group m-b" id="headerInputs">
                                         <span class="input-group-addon bg-green">[ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
                                         <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
                                     </div>
@@ -125,7 +126,7 @@ include("asstes/pos_orden.php");
                                     </select>
                                 </div>
 
-                                <div class="col-lg-8" style="text-align: left;">
+                                <div class="col-lg-8" style="text-align: left;" id="headerInputs">
                                     <!--
                                     <button class="btn bg-green" id="grabar" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Agregar"><i class='fa fa-shopping-cart'></i></button>
 -->
@@ -152,8 +153,8 @@ include("asstes/pos_orden.php");
                                     </div>
 
                                     <input type="text" name="orden_numero" id="orden_numero" placeholder="Orden [ * ]" value="" class="form-control" style="width:100px; display: inline-block;" />
-                                    Can.<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display: inline-block;">
-                                    Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display: inline-block;">
+                                    Can[=]<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display: inline-block;">
+                                    Des[-]<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display: inline-block;">
                                 </div>
                             </div>
                         </div>
@@ -283,7 +284,7 @@ include("asstes/pos_orden.php");
                             <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <i class="icon-docs"></i> FACTURACION
+                            <i class="icon-docs"></i> > FACTURACION
                         </div>
                         <div class="modal-body">
 
@@ -292,7 +293,7 @@ include("asstes/pos_orden.php");
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
-                                            <label> <span class="fa fa-edit"></span> Tipo Documento [ -> ] <?php //echo $terminal[0]->pred_id_tpdoc; 
+                                            <label> <span class="fa fa-edit"></span> Tipo Documento [ 1 ] <?php //echo $terminal[0]->pred_id_tpdoc; 
                                                                                                             ?></label>
                                             <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
 
@@ -331,7 +332,7 @@ include("asstes/pos_orden.php");
                                     <div class="col-lg-6 col-md-6">
 
                                         <div class="form-group has-success">
-                                            <span class="fa fa-user"></span> <label>Cliente Codigo</label>
+                                            <span class="fa fa-user"></span> <label>Cliente Codigo [ 2 ]</label> 
 
                                             <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $cliente[0]->id_cliente ?>">
 
@@ -344,7 +345,7 @@ include("asstes/pos_orden.php");
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
-                                            <span class="fa fa-money"></span> <label>Forma Pago</label>
+                                            <span class="fa fa-money"></span> <label>Forma Pago [ 3 ]</label>
                                             <select class="form-control" id="modo_pago_id" name="modo_pago_id">
                                                 <?php
                                                 foreach ($modo_pago as $value) {
@@ -357,7 +358,7 @@ include("asstes/pos_orden.php");
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-user"></span>
-                                            <label>Cliente Nombre [ ]</label>
+                                            <label>Cliente Nombre [ 4 ]</label>
                                             <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania ?>">
                                             <input type="hidden" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $cliente[0]->direccion_cliente ?>">
                                         </div>
@@ -368,7 +369,7 @@ include("asstes/pos_orden.php");
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-home"></span>
-                                            <label>Sucursal Destino</label>
+                                            <label>Sucursal Destino [ 5 ]</label>
                                             <select class="form-control" name="sucursal_destino" id="sucursal_id">
                                                 <?php
                                                 $id_sucursal = 0;
@@ -394,7 +395,7 @@ include("asstes/pos_orden.php");
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-building"></span>
-                                            <label>Bodega</label>
+                                            <label>Bodega [ 6 ]</label>
                                             <select class="form-control" name="bodega" id="bodega_select">
                                                 <?php
                                                 foreach ($bodega as $b) {
@@ -415,7 +416,7 @@ include("asstes/pos_orden.php");
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-home"></span>
-                                            <label>Sucursal Origin</label>
+                                            <label>Sucursal Origin [ 7 ]</label>
                                             <select class="form-control" name="sucursal_origin" id="sucursal_id2">
                                                 <?php
                                                 $id_sucursal = 0;
@@ -442,7 +443,7 @@ include("asstes/pos_orden.php");
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-clock-o"></span>
-                                            <label>Fecha</label>
+                                            <label>Fecha [ 8 ]</label>
                                             <input type="date" name="fecha" id="fecha_factura" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                         </div>
                                     </div>
@@ -468,10 +469,8 @@ include("asstes/pos_orden.php");
 
                             </div>
 
-
                         </div>
-                        <div class="modal-footer">
-                        </div>
+                        <div class="modal-footer" style="border-top:2px solid #0f4871"></div>
                     </div>
                 </div>
             </div>

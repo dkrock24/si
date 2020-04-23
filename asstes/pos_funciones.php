@@ -622,6 +622,8 @@
                         break;
                     case 106: // *
                         focus_general_input($("#buscar_orden"), 0);
+                        focus_general_input($("#orden_numero"), 0);
+                        //orden_numero
                         break;
                     case 189: // -
                         focus_general_input($("#descuento"), 0);
@@ -1840,23 +1842,43 @@
 
         $(document).on('keydown keyup input click', function(e) {
             if ($('#documentoModel').is(':visible')) {
-
                 var key = e.which;
-
-                if (key == 39) { //Modal de Facturacion en Venta Rapida
-                    $("#id_tipo_documento").focus();
-                    $("#id_tipo_documento").css("background", "#27c24c");
-                    clear_color($("#id_tipo_documento"), "black");
+                if (key == 97) { //Modal de Facturacion en Venta Rapida                    
+                    av($('#id_tipo_documento'), "white");
                 }
-
+                if (key == 98) {
+                    av($('#cliente_codigo'), "none");
+                }
+                if (key == 99) {
+                    av($('#modo_pago_id'), "white");
+                }
+                if (key == 100) {
+                    //av($('#cliente_nombre'), "white");
+                }
+                if (key == 101) {
+                    av($('#sucursal_id') , "white");
+                }
+                if (key == 102) {
+                    av($('#bodega_select'), "white");
+                }
+                if (key == 103) {
+                    av($('#sucursal_id2'), "white");
+                }
+                if (key == 104) {
+                    av($('#fecha_factura'), "white");                    
+                }
                 $(this).css("background", "white");
             }
         });
 
-        function clear_color(input, color) {
+        function av(input, color){
+            setTimeout(function() { input.focus() }, 1000);
+            input.css("background", "#27c24c");
+
             setTimeout(function() {
                 input.css("background", color);
-            }, 3000);
+                input.css("color", "black");
+            }, 1000);
         }
 
         function get_clientes_lista(texto_cliente) {
