@@ -551,7 +551,7 @@
 
                 id_celda = $(this).attr('name');
 
-                $(this).css('background', '#c4e0b3');
+                $(this).css('background', '#ececec');
                 $(this).css('color', 'black');
 
                 currCell = $(this);
@@ -718,7 +718,7 @@
                     var x = currCell.parent().index();
                     currCell.focus();
 
-                    currCell.parent().css('background', '#0f4871');
+                    currCell.parent().css('background', '#ececec');
                     currCell.parent().css('color', 'black');
                 }
             }
@@ -749,7 +749,7 @@
                 $('tr').css('background', 'none');
                 $('tr').css('color', 'black');
                 id_celda = $(currCell).attr('name');
-                $(currCell).css('background', '#0f4871');
+                $(currCell).css('background', '#ececec');
                 $(currCell).css('color', 'black');
                 //currCell.focus();
 
@@ -807,8 +807,8 @@
         });
 
         $("input[type=text]").focus(function() {
-            $(this).css("background", "#0f4871");
-            $(this).css("color", "white");
+            $(this).css("background", "#ececec");
+            $(this).css("color", "black");
 
             $('.dataSelect2').hide();
         });
