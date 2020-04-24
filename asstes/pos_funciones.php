@@ -592,6 +592,8 @@
                 switch (e.keyCode) {
                     case 37: //alert('left');                  
                         input_producto_buscar.focus();
+                        $('.producto_agregados > tr').blur();
+                        currCell = 0;
                         moveCursorToEnd(input_producto_buscar);
                         break;
                     case 38: //alert('up');                        
@@ -637,22 +639,23 @@
                     c = currCell.next();
                 } else if (e.keyCode == 37) {
                     // Left Arrow
-                    c = currCell.prev();
+                    //c = currCell.prev();
                 } else if (e.keyCode == 38) {
-
                     // Up Arrow
+                    
                     c = currCell.closest('tr').prev().find('td:eq(' +
                         currCell.index() + ')');
 
                     height -= 39;
-
-                    //$('.lista_productos').animate({scrollIntoView: height}, 1);                        
-
+                    //$('.lista_productos').animate({scrollIntoView: height}, 1);
                     id_celda = $(currCell.closest('tr').prev()).attr('name');
 
-                    var Xh = $(currCell.closest('tr').prev()).attr('id');
-                    $("input[alt=" + Xh + "]").focus();
-                    $("input[alt=" + Xh + "]").select();
+                    if($('.dataSelect').not(":visible")){
+                        var Xh = $(currCell.closest('tr').prev()).attr('name');
+                        console.log(Xh);
+                        $("input[cd=" + Xh + "]").focus();
+                        $("input[cd=" + Xh + "]").select();
+                    }
 
                     var pagoLinea = $(currCell.closest('tr').prev()).attr('id');
                     pagoLinea = parseInt(pagoLinea);
@@ -664,14 +667,12 @@
                     if ($(currCell.closest('tr')).attr('id')) {
                         imagen($(currCell.closest('tr').prev()).attr('id'));
                     }
-
                     $('.lista_productos').animate({
                         scrollTop: height
                     }, 1);
-
-
+                
                 } else if (e.keyCode == 40) {
-                    // Down Arrow                 
+                    // Down Arrow
                     
                     c = currCell.closest('tr').next().find('td:eq(' +
                         currCell.index() + ')');
@@ -684,13 +685,13 @@
                     id_celda = $(currCell.closest('tr').next()).attr('name');
 
                     var pagoLinea = $(currCell.closest('tr')).attr('id');
-
-                    var Xh = $(currCell.closest('tr').next()).attr('id');
-                    $("input[alt=" + Xh + "]").focus();
-                    $("input[alt=" + Xh + "]").select();
+                    if($('.dataSelect').not(":visible")){
+                        var Xh = $(currCell.closest('tr').next()).attr('name');
+                        $("input[cd=" + Xh + "]").focus();
+                        $("input[cd=" + Xh + "]").select();
+                    }
 
                     pagoLinea = parseInt(pagoLinea) + 1;                   
-                    
 
                     //$("input[name=pagoInput" + pagoLinea + "]").focus();
 
@@ -704,8 +705,7 @@
                     $('.lista_productos').animate({
                         scrollTop: height
                     }, 1);
-
-
+                    
                 } else if (!editing && (e.keyCode == 13 || e.keyCode == 32)) {
                     // Enter or Spacebar - edit cell
                     //e.preventDefault();
@@ -735,7 +735,6 @@
                 }
             }
 
-
             $('#edit').keydown(function(e) {
                 if (editing && e.which == 27) {
                     editing = false;
@@ -747,9 +746,7 @@
 
             function producto_tabla_foco() {
                 //$("#lista_productos").select();
-                $('.lista_productos').focus();
-                $("input[name='cntProducto']:first").focus();
-                $("input[name='cntProducto']:first").select();
+                //$('.lista_productos').focus();
                 $('.lista_productos').animate({
                     scrollTop: 0
                 }, 100);
@@ -2254,7 +2251,7 @@
                     tr_html += "<td class='border-table-left'>" + contador_tabla + "</td>";
                     tr_html += "<td class=''>" + element.producto + "</td>";
                     tr_html += "<td class=''>" + element.descripcion + "</td>";
-                    tr_html += "<td class=''><input type='text' name='cntProducto' alt='"+element.producto_id+"' class='form-control cntProducto' size='3' id='" + element.producto + "' value='" + element.cantidad + "' style='border:1px solid orange;width:90px;'></input></td>";
+                    tr_html += "<td class=''><input type='text' autocomplete='off' name='cntProducto' cd='"+element.id_producto_detalle+"' class='form-control cntProducto' size='3' id='" + element.producto + "' value='" + element.cantidad + "' style='border:1px solid orange;width:90px;'></input></td>";
                     tr_html += "<td class=''>" + element.presentacion + "</td>";
                     tr_html += "<td class=''>" + element.presentacionFactor + "</td>";
                     tr_html += "<td class=''><input type='text' class='form-control preProducto' size='4' id='" + element.producto + "' value='" + precio_tag.toFixed(2) + "' style='border:1px solid blue;'></input></td>";
