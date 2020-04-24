@@ -398,6 +398,7 @@
                 success: function(data) {
 
                     var datos = JSON.parse(data);
+                    //console.log(datos);
                     var precio_unidad = datos['producto'][0].unidad;
                     _productos_precio2 = datos["prod_precio"];
                     producto_escala = datos['producto'][0].Escala;
@@ -442,7 +443,7 @@
                     _productos.producto_id = datos['producto'][0].id_entidad;
                     _productos.combo = datos['producto'][0].combo;
                     _productos.inventario_id = datos['producto'][0].id_inventario;
-                    _productos.producto = datos['producto'][0].codigo_producto;
+                    _productos.producto = datos['producto'][0].codigo_barras;
                     _productos.descuento_limite = datos['producto'][0].descuento_limite;
                     _productos.descuento = 0.00; // datos['producto'][7].valor;
                     _productos.cantidad = producto_cantidad_linea;
