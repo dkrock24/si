@@ -77,8 +77,15 @@ include("asstes/pos_orden.php");
 
 <script>
     $(document).ready(function() {
-        $(".print_venta").click(function() {
-            location.reload();
+        setTimeout(function() {
+            //$("#m_orden_creada").modal();
+            //$("#imprimir").modal(); 
+        }, 1000);
+
+        $(".printer").click(function() {
+
+            $("#m_orden_creada").modal();
+
         });
 
         registro_editado = 0;
@@ -658,6 +665,7 @@ include("asstes/pos_orden.php");
 
                         <div class="row">
                             <div class="col-lg-2 col-md-2">
+                                <spam style="">[F7]</spam>
                                 <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
                                     <?php
                                     foreach ($modo_pago as $mp) {
@@ -668,11 +676,11 @@ include("asstes/pos_orden.php");
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-lg-1 col-md-1">
+                            <div class="col-lg-1 col-md-1"><br>
                                 <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
                             </div>
 
-                            <div class="col-lg-2 col-md-2">
+                            <div class="col-lg-2 col-md-2"><br>
 
                                 <select name="orden_estado" id="orden_estado" class="form-control">
                                     <option value="6">Cancelado</option>
@@ -685,11 +693,11 @@ include("asstes/pos_orden.php");
 
                             </div>
 
-                            <div class="col-lg-3 col-md-3">
+                            <div class="col-lg-3 col-md-3"><br>
                                 <input type="text" class="form-control has-success" name="cliente" placeholder="Nombre Cliente">
                             </div>
 
-                            <div class="col-lg-2 col-md-2">
+                            <div class="col-lg-2 col-md-2"><br>
                                 <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
                             </div>
 
@@ -784,7 +792,7 @@ include("asstes/pos_orden.php");
                             </div>
 
                             <div class="col-lg-12 col-md-12">
-                                <a href="" target="_blank" class="print_venta">
+                                <a href="#" class="printer">
                                     <h1><i class="fa fa-print"></i></h1>
                                 </a>
                             </div>
@@ -839,5 +847,65 @@ include("asstes/pos_orden.php");
         </div>
     </div>
     <!-- Modal Small-->
+
+
+    <!-- METODO DE PAGOS MODAL-->
+<div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content" style="background:#f1f1f1;">
+            <div class="modal-header" style="background: #2c71b5;color: white;">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span style="font-size: 20px; ">Documento : <?= $temp[0]->documento_nombre ?> | Formato : <?= $temp[0]->factura_nombre ?> </span>
+
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-8 col-md-8">
+                        <?php include("asstes/temp/" . $file . ".php"); ?>
+                    </div>
+                    <div class="col-lg-4 col-md-4" style="border-left:1px dashed black;height:900px;position: relative;float:right;margin:0px;">
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                <?php echo $msj_title ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                <h1>
+                                    <?php echo $msj_orden ?>
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <hr style="border-bottom:1px dashed black">
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+
+                                <a href="../nuevo" class="btn btn-default printer">
+                                    <h3> <i class="icon-plus"></i> Nueva </h3>
+                                </a>
+                                <a href="#" class="btn btn-success printer" style="color:black">
+                                    <h3> <i class="icon-printer"></i> Imprimir </h3>
+                                </a>
+                                <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
+                                    <h3> <i class="icon-close"></i> Cerrar </h3>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Small-->
 
     <?php $this->load->view('scripts_files.php'); ?>

@@ -1660,7 +1660,7 @@
 
                     _html += '<table class="table formas_pagos_valores">';
 
-                    _html += '<thead><tr><td></td><td>Monto</td><td>Numero</td><td>Banco</td><td>Serie</td></tr></thead>';
+                    _html += '<thead><tr><td>F9</td><td>Monto</td><td>Numero</td><td>Banco</td><td>Serie</td></tr></thead>';
 
                     pagos_mostrados.forEach(element => {
 
@@ -1777,10 +1777,12 @@
                 $("#cambio_venta").text(0.00);
                 $("#restante_venta").text(0.00);
                 $('#procesar_btn').show();
+                $('#procesar_btn').focus();
             } else if (cambio >= 0.01) {
 
                 $("#cambio_venta").text(cambio.toFixed(2));
                 $('#procesar_btn').show();
+                $('#procesar_btn').focus();
             } else if (cambio <= 0) {
                 $("#restante_venta").text(cambio.toFixed(2));
             }
@@ -1999,28 +2001,21 @@
                     success: function(data) {
 
                         if (method == "guardar_orden") {
-
                             window.location.href = "editar/" + data;
                         } else if (method == "../venta/guardar_venta") {
                             //location.reload();
                             var datos = JSON.parse(data);
-
                             $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
                             $(".print_venta").attr("href", "venta/" + datos['id']);
-
-                            //window.location.href = "../venta/ver/" + data;
+                            window.location.href = "../venta/facturacion/" + datos['id'];
                         }
-
-
                     },
                     error: function() {}
                 });
             }
 
             if (method != "update_orden") {
-
                 //cerrar_orden($("#orden_numero").val());
-
             }
         }
 
