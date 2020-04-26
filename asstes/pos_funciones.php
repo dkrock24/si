@@ -590,9 +590,12 @@
                 //productos_tabla
 
                 switch (e.keyCode) {
-                    case 37: //alert('left');                  
+                    case 37: //alert('left');     
+                        input_producto_buscar.select();             
                         input_producto_buscar.focus();
                         $('.producto_agregados > tr').blur();
+                        $("#dataSelect").hide();
+                        
                         currCell = 0;
                         moveCursorToEnd(input_producto_buscar);
                         break;

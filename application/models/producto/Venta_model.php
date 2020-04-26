@@ -298,8 +298,9 @@ class Venta_model extends CI_Model {
 				$this->save_venta_impuestos( $id_orden , $orden , 2);	
 
 				/* INCREMENTO CORRELATIVOS AUTOMATICOS */
-				
-				$this->incremento_correlativo( $numero, $sucursal , $documento[0]->id_tipo_documento);
+				if($correlativo_documento == $siguiente_correlativo[0]->siguiente_valor){
+					$this->incremento_correlativo( $siguiente_correlativo[0]->siguiente_valor, $sucursal , $documento[0]->id_tipo_documento);
+				}
 
 				/* PROCESAR EFECTOS DE INVENTARIO SOBRE TIPO DOCUMENTO EN BODEGA */
 				//$this->efecto_bodega($id_orden , $orden ,$documento);
