@@ -623,7 +623,7 @@
                     case 119: //F8
                         show_existencias();
                         break;
-                    case 177: //
+                    case 120: // F6
                         f8_table_pagos();
                         break;
                     case 106: // *
@@ -659,6 +659,8 @@
                         $("input[cd=" + Xh + "]").focus();
                         $("input[cd=" + Xh + "]").select();
                     }
+                    var count = $(currCell.closest('tr').prev()).attr('id');
+                    $(":input[name=pagoInput" + count + "]:first").focus();
 
                     var pagoLinea = $(currCell.closest('tr').prev()).attr('id');
                     pagoLinea = parseInt(pagoLinea);
@@ -693,6 +695,9 @@
                         $("input[cd=" + Xh + "]").focus();
                         $("input[cd=" + Xh + "]").select();
                     }
+                    
+                    var count = $(currCell.closest('tr').next()).attr('id');
+                    $(":input[name=pagoInput" + count + "]:first").focus();                    
 
                     pagoLinea = parseInt(pagoLinea) + 1;                   
 
@@ -770,10 +775,12 @@
             }
 
             function f8_table_pagos() {
-                $("input[name=pagoInput1]").focus();
+                //$("input[name=pagoInput1]").focus();
+                $("input[name='pagoInput1']:first").focus();
                 currCell = $('.pagos_tabla').first();
+
                 id_celda = $(currCell).attr('name');
-                currCell.focus();
+                //currCell.focus();
                 $(currCell).css('background', '#0f4871');
                 $(currCell).css('color', '#fff');
             }
@@ -1662,12 +1669,12 @@
                             if (element == parseInt(item.id_modo_pago)) {
                                 _html += '<tr class="pagos_tabla" id="' + cou + '"><td><div class="btn bg-green">' + item.nombre_modo_pago + '</div></td>';
                                 _html += '<td class="">' +
-                                    '<input type="text" count=' + metodo_pago.length + ' size="9px" name="pagoInput' + cou + '" ids=' + item.id_modo_pago + ' id=' + item.nombre_modo_pago + ' class="metodo_pago_input"></td>';
+                                    '<input type="text" count=' + metodo_pago.length + ' size="9px" name="pagoInput' + cou + '" ids=' + item.id_modo_pago + ' id=' + item.nombre_modo_pago + ' class="metodo_pago_input" autocomplete="off"/></td>';
                                 _html += '<td class="">' +
-                                    '<input type="text" count=' + metodo_pago.length + ' size="9px" name="pagoInput' + cou + '" ids=' + item.id_modo_pago + ' id=' + item.nombre_modo_pago + ' class="metodo_pago_input"></td>';
-                                _html += '<td><input type="text" count=' + metodo_pago.length + '  size="14px" name="val' + cou + '" placeholder="" class="metodo_pago_input" /></td>';
-                                _html += '<td><input type="text" count=' + metodo_pago.length + ' size="14px" name="ban' + cou + '" placeholder="" class="metodo_pago_input" /></td>';
-                                _html += '<td><input type="text" count=' + metodo_pago.length + ' size="14px" name="ser' + cou + '" placeholder="" class="metodo_pago_input" /></td>';
+                                    '<input type="text" count=' + metodo_pago.length + ' size="9px" name="pagoInput' + cou + '" ids=' + item.id_modo_pago + ' id=' + item.nombre_modo_pago + ' class="metodo_pago_input" autocomplete="off"/></td>';
+                                _html += '<td><input type="text" count=' + metodo_pago.length + '  size="14px" name="val' + cou + '" placeholder="" class="metodo_pago_input" autocomplete="off" /></td>';
+                                _html += '<td><input type="text" count=' + metodo_pago.length + ' size="14px" name="ban' + cou + '" placeholder="" class="metodo_pago_input" autocomplete="off" /></td>';
+                                _html += '<td><input type="text" count=' + metodo_pago.length + ' size="14px" name="ser' + cou + '" placeholder="" class="metodo_pago_input" autocomplete="off" /></td>';
                                 _html += '</tr>';
                                 cou++;
                             }

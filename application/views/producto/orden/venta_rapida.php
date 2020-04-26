@@ -645,7 +645,7 @@ include("asstes/pos_orden.php");
 <div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta" class="modal flip">
     <div class="modal-dialog modal-lg" style="width: 80%;">
         <div class="modal-content">
-            <div class="modal-header" style="background: #dde6e9">
+            <div class="modal-header" style="background: #2D3B48; color:white;">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
