@@ -305,13 +305,13 @@ include("asstes/pos_orden.php");
 
                                                     $doc = strtoupper($d->nombre);
 
-                                                    if ($d->id_temp_suc == $terminal[0]->pred_id_tpdoc) {
+                                                    if ($d->id_tipo_documento == $terminal[0]->pred_id_tpdoc) {
 
-                                                        if (strpos($doc, 'ORDEN') === false) {
+                                                        //if (strpos($doc, 'ORDEN') === false) {
                                                 ?>
                                                             <option value="<?php echo $d->id_tipo_documento; ?>"><?php echo $d->nombre . ' - ' . $d->factura_nombre; ?></option>
                                                         <?php
-                                                        }
+                                                        //}
                                                     }
                                                 }
 
@@ -323,7 +323,7 @@ include("asstes/pos_orden.php");
 
                                                         if ($documento->id_temp_suc != $terminal[0]->pred_id_tpdoc) {
                                                         ?>
-                                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre . ' - ' . $documento->factura_nombre; ?></option>
+                                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre ?></option>
                                                 <?php
                                                         }
                                                     }

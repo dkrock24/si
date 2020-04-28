@@ -9,6 +9,7 @@ class Vistas_model extends CI_Model {
     const menus = 'sys_menu_submenu';
     const sys_vistas_documento = 'sys_vistas_documento';
     const pos_tipo_documento = 'pos_tipo_documento';
+    const pos_temp_sucursal = 'pos_temp_sucursal';
 
 	function get_vistas( $limit, $id ,$filters){
 
@@ -67,6 +68,7 @@ class Vistas_model extends CI_Model {
         $this->db->from(self::sys_vistas.' as v');
         $this->db->join(self::sys_vistas_documento.' as vd', ' on vd.vista_id = v.id_vista','left');
         $this->db->join(self::pos_tipo_documento.' as td', ' on td.id_tipo_documento = vd.documento_id','left');
+        //$this->db->join(self::pos_temp_sucursal.' as ts', ' on ts.Documento = td.id_tipo_documento','left');
         $this->db->where('v.id_vista', $vista);
         $this->db->where('td.Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get();           

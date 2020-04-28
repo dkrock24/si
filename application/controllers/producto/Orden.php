@@ -387,7 +387,8 @@ class Orden extends MY_Controller {
 
 		if($terminal_acceso){
 			
-			$data['tipoDocumento'] 	= $this->Orden_model->get_doc_suc_pre();
+			$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento(38);
+
 			$data['sucursales'] 	= $this->Producto_model->get_sucursales();
 			$data['modo_pago'] 		= $this->ModoPago_model->getAllFormasPago();
 			$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );
