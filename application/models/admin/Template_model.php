@@ -368,13 +368,14 @@ class Template_model extends CI_Model {
     //Test Printer Venta
     function printer_venta( $orden , $sucursal_id , $documento_id , $pago){
         
-        $this->db->select('td.*,ts.*,s.*,e.nombre_comercial,o.*,c.nombre_empresa_o_compania');
+        $this->db->select('td.*,ts.*,s.*,e.nombre_comercial,o.*,c.nombre_empresa_o_compania, d.nombre as documento_nombre');
         $this->db->from(self::pos_doc_temp.' as td');
         $this->db->join(self::pos_temp_sucursal.' as ts',' on td.id_factura = ts.Template');
         $this->db->join(self::pos_sucursal.' as s',' on s.id_sucursal = ts.Sucursal');
         $this->db->join(self::pos_empresa.' as e',' on e.id_empresa = s.Empresa_Suc');
         $this->db->join(self::pos_ventas.' as o',' on o.id_tipod = ts.Documento');
         $this->db->join(self::cliente.' as c',' on c.id_cliente = o.id_cliente');
+        $this->db->join(self::pos_tipo_documento.' as d',' on d.id_tipo_documento = ts.Documento');
         
         $this->db->where('ts.Sucursal', $sucursal_id);
         $this->db->where('ts.Documento', $documento_id);
@@ -382,7 +383,7 @@ class Template_model extends CI_Model {
         $this->db->limit(1);
         $query = $this->db->get();
 
-        //echo $this->db->queries[6];
+        //echo $this->db->queries[11];
         //die;
 
         if($query->num_rows() > 0 )

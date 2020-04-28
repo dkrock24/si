@@ -46,8 +46,43 @@ include("asstes/pos_orden.php");
 
         });
 
+        $("#prin").click(function(){
+            var id = $(this).attr('name');
+            var strWindowFeatures = "location=yes,height=670,width=820,scrollbars=yes,status=yes";
+            var URL = "../print_venta/"+id;
+            var win = window.open(URL, "_blank", strWindowFeatures);
+            //window.open('http://localhost:8080/index.php/producto/traslado/print_traslado/11');
+        });
+
+        $("#persona_modal").appendTo("body");
+
+        $("#printer").click(function(){
+
+            var printContents = document.getElementById('formato').innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+
+        });
+
     });
 </script>
+
+<style>
+    .modal-dialog {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding-left: 10%;
+    }
+
+    .modal-content {
+        height: auto;
+        min-height: 100%;
+        border-radius: 5;
+    }
+</style>
 
 <div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip">
     <div class="modal-dialog modal-md">
@@ -83,10 +118,10 @@ include("asstes/pos_orden.php");
                             <hr style="border-bottom:1px dashed black">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
 
-                                <a href="../nuevo" class="btn btn-default printer">
+                                <a href="../../orden/venta_rapida" class="btn btn-default printer">
                                     <h3> <i class="icon-plus"></i> Nueva </h3>
                                 </a>
-                                <a href="#" class="btn btn-success printer" style="color:black">
+                                <a href="#" id="prin" name="<?= $orden[0]->id ?>" class="btn btn-success" style="color:black">
                                     <h3> <i class="icon-printer"></i> Imprimir </h3>
                                 </a>
                                 <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
