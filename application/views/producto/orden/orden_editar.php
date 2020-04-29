@@ -340,9 +340,8 @@ include("asstes/pos_orden.php");
                     <div class="col-md-10">
                         <table class="table table-sm table-hover" style="margin-bottom: 0px;">
                             <div class="col-lg-4">
-                                <div class="input-group m-b" id="headerInputs">
-                                    <span class="input-group-addon bg-green"> [ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
-                                    <input type="text" placeholder="[ <-] Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar border-input">
+                                <div class="input-group m-b" id="headerInputs" style="margin-left:0px;">
+                                    <input type="text" placeholder=" <- Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
                                 </div>
 
                                 <select multiple="" class="form-control dataSelect" id="dataSelect">
@@ -362,7 +361,7 @@ include("asstes/pos_orden.php");
                                 <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 25px;" data-target='#existencias'><i class="fa fa-dropbox"></i><span style="font-size:18;"> [ F8 ]</span></span>
 
                                 <div class="btn-group ">
-                                    <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
+                                    <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 38px;"></i></button>
                                     <button type="button" data-toggle="dropdown" class="btn dropdown-toggle bg-green" style="font-size:25px;">
                                         <span class="caret"></span>
                                         <span class="sr-only">default</span>
@@ -398,11 +397,11 @@ include("asstes/pos_orden.php");
                                         <th style="color: black;">#</th>
                                         <th style="color: black;">Producto</th>
                                         <th style="color: black;">Descripción</th>
-                                        <th style="color: black;">Cantidad [ <i class="fa fa-arrow-right"></i> ]</th>
+                                        <th style="color: black;">Cantidad</th>
                                         <th style="color: black;">Presentación</th>
                                         <th style="color: black;">Factor</th>
                                         <th style="color: black;">Precio Unidad</th>
-                                        <th style="color: black;">Descuento [ : ]</th>
+                                        <th style="color: black;">Descuento</th>
                                         <th style="color: black;">Total</th>
                                         <th style="color: black;">Bodega</th>
                                         <th style="color: black;">

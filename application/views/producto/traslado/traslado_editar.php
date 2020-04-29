@@ -392,10 +392,8 @@ include("asstes/traslados_funciones.php");
                             <div class="row">
 
                                 <div class="col-md-4">
-                                    <div class="input-group m-b">
-                                        <span class="input-group-addon bg-green">[ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
-
-                                        <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
+                                    <div class="input-group m-b" id="headerInputs" style="margin-left:10px;">
+                                        <input type="text" placeholder="<- Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
                                     </div>
 
                                     <select multiple="" class="form-control dataSelect" id="dataSelect">
@@ -409,12 +407,12 @@ include("asstes/traslados_funciones.php");
                                 </div>
                                 <div class="col-md-6">
 
-                                    <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="update_traslado" id="guardar_orden"><i class='fa fa-save'></i> </button>
-                                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
+                                    <span class="btn bg-green" style="font-size: 25px;" name="save_traslado" id="guardar_orden"><i class='fa fa-save'></i> <span style="font-size:18;"> [ ]</span> </span>
+                                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 25px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
 
-                                    <div class="btn-group ">
-                                        <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
-                                        <button type="button" data-toggle="dropdown" class="btn dropdown-toggle bg-green" style="font-size: 17px;">
+                                    <div class="btn-group " >
+                                        <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 38px;"></i></button>
+                                        <button type="button" data-toggle="dropdown" class="btn dropdown-toggle bg-green" style="font-size: 25px;">
                                             <span class="caret"></span>
                                             <span class="sr-only">default</span>
                                         </button>
@@ -434,6 +432,14 @@ include("asstes/traslados_funciones.php");
                             <div class="row">
 
                                 <div class="col-md-9">
+                                                                      
+                                                                          
+                                </div>
+                            </div>
+                        </table>
+
+                        <div class="lista_productos" style="height:600px;">
+                            <table class="table table-sm table-hover" id="lista_productos">
                                     <thead class="bg-info-dark" style="background: #cfdbe2;">
                                         <tr>
                                             <th style="color: black;">#</th>
@@ -450,30 +456,7 @@ include("asstes/traslados_funciones.php");
 
                                             </th>
                                         </tr>
-                                    </thead>                                    
-                                        <!--
-                                        <tr style="border-bottom: 1px dashed grey">
-                                            <td colspan="2">
-                                                <input type="text" name="producto_buscar" class="form-control border-input" id="producto_buscar" readonly="1" style="width: 100px;">
-                                            </td>
-                                            <td><input type="text" class="form-control border-input" id="descripcion" name="descripcion" readonly="1"></td>
-                                            <td><input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;"></td>
-                                            <td><input type="text" class="form-control border-input" id="presentacion" name="presentacion" size="3px" readonly="1"></td>
-                                            <td><input type="text" class="form-control border-input" id="factor" name="factor" size="2px" readonly="1" style="width: 50px;"></td>
-                                            <td><input type="text" class="form-control border-input" id="precioUnidad" name="precioUnidad" size="2px" readonly="1" style="width: 70px;"></td>
-
-                                            <td><input type="text" class="form-control border-input" id="total" name="total" size="2px" readonly="1"></td>
-                                            <td><input type="text" class="form-control border-input" id="bodega" name="bodega" size="5px" readonly="1"></td>
-                                            <td><button type="button" id="btn_delete" class="btn btn-labeled bg-green" name="1"><span class='btn-label'><i class='fa fa-trash'></i></span></button></td>
-
-                                        </tr>
-                                        -->                                    
-                                </div>
-                            </div>
-                        </table>
-
-                        <div class="lista_productos" style="height:500px;">
-                            <table class="table table-sm table-hover" id="lista_productos">
+                                    </thead>  
                                 <tbody class="producto_agregados" style="border-top:  0px solid black" id="prod_list">
                                 </tbody>
                             </table>

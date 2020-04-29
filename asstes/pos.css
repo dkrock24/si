@@ -110,8 +110,9 @@ body{
 }
 
 .producto_buscar{
+    width:450px;
     margin: -10px;
-    height: 60px;    
+    height: 60px;
 }
 
 #headerInputs{

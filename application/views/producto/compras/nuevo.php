@@ -89,9 +89,6 @@ include("asstes/js/compras/pos_funciones.php");
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 
-<script language="JavaScript">
-    //window.print();
-</script>
 <!-- Main section-->
 <section>
     <!-- Page content-->
@@ -317,10 +314,8 @@ include("asstes/js/compras/pos_funciones.php");
                             <div class="row">
 
                                 <div class="col-md-4">
-                                    <div class="input-group m-b">
-                                        <span class="input-group-addon bg-green">[ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
-
-                                        <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
+                                    <div class="input-group m-b" id="headerInputs" style="margin-left:10px;">
+                                        <input type="text" placeholder="<- Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
                                     </div>
 
                                     <select multiple="" class="form-control dataSelect" id="dataSelect">
@@ -339,37 +334,16 @@ include("asstes/js/compras/pos_funciones.php");
                                     <?php
                                     if (isset($tipoDocumento) && isset($sucursales) && isset($bodega) && isset($cliente)) {
                                     ?>
-                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="guardar_compra" id="guardar_orden"><i class='fa fa-save'></i> </button>
+                                        <span class="btn  bg-green" style="font-size: 25px;" name="guardar_compra" id="guardar_orden"><i class='fa fa-save'></i> <span style="font-size:18;"></span></span>
+                                        
                                     <?php
                                     } else {
                                     ?>
-                                        <button type="button" class="btn btn-labeled" style="font-size: 25px;" name="" id=""><i class='fa fa-save'></i></button>
+                                        <span type="button" class="btn btn-labeled" style="font-size: 25px;" name="" id=""><i class='fa fa-save'></i><span style="font-size:18;"> [ ]</span></span>
                                     <?php
                                     }
                                     ?>
-                                    <!--
-                                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
-                                    <span class="btn bg-green" id="btn_discount" style="font-size: 18px;"><i class="fa fa-percent" aria-hidden="true"></i> <span style="font-size:18;">[ F9 ]</span></span>
-                                
-
-                                    <div class="btn-group">
-                                        <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
-                                        <button type="button" data-toggle="dropdown" class="btn dropdown-toggle bg-green" style="font-size: 17px;">
-                                            <span class="caret"></span>
-                                            <span class="sr-only">default</span>
-                                        </button>
-                                        <ul role="menu" class="dropdown-menu">
-                                            <li><a href="#" class="btn btn-warning" id="btn_impuestos" data-toggle='modal'><i class="fa fa-money"></i> Impuestos</a></li>
-
-                                            <li><a href="#" class="btn btn-warning" id="btn_en_proceso" data-toggle='modal' data-target='#en_proceso'><i class="fa fa-key"></i> En Espera</a></li>
-
-                                            <li class="divider"></li>
-
-                                            <li><a href="#" class="btn btn-warning" id="btn_en_reserva" data-toggle='modal' data-target='#en_reserva'><i class="icon-cursor"></i> En Reserva</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    -->
+                                  
                                     <span>
                                     Can [ = ]<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;">
                                         <!--Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display:inline-block;">-->
@@ -380,26 +354,24 @@ include("asstes/js/compras/pos_funciones.php");
 
 
                         </table>
-                        <table class="table table-sm table-hover">
-                            <thead class="bg-info-dark" style="background: #cfdbe2;">
-                                <tr>
-                                    <th style="color: black;">#</th>
-                                    <th style="color: black;">Producto</th>
-                                    <th style="color: black;">Descripción</th>
-                                    <th style="color: black;">Cantidad </th>
-                                    <th style="color: black;">Presentación</th>
-                                    <th style="color: black;">Factor</th>
-                                    <th style="color: black;">Precio Unidad</th>
-                                    <th style="color: black;">Total</th>
-                                    <th style="color: black;">
-                                        <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
-                                    </th>
-                                </tr>
-                            </thead>
-                        </table>
 
-                        <div class="lista_productos" style="height:400px;">
+                        <div class="lista_productos" style="height:600px;">
                             <table class="table table-sm table-hover" id="lista_productos">
+                                <thead class="bg-info-dark" style="background: #cfdbe2;">
+                                    <tr>
+                                        <th style="color: black;">#</th>
+                                        <th style="color: black;">Producto</th>
+                                        <th style="color: black;">Descripción</th>
+                                        <th style="color: black;">Cantidad </th>
+                                        <th style="color: black;">Presentación</th>
+                                        <th style="color: black;">Factor</th>
+                                        <th style="color: black;">Precio Unidad</th>
+                                        <th style="color: black;">Total</th>
+                                        <th style="color: black;">
+                                            <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
+                                        </th>
+                                    </tr>
+                                </thead>
                                 <tbody class="producto_agregados" style="border-top:  0px solid black" id="prod_list">
                                 </tbody>
                             </table>

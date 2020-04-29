@@ -33,9 +33,6 @@ include("asstes/pos_funciones.php");
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 
-<script language="JavaScript">
-    //window.print();
-</script>
 <!-- Main section-->
 <section>
     <!-- Page content-->
@@ -331,10 +328,8 @@ include("asstes/pos_funciones.php");
 
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="input-group m-b" id="headerInputs">
-                                        <span class="input-group-addon bg-green">[ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
-
-                                        <input type="text" placeholder="Buscar Producto" autocomplete="off" name="producto_buscar" class="form-control producto_buscar">
+                                    <div class="input-group m-b" id="headerInputs" style="margin-left:10px;">
+                                        <input type="text" placeholder="<- Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
                                     </div>
 
                                     <select multiple="" class="form-control dataSelect" id="dataSelect">
@@ -393,28 +388,25 @@ include("asstes/pos_funciones.php");
                                 </div>
                             </div>                         
                         </table>
-                        <table class="table table-sm table-hover">
-                            <thead class="bg-info-dark" style="background: #cfdbe2;">
-                                <tr>
-                                    <th style="color: black;">#</th>
-                                    <th style="color: black;">Producto</th>
-                                    <th style="color: black;">Descripción</th>
-                                    <th style="color: black;">Cantidad</th>
-                                    <th style="color: black;">Presentación</th>
-                                    <th style="color: black;">Factor</th>
-                                    <th style="color: black;">Precio Unidad</th>
-                                    <th style="color: black;">Descuento</th>
-                                    <th style="color: black;">Total</th>
-                                    <th style="color: black;">Bodega</th>
-                                    <th style="color: black;">
-                                        <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
-                                    </th>
-                                </tr>
-                            </thead>
-                        </table>
-
-                        <div class="lista_productos" style="height:400px;">                           
-                            <table class="table table-sm table-hover" id="lista_productos">                            
+                        <div class="lista_productos" style="height:600px;">                           
+                            <table class="table table-sm table-hover" id="lista_productos">   
+                                <thead class="bg-info-dark" style="background: #cfdbe2;">
+                                    <tr>
+                                        <th style="color: black;">#</th>
+                                        <th style="color: black;">Producto</th>
+                                        <th style="color: black;">Descripción</th>
+                                        <th style="color: black;">Cantidad</th>
+                                        <th style="color: black;">Presentación</th>
+                                        <th style="color: black;">Factor</th>
+                                        <th style="color: black;">Precio Unidad</th>
+                                        <th style="color: black;">Descuento</th>
+                                        <th style="color: black;">Total</th>
+                                        <th style="color: black;">Bodega</th>
+                                        <th style="color: black;">
+                                            <!--<input type="button" class="form-control border-input btn btn-default guardar" name="1" id="" value="Guardar"/>-->
+                                        </th>
+                                    </tr>
+                                </thead>                        
                                 <tbody class="producto_agregados" style="border-top:  0px solid black" id="prod_list">
                                 </tbody>
                             </table>
