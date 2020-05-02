@@ -21,8 +21,8 @@ class Menu_model extends CI_Model {
         $this->db->join(self::sys_menu .' as m ',' on m.id_menu = sm.id_menu');
         $this->db->where_in('sma.id_role',$roles_id);
         $this->db->where('sma.submenu_acceso_estado',1); 
-        $this->db->order_by('m.orden_menu','asc'); 
-        $query = $this->db->get(); 
+        $this->db->order_by('m.orden_menu , sm.nombre_submenu','asc');
+        $query = $this->db->get();
         //echo $this->db->queries[1]; 
         
         if($query->num_rows() > 0 )
