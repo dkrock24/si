@@ -1208,4 +1208,21 @@ class Venta_model extends CI_Model {
 		    //echo $this->db->queries[1];
 		    return $query->result();
 		}
+
+		function get_venta($venta){
+
+			$valores =  explode(",", $venta);
+		
+			$this->db->select('*');
+			$this->db->from(self::pos_ventas . ' as v');
+			$this->db->join(self::pos_venta_detalle . ' as vd',' on v.id = vd.id_venta');
+			//$this->db->where('o.orden_estado != 4');
+			$this->db->where_in('v.num_correlativo', $valores );
+			$query = $this->db->get();
+			//echo $this->db->queries[0];
+
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}
+		}
     }

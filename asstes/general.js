@@ -76,13 +76,10 @@ function impuestos(){
 
 		    			}else{ // referencia total
 		    				console.log("B", element.categoria);
-
-		    				imp_cat_val(element.categoria);
-		    				
+		    				imp_cat_val(element.categoria);		    				
 		    				_orden[_orden.indexOf(element)].impA = 0;
 		    				_orden[_orden.indexOf(element)].total_anterior = (element.precioUnidad * element.cantidad);
-		    			}
-						
+		    			}						
 						aplicar_imp_combo( element );	    		
 
 		    		}else{
@@ -202,8 +199,7 @@ function imp_cli_val(){
 				if(item2.nombre == item.nombre){					
 					_cliVal[_cliVal.length] = item;
 				}				
-			});
-			
+			});			
 			x = true;	
 			c+=1;
 		}
@@ -283,8 +279,7 @@ function aplicar_imp( prod){
 				if(item.excluyente ==0 && item.especial==1){
 					console.log("3 aplicar_imp");
 					//alert("Excluyente");
-				}
-				
+				}				
 			});
 			if(aplicable){
 				console.log("4 aplicar_imp");
@@ -295,10 +290,7 @@ function aplicar_imp( prod){
 				_orden[_orden.indexOf(element)].impA = 1;
 
 				aplicable = false;
-
-			}
-
-			
+			}			
 		}
 	});
 }
@@ -361,8 +353,7 @@ function aplicar_imp_combo( prod){
 				if( item.especial == 0 && item.condicion!=1 && yes == true ){
 					aplicable = true;
 					total += (element.total_anterior * item.porcentage);
-				}
-				
+				}				
 			});		
 			if(aplicable){
 				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
@@ -370,19 +361,15 @@ function aplicar_imp_combo( prod){
 				_orden[_orden.indexOf(element)].impSuma = total;
 				_orden[_orden.indexOf(element)].impA = 1;
 				aplicable = false;
-			}	
-			
+			}
 		}
 	});	
 }
 
 function aplicar_imp_duplicado( prod){
-	_orden.forEach(function(element) {
-		
-		if(element.producto2 == prod.producto2){
-			
-			total = (element.total_anterior * _catVal);
-			
+	_orden.forEach(function(element) {		
+		if(element.producto2 == prod.producto2){			
+			total = (element.total_anterior * _catVal);			
 			_orden[_orden.indexOf(element)].total = total.toFixed(2);
 		}
 	});
@@ -427,15 +414,13 @@ function aplicar_imp_especial(prod){
 						contador++;	
 					}
 				}
-			}
-		
+			}		
 	});
 }
 
 function get_total_orden(){
 
 	total_orden = 0;
-
 	_orden.forEach(function(element) {
 		total_orden += parseFloat(element.total);
 	});
@@ -474,9 +459,7 @@ function impuesto_valor(prod){
 				if(registro_editado!=1){
 					result = prompt("Monto en Dinero");
 					dinero = parseFloat(result);
-				}			
-				
-				
+				}				
 				if(dinero){
 					is_money = false;
 					_orden[_orden.indexOf(prod)].total = dinero;
@@ -520,8 +503,7 @@ function impuesto_valor(prod){
 										$imp_flag = false;
 										_impuestos_orden_excluyentes[_impuestos_orden_excluyentes.indexOf(impuestos_especial)].ordenImpTotal += (cant_galon * item.porcentage);
 										
-									}
-									
+									}									
 								});
 
 								if($imp_flag){
@@ -536,12 +518,10 @@ function impuesto_valor(prod){
 							}				
 
 						}
-					}
-					
+					}					
 				});					
 			}			
-		}
-		
+		}		
 	});
 	console.log(_impuestos_orden_excluyentes);
 }
@@ -557,7 +537,6 @@ function producto_valido_especial(prod){
 			}
 		}
 	});	
-
 	return flag;
 }
 
@@ -668,29 +647,21 @@ function ivaTotal(){
 	$.each(_orden, function(i, item) {
 
 		if(item.impSuma){
-
-			var tmp = item.impSuma.toFixed(2);
+			
+			var tmp = parseFloat(item.impSuma).toFixed(2);
 
 			total_iva += parseFloat(tmp);
 
 			sub_total_ += parseFloat(item.total_anterior ) - parseFloat( tmp ) ;						
 
 			if(item.iva==0){
-
 				//total_iva_suma += parseFloat(tmp);
-
 			}
-
 		}
-		c++;
-		
+		c++;		
 	});
-
 	//total_iva_suma =  sub_total_;
-
-	sub_total();
-
-	
+	sub_total();	
 }
 
 function sub_total(){
@@ -698,13 +669,10 @@ function sub_total(){
 	var _total_impues_exclu=0;
 
 	$.each(_impuestos_orden_excluyentes , function(i, item){
-
 		_total_impues_exclu += parseFloat( item.ordenImpTotal );
 		
 	});
-
-	sub_total_ = total_orden - _total_impues_exclu ;	
-
+	sub_total_ = total_orden - _total_impues_exclu ;
 }
 
 /*********** Orden  ************/

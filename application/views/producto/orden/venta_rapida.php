@@ -517,10 +517,13 @@ include("asstes/pos_orden.php");
                         <span class="label label-warning">
                             <?php echo Date("d/M/y"); ?>
                         </span>
-                    </div>
-
-                
+                    </div>                
             </span>
+
+            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F10
+                <i class="fa fa-backward"></i>
+            </span>
+
         </div>
     </div>
 </section>
@@ -908,4 +911,32 @@ include("asstes/pos_orden.php");
 </div>
 <!-- Modal Small-->
 
-    <?php $this->load->view('scripts_files.php'); ?>
+    <!-- METODO DE PAGOS MODAL-->
+    <div id="devolucion" tabindex="-1" role="dialog" aria-labelledby="devolucion" class="modal flip">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #dde6e9">
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span style="font-size: 20px; ">[ Devolcion ]</span>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control has-success input_devolucion" placeholder="#" name="input_devolucion" id="input_devolucion" value="">                    
+                    <span class="inline checkbox c-checkbox">
+                        <label>
+                        <input type="checkbox" id="check_devolcuion" checked name="check_devolcuion" class="">
+                        <span class="fa fa-check"></span> Aplicar Devolucion
+                        </label>
+                    </span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-success bg-green btn_aut_desc" name="5">ACeptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Small-->
+
+<?php $this->load->view('scripts_files.php'); ?>

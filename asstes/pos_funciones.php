@@ -14,6 +14,7 @@
         $('#vendedores_modal').appendTo("body");
         $('#presentacion_modal').appendTo("body");
         $("#autorizacion_descuento").appendTo("body");
+        $("#devolucion").appendTo("body");        
         $('#imprimir').appendTo("body");
         $('#en_proceso').appendTo("body");
         $('#en_reserva').appendTo("body");
@@ -623,6 +624,9 @@
                     case 119: //F8
                         show_existencias();
                         break;
+                    case 121 : //F10
+                        open_devolucion();
+                        break;
                     case 120: // F6
                         f8_table_pagos();
                         break;
@@ -751,6 +755,13 @@
                     currCell.focus();
                 }
             });
+
+            function open_devolucion(){
+                $("#devolucion").modal();
+                setTimeout(function() {                    
+                    $("#input_devolucion").focus();
+                }, 100);                  
+            }
 
             function producto_tabla_foco() {
                 //$("#lista_productos").select();

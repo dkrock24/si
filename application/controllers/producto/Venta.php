@@ -130,6 +130,18 @@ class Venta extends MY_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function autoload_venta(){
+
+		$componente_conf = "combo";		
+		$impuesto_conf 	 = "impuestos";
+
+		$data['orden_detalle'] 	= $this->Venta_model->get_venta($_POST['id']);
+		$data['conf'] 			= $this->Orden_model->getConfg($componente_conf);
+		$data['impuesto'] 		= $this->Orden_model->getConfgImpuesto($impuesto_conf);
+		
+		echo json_encode($data);
+	}
+
 	function facturacion($id){
 
 		$terminal_acceso 	= FALSE;
