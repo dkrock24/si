@@ -1,6 +1,5 @@
 <script>
     $(document).ready(function() {
-
         // OBTENER ORDENES PARA CONVERTIRLAS A VENTA
 
         registro_editado = 1;
@@ -41,12 +40,11 @@
             get_orden(id_orden);            
         }
 
-        function get_venta(venta_id){
-            var convetirToNegativo = false;
+        function get_venta(venta_id){            
             $("#devolucion").modal('hide');
             $("#input_devolucion").val('');
             if($("#check_devolcuion").is(":checked")){
-                convetirToNegativo = true;
+                this.convetirToNegativo = true;
             }
             
             $.ajax({
@@ -75,7 +73,7 @@
                     _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);                    
 
                     venta.forEach(function(element) {
-                        if(convetirToNegativo){
+                        if(this.convetirToNegativo){
                             venta[venta.indexOf(element)].precioUnidad = element.precioUnidad * -1;
                             venta[venta.indexOf(element)].total = element.total * -1;                            
                         }

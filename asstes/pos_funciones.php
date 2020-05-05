@@ -6,6 +6,7 @@
         var input_sucursal = $("#sucursal_id").val();
         var input_cantidad = $("#cantidad");
         var total_venta = 0.00;
+        var convetirToNegativo = false;
         
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
@@ -1704,7 +1705,6 @@
         }
 
         function generar_select_pagos(metodo_pago) {
-
             var options = "";
 
             $.each(metodo_pago, function(i, item) {
@@ -1712,61 +1712,56 @@
             });
 
             $("#extraMetodoPago").html(options);
-
         }
 
         $(document).on('click', '.addMetodoPago', function() {
             var metodo_add = parseInt($("#extraMetodoPago").val());
-
             //if (pagos_mostrados.includes(metodo_add)) {
-
             pagos_mostrados[pagos_mostrados.length] = metodo_add;
 
             var cli_form_pago = $("#cliente_codigo").val();
             var tipo_documento = parseInt($("#id_tipo_documento").val());
             guardarX(cli_form_pago, tipo_documento);
-
             //}
+        });
+
+        $(document).on('keyup', '.metodo_pago_input', function() {
+            pagos_proceso($(this).attr('count'));
         });
 
         $(document).on('change', '.metodo_pago_input', function() {
             pagos_proceso($(this).attr('count'));
         });
 
-        $(document).on('keypress', '.metodo_pago_input', function() {
-            pagos_proceso($(this).attr('count'));
-        });
-
         function pagos_proceso(leng){
-            if (total_msg <= 0) {
+            if (total_msg <= 0 && this.convetirToNegativo==false) {
                 return;
             }
             
-            var temp = 0.00;
-            var cambio = 0.00;
-            var leng = leng;
-            var count = 1;
-
+            var temp    = 0.00;
+            var cambio  = 0.00;
+            var leng    = leng;
+            var count   = 1;
             pagos_array = [];
+
             while (count <= leng) {
 
                 types = $(":input[name=pagoInput" + count + "]").attr('id');
                 value = $(":input[name=pagoInput" + count + "]").val();
-                ids = $(":input[name=pagoInput" + count + "]").attr('ids');
+                ids   = $(":input[name=pagoInput" + count + "]").attr('ids');
 
                 val = $(":input[name=val" + count + "]").val();
                 ban = $(":input[name=ban" + count + "]").val();
                 ser = $(":input[name=ser" + count + "]").val();
 
                 pagos_array[pagos_array.length] = {
-                    id: ids,
-                    type: types,
-                    amount: value,
-                    valor: val,
-                    banco: ban,
-                    serie: ser
+                    id      : ids,
+                    type    : types,
+                    amount  : value,
+                    valor   : val,
+                    banco   : ban,
+                    serie   : ser
                 }
-
                 count++;
             }
 
@@ -1790,7 +1785,6 @@
                 $('#procesar_btn').show();
                 $('#procesar_btn').focus();
             } else if (cambio >= 0.01) {
-
                 $("#cambio_venta").text(cambio.toFixed(2));
                 $('#procesar_btn').show();
                 $('#procesar_btn').focus();
@@ -2379,7 +2373,6 @@
                 } else if (element.condicion_simbolo == " - ") {
                     imp_espeical_total -= parseFloat(sub);
                 }
-
 
                 impuestos_nombre += "<i style='text-align: right;'>" + element.ordenImpName + "(" + element.ordenImpVal + ")</i><br>";
 
