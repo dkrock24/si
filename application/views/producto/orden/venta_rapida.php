@@ -922,13 +922,26 @@ include("asstes/pos_orden.php");
                     <span style="font-size: 20px; ">[ Devolcion ]</span>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control has-success input_devolucion" placeholder="#" name="input_devolucion" id="input_devolucion" value="">                    
+                    <p class="msg_error">
+
+                    </p><br>
+                    Documento Referencia:
+                    <input type="text" class="form-control has-success input_devolucion" placeholder="" name="input_devolucion" id="input_devolucion" value="">
                     <span class="inline checkbox c-checkbox">
                         <label>
                         <input type="checkbox" id="check_devolcuion" checked name="check_devolcuion" class="">
                         <span class="fa fa-check"></span> Aplicar Devolucion
                         </label>
                     </span>
+                    <br>
+                    Cliente Nombre :
+                    <input type="text" class="form-control has-success" placeholder="Cliente Nombre" name="input_devolucion_nombre" id="input_devolucion_nombre" value="">
+                    <br>
+                    Cliente DUI :
+                    <input type="text" class="form-control has-success" placeholder="Cliente DUI" name="input_devolucion_dui" id="input_devolucion_dui" value="">
+                    <br>
+                    Cliente NIT :
+                    <input type="text" class="form-control has-success" placeholder="Cliente NIT" name="input_devolucion_nit" id="input_devolucion_nit" value="">
                 </div>
 
                 <div class="modal-footer">

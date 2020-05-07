@@ -1,12 +1,16 @@
 <script>
     $(document).ready(function() {
 
-        var input_producto_buscar = $(".producto_buscar");
-        var input_bodega_select = $("#bodega_select");
-        var input_sucursal = $("#sucursal_id").val();
-        var input_cantidad = $("#cantidad");
-        var total_venta = 0.00;
-        var convetirToNegativo = false;
+        var input_producto_buscar   = $(".producto_buscar");
+        var input_bodega_select     = $("#bodega_select");
+        var input_sucursal          = $("#sucursal_id").val();
+        var input_cantidad          = $("#cantidad");
+        var total_venta             = 0.00;
+        var convetirToNegativo      = false;
+        var input_devolucion        = "";
+        var input_devolucion_nombre = "";
+        var input_devolucion_dui    = "";
+        var input_devolucion_nit    = "";
         
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
@@ -25,6 +29,7 @@
         $('.1dataSelect').hide();
         $('.1dataSelect2').hide();
         $('.cliente_codigo2').hide();
+        $('.msg_error').hide();        
 
         var height = 39;
 

@@ -28,11 +28,33 @@
             // Cargar Venta en pantalla
             if (e.keyCode == 13) {                
                 if (this.value != "") {
-                    getImpuestosLista();
-                    get_venta(this.value);                    
+                    if($("#check_devolcuion").is(":checked")){
+                        this.convetirToNegativo = true;
+                    }else{
+                        this.convetirToNegativo = false;
+                    }
+
+                    this.input_devolucion        = $("#input_devolucion").val();
+                    this.input_devolucion_nombre = $("#input_devolucion_nombre").val();
+                    this.input_devolucion_dui    = $("#input_devolucion_dui").val();
+                    this.input_devolucion_nit    = $("#input_devolucion_nit").val();
+                    //console.log(this.input_devolucion ,input_devolucion_nombre,input_devolucion_dui,input_devolucion_nit);
+                    
+                    if(this.convetirToNegativo == true){
+                        if(this.input_devolucion_nombre!="" && this.input_devolucion_dui!="" && this.input_devolucion_nit!=""){
+                            getImpuestosLista();
+                            get_venta(this.value);
+                        }else{
+                            $(".msg_error").html("<i class='fa fa-warning' style='font-size:18px;'></i> <label style='color:red;font-size:18px;'> Ingresar Información Requerida.</label>");
+                            $(".msg_error").show();
+                        }
+                    }else{
+                        getImpuestosLista();
+                        get_venta(this.value);
+                    }                                        
                 }
             }
-        });       
+        });
 
         if(path == "../"){            
             var id_orden = window.location.pathname.split("/").pop();
@@ -43,10 +65,7 @@
         function get_venta(venta_id){            
             $("#devolucion").modal('hide');
             $("#input_devolucion").val('');
-            if($("#check_devolcuion").is(":checked")){
-                this.convetirToNegativo = true;
-            }
-            
+                        
             $.ajax({
                 type: "POST",
                 url: "../venta/autoload_venta",
