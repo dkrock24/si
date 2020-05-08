@@ -265,6 +265,10 @@ class Venta_model extends CI_Model {
 					'fh_final' 		=> date("Y-m-d h:i:s"),
 					'id_venta' 		=> 0, // Actualizara al procesar la venta
 					'facturado_el' 	=> 0, // Actualizara al procesar la venta
+					'devolucion_nombre' 	=> $form['devolucion_nombre'],
+					'devolucion_documento' 	=> $form['devolucion_documento'],
+					'devolucion_dui' 		=> $form['devolucion_dui'],
+					'devolucion_nit' 		=> $form['devolucion_nit'],
 					'anulado' 		=> 0, // Actualizara al procesar alguna accion
 					'creado_el' 	=> date("Y-m-d h:i:s"),
 					'fecha_inglab' 	=> date("Y-m-d h:i:s"),
