@@ -211,7 +211,6 @@ class Venta_model extends CI_Model {
 
 			$total_orden = $orden['orden'][0]['total'];
 			$total_orden = (float) $total_orden;
-
 			$efecto_inventario = $documento[0]->efecto_inventario;
 
 			if($efecto_inventario == 1){ // Si suma en inventario la venta, es devolucion
@@ -219,9 +218,7 @@ class Venta_model extends CI_Model {
 			}
 
 			//$total_iva = $orden['orden'][0]['por_iva'];
-			//$total_iva = (float) $total_iva;
-
-		
+			//$total_iva = (float) $total_iva;		
 			//$order_estado = $orden['estado'];
 
 			//Precio Orden con Impuesto

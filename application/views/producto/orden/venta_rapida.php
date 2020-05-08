@@ -929,7 +929,7 @@ include("asstes/pos_orden.php");
                     <input type="text" class="form-control has-success input_devolucion" placeholder="" name="input_devolucion" id="input_devolucion" value="">
                     <span class="inline checkbox c-checkbox">
                         <label>
-                        <input type="checkbox" id="check_devolcuion" checked name="check_devolcuion" class="">
+                        <input type="checkbox" id="check_devolucion" checked name="check_devolucion" class="">
                         <span class="fa fa-check"></span> Aplicar Devolucion
                         </label>
                     </span>

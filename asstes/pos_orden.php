@@ -28,12 +28,12 @@
             // Cargar Venta en pantalla
             if (e.keyCode == 13) {                
                 if (this.value != "") {
-                    if($("#check_devolcuion").is(":checked")){
+                    if($("#check_devolucion").is(":checked")){
                         this.convetirToNegativo = true;
                     }else{
                         this.convetirToNegativo = false;
                     }
-
+                    
                     this.input_devolucion        = $("#input_devolucion").val();
                     this.input_devolucion_nombre = $("#input_devolucion_nombre").val();
                     this.input_devolucion_dui    = $("#input_devolucion_dui").val();
@@ -64,7 +64,12 @@
 
         function get_venta(venta_id){            
             $("#devolucion").modal('hide');
-            $("#input_devolucion").val('');
+            //$("#input_devolucion").val('');
+            if($("#check_devolucion").is(":checked")){
+                this.convetirToNegativo = true;
+            }else{
+                this.convetirToNegativo = false;
+            }
                         
             $.ajax({
                 type: "POST",
@@ -90,9 +95,10 @@
 
                     _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
                     _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);                    
-
+                    
                     venta.forEach(function(element) {
-                        if(this.convetirToNegativo){
+                        if(this.convetirToNegativo == true){
+                            console.log(this.convetirToNegativo);
                             venta[venta.indexOf(element)].precioUnidad = element.precioUnidad * -1;
                             venta[venta.indexOf(element)].total = element.total * -1;                            
                         }
@@ -102,8 +108,7 @@
                     contador_productos = contador_ingreso;
                     _orden = venta;
                     depurar_producto();
-                    if (_conf.impuesto == 1) {
-                        
+                    if (_conf.impuesto == 1) {                        
                         _config_impuestos();
                         depurar_producto();                        
                     }

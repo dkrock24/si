@@ -69,14 +69,11 @@ class Venta extends MY_Controller {
 		foreach ($_POST['encabezado'] as $key => $value) {
 			$form[$value['name']] = $value['value'];
 		}
-		$correlativo_documento = $_POST['correlativo_documento'];
-		
-		$documento_tipo = $this->Documento_model->getDocumentoById($_POST['documento_tipo']);
-
-		$cliente = $this->get_clientes_id($_POST['cliente']);
-
+		$correlativo_documento 	= $_POST['correlativo_documento'];		
+		$documento_tipo 		= $this->Documento_model->getDocumentoById($_POST['documento_tipo']);
+		$cliente 				= $this->get_clientes_id($_POST['cliente']);
+		var_dump($form);die;
 		$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
-
 		$id = $this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo , $_POST['sucursal_origen'] , $correlativo_documento);
 
 		$data['msj_title'] = "Venta grabada Correctamente ";

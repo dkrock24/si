@@ -1964,24 +1964,22 @@
 
         function procesar_venta(method) {
 
-            var tipo_documento = $("#id_tipo_documento").val();
-
+            var tipo_documento  = $("#id_tipo_documento").val();
             var sucursal_origen = $("#sucursal_id2").val();
-
-            var cliente_id = $("#cliente_codigo").val();
-
-            var correlativo_documento = $("#correlativo_documento").val();;
-
-            var formulario = $('#encabezado_form').serializeArray();
-
-            var orden_estado = $("#orden_estado").val(); //$(this).attr('name');
-
-            var orden_numero = $("#orden_numero").val();
+            var cliente_id      = $("#cliente_codigo").val();
+            var correlativo_documento = $("#correlativo_documento").val();
+            var formulario      = $('#encabezado_form').serializeArray();
+            var orden_estado    = $("#orden_estado").val(); //$(this).attr('name');
+            var orden_numero    = $("#orden_numero").val();
+            
+            formulario[formulario.length] = { name : 'devolucion_documento' , value :  $("#input_devolucion").val()};
+            formulario[formulario.length] = { name : 'devolucion_nombre' , value :  $("#input_devolucion_nombre").val()};
+            formulario[formulario.length] = { name : 'devolucion_dui' , value :  $("#input_devolucion_dui").val()};
+            formulario[formulario.length] = { name : 'devolucion_nit' , value :  $("#input_devolucion_nit").val()};
+            console.log(formulario);            
 
             if ($("#orden_estado_venta").val()) {
-
                 orden_estado = $("#orden_estado_venta").val();
-
             }
 
             var impuestos_data = {
@@ -1995,16 +1993,16 @@
                 $.ajax({
                     type: 'POST',
                     data: {
-                        orden: _orden,
-                        encabezado: formulario,
-                        estado: orden_estado,
-                        impuestos: impuestos_data,
-                        pagos: pagos_array,
-                        documento_tipo: tipo_documento,
-                        cliente: cliente_id,
-                        sucursal_origen: sucursal_origen,
+                        orden       : _orden,
+                        encabezado  : formulario,
+                        estado      : orden_estado,
+                        impuestos   : impuestos_data,
+                        pagos       : pagos_array,
+                        cliente     : cliente_id,
+                        orden_numero: orden_numero,
+                        documento_tipo      : tipo_documento,
+                        sucursal_origen     : sucursal_origen,
                         correlativo_documento: correlativo_documento,
-                        orden_numero: orden_numero
                     },
                     url: path + method,
 
