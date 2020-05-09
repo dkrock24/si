@@ -70,6 +70,23 @@ class EfectosDocumento_model extends CI_Model {
         }
     }
 
+    function devolucionesNuevoDocumento( $orden , $documento){
+
+        foreach ($orden['orden'] as $key => $productos) {
+
+            $cantidad       = $this->get_cantidad_bodega($productos['producto_id'], $productos['id_bodega']);            
+            $cantidad_nueva = ($cantidad[0]->Cantidad + $productos['cantidad']);
+            
+            $data = array(
+                'Cantidad'	=>  $cantidad_nueva
+            );
+
+            $this->db->where('Producto', $productos['producto_id'] );
+            $this->db->where('Bodega', $productos['id_bodega'] );
+            $this->db->update(self::producto_bodega, $data );
+        }
+    }
+
     function iva( $orden , $documento){
 
     }

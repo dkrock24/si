@@ -71,7 +71,14 @@ class Venta extends MY_Controller {
 		$correlativo_documento 	= $_POST['correlativo_documento'];		
 		$documento_tipo 		= $this->Documento_model->getDocumentoById($_POST['documento_tipo']);
 		$cliente 				= $this->get_clientes_id($_POST['cliente']);
-		$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
+		$check_devol_param 		= $form['check_devolucion'] === 'true'? true: false;
+
+		if($check_devol_param == false){
+			$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
+		}else{
+			$this->EfectosDocumento_model->devolucionesNuevoDocumento($_POST ,$documento_tipo);
+		}
+		
 		$id = $this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo , $_POST['sucursal_origen'] , $correlativo_documento);
 
 		$data['msj_title'] = "Venta grabada Correctamente ";
@@ -79,7 +86,6 @@ class Venta extends MY_Controller {
 		$data['id'] = $id;
 
 		echo json_encode($data);
-		//redirect(base_url()."producto/orden/nuevo");
 	}
 
 	function get_clientes_id( $cliente_id ){

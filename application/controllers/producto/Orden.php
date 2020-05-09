@@ -32,32 +32,29 @@ class Orden extends MY_Controller {
 		$this->load->model('admin/Impuesto_model');
 		$this->load->model('admin/Sucursal_model');
 		$this->load->model('producto/Venta_model');
-
-		
-		
 	}
 
 	public function index()
 	{
-		$model = "Orden_model";
-		$url_page = "producto/orden/index";
-		$pag = $this->MyPagination($model, $url_page, $vista = 26) ;
+		$model 		= "Orden_model";
+		$url_page 	= "producto/orden/index";
+		$pag 		= $this->MyPagination($model, $url_page, $vista = 26) ;
 
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
+		$data['total_pagina'] 	= $pag['config']["per_page"];
 		$data['total_records'] 	= $pag['total_records'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['registros'] = $this->Orden_model->getOrdenes( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
-		$data['title'] = "Ordenes";
-		$data['home'] = 'template/lista_template';
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['registros'] 		= $this->Orden_model->getOrdenes( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
+		$data['title'] 			= "Ordenes";
+		$data['home'] 			= 'template/lista_template';
 
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
@@ -388,7 +385,6 @@ class Orden extends MY_Controller {
 		if($terminal_acceso){
 			
 			$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento(38);
-
 			$data['sucursales'] 	= $this->Producto_model->get_sucursales();
 			$data['modo_pago'] 		= $this->ModoPago_model->getAllFormasPago();
 			$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );

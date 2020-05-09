@@ -1972,11 +1972,18 @@
             var orden_estado    = $("#orden_estado").val(); //$(this).attr('name');
             var orden_numero    = $("#orden_numero").val();
 
+            if($("#check_devolucion").is(":checked")){
+                this.convetirToNegativo = true;
+            }else{
+                this.convetirToNegativo = false;
+            }
+
             formulario[formulario.length] = { name : 'devolucion_nit'       , value :  $("#input_devolucion_nit").val()};           
             formulario[formulario.length] = { name : 'devolucion_dui'       , value :  $("#input_devolucion_dui").val()};
             formulario[formulario.length] = { name : 'devolucion_nombre'    , value :  $("#input_devolucion_nombre").val()};
             formulario[formulario.length] = { name : 'devolucion_documento' , value :  $("#input_devolucion").val()};
-
+            formulario[formulario.length] = { name : 'check_devolucion'     , value :  this.convetirToNegativo };
+            
             if ($("#orden_estado_venta").val()) {
                 orden_estado = $("#orden_estado_venta").val();
             }
