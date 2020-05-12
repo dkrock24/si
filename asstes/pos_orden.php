@@ -28,33 +28,46 @@
             // Cargar Venta en pantalla
             if (e.keyCode == 13) {                
                 if (this.value != "") {
-                    if($("#check_devolucion").is(":checked")){
-                        this.convetirToNegativo = true;
-                    }else{
-                        this.convetirToNegativo = false;
-                    }
-                    
-                    this.input_devolucion        = $("#input_devolucion").val();
-                    this.input_devolucion_nombre = $("#input_devolucion_nombre").val();
-                    this.input_devolucion_dui    = $("#input_devolucion_dui").val();
-                    this.input_devolucion_nit    = $("#input_devolucion_nit").val();
-                    //console.log(this.input_devolucion ,input_devolucion_nombre,input_devolucion_dui,input_devolucion_nit);
-                    
-                    if(this.convetirToNegativo == true){
-                        if(this.input_devolucion_nombre!="" && this.input_devolucion_dui!="" && this.input_devolucion_nit!=""){
-                            getImpuestosLista();
-                            get_venta(this.value);
-                        }else{
-                            $(".msg_error").html("<i class='fa fa-warning' style='font-size:18px;'></i> <label style='color:red;font-size:18px;'> Ingresar Información Requerida.</label>");
-                            $(".msg_error").show();
-                        }
-                    }else{
-                        getImpuestosLista();
-                        get_venta(this.value);
-                    }                                        
+                    modal_devolucion_data(this.value);                                
                 }
             }
         });
+
+        $(document).on('keypress', '.input_devolucion_btn', function(e) {
+            // Cargar Venta en pantalla
+            if (e.keyCode == 13) {                
+                if ($("#input_devolucion").val() != "") {
+                    modal_devolucion_data($("#input_devolucion").val());                                
+                }
+            }
+        });
+
+        function modal_devolucion_data(value){
+            if($("#check_devolucion").is(":checked")){
+                this.convetirToNegativo = true;
+            }else{
+                this.convetirToNegativo = false;
+            }
+            
+            this.input_devolucion        = $("#input_devolucion").val();
+            this.input_devolucion_nombre = $("#input_devolucion_nombre").val();
+            this.input_devolucion_dui    = $("#input_devolucion_dui").val();
+            this.input_devolucion_nit    = $("#input_devolucion_nit").val();
+            //console.log(this.input_devolucion ,input_devolucion_nombre,input_devolucion_dui,input_devolucion_nit);
+            
+            if(this.convetirToNegativo == true){
+                if(this.input_devolucion_nombre!="" && this.input_devolucion_dui!="" && this.input_devolucion_nit!=""){
+                    getImpuestosLista();
+                    get_venta(value);
+                }else{
+                    $(".msg_error").html("<i class='fa fa-warning' style='font-size:18px;'></i> <label style='color:red;font-size:18px;'> Ingresar Información Requerida.</label>");
+                    $(".msg_error").show();
+                }
+            }else{
+                getImpuestosLista();
+                get_venta(value);
+            }
+        }
 
         if(path == "../"){            
             var id_orden = window.location.pathname.split("/").pop();
@@ -98,7 +111,6 @@
                     
                     venta.forEach(function(element) {
                         if(this.convetirToNegativo == true){
-                            console.log(this.convetirToNegativo);
                             venta[venta.indexOf(element)].precioUnidad = element.precioUnidad * -1;
                             venta[venta.indexOf(element)].total = element.total * -1;                            
                         }

@@ -925,14 +925,15 @@ include("asstes/pos_orden.php");
                     <p class="msg_error">
 
                     </p><br>
-                    Documento Referencia:
-                    <input type="text" class="form-control has-success input_devolucion" placeholder="" name="input_devolucion" id="input_devolucion" value="">
                     <span class="inline checkbox c-checkbox">
                         <label>
-                        <input type="checkbox" id="check_devolucion" checked name="check_devolucion" class="">
+                        <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">
                         <span class="fa fa-check"></span> Aplicar Devolucion
                         </label>
                     </span>
+                    <br>
+                    Documento Referencia:
+                    <input type="text" class="form-control has-success input_devolucion" placeholder="" name="input_devolucion" id="input_devolucion" value="">
                     <br>
                     Cliente Nombre :
                     <input type="text" class="form-control has-success" placeholder="Cliente Nombre" name="input_devolucion_nombre" id="input_devolucion_nombre" value="">
@@ -945,7 +946,7 @@ include("asstes/pos_orden.php");
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-success bg-green btn_aut_desc" name="5">ACeptar</button>
+                    <button type="button" class="btn btn-success bg-green btn_aut_desc input_devolucion_btn" name="5">Aceptar</button>
                 </div>
             </div>
         </div>

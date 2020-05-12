@@ -76,10 +76,22 @@ class Venta extends MY_Controller {
 		if($check_devol_param == false){
 			$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
 		}else{
-			$this->EfectosDocumento_model->devolucionesNuevoDocumento($_POST ,$documento_tipo);
+			if($documento_tipo[0]->efecto_inventario == 1){
+				$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
+			}else{
+				$this->EfectosDocumento_model->devolucionNuevoDocumento($_POST ,$documento_tipo);
+			}
 		}
-		
-		$id = $this->Venta_model->guardar_venta( $_POST , $id_usuario ,$cliente , $form ,$documento_tipo , $_POST['sucursal_origen'] , $correlativo_documento);
+
+		$id = $this->Venta_model->guardar_venta( 
+			$_POST , 
+			$id_usuario ,
+			$cliente , 
+			$form ,
+			$documento_tipo , 
+			$_POST['sucursal_origen'] , 
+			$correlativo_documento
+		);
 
 		$data['msj_title'] = "Venta grabada Correctamente ";
 		$data['msj_orden'] = "Número Transacción : ". $id;

@@ -70,7 +70,7 @@ class EfectosDocumento_model extends CI_Model {
         }
     }
 
-    function devolucionesNuevoDocumento( $orden , $documento){
+    function devolucionNuevoDocumento( $orden , $documento){
 
         foreach ($orden['orden'] as $key => $productos) {
 
