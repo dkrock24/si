@@ -319,14 +319,13 @@ include("asstes/pos_orden.php");
 
                                                     $doc = strtoupper($documento->nombre);
 
-                                                    if (strpos($doc, 'ORDEN') === FALSE) {
-
-                                                        if ($documento->id_temp_suc != $terminal[0]->pred_id_tpdoc) {
+                                                    //if (strpos($doc, 'ORDEN') === FALSE) {
+                                                        //if ($documento->id_temp_suc != $terminal[0]->pred_id_tpdoc) {
                                                         ?>
                                                             <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre ?></option>
-                                                <?php
-                                                        }
-                                                    }
+                                                        <?php
+                                                        //}
+                                                    //}
                                                 }
                                                 ?>
                                             </select>
@@ -951,7 +950,7 @@ include("asstes/pos_orden.php");
                         <div class="col-lg-6 col-md-6" style="font-size:24px;text-align:center;margin-top:0px;">
                             <span class="inline checkbox c-checkbox">
                                 <label>
-                                <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">
+                                <input type="checkbox" id="check_devolucion2" name="check_devolucion2" class="">
                                 <span class="fa fa-check"></span> Cargar Venta ?
                                 </label>
                             </span>

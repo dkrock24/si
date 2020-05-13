@@ -1,3 +1,4 @@
+
 <?php
 class Correlativo_model extends CI_Model {
 
@@ -12,6 +13,7 @@ class Correlativo_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::correlativos.' as c');
         $this->db->join(self::sucursal.' as s', 'on c.Sucursal = s.id_sucursal');
+        $this->db->join(self::documento.' as d', 'on d.id_tipo_documento = c.TipoDocumento');
         $this->db->where('c.TipoDocumento', $documento );
         $this->db->where('c.Sucursal', $sucursal );
         $query = $this->db->get(); 

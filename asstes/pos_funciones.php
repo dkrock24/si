@@ -1,4 +1,5 @@
 <script>
+    var documento_inventario    = 0;
     $(document).ready(function() {
 
         var input_producto_buscar   = $(".producto_buscar");
@@ -11,6 +12,7 @@
         var input_devolucion_nombre = "";
         var input_devolucion_dui    = "";
         var input_devolucion_nit    = "";
+        
         
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
@@ -1613,6 +1615,8 @@
             var cli_form_pago = $("#cliente_codigo").val();
             var tipo_documento = parseInt($("#id_tipo_documento").val());
             var sucursal_id = $("#sucursal_id2").val();
+            
+            documento_inventario = tipo_documento;
 
             correlativo_documento(cli_form_pago, tipo_documento, sucursal_id);
 
@@ -1649,8 +1653,9 @@
 
                     var datos = JSON.parse(data);
                     var correlativo = datos["correlativo"];
-
+                    documento_inventario = correlativo[0].efecto_inventario;
                     $("#correlativo_documento").val(correlativo[0].siguiente_valor);
+                    depurar_producto();
                 },
                 error: function() {}
             });
@@ -2257,14 +2262,25 @@
         // Remueve los productos selecionados
         _config_impuestos();
         contador_tabla = 1;
+        total_iva = Math.abs(total_iva);
         if (_orden.length >= 1) {
             var tr_html = "";           
 
             _orden.forEach(function(element) {
 
+                if(this.documento_inventario == 1){
+                    _orden[_orden.indexOf(element)].precioUnidad = element.precioUnidad * -1;
+                    _orden[_orden.indexOf(element)].total = element.total * -1;
+                }else{
+                    _orden[_orden.indexOf(element)].precioUnidad = Math.abs(element.precioUnidad);
+                    _orden[_orden.indexOf(element)].total = Math.abs(element.total);
+                    
+                }
+
                 var precio_tag = parseFloat(element.precioUnidad);
                 var desc_tag = parseFloat(element.descuento_calculado);
                 var total_tag = parseFloat(element.total);
+                
                 if (element.invisible == 0) {
                     tr_html += "<tr class='productos_tabla' style='' id='" + element.producto_id + "' name='" + element.id_producto_detalle + "'>";
                     tr_html += "<td class='border-table-left'>" + contador_tabla + "</td>";
@@ -2397,6 +2413,12 @@
         }
 
         /* ------------Impuestos - IVA -----------*/
+
+        if(documento_inventario==1){
+            sub_total_ = sub_total_ * (-1);
+        }else{
+            sub_total_ = Math.abs(sub_total_);
+        }
 
         total_msg = (t2 - descuento);
 
