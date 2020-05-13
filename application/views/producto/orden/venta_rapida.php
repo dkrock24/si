@@ -287,7 +287,7 @@ include("asstes/pos_orden.php");
                             <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <i class="icon-docs"></i> > FACTURACION
+                            <i class="icon-docs" style="font-size:33px;text-align:center;"></i>  FACTURACION CONFIGURACION
                         </div>
                         <div class="modal-body">
 
@@ -795,6 +795,7 @@ include("asstes/pos_orden.php");
                             </div>
 
                             <div class="col-lg-12 col-md-12">
+                                <img src="/asstes/img/2178679.png" width="50%" />
                                 <a href="#" class="printer">
                                     <h1><i class="fa fa-print"></i></h1>
                                 </a>
@@ -832,14 +833,23 @@ include("asstes/pos_orden.php");
                     <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <span style="font-size: 20px; ">[ Autorizacion - Descuento ]</span>
+                    <span style="font-size: 20px; ">[ Autorización Descuento ]</span>
 
                 </div>
                 <div class="modal-body">
-                    Usuario
-                    <input type="text" class="form-control has-success" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
-                    Password
-                    <input type="password" class="form-control has-success" name="input_autorizacion_passwd" id="input_autorizacion_passwd">
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6" style="text-align:center;">
+                            <img src="/asstes/img/user_autorization.png" width="50%" />
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            Usuario
+                            <input type="text" class="form-control has-success" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
+                            Password
+                            <input type="password" class="form-control has-success" name="input_autorizacion_passwd" id="input_autorizacion_passwd">
+                        </div>
+                    </div>
+                    
                 </div>
 
                 <div class="modal-footer">
@@ -922,31 +932,60 @@ include("asstes/pos_orden.php");
                     <span style="font-size: 20px; ">[ Devolcion ]</span>
                 </div>
                 <div class="modal-body">
-                    <p class="msg_error">
 
-                    </p><br>
-                    <span class="inline checkbox c-checkbox">
-                        <label>
-                        <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">
-                        <span class="fa fa-check"></span> Aplicar Devolucion
-                        </label>
-                    </span>
-                    <br>
-                    Documento Referencia:
-                    <input type="text" class="form-control has-success input_devolucion" placeholder="" name="input_devolucion" id="input_devolucion" value="">
-                    <br>
-                    Cliente Nombre :
-                    <input type="text" class="form-control has-success" placeholder="Cliente Nombre" name="input_devolucion_nombre" id="input_devolucion_nombre" value="">
-                    <br>
-                    Cliente DUI :
-                    <input type="text" class="form-control has-success" placeholder="Cliente DUI" name="input_devolucion_dui" id="input_devolucion_dui" value="">
-                    <br>
-                    Cliente NIT :
-                    <input type="text" class="form-control has-success" placeholder="Cliente NIT" name="input_devolucion_nit" id="input_devolucion_nit" value="">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                            <p class="msg_error"></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6" style="font-size:24px;text-align:center;margin-top:0px;">
+                            <span class="inline checkbox c-checkbox">
+                                <label>
+                                <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">
+                                <span class="fa fa-check"></span> Aplicar Devolucion ?
+                                </label>
+                            </span>
+                        </div>
+                        <div class="col-lg-6 col-md-6" style="font-size:24px;text-align:center;margin-top:0px;">
+                            <span class="inline checkbox c-checkbox">
+                                <label>
+                                <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">
+                                <span class="fa fa-check"></span> Cargar Venta ?
+                                </label>
+                            </span>
+                        </div>
+                    </div><br>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <img src="/asstes/img/download.png" />
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <input type="text" class="form-control has-success input_devolucion" placeholder="Documento Referencia" name="input_devolucion" id="input_devolucion" value=""><br>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <input type="text" class="form-control has-success" placeholder="Cliente Nombre" name="input_devolucion_nombre" id="input_devolucion_nombre" value=""><br>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <input type="text" class="form-control has-success" placeholder="Cliente DUI" name="input_devolucion_dui" id="input_devolucion_dui" value=""><br>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <input type="text" class="form-control has-success" placeholder="Cliente NIT" name="input_devolucion_nit" id="input_devolucion_nit" value=""><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                       
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success bg-green btn_aut_desc input_devolucion_btn" name="5">Aceptar</button>
+                    <button type="button" class="btn btn-success bg-green btn_aut_desc input_devolucion_btn" name="5">Aceptar Devolución</button>
                 </div>
             </div>
         </div>
