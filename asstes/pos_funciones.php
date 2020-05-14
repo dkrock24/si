@@ -2200,12 +2200,16 @@
 
         $(document).on('keypress', '.cntProducto', function() {
             if (event.which == 13) {
-                var prod_id_input = $(this).attr('id');
+                var prod_id_input  = $(this).attr('id');
                 var prod_val_input = $(this).val();
+
                 _orden.forEach(function(element) {
                     if (element.producto == prod_id_input) {
                         _orden[_orden.indexOf(element)].cantidad = prod_val_input;
-                        _orden[_orden.indexOf(element)].total = calcularTotalProducto(_orden[_orden.indexOf(element)].presentacionPrecio, prod_val_input);
+                        _orden[_orden.indexOf(element)].total = calcularTotalProducto(
+                                                                    _orden[_orden.indexOf(element)].precioUnidad,
+                                                                     prod_val_input
+                                                                );
                         depurar_producto();
                     }
                 });
@@ -2225,15 +2229,18 @@
             
             if (event.which == 13) {
                 
-                var prod_id_input = $(this).attr('id');
+                var prod_id_input  = $(this).attr('id');
                 var prod_val_input = $(this).val();
                 _orden.forEach(function(element) {
                     
                     if (element.producto == prod_id_input) {
-                        _orden[_orden.indexOf(element)].presentacionPrecio = prod_val_input;
-                        _orden[_orden.indexOf(element)].precioUnidad = prod_val_input;
-                        _orden[_orden.indexOf(element)].presentacionUnidad = prod_val_input;
-                        _orden[_orden.indexOf(element)].total = calcularTotalProducto(_orden[_orden.indexOf(element)].cantidad, prod_val_input);
+                        _orden[_orden.indexOf(element)].presentacionPrecio  = prod_val_input;
+                        _orden[_orden.indexOf(element)].precioUnidad        = prod_val_input;
+                        _orden[_orden.indexOf(element)].presentacionUnidad  = prod_val_input;
+                        _orden[_orden.indexOf(element)].total               = calcularTotalProducto(
+                                                                                    _orden[_orden.indexOf(element)].cantidad,
+                                                                                    prod_val_input
+                                                                                );
                         depurar_producto();
                     }
                 });
@@ -2244,7 +2251,6 @@
             _config_impuestos();
             depurar_producto();
         });
-
     });
 
     function show_existencias() {
@@ -2262,24 +2268,24 @@
         // Remueve los productos selecionados
         _config_impuestos();
         contador_tabla = 1;
-        total_iva = Math.abs(total_iva);
+        //total_iva = Math.abs(total_iva);
         if (_orden.length >= 1) {
             var tr_html = "";           
-
+            
             _orden.forEach(function(element) {
 
-                if(this.documento_inventario == 1){
+                _orden[_orden.indexOf(element)].precioUnidad= Math.abs(element.precioUnidad);
+                _orden[_orden.indexOf(element)].total       = Math.abs(element.total);
+
+                if(this.documento_inventario == 1 || this.convetirToNegativo == true )
+                {
                     _orden[_orden.indexOf(element)].precioUnidad = element.precioUnidad * -1;
                     _orden[_orden.indexOf(element)].total = element.total * -1;
-                }else{
-                    _orden[_orden.indexOf(element)].precioUnidad = Math.abs(element.precioUnidad);
-                    _orden[_orden.indexOf(element)].total = Math.abs(element.total);
-                    
                 }
 
-                var precio_tag = parseFloat(element.precioUnidad);
-                var desc_tag = parseFloat(element.descuento_calculado);
-                var total_tag = parseFloat(element.total);
+                var precio_tag  = parseFloat(element.precioUnidad);
+                var desc_tag    = parseFloat(element.descuento_calculado);
+                var total_tag   = parseFloat(element.total);
                 
                 if (element.invisible == 0) {
                     tr_html += "<tr class='productos_tabla' style='' id='" + element.producto_id + "' name='" + element.id_producto_detalle + "'>";
@@ -2313,12 +2319,12 @@
             $(".producto_agregados").html(tr_html);
 
         } else {
-            contador_productos = 0;
-            _orden = [];
-            _productos = {};
-            _impuestos_orden_condicion = [];
-            _impuestos_orden_especial = [];
-            _impuestos_orden_excluyentes = [];
+            contador_productos          = 0;
+            _orden                      = [];
+            _productos                  = {};
+            _impuestos_orden_condicion  = [];
+            _impuestos_orden_especial   = [];
+            _impuestos_orden_excluyentes= [];
 
             total_msg = parseFloat(0.00);
             $(".total_msg").text("$ " + total_msg.toFixed(2));
@@ -2329,14 +2335,14 @@
 
     function calculo_totales() {
 
-        var descuento = 0;
-        var t = 0;
-        var t2 = 0;
-        var sub = 0;
+        var t           = 0;
+        var t2          = 0;
+        var sub         = 0;
+        var descuento   = 0;
+        var iva_nombre  = "";
+        var iva_valor   = "";
+        var iva_total   = "";
         var imp_espeical_total = 0;
-        var iva_nombre = "";
-        var iva_valor = "";
-        var iva_total = "";
 
         // --------------- * -----------------------------
 
@@ -2344,8 +2350,11 @@
             _orden.forEach(function(element) {
 
                 t += parseInt(element.cantidad);
-                if ((_conf.comboAgrupado == 0) && (element.id_producto_combo != null && element.combo == 0)) {
-
+                if (
+                    (_conf.comboAgrupado == 0) && 
+                    (element.id_producto_combo != null && 
+                    element.combo == 0)) 
+                {
                     //t2 +=parseFloat(element.total);
                 } else {
                     if (element.id_producto_combo == 0 || element.id_producto_combo == null) {
@@ -2363,9 +2372,9 @@
 
         if (_impuestos_orden_condicion.length != 0 || _impuestos_orden_excluyentes != 0) {
 
-            var impuestos_nombre = "";
-            var impuestos_valor = "";
-            var impuestos_total = "";
+            var impuestos_nombre    = "";
+            var impuestos_valor     = "";
+            var impuestos_total     = "";
 
             _impuestos_orden_condicion.forEach(function(element) {
 
@@ -2393,9 +2402,11 @@
             _impuestos_orden_excluyentes.forEach(function(element) {
 
                 sub = element.ordenImpTotal.toFixed(2);
-                if (element.condicion_simbolo == "+") {
+                if (element.condicion_simbolo == "+") 
+                {
                     imp_espeical_total += parseFloat(sub);
-                } else if (element.condicion_simbolo == " - ") {
+                } else if (element.condicion_simbolo == " - ") 
+                {
                     imp_espeical_total -= parseFloat(sub);
                 }
 
@@ -2414,7 +2425,8 @@
 
         /* ------------Impuestos - IVA -----------*/
 
-        if(documento_inventario==1){
+        if(documento_inventario==1)
+        {
             sub_total_ = sub_total_ * (-1);
         }else{
             sub_total_ = Math.abs(sub_total_);
@@ -2441,25 +2453,23 @@
         total_msg += parseFloat(imp_espeical_total);
 
         // --------------- * -----------------------------
-        $(".total_msg").text(total_msg.toFixed(2));
-        $(".cantidad_tabla").text(t.toFixed(2));
-        $(".sub_total_tabla").text(sub_total_.toFixed(2));
-        $(".total_tabla").text(total_msg.toFixed(2));
-        $(".descuento_tabla").text(descuento.toFixed(2));
-        $("#compra_venta").text(total_msg.toFixed(2));
-        $("#restante_venta").text(total_msg.toFixed(2));
-        this.total_venta = total_msg.toFixed(2);
+        $(".total_msg").        text(total_msg.toFixed(2));
+        $(".cantidad_tabla").   text(t.toFixed(2));
+        $(".sub_total_tabla").  text(sub_total_.toFixed(2));
+        $(".total_tabla").      text(total_msg.toFixed(2));
+        $(".descuento_tabla").  text(descuento.toFixed(2));
+        $("#compra_venta").     text(total_msg.toFixed(2));
+        $("#restante_venta").   text(total_msg.toFixed(2));
+        this.total_venta        = total_msg.toFixed(2);
     }
 
     function existAutorizatio() {
 
         $(document).ready(function() {
-
             validar_autorizacion();
         });
 
         function validar_autorizacion() {
-
             alert(input_autorizacion_descuento);
         }
 
