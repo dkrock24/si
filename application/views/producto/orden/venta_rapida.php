@@ -939,30 +939,20 @@ include("asstes/pos_orden.php");
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-6 col-md-6" style="font-size:24px;text-align:center;margin-top:0px;">
-                            <span class="inline checkbox c-checkbox">
-                                <label>
-                                <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">
-                                <span class="fa fa-check"></span> Aplicar Devolucion ?
-                                </label>
-                            </span>
-                        </div>
-                        <div class="col-lg-6 col-md-6" style="font-size:24px;text-align:center;margin-top:0px;">
-                            <span class="inline checkbox c-checkbox">
-                                <label>
-                                <input type="checkbox" id="check_devolucion2" name="check_devolucion2" class="">
-                                <span class="fa fa-check"></span> Cargar Venta ?
-                                </label>
-                            </span>
-                        </div>
-                    </div><br>
-
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6">
-                            <img src="/asstes/img/download.png" />
+                        <div class="col-lg-6 col-md-6" style="border-right:1px solid grey;">
+                            <br/><br/><img src="/asstes/img/download.png" /><br/><br/><br/>
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="row">
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <span class="inline checkbox c-checkbox">
+                                        <label>
+                                        <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">
+                                        <span class="fa fa-check check_devolucion"></span> Aplicar Devolucion ?
+                                        </label>
+                                    </span>
+                                </div>
                                 <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                     <input type="text" class="form-control has-success input_devolucion" placeholder="Documento Referencia" name="input_devolucion" id="input_devolucion" value=""><br>
                                 </div>

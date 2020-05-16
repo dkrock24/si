@@ -1804,8 +1804,16 @@
         }
 
         $(document).on('click', '#procesar_btn', function() {
-
-            procesar_venta($(this).attr('name'));
+            if(this.convetirToNegativo == true || documento_inventario == 1){
+                $(".input_devolucion_btn").hide();
+                $("#devolucion").modal();
+                setTimeout(function() {                    
+                    $("#check_devolucion").focus();
+                }, 100);               
+     
+            }else{
+                procesar_venta($(this).attr('name'));
+            }
         });
 
         $(document).on('click', '#guardar_orden', function() {
