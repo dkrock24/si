@@ -1,15 +1,13 @@
-
 <?php
 class Correlativo_model extends CI_Model {
 
-	const correlativos =  'pos_correlativos';
-    const empleado =  'sys_empleado';
-    const sucursal =  'pos_sucursal';
-    const documento =  'pos_tipo_documento';
-
-    
+    const empleado      =  'sys_empleado';
+    const sucursal      =  'pos_sucursal';
+    const documento     =  'pos_tipo_documento';
+	const correlativos  =  'pos_correlativos';    
 
 	function get_correlativo_sucursal($documento  , $sucursal ){
+
         $this->db->select('*');
         $this->db->from(self::correlativos.' as c');
         $this->db->join(self::sucursal.' as s', 'on c.Sucursal = s.id_sucursal');
@@ -26,6 +24,7 @@ class Correlativo_model extends CI_Model {
     
 
     function get_by_id( $sucursal ){
+
         $this->db->select('*');
         $this->db->from(self::correlativos.' as c');
         $this->db->where('c.Sucursal', $sucursal);
@@ -38,6 +37,7 @@ class Correlativo_model extends CI_Model {
     }
 
     function getCorrelativos( $limit, $id , $filters ){
+
         $this->db->select('*');
         $this->db->from(self::correlativos.' as c');
         $this->db->join(self::sucursal.' as s',' on c.Sucursal = s.id_sucursal');   
@@ -101,14 +101,14 @@ class Correlativo_model extends CI_Model {
     function update( $correlativos ){
 
         $data = array(
-            'valor_inical' => $correlativos['valor_inical'],
-            'valor_final' => $correlativos['valor_final'],
-            'siguiente_valor' => $correlativos['siguiente_valor'],
-            'prefix' => $correlativos['prefix'],
-            'Sucursal' => $correlativos['Sucursal'],
-            'TipoDocumento' => $correlativos['TipoDocumento'],
-            'numero_de_serire' => $correlativos['numero_de_serire'],            
-            'correlativo_estado' => $correlativos['correlativo_estado'],
+            'prefix'            => $correlativos['prefix'],
+            'Sucursal'          => $correlativos['Sucursal'],
+            'valor_final'       => $correlativos['valor_final'],
+            'valor_inical'      => $correlativos['valor_inical'],
+            'TipoDocumento'     => $correlativos['TipoDocumento'],
+            'siguiente_valor'   => $correlativos['siguiente_valor'],
+            'numero_de_serire'  => $correlativos['numero_de_serire'],            
+            'correlativo_estado'=> $correlativos['correlativo_estado'],
         );
         $this->db->where('id_correlativos', $correlativos['id_correlativos'] );
         $this->db->update(self::correlativos, $data );
@@ -117,7 +117,7 @@ class Correlativo_model extends CI_Model {
     function delete( $id_correlativos ){
 
         $data = array(
-            'id_correlativos'     =>  $id_correlativos
+            'id_correlativos' =>  $id_correlativos
         );
         
         $this->db->where('id_correlativos', $id_correlativos );

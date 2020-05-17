@@ -500,6 +500,9 @@ include("asstes/pos_orden.php");
             <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
                 <i class="fa fa-credit-card"></i>
             </span>
+            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F10
+                <i class="fa fa-backward"></i>
+            </span>
             <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">
                 
                     <input type="hidden" name="terminal" id="terminal_id" value="<?php echo $terminal[0]->id_terminal ?>" />
@@ -517,11 +520,7 @@ include("asstes/pos_orden.php");
                             <?php echo Date("d/M/y"); ?>
                         </span>
                     </div>                
-            </span>
-
-            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F10
-                <i class="fa fa-backward"></i>
-            </span>
+            </span>            
 
         </div>
     </div>

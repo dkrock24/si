@@ -250,11 +250,10 @@ class Orden extends MY_Controller {
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		foreach ($_POST['encabezado'] as $key => $value) {
-			
-			foreach ($_POST['encabezado'] as $key => $value) {
-			
+			if(!isset($value['value'])){
+				$dataParametros[$value['name']] = "";
+			}else{
 				$dataParametros[$value['name']] = $value['value'];
-			
 			}
 		}
 

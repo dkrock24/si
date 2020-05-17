@@ -504,6 +504,10 @@ include("asstes/pos_orden.php");
             <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
                 <i class="fa fa-credit-card"></i>
             </span>
+
+            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F10
+                <i class="fa fa-backward"></i>
+            </span>
         </div>
     </div>
 
@@ -645,7 +649,7 @@ include("asstes/pos_orden.php");
 
 <!-- METODO DE PAGOS MODAL-->
 <div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta" class="modal flip">
-    <div class="modal-dialog modal-lg" style="width: 80%;">
+    <div class="modal-dialog modal-lg" style="">
         <div class="modal-content">
             <div class="modal-header" style="background: #dde6e9">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
@@ -896,3 +900,64 @@ include("asstes/pos_orden.php");
     </div>
 </div>
 <!-- Modal Small-->
+
+<!-- METODO DE PAGOS MODAL-->
+<div id="devolucion" tabindex="-1" role="dialog" aria-labelledby="devolucion" class="modal flip">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #dde6e9">
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span style="font-size: 20px; ">[ Devolcion ]</span>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                            <p class="msg_error"></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6" style="border-right:1px solid grey;text-align:right;">
+                            <br/><br/><img src="/asstes/img/download.png" /><br/><br/><br/>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row">
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <span class="inline checkbox c-checkbox">
+                                        <label>
+                                        <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">
+                                        <span class="fa fa-check check_devolucion"></span> Aplicar Devolucion ?
+                                        </label>
+                                    </span>
+                                </div>
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <input type="text" class="form-control has-success input_devolucion" placeholder="Documento Referencia" name="input_devolucion" id="input_devolucion" value=""><br>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <input type="text" class="form-control has-success" placeholder="Cliente Nombre" name="input_devolucion_nombre" id="input_devolucion_nombre" value=""><br>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <input type="text" class="form-control has-success" placeholder="Cliente DUI" name="input_devolucion_dui" id="input_devolucion_dui" value=""><br>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <input type="text" class="form-control has-success" placeholder="Cliente NIT" name="input_devolucion_nit" id="input_devolucion_nit" value=""><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                       
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success bg-green btn_aut_desc input_devolucion_btn" name="5">Aceptar Devolución</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Small-->

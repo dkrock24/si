@@ -74,24 +74,16 @@ class Venta extends MY_Controller {
 		$check_devol_param 		= $form['check_devolucion'] === 'true'? true: false;
 
 		if($check_devol_param == false){
-			var_dump(1);
-			var_dump($_POST['orden']);
-			die;
 			$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
 		}else{
 			if($documento_tipo[0]->efecto_inventario == 1){
-				var_dump(2);
-				var_dump($_POST['orden']);
-				die;
+
 				$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
 			}else{
-				var_dump(3);
-				var_dump($_POST['orden']);
-				die;
+
 				$this->EfectosDocumento_model->devolucionNuevoDocumento($_POST ,$documento_tipo);
 			}
 		}
-		die;
 
 		$id = $this->Venta_model->guardar_venta( 
 			$_POST , 

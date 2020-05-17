@@ -1805,12 +1805,20 @@
 
         $(document).on('click', '#procesar_btn', function() {
             if(this.convetirToNegativo == true || documento_inventario == 1){
-                $(".input_devolucion_btn").hide();
-                $("#devolucion").modal();
-                setTimeout(function() {                    
-                    $("#check_devolucion").focus();
-                }, 100);               
-     
+                if(
+                    $("#input_devolucion").val()        == "" &&
+                    $("#input_devolucion_nit").val()    == "" &&
+                    $("#input_devolucion_dui").val()    == "" &&
+                    $("#input_devolucion_nombre").val() == "")
+                    {
+                    $(".input_devolucion_btn").hide();
+                    $("#devolucion").modal();
+                    setTimeout(function() {                    
+                        $("#check_devolucion").focus();
+                    }, 100);
+                }else{
+                    procesar_venta($(this).attr('name'));
+                }
             }else{
                 procesar_venta($(this).attr('name'));
             }
