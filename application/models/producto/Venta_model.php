@@ -368,7 +368,6 @@ class Venta_model extends CI_Model {
 		}
 
 		function guardar_venta_detalle( $id_orden , $datos ,$efecto_inventario ){
-			
 			foreach ($datos['orden'] as $key => $orden) {
 
 				if($orden['descuento']){
@@ -397,7 +396,7 @@ class Venta_model extends CI_Model {
 		            'factor' 		=> $orden['presentacionFactor'],
 		            'total' 		=> ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'] ,
 		            'gen' 			=> $orden['gen'],
-		            'descuento' 	=> ($efecto_inventario == 1) ? ( $orden['descuento'] * 1 ) :$orden['descuento'] ,
+		            'descuento' 	=> $orden['descuento'] ,
 		            'por_desc' 		=> $descuento_porcentaje,
 		            'descuento_limite' 		=> $orden['descuento_limite'],
 		            'descuento_calculado' 	=> $orden['descuento_calculado'],
