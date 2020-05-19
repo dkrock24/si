@@ -496,6 +496,12 @@ include("asstes/pos_funciones.php");
             <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F3
                 <i class="icon-trash"></i>
             </span>
+            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
+                <i class="fa fa-credit-card"></i>
+            </span>
+            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F10
+                <i class="fa fa-backward"></i>
+            </span>
             <!--
             <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
                 <i class="fa fa-credit-card"></i>
@@ -832,3 +838,226 @@ include("asstes/pos_funciones.php");
     </div>
 </div>
 <!-- Modal Small-->
+
+<!-- METODO DE PAGOS MODAL-->
+<div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta" class="modal flip">
+    <div class="modal-dialog modal-lg" style="">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #dde6e9">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span style="font-size: 20px; ">[ Proceso Pago ]</span>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-9 col-md-9" style="border-right: 1px solid #e5e5e5; height: 50%;">
+
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2">
+                                <select class="form-control" name="id_tipo_documento" id="id_tipo_documento" class="id_tipo_documento">
+                                    <?php
+
+                                    foreach ($tipoDocumento as $documento) {
+                                        if ($orden[0]->id_tipod != $documento->id_tipo_documento) {
+                                    ?>
+                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2">
+                                <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
+                                    <?php
+                                    foreach ($modo_pago as $mp) {
+                                    ?>
+                                        <option value="<?php echo $mp->id_modo_pago; ?>"><?php echo $mp->nombre_modo_pago; ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-1 col-md-1">
+                                <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2">
+
+                                <select name="orden_estado_venta" id="orden_estado_venta" class="form-control">
+                                    <option value="4">Facturada</option>
+                                    <option value="1">En proceso</option>
+                                    <option value="5">En Espera</option>
+                                    <option value="3">Procesada</option>
+                                    <option value="2">En Reservaa</option>
+                                    <option value="6">Cancelado</option>
+                                </select>
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-3">
+                                <input type="text" class="form-control has-success" name="cliente" placeholder="Nombre Cliente">
+                            </div>
+
+                            <div class="col-lg-2 col-md-2">
+                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
+                            </div>
+
+                        </div>
+
+                        <div class="row" id="metodos_pagos">
+
+                            <br>
+                            <?php
+
+                            $a = 1;
+                            $count = count($modo_pago);
+                            foreach ($modo_pago as $value) {
+                            ?>
+                                <div class="col-lg-4 col-md-4">
+                                    <?php echo $value->nombre_modo_pago; ?>
+                                </div>
+                                <div class="col-lg-8 col-md-8">
+                                    <input type='text' count='<?php echo $count; ?>' name='pagoInput<?php echo $a; ?>' id='<?php echo $value->nombre_modo_pago; ?>' class='form-control metodo_pago_input'>
+                                </div>
+                            <?php
+                                $a++;
+                            }
+                            ?>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3">
+
+                        <div class="row" style="">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="panel widget bg-success" style="height: 80px;">
+                                    <div class="row row-table">
+                                        <div class="col-xs-4 text-center bg-success-dark pv-lg">
+                                            <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
+                                        </div>
+                                        <div class="col-xs-8 pv-lg">
+                                            <div class="h1 m0 text-bold"><span id="compra_venta">0.00</span></div>
+                                            <div class="text-uppercase">PAGAR</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12">
+                                <div class="panel widget bg-green" style="height: 80px;">
+                                    <div class="row row-table">
+                                        <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                                            <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
+                                        </div>
+                                        <div class="col-xs-8 pv-lg">
+                                            <div class="h1 m0 text-bold"><span id="restante_venta">0.00</span></div>
+                                            <div class="text-uppercase">RESTANTE</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12">
+                                <div class="panel widget bg-warning" style="height: 80px;">
+                                    <div class="row row-table">
+                                        <div class="col-xs-4 text-center bg-warning-dark pv-lg">
+                                            <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
+                                        </div>
+                                        <div class="col-xs-8 pv-lg">
+                                            <div class="h1 m0 text-bold"><span id="cambio_venta">0.00</span></div>
+                                            <div class="text-uppercase">CAMBIO</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6" id="metodo_pago_lista">
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" data-dismiss="modal" id="procesar_btn" class="mb-sm btn-lg btn btn-purple btn-outline guardar" name="../venta/guardar_venta">PROCESAR</button>
+                    <button type="button" data-dismiss="modal" class="mb-sm btn-lg btn btn-danger btn-outline">CANCELAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Small-->
+
+    <!-- METODO DE PAGOS MODAL-->
+    <div id="devolucion" tabindex="-1" role="dialog" aria-labelledby="devolucion" class="modal flip">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #dde6e9">
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span style="font-size: 20px; ">[ Devolcion ]</span>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                            <p class="msg_error"></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6" style="border-right:1px solid grey;">
+                            <br/><br/><img src="/asstes/img/download.png" /><br/><br/><br/>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row">
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <span class="inline checkbox c-checkbox">
+                                        <label>
+                                        <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">
+                                        <span class="fa fa-check check_devolucion"></span> Aplicar Devolucion ?
+                                        </label>
+                                    </span>
+                                </div>
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <input type="text" class="form-control has-success input_devolucion" placeholder="Documento Referencia" name="input_devolucion" id="input_devolucion" value=""><br>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <input type="text" class="form-control has-success" placeholder="Cliente Nombre" name="input_devolucion_nombre" id="input_devolucion_nombre" value=""><br>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <input type="text" class="form-control has-success" placeholder="Cliente DUI" name="input_devolucion_dui" id="input_devolucion_dui" value=""><br>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <input type="text" class="form-control has-success" placeholder="Cliente NIT" name="input_devolucion_nit" id="input_devolucion_nit" value=""><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                       
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success bg-green btn_aut_desc input_devolucion_btn" name="5">Aceptar Devolución</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Small-->
