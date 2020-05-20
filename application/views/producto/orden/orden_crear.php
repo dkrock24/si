@@ -28,10 +28,26 @@
 
 <?php
 include("asstes/pos_funciones.php");
+include("asstes/pos_orden.php");
 ?>
 <script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
+
+<style>
+    .modal-dialog {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding-left: 10%;
+    }
+
+    .modal-content {
+        height: auto;
+        min-height: 100%;
+        border-radius: 5;
+    }
+</style>
 
 <!-- Main section-->
 <section>
@@ -93,11 +109,11 @@ include("asstes/pos_funciones.php");
                                                     if ($tipoDocumento) {
                                                         foreach ($tipoDocumento as $documento) {
                                                             $doc = strtoupper($documento->nombre);
-                                                            if (strpos($doc, 'ORDEN') !== FALSE) {
+                                                            //if (strpos($doc, 'ORDEN') !== FALSE) {
                                                     ?>
                                                                 <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
                                                         <?php
-                                                            }
+                                                            //}
                                                         }
                                                     } else {
                                                         ?>
@@ -1020,7 +1036,7 @@ include("asstes/pos_funciones.php");
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-6 col-md-6" style="border-right:1px solid grey;">
+                        <div class="col-lg-6 col-md-6" style="border-right:1px solid grey;text-align:center;">
                             <br/><br/><img src="/asstes/img/download.png" /><br/><br/><br/>
                         </div>
                         <div class="col-lg-6 col-md-6">

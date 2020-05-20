@@ -71,7 +71,7 @@ class Vistas_model extends CI_Model {
         //$this->db->join(self::pos_temp_sucursal.' as ts', ' on ts.Documento = td.id_tipo_documento','left');
         $this->db->where('v.id_vista', $vista);
         $this->db->where('td.Empresa', $this->session->empresa[0]->id_empresa);
-        $query = $this->db->get();           
+        $query = $this->db->get();
         
         if($query->num_rows() > 0 )
         {

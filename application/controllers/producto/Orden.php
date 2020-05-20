@@ -79,7 +79,7 @@ class Orden extends MY_Controller {
 		$data['menu'] 	= $this->session->menu;		
 
 		if($terminal_acceso){
-			$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
+			$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento(13);
 			$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 			$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );
 			$data['terminal'] 		= $terminal_acceso;
