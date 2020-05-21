@@ -59,14 +59,17 @@ class EfectosDocumento_model extends CI_Model {
                 
                 $cantidad_nueva = ($cantidad[0]->Cantidad - $productos['cantidad']);
             }
-            
-            $data = array(
-                'Cantidad'	=>  $cantidad_nueva
-            );
 
-            $this->db->where('Producto', $productos['producto_id'] );
-            $this->db->where('Bodega', $productos['id_bodega'] );
-            $this->db->update(self::producto_bodega, $data ); 
+            if(isset($cantidad_nueva)){
+
+                $data = array(
+                    'Cantidad'	=>  $cantidad_nueva
+                );
+
+                $this->db->where('Producto', $productos['producto_id'] );
+                $this->db->where('Bodega', $productos['id_bodega'] );
+                $this->db->update(self::producto_bodega, $data );
+            }
         }
     }
 

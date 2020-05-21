@@ -65,6 +65,9 @@ include("asstes/pos_orden.php");
                     <!-- Campos de la terminal -->
                     <input type="hidden" name="terminal_id" value="<?php echo $terminal[0]->id_terminal; ?>" />
                     <input type="hidden" name="terminal_numero" value="<?php echo $terminal[0]->numero; ?>" />
+                    <input type="hidden" name="caja_id" value="<?php echo $terminal[0]->id_caja; ?>" />
+                    <input type="hidden" name="caja_numero" value="<?php echo $terminal[0]->cod_interno_caja; ?>" />
+                    <input type="hidden" name="vista_id" value="<?php echo $vista_id; ?>" />
                     <!-- Fin Campos de la terminal -->
 
                     <!-- Campos del cliente -->

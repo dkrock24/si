@@ -2037,12 +2037,12 @@
 
                         if (method == "guardar_orden") {
                             window.location.href = "editar/" + data;
-                        } else if (method == "../venta/guardar_venta") {
-                            //location.reload();
+                        } else if (method == "../venta/guardar_venta") 
+                        {
                             var datos = JSON.parse(data);
                             $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
                             $(".print_venta").attr("href", "venta/" + datos['id']);
-                            window.location.href = "../venta/facturacion/" + datos['id'];
+                            window.location.href = "../venta/facturacion/" + datos['id'];                            
                         }
                     },
                     error: function() {}

@@ -117,8 +117,18 @@ include("asstes/pos_orden.php");
                         <div class="row">
                             <hr style="border-bottom:1px dashed black">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                            <?php
+                                $vista_id  = $orden[0]->venta_vista_id;
+                                $vista_url = "../../orden/venta_rapida";
 
-                                <a href="../../orden/venta_rapida" class="btn btn-default printer">
+                                if($vista_id == 13 ){
+                                    $vista_url = "../../orden/nuevo";
+                                }else if($vista_id == 38){
+                                    $vista_url = "../../orden/venta_rapida";
+                                }
+                            ?>
+
+                                <a href="<?= $vista_url; ?>" class="btn btn-default printer">
                                     <h3> <i class="icon-plus"></i> Nueva </h3>
                                 </a>
                                 <a href="#" id="prin" name="<?= $orden[0]->id ?>" class="btn btn-success" style="color:black">

@@ -184,7 +184,6 @@ class Venta extends MY_Controller {
 										$data['orden'][0]->id_tipod, 
 										$data['orden'][0]->id_condpago
 									);
-
 		$data['home'] 			= 'producto/ventas/facturacion';
 		$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
 		$data['file'] 			= $name;
