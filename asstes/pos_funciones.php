@@ -1612,9 +1612,10 @@
         $(document).on('change', '#id_tipo_documento', function() {
 
             var cli_form_pago = $("#cliente_codigo").val();
-            var tipo_documento = parseInt($("#id_tipo_documento").val());
+            var tipo_documento = parseInt($(this).val());
             var sucursal_id = $("#sucursal_id2").val();
             
+            console.log(cli_form_pago, tipo_documento,sucursal_id);
             documento_inventario = tipo_documento;
 
             correlativo_documento(cli_form_pago, tipo_documento, sucursal_id);
@@ -1653,6 +1654,7 @@
                     var datos = JSON.parse(data);
                     var correlativo = datos["correlativo"];
                     documento_inventario = correlativo[0].efecto_inventario;
+                    console.log(correlativo[0].siguiente_valor);
                     $("#correlativo_documento").val(correlativo[0].siguiente_valor);
                     depurar_producto();
                 },
@@ -1691,8 +1693,7 @@
                                 _html += '<tr class="pagos_tabla" id="' + cou + '"><td><div class="btn bg-green">' + item.nombre_modo_pago + '</div></td>';
                                 _html += '<td class="">' +
                                     '<input type="text" count=' + metodo_pago.length + ' size="9px" name="pagoInput' + cou + '" ids=' + item.id_modo_pago + ' id=' + item.nombre_modo_pago + ' class="metodo_pago_input" autocomplete="off"/></td>';
-                                _html += '<td class="">' +
-                                    '<input type="text" count=' + metodo_pago.length + ' size="9px" name="pagoInput' + cou + '" ids=' + item.id_modo_pago + ' id=' + item.nombre_modo_pago + ' class="metodo_pago_input" autocomplete="off"/></td>';
+                                
                                 _html += '<td><input type="text" count=' + metodo_pago.length + '  size="14px" name="val' + cou + '" placeholder="" class="metodo_pago_input" autocomplete="off" /></td>';
                                 _html += '<td><input type="text" count=' + metodo_pago.length + ' size="14px" name="ban' + cou + '" placeholder="" class="metodo_pago_input" autocomplete="off" /></td>';
                                 _html += '<td><input type="text" count=' + metodo_pago.length + ' size="14px" name="ser' + cou + '" placeholder="" class="metodo_pago_input" autocomplete="off" /></td>';
@@ -2220,11 +2221,9 @@
 
                 _orden.forEach(function(element) {
                     if (element.producto == prod_id_input) {
+                        var unidad_factor = _orden[_orden.indexOf(element)].precioUnidad * _orden[_orden.indexOf(element)].presentacionFactor
                         _orden[_orden.indexOf(element)].cantidad = prod_val_input;
-                        _orden[_orden.indexOf(element)].total = calcularTotalProducto(
-                                                                    _orden[_orden.indexOf(element)].precioUnidad,
-                                                                     prod_val_input
-                                                                );
+                        _orden[_orden.indexOf(element)].total = calcularTotalProducto(unidad_factor, prod_val_input);
                         depurar_producto();
                     }
                 });

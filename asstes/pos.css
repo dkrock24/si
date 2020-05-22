@@ -134,3 +134,7 @@ body{
     opacity: 1;
     transform: scale(1);
 }
+
+#restante_venta , #cambio_venta , #compra_venta{
+    font-size: 60px;
+}

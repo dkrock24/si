@@ -108,7 +108,7 @@ include("asstes/pos_orden.php");
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success">
                                                 <label><i class="fa fa-file-o sz"></i>Tipo Documento :</label> 
-                                                <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
+                                                <select class="form-control" name="id_tipo_documento" id="id_tipo_documento" class="id_tipo_documento">
                                                     <?php
                                                     if ($tipoDocumento) {
                                                         foreach ($tipoDocumento as $documento) {
@@ -904,6 +904,24 @@ include("asstes/pos_orden.php");
                         <div class="row">
 
                             <div class="col-lg-2 col-md-2">
+                                <spam style="">TIPO PAGO</spam>
+                                <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
+                                    <?php
+                                    foreach ($modo_pago as $mp) {
+                                    ?>
+                                        <option value="<?php echo $mp->id_modo_pago; ?>"><?php echo $mp->nombre_modo_pago; ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-1 col-md-1"><br>
+                                <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2">
+                            Documento [F7]
                                 <select class="form-control" name="id_tipo_documento" id="id_tipo_documento" class="id_tipo_documento">
                                     <?php
 
@@ -919,23 +937,7 @@ include("asstes/pos_orden.php");
                             </div>
 
                             <div class="col-lg-2 col-md-2">
-                                <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
-                                    <?php
-                                    foreach ($modo_pago as $mp) {
-                                    ?>
-                                        <option value="<?php echo $mp->id_modo_pago; ?>"><?php echo $mp->nombre_modo_pago; ?></option>
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-
-                            <div class="col-lg-1 col-md-1">
-                                <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
-                            </div>
-
-                            <div class="col-lg-2 col-md-2">
-
+                            Estado
                                 <select name="orden_estado_venta" id="orden_estado_venta" class="form-control">
                                     <option value="4">Facturada</option>
                                     <option value="1">En proceso</option>
@@ -948,10 +950,12 @@ include("asstes/pos_orden.php");
                             </div>
 
                             <div class="col-lg-3 col-md-3">
+                            <spam style="">Nombre Cliente</spam>
                                 <input type="text" class="form-control has-success" name="cliente" placeholder="Nombre Cliente">
                             </div>
 
                             <div class="col-lg-2 col-md-2">
+                            Correlativo
                                 <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
                             </div>
 
@@ -984,45 +988,52 @@ include("asstes/pos_orden.php");
 
                         <div class="row" style="">
                             <div class="col-lg-12 col-md-12">
-                                <div class="panel widget bg-success" style="height: 80px;">
+                                <div class="panel widget bg-success" style="height: 90px;">
                                     <div class="row row-table">
                                         <div class="col-xs-4 text-center bg-success-dark pv-lg">
+                                            <div class="text-uppercase">PAGAR</div>
                                             <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
                                         </div>
                                         <div class="col-xs-8 pv-lg">
                                             <div class="h1 m0 text-bold"><span id="compra_venta">0.00</span></div>
-                                            <div class="text-uppercase">PAGAR</div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 col-md-12">
-                                <div class="panel widget bg-green" style="height: 80px;">
+                                <div class="panel widget bg-green" style="height: 90px;">
                                     <div class="row row-table">
                                         <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                                            <div class="text-uppercase">RESTANTE</div>
                                             <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
                                         </div>
                                         <div class="col-xs-8 pv-lg">
                                             <div class="h1 m0 text-bold"><span id="restante_venta">0.00</span></div>
-                                            <div class="text-uppercase">RESTANTE</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 col-md-12">
-                                <div class="panel widget bg-warning" style="height: 80px;">
+                                <div class="panel widget bg-warning" style="height: 90px;">
                                     <div class="row row-table">
                                         <div class="col-xs-4 text-center bg-warning-dark pv-lg">
+                                            <div class="text-uppercase">CAMBIO</div>
                                             <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
                                         </div>
                                         <div class="col-xs-8 pv-lg">
                                             <div class="h1 m0 text-bold"><span id="cambio_venta">0.00</span></div>
-                                            <div class="text-uppercase">CAMBIO</div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12" style="text-align:center">
+                                <a href="#" class="printer">
+                                    <h1><i class="fa fa-print"></i></h1>
+                                </a>
                             </div>
                         </div>
                     </div>

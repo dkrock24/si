@@ -671,8 +671,9 @@ include("asstes/pos_orden.php");
                     <div class="col-lg-9 col-md-9" style="border-right: 1px solid #e5e5e5; height: 50%;">
 
                         <div class="row">
-                            <div class="col-lg-2 col-md-2">
-                                <spam style="">[F7]</spam>
+
+                            <div class="col-lg-2 col-md-2"><br>
+                                <spam style="">TIPO PAGO</spam>
                                 <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
                                     <?php
                                     foreach ($modo_pago as $mp) {
@@ -683,12 +684,30 @@ include("asstes/pos_orden.php");
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-lg-1 col-md-1"><br>
+
+                            <div class="col-lg-1 col-md-1"><br><br>
                                 <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
                             </div>
 
-                            <div class="col-lg-2 col-md-2"><br>
 
+                            <div class="col-lg-2 col-md-2"><br>
+                                Documento [F7]
+                                <select class="form-control" name="id_tipo_documento" id="id_tipo_documento" class="id_tipo_documento">
+                                    <?php
+
+                                    foreach ($tipoDocumento as $documento) {
+                                        if ($orden[0]->id_tipod != $documento->id_tipo_documento) {
+                                    ?>
+                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            
+                            <div class="col-lg-2 col-md-2"><br>
+                                    Estado
                                 <select name="orden_estado" id="orden_estado" class="form-control">
                                     <option value="6">Cancelado</option>
                                     <option value="1">En proceso</option>
@@ -701,10 +720,12 @@ include("asstes/pos_orden.php");
                             </div>
 
                             <div class="col-lg-3 col-md-3"><br>
+                                <spam style="">Nombre Cliente</spam>
                                 <input type="text" class="form-control has-success" name="cliente" placeholder="Nombre Cliente">
                             </div>
 
                             <div class="col-lg-2 col-md-2"><br>
+                                Correlativo
                                 <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
                             </div>
 
@@ -798,8 +819,7 @@ include("asstes/pos_orden.php");
                                 </div>
                             </div>
 
-                            <div class="col-lg-12 col-md-12">
-                                <img src="/asstes/img/2178679.png" width="50%" />
+                            <div class="col-lg-12 col-md-12" style="text-align:center">
                                 <a href="#" class="printer">
                                     <h1><i class="fa fa-print"></i></h1>
                                 </a>
