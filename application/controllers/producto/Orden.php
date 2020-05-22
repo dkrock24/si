@@ -52,7 +52,6 @@ class Orden extends MY_Controller {
 		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
 		$data['title'] 			= "Ordenes";
 		$data['home'] 			= 'template/lista_template';
-
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 

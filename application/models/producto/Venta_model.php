@@ -37,7 +37,11 @@ class Venta_model extends CI_Model {
 		// Ordenes
 		const pos_tipo_documento = 'pos_tipo_documento';
 
-		function getVentas($limit, $id ){
+		function getVentas($limit, $id , $filters ){
+
+			if($filters){
+				$filters = " and ".$filters;
+			}
 
 			$query = $this->db->query("select ventas.id,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,
 			ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
@@ -51,7 +55,7 @@ class Venta_model extends CI_Model {
 			left join sys_usuario as usuario on usuario.id_usuario = ventas.id_usuario
 			left join pos_formas_pago as pago on pago.id_modo_pago = ventas.id_condpago 
 			left join pos_orden_estado as oe  on oe.id_orden_estado= ventas.orden_estado
-			where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa." Order By ventas.creado_el DESC Limit ". $id.','.$limit);
+			where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa  . $filters." Order By ventas.creado_el DESC Limit ". $id.','.$limit);
 
 		    //echo $this->db->queries[1];
 		    return $query->result();

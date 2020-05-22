@@ -32,30 +32,27 @@ class Venta extends MY_Controller {
 
 	public function index()
 	{	
-		$model = "Venta_model";
-		$url_page = "producto/venta/index";
-		$pag = $this->MyPagination($model, $url_page, $vista = 38) ;
+		$model 		= "Venta_model";
+		$url_page 	= "producto/venta/index";
+		$pag 		= $this->MyPagination($model, $url_page, $vista = 38) ;
 
 		// Seguridad :: Validar URL usuario	
 		$menu_session = $this->session->menu;			
 
-		$data['menu'] = $this->session->menu;
-		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['registros'] = $this->Venta_model->getVentas( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
-		$data['fields'] = $this->fields();
-		$data['column'] = $this->column();
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
+		$data['total_pagina'] 	= $pag['config']["per_page"];
 		$data['total_records'] 	= $pag['total_records'];
-		
-		$data['title'] = "Ventas";
-
+		$data['contador_tabla'] = $pag['contador_tabla'];
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['registros'] 		= $this->Venta_model->getVentas( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
+		$data['title'] 			= "Ventas";
+		$data['home'] 			= 'template/lista_template';
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
-
-		$data['home'] = 'template/lista_template';
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
