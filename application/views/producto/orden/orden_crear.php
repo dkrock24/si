@@ -47,6 +47,7 @@ include("asstes/pos_orden.php");
         min-height: 100%;
         border-radius: 5;
     }
+
 </style>
 
 <!-- Main section-->
@@ -532,7 +533,7 @@ include("asstes/pos_orden.php");
 </section>
 
 <!-- Modal Large CLIENTES MODAL-->
-<div id="vendedor_modal" tabindex="-1" role="dialog" aria-labelledby="vendedor_modal" class="modal fade">
+<div id="vendedor_modal" tabindex="-1" role="dialog" aria-labelledby="vendedor_modal" class="modal fade fade-scale">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="panel-header" style="background: #535D67; color: white;">
@@ -555,7 +556,7 @@ include("asstes/pos_orden.php");
 
 
 <!-- Modal Large CLIENTES MODAL-->
-<div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal" class="modal fade">
+<div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal" class="modal fade fade-scale">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="panel-header" style="background: #535D67; color: white;">
@@ -579,7 +580,7 @@ include("asstes/pos_orden.php");
 <!-- Modal Small-->
 
 <!-- Modal Large PRODUCTOS MODAL-->
-<div id="existencias" tabindex="-1" role="dialog" aria-labelledby="existencias" class="modal fade">
+<div id="existencias" tabindex="-1" role="dialog" aria-labelledby="existencias" class="modal fade fade-scale">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -654,7 +655,7 @@ include("asstes/pos_orden.php");
 
 
 <!-- Modal Large PRODUCTOS MODAL-->
-<div id="en_reserva" tabindex="-1" role="dialog" aria-labelledby="en_reserva" class="modal fade">
+<div id="en_reserva" tabindex="-1" role="dialog" aria-labelledby="en_reserva" class="modal fade fade-scale">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -832,7 +833,7 @@ include("asstes/pos_orden.php");
 
 
 <!-- METODO DE PAGOS MODAL-->
-<div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento" class="modal flip">
+<div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento" class="modal flip fade-scale">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header" style="background: #dde6e9">
@@ -843,10 +844,37 @@ include("asstes/pos_orden.php");
 
             </div>
             <div class="modal-body">
-                Usuario
-                <input type="text" class="form-control has-success" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
-                Password
-                <input type="password" class="form-control has-success" name="input_autorizacion_passwd" id="input_autorizacion_passwd">
+                
+                <div class="row">
+                        <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                            <p class="msg_error"></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6" style="border-right:1px solid grey;text-align:center;">
+                            <br/><br/><img src="/asstes/img/user_autorization.png" width="20%" /><br/><br/><br/>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="row">
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    Ingresar Credenciales
+                                </div>
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:left;margin-top:0px;">
+                                    Usuario
+                                    <input type="text" class="form-control has-success" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
+                                </div>
+
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:left;margin-top:0px;">
+                                    Password
+                                    <input type="password" class="form-control has-success" name="input_autorizacion_passwd" id="input_autorizacion_passwd">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div> 
+
             </div>
 
             <div class="modal-footer">
@@ -859,7 +887,7 @@ include("asstes/pos_orden.php");
 <!-- Modal Small-->
 
 <!-- METODO DE PAGOS MODAL-->
-<div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta" class="modal flip">
+<div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta" class="modal flip fade-scale">
     <div class="modal-dialog modal-lg" style="">
         <div class="modal-content">
             <div class="modal-header" style="background: #dde6e9">
@@ -1021,7 +1049,7 @@ include("asstes/pos_orden.php");
 <!-- Modal Small-->
 
     <!-- METODO DE PAGOS MODAL-->
-    <div id="devolucion" tabindex="-1" role="dialog" aria-labelledby="devolucion" class="modal flip">
+    <div id="devolucion" tabindex="-1" role="dialog" aria-labelledby="devolucion" class="modal flip fade-scale">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header" style="background: #dde6e9">
@@ -1040,7 +1068,7 @@ include("asstes/pos_orden.php");
 
                     <div class="row">
                         <div class="col-lg-6 col-md-6" style="border-right:1px solid grey;text-align:center;">
-                            <br/><br/><img src="/asstes/img/download.png" /><br/><br/><br/>
+                            <br/><br/><img src="/asstes/img/download.png" width="" /><br/><br/><br/>
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="row">

@@ -13,7 +13,6 @@
         var input_devolucion_dui    = "";
         var input_devolucion_nit    = "";
         
-        
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
         $('#cliente_modal').appendTo("body");
@@ -969,10 +968,10 @@
         }
 
         $(document).on('click', '#btn_discount', function() {
-
             // Descuento Aprobacion flag_autenticacion
-
             $("#autorizacion_descuento").modal();
+            $("#input_autorizacion_descuento").focus();
+
 
         });
 

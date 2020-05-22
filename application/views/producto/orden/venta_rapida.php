@@ -281,20 +281,21 @@ include("asstes/pos_orden.php");
             </div>
 
             <!-- Modal Large Documenos -->
-            <div id="documentoModel" tabindex="-1" role="dialog" aria-labelledby="documentoModel" class="modal fade">
+            <div id="documentoModel" tabindex="-1" role="dialog" aria-labelledby="documentoModel" class="modal fade fade-scale">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header" style="background: #dde6e9">
                             <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                                 <span aria-hidden="true">&times;</span>
-                            </button>
-                            <i class="icon-docs" style="font-size:33px;text-align:center;"></i>  FACTURACION CONFIGURACION
+                            </button>                            
+                            <img src="/asstes/img/settings.png" width="5%" />
+                            <span style="text-align:center;">FACTURACION PARAMETROS</span>
                         </div>
                         <div class="modal-body">
 
                             <div class="panel-body">
 
-                                <div class="row">
+                                <div class="row"><br><br>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <label> <span class="fa fa-edit"></span> Tipo Documento [ 1 ] <?php //echo $terminal[0]->pred_id_tpdoc; 
@@ -453,13 +454,17 @@ include("asstes/pos_orden.php");
                                 </div>
 
                                 <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo @$empleado[0]->id_empleado; ?>">
-                                <div class="label bg-gray">
-
+                                <div class="label">
                                     <?php
                                     if (isset($empleado[0]->id_sucursal)) {
 
                                     ?>
-                                        <a href="#" class="vendedores_lista1" id="<?php echo $empleado[0]->id_sucursal; ?>"><?php echo $empleado[0]->primer_nombre_persona . " " . $empleado[0]->primer_apellido_persona; ?>
+                                        <a 
+                                            href="#" 
+                                            class="vendedores_lista1" 
+                                            style="font-size:22px;text-decoration:none;"
+                                            id="<?php echo $empleado[0]->id_sucursal; ?>">
+                                            <?php echo "Cajero : ".$empleado[0]->primer_nombre_persona . " " . $empleado[0]->primer_apellido_persona; ?>
                                         </a>
                                     <?php
 
@@ -470,7 +475,7 @@ include("asstes/pos_orden.php");
 
                                 </div>
 
-                            </div>
+                            </div><br><br>
 
                         </div>
                         <div class="modal-footer" style="border-top:2px solid #0f4871"></div>
@@ -530,7 +535,7 @@ include("asstes/pos_orden.php");
 
 
 <!-- Modal Large CLIENTES MODAL-->
-<div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal" class="modal fade">
+<div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal" class="modal fade fade-scale">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="panel-header" style="background: #535D67; color: white;">
@@ -557,7 +562,7 @@ include("asstes/pos_orden.php");
 <!-- Modal Small-->
 
 <!-- Modal Large PRODUCTOS MODAL-->
-<div id="existencias" tabindex="-1" role="dialog" aria-labelledby="existencias" class="modal fade">
+<div id="existencias" tabindex="-1" role="dialog" aria-labelledby="existencias" class="modal fade fade-scale">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -607,7 +612,7 @@ include("asstes/pos_orden.php");
 <!-- Modal Small-->
 
 <!-- Modal Large PRODUCTOS MODAL-->
-<div id="en_proceso" tabindex="-1" role="dialog" aria-labelledby="en_proceso" class="modal fade">
+<div id="en_proceso" tabindex="-1" role="dialog" aria-labelledby="en_proceso" class="modal fade fade-scale">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -651,7 +656,7 @@ include("asstes/pos_orden.php");
 <!-- Modal Small-->
 
 <!-- METODO DE PAGOS MODAL-->
-<div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta" class="modal flip">
+<div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta" class="modal flip fade-scale">
     <div class="modal-dialog modal-lg" style="width: 80%;">
         <div class="modal-content">
             <div class="modal-header" style="background: #2D3B48; color:white;">
@@ -825,7 +830,7 @@ include("asstes/pos_orden.php");
 
 
     <!-- METODO DE PAGOS MODAL-->
-    <div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento" class="modal flip">
+    <div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento" class="modal flip fade-scale">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header" style="background: #dde6e9">
@@ -862,7 +867,7 @@ include("asstes/pos_orden.php");
 
 
     <!-- METODO DE PAGOS MODAL-->
-<div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip">
+<div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip fade-scale">
     <div class="modal-dialog modal-md">
         <div class="modal-content" style="background:#f1f1f1;">
             <div class="modal-header" style="background: #2c71b5;color: white;">
@@ -921,7 +926,7 @@ include("asstes/pos_orden.php");
 <!-- Modal Small-->
 
     <!-- METODO DE PAGOS MODAL-->
-    <div id="devolucion" tabindex="-1" role="dialog" aria-labelledby="devolucion" class="modal flip">
+    <div id="devolucion" tabindex="-1" role="dialog" aria-labelledby="devolucion" class="modal flip fade-scale">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header" style="background: #dde6e9">
