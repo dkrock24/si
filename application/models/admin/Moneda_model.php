@@ -8,9 +8,12 @@ class Moneda_model extends CI_Model {
     const pos_empresa = 'pos_empresa';
     const sys_moneda = 'sys_moneda';
 
-    function getMoneda(  $limit, $id ){
+    function getMoneda(  $limit, $id , $filters){
     	$this->db->select('*');
         $this->db->from(self::sys_moneda);
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];

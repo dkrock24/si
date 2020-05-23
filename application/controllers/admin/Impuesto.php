@@ -29,38 +29,33 @@ class Impuesto extends MY_Controller {
 	public function index()
 	{
 
-		$model = "Impuesto_model";
-		$url_page = "admin/impuesto/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 25);
-	
+		$model 		= "Impuesto_model";
+		$url_page 	= "admin/impuesto/index";
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 25);	
 
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol']);
-		$data['registros'] = $this->Impuesto_model->getImpuesto( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']);
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol']);
+		$data['registros'] 		= $this->Impuesto_model->getImpuesto( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']);
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['total_pagina'] = $pag['config']["per_page"];
-		$data['total_records'] 	= $pag['total_records'];
-		
-		$data['home'] = 'template/lista_template';
-		$data['title'] = "Impuestos";
-
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
+		$data['total_records'] 	= $pag['total_records'];		
+		$data['home'] 			= 'template/lista_template';
+		$data['title'] 			= "Impuestos";
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function nuevo(){
-
-		$id_rol = $this->session->roles;
-
-		$data['menu'] = $this->session->menu;
-		$data['home'] = 'admin/impuesto/nuevo';
-		$data['title'] = "Nuevo Impuesto";
+		$data['menu'] 	= $this->session->menu;
+		$data['home'] 	= 'admin/impuesto/nuevo';
+		$data['title'] 	= "Nuevo Impuesto";
 		$this->parser->parse('template', $data);
 	}
 
@@ -78,12 +73,10 @@ class Impuesto extends MY_Controller {
 
 	public function editar( $impuesto_id ){
 
-		$id_rol = $this->session->roles;
-
-		$data['menu'] = $this->session->menu;
-		$data['impuesto'] = $this->Impuesto_model->getImpuestoById( $impuesto_id );
-		$data['home'] = 'admin/impuesto/editar';
-		$data['title'] = "Impuestos - Editar";
+		$data['menu'] 		= $this->session->menu;
+		$data['home'] 		= 'admin/impuesto/editar';
+		$data['title'] 		= "Impuestos - Editar";
+		$data['impuesto'] 	= $this->Impuesto_model->getImpuestoById( $impuesto_id );
 
 		$this->general->editar_valido($data['impuesto'], "admin/impuesto/index");
 
@@ -97,11 +90,8 @@ class Impuesto extends MY_Controller {
 		}
 
 		$data['title'] = "Ver";
-
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
+		$data['menu'] = $this->session->menu;
 		$data['data'] = $this->Impuesto_model->getImpuestoById( $id );	
 		
 		if($data['data']){
@@ -163,31 +153,28 @@ class Impuesto extends MY_Controller {
 			'nombre','porcentage','suma_resta_nada','aplicar_a_producto','aplicar_a_cliente','aplicar_a_proveedor','aplicar_a_grab_brut_exent','especial','excluyente','condicion','condicion_valor','estado'
 		);
 		
-		$fields['id'] = array('id_tipos_impuestos');
-		$fields['estado'] = array('imp_estado');
-		$fields['titulo'] = "Tipos Impuestos Lista";
+		$fields['id'] 		= array('id_tipos_impuestos');
+		$fields['estado'] 	= array('imp_estado');
+		$fields['titulo'] 	= "Tipos Impuestos Lista";
 
 		return $fields;
 	}
 
 	public function config(){
 
-		$id_rol = $this->session->roles;
-
-		$data['menu'] = $this->session->menu;
-		$data['impuesto'] = $this->Impuesto_model->getAllImpuesto();
-		$data['categoria'] = $this->Categorias_model->get_categorias_padres();
-		$data['clientes'] = $this->Cliente_model->getCliente();
+		$data['menu'] 		= $this->session->menu;
+		$data['clientes'] 	= $this->Cliente_model->getCliente();
+		$data['impuesto'] 	= $this->Impuesto_model->getAllImpuesto();
 		$data['documentos'] = $this->Documento_model->getAllDocumento();
-		$data['proveedor'] = $this->Proveedor_model->getAllProveedor();
-		$data['home'] = 'admin/impuesto/config';
-		$data['title'] = "Impuestos - Config";
+		$data['proveedor'] 	= $this->Proveedor_model->getAllProveedor();
+		$data['categoria'] 	= $this->Categorias_model->get_categorias_padres();
+		$data['home'] 		= 'admin/impuesto/config';
+		$data['title'] 		= "Impuestos - Config";
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function asociar(){
-
 		$this->Impuesto_model->asociar($_GET);
 	}
 

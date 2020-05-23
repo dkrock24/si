@@ -20,22 +20,23 @@ class Compras extends MY_Controller {
 
 	public function index()
 	{
-		$model = "Compras_model";
-		$url_page = "producto/compras/index";
-		$pag = $this->MyPagination($model, $url_page, $vista = 89) ;
+		$model 		= "Compras_model";
+		$url_page 	= "producto/compras/index";
+		$pag 		= $this->MyPagination($model, $url_page, $vista = 89) ;
 
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['registros'] = $this->Compras_model->getCompras( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
-		$data['title'] = "Compras";
-		$data['home'] = 'template/lista_template';		
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['registros'] 		= $this->Compras_model->getCompras( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
+		$data['title'] 			= "Compras";
+		$data['home'] 			= 'template/lista_template';		
 
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];

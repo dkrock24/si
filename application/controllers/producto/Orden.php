@@ -44,6 +44,7 @@ class Orden extends MY_Controller {
 		$data['links'] 			= $pag['links'];
 		$data['filtros'] 		= $pag['field'];
 		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['column'] 		= $this->column();

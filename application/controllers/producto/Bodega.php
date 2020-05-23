@@ -34,29 +34,30 @@ class Bodega extends MY_Controller {
 	{
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
-		$model = "Bodega_model";
-		$url_page = "producto/bodega/index";
-		$pag = $this->MyPagination($model, $url_page, $vista = 20) ;
+		$model 		= "Bodega_model";
+		$url_page 	= "producto/bodega/index";
+		$pag 		= $this->MyPagination($model, $url_page, $vista = 20) ;
 
 		$menu_session = $this->session->menu;	
 
 
 		$data['registros'] = $this->Bodega_model->getBodegas( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
 			
-		$data['menu'] = $this->session->menu;		
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['menu'] 			= $this->session->menu;		
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
-		$data['home'] = 'template/lista_template';
-		$data['title'] = "Bodegas";
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
+		$data['home'] 			= 'template/lista_template';
+		$data['title'] 			= "Bodegas";
 
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
 	}

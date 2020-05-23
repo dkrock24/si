@@ -10,19 +10,16 @@ class Param extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->library('parser');
 		@$this->load->library('session');
-
 		$this->load->model('admin/Param_model');
-
 	}
 
 	public function index( $index = 1 ){
 		$data['menu'] 	= $this->session->menu;
-
 		$data['modulo'] = $this->Param_model->get_modulos();
 		$data['config'] = $this->Param_model->get_modulos_conf( $index );
-		$data['total'] = $this->Param_model->record_count();
-		$data['title'] = "Parametros";
-		$data['home'] = 'admin/param/vParam';
+		$data['total'] 	= $this->Param_model->record_count();
+		$data['title'] 	= "Parametros";
+		$data['home'] 	= 'admin/param/vParam';
 		$this->parser->parse('template', $data);
 	}
 
@@ -40,7 +37,7 @@ class Param extends CI_Controller {
 	}
 
 	public function get_params(){
-		$data['conf'] = $this->Param_model->get_params($_POST['id']);
+		$data['conf'] 	= $this->Param_model->get_params($_POST['id']);
 		$data['modulo'] = $this->Param_model->get_modulos();
 		echo json_encode($data);
 	}

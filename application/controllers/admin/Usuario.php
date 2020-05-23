@@ -45,38 +45,32 @@ class Usuario extends MY_Controller {
 		$model = "Usuario_model";
 		$url_page = "admin/usuario/index";
 		$pag = $this->MyPagination($model, $url_page , $vista = 2);
-		
 
-
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
-		$data['registros'] = $this->Usuario_model->get_usuarios( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
-		$data['title'] = "Usuarios";
-		$data['home'] = 'template/lista_template';
-
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
+		$data['registros'] 		= $this->Usuario_model->get_usuarios( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['title'] 			= "Usuarios";
+		$data['home'] 			= 'template/lista_template';
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function nuevo(){
 
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		$data['menu'] = $this->session->menu;	
+		$data['menu'] 	= $this->session->menu;	
 		$data['roles']	= $this->Roles_model->getAllRoles();
-		$data['home'] = 'admin/usuario/u_nuevo';
-		$data['title'] = "Nuevo Usuario";
+		$data['home'] 	= 'admin/usuario/u_nuevo';
+		$data['title'] 	= "Nuevo Usuario";
 
 		$this->parser->parse('template', $data);
 	}
@@ -110,15 +104,12 @@ class Usuario extends MY_Controller {
 
 	public function editar( $usuario_id ){
 		
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		$data['menu'] = $this->session->menu;	
-		$data['roles']	= $this->Roles_model->getAllRoles();	
+		$data['title'] 			= "Editar Usuario";
+		$data['menu'] 			= $this->session->menu;	
+		$data['home'] 			= 'admin/usuario/u_editar';
+		$data['roles']			= $this->Roles_model->getAllRoles();	
 		$data['usuario_roles']	= $this->Usuario_model->get_usuario_roles2($usuario_id);
-		$data['usuario'] = $this->Usuario_model->get_usuario_id( $usuario_id );
-		
-		$data['title'] = "Editar Usuario";
-		$data['home'] = 'admin/usuario/u_editar';
+		$data['usuario'] 		= $this->Usuario_model->get_usuario_id( $usuario_id );		
 
 		$this->general->editar_valido($data['usuario'], "admin/usuario/index");
 
@@ -144,20 +135,15 @@ class Usuario extends MY_Controller {
 			redirect(base_url()."admin/usuario/index");
 		}
 
-		$data['title'] = "Ver";
-
+		$data['title']= "Ver";
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
+		$data['menu'] = $this->session->menu;
 		$data['data'] = $this->Usuario_model->get_usuario_id( $id );	
 		
 		if($data['data']){
 
-			foreach ($data['data']  as $key => $value) {
-			
-				$vars = get_object_vars ( $value );
-				
+			foreach ($data['data']  as $key => $value) {			
+				$vars = get_object_vars ( $value );				
 				continue;
 			}
 	
@@ -168,7 +154,6 @@ class Usuario extends MY_Controller {
 		}else{
 			redirect(base_url()."admin/cargo/index");
 		}
-
 	}
 	
 	public function column(){
@@ -184,9 +169,9 @@ class Usuario extends MY_Controller {
 			'nombre_usuario','contrasena_usuario','hora_inicio','hora_salida','usuario_encargado','role','Empleado','alias','estado'
 		);
 		
-		$fields['id'] = array('id_usuario');
-		$fields['estado'] = array('estado');
-		$fields['titulo'] = "Usuario Lista";
+		$fields['id'] 		= array('id_usuario');
+		$fields['estado'] 	= array('estado');
+		$fields['titulo'] 	= "Usuario Lista";
 
 		return $fields;
 	}
@@ -197,9 +182,7 @@ class Usuario extends MY_Controller {
 		$fields = $this->fields();
 
 		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
-
-	}	
-
+	}
 }
 
 ?>

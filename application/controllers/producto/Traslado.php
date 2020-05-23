@@ -20,22 +20,23 @@ class Traslado extends MY_Controller {
 
 	public function index()
 	{
-		$model = "Traslado_model";
-		$url_page = "producto/traslado/index";
-		$pag = $this->MyPagination($model, $url_page, $vista = 88) ;
+		$model 		= "Traslado_model";
+		$url_page 	= "producto/traslado/index";
+		$pag 		= $this->MyPagination($model, $url_page, $vista = 88) ;
 
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['registros'] = $this->Traslado_model->getTraslado( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
-		$data['title'] = "Traslados";
-		$data['home'] = 'template/lista_template';		
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['registros'] 		= $this->Traslado_model->getTraslado( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
+		$data['title'] 			= "Traslados";
+		$data['home'] 			= 'template/lista_template';		
 
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];

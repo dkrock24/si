@@ -39,22 +39,23 @@ class Atributos extends MY_Controller {
 
 	public function index(){
 
-		$model = "Atributos_model";
-		$url_page = "admin/atributos/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 10);
+		$model 		= "Atributos_model";
+		$url_page 	= "admin/atributos/index";
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 10);
 		
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
-		$data['registros'] = $this->Atributos_model->get_atributos(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
+		$data['registros'] 		= $this->Atributos_model->get_atributos(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['title'] = "Atributos";
-		$data['home'] = 'template/lista_template';
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['title'] 			= "Atributos";
+		$data['home'] 			= 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}

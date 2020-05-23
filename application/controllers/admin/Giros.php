@@ -40,60 +40,25 @@ class Giros extends MY_Controller {
 
 	public function index(){
 
-		//Paginacion
-		$contador_tabla;
-		$_SESSION['per_page'] = "";
-		if( isset( $_POST['total_pagina'] )){
-			$per_page = $_POST['total_pagina'];
-			$_SESSION['per_page'] = $per_page;
-		}else{
-			if($_SESSION['per_page'] == ''){
-				$_SESSION['per_page'] = 10;
-			}			
-		}
-		
-		$total_row = $this->Giros_model->record_count();
-		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/giros/index");
-		$this->pagination->initialize($config);
-		if($this->uri->segment(4)){
-			if($_SESSION['per_page']!=0){
-				$page = ($this->uri->segment(4) - 1 ) * $_SESSION['per_page'];
-				$contador_tabla = $page+1;
-			}else{
-				$page = 0;
-				$contador_tabla =1;
-			}
-		}else{
-			$page = 0;
-			$contador_tabla =1;
-		}
+		$model 		= "Giros_model";
+		$url_page 	= "admin/giros/index";
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 19);
 
-		$str_links = $this->pagination->create_links();
-		$data["links"] = explode('&nbsp;',$str_links );
-
-		// paginacion End
-
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-
-		$id_rol = $this->session->roles;
-		$vista_id = 7; // Vista Orden Lista
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
-
-		$data['menu'] = $this->session->menu;
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['contador_tabla'] = $contador_tabla;
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		
-		$data['registros'] = $this->Giros_model->get_giros( $config["per_page"], $page );
-		$data['home'] = 'admin/giros/giros_lista';
-		$data['title'] = 'Lista Giros';
-
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
+		$data['contador_tabla'] = $pag['contador_tabla'];
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
+		$data['total_records'] 	= $pag['total_records'];
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );	
+		$data['registros'] 		= $this->Giros_model->get_giros( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['home'] 			= 'template/lista_template';
+		$data['title'] 			= 'Lista Giros';
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
@@ -102,9 +67,9 @@ class Giros extends MY_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;		
-		$data['home'] = 'admin/giros/giros_nuevo';
-		$data['title'] = 'Nuevo Giros';
+		$data['menu'] 	= $this->session->menu;		
+		$data['home'] 	= 'admin/giros/giros_nuevo';
+		$data['title'] 	= 'Nuevo Giros';
 
 		$this->parser->parse('template', $data);
 	}
@@ -126,10 +91,10 @@ class Giros extends MY_Controller {
 		
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;		
-		$data['giros'] = $this->Giros_model->get_giro_id( $id_giro );
-		$data['home'] = 'admin/giros/giros_editar';
-		$data['title'] = 'Editar Giros';
+		$data['menu'] 	= $this->session->menu;		
+		$data['giros'] 	= $this->Giros_model->get_giro_id( $id_giro );
+		$data['home'] 	= 'admin/giros/giros_editar';
+		$data['title'] 	= 'Editar Giros';
 
 		$this->parser->parse('template', $data);
 	}
@@ -140,25 +105,19 @@ class Giros extends MY_Controller {
 			redirect(base_url()."admin/giros/index");
 		}
 
-		$data['title'] = "Ver";
-
-		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
-		$data['data'] = $this->Giros_model->get_giro_id( $id );	
+		$data['title'] 	= "Ver";
+		$data['home'] 	= 'template/ver_general';
+		$data['menu'] 	= $this->session->menu;
+		$data['data'] 	= $this->Giros_model->get_giro_id( $id );	
 		
 		if($data['data']){
 
-			foreach ($data['data']  as $key => $value) {
-			
-				$vars = get_object_vars ( $value );
-				
+			foreach ($data['data']  as $key => $value) {			
+				$vars = get_object_vars ( $value );				
 				continue;
 			}
 	
-			$data['columns'] = $vars;
-	
+			$data['columns'] = $vars;	
 			$this->parser->parse('template', $data);
 
 		}else{
@@ -183,7 +142,6 @@ class Giros extends MY_Controller {
 	public function eliminar($id){
 		
 		$data = $this->Giros_model->eliminar_giro( $id );
-
 		
 		if($data){
 			$this->session->set_flashdata('warning', "Giro Fue Eliminado");
@@ -196,10 +154,10 @@ class Giros extends MY_Controller {
 
 	public function get_atributos( $id_giro ){
 
-		$data['atributos'] = $this->Atributos_model->geAllAtributos();
-		$data['atributos_total'] = $this->Atributos_model->get_atributos_total();
-		$data['giro'] = $this->Giros_model->get_giro_id( $id_giro );
-		$data['plantilla'] = $this->Giros_model->get_plantilla( $id_giro );
+		$data['giro'] 			= $this->Giros_model->get_giro_id( $id_giro );
+		$data['atributos'] 		= $this->Atributos_model->geAllAtributos();
+		$data['plantilla'] 		= $this->Giros_model->get_plantilla( $id_giro );
+		$data['atributos_total']= $this->Atributos_model->get_atributos_total();
 		$data['plantilla_giro_total'] = $this->Giros_model->get_total_plantilla_giro( $id_giro );
 
 		echo json_encode( $data );
@@ -210,8 +168,8 @@ class Giros extends MY_Controller {
 
 		$this->Giros_model->insert_plantilla( $_POST );
 
-		$data['plantilla'] = $this->Giros_model->get_plantilla( $_POST['giro'] );
-		$data['plantilla_giro_total'] = $this->Giros_model->get_total_plantilla_giro( $_POST['giro']  );
+		$data['plantilla'] 				= $this->Giros_model->get_plantilla( $_POST['giro'] );
+		$data['plantilla_giro_total'] 	= $this->Giros_model->get_total_plantilla_giro( $_POST['giro']  );
 		
 		echo json_encode( $data );
 		
@@ -220,8 +178,8 @@ class Giros extends MY_Controller {
 	public function eliminar_giro_atributos(){
 		$this->Giros_model->eliminar_plantilla( $_POST );
 
-		$data['plantilla'] = $this->Giros_model->get_plantilla( $_POST['giro'] );
-		$data['plantilla_giro_total'] = $this->Giros_model->get_total_plantilla_giro( $_POST['giro']  );
+		$data['plantilla'] 				= $this->Giros_model->get_plantilla( $_POST['giro'] );
+		$data['plantilla_giro_total'] 	= $this->Giros_model->get_total_plantilla_giro( $_POST['giro']  );
 		
 		echo json_encode( $data );
 	}
@@ -229,8 +187,8 @@ class Giros extends MY_Controller {
 	// GIROS EMPRESA
 
 	public function listar_giros(){
-		$data['lista_giros'] = $this->Giros_model->getAllgiros();
-		$data['lista_empresa'] = $this->Giros_model->get_empresa2();
+		$data['lista_giros'] 	= $this->Giros_model->getAllgiros();
+		$data['lista_empresa'] 	= $this->Giros_model->get_empresa2();
 
 		echo json_encode( $data );
 	}
@@ -240,7 +198,7 @@ class Giros extends MY_Controller {
 	}
 
 	public function get_empresa_giro( $id_empresa ){
-		$data['lista_giros'] = $this->Giros_model->get_empresa_giro( $id_empresa );
+		$data['lista_giros'] 		= $this->Giros_model->get_empresa_giro( $id_empresa );
 		$data['empresa_giro_total'] = $this->Giros_model->get_total_empresa_giro( $id_empresa );
 
 		echo json_encode( $data );
@@ -249,7 +207,7 @@ class Giros extends MY_Controller {
 	public function eliminar_giro_empresa(){
 		$this->Giros_model->eliminar_giro_empresa( $_POST );
 
-		$data['lista_giros'] = $this->Giros_model->get_empresa_giro( $_POST['empresa']  );
+		$data['lista_giros'] 		= $this->Giros_model->get_empresa_giro( $_POST['empresa']  );
 		$data['empresa_giro_total'] = $this->Giros_model->get_total_empresa_giro( $_POST['empresa'] );
 		
 		echo json_encode( $data );
@@ -268,9 +226,9 @@ class Giros extends MY_Controller {
 			'nombre_giro','tipo_giro','descripcion_giro','codigo_giro','fecha_giro_creado','fecha_giro_actualizado','estado'
 		);
 		
-		$fields['id'] = array('id_giro');
-		$fields['estado'] = array('estado_giro');
-		$fields['titulo'] = "Giros Lista";
+		$fields['id'] 		= array('id_giro');
+		$fields['estado'] 	= array('estado_giro');
+		$fields['titulo'] 	= "Giros Lista";
 
 		return $fields;
 	}
@@ -281,9 +239,7 @@ class Giros extends MY_Controller {
 		$fields = $this->fields();
 
 		$this->xls( $_SESSION['registros'] , $_SESSION['Vista']  ,$column, $fields  );
-
 	}
-	
 
 }
 

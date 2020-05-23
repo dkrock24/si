@@ -40,40 +40,36 @@ class Moneda extends MY_Controller {
 
 	public function index(){
 
-		$model = "Moneda_model";
-		$url_page = "admin/moneda/index";
-		$pag = $this->MyPagination($model, $url_page, $vista = 6) ;
+		$model 		= "Moneda_model";
+		$url_page 	= "admin/moneda/index";
+		$pag 		= $this->MyPagination($model, $url_page, $vista = 6) ;
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
 
-		$data['menu'] = $this->session->menu;
-		$data['registros'] = $this->Moneda_model->getMoneda(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['menu'] 			= $this->session->menu;
+		$data['registros'] 		= $this->Moneda_model->getMoneda(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['links'] = $pag['links'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['filtros'] = $pag['field'];
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['links'] 			= $pag['links'];
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['filtros'] 		= $pag['field'];
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol'] );
-		$data['home'] = 'template/lista_template';
-		$data['title'] = "Monedas";
-
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol'] );
+		$data['home'] 			= 'template/lista_template';
+		$data['title'] 			= "Monedas";
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function nuevo(){
 
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
-
-		$data['menu'] = $this->session->menu;
-		$data['home'] = 'admin/moneda/moneda_nuevo';
-		$data['title'] = "Crear Moneda";
+		$data['menu'] 	= $this->session->menu;
+		$data['home'] 	= 'admin/moneda/moneda_nuevo';
+		$data['title'] 	= "Crear Moneda";
 
 		$this->parser->parse('template', $data);
 	}
@@ -95,17 +91,14 @@ class Moneda extends MY_Controller {
 
 	public function editar( $moneda_id ){
 
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
-
 		$id_rol = $this->session->roles;
 		$vista_id = 8; // Vista Orden Lista
 
-		$data['menu'] = $this->session->menu;
-		$data['monedas'] = $this->Moneda_model->getMonedaId($moneda_id);
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['home'] = 'admin/moneda/moneda_editar';
-		$data['title'] = "Editar Moneda";
+		$data['menu'] 		= $this->session->menu;
+		$data['monedas'] 	= $this->Moneda_model->getMonedaId($moneda_id);
+		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['home'] 		= 'admin/moneda/moneda_editar';
+		$data['title'] 		= "Editar Moneda";
 
 		$this->parser->parse('template', $data);
 	}
@@ -117,11 +110,8 @@ class Moneda extends MY_Controller {
 		}
 
 		$data['title'] = "Ver";
-
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
+		$data['menu'] = $this->session->menu;
 		$data['data'] = $this->Moneda_model->getMonedaId( $id );	
 		
 		if($data['data']){
@@ -140,7 +130,6 @@ class Moneda extends MY_Controller {
 		}else{
 			redirect(base_url()."admin/moneda/index");
 		}
-
 	}
 
 	public function update(){
@@ -184,9 +173,9 @@ class Moneda extends MY_Controller {
 			'moneda_nombre','moneda_simbolo','moneda_alias','estado'
 		);
 		
-		$fields['id'] = array('id_moneda');
-		$fields['estado'] = array('moneda_estado');
-		$fields['titulo'] = "Moneda Lista";
+		$fields['id'] 		= array('id_moneda');
+		$fields['estado'] 	= array('moneda_estado');
+		$fields['titulo'] 	= "Moneda Lista";
 
 		return $fields;
 	}

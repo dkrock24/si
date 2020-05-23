@@ -40,43 +40,38 @@ class Pais extends MY_Controller {
 
 	public function index(){
 
-		$model = "Pais_model";
-		$url_page = "admin/pais/index";
-		$pag = $this->MyPagination($model, $url_page, $vista = 5) ;
+		$model 		= "Pais_model";
+		$url_page 	= "admin/pais/index";
+		$pag 		= $this->MyPagination($model, $url_page, $vista = 5) ;
 
 		// GET PAIS
 		//$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
-
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
-
-		$data['menu'] = $this->session->menu;
+		$data['menu'] 			= $this->session->menu;
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
-		$data['registros'] = $this->Pais_model->get_pais(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
+		$data['registros'] 		= $this->Pais_model->get_pais(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-		$data['home'] = 'template/lista_template';
-		$data['title'] = 'Paises';
+		$data['home'] 			= 'template/lista_template';
+		$data['title'] 			= 'Paises';
 
 		$this->parser->parse('template', $data);
 	}
 	
 	public function nuevo(){
 		// NUEVO PAIS
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;
+		$data['menu'] 	= $this->session->menu;
 		$data['moneda'] = $this->Pais_model->get_moneda();
-		$data['title'] = "Nuevo Pais";	
-		$data['home'] = 'admin/pais/pais_nuevo';
+		$data['title'] 	= "Nuevo Pais";	
+		$data['home'] 	= 'admin/pais/pais_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
@@ -96,7 +91,6 @@ class Pais extends MY_Controller {
 
 	public function editar( $id_pais ){
 		// EDITAR PAIS
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;
 		$data['pais'] = $this->Pais_model->edit_pais( $id_pais );
@@ -142,11 +136,11 @@ class Pais extends MY_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;
-		$data['depart'] = $this->Pais_model->get_dep( $pais_id );
-		$data['id_departamento'] = $pais_id;
-		$data['home'] = 'admin/pais/dep';
-		$data['title'] = 'Departamento';
+		$data['menu'] 			= $this->session->menu;
+		$data['depart'] 		= $this->Pais_model->get_dep( $pais_id );
+		$data['id_departamento']= $pais_id;
+		$data['home'] 			= 'admin/pais/dep';
+		$data['title'] 			= 'Departamento';
 
 		$this->parser->parse('template', $data);
 	}
@@ -154,12 +148,10 @@ class Pais extends MY_Controller {
 	public function nuevo_dep( $id_pais ){
 		// Mostrar formulario para crear nuevo departamento
 
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		$data['menu'] = $this->session->menu;
-		$data['id_pais'] = $id_pais;
-		$data['home'] = 'admin/pais/dep_nuevo';
-		$data['title'] = 'Nuevo Departamento';
+		$data['menu'] 		= $this->session->menu;
+		$data['id_pais'] 	= $id_pais;
+		$data['home'] 		= 'admin/pais/dep_nuevo';
+		$data['title'] 		= 'Nuevo Departamento';
 
 		$this->parser->parse('template', $data);
 	}
@@ -183,10 +175,10 @@ class Pais extends MY_Controller {
 
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;
-		$data['dep'] = $this->Pais_model->editar_dep( $id_dep );
-		$data['home'] = 'admin/pais/dep_editar';
-		$data['title'] = 'Editar Departamento';
+		$data['menu'] 	= $this->session->menu;
+		$data['title'] 	= 'Editar Departamento';
+		$data['home'] 	= 'admin/pais/dep_editar';
+		$data['dep'] 	= $this->Pais_model->editar_dep( $id_dep );
 
 		$this->parser->parse('template', $data);
 	}
@@ -221,23 +213,21 @@ class Pais extends MY_Controller {
 // Start Ciudad **********************************************************************************
 
 	public function ciu($id_dep){
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
+		$data['title']= 'Lista Ciudad';
+		$data['home'] = 'admin/pais/ciu';
 		$data['menu'] = $this->session->menu;
 		$data['ciu']  = $this->Pais_model->get_ciu_by( $id_dep );
-		$data['home'] = 'admin/pais/ciu';
-		$data['title'] = 'Lista Ciudad';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function nuevo_ciu( $id_dep ){
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;
 		$data['dep']  =  $id_dep;
 		$data['home'] = 'admin/pais/ciu_nuevo';
-		$data['title'] = 'Nueva Ciudad';
+		$data['title']= 'Nueva Ciudad';
 
 		$this->parser->parse('template', $data);
 	}
@@ -256,7 +246,6 @@ class Pais extends MY_Controller {
 	}
 
 	public function editar_ciu( $id_ciu ){
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;
 		$data['ciu']  =  $this->Pais_model->get_ciu( $id_ciu );

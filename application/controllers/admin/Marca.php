@@ -25,41 +25,38 @@ class Marca extends MY_Controller {
 	public function index()
 	{	
 		
-		$model = "Marca_model";
-		$url_page = "admin/marca/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 29);
+		$model 		= "Marca_model";
+		$url_page 	= "admin/marca/index";
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 29);
 		
 		$data['registros'] = $this->Marca_model->getMarca($pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
 
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );		
-		$data['title'] = "Marcas";	
-		$data['home'] = 'template/lista_template';
-
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );		
+		$data['title'] 			= "Marcas";	
+		$data['home'] 			= 'template/lista_template';
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function editar( $marca_id )
 	{	
-		$id_rol = $this->session->roles;
-
-		$data['menu'] = $this->session->menu;
-		$data['marca'] = $this->Marca_model->getMarcaById( $marca_id );
-		$data['title'] = "Editar Marca";	
-		$data['home'] = 'admin/marca/m_editar';
+		$data['menu'] 	= $this->session->menu;
+		$data['marca'] 	= $this->Marca_model->getMarcaById( $marca_id );
+		$data['title'] 	= "Editar Marca";	
+		$data['home'] 	= 'admin/marca/m_editar';
 
 		$this->general->editar_valido($data['marca'], "admin/marca/index");
-
 		$this->parser->parse('template', $data);
 	}
 
@@ -69,31 +66,24 @@ class Marca extends MY_Controller {
 			redirect(base_url()."admin/marca/index");
 		}
 
-		$data['title'] = "Ver";
-
-		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
-		$data['data'] = $this->Marca_model->getMarcaById( $id );	
+		$data['title'] 	= "Ver";
+		$data['home'] 	= 'template/ver_general';
+		$data['menu'] 	= $this->session->menu;
+		$data['data'] 	= $this->Marca_model->getMarcaById( $id );	
 		
 		if($data['data']){
 
-			foreach ($data['data']  as $key => $value) {
-			
-				$vars = get_object_vars ( $value );
-				
+			foreach ($data['data']  as $key => $value) {			
+				$vars = get_object_vars ( $value );				
 				continue;
 			}
 	
-			$data['columns'] = $vars;
-	
+			$data['columns'] = $vars;	
 			$this->parser->parse('template', $data);
 
 		}else{
 			redirect(base_url()."admin/marca/index");
 		}
-
 	}
 
 	public function update()
@@ -111,14 +101,12 @@ class Marca extends MY_Controller {
 
 	public function nuevo(){
 
-		$id_rol = $this->session->roles;
-
-		$data['menu'] = $this->session->menu;
-		$data['categoria'] = $this->Marca_model->get_marcas();
-		$data['marca'] = $this->Marca_model->getAllMarca();
+		$data['title'] 		= "Nueva Marca";	
+		$data['home'] 		= 'admin/marca/m_nuevo';
+		$data['menu'] 		= $this->session->menu;
+		$data['categoria'] 	= $this->Marca_model->get_marcas();
+		$data['marca'] 		= $this->Marca_model->getAllMarca();
 		$data['marca_categoria'] = $this->Marca_model->marca_categoria();
-		$data['title'] = "Nueva Marca";	
-		$data['home'] = 'admin/marca/m_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
@@ -136,13 +124,11 @@ class Marca extends MY_Controller {
 	}
 
 	public function save_categoria_marca(){
-
 		$val = $this->Marca_model->save_categoria_marca( $_POST );
 		echo json_encode($val);
 	}
 
 	public function delete_categoria_marca($id){
-
 		$this->Marca_model->delete_categoria_marca( $id );
 	}
 
@@ -160,7 +146,6 @@ class Marca extends MY_Controller {
 	}
 
 	public function delete( $id_rol ){
-
 		$this->Roles_model->delete_rol( $id_rol );
 		redirect(base_url()."admin/roles/index");
 	}
@@ -179,9 +164,9 @@ class Marca extends MY_Controller {
 			'nombre_marca','descripcion_marca','fecha_creado_marca','fecha_atualizado_marca','estado'
 		);
 		
-		$fields['id'] = array('id_marca');
-		$fields['estado'] = array('estado_marca');
-		$fields['titulo'] = "Marcas Lista";
+		$fields['id'] 		= array('id_marca');
+		$fields['estado'] 	= array('estado_marca');
+		$fields['titulo'] 	= "Marcas Lista";
 
 		return $fields;
 	}

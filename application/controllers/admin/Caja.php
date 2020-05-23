@@ -24,23 +24,23 @@ class Caja extends MY_Controller {
 
 	public function index(){
 
-		$model = "Caja_model";
-		$url_page = "admin/caja/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 35);
+		$model 		= "Caja_model";
+		$url_page 	= "admin/caja/index";
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 35);
 
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['column'] = $this->column();
 		$data['fields'] = $this->fields();
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol']);
-		$data['registros'] = $this->Caja_model->get_all_caja( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
-		$data['title'] = "Terminales";
-		$data['home'] = 'template/lista_template';
-
+		$data['acciones']		= $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol']);
+		$data['registros'] 		= $this->Caja_model->get_all_caja( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
+		$data['title'] 			= "Caja";
+		$data['home'] 			= 'template/lista_template';
 		$_SESSION['registros']  = $data['registros'];
 
 		$this->parser->parse('template', $data);

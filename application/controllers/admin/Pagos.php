@@ -39,41 +39,33 @@ class Pagos extends MY_Controller {
 
 	public function index(){
 
-		$model = "Pagos_model";
-		$url_page = "admin/pagos/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 6);
+		$model 		= "Pagos_model";
+		$url_page 	= "admin/pagos/index";
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 6);
 
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
 
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
-
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-
-		$data['registros'] = $this->Pagos_model->getPagos( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
-		$data['home'] = 'template/lista_template';
-		$data['title'] = "Tipo de pago";
-
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['registros'] 		= $this->Pagos_model->getPagos( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
+		$data['home'] 			= 'template/lista_template';
+		$data['title'] 			= "Tipo de pago";
+		$data['total_pagina'] 	= $pag['config']["per_page"];
 		$data['total_records'] 	= $pag['total_records'];
-
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function nuevo(){
-
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
 
 		$data['menu'] = $this->session->menu;
 		$data['home'] = 'admin/pagos/p_nuevo';
@@ -99,17 +91,14 @@ class Pagos extends MY_Controller {
 
 	public function editar( $pago_id ){
 
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
-
 		$id_rol = $this->session->roles;
 		$vista_id = 8; // Vista Orden Lista
 
-		$data['menu'] = $this->session->menu;
-		$data['pagos'] = $this->Pagos_model->getPagoId($pago_id);
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['home'] = 'admin/pagos/p_editar';
-		$data['title'] = "Editar Forma Pago";
+		$data['menu'] 		= $this->session->menu;
+		$data['pagos'] 		= $this->Pagos_model->getPagoId($pago_id);
+		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['home'] 		= 'admin/pagos/p_editar';
+		$data['title'] 		= "Editar Forma Pago";
 
 		$this->parser->parse('template', $data);
 	}
@@ -155,7 +144,7 @@ class Pagos extends MY_Controller {
 			'nombre_modo_pago','codigo_modo_pago','descripcion_modo_pago','valor_modo_pago','creado_modo_pago','estado'
 		);
 		
-		$fields['id'] = array('id_modo_pago');
+		$fields['id'] 	  = array('id_modo_pago');
 		$fields['estado'] = array('estado_modo_pago');
 		$fields['titulo'] = "Formas de Pago";
 

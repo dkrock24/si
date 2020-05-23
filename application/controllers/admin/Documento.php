@@ -24,26 +24,25 @@ class Documento extends MY_Controller {
 	public function index()
 	{	
 
-		$model = "Documento_model";
-		$url_page = "admin/documento/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 27);
+		$model 		= "Documento_model";
+		$url_page 	= "admin/documento/index";
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 27);
 
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
-		$data['registros'] = $this->Documento_model->getDocumento($pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
+		$data['registros'] 		= $this->Documento_model->getDocumento($pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-		
-		$data['title'] = "Documentos";	
-		$data['home'] = 'template/lista_template';
-
+		$data['title'] 			= "Documentos";	
+		$data['home'] 			= 'template/lista_template';
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
 	}

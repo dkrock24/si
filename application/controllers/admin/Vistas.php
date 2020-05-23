@@ -25,49 +25,45 @@ class Vistas extends MY_Controller {
 	public function index()
 	{
 
-		$model = "Vistas_model";
-		$url_page = "admin/vistas/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 22);
+		$model 		= "Vistas_model";
+		$url_page 	= "admin/vistas/index";
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 22);
 
 
 		if(isset($_POST['role']) and isset($_POST['menu'])){
 
-			$data['accesos'] =  $this->Acceso_model->get_menu_acceso( $_POST['role'] , $_POST['menu'] , NULL );
+			$data['roles'] 		=  $this->Acceso_model->getRoles();
+			$data['menus'] 		=  $this->Menu_model->lista_menu();	
+			$data['accesos'] 	=  $this->Acceso_model->get_menu_acceso( $_POST['role'] , $_POST['menu'] , NULL );
+			$data['vista_componentes'] 		=  $this->Acceso_model->get_vista_componentes( $_POST['role'] , $_POST['menu']);
 			$data['accesos_menus_internos'] =  $this->Acceso_model->get_menu_internos( $_POST['role'] , $_POST['menu'] );
-			$data['vista_componentes'] =  $this->Acceso_model->get_vista_componentes( $_POST['role'] , $_POST['menu']);
-			//$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-			$data['roles'] =  $this->Acceso_model->getRoles();
-			$data['menus'] =  $this->Menu_model->lista_menu();	
-
-
 		}else{
-
 			$data['roles'] =  $this->Acceso_model->getRoles();	
 			$data['menus'] =  $this->Menu_model->lista_menu();
 		}		
 			
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['total_pagina'] = $pag['config']["per_page"];
-		$data['total_records'] 	= $pag['total_records'];
-		
-		$data['registros'] =  $this->Vistas_model->get_vistas( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol']  );
-		$data['title'] = "Vistas";
-		$data['home'] = 'template/lista_template';
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
+		$data['total_records'] 	= $pag['total_records'];		
+		$data['registros']		=  $this->Vistas_model->get_vistas( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol']  );
+		$data['title'] 			= "Vistas";
+		$data['home'] 			= 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function nuevo(){
 
-		$data['menu'] = $this->session->menu;
-		$data['title'] = "Nueva Vista";
-		$data['home'] = 'admin/vistas/vistas_nuevo';
+		$data['menu'] 	= $this->session->menu;
+		$data['title'] 	= "Nueva Vista";
+		$data['home'] 	= 'admin/vistas/vistas_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
@@ -80,10 +76,10 @@ class Vistas extends MY_Controller {
 
 	public function editar( $vista_id ){
 		
-		$data['menu'] = $this->session->menu;
+		$data['menu'] 	= $this->session->menu;
 		$data['vistas'] = $this->Vistas_model->vistas_by_id( $vista_id );
-		$data['title'] = "Editar Vista";
-		$data['home'] = 'admin/vistas/vistas_editar';
+		$data['title'] 	= "Editar Vista";
+		$data['home'] 	= 'admin/vistas/vistas_editar';
 
 		$this->parser->parse('template', $data);
 	}
@@ -107,7 +103,7 @@ class Vistas extends MY_Controller {
 			'vista_nombre','vista_codigo','vista_accion','vista_url','vista_descripcion','total','estado'
 		);
 		
-		$fields['id'] = array('id_vista');
+		$fields['id'] 	  = array('id_vista');
 		$fields['estado'] = array('vista_estado');
 		$fields['titulo'] = "Vistas Lista";
 
@@ -126,7 +122,7 @@ class Vistas extends MY_Controller {
 		}else{
 			if($_SESSION['per_page'] == ''){
 				$_SESSION['per_page'] = 10;
-			}			
+			}
 		}
 
 		$total_row = $this->Vistas_model->record_count_componente($vista_id);

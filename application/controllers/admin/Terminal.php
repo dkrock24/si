@@ -48,36 +48,33 @@ class Terminal extends MY_Controller {
 		$pag = $this->MyPagination($model, $url_page , $vista = 34);
 
 
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
-		$data['registros'] = $this->Terminal_model->get_all_terminal( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
-		$data['title'] = "Terminales";
-		$data['home'] = 'template/lista_template';
-
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
+		$data['registros'] 		= $this->Terminal_model->get_all_terminal( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
+		$data['title'] 			= "Terminales";
+		$data['home'] 			= 'template/lista_template';
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function nuevo(){
 
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		$data['menu'] = $this->session->menu;	
-		$data['caja'] = $this->Caja_model->get_caja_empresa( );
-		$data['sucursal'] = $this->Sucursal_model->getAllSucursalEmpresa( );
-		$data['usuario'] = $this->Usuario_model->get_usuarios_sucursal( );
-		$data['title'] = "Nueva Terminal";
-		$data['home'] = 'admin/terminal/t_nuevo';
+		$data['title'] 		= "Nueva Terminal";
+		$data['menu'] 		= $this->session->menu;	
+		$data['home'] 		= 'admin/terminal/t_nuevo';
+		$data['caja'] 		= $this->Caja_model->get_caja_empresa();
+		$data['sucursal'] 	= $this->Sucursal_model->getAllSucursalEmpresa();
+		$data['usuario'] 	= $this->Usuario_model->get_usuarios_sucursal();
 
 		$this->parser->parse('template', $data);
 	}
@@ -97,17 +94,13 @@ class Terminal extends MY_Controller {
 
 	public function editar( $terminal_id ){
 		
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		$data['menu'] = $this->session->menu;	
-
-		$data['caja'] = $this->Caja_model->get_caja_empresa( );
-		$data['sucursal'] = $this->Sucursal_model->getAllSucursalEmpresa( );
-		$data['usuario'] = $this->Usuario_model->get_usuarios_sucursal( );
-		
-		$data['terminal'] = $this->Terminal_model->get_terminal( $terminal_id );
-		$data['title'] = "Editar Terminal";
-		$data['home'] = 'admin/terminal/t_editar';
+		$data['menu'] 		= $this->session->menu;
+		$data['caja'] 		= $this->Caja_model->get_caja_empresa();
+		$data['sucursal'] 	= $this->Sucursal_model->getAllSucursalEmpresa();
+		$data['usuario'] 	= $this->Usuario_model->get_usuarios_sucursal();		
+		$data['terminal'] 	= $this->Terminal_model->get_terminal( $terminal_id );
+		$data['title'] 		= "Editar Terminal";
+		$data['home'] 		= 'admin/terminal/t_editar';
 
 		//$this->general->editar_valido($data['cargo'], "admin/cargo/index");
 
@@ -121,19 +114,15 @@ class Terminal extends MY_Controller {
 		}
 
 		$data['title'] = "Ver";
-
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
+		$data['menu'] = $this->session->menu;
 		$data['data'] = $this->Terminal_model->get_terminal( $id );	
 		
 		if($data['data']){
 
 			foreach ($data['data']  as $key => $value) {
 			
-				$vars = get_object_vars ( $value );
-				
+				$vars = get_object_vars ( $value );				
 				continue;
 			}
 	
@@ -175,32 +164,25 @@ class Terminal extends MY_Controller {
 
 	public function asociar( $id_terminal ){
 
-		$data['menu'] 	= $this->session->menu;
+		$data['menu'] 		= $this->session->menu;
 		$data['terminal'] 	= $this->Terminal_model->get_terminal( $id_terminal );
 		$data['terminal_usuario'] = $this->Terminal_model->get_terminal_users( $id_terminal );
-		$data['usuario'] 	= $this->Terminal_model->get_users( );
-		
-		$data['title'] 	= "Terminal Usuarios";
-		$data['home'] 	= 'admin/terminal/t_asociar';
+		$data['usuario'] 	= $this->Terminal_model->get_users( );		
+		$data['title'] 		= "Terminal Usuarios";
+		$data['home'] 		= 'admin/terminal/t_asociar';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function agregar(){
-		
 		$data = $this->Terminal_model->agregar_usuario( $_POST );
-
 	}
 
-	public function inactivar(){
-
-		
+	public function inactivar(){		
 		$data = $this->Terminal_model->eliminar_usuario( $_POST );
-
 	}
 
 	public function column(){
-
 		$column = array(
 			'Sucursal','Nombre','Numero','Ubicacion','Modelo','Serie','Marca','Estado'
 		);
@@ -226,8 +208,7 @@ class Terminal extends MY_Controller {
 
 		$this->xls( $_SESSION['registros'], $_SESSION['Vista'] ,$column, $fields  );
 
-	}	
-
+	}
 }
 
 ?>

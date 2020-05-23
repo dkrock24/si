@@ -1,3 +1,4 @@
+
 <?php
 class Giros_model extends CI_Model {
 	
@@ -8,10 +9,13 @@ class Giros_model extends CI_Model {
     const empresa_plantilla = 'giros_empresa';
 
 
-	function get_giros( $limit, $id ){;
+	function get_giros( $limit, $id , $filters ){;
 		$this->db->select('*');
         $this->db->from(self::giros);
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);  
+        if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[2];

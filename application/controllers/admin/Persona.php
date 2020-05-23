@@ -39,19 +39,19 @@ class Persona extends MY_Controller {
 		$url_page = "admin/persona/index";
 		$pag = $this->MyPagination($model, $url_page , $vista = 36);
 
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-
-		$data['registros'] = $this->Persona_model->getPersona( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']);
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
-		$data['home'] = 'template/lista_template';
-		$data['title'] = 'Lista Personas';
+		$data['registros'] 		= $this->Persona_model->getPersona( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']);
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
+		$data['home'] 			= 'template/lista_template';
+		$data['title'] 			= 'Lista Personas';
 
 		$this->parser->parse('template', $data);
 
@@ -61,19 +61,14 @@ class Persona extends MY_Controller {
 
 	public function nuevo(){
 
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		
-
-		$id_rol = $this->session->roles;
-		$vista_id = 20; // Vista Orden Lista
-
-		$data['menu'] = $this->session->menu;
+		$id_rol 		= $this->session->roles;
+		$vista_id 		= 20; // Vista Orden Lista
+		$data['menu'] 	= $this->session->menu;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['sexo'] = $this->Sexo_model->getSexo();
+		$data['sexo']	= $this->Sexo_model->getSexo();
 		$data['ciudad'] = $this->Ciudad_model->getDepartamento();
-		$data['home'] = 'admin/persona/persona_nuevo';
-		$data['title'] = 'Crear Personas';
+		$data['home'] 	= 'admin/persona/persona_nuevo';
+		$data['title'] 	= 'Crear Personas';
 
 		$this->parser->parse('template', $data);
 	}
@@ -93,16 +88,13 @@ class Persona extends MY_Controller {
 
 	public function editar( $persona_id ){
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
-
 		$data['menu'] 		= $this->session->menu;		
 		$data['persona']	= $this->Persona_model->getPersonaId( $persona_id );
 		$data['sexo'] 		= $this->Sexo_model->getSexo();
 		$data['ciudad'] 	= $this->Ciudad_model->getCiudad();
 		$data['ciudad2'] 	= $this->Ciudad_model->getCiudadId( $data['persona'][0]->id_departamento );
 		$data['title'] 		= 'Editar Personas';
-
-		$data['home'] 	= 'admin/persona/persona_editar';
+		$data['home'] 		= 'admin/persona/persona_editar';
 
 		$this->general->editar_valido($data['persona'], "admin/persona/index");
 
@@ -115,20 +107,15 @@ class Persona extends MY_Controller {
 			redirect(base_url()."admin/persona/index");
 		}
 
-		$data['title'] = "Ver";
-
+		$data['title']= "Ver";
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
+		$data['menu'] = $this->session->menu;
 		$data['data'] = $this->Persona_model->getPersonaId( $id );	
 		
 		if($data['data']){
 
-			foreach ($data['data']  as $key => $value) {
-			
-				$vars = get_object_vars ( $value );
-				
+			foreach ($data['data']  as $key => $value) {			
+				$vars = get_object_vars ( $value );				
 				continue;
 			}
 	
@@ -187,9 +174,9 @@ class Persona extends MY_Controller {
 			'primer_nombre_persona','segundo_nombre_persona','primer_apellido_persona','segundo_apellido_persona','dui','nit','direccion_residencia_persona1','tel','whatsapp','sexo','nombre_ciudad','estado'
 		);
 		
-		$fields['id'] = array('id_persona');
-		$fields['estado'] = array('persona_estado');
-		$fields['titulo'] = "Persona Lista";
+		$fields['id'] 		= array('id_persona');
+		$fields['estado'] 	= array('persona_estado');
+		$fields['titulo'] 	= "Persona Lista";
 
 		return $fields;
 	}

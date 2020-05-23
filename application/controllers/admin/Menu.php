@@ -39,118 +39,85 @@ class Menu extends MY_Controller {
 
 	public function index(){
 		
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
-
 		// Construir Menu basado en el rol de usuario
-		$usuario_id = $this->session->usuario[0]->id_usuario;
-		$role_id = $this->Usuario_model->get_usuario_roles( $usuario_id );
-
-		$data['menu'] = $menu_session = $this->session->menu;
+		$data['title'] 		= "Menus";	
+		$data['home'] 		= 'admin/menu/menu';
+		$data['menu'] 		= $this->session->menu;
 		$data['lista_menu'] = $this->Menu_model->lista_menu();
-		$data['title'] = "Menus";	
-		$data['home'] = 'admin/menu/menu';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function nuevo(){
-
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
-
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		$data['menu'] = $this->session->menu;
-		$data['title'] = "Nuevo Menu";	
-		$data['home'] = 'admin/menu/nuevoMenu.php';
+		$data['title'] 	= "Nuevo Menu";	
+		$data['menu'] 	= $this->session->menu;
+		$data['home']	= 'admin/menu/nuevoMenu.php';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function save_menu(){
-
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
-
 		$this->Menu_model->save_menu( $_POST );
-
 		redirect(base_url()."admin/menu/index");
 	}
 
 	public function submenu( $id_menu ){
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
-
 		// Selecionar todos los submenus de cada menu
 
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		$data['menu'] = $this->session->menu;
-		$data['submenus'] = $this->Menu_model->getSubMenu( $id_menu );
-		$data['title'] = "SubMenu";			
-		$data['home'] = 'admin/menu/submenu';
+		$data['title'] 		= "SubMenu";			
+		$data['home'] 		= 'admin/menu/submenu';
+		$data['menu'] 		= $this->session->menu;
+		$data['submenus'] 	= $this->Menu_model->getSubMenu( $id_menu );
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function editar_menu( $id_menu ){
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
-
 		// Cargar menu para editar
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;
+		$data['title'] 	= "Editar Menu";	
+		$data['menu'] 	= $this->session->menu;
+		$data['home'] 	= 'admin/menu/menueditar';
 		$data['onMenu'] = $this->Menu_model->getOneMenu( $id_menu );
-		$data['title'] = "Editar Menu";	
-		$data['home'] = 'admin/menu/menueditar';
 
 		$this->parser->parse('template', $data);
 	}
 
 	// Cargar formulario para nuevo menu
 	public function nuevo_submenu( $id_menu ){
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;
-		$data['allMenus'] = $this->Menu_model->getAllMenu();
-		$data['vistas2'] = $this->Vistas_model->get_all_vistas();
-		$data['home'] = 'admin/menu/nuevo_sub_menu.php';
-		$data['title'] = "Nuevo SubMenu";	
-		$data['id_menu'] = $id_menu;
+		$data['id_menu'] 	= $id_menu;
+		$data['title'] 		= "Nuevo SubMenu";	
+		$data['menu'] 		= $this->session->menu;
+		$data['home'] 		= 'admin/menu/nuevo_sub_menu.php';
+		$data['allMenus'] 	= $this->Menu_model->getAllMenu();
+		$data['vistas2'] 	= $this->Vistas_model->get_all_vistas();
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function save_sub_menu( $id_menu ){
 		// Guardar nuevo sub menu
-
 		$this->Menu_model->save_sub_menu( $_POST );
-
 		redirect(base_url()."admin/menu/submenu/". $id_menu );
 	}
 
 	public function update_menu(){
 		// Update Menu
-
 		$this->Menu_model->update_menu( $_POST );
-
 		redirect(base_url()."admin/menu/index");
 	}
 
 	public function editar_sub_menu( $id_sub_menu ){
 		// Cargar sub menu para editar
 
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		$data['menu'] = $this->session->menu;
-		$data['allMenus'] = $this->Menu_model->getAllMenu();
-		$data['vistas'] = $this->Vistas_model->get_all_vistas();
-		$data['vistas2'] = $this->Vistas_model->get_all_vistas();
-		$data['onMenu'] = $this->Menu_model->getOneSubMenu( $id_sub_menu );
-		$data['title'] = "Editar SubMenu";
-		$data['home'] = 'admin/menu/submenueditar';			
+		$data['title'] 		= "Editar SubMenu";
+		$data['menu'] 		= $this->session->menu;
+		$data['home'] 		= 'admin/menu/submenueditar';			
+		$data['allMenus'] 	= $this->Menu_model->getAllMenu();
+		$data['vistas'] 	= $this->Vistas_model->get_all_vistas();
+		$data['vistas2'] 	= $this->Vistas_model->get_all_vistas();
+		$data['onMenu'] 	= $this->Menu_model->getOneSubMenu( $id_sub_menu );
 
 		$this->parser->parse('template', $data);
 	}
@@ -158,7 +125,6 @@ class Menu extends MY_Controller {
 	public function update_sub_menu(){
 		// Update sub menu 
 		$this->Menu_model->update_sub_menu( $_POST );
-
 		redirect(base_url()."admin/menu/submenu/". $_POST['id_menu']);
 	}
 

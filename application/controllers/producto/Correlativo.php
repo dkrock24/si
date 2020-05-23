@@ -35,28 +35,28 @@ class Correlativo extends MY_Controller {
 	public function index()
 	{
 
-		$model = "Correlativo_model";
-		$url_page = "producto/correlativo/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 28);
+		$model 		= "Correlativo_model";
+		$url_page 	= "producto/correlativo/index";
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 28);
 
 		
-		$data['registros'] = $this->Correlativo_model->getCorrelativos(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
+		$data['registros'] 		= $this->Correlativo_model->getCorrelativos(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
 
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();		
-		$data['title'] = "Correlativos";
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();		
+		$data['title'] 			= "Correlativos";
 
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
-
-		$data['home'] = 'template/lista_template';
+		$_SESSION['Vista']  	= $data['title'];
+		$data['home'] 			= 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 	}

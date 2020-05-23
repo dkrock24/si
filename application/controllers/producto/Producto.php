@@ -14,17 +14,22 @@ class Producto extends MY_Controller {
 		$url_page = "producto/producto/index";
 		$pag = $this->MyPagination($model, $url_page , $vista = 9);
 
-		$data['registros'] = $this->Producto_model->getProd($pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
+		$data['registros'] 		= $this->Producto_model->getProd(
+										$pag['config']["per_page"], 
+										$pag['page'],
+										$_SESSION['filters'] 
+								);
 		
-		$data['menu'] 		= $this->session->menu;
-		$data['links'] 		= $pag['links'];
-		$data['filtros'] 	= $pag['field'];		
-		$data['column'] 	= $this->column();
-		$data['fields'] 	= $this->fields();		
-		$data['title'] 		= "Productos";
-		$data['home'] 		= 'template/lista_template';
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];		
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();		
+		$data['title'] 			= "Productos";
+		$data['home'] 			= 'template/lista_template';
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
 		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
 

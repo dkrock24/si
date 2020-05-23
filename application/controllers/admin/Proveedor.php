@@ -45,35 +45,34 @@ class Proveedor extends MY_Controller {
 		$url_page = "admin/proveedor/index";
 		$pag = $this->MyPagination($model, $url_page , $vista = 32);
 
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
 
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol'] );
-		$data['registros'] = $this->Proveedor_model->get_proveedor( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
-		$data['title'] = "Proveedores";
-		$data['home'] = 'template/lista_template';
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol'] );
+		$data['registros'] 		= $this->Proveedor_model->get_proveedor( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['title'] 			= "Proveedores";
+		$data['home'] 			= 'template/lista_template';
 
 		$this->parser->parse('template', $data);
 
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 	}
 
 	public function nuevo(){
 
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		$data['menu'] = $this->session->menu;		
-		$data['linea'] = $this->Linea_model->getAllLinea();
-		$data['persona'] = $this->Persona_model->getAllPersona();
-		$data['title'] = "Nuevo Proveedor";
-		$data['home'] = 'admin/proveedor/proveedor_nuevo';
+		$data['menu'] 		= $this->session->menu;		
+		$data['linea'] 		= $this->Linea_model->getAllLinea();
+		$data['persona'] 	= $this->Persona_model->getAllPersona();
+		$data['title'] 		= "Nuevo Proveedor";
+		$data['home'] 		= 'admin/proveedor/proveedor_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
@@ -113,20 +112,15 @@ class Proveedor extends MY_Controller {
 			redirect(base_url()."admin/proveedor/index");
 		}
 
-		$data['title'] = "Ver";
-
+		$data['title']= "Ver";
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
+		$data['menu'] = $this->session->menu;
 		$data['data'] = $this->Proveedor_model->get_proveedor_id( $id );	
 		
 		if($data['data']){
 
-			foreach ($data['data']  as $key => $value) {
-			
-				$vars = get_object_vars ( $value );
-				
+			foreach ($data['data']  as $key => $value) {			
+				$vars = get_object_vars ( $value );				
 				continue;
 			}
 	

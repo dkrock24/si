@@ -52,48 +52,44 @@ class Template extends MY_Controller {
 
 	public function index(){
 
-		$model = "Template_model";
-		$url_page = "admin/template/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 24);
+		$model 		= "Template_model";
+		$url_page 	= "admin/template/index";
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 24);
 
-
-		$data['menu'] = $this->session->menu;
-		$data['links'] = $pag['links'];
-		$data['filtros'] = $pag['field'];
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
-		$data['total_pagina'] = $pag['config']["per_page"];
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
-		$data['registros'] = $this->Template_model->getAllTemplate( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']);
-		$data['title'] = "Templates";
-		$data['home'] = 'template/lista_template';
-
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
+		$data['registros'] 		= $this->Template_model->getAllTemplate( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']);
+		$data['title'] 			= "Templates";
+		$data['home'] 			= 'template/lista_template';
 		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']  	= $data['title'];
 
 		$this->parser->parse('template', $data);		
 	}
 	
 	public function nuevo(){
 
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		$data['orden_fields'] 		= $this->Template_model->getOrdencolumnsTables();
-		$data['ordenDetalle_fields']= $this->Template_model->getOrdenDetallecolumnsTables();
-		$data['empresa_fields'] 	= $this->Template_model->getEmpresalumnsTables();
 		$data['caja_fields'] 		= $this->Template_model->getCajaColumnsTables();
-		$data['sucursal_fields'] 	= $this->Template_model->getSucursalColumnsTables();
+		$data['orden_fields'] 		= $this->Template_model->getOrdencolumnsTables();
+		$data['empresa_fields'] 	= $this->Template_model->getEmpresalumnsTables();
 		$data['pagos_fields'] 		= $this->Template_model->getPagosColumnsTables();
+		$data['clientes_fields']	= $this->Template_model->getClienteColumnsTables();
+		$data['usuario_fields']		= $this->Template_model->getUsuarioColumnsTables();
+		$data['sucursal_fields'] 	= $this->Template_model->getSucursalColumnsTables();
 		$data['documento_fields'] 	= $this->Template_model->getDocumentoColumnsTables();
+		$data['ordenDetalle_fields']= $this->Template_model->getOrdenDetallecolumnsTables();
 		$data['correlativos_fields']= $this->Template_model->getCorrelativosColumnsTables();
-		$data['clientes_fields']= $this->Template_model->getClienteColumnsTables();
-		$data['usuario_fields']= $this->Template_model->getUsuarioColumnsTables();		
-
-		$data['menu'] = $this->session->menu;
-		$data['title'] = "Nuevo Template";
-		$data['home'] = 'admin/template/template_nuevo';
+		$data['menu'] 				= $this->session->menu;
+		$data['title'] 				= "Nuevo Template";
+		$data['home'] 				= 'admin/template/template_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
@@ -114,32 +110,28 @@ class Template extends MY_Controller {
 
 	public function asociar(){
 
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-		$data['result'] = null;
-		$data['documento_id'] = 0;
-		$data['factura_id'] = 0;
-		$data['result'] = 0;
+		$data['result'] 		= null;
+		$data['documento_id'] 	= 0;
+		$data['factura_id'] 	= 0;
+		$data['result'] 		= 0;
 
 		if(isset($_POST['documento']) && isset($_POST['factura_id'])){
 			
-			$data['documento_id'] = $_POST['documento'];
-			
-			$data['factura_id'] = $_POST['factura_id'];
-			
-			$template = $_POST['factura_id'];
-
-			$documento = $_POST['documento'];
+			$template 				= $_POST['factura_id'];
+			$documento 				= $_POST['documento'];
+			$data['factura_id'] 	= $_POST['factura_id'];			
+			$data['documento_id'] 	= $_POST['documento'];			
 			
 			$data['result'] = $this->Template_model->getTemplateBySucursal( $template , $documento );
 			
 		}
 
-		$data['menu'] = $this->session->menu;
-		$data['pagos'] = $this->ModoPago_model->getAllFormasPago();
-		$data['template'] = $this->Template_model->get_template();
+		$data['menu'] 		= $this->session->menu;
+		$data['pagos'] 		= $this->ModoPago_model->getAllFormasPago();
+		$data['template'] 	= $this->Template_model->get_template();
 		$data['sucursales'] = $this->Template_model->get_sucursales();
-		$data['documento'] = $this->Documento_model->getAllDocumento();
-		$data['home'] = 'admin/template/template_asociar';
+		$data['documento'] 	= $this->Documento_model->getAllDocumento();
+		$data['home'] 		= 'admin/template/template_asociar';
 
 		$this->parser->parse('template', $data);
 	}
@@ -174,13 +166,13 @@ class Template extends MY_Controller {
 		$data['pagos_fields'] 		= $this->Template_model->getPagosColumnsTables();
 		$data['documento_fields'] 	= $this->Template_model->getDocumentoColumnsTables();
 		$data['correlativos_fields']= $this->Template_model->getCorrelativosColumnsTables();
-		$data['clientes_fields']= $this->Template_model->getClienteColumnsTables();
-		$data['usuario_fields']= $this->Template_model->getUsuarioColumnsTables();	
+		$data['clientes_fields']	= $this->Template_model->getClienteColumnsTables();
+		$data['usuario_fields']		= $this->Template_model->getUsuarioColumnsTables();	
 		
-		$data['menu'] = $this->session->menu;		
-		$data['formato'] = $this->Template_model->getFormatoId($formato_id);
-		$data['title'] = "Editar Template";
-		$data['home'] = 'admin/template/template_editar';
+		$data['title'] 		= "Editar Template";
+		$data['menu'] 		= $this->session->menu;		
+		$data['home'] 		= 'admin/template/template_editar';
+		$data['formato'] 	= $this->Template_model->getFormatoId($formato_id);
 
 		$this->parser->parse('template', $data);
 	}
@@ -208,7 +200,6 @@ class Template extends MY_Controller {
 			$this->session->set_flashdata('warning', "El Registro No Fue Actualizado");
 		}
 
-
 		redirect(base_url()."admin/template/index");
 	}
 	
@@ -223,13 +214,12 @@ class Template extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			//'nombre_sucursal','nombre_modo_pago','nombre','factura_nombre','factura_lineas','factura_descripcion','factura_creado','estado'
 			'factura_nombre','factura_lineas','factura_descripcion','factura_creado','estado'
 		);
 		
-		$fields['id'] = array('id_factura');
-		$fields['estado'] = array('factura_estatus');
-		$fields['titulo'] = "Template Lista";
+		$fields['id'] 		= array('id_factura');
+		$fields['estado'] 	= array('factura_estatus');
+		$fields['titulo'] 	= "Template Lista";
 
 		return $fields;
 	}
@@ -237,17 +227,17 @@ class Template extends MY_Controller {
 	function printer( $orden_id ){
 		
 		// Get ordern
-		$data['productos'] = $this->Orden_model->get_orden_detalle( $orden_id );
-		$data['temp'] = $this->Template_model->printer( $orden_id , 2 , 2 );
-		$data['home'] = 'admin/printer/printer';
+		$data['productos'] 	= $this->Orden_model->get_orden_detalle( $orden_id );
+		$data['temp'] 		= $this->Template_model->printer( $orden_id , 2 , 2 );
+		$data['home'] 		= 'admin/printer/printer';
 
 		$info = [];
 		$data['orden'] = $data['productos'] ;
 		foreach ($data['productos'] as $key => $value) {
-			$info['cantidad'] = $value->cantidad;
-			$info['descripcion '] = $value->descripcion ;
-			$info['precioUnidad'] = $value->precioUnidad;
-			$info['total'] = $value->total;
+			$info['total'] 			= $value->total;
+			$info['cantidad'] 		= $value->cantidad;
+			$info['descripcion '] 	= $value->descripcion ;
+			$info['precioUnidad'] 	= $value->precioUnidad;
 		}
 
 		$this->parser->parse('template', $data);
@@ -259,10 +249,7 @@ class Template extends MY_Controller {
 		$fields = $this->fields();
 
 		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
-
 	}
-	
-
 }
 
 ?>

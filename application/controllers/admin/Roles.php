@@ -31,8 +31,9 @@ class Roles extends MY_Controller {
 		$data['filtros'] 	= $pag['field'];		
 		$data['column'] 	= $this->column();
 		$data['fields'] 	= $this->fields();
-		$data['total_pagina'] = $pag['config']["per_page"];
-		$data['total_records']= $pag['total_records'];
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
+		$data['total_records']	= $pag['total_records'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
 
 		$data['registros'] 	= $this->Roles_model->getRoles( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
@@ -47,8 +48,6 @@ class Roles extends MY_Controller {
 
 	public function editar( $id_role )
 	{	
-		$id_rol = $this->session->roles;
-
 		$data['menu'] 	= $this->session->menu;		
 		$data['roles'] 	= $this->Roles_model->getRolesById( $id_role );		
 		$data['home'] 	= 'admin/roles/roles_editar';
@@ -86,8 +85,6 @@ class Roles extends MY_Controller {
 	}
 
 	public function nuevo(){
-
-		$id_rol = $this->session->roles;
 
 		$data['menu'] = $this->session->menu;
 		$data['home'] = 'admin/roles/roles_nuevo';

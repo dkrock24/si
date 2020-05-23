@@ -1,3 +1,4 @@
+
 <?php
 class Pais_model extends CI_Model {
 	
@@ -8,11 +9,14 @@ class Pais_model extends CI_Model {
 	const sys_departamento = 'sys_departamento';
 
 
-	function get_pais( $limit, $id  ){
+	function get_pais( $limit, $id , $filters ){
 
 		$this->db->select('*');
         $this->db->from(self::pais.' as p');
-        $this->db->join(self::sys_moneda.' as m','on '. 'm.id_moneda = p.id_moneda');
+		$this->db->join(self::sys_moneda.' as m','on '. 'm.id_moneda = p.id_moneda');
+		if($filters!=""){
+            $this->db->where($filters);
+        }
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
