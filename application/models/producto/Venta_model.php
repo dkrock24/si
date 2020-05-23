@@ -213,22 +213,13 @@ class Venta_model extends CI_Model {
 
 		function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal , $correlativo_documento){
 
-			$total_orden = $orden['orden'][0]['total'];
-			$total_orden = (float) $total_orden;
-			$efecto_inventario = $documento[0]->efecto_inventario;
+			$total_orden 		= $orden['orden'][0]['total'];
+			$total_orden 		= (float) $total_orden;
+			$efecto_inventario 	= $documento[0]->efecto_inventario;
 
 			if($efecto_inventario == 1){ // Si suma en inventario la venta, es devolucion
 				$total_orden = $total_orden* -1;
 			}
-
-			//$total_iva = $orden['orden'][0]['por_iva'];
-			//$total_iva = (float) $total_iva;		
-			//$order_estado = $orden['estado'];
-
-			//Precio Orden con Impuesto
-			$cliente_aplica_impuesto = $cliente[0]->aplica_impuestos;
-
-			//$desc_val = ($total_iva * $total_orden);
 
 			$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal , $documento );
 			
@@ -242,51 +233,51 @@ class Venta_model extends CI_Model {
 				$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $numero );
 				
 				$data = array(
-					'id_caja' 		=> $form['caja_id'], //terminal_id
-					'id_cajero'		=> $this->session->db[0]->id_usuario,
-					'num_caja' 		=> $form['caja_numero'], //terminal_numero
-					'd_inc_imp0' 	=> $form['impuesto'], //impuesto
-					'id_tipod' 		=> $documento[0]->id_tipo_documento, //modo_pago_id
-					'id_sucursal' 	=> $form['sucursal_destino'], //sucursal_destino
-					'num_correlativo'=>$correlativo_final,
-					'id_cliente' 	=> $form['cliente_codigo'], //cliente_codigo
-					'nombre' 		=> $form['cliente_nombre'], //cliente_nombre
-					'direccion' 	=> $form['cliente_direccion'], //cliente_direccion
-					'id_condpago' 	=> $form['modo_pago_id'], //modo_pago_id
-					'comentarios' 	=> "",//comentarios
-					'id_sucursal_origin' => $form['sucursal_origin'], //sucursal_origin	
-					'id_vendedor' 	=> $form['vendedor'], //vendedor
-					'id_usuario' 	=> $id_usuario,
-					'fecha' 		=> date("Y-m-d h:i:s"),	            
-					'digi_total' 	=> $total_orden,
-					'impSuma'		=> $orden['orden'][0]['impSuma'],
-					'iva'			=> $orden['orden'][0]['iva'],
-					'desc_porc' 	=> $orden['orden'][0]['descuento_limite'],
-					'id_bodega' 	=> $orden['orden'][0]['id_bodega'],
-					'desc_val' 		=> $orden['orden'][0]['descuento_calculado'],
-					'total_doc' 	=> $total_orden,
-					'fh_inicio' 	=> date("Y-m-d h:i:s"),
-					'fh_final' 		=> date("Y-m-d h:i:s"),
-					'id_venta' 		=> 0, // Actualizara al procesar la venta
-					'facturado_el' 	=> 0, // Actualizara al procesar la venta
+					'id_caja' 				=> $form['caja_id'], //terminal_id
+					'id_cajero'				=> $this->session->db[0]->id_usuario,
+					'num_caja' 				=> $form['caja_numero'], //terminal_numero
+					'd_inc_imp0' 			=> $form['impuesto'], //impuesto
+					'id_sucursal' 			=> $form['sucursal_destino'], //sucursal_destino
+					'id_tipod' 				=> $documento[0]->id_tipo_documento, //modo_pago_id
+					'num_correlativo'		=> $correlativo_final,
+					'comentarios' 			=> "",
+					'id_usuario' 			=> $id_usuario,
+					'fecha' 				=> date("Y-m-d h:i:s"),	            
+					'digi_total' 			=> $total_orden,
+					'total_doc' 			=> $total_orden,
+					'impSuma'				=> $orden['orden'][0]['impSuma'],
+					'iva'					=> $orden['orden'][0]['iva'],
+					'desc_porc' 			=> $orden['orden'][0]['descuento_limite'],
+					'id_bodega' 			=> $orden['orden'][0]['id_bodega'],
+					'desc_val' 				=> $orden['orden'][0]['descuento_calculado'],
+					'nombre' 				=> $form['cliente_nombre'], //cliente_nombre
+					'id_cliente' 			=> $form['cliente_codigo'], //cliente_codigo
+					'id_sucursal_origin' 	=> $form['sucursal_origin'], //sucursal_origin	
+					'direccion' 			=> $form['cliente_direccion'], //cliente_direccion
+					'id_condpago' 			=> $form['modo_pago_id'], //modo_pago_id
+					'id_vendedor' 			=> $form['vendedor'], //vendedor
+					'id_venta_orden'		=> (isset($form['orden_numero'])) ? $form['orden_numero'] : 0 ,
 					'devolucion_nombre' 	=> $form['devolucion_nombre'],
 					'devolucion_documento' 	=> $form['devolucion_documento'],
 					'devolucion_dui' 		=> $form['devolucion_dui'],
 					'devolucion_nit' 		=> $form['devolucion_nit'],
-					'anulado' 		=> 0, // Actualizara al procesar alguna accion
-					'creado_el' 	=> date("Y-m-d h:i:s"),
-					'fecha_inglab' 	=> date("Y-m-d h:i:s"),
-					'venta_vista_id'=> $form['vista_id'],
-					'orden_estado'	=> $orden['estado'] // Facturada
-					//'anulado_el' 	=> "", // Actualizara al procesar alguna accion
-					//'anulado_conc'=> "", // Actualizara al procesar alguna accion
-					//'cod_estado'	=> "0",
-					//'estado_el' 	=> "0",
-					//'reserv_producs' => "0",
-					//'reserv_conc' 	=> "0",
-					//'fecha_entreg' 	=> date("Y-m-d h:i:s"),
-					//'tiempoproc' 	=> "0",
-					//'modi_el' 		=> "0",
+					'venta_vista_id'		=> $form['vista_id'],
+					'fh_inicio' 			=> date("Y-m-d h:i:s"),
+					'fh_final' 				=> date("Y-m-d h:i:s"),
+					'creado_el' 			=> date("Y-m-d h:i:s"),
+					'fecha_inglab' 			=> date("Y-m-d h:i:s"),
+					'orden_estado'			=> $orden['estado'], // Facturada
+					'facturado_el' 			=> 0, // Actualizara al procesar la venta
+					'anulado' 				=> 0, // Actualizara al procesar alguna accion
+					//'anulado_el' 			=> "", // Actualizara al procesar alguna accion
+					//'anulado_conc'		=> "", // Actualizara al procesar alguna accion
+					//'cod_estado'			=> "0",
+					//'estado_el' 			=> "0",
+					//'reserv_producs' 		=> "0",
+					//'reserv_conc' 		=> "0",
+					//'fecha_entreg' 		=> date("Y-m-d h:i:s"),
+					//'tiempoproc' 			=> "0",
+					//'modi_el' 			=> "0",
 					
 				);
 
@@ -421,8 +412,6 @@ class Venta_model extends CI_Model {
 	        	$this->db->insert(self::pos_venta_detalle, $data ); 
 			}
 		}
-
-		
 
 		function regreso_a_bodega( $orden ){
 
@@ -574,10 +563,6 @@ class Venta_model extends CI_Model {
 		}
 
 		// Fin ordenes
-		
-		
-        
-        
 
 		//	Creacion de un nuevo producto
 		function nuevo_producto( $producto , $usuario ){

@@ -171,7 +171,7 @@ class Orden extends MY_Controller {
 				$data['title'] 			= "Editar Orden";
 				$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
 				$data['temp'] 			= $this->Template_model->printer( $data['detalle'] , @$data['orden'][0]->id_sucursal , @$data['orden'][0]->id_tipod, @$data['orden'][0]->id_condpago);
-				
+				$data['vista_id']		= 13;
 				$data['home'] 			= 'producto/orden/orden_editar';
 				$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
 				$data['file'] 			= $name;

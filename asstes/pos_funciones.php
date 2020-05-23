@@ -1992,6 +1992,7 @@
             var formulario      = $('#encabezado_form').serializeArray();
             var orden_estado    = $("#orden_estado").val(); //$(this).attr('name');
             var orden_numero    = $("#orden_numero").val();
+            var vista_id        = formulario.find(x => x.name === 'vista_id').value;
 
             if($("#check_devolucion").is(":checked")){
                 this.convetirToNegativo = true;
@@ -2035,14 +2036,27 @@
 
                     success: function(data) {
 
+                        if(orden_numero){
+                            cerrar_orden(orden_numero);
+                        }
+
                         if (method == "guardar_orden") {
                             window.location.href = "editar/" + data;
-                        } else if (method == "../venta/guardar_venta") 
+                        } 
+                        else if (method == "../venta/guardar_venta") 
                         {
                             var datos = JSON.parse(data);
                             $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
                             $(".print_venta").attr("href", "venta/" + datos['id']);
-                            window.location.href = "../venta/facturacion/" + datos['id'];                            
+                            if(vista_id == 13){
+                                if(orden_numero){
+                                    window.location.href = "../../venta/facturacion/" + datos['id'];
+                                }else{
+                                    window.location.href = "../venta/facturacion/" + datos['id'];
+                                }
+                            }else{
+                                window.location.href = "../venta/facturacion/" + datos['id'];                            
+                            }
                         }
                     },
                     error: function() {}
@@ -2066,7 +2080,7 @@
                 success: function(data) {
 
                     //location.reload();
-                    window.location.href = "nuevo";
+                    //window.location.href = "nuevo";
                 },
                 error: function() {}
             });

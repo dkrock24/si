@@ -904,7 +904,7 @@ include("asstes/pos_orden.php");
                         <div class="row">
 
                             <div class="col-lg-2 col-md-2">
-                                <spam style="">TIPO PAGO</spam>
+                                <spam style="">TIPO PAGO </spam> [F7]
                                 <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
                                     <?php
                                     foreach ($modo_pago as $mp) {
@@ -921,7 +921,7 @@ include("asstes/pos_orden.php");
                             </div>
 
                             <div class="col-lg-2 col-md-2">
-                            Documento [F7]
+                            Documento
                                 <select class="form-control" name="id_tipo_documento" id="id_tipo_documento" class="id_tipo_documento">
                                     <?php
 
