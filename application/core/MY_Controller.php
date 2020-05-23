@@ -68,24 +68,23 @@ class MY_Controller extends CI_Controller
         $filtro="";
 		if(isset($_SESSION['filters']) ){
 
-            if($_SESSION['filters']== ""){
-
+			if($_SESSION['filters']== "")
+			{
                 $filtro = "";
                 $_SESSION['filtros'] = null;
 			}  
 			
-            if($_SESSION['url'] != $url_page){
-                
-                $_SESSION['filters'] = $filtro;
-                $_SESSION['filtros'] = null;
-                $_SESSION['url'] = $url_page;
-            }        
-           
+			if($_SESSION['url'] != $url_page)
+			{                
+                $_SESSION['filters'] 	= $filtro;
+                $_SESSION['filtros'] 	= null;
+                $_SESSION['url'] 		= $url_page;
+            }           
 		}else{
 			
-            $_SESSION['filters'] = $filtro;
-            $_SESSION['filtros'] = null;
-            $_SESSION['url'] = $url_page;
+            $_SESSION['url'] 	= $url_page;
+            $_SESSION['filters']= $filtro;
+            $_SESSION['filtros']= null;
         }
 
 		if($_POST){
@@ -110,48 +109,54 @@ class MY_Controller extends CI_Controller
 				$_SESSION['filters'] = $filtro ;
 				$_SESSION['filtros'] = $_POST ;
 			}			
-			
         }
         
         //Paginacion
 		$_SESSION['per_page'] = "";
 		$contador_tabla;
-		if( isset( $_POST['total_pagina'] )){
-			$per_page = $_POST['total_pagina'];
-			$_SESSION['per_page'] = $per_page;
+		if( isset( $_POST['total_pagina'] ))
+		{
+			$per_page 				= $_POST['total_pagina'];
+			$_SESSION['per_page'] 	= $per_page;
 		}else{
 			if($_SESSION['per_page'] == ''){
-				$_SESSION['per_page'] = 10;
+				$_SESSION['per_page'] 	= 10;
+				$_SESSION['x_total'] 	= 10;
 			}			
         }
 
         $total_row = $this->$model->record_count($_SESSION['filters']);
-		
-		$config = paginacion($total_row, $_SESSION['per_page'] , $url_page);
-		$this->pagination->initialize($config);
+				
 		if($this->uri->segment(4)){
-			if($_SESSION['per_page']!=0){
-				$page = ($this->uri->segment(4) - 1 ) * $_SESSION['per_page'];
-				$contador_tabla = $page+1;
+			if($_SESSION['per_page']!=0)
+			{
+				$page 					= ($this->uri->segment(4) - 1 ) * $_SESSION['per_page'];				
+				$_SESSION['per_page'] 	= $_SESSION['per_page'] ;
+				$_SESSION['x_total']  	= ($this->uri->segment(4)  ) * $_SESSION['per_page'] ;
+				$contador_tabla 		= $page+1;
 			}else{
-				$page = 0;
+				$page 			= 0;
 				$contador_tabla =1;
 			}
 		}else{
-			$page = 0;
+			$page 			= 0;
 			$contador_tabla =1;
 		}
+		$config = paginacion($total_row, $_SESSION['per_page'] , $url_page , $_SESSION['x_total']);
+		
+		$this->pagination->initialize($config);
 
 		$str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;',$str_links );
         
         // paginacion End
 
-		$id_rol = $this->session->roles;
-        $vista_id = $vista;
+		$id_rol 	= $this->session->roles;
+        $vista_id 	= $vista;
         
         $f = $this->fields();
-        if(!$_SESSION['filtros']){
+		if(!$_SESSION['filtros'])
+		{
             $ff = array();
             foreach ($f['field'] as $item) {
                 $ff[$item] = "";
@@ -159,13 +164,13 @@ class MY_Controller extends CI_Controller
             $_SESSION['filtros'] = $ff;
 		}		
 
-        $data['field'] = $_SESSION['filtros'];
-        $data['config'] = $config;
-        $data['page'] = $page;
-        $data['vista_id'] = $vista_id;
-		$data['id_rol'] = $id_rol;
-		$data['total_records'] = $total_row;
+        $data['page'] 			= $page;
+        $data['config'] 		= $config;
+		$data['id_rol'] 		= $id_rol;
+        $data['vista_id'] 		= $vista_id;
+		$data['total_records'] 	= $total_row;
         $data['contador_tabla'] = $contador_tabla;
+        $data['field'] 			= $_SESSION['filtros'];
         
         return $data;
 
