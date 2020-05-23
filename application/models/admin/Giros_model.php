@@ -1,4 +1,3 @@
-
 <?php
 class Giros_model extends CI_Model {
 	

@@ -609,7 +609,7 @@
                         break;
                     case 38: //alert('up');                        
                         break;
-                    case 48: // =;
+                    case 111: // /;
                         focus_general_input(input_cantidad, 1);
                         break;
                     case 40: //alert('down');
@@ -637,12 +637,12 @@
                     case 120: // F6
                         f8_table_pagos();
                         break;
-                    case 106: // *
+                    case 109: // -
                         focus_general_input($("#buscar_orden"), 0);
                         focus_general_input($("#orden_numero"), 0);
                         //orden_numero
                         break;
-                    case 189: // -
+                    case 106: // *
                         focus_general_input($("#descuento"), 0);
                         break;
                 }

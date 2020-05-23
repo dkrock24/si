@@ -113,31 +113,21 @@ include("asstes/pos_orden.php");
                                             <div class="form-group has-success">
                                             <label><i class="fa fa-file-o sz"></i> Tipo Documento :</label> 
                                                 <select class="form-control" name="orden_documento" id="orden_documento">
-                                                    <?php
-
-                                                    foreach ($tipoDocumento as $documento) {
-
-                                                        $doc = strtoupper($documento->nombre);
-
-                                                        if (strpos($doc, 'ORDEN') !== FALSE) {
-
-                                                            //if($encabezado[0]->id_tipod == $documento->id_tipo_documento){
+                                                <?php
+                                                    if ($tipoDocumento) {
+                                                        foreach ($tipoDocumento as $documento) {
+                                                            $doc = strtoupper($documento->nombre);
+                                                            //if (strpos($doc, 'ORDEN') !== FALSE) {
                                                     ?>
-                                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
-                                                    <?php
+                                                                <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                                        <?php
                                                             //}
                                                         }
+                                                    } else {
+                                                        ?>
+                                                        <option value="">No Hay Documento</option>
+                                                    <?php
                                                     }
-                                                    /*
-                                                    foreach ($tipoDocumento as $documento) {
-                                                    
-                                                        if($encabezado[0]->id_tipod != $documento->id_tipo_documento){
-                                                            ?>
-                                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
-                                                            <?php
-                                                        }                                                           
-                                                    }
-                                                    */
 
                                                     ?>
                                                 </select>
@@ -380,9 +370,9 @@ include("asstes/pos_orden.php");
                                 </div>
 
                                 <span>
-                                    Can [ = ] <input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;height:50px;display:inline-block;" />
-                                    Des.<input type="text" class="form-control border-input" placeholder="[ - ]" id="descuento" name="descuento" size="2px" value="" style="width: 80px;height:50px;display:inline-block;" />
-                                    Orden.<input type="text" class="form-control border-input" placeholder="[ * ]" id="buscar_orden" name="buscar_orden" style="width: 100px;height:50px;display:inline-block;">
+                                    Can [ / ] <input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;height:50px;display:inline-block;" />
+                                    Des.<input type="text" class="form-control border-input" placeholder="[ * ]" id="descuento" name="descuento" size="2px" value="" style="width: 80px;height:50px;display:inline-block;" />
+                                    Orden.<input type="text" class="form-control border-input" placeholder="[ - ]" id="buscar_orden" name="buscar_orden" style="width: 100px;height:50px;display:inline-block;">
                                 </span>
 
                             </div>

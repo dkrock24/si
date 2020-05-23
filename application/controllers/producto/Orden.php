@@ -160,7 +160,7 @@ class Orden extends MY_Controller {
 			$data['orden'] 	= $this->Orden_model->get_orden($order_id);
 			if($data['orden']){
 				$data['detalle'] 		= $this->Orden_model->get_orden_detalle($order_id);
-				$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
+				$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento(13); //$this->Orden_model->get_tipo_documentos();
 				$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );//$this->Producto_model->get_sucursales();
 				$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente($data['orden'][0]->id_cliente);
 				$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['orden'][0]->id_usuario );
