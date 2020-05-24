@@ -659,18 +659,18 @@ include("asstes/pos_orden.php");
 <div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta" class="modal flip fade-scale">
     <div class="modal-dialog modal-lg" style="width: 80%;">
         <div class="modal-content">
-            <div class="modal-header" style="background: #2D3B48; color:white;">
+            <div class="modal-header" style="background: #dde6e9; color:black;">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <span style="font-size: 20px; ">[ Proceso Pago ]</span>
+                <span style="font-size: 20px; ">[ Proceso de Pago ]</span>
 
             </div>
             <div class="modal-body">
-                <div class="row">
+                <div class="row" style="background:#f7f7f7;">
                     <div class="col-lg-9 col-md-9" style="border-right: 1px solid #e5e5e5; height: 50%;">
 
-                        <div class="row">
+                        <div class="row" style="background:#f7f7f7;">
 
                             <div class="col-lg-2 col-md-2"><br>
                                 <spam style="">TIPO PAGO</spam>
@@ -705,7 +705,22 @@ include("asstes/pos_orden.php");
                                     ?>
                                 </select>
                             </div>
+
+                            <div class="col-lg-2 col-md-2"><br>
+                                Correlativo
+                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
+                            </div>
                             
+                            <div class="col-lg-2 col-md-2"><br>
+                                <spam style="">Nombre Cliente</spam>
+                                <input type="text" class="form-control has-success" name="cliente" placeholder="">
+                            </div>
+
+                            <div class="col-lg-2 col-md-2"><br>
+                                D. Identificacion
+                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
+                            </div>
+
                             <div class="col-lg-2 col-md-2"><br>
                                     Estado
                                 <select name="orden_estado" id="orden_estado" class="form-control">
@@ -717,21 +732,11 @@ include("asstes/pos_orden.php");
                                     <option value="5">En Espera</option>
                                 </select>
 
-                            </div>
-
-                            <div class="col-lg-3 col-md-3"><br>
-                                <spam style="">Nombre Cliente</spam>
-                                <input type="text" class="form-control has-success" name="cliente" placeholder="Nombre Cliente">
-                            </div>
-
-                            <div class="col-lg-2 col-md-2"><br>
-                                Correlativo
-                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
-                            </div>
+                            </div>                            
 
                         </div>
 
-                        <div class="row" id="metodos_pagos">
+                        <div class="row" id="metodos_pagos" style="background:#f7f7f7;">
 
                             <br>
                             <?php
@@ -755,65 +760,45 @@ include("asstes/pos_orden.php");
 
                     <div class="col-lg-3 col-md-3">
 
-                        <div class="row" style="">
+                    <div class="row">
                             <div class="col-lg-12 col-md-12">
-                                <div class="panel widget bg-success" style="height: 80px;">
+                                <div class="panel widget bg-success" style="height: 90px;">
                                     <div class="row row-table">
                                         <div class="col-xs-4 text-center bg-success-dark pv-lg">
-
-                                            <em class="fa-1x">
-                                                <div class="text-uppercase">PAGAR</div>
-                                            </em>
-
+                                            <div class="text-uppercase">PAGAR</div>
+                                            <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
                                         </div>
                                         <div class="col-xs-8 pv-lg">
-
-                                            <div class="h1 m0 text-bold currency_procesar_pago">
-                                                <?php echo $moneda[0]->moneda_simbolo; ?>
-                                                <span id="compra_venta">0.00</span>
-                                            </div>
-
+                                            <div class="h1 m0 text-bold"><span id="compra_venta">0.00</span></div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 col-md-12">
-                                <div class="panel widget bg-green" style="height: 80px;">
+                                <div class="panel widget bg-green" style="height: 90px;">
                                     <div class="row row-table">
                                         <div class="col-xs-4 text-center bg-green-dark pv-lg">
-                                            <em class="fa-1x">
-                                                <div class="text-uppercase">RESTANTE</div>
-                                            </em>
+                                            <div class="text-uppercase">RESTANTE</div>
+                                            <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
                                         </div>
                                         <div class="col-xs-8 pv-lg">
-
-                                            <div class="h1 m0 text-bold currency_procesar_pago">
-                                                <?php echo $moneda[0]->moneda_simbolo; ?>
-                                                <span id="restante_venta">0.00</span>
-                                            </div>
-
+                                            <div class="h1 m0 text-bold"><span id="restante_venta">0.00</span></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 col-md-12">
-                                <div class="panel widget bg-warning" style="height: 80px;">
+                                <div class="panel widget bg-warning" style="height: 90px;">
                                     <div class="row row-table">
                                         <div class="col-xs-4 text-center bg-warning-dark pv-lg">
-                                            <em class="fa-1x">
-                                                <div class="text-uppercase">CAMBIO</div>
-                                            </em>
+                                            <div class="text-uppercase">CAMBIO</div>
+                                            <em class="fa-3x"><?php echo $moneda[0]->moneda_simbolo; ?></em>
                                         </div>
                                         <div class="col-xs-8 pv-lg">
-
-                                            <div class="h1 m0 text-bold currency_procesar_pago">
-                                                <?php echo $moneda[0]->moneda_simbolo; ?>
-                                                <span id="cambio_venta">0.00</span>
-                                            </div>
-
-
+                                            <div class="h1 m0 text-bold"><span id="cambio_venta">0.00</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -828,22 +813,14 @@ include("asstes/pos_orden.php");
                     </div>
 
                 </div>
-                <div class="row">
 
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6" id="metodo_pago_lista">
-
-                    </div>
-                    <h2><span class="transacion"></span></h2>
-                </div>
-
-                <div class="modal-footer">
+                
+            </div>
+            <div class="modal-footer" style="background: none; color:white;">
 
                     <button type="button" data-dismiss="modal" id="procesar_btn" class="mb-sm btn-lg btn btn-purple btn-outline guardar" name="../venta/guardar_venta">PROCESAR</button>
                     <button type="button" data-dismiss="modal" class="mb-sm btn-lg btn btn-danger btn-outline">CANCELAR</button>
                 </div>
-            </div>
         </div>
     </div>
     <!-- Modal Small-->

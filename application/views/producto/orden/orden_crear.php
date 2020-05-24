@@ -890,15 +890,14 @@ include("asstes/pos_orden.php");
 <div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta" class="modal flip fade-scale">
     <div class="modal-dialog modal-lg" style="">
         <div class="modal-content">
-            <div class="modal-header" style="background: #dde6e9">
+            <div class="modal-header" style="background: #dde6e9; color:black;">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <span style="font-size: 20px; ">[ Proceso Pago ]</span>
-
+                <span style="font-size: 20px; ">[ Proceso de Pago ]</span>
             </div>
             <div class="modal-body">
-                <div class="row">
+                <div class="row" style="background:#f7f7f7;">
                     <div class="col-lg-9 col-md-9" style="border-right: 1px solid #e5e5e5; height: 50%;">
 
                         <div class="row">
@@ -920,21 +919,7 @@ include("asstes/pos_orden.php");
                                 <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
                             </div>
 
-                            <div class="col-lg-2 col-md-2">
-                            Documento
-                                <select class="form-control" name="id_tipo_documento" id="id_tipo_documento" class="id_tipo_documento">
-                                    <?php
-
-                                    foreach ($tipoDocumento as $documento) {
-                                        if ($orden[0]->id_tipod != $documento->id_tipo_documento) {
-                                    ?>
-                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
-                                    <?php
-                                        }
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+                            
 
                             <div class="col-lg-2 col-md-2">
                             Estado
@@ -949,17 +934,22 @@ include("asstes/pos_orden.php");
 
                             </div>
 
-                            <div class="col-lg-3 col-md-3">
-                            <spam style="">Nombre Cliente</spam>
-                                <input type="text" class="form-control has-success" name="cliente" placeholder="Nombre Cliente">
-                            </div>
-
                             <div class="col-lg-2 col-md-2">
                             Correlativo
                                 <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
                             </div>
 
-                        </div>
+                            <div class="col-lg-3 col-md-3">
+                            <spam>Nombre Cliente</spam>
+                                <input type="text" class="form-control has-success" name="cliente" placeholder="">
+                            </div>
+
+                            <div class="col-lg-2 col-md-2">
+                                D. Identificacion
+                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
+                            </div>                            
+
+                        </div><br>
 
                         <div class="row" id="metodos_pagos">
 
@@ -986,7 +976,7 @@ include("asstes/pos_orden.php");
 
                     <div class="col-lg-3 col-md-3">
 
-                        <div class="row" style="">
+                        <div class="row">
                             <div class="col-lg-12 col-md-12">
                                 <div class="panel widget bg-success" style="height: 90px;">
                                     <div class="row row-table">
@@ -1038,21 +1028,11 @@ include("asstes/pos_orden.php");
                         </div>
                     </div>
 
-                </div>
-                <div class="row">
-
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6" id="metodo_pago_lista">
-
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-
-                    <button type="button" data-dismiss="modal" id="procesar_btn" class="mb-sm btn-lg btn btn-purple btn-outline guardar" name="../venta/guardar_venta">PROCESAR</button>
-                    <button type="button" data-dismiss="modal" class="mb-sm btn-lg btn btn-danger btn-outline">CANCELAR</button>
-                </div>
+                </div>                
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" id="procesar_btn" class="mb-sm btn-lg btn btn-purple btn-outline guardar" name="../venta/guardar_venta">PROCESAR</button>
+                <button type="button" data-dismiss="modal" class="mb-sm btn-lg btn btn-danger btn-outline">CANCELAR</button>
             </div>
         </div>
     </div>

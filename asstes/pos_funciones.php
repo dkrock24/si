@@ -1683,14 +1683,14 @@
 
                     _html += '<table class="table formas_pagos_valores">';
 
-                    _html += '<thead><tr><td>F9</td><td>Monto</td><td>Numero</td><td>Banco</td><td>Serie</td></tr></thead>';
+                    _html += '<thead style="background:rgb(236, 236, 236);"><tr><td>F9</td><td>Monto</td><td>Numero</td><td>Banco</td><td>Serie</td></tr></thead>';
 
                     pagos_mostrados.forEach(element => {
 
                         $.each(metodo_pago, function(i, item) {
                             
                             if (element == parseInt(item.id_modo_pago)) {
-                                _html += '<tr class="pagos_tabla" id="' + cou + '"><td><div class="btn bg-green">' + item.nombre_modo_pago + '</div></td>';
+                                _html += '<tr class="pagos_tabla"  id="' + cou + '"><td><div class="btn bg-green">' + item.nombre_modo_pago + '</div></td>';
                                 _html += '<td class="">' +
                                     '<input type="text" count=' + metodo_pago.length + ' size="9px" name="pagoInput' + cou + '" ids=' + item.id_modo_pago + ' id=' + item.nombre_modo_pago + ' class="metodo_pago_input" autocomplete="off"/></td>';
                                 
