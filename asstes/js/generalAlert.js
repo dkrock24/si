@@ -1,7 +1,6 @@
 
 
 function generalAlert( type , mensaje , title , boton , finalMessage, url) {
-    
     swal({
 
         html: true,

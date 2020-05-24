@@ -615,27 +615,31 @@
                         break;
                     case 40: //alert('down');
                         break;
-                    case 91: // F1                        
+                    case 49: // 1
                         $("#documentoModel").modal();
-                    case 113: // F2                        
+                        break;
+                    case 50: // 2                  
                         producto_tabla_foco();
                         break;
-                    case 114: //F3                        
+                    case 51: // 3
                         eliminar_elemento_tabla(id_celda);
                         break;
-                    case 115: //F4                        
+                    case 52: // 4
                         f4_guardar();
-                        break;
-                    case 118: //F7                        
-                        f7_foco_efectivo();
-                        break;
-                    case 119: //F8
-                        show_existencias();
-                        break;
-                    case 121 : //F10
+                        break
+                    case 53: // 5
                         open_devolucion();
                         break;
-                    case 120: // F6
+                    case 54: // 6
+                        show_existencias();
+                        break;
+                    case 55: // 7
+                        descuento();
+                        break;
+                    case 56: // 8
+                        f7_foco_efectivo();
+                        break;                    
+                    case 57: // 9
                         f8_table_pagos();
                         break;
                     case 109: // -
@@ -767,7 +771,7 @@
             function open_devolucion(){
                 $("#devolucion").modal();
                 setTimeout(function() {                    
-                    $("#input_devolucion").focus();
+                    $("#check_devolucion").focus();
                 }, 100);                  
             }
 
@@ -968,12 +972,14 @@
 
         }
 
-        $(document).on('click', '#btn_discount', function() {
+        function descuento(){
             // Descuento Aprobacion flag_autenticacion
             $("#autorizacion_descuento").modal();
             $("#input_autorizacion_descuento").focus();
+        }
 
-
+        $(document).on('click', '#btn_discount', function() {
+            descuento();
         });
 
         $(".btn_aut_desc").click(function() {
@@ -1684,7 +1690,7 @@
 
                     _html += '<table class="table formas_pagos_valores">';
 
-                    _html += '<thead style="background:rgb(236, 236, 236);"><tr><td>F9</td><td>Monto</td><td>Numero</td><td>Banco</td><td>Serie</td></tr></thead>';
+                    _html += '<thead style="background:rgb(236, 236, 236);"><tr><td>N°9</td><td>Monto</td><td>Numero</td><td>Banco</td><td>Serie</td></tr></thead>';
 
                     pagos_mostrados.forEach(element => {
 

@@ -353,9 +353,9 @@ include("asstes/pos_orden.php");
                             <div class="col-lg-8" id="headerInputs">
                                 <!-- <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" id="grabar"><i class='fa fa-shopping-cart'></i></button> -->
 
-                                <button type="button" class="btn btn-labeled bg-green" style="font-size: 33px;" name="update_orden" id="guardar_orden"><i class='fa fa-save'></i><span style="font-size:18;"> [ F4 ]</span></button>
+                                <button type="button" class="btn btn-labeled bg-green" style="font-size: 33px;" name="update_orden" id="guardar_orden"><i class='fa fa-save'></i><span style="font-size:18;"> [ 5 ]</span></button>
 
-                                <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 25px;" data-target='#existencias'><i class="fa fa-dropbox"></i><span style="font-size:18;"> [ F8 ]</span></span>
+                                <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 25px;" data-target='#existencias'><i class="fa fa-dropbox"></i><span style="font-size:18;"> [ 6 ]</span></span>
 
                                 <div class="btn-group ">
                                     <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 38px;"></i></button>
@@ -490,20 +490,20 @@ include("asstes/pos_orden.php");
             </span>
             -->
 
-            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F2
+            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">2
                 <i class="icon-grid"></i>
             </span>
 
-            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F3
+            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">3
                 <i class="icon-trash"></i>
             </span>
 
-            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
+            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">4
                 <i class="fa fa-credit-card"></i>
             </span>
 
-            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F10
-                <i class="fa fa-backward"></i>
+            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">5
+                Dev.
             </span>
         </div>
     </div>

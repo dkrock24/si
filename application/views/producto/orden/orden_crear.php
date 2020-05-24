@@ -379,8 +379,8 @@ include("asstes/pos_orden.php");
                                     }
                                     ?>
 
-                                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 25px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
-                                    <span class="btn bg-green" id="btn_discount" style="font-size: 25px;"><i class="fa fa-percent" aria-hidden="true"></i> <span style="font-size:18;">[ F9 ]</span></span>
+                                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 25px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ 6 ]</span></span>
+                                    <span class="btn bg-green" id="btn_discount" style="font-size: 25px;"><i class="fa fa-percent" aria-hidden="true"></i> <span style="font-size:18;">[ 7 ]</span></span>
 
                                 <!--
                                     <div class="btn-group">
@@ -511,18 +511,18 @@ include("asstes/pos_orden.php");
             </span>
             -->
 
-            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F2
+            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;" >2
                 <i class="icon-grid"></i>
             </span>
 
-            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F3
+            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 3
                 <i class="icon-trash"></i>
             </span>
-            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
+            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">4
                 <i class="fa fa-credit-card"></i>
             </span>
-            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F10
-                <i class="fa fa-backward"></i>
+            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">5
+                Dev.
             </span>
             <!--
             <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F4
@@ -905,7 +905,7 @@ include("asstes/pos_orden.php");
                         <div class="row">
 
                             <div class="col-lg-2 col-md-2">
-                                <spam style="">TIPO PAGO </spam> [F7]
+                                <spam style="">TIPO PAGO </spam> [ N°8 ]
                                 <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
                                     <?php
                                     foreach ($modo_pago as $mp) {
