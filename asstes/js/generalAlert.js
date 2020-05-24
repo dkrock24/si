@@ -1,32 +1,34 @@
 
 
-function generalAlert( type , mensaje , title , boton , finalMessage) {
+function generalAlert( type , mensaje , title , boton , finalMessage, url) {
+    
+    swal({
 
-        swal({
+        html: true,
+        title: title,
+        text: mensaje,
+        type: type,
+        showCancelButton: false,
+        confirmButtonColor: boton,
+        confirmButtonText: "Ok",
+        cancelButtonColor: "danger",
+        cancelButtonText: "No, cancelar!",
+        closeOnConfirm: false,
+        closeOnCancel: false
 
-            html: true,
-            title: title,
-            text: mensaje,
-            type: type,
-            showCancelButton: false,
-            confirmButtonColor: boton,
-            confirmButtonText: "Ok",
-            cancelButtonColor: "danger",
-            cancelButtonText: "No, cancelar!",
-            closeOnConfirm: false,
-            closeOnCancel: false
+    }, function (isConfirm) {
 
-        }, function (isConfirm) {
-
-            if (isConfirm) {
-                swal("Ok ", finalMessage);
-                //redirec("index");
-                //window.location.href = 'index';
-            } else {
-                swal("Cancelado", "Debes Hacer Login de Nuevo", "error");
-            }
-            
+        $(document).ready(function() {
+            $('.confirm').focus();
+            $("#m_orden_creada").hide();
         });
 
-  
+        if (isConfirm) {
+            swal("Ok ", finalMessage);
+            //redirec("index");
+            window.location.href = url;
+        } else {
+            swal("Cancelado", "Debes Hacer Login de Nuevo", "error");
+        } 
+    });
 }

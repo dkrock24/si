@@ -185,12 +185,14 @@ include("asstes/pos_orden.php");
                                             <div class="form-group has-success">
                                                 <label>Estado Orden :</label>
                                                 <select name="orden_estado" id="orden_estado" class="form-control">
-                                                    <option value="1">En proceso</option>
-                                                    <option value="6">Cancelado</option>
-                                                    <option value="2">En Reservaa</option>
-                                                    <option value="3">Procesadaa</option>
-                                                    <option value="4">Facturada</option>
-                                                    <option value="5">En Espera</option>
+                                                    <?php
+                                                    foreach($estados as $e){
+                                                        
+                                                        ?>
+                                                        <option value="<?php echo $e->id_orden_estado ?>"><?php echo $e->orden_estado_nombre ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -923,13 +925,15 @@ include("asstes/pos_orden.php");
 
                             <div class="col-lg-2 col-md-2">
                             Estado
-                                <select name="orden_estado_venta" id="orden_estado_venta" class="form-control">
-                                    <option value="4">Facturada</option>
-                                    <option value="1">En proceso</option>
-                                    <option value="5">En Espera</option>
-                                    <option value="3">Procesada</option>
-                                    <option value="2">En Reservaa</option>
-                                    <option value="6">Cancelado</option>
+                                <select name="orden_estado" id="orden_estado" class="form-control">
+                                    <?php
+                                    foreach($estados as $e){
+                                        
+                                        ?>
+                                        <option value="<?php echo $e->id_orden_estado ?>"><?php echo $e->orden_estado_nombre ?></option>
+                                        <?php
+                                    }
+                                    ?>
                                 </select>
 
                             </div>

@@ -32,6 +32,8 @@ class Orden extends MY_Controller {
 		$this->load->model('admin/Impuesto_model');
 		$this->load->model('admin/Sucursal_model');
 		$this->load->model('producto/Venta_model');
+		$this->load->model('producto/Estados_model');
+		
 	}
 
 	public function index()
@@ -86,6 +88,7 @@ class Orden extends MY_Controller {
 			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] 		= $this->Cliente_model->get_cliente();
+			$data['estados']		= $this->Estados_model->get_estados();
 			$data['vista_id']		= 13;
 			
 			if($data['cliente'][0] ){
@@ -165,6 +168,7 @@ class Orden extends MY_Controller {
 				$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente($data['orden'][0]->id_cliente);
 				$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['orden'][0]->id_usuario );
 				$data['terminal'] 		= $terminal_acceso;
+				$data['estados']		= $this->Estados_model->get_estados();
 				$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 				$data['impuestos'] 		= $this->Orden_model->get_impuestos( $data['orden'][0]->id );
 				$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
@@ -388,6 +392,7 @@ class Orden extends MY_Controller {
 			$data['sucursales'] 	= $this->Producto_model->get_sucursales();
 			$data['modo_pago'] 		= $this->ModoPago_model->getAllFormasPago();
 			$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );
+			$data['estados']		= $this->Estados_model->get_estados();
 			$data['terminal'] 		= $terminal_acceso;
 			//$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal(  ,$data['empleado'][0]->id_sucursal );
 			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );

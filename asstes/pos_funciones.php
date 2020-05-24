@@ -12,6 +12,7 @@
         var input_devolucion_nombre = "";
         var input_devolucion_dui    = "";
         var input_devolucion_nit    = "";
+        var error                   = false;
         
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");

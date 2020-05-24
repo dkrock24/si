@@ -143,14 +143,17 @@
                 success: function(data) {
                     var datos = JSON.parse(data);
                     var orden = datos["orden_detalle"];
-
+                    error = false;
                     if(!orden){
+                        error = true;
                         var type = "info";
                         var title = "Orden No Valida ";
                         var mensaje = "Orden Estado No Valida : get_orden";
                         var boton = "info";
                         var  finalMessage = "Gracias..."
-                        generalAlert(type , mensaje , title , boton, finalMessage);
+                        var url = "../nuevo";
+                        generalAlert(type , mensaje , title , boton, finalMessage,url);
+                        return;
                     }
 
                     _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
