@@ -581,9 +581,8 @@ include("asstes/pos_orden.php");
                             <th style="color: black;">Bodega</th>
                             <th style="color: black;">Existencia</th>
                             <th style="color: black;">Costo</th>
-                            <th style="color: black;">Costo Anterior</th>
-                            <th style="color: black;">Costo utilidad</th>
-                            <th style="color: black;">Cod ubicacion</th>
+                            <th style="color: black;">Presentacion</th>
+                            <th style="color: black;">Codigo</th>
                         </tr>
                     </thead>
                     <tbody class="dos" style="border-bottom: 3px solid grey">

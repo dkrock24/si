@@ -586,15 +586,14 @@ include("asstes/pos_orden.php");
             <div class="modal-body">
                 <table class="table table-sm table-hover">
                     <thead class="linea_superior">
-                        <tr style="linea_superior">
+                        <tr class="linea_superior">
                             <th style="color: black;">#</th>
                             <th style="color: black;">Sucursal</th>
                             <th style="color: black;">Bodega</th>
                             <th style="color: black;">Existencia</th>
                             <th style="color: black;">Costo</th>
-                            <th style="color: black;">Costo Anterior</th>
-                            <th style="color: black;">Costo utilidad</th>
-                            <th style="color: black;">Cod ubicacion</th>
+                            <th style="color: black;">Presentacion</th>
+                            <th style="color: black;">Codigo Barras</th>
                         </tr>
                     </thead>
                     <tbody class="dos" style="border-bottom: 3px solid grey">

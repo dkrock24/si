@@ -1,15 +1,17 @@
 <?php
 class Vistas_model extends CI_Model {
 
-    const sys_vistas      = 'sys_vistas';
-    const sys_componentes      = 'sys_componentes';
-    const sys_vistas_componentes = 'sys_vistas_componentes';
-    const sys_vistas_acceso = 'sys_vistas_acceso';
-    const roles = 'sys_role';
-    const menus = 'sys_menu_submenu';
-    const sys_vistas_documento = 'sys_vistas_documento';
-    const pos_tipo_documento = 'pos_tipo_documento';
-    const pos_temp_sucursal = 'pos_temp_sucursal';
+    const roles                     = 'sys_role';
+    const sys_vistas                = 'sys_vistas';
+    const sys_componentes           = 'sys_componentes';
+    const pos_orden_estado          = 'pos_orden_estado';
+    const menus                     = 'sys_menu_submenu';
+    const pos_temp_sucursal         = 'pos_temp_sucursal';
+    const sys_vistas_acceso         = 'sys_vistas_acceso';
+    const pos_tipo_documento        = 'pos_tipo_documento';
+    const sys_estados_vistas        = 'sys_estados_vistas';
+    const sys_vistas_documento      = 'sys_vistas_documento';
+    const sys_vistas_componentes    = 'sys_vistas_componentes';
 
 	function get_vistas( $limit, $id ,$filters){
 
@@ -392,8 +394,69 @@ class Vistas_model extends CI_Model {
         {
             return $query->result();
         } 
-        
+    }
 
+    /*
+    * VISTAS ESTADOS
+    */
+
+    function estados_vistas($vista_id){
+        $this->db->select('*');
+        $this->db->from(self::sys_estados_vistas.' as ev');
+        $this->db->join(self::sys_vistas.' as v',' on v.id_vista = ev.vista_id');
+        $this->db->join(self::pos_orden_estado.' as e',' on e.id_orden_estado = ev.estado_id');
+        $this->db->where('v.vista_estado', 1);
+        $this->db->like('v.id_vista', $vista_id , 'both');
+        $query = $this->db->get();
+        //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
+    function agregar_estado($estado , $vista){
+
+        $existe = $this->check_vista_estado($estado , $vista);
+
+        $orden = $this->get_orden_vista_estado($vista);
+        $orden = $orden[0]->total ? $orden[0]->total : 0;
+
+        if(!$existe)
+        {
+            $data = array(
+                'vista_id'          => $vista,
+                'estado_id'         =>  $estado,
+                'orden_estado_vista'=> $orden ? (int) $orden+1 : 1,
+            );
+            $this->db->insert(self::sys_estados_vistas, $data );
+        }        
+    }
+
+    function check_vista_estado($estado , $vista){
+        $this->db->select('*');
+        $this->db->from(self::sys_estados_vistas.' as v');
+        $this->db->where('v.estado_id', $estado);
+        $this->db->where('v.vista_id', $vista);
+        $query = $this->db->get();
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function get_orden_vista_estado($vista){
+        $this->db->select('count(*) as total');
+        $this->db->from(self::sys_estados_vistas.' as v');
+        $this->db->where('v.vista_id', $vista);
+        $query = $this->db->get();
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
     }
 
 }

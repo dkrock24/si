@@ -200,7 +200,7 @@
             var codigo, presentacion, tipo, precioUnidad, descuento, total
 
             $.ajax({
-                url: "../existencias/get_producto_completo/" + producto_id,
+                url: path+"../existencias/get_producto_completo/" + producto_id,
                 datatype: 'json',
                 cache: false,
 
@@ -224,12 +224,11 @@
                         html += '<td>' + item.Cantidad + '</td>';
                         html += '<td>' + item.moneda_simbolo + " " + item.precio + '</td>';
                         html += '<td>' + item.presentacion + '</td>';
-                        //html += '<td>' + item.moneda_simbolo + " " + item.Utilidad + '</td>';
-                        html += '<td>' + item.cod_barra + '</td>';
+                        html += '<td>' + item.codigo_barras + '</td>';
                         html += '</tr>';
                         contador++;
                     });
-                    html += '<tr><td colspan="3"></td><td>' + existencias_total + '</td><td colspan="4"></td></tr>'
+                    html += '<tr><td colspan="2"></td><td>Total</td><td>' + existencias_total + '</td><td colspan="4"></td></tr>'
                     $('.dos').html(html);
 
                 },

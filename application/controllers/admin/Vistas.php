@@ -20,6 +20,7 @@ class Vistas extends MY_Controller {
 		$this->load->model('admin/Vistas_model');
 		$this->load->model('admin/Roles_model');
 		$this->load->model('accion/Accion_model');
+		$this->load->model('producto/Estados_model');
 	}
 
 	public function index()
@@ -28,7 +29,6 @@ class Vistas extends MY_Controller {
 		$model 		= "Vistas_model";
 		$url_page 	= "admin/vistas/index";
 		$pag 		= $this->MyPagination($model, $url_page , $vista = 22);
-
 
 		if(isset($_POST['role']) and isset($_POST['menu'])){
 
@@ -78,6 +78,8 @@ class Vistas extends MY_Controller {
 		
 		$data['menu'] 	= $this->session->menu;
 		$data['vistas'] = $this->Vistas_model->vistas_by_id( $vista_id );
+		$data['estados']= $this->Vistas_model->estados_vistas($vista_id);
+		$data['lista_estado'] = $this->Estados_model->get_estados();
 		$data['title'] 	= "Editar Vista";
 		$data['home'] 	= 'admin/vistas/vistas_editar';
 
@@ -196,6 +198,10 @@ class Vistas extends MY_Controller {
 		$this->Vistas_model->copiar_componente($id , $componente_id , $id_rol );
 		redirect(base_url()."admin/vistas/componentes/".  $id );
 
+	}
+
+	public function agregar_estado($estado , $vista){
+		$this->Vistas_model->agregar_estado($estado , $vista);
 	}
 
 	public function columnC(){
