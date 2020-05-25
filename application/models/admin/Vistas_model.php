@@ -401,11 +401,15 @@ class Vistas_model extends CI_Model {
     */
 
     function estados_vistas($vista_id){
+        /*
+        * Obtener todos los estados y vistas ordenados para ser mostrados en cada vista
+        */
         $this->db->select('*');
         $this->db->from(self::sys_estados_vistas.' as ev');
-        $this->db->join(self::sys_vistas.' as v',' on v.id_vista = ev.vista_id');
+        $this->db->join(self::sys_vistas.' as v' ,' on v.id_vista = ev.vista_id');
         $this->db->join(self::pos_orden_estado.' as e',' on e.id_orden_estado = ev.estado_id');
         $this->db->where('v.vista_estado', 1);
+        $this->db->order_by('ev.orden_estado_vista');
         $this->db->like('v.id_vista', $vista_id , 'both');
         $query = $this->db->get();
         //echo $this->db->queries[1];
@@ -417,11 +421,12 @@ class Vistas_model extends CI_Model {
     }
 
     function agregar_estado($estado , $vista){
-
+        /*
+        * Insertar estados para cada vista
+        */
         $existe = $this->check_vista_estado($estado , $vista);
-
-        $orden = $this->get_orden_vista_estado($vista);
-        $orden = $orden[0]->total ? $orden[0]->total : 0;
+        $orden  = $this->get_orden_vista_estado($vista);
+        $orden  = $orden[0]->total ? $orden[0]->total : 0;
 
         if(!$existe)
         {
@@ -434,7 +439,66 @@ class Vistas_model extends CI_Model {
         }        
     }
 
+    function update_estado($action,$id,$orden,$vista){
+
+        /*
+        * Actualizar los correlativos - orden
+        */
+        $upAndDonw = 0;
+
+        if($action == "up"){
+            $orden      = (int) $orden - 1;
+            $upAndDonw  = $orden + 1;
+        }else{
+            $orden      = (int) $orden + 1;
+            $upAndDonw  = $orden - 1;
+        }
+        
+        $data = array(
+            'orden_estado_vista'=> $upAndDonw,
+        );
+        $this->db->where('vista_id', $vista);
+        $this->db->where('orden_estado_vista', $orden);
+        $this->db->update(self::sys_estados_vistas, $data );
+
+        $data = array(
+            'orden_estado_vista'=> $orden,
+        );
+        $this->db->where('id_estado_vista', $id);
+        $this->db->update(self::sys_estados_vistas, $data );
+        
+    }
+
+    function delete_estado($id , $vista_id){
+
+        /*
+        * Eliminar registro de estados y vistas y reordenar los id correlativos
+        */
+        $data = array(
+            'id_estado_vista' => $id,
+        );
+        $this->db->delete(self::sys_estados_vistas , $data);
+
+        $estados_records = $this->estados_vistas($vista_id);
+
+        $contador = 1;
+        foreach($estados_records as $item){
+
+            $data = array(
+                'orden_estado_vista'=> $contador,
+            );
+
+            $this->db->where('id_estado_vista', $item->id_estado_vista);
+            $this->db->update(self::sys_estados_vistas, $data );
+            $contador++;
+
+        }
+    }
+
     function check_vista_estado($estado , $vista){
+        /*
+        * Validar si registro ya existe para ser insertado
+        */
         $this->db->select('*');
         $this->db->from(self::sys_estados_vistas.' as v');
         $this->db->where('v.estado_id', $estado);
@@ -448,6 +512,9 @@ class Vistas_model extends CI_Model {
     }
 
     function get_orden_vista_estado($vista){
+        /*
+        * Obtener la lista de estados y vistas By Order
+        */
         $this->db->select('count(*) as total');
         $this->db->from(self::sys_estados_vistas.' as v');
         $this->db->where('v.vista_id', $vista);

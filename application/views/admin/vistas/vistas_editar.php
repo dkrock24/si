@@ -2,19 +2,36 @@
 <script>
     $(document).ready(function(){
         $(".estado_btn").on("click", function(){
-            var estado = $(this).attr("id");
-            var vista = $(this).attr("name");
-            agregar_estado(estado , vista);
+            var estado  = $(this).attr("id");
+            var vista   = $(this).attr("name");
+            var url     = "../agregar_estado/"+estado+"/"+vista;
+            generalAjax(url);
         });
 
-        function agregar_estado(estado , vista){
+        $(".upAndDown").on("click", function(){
+            var action  = $(this).attr("name");
+            var id      = $(this).attr("id");
+            var orden   = $(this).attr("rel");
+            var vista   = $(this).attr("alt");
+            var url     = "../update_estado/"+action+"/"+id+"/"+orden+"/"+vista;
+            generalAjax(url);
+        });
+
+        $(".deleteEstado").on("click", function(){
+            var id      = $(this).attr("id");
+            var vista   = $(this).attr("name");
+            var url     = "../delete_estado/"+id+"/"+vista;
+            generalAjax(url);
+        });
+
+        function generalAjax(url){
             $.ajax({
-                url: "../agregar_estado/"+estado+"/"+vista,
+                url: url,
                 datatype: 'json',
                 cache: false,
 
                 success: function(data) {
-
+                    location.reload();
                 },
                 error: function() {}
             });
@@ -121,23 +138,27 @@
                             <table class="table table-sm table-hover">
                                 <thead>
                                     <tr>
-                                        <td>Estados</td>
+                                        <td>Lista de Estados</td>
                                     </tr>
-                                </thead>                    
-                                <?php
-                                if(@$lista_estado){
-                                    foreach ($lista_estado as $item) {
+                                </thead>     
+                                <tr>
+                                    <td>
+                                        <?php
+                                        if(@$lista_estado){
+                                            foreach ($lista_estado as $item) {
+                                                ?>
+                                                
+                                                    <a href="#" id="<?= $item->id_orden_estado; ?>" 
+                                                    style="border:1px solid black; width:100px;color:white;font-size:16px;margin:3px;"
+                                                    name="<?= $vistas[0]->id_vista; ?>"
+                                                    class="btn btn-primary estado_btn">
+                                                    <?= $item->orden_estado_nombre; ?></a>
+                                                <?php                                    
+                                            }
+                                        }
                                         ?>
-                                        <tr><td>
-                                            <a href="#" id="<?= $item->id_orden_estado; ?>" 
-                                            style="border:1px solid black; width:100px;"
-                                            name="<?= $vistas[0]->id_vista; ?>"
-                                            class="btn btn-default estado_btn">
-                                            <?= $item->orden_estado_nombre; ?></a></td></tr>
-                                        <?php                                    
-                                    }
-                                }
-                                ?>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
 
@@ -145,6 +166,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>
+                                        <td>N°</td>
                                         <td>Estados</td>
                                         <td>Orden</td>
                                         <td>Accion</td>
@@ -152,30 +174,36 @@
                                 </thead>                    
                                 <?php
                                 $contador=1;
-                                $count = count($estados);
                                 if(@$estados){
+                                    $count = count($estados);
                                     foreach ($estados as $item) {
                                         ?>
                                         <tr>
-                                        <td><?= $item->orden_estado_nombre; ?></td>
+                                        <td><?= $item->orden_estado_vista; ?></td>
                                         <td>
-                                            <?= $item->orden_estado_vista; ?> -
+                                        <?= $item->orden_estado_nombre; ?></td>
+                                        <td>
+                                            
                                             <?php
                                             if($contador!=1){
                                                 ?>
+                                                <a href="#" name="up" id="<?= $item->id_estado_vista; ?>" class="upAndDown" alt="<?= $item->vista_id; ?>" rel="<?= $item->orden_estado_vista; ?>">
                                                 <i class="fa fa-arrow-circle-up" style="font-size:30px;"></i> -
+                                                </a>
                                                 <?php
                                             }
                                             ?>    
                                              <?php
                                             if($contador!=$count){
                                                 ?>
+                                                <a href="#" name="down" id="<?= $item->id_estado_vista; ?>" class="upAndDown" alt="<?= $item->vista_id; ?>" rel="<?= $item->orden_estado_vista; ?>" rel="<?= $item->orden_estado_vista; ?>">
                                                 <i class="fa fa-arrow-circle-down" style="font-size:30px;"></i>
+                                                </a>
                                                 <?php
                                             }
-                                            ?>                                          
+                                            ?>
                                         </td>
-                                        <td><a class="btn btn-warning" style="border:1px solid black;"><i class="fa fa-trash"></i></a></td>
+                                        <td><a href="#" class="btn btn-warning deleteEstado" name="<?= $item->vista_id; ?>" id="<?= $item->id_estado_vista; ?>" style="border:1px solid black;"><i class="fa fa-trash"></i></a></td>
                                         </tr>
                                         <?php   
                                         $contador++;

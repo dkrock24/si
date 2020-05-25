@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Orden extends MY_Controller {
 
+	var $vista_id = 13;
+
 	function __construct()
 	{
 		parent::__construct();		
@@ -69,26 +71,20 @@ class Orden extends MY_Controller {
 	public function nuevo(){
 
 		// Seguridad :: Validar URL usuario	
-		$terminal_acceso = FALSE;
-
-		$menu_session 	= $this->session->menu;	
-
-		$id_rol 		= $this->session->roles[0];
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
-
-		$terminal_acceso = $this->validar_usuario_terminal( $id_usuario );
-
-		$data['menu'] 	= $this->session->menu;		
+		$terminal_acceso 	= FALSE;
+		$id_usuario 		= $this->session->usuario[0]->id_usuario;
+		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
+		$data['menu'] 		= $this->session->menu;		
 
 		if($terminal_acceso){
-			$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento(13);
+			$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento($this->vista_id);
 			$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 			$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );
 			$data['terminal'] 		= $terminal_acceso;
 			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] 		= $this->Cliente_model->get_cliente();
-			$data['estados']		= $this->Estados_model->get_estados();
+			$data['estados']		= $this->Estados_model->get_estados_vistas($this->vista_id);
 			$data['vista_id']		= 13;
 			
 			if($data['cliente'][0] ){
@@ -168,7 +164,7 @@ class Orden extends MY_Controller {
 				$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente($data['orden'][0]->id_cliente);
 				$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['orden'][0]->id_usuario );
 				$data['terminal'] 		= $terminal_acceso;
-				$data['estados']		= $this->Estados_model->get_estados();
+				$data['estados']		= $this->Estados_model->get_estados_vistas($this->vista_id);
 				$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 				$data['impuestos'] 		= $this->Orden_model->get_impuestos( $data['orden'][0]->id );
 				$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
@@ -385,14 +381,15 @@ class Orden extends MY_Controller {
 		$id_usuario 		= $this->session->usuario[0]->id_usuario;
 		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
 		$data['menu'] 		= $this->session->menu;
+		$this->vista_id		= 38;
 
 		if($terminal_acceso){
 			
-			$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento(38);
+			$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento($this->vista_id);
 			$data['sucursales'] 	= $this->Producto_model->get_sucursales();
 			$data['modo_pago'] 		= $this->ModoPago_model->getAllFormasPago();
 			$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );
-			$data['estados']		= $this->Estados_model->get_estados();
+			$data['estados']		= $this->Estados_model->get_estados_vistas($this->vista_id);
 			$data['terminal'] 		= $terminal_acceso;
 			//$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal(  ,$data['empleado'][0]->id_sucursal );
 			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );

@@ -79,7 +79,7 @@ class Vistas extends MY_Controller {
 		$data['menu'] 	= $this->session->menu;
 		$data['vistas'] = $this->Vistas_model->vistas_by_id( $vista_id );
 		$data['estados']= $this->Vistas_model->estados_vistas($vista_id);
-		$data['lista_estado'] = $this->Estados_model->get_estados();
+		$data['lista_estado'] = $this->Estados_model->get_estados($vista_id);
 		$data['title'] 	= "Editar Vista";
 		$data['home'] 	= 'admin/vistas/vistas_editar';
 
@@ -202,6 +202,14 @@ class Vistas extends MY_Controller {
 
 	public function agregar_estado($estado , $vista){
 		$this->Vistas_model->agregar_estado($estado , $vista);
+	}
+
+	public function update_estado($acion,$id,$orden,$vista){
+		$this->Vistas_model->update_estado($acion,$id,$orden,$vista);
+	}
+
+	public function delete_estado($id ,$vista_id){
+		$this->Vistas_model->delete_estado($id , $vista_id);
 	}
 
 	public function columnC(){
