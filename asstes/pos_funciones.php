@@ -782,7 +782,11 @@
                 }, 100);
 
                 currCell = $('.producto_agregados > tr').first();
-                //currCell = $('.producto_agregados > tr').next();
+                if($('.dataSelect').not(":visible")){
+                    var Xh = $(currCell).attr('name');
+                    $("input[cd=" + Xh + "]").focus();
+                    $("input[cd=" + Xh + "]").select();
+                }
 
                 $('tr').css('background', 'none');
                 $('tr').css('color', 'black');
