@@ -286,16 +286,31 @@ include("asstes/js/compras/pos_funciones.php");
                                                         if ($modo_pago) {
                                                             foreach ($modo_pago as $value) {
                                                         ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
-                                                                                                                                                            }
-                                                                                                                                                        } else {
-                                                                                                                                                                ?><option value=""><?php echo "No Hay Pagos"; ?></option><?php
-                                                                                                                                                                                                                        }
-                                                                                                                                                                                                                            ?>
+                                                            }
+                                                        } else {
+                                                                ?><option value=""><?php echo "No Hay Pagos"; ?></option><?php
+                                                        }
+                                                            ?>
 
                                                     </select>
                                                 </div>
                                             </div>
-                                            
+
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
+                                                    <label>Estado Orden :</label>
+                                                    <select name="compra_estado" id="compra_estado" class="form-control">
+                                                        <?php
+                                                        foreach($estados as $e){
+                                                            
+                                                            ?>
+                                                            <option value="<?php echo $e->id_orden_estado ?>"><?php echo $e->orden_estado_nombre ?></option>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
 
                                         </div>
                                     </div>

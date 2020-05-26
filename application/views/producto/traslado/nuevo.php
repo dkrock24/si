@@ -149,14 +149,14 @@ include("asstes/traslados_funciones.php");
 
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success">
-                                                <label><i class="fa fa-clock-o sz"></i> Fecha Salida</label>
+                                                <label><i class="fa fa-clock-o sz"></i> Fecha Salida :</label>
                                                 <input type="date" name="fecha_salida" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success">
-                                                <label><i class="fa fa-clock-o sz"></i> Fecha Llegada</label>
+                                                <label><i class="fa fa-clock-o sz"></i> Fecha Llegada :</label>
                                                 <input type="date" name="fecha_llegada" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                             </div>
                                         </div>
@@ -195,7 +195,7 @@ include("asstes/traslados_funciones.php");
 
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success">
-                                                <label><i class="fa fa-building sz"></i> Sucursal Origen</label>
+                                                <label><i class="fa fa-building sz"></i> Sucursal Origen :</label>
                                                 <select class="form-control" name="sucursal_origen" id="sucursal_id">
                                                     <?php
                                                     $id_sucursal = 0;
@@ -221,7 +221,7 @@ include("asstes/traslados_funciones.php");
 
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success">
-                                                <label><i class="fa fa-home sz"></i> Bodega Origen</label>
+                                                <label><i class="fa fa-home sz"></i> Bodega Origen :</label>
                                                 <select class="form-control" name="bodega_origen" id="bodega_select">
                                                     <?php
 
@@ -252,7 +252,7 @@ include("asstes/traslados_funciones.php");
 
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success">
-                                                <label><i class="fa fa-building sz"></i> Sucursal Destino</label>
+                                                <label><i class="fa fa-building sz"></i> Sucursal Destino :</label>
                                                 <select class="form-control" name="sucursal_destino" id="sucursal_id2">
                                                     <?php
                                                     $id_sucursal = 0;
@@ -278,7 +278,7 @@ include("asstes/traslados_funciones.php");
 
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success">
-                                                <label><i class="fa fa-home sz"></i> Bodega Destino</label>
+                                                <label><i class="fa fa-home sz"></i> Bodega Destino :</label>
                                                 <select class="form-control" name="bodega_destino" id="bodega_destino">
                                                     <?php
 
@@ -314,21 +314,21 @@ include("asstes/traslados_funciones.php");
 
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success">
-                                                <label><i class="fa fa-comment sz"></i> Comentarios</label>
+                                                <label><i class="fa fa-comment sz"></i> Comentarios :</label>
                                                 <input type="text" name="descripcion_tras" class="form-control">
                                             </div>
                                         </div>  
 
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success">
-                                                <label><i class="fa fa-truck sz"></i> Placa Transporte</label>
+                                                <label><i class="fa fa-truck sz"></i> Placa Transporte :</label>
                                                 <input type="text" name="transporte_placa" class="form-control">
                                             </div>
                                         </div>    
                                         
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success">
-                                                <label><i class="fa fa-file-o sz"></i> Documento</label>                                                    
+                                                <label><i class="fa fa-file-o sz"></i> Documento :</label>                                                    
                                                 <select name="documento" class="form-control">
                                                     <?php
                                                     foreach ($vista_doc as $key => $value) {
@@ -343,14 +343,20 @@ include("asstes/traslados_funciones.php");
 
                                         <div class="btn-group col-lg-3 col-md-3">
                                             <div class="form-group has-success">
-                                                <label>Estado</label>
+                                                
+                                                <label>Estado :</label>
                                                 <select name="estado_tras" id="estado_tras" class="form-control">
-                                                    <option value="1">Creado</option>
-                                                    <option value="2">Enviado</option>
+                                                    <?php
+                                                    foreach($estados as $e){
+                                                        
+                                                        ?>
+                                                        <option value="<?php echo $e->id_orden_estado ?>"><?php echo $e->orden_estado_nombre ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>

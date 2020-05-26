@@ -1,4 +1,4 @@
- <div id="formato">                 
+  <div id="formato">                 
  <table width="100%" style="border:0px dashed black;">
 
 
@@ -58,4 +58,4 @@ $contador++;
 ?>
  </table>
 </div>
-                                
+                                 

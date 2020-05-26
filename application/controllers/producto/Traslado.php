@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Traslado extends MY_Controller {
 
+	var $vista_id = 88;
+
 	function __construct()
 	{
 		parent::__construct();		
@@ -16,13 +18,14 @@ class Traslado extends MY_Controller {
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');	
+		$this->load->model('producto/Estados_model');
 	}
 
 	public function index()
 	{
 		$model 		= "Traslado_model";
 		$url_page 	= "producto/traslado/index";
-		$pag 		= $this->MyPagination($model, $url_page, $vista = 88) ;
+		$pag 		= $this->MyPagination($model, $url_page, $this->vista_id) ;
 
 		$data['menu'] 			= $this->session->menu;
 		$data['links'] 			= $pag['links'];
@@ -51,12 +54,13 @@ class Traslado extends MY_Controller {
 		$data['menu'] 	    = $this->session->menu;			
 
 		$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
-		$data['vista_doc']		= $this->Vistas_model->get_vista_documento($vista = 88);
+		$data['vista_doc']		= $this->Vistas_model->get_vista_documento($this->vista_id);
 		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 		$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );			
 		$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 		$data['cliente'] 		= $this->Cliente_model->get_cliente();
+		$data['estados']		= $this->Estados_model->get_estados_vistas($this->vista_id);
 		$data['title'] 			= "Nuevo Traslado";
 		$data['home'] 			= 'producto/traslado/nuevo';
 
@@ -83,6 +87,7 @@ class Traslado extends MY_Controller {
 		$data['bodega2'] 	= $this->Bodega_model->get_bodega_sucursal( $data['traslado'][0]->sucursal_destino );
 		$data['moneda'] 	= $this->Moneda_model->get_modena_by_user();
 		$data['cliente'] 	= $this->Cliente_model->get_cliente();
+		$data['estados']	= $this->Estados_model->get_estados_vistas($this->vista_id);
 
 		$data['temp'] 		= $this->Traslado_model->printer( $data['traslado'] );
 		$name 				= $data['traslado'][0]->sucursal_origin.$data['traslado'][0]->Empresa;

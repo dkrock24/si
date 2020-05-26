@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Compras extends MY_Controller {
 
+	var $vista_id = 0;
+
 	function __construct()
 	{
 		parent::__construct();		
@@ -16,6 +18,7 @@ class Compras extends MY_Controller {
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');	
+		$this->load->model('producto/Estados_model');
 	}
 
 	public function index()
@@ -45,18 +48,21 @@ class Compras extends MY_Controller {
     }
 
     public function nuevo(){
+
+		$this->vista_id = 89;
         
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;	
 		$data['menu'] 	= $this->session->menu;		
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;	
 
 		$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
-		$data['vista_doc']		= $this->Vistas_model->get_vista_documento($vista = 89);
+		$data['vista_doc']		= $this->Vistas_model->get_vista_documento($this->vista_id);
 		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 		$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );			
 		$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 		$data['cliente'] 		= $this->Cliente_model->get_cliente();
+		$data['estados']		= $this->Estados_model->get_estados_vistas($this->vista_id);
 
 		if($data['cliente'][0] ){
 			$data['modo_pago'] 	= $this->ModoPago_model->get_pagos_by_cliente(current($data['cliente'][0]));
@@ -71,17 +77,20 @@ class Compras extends MY_Controller {
 
 	public function editar($compra_id){
 
+		$this->vista_id = 89;
+
 		$id_usuario 	    = $this->session->usuario[0]->id_usuario;		
 		$data['menu'] 	    = $this->session->menu;	
 		$data['compra'] 	= $this->Compras_model->editar_compra($compra_id);
 		$data['detalle'] 	= $this->Compras_model->get_compra_detalle($compra_id);
 		$data['empleado'] 	= $this->Usuario_model->get_empleado( $id_usuario );
 		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
-		$data['vista_doc']	= $this->Vistas_model->get_vista_documento($vista = 89);
+		$data['vista_doc']	= $this->Vistas_model->get_vista_documento($this->vista_id);
 		$data['proveedor']	= $this->Proveedor_model->get_proveedor_id( $data['compra'][0]->Proveedor  );
 		$data['bodega'] 	= $this->Bodega_model->get_bodega_sucursal( $data['compra'][0]->Sucursal );
 		$data['moneda'] 	= $this->Moneda_model->get_modena_by_user();
 		$data['cliente'] 	= $this->Cliente_model->get_cliente();
+		$data['estados']		= $this->Estados_model->get_estados_vistas($this->vista_id);
 
 		if($data['cliente'][0] ){
 			$data['modo_pago'] 	= $this->ModoPago_model->get_pagos_by_cliente(current($data['cliente'][0]));

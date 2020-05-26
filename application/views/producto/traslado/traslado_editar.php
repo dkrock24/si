@@ -355,18 +355,19 @@ include("asstes/traslados_funciones.php");
                                                 <label>Estado</label>
                                                 <select name="estado_tras" id="estado_tras" class="form-control">
                                                     <?php
-                                                    if ($traslado[0]->estado_tras == 1) {
-                                                    ?>
-                                                        <option value="1">Pendiente</option>
-                                                        <option value="2">Procesado</option>
-
-                                                    <?php
-
-                                                    } else {
-                                                    ?>
-                                                        <option value="2">Procesado</option>
-                                                        <option value="1">Pendiente</option>
-                                                    <?php
+                                                    foreach($estados as $e){
+                                                        if($traslado[0]->estado_tras == $e->estado_id){
+                                                        ?>
+                                                        <option value="<?php echo $e->id_orden_estado ?>"><?php echo $e->orden_estado_nombre ?></option>
+                                                        <?php
+                                                        }
+                                                    }
+                                                    foreach($estados as $e){
+                                                        if($traslado[0]->estado_tras != $e->estado_id){
+                                                        ?>
+                                                        <option value="<?php echo $e->id_orden_estado ?>"><?php echo $e->orden_estado_nombre ?></option>
+                                                        <?php
+                                                        }
                                                     }
                                                     ?>
                                                 </select>

@@ -106,7 +106,7 @@ class Compras_model extends CI_Model
 			'Tipo_Documento'=> $compra['id_tipo_documento'],
 			'Empresa'		=> $this->session->empresa[0]->id_empresa,
             'fecha_creacion'=> date("Y-m-d h:i:s"),
-			'status_open_close' => 1,
+			'status_open_close' => $compra['compra_estado'],
         );
 		$this->db->insert(self::pos_compras, $data ); 
 
@@ -197,7 +197,7 @@ class Compras_model extends CI_Model
 			'fecha_compra' 	=> $compra['fecha_compra'],
 			'Tipo_Documento'=> $compra['id_tipo_documento'],
             'fecha_actualizacion'=> date("Y-m-d h:i:s"),
-			'status_open_close' => 1,
+			'status_open_close' => $compra['compra_estado'],
 		);
 		$this->db->where('id_compras', $compra['id_compras']);
 		$this->db->update(self::pos_compras, $data ); 
