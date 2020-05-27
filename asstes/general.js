@@ -59,14 +59,11 @@ function impuestos(){
     	_orden.forEach(function(element) {
 
     		if(element.id_producto_combo==null || element.id_producto_combo==0){
-    			exist_cat = imp_cat_val(element.categoria);
-			}
-    		
-    		if(exist_cat){
-
+    			exist_cat = imp_cat_val(element.categoria);			
 		    	if(element.combo == 1){
-
-		    		if((element.iva != "on" && element.iva != 1)  ){
+					
+					console.log("uno");
+		    		if((element.iva != "on" || element.iva != 1)  ){
 
 		    			if(_conf.comboAgrupado == 0){ // referencia combo_total
 		    				console.log("A");
@@ -80,7 +77,7 @@ function impuestos(){
 		    				_orden[_orden.indexOf(element)].impA = 0;
 		    				_orden[_orden.indexOf(element)].total_anterior = (element.precioUnidad * element.cantidad);
 		    			}						
-						aplicar_imp_combo( element );	    		
+						aplicar_imp_combo( element );
 
 		    		}else{
 		    			// No hacer nada
@@ -111,7 +108,8 @@ function impuestos(){
 			    			aplicar_imp(element);
 			    		}else{
 			    			aplicar_imp(element);
-			    		}
+						}
+						aplicar_imp_combo( element );
 			    		
 			    	}
 		    	}
@@ -129,15 +127,15 @@ function impuestos(){
 
 function imp_list(imp_doc , doc){
 	
-	var x = false;
-	var c = 0;
-	_ImpList = [];
+	var x 	= false;
+	var c 	= 0;
+	_ImpList= [];
 	_proVal = [];
-
-	$.each(_impuestos.doc, function(i, item) {
-
-    	if(item.Documento == doc && item.estado != 0 ){
-    		
+	doc = parseInt(doc);
+	var impuestos_internos = _impuestos.doc.filter(x => x.Documento  ==  doc);
+	
+	$.each(impuestos_internos, function(i, item) {
+		if(item.estado != 0 ){
     		_ImpList[c] = item;
     		x = true;
     		c+=1;
@@ -153,18 +151,18 @@ function imp_list(imp_doc , doc){
 
 function imp_cat_val(categoria){
 
-	var x = false;
-	var c = 0;
+	var x 	= false;
+	var c 	= 0;
 	_catVal = [];
 	_proVal = [];
+	categoria = parseInt(categoria);
+	var impuestos_internos = _impuestos.cat.filter(x => x.Categoria  ==  categoria);
 
-	$.each(_impuestos.cat, function(i, item) {
-    	
+	$.each(impuestos_internos, function(i, item) {    	
     	// Categoria de producto sea igual
-    	if(item.Categoria == categoria && item.estado !=0 )
+    	if(item.estado !=0 )
 		{			
-			_catVal[_catVal.length] = item;
-			
+			_catVal[_catVal.length] = item;			
 			x = true;	
 			c+=1;
 		}
@@ -190,12 +188,14 @@ function imp_cli_val(){
 		return;
 	}
 
-	$.each(_impuestos.cli, function(i, item) {
+	var impuestos_internos = _impuestos.cli.filter(x => x.Cliente  ==  _tipo_cliente);
+
+	$.each(impuestos_internos, function(i, item) {
     	
-    	if(item.Cliente == _tipo_cliente && item.estado !=0 )
+    	if(item.estado !=0 )
 		{
-			$.each(_ImpList, function(i, item2) {
-				
+			var impuestos_internos2 = _ImpList.filter(x => x.nombre  ==  item.nombre);
+			$.each(impuestos_internos2, function(i, item2) {
 				if(item2.nombre == item.nombre){					
 					_cliVal[_cliVal.length] = item;
 				}				
@@ -216,9 +216,11 @@ function aplicar_imp( prod){
 	var sub_total = 0;
 	var aplicable = false;
 	
-	_orden.forEach(function(element) {
+	var orden_interna = _orden.filter(x => x.producto2  ==  prod.producto2);
 
-		if(element.producto2 == prod.producto2 && (element.id_producto_combo == null || element.id_producto_combo == 0)){
+	orden_interna.forEach(function(element) {
+
+		if(element.id_producto_combo == null || element.id_producto_combo == 0){
 
 			$.each(_catVal, function(i, item) {
 
@@ -283,12 +285,9 @@ function aplicar_imp( prod){
 			});
 			if(aplicable){
 				console.log("4 aplicar_imp");
-				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
-				
+				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));				
 				_orden[_orden.indexOf(element)].impSuma = total;
-				//_orden[_orden.indexOf(element)].total = sub_total.toFixed(2);
 				_orden[_orden.indexOf(element)].impA = 1;
-
 				aplicable = false;
 			}			
 		}
@@ -302,34 +301,30 @@ function check_aplicable( imp_categoria ){
 	var flag3 = false;
 	var flag4 = false;
 	var flag5 = false;
+
+	var impList = _ImpList.filter(x => x.nombre  ==  imp_categoria);
+
+	if( impList ){
+		flag1 = true;
+	}
+
+	var cliVal = _cliVal.filter(x => x.nombre  ==  imp_categoria);
 	
-	$.each(_ImpList, function(i, item) {
+	if( cliVal ){
+		flag2 = true;
+	}
 
-		if( item.nombre == imp_categoria ){
-			flag1 = true;
-		}
-	});
-	
-	$.each(_cliVal, function(i, item) {
-		
-		if( item.nombre == imp_categoria ){
-			flag2 = true;
-		}
-	});
+	var catVal = _catVal.filter(x => x.nombre  ==  imp_categoria);
 
-	$.each(_catVal, function(i, item){
-		
-		if( item.nombre == imp_categoria ){
-			flag3 = true;
-		}
-	});
+	if( catVal ){
+		flag3 = true;
+	}
 
-	$.each(_proVal, function(i, item){
-		
-		if( item.nombre == imp_categoria ){
-			flag4 = true;
-		}
-	});
+	var proVal = _proVal.filter(x => x.nombre  ==  imp_categoria);
+
+	if( proVal ){
+		flag4 = true;
+	}
 
 	if(flag1 == true && flag2==true && flag3==true && flag4==true){
 		
@@ -351,8 +346,8 @@ function aplicar_imp_combo( prod){
 			$.each(_catVal, function(i, item) {
 				var yes = check_aplicable(item.nombre);
 				if( item.especial == 0 && item.condicion!=1 && yes == true ){
-					aplicable = true;
-					total += (element.total_anterior * item.porcentage);
+					aplicable = true;					
+					total += (element.total_anterior * item.porcentage) / (parseFloat(item.porcentage)+1);
 				}				
 			});		
 			if(aplicable){
@@ -422,7 +417,9 @@ function get_total_orden(){
 
 	total_orden = 0;
 	_orden.forEach(function(element) {
-		total_orden += parseFloat(element.total);
+		if(element.combo != 1){
+			total_orden += parseFloat(element.total);
+		}
 	});
 
 	return total_orden;
@@ -523,7 +520,7 @@ function impuesto_valor(prod){
 			}			
 		}		
 	});
-	console.log(_impuestos_orden_excluyentes);
+	
 }
 
 function producto_valido_especial(prod){
@@ -596,7 +593,7 @@ function separar_iva(prod){
 						c = a - b;
 
 						_orden[_orden.indexOf(element)].total = c.toFixed(2);
-						console.log(_orden[_orden.indexOf(element)].total);
+						
 
 						aplicable = false;
 					}else{
@@ -639,10 +636,10 @@ function separar_iva(prod){
 }
 
 function ivaTotal(){
-	total_iva = 0;
-	total_iva_suma = 0;
-	sub_total_ = 0;
-	var c = 1;
+	total_iva 		= 0;
+	total_iva_suma 	= 0;
+	sub_total_ 		= 0;
+	var c 			= 1;
 	
 	$.each(_orden, function(i, item) {
 
@@ -672,6 +669,7 @@ function sub_total(){
 		_total_impues_exclu += parseFloat( item.ordenImpTotal );
 		
 	});
+
 	sub_total_ = total_orden - _total_impues_exclu ;
 }
 

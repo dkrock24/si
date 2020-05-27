@@ -126,7 +126,7 @@
 
                         var type = "info";
                         var title = "Verifique Sucursal y Bodega ";
-                        var mensaje = "Error en Parametros : search_texto";
+                        var mensaje = "Error en Parametros : search_texto 2";
                         var boton = "info";
                         var finalMessage = "Gracias..."
                         generalAlert(type, mensaje, title, boton, finalMessage);
@@ -293,7 +293,7 @@
 
                         var type = "info";
                         var title = "Verifique Sucursal y Bodega ";
-                        var mensaje = "Error en Parametros : search_texto";
+                        var mensaje = "Error en Parametros : search_texto 1";
                         var boton = "info";
                         var finalMessage = "Gracias..."
                         generalAlert(type, mensaje, title, boton, finalMessage);
@@ -1109,7 +1109,7 @@
         }
 
         function grabar_combo() {
-
+            
             if (_productos.combo == 1) {
                 combo_descuento = $("#descuento").val();
                 producto_combo(_productos.producto_id, _productos.id_bodega, _productos.id_producto_detalle);
@@ -1133,10 +1133,9 @@
                     var productoX = JSON.parse(data);
 
                     if (_conf.comboAgrupado == 0) {
-
                         agregar_directo(id_producto_detalle, productoX);
                     } else {
-
+                        
                         agregar_agrupado(id_producto_detalle, productoX);
                         agregar_invisible(id_producto_detalle, productoX);
                     }
@@ -1159,8 +1158,8 @@
         }
 
         function agregar_directo(id_producto_detalle, p) {
-            var combo_padre_total = 0;
 
+            var combo_padre_total = 0;
             p.forEach(function(datos) {
 
                 var cantidad_final = combo_recalculo_cantidad(id_producto_detalle);
@@ -1178,7 +1177,7 @@
                 _productos.producto_id              = datos['producto'][0].id_entidad;
                 _productos.combo                    = datos['producto'][0].combo;
                 _productos.inventario_id            = datos['producto'][0].id_inventario;
-                _productos.producto                 = datos['atributos'].Cod_Barras;
+                _productos.producto                 = datos['producto'][0].codigo_barras;
                 _productos.descuento                = 0.00;
                 _productos.invisible                = 0;
                 _productos.cantidad                 = parseInt(datos['combo_cantidad']) * cantidad_final;
@@ -1187,10 +1186,9 @@
                 _productos.id_bodega                = datos['producto'][0].id_bodega;
                 _productos.impuesto_id              = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
                 _productos.por_iva                  = datos['producto'][0].porcentage;
-                _productos.gen                      = datos['producto'][10].valor;
-                _productos.iva                      = datos['atributos']['Incluye Iva']; //datos['producto'][9].valor;
+                _productos.iva                      = datos['producto'][0].incluye_iva; //datos['producto'][9].valor;
                 _productos.descripcion              = datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca;
-                _productos.presentacion             = datos['producto'][0].valor;
+                _productos.presentacion             = datos['producto'][0].presentacion;
                 _productos.total                    = (datos['prod_precio'][0].precio * _productos.cantidad);
                 _productos.presentacionFactor       = (datos['combo_cantidad'] * producto_cantidad_linea);
 
@@ -1240,46 +1238,44 @@
                 _config_impuestos();
                 depurar_producto();
             }
-
+            console.log("agrupado ", combo_padre_total);
         }
 
         function sumar_combo_total(combo_padre_total, id_producto_detalle) {
-            _orden.forEach(function(element) {
-                if (element.id_producto_detalle == id_producto_detalle) {
-                    _orden[_orden.indexOf(element)].combo_total = combo_padre_total;
-                }
+
+            var combo_x = _orden.filter(x => x.id_producto_detalle  ==  id_producto_detalle);
+            
+            combo_x.forEach(function(element) {
+                _orden[_orden.indexOf(element)].combo_total = combo_padre_total;
+                _orden[_orden.indexOf(element)].total = combo_padre_total;
             });
+
             depurar_producto();
         }
 
         function agregar_agrupado(id_producto_detalle, p) {
             var sub_total;
             var unidad;
-
+                        
             p.forEach(function(datos) {
 
-                _orden.forEach(function(element) {
-                    if (element.id_producto_detalle == id_producto_detalle) {
-                        var id = _orden.indexOf(element);
+                var prodOrden = _orden.filter(x => x.id_producto_detalle  ==  id_producto_detalle);
 
-                        sub_total = (datos['combo_cantidad'] * datos['prod_precio'][0].precio);
-
-                        _orden[id].total = parseInt(_orden[id].total) + (parseFloat(sub_total) * _orden[id].cantidad);
-
-                        _orden[id].precioUnidad = parseFloat(_orden[id].precioUnidad) + parseFloat(sub_total);
-
-                        _orden[id].combo_total = parseInt(_orden[id].total) + (parseFloat(sub_total) * _orden[id].cantidad);
-
-                        recalcular_descuento_combo(id_producto_detalle, _orden[id].total, _orden[id].descuento);
-
-                        _orden[id].descuento_calculado = calcular_descuento(_orden[id].descuento, _orden[id].total, _orden[id].descuento_limite);
-                    }
-
+                prodOrden.forEach(function(element) {
+                    
+                    var id                  = _orden.indexOf(element);
+                    sub_total               = (datos['combo_cantidad']              * datos['prod_precio'][0].precio);
+                    _orden[id].total        = parseFloat(_orden[id].total)          + (parseFloat(sub_total) * _orden[id].cantidad);
+                    _orden[id].precioUnidad = parseFloat(_orden[id].precioUnidad)   + parseFloat(sub_total);
+                    _orden[id].combo_total  = parseFloat(_orden[id].total)          + (parseFloat(sub_total) * _orden[id].cantidad);
+                    recalcular_descuento_combo(id_producto_detalle, _orden[id].total, _orden[id].descuento);
+                    _orden[id].descuento_calculado = calcular_descuento(_orden[id].descuento, _orden[id].total, _orden[id].descuento_limite);
+                    
                 });
                 calculo_totales();
-
+                
             });
-
+            
             if (_conf.impuesto == 1) {
                 impuestos();
             }
@@ -1306,19 +1302,19 @@
                 _productos.producto_id              = datos['producto'][0].id_entidad;
                 _productos.combo                    = datos['producto'][0].combo;
                 _productos.inventario_id            = datos['producto'][0].id_inventario;
-                _productos.producto                 = datos['atributos'].Cod_Barras;
+                _productos.producto                 = datos['producto'][0].codigo_barras;
                 _productos.descuento                = 0.00;
+                _productos.invisible                = 0;
                 _productos.cantidad                 = parseInt(datos['combo_cantidad']) * cantidad_final;
                 _productos.precioUnidad             = datos['prod_precio'][0].precio;
                 _productos.bodega                   = datos['producto'][0].nombre_bodega;
                 _productos.id_bodega                = datos['producto'][0].id_bodega;
                 _productos.impuesto_id              = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
                 _productos.por_iva                  = datos['producto'][0].porcentage;
-                _productos.gen                      = datos['producto'][10].valor;
-                _productos.iva                      = datos['atributos']['Incluye Iva']; // datos['producto'][9].valor;
+                _productos.iva                      = datos['producto'][0].incluye_iva; //datos['producto'][9].valor;
                 _productos.descripcion              = datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca;
-                _productos.presentacion             = datos['producto'][0].valor;
-                _productos.total                    = 0.00;
+                _productos.presentacion             = datos['producto'][0].presentacion;
+                _productos.total                    = (datos['prod_precio'][0].precio * _productos.cantidad);
                 _productos.presentacionFactor       = (datos['combo_cantidad'] * producto_cantidad_linea);
                 _productos.invisible                = 1;
 
@@ -2352,6 +2348,7 @@
                 {
                     //t2 +=parseFloat(element.total);
                 } else {
+                    
                     if (element.id_producto_combo == 0 || element.id_producto_combo == null) {
                         t2 += parseFloat(element.total);
                     }
@@ -2419,7 +2416,7 @@
         }
 
         /* ------------Impuestos - IVA -----------*/
-
+        
         if(documento_inventario==1)
         {
             sub_total_ = sub_total_ * (-1);

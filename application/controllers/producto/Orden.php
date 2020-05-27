@@ -129,12 +129,12 @@ class Orden extends MY_Controller {
 
 		$contador	=0;
 		$atributos	= array();
-
+/*
 		foreach ($data['producto'] as $key => $value) {
-			$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
+			//$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
 			$contador+=1;
 		}
-
+*/
 		$data['atributos'] 	= $atributos;
 		$data['precios'] 	= $this->Orden_model->get_producto_precios($producto_id);
 		$data['prod_precio']= $this->Orden_model->get_producto_precios( $producto_id );
