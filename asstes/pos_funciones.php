@@ -1222,6 +1222,8 @@
                     $(".producto_agregados").append(tr_html);
                 }
 
+                console.log("agrupado ", _productos.total);
+
                 contador_productos = _orden.length;
                 _orden[contador_productos] = _productos;
                 _productos = {};
@@ -1238,7 +1240,7 @@
                 _config_impuestos();
                 depurar_producto();
             }
-            console.log("agrupado ", combo_padre_total);
+            
         }
 
         function sumar_combo_total(combo_padre_total, id_producto_detalle) {
@@ -1247,7 +1249,8 @@
             
             combo_x.forEach(function(element) {
                 _orden[_orden.indexOf(element)].combo_total = combo_padre_total;
-                _orden[_orden.indexOf(element)].total = combo_padre_total;
+                _orden[_orden.indexOf(element)].total       = combo_padre_total;
+                _orden[_orden.indexOf(element)].precioUnidad= combo_padre_total / _orden[_orden.indexOf(element)].cantidad ;
             });
 
             depurar_producto();

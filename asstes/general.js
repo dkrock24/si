@@ -51,6 +51,7 @@ function impuestos(){
     /*
      * Calcular los impuestos a productos en la orden
      */
+
     docVal = imp_list(_impuestos.doc , _tipo_documento);
 	imp_cli_val();
 
@@ -62,20 +63,21 @@ function impuestos(){
     			exist_cat = imp_cat_val(element.categoria);			
 		    	if(element.combo == 1){
 					
-					console.log("uno");
 		    		if((element.iva != "on" || element.iva != 1)  ){
 
 		    			if(_conf.comboAgrupado == 0){ // referencia combo_total
 		    				console.log("A");
 
-		    				_orden[_orden.indexOf(element)].impA = 0;
-		    				_orden[_orden.indexOf(element)].total_anterior = (element.combo_total * element.cantidad);
+							_orden[_orden.indexOf(element)].impA = 0;
+							_orden[_orden.indexOf(element)].precioUnidad = element.combo_total;
+							
+		    				_orden[_orden.indexOf(element)].total_anterior = (element.combo_total * element.presentacionFactor);
 
 		    			}else{ // referencia total
 		    				console.log("B", element.categoria);
 		    				imp_cat_val(element.categoria);		    				
 		    				_orden[_orden.indexOf(element)].impA = 0;
-		    				_orden[_orden.indexOf(element)].total_anterior = (element.precioUnidad * element.cantidad);
+		    				_orden[_orden.indexOf(element)].total_anterior = (element.precioUnidad * element.presentacionFactor * element.cantidad);
 		    			}						
 						aplicar_imp_combo( element );
 
@@ -100,7 +102,7 @@ function impuestos(){
 			    	}else{
 			    		console.log("E");
 			    		_orden[_orden.indexOf(element)].impA = 0;
-		    			_orden[_orden.indexOf(element)].total_anterior = (element.precioUnidad * element.cantidad);
+		    			_orden[_orden.indexOf(element)].total_anterior = (element.precioUnidad * element.presentacionFactor);
 			    		
 			    		var f = producto_valido_especial(element);
 			    		if(f){
@@ -229,14 +231,14 @@ function aplicar_imp( prod){
 				if( item.condicion == 0 && item.especial==0 && yes == true){
 					
 					aplicable = true;
-					var calcu = (parseFloat(element.precioUnidad) * parseFloat( element.cantidad));
+					var calcu = (parseFloat(element.precioUnidad) * parseFloat( element.presentacionFactor) * (element.cantidad));
 					
 					var calcu2 = (calcu / (parseFloat (item.porcentage) + 1 ));
 					
 					var calcu3 = (calcu2  * item.porcentage);
 
 					total += calcu3;
-					
+					console.log(" G -> ", total);
 					return false;
 				}
 
@@ -284,7 +286,7 @@ function aplicar_imp( prod){
 				}				
 			});
 			if(aplicable){
-				console.log("4 aplicar_imp");
+				console.log("4 aplicar_imp", total);
 				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));				
 				_orden[_orden.indexOf(element)].impSuma = total;
 				_orden[_orden.indexOf(element)].impA = 1;
@@ -338,19 +340,20 @@ function aplicar_imp_combo( prod){
 	var total = 0;
 	var sub_total = 0;
 	var aplicable = false;
-	
 	_orden.forEach(function(element) {
-
+		
 		if(element.producto2 == prod.id_producto_detalle && prod.combo == 1){
 			
 			$.each(_catVal, function(i, item) {
 				var yes = check_aplicable(item.nombre);
 				if( item.especial == 0 && item.condicion!=1 && yes == true ){
-					aplicable = true;					
-					total += (element.total_anterior * item.porcentage) / (parseFloat(item.porcentage)+1);
+					aplicable = true;	
+					total += ((element.precioUnidad * element.cantidad * element.presentacionFactor) * item.porcentage) / (parseFloat(item.porcentage)+1);
+					console.log("Imp Combo ->", total);
 				}				
-			});		
+			});
 			if(aplicable){
+				console.log("COMBO ->", total);
 				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));
 				
 				_orden[_orden.indexOf(element)].impSuma = total;
@@ -417,11 +420,11 @@ function get_total_orden(){
 
 	total_orden = 0;
 	_orden.forEach(function(element) {
-		if(element.combo != 1){
+		if(element.id_producto_combo == null ){
 			total_orden += parseFloat(element.total);
 		}
 	});
-
+	console.log("Total orden -> ", total_orden);
 	return total_orden;
 }
 
