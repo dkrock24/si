@@ -81,7 +81,7 @@ class Giros extends MY_Controller {
 		if($data){
 			$this->session->set_flashdata('success', "Giro Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Giro No Fue Creado");
+			$this->session->set_flashdata('danger', "Giro No Fue Creado");
 		}	
 
 		redirect(base_url()."admin/giros/index");
@@ -131,7 +131,7 @@ class Giros extends MY_Controller {
 		$data = $this->Giros_model->actualizar_giro( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Giro Fue Actualizado");
+			$this->session->set_flashdata('info', "Giro Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Giro No Fue Creado");
 		}

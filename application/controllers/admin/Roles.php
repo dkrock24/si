@@ -63,7 +63,7 @@ class Roles extends MY_Controller {
 		$data['roles'] = $this->Roles_model->setRoles( $_POST );	
 
 		if($data){
-			$this->session->set_flashdata('warning', "Rol Fue Actualizado");
+			$this->session->set_flashdata('info', "Rol Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Rol No Fue Actualizado");
 		}
@@ -76,7 +76,7 @@ class Roles extends MY_Controller {
 		$data['roles'] = $this->Roles_model->createRolCopia( $_POST );	
 
 		if($data){
-			$this->session->set_flashdata('warning', "Rol Fue Copiado");
+			$this->session->set_flashdata('info', "Rol Fue Copiado");
 		}else{
 			$this->session->set_flashdata('danger', "Rol No Fue Copiado");
 		}
@@ -98,7 +98,7 @@ class Roles extends MY_Controller {
 		$data['role'] = $this->Roles_model->nuevo_rol( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Rol Fue Creado");
+			$this->session->set_flashdata('success', "Rol Fue Creado");
 		}else{
 			$this->session->set_flashdata('danger', "Rol No Fue Creado");
 		}
@@ -111,9 +111,9 @@ class Roles extends MY_Controller {
 		$data['role'] = $this->Roles_model->delete_rol( $id_rol );
 
 		if($data){
-			$this->session->set_flashdata('danger', "Eliminado Exitosamente");
+			$this->session->set_flashdata('warning', "Eliminado Exitosamente");
 		}else{
-			$this->session->set_flashdata('warning', "No Fue Eliminada");
+			$this->session->set_flashdata('danger', "No Fue Eliminada");
 		}
 
 		redirect(base_url()."admin/roles/index");

@@ -78,7 +78,7 @@ class Persona extends MY_Controller {
 		$data = $this->Persona_model->crear( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Persona Fue Creado");
+			$this->session->set_flashdata('success', "Persona Fue Creado");
 		}else{
 			$this->session->set_flashdata('danger', "Persona No Fue Creado");
 		}
@@ -134,7 +134,7 @@ class Persona extends MY_Controller {
 		$data['bodegas'] = $this->Persona_model->update( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Persona Fue Actualizado");
+			$this->session->set_flashdata('info', "Persona Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Persona No Fue Actualizado");
 		}

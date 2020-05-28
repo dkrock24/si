@@ -63,9 +63,9 @@ class Impuesto extends MY_Controller {
 
 		$data = $this->Impuesto_model->nuevo_impuesto( $_POST );
 		if($data){
-			$this->session->set_flashdata('danger', "Impuesto Fue Creado");
+			$this->session->set_flashdata('success', "Impuesto Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Impuesto No Fue Creado");
+			$this->session->set_flashdata('danger', "Impuesto No Fue Creado");
 		}
 
 		redirect(base_url()."admin/impuesto/index");
@@ -118,9 +118,9 @@ class Impuesto extends MY_Controller {
 		$data['impuesto'] = $this->Impuesto_model->updateImpuesto( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('danger', "Impuesto Fue Actualizado");
+			$this->session->set_flashdata('info', "Impuesto Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('warning', "Impuesto No Fue Actualizado");
+			$this->session->set_flashdata('danger', "Impuesto No Fue Actualizado");
 		}	
 		
 		redirect(base_url()."admin/impuesto/index");
@@ -131,9 +131,9 @@ class Impuesto extends MY_Controller {
 		$data['impuesto'] = $this->Impuesto_model->eliminar( $id );
 
 		if($data){
-			$this->session->set_flashdata('danger', "Impuesto Fue Eliminado");
+			$this->session->set_flashdata('warning', "Impuesto Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('warning', "Impuesto No Fue Eliminado");
+			$this->session->set_flashdata('danger', "Impuesto No Fue Eliminado");
 		}	
 		
 		redirect(base_url()."admin/impuesto/index");

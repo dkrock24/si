@@ -157,7 +157,7 @@ class Empresa extends MY_Controller {
 			$data = $this->Empresa_model->update($_POST);
 
 			if($data){
-				$this->session->set_flashdata('success', "Empresa Fue Actualizada");
+				$this->session->set_flashdata('info', "Empresa Fue Actualizada");
 			}else{
 				$this->session->set_flashdata('danger', "Empresa No Fue Actualizada");
 			}
@@ -172,7 +172,7 @@ class Empresa extends MY_Controller {
 			$data = $this->Empresa_model->eliminar($id);
 
 			if($data){
-				$this->session->set_flashdata('success', "Empresa Fue Eliminada");
+				$this->session->set_flashdata('warning', "Empresa Fue Eliminada");
 			}else{
 				$this->session->set_flashdata('danger', "Empresa No Fue Eliminada");
 			}

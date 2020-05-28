@@ -91,7 +91,7 @@ class Marca extends MY_Controller {
 		$data['documento'] = $this->Marca_model->setMarca( $_POST );	
 
 		if($data){
-			$this->session->set_flashdata('success', "Marca Fue Actualizado");
+			$this->session->set_flashdata('info', "Marca Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Marca No Fue Actualizado");
 		}
@@ -137,7 +137,7 @@ class Marca extends MY_Controller {
 		$data = $this->Marca_model->eliminar_marca( $id );
 
 		if($data){
-			$this->session->set_flashdata('success', "Marca Fue Eliminado");
+			$this->session->set_flashdata('warning', "Marca Fue Eliminado");
 		}else{
 			$this->session->set_flashdata('danger', "Marca No Fue Eliminado");
 		}

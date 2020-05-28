@@ -103,7 +103,7 @@ class Cliente extends MY_Controller {
 		if($data){
 			$this->session->set_flashdata('success', "Cliente Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Cliente No Fue Creado");
+			$this->session->set_flashdata('danger', "Cliente No Fue Creado");
 		}	
 
 		redirect(base_url()."admin/cliente/index");
@@ -166,9 +166,9 @@ class Cliente extends MY_Controller {
 		$data = $this->Cliente_model->eliminar( $cliente_id );
 
 		if($data){
-			$this->session->set_flashdata('success', "Cliente Fue Eliminado");
+			$this->session->set_flashdata('warning', "Cliente Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('warning', "Cliente No Fue Eliminado");
+			$this->session->set_flashdata('danger', "Cliente No Fue Eliminado");
 		}
 
 		redirect(base_url()."admin/cliente/index");
@@ -179,9 +179,9 @@ class Cliente extends MY_Controller {
 		$data = $this->Cliente_model->update( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('success', "Cliente Fue Actualizado");
+			$this->session->set_flashdata('info', "Cliente Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('warning', "Cliente No Fue Actualizado");
+			$this->session->set_flashdata('danger', "Cliente No Fue Actualizado");
 		}
 
 		redirect(base_url()."admin/cliente/index");

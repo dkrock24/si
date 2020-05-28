@@ -139,9 +139,9 @@ class Proveedor extends MY_Controller {
 		$data = $this->Proveedor_model->update( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('success', "Proveedor Fue Actualizado");
+			$this->session->set_flashdata('info', "Proveedor Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('warning', "Proveedor No Fue Actualizado");
+			$this->session->set_flashdata('danger', "Proveedor No Fue Actualizado");
 		}
 
 		redirect(base_url()."admin/proveedor/index");

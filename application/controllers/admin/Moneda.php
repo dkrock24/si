@@ -138,7 +138,7 @@ class Moneda extends MY_Controller {
 			$data = $this->Moneda_model->update( $_POST );
 
 			if($data){
-				$this->session->set_flashdata('warning', "Moneda Fue Actualizado");
+				$this->session->set_flashdata('info', "Moneda Fue Actualizado");
 			}else{
 				$this->session->set_flashdata('danger', "Moneda No Fue Actualizado");
 			}
@@ -152,9 +152,9 @@ class Moneda extends MY_Controller {
 		$data = $this->Moneda_model->eliminar( $id );
 
 		if($data){
-			$this->session->set_flashdata('danger', "Moneda Fue Eliminado");
+			$this->session->set_flashdata('warning', "Moneda Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('warning', "Moneda No Fue Eliminado");
+			$this->session->set_flashdata('danger', "Moneda No Fue Eliminado");
 		}
 		redirect(base_url()."admin/moneda/index");
 	}

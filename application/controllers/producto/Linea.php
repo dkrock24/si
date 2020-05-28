@@ -78,7 +78,7 @@ class Linea extends MY_Controller {
 		$data['bodegas'] = $this->Linea_model->save_linea( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Linea Fue Creada");
+			$this->session->set_flashdata('success', "Linea Fue Creada");
 		}else{
 			$this->session->set_flashdata('danger', "Linea No Fue Creada");
 		}
@@ -142,7 +142,7 @@ class Linea extends MY_Controller {
 		$data['bodegas'] = $this->Linea_model->update_linea( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Linea Fue Actualizada");
+			$this->session->set_flashdata('info', "Linea Fue Actualizada");
 		}else{
 			$this->session->set_flashdata('danger', "Linea No Fue Actualizada");
 		}

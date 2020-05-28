@@ -87,7 +87,7 @@ class Usuario extends MY_Controller {
 		if($data){
 			$this->session->set_flashdata('success', "Usuario Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Usuario No Fue Creado");
+			$this->session->set_flashdata('danger', "Usuario No Fue Creado");
 		}	
 		redirect(base_url()."admin/usuario/index");
 	}
@@ -121,9 +121,9 @@ class Usuario extends MY_Controller {
 			$data = $this->Usuario_model->update( $_POST );
 
 			if($data){
-				$this->session->set_flashdata('success', "Usuario Fue Actualizado");
+				$this->session->set_flashdata('info', "Usuario Fue Actualizado");
 			}else{
-				$this->session->set_flashdata('warning', "Usuario No Fue Actualizado");
+				$this->session->set_flashdata('danger', "Usuario No Fue Actualizado");
 			}
 		}
 		redirect(base_url()."admin/usuario/index");

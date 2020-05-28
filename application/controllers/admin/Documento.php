@@ -111,7 +111,7 @@ class Documento extends MY_Controller {
 		$data['documento'] = $this->Documento_model->setDocumento( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Documento Fue Actializado");
+			$this->session->set_flashdata('info', "Documento Fue Actializado");
 		}else{
 			$this->session->set_flashdata('danger', "Documento No Fue Actializado");
 		}	
@@ -134,7 +134,7 @@ class Documento extends MY_Controller {
 		$data = $this->Documento_model->nuevo_documento( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Documento Fue Creado");
+			$this->session->set_flashdata('success', "Documento Fue Creado");
 		}else{
 			$this->session->set_flashdata('danger', "Documento No Fue Creado");
 		}

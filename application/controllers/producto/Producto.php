@@ -126,7 +126,7 @@ class Producto extends MY_Controller {
 			$producto_id = $this->Producto_model->eliminar( $producto_id );
 
 			if($producto_id){
-				$this->session->set_flashdata('success', "Producto Fue Eliminado");
+				$this->session->set_flashdata('warning', "Producto Fue Eliminado");
 			}else{
 				$this->session->set_flashdata('danger', "Producto No Fue Eliminado");
 			}
@@ -168,7 +168,7 @@ class Producto extends MY_Controller {
 		$data = $this->Producto_model->actualizar_producto( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('success', "Producto Fue Actualizado");
+			$this->session->set_flashdata('info', "Producto Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Producto No Fue Actualizado");
 		}

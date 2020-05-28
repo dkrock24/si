@@ -150,7 +150,7 @@ class Categorias extends MY_Controller {
 		$data['info'] = $this->Categorias_model->actualizar_categoria( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Categoria Fue Actualizado");
+			$this->session->set_flashdata('info', "Categoria Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Categoria No Fue Actualizado");
 		}

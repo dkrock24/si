@@ -102,7 +102,7 @@ class Template extends MY_Controller {
 		if($data){
 			$this->session->set_flashdata('success', "Template Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Template No Fue Creado");
+			$this->session->set_flashdata('danger', "Template No Fue Creado");
 		}	
 
 		redirect(base_url()."admin/template/asociar");
@@ -182,9 +182,9 @@ class Template extends MY_Controller {
 		$data = $this->Template_model->update( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('info', " !");
+			$this->session->set_flashdata('info', " El Registro Fue Actualizado!");
 		}else{
-			$this->session->set_flashdata('warning', "El Registro No Fue Actualizado");
+			$this->session->set_flashdata('danger', "El Registro No Fue Actualizado");
 		}
 
 		redirect(base_url()."admin/template/index");
@@ -195,9 +195,9 @@ class Template extends MY_Controller {
 		$data = $this->Template_model->eliminar( $id_template );
 
 		if($data){
-			$this->session->set_flashdata('danger', "Template Fue Eliminado !");
+			$this->session->set_flashdata('warning', "Template Fue Eliminado !");
 		}else{
-			$this->session->set_flashdata('warning', "El Registro No Fue Actualizado");
+			$this->session->set_flashdata('danger', "El Registro No Fue Actualizado");
 		}
 
 		redirect(base_url()."admin/template/index");

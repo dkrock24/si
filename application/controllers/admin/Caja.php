@@ -41,6 +41,7 @@ class Caja extends MY_Controller {
 		$data['registros'] 		= $this->Caja_model->get_all_caja( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
 		$data['title'] 			= "Caja";
 		$data['home'] 			= 'template/lista_template';
+		$_SESSION['Vista']  	= $data['title'];
 		$_SESSION['registros']  = $data['registros'];
 
 		$this->parser->parse('template', $data);
@@ -66,7 +67,7 @@ class Caja extends MY_Controller {
 		if($data){
 			$this->session->set_flashdata('success', "Caja Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Caja No Fue Creado");
+			$this->session->set_flashdata('danger', "Caja No Fue Creado");
 		}	
 		redirect(base_url()."admin/caja/index");
 	}
@@ -127,9 +128,9 @@ class Caja extends MY_Controller {
 		$data = $this->Caja_model->update_caja( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('success', "Caja Fue Actualizada");
+			$this->session->set_flashdata('info', "Caja Fue Actualizada");
 		}else{
-			$this->session->set_flashdata('warning', "Caja No Fue Actualizada");
+			$this->session->set_flashdata('danger', "Caja No Fue Actualizada");
 		}	
 		redirect(base_url()."admin/caja/index");
 	}
@@ -159,7 +160,7 @@ class Caja extends MY_Controller {
 		$column = $this->column();
 		$fields = $this->fields();
 
-		$this->xls( $_SESSION['registros'] ,$column, $fields  );
+		$this->xls( $_SESSION['registros'] ,$_SESSION['Vista'] ,$column, $fields  );
 
 	}
 }

@@ -83,7 +83,7 @@ class Sucursal extends MY_Controller {
 		if($data){
 			$this->session->set_flashdata('success', "Sucursal Fue Creada");
 		}else{
-			$this->session->set_flashdata('warning', "Sucursal No Fue Creada");
+			$this->session->set_flashdata('danger', "Sucursal No Fue Creada");
 		}	
 
 		redirect(base_url()."admin/sucursal/index");
@@ -136,9 +136,9 @@ class Sucursal extends MY_Controller {
 		$data = $this->Sucursal_model->actualizar( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('success', "Sucursal Fue Actualizada");
+			$this->session->set_flashdata('info', "Sucursal Fue Actualizada");
 		}else{
-			$this->session->set_flashdata('warning', "Sucursal No Fue Actualizada");
+			$this->session->set_flashdata('danger', "Sucursal No Fue Actualizada");
 		}
 		redirect(base_url()."admin/sucursal/index");
 	}

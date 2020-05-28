@@ -81,7 +81,7 @@ class Pais extends MY_Controller {
 		$data['info'] = $this->Pais_model->crear_pais( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Pais Fue Creado");
+			$this->session->set_flashdata('success', "Pais Fue Creado");
 		}else{
 			$this->session->set_flashdata('danger', "Pais No Fue Creado");
 		}
@@ -106,7 +106,7 @@ class Pais extends MY_Controller {
 		$data['pais'] = $this->Pais_model->update_pais( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Pais Fue Actualizado");
+			$this->session->set_flashdata('info', "Pais Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Pais No Fue Actualizado");
 		}
@@ -162,7 +162,7 @@ class Pais extends MY_Controller {
 		$data['info'] = $this->Pais_model->crear_dep( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Departamento Fue Creado");
+			$this->session->set_flashdata('success', "Departamento Fue Creado");
 		}else{
 			$this->session->set_flashdata('danger', "Departamento No Fue Creado");
 		}
@@ -188,7 +188,7 @@ class Pais extends MY_Controller {
 		$data['info'] = $this->Pais_model->update_dep( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Departamento Fue Actualizado");
+			$this->session->set_flashdata('info', "Departamento Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Departamento No Fue Actualizado");
 		}
@@ -200,7 +200,7 @@ class Pais extends MY_Controller {
 		$data['info'] = $this->Pais_model->eliminar_dep( $id_dep );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Departamento Fue Eliminado");
+			$this->session->set_flashdata('success', "Departamento Fue Eliminado");
 		}else{
 			$this->session->set_flashdata('danger', "Departamento No Fue Eliminado");
 		}
@@ -237,7 +237,7 @@ class Pais extends MY_Controller {
 		$data['info'] = $this->Pais_model->crear_ciu( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Ciudad Fue Creado");
+			$this->session->set_flashdata('success', "Ciudad Fue Creado");
 		}else{
 			$this->session->set_flashdata('danger', "Ciudad No Fue Creado");
 		}
@@ -259,7 +259,7 @@ class Pais extends MY_Controller {
 		$data['info'] = $this->Pais_model->update_ciu( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Ciudad Fue Actualizado");
+			$this->session->set_flashdata('info', "Ciudad Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Ciudad No Fue Actualizado");
 		}

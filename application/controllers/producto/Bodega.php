@@ -146,7 +146,7 @@ class Bodega extends MY_Controller {
 		$data['bodegas'] = $this->Bodega_model->update_bodega( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Bodega Fue Actualizado");
+			$this->session->set_flashdata('info', "Bodega Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Bodega No Fue Actualizado");
 		}
@@ -158,9 +158,9 @@ class Bodega extends MY_Controller {
 		$data = $this->Bodega_model->eliminar( $id );
 
 		if($data){
-			$this->session->set_flashdata('danger', "Eliminado Exitosamente");
+			$this->session->set_flashdata('warning', "Eliminado Exitosamente");
 		}else{
-			$this->session->set_flashdata('warning', "No Fue Eliminada");
+			$this->session->set_flashdata('danger', "No Fue Eliminada");
 		}
 		redirect(base_url()."producto/bodega/index");
 	}

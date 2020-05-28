@@ -84,7 +84,7 @@ class Correlativo extends MY_Controller {
 		$data['bodegas'] = $this->Correlativo_model->save( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Correlativo Fue Creado");
+			$this->session->set_flashdata('success', "Correlativo Fue Creado");
 		}else{
 			$this->session->set_flashdata('danger', "Correlativo No Fue Creado");
 		}
@@ -152,7 +152,7 @@ class Correlativo extends MY_Controller {
 		$data['bodegas'] = $this->Correlativo_model->update( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Correlativo Fue Actualizado");
+			$this->session->set_flashdata('info', "Correlativo Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Correlativo No Fue Actualizado");
 		}

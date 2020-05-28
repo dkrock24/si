@@ -148,7 +148,14 @@ class Traslado extends MY_Controller {
 	public function aceptar(){
 		
 		if(isset($_POST)){
-			$this->Traslado_model->aceptar_traslado($_POST);
+			$data = $this->Traslado_model->aceptar_traslado($_POST);
+
+			if($data){
+				$this->session->set_flashdata('success', "Traslado Fue Creado");
+			}else{
+				$this->session->set_flashdata('danger', "Traslado No Fue Creado");
+			}
+
 		}
 		redirect(base_url()."producto/traslado/index");
 		
@@ -168,7 +175,13 @@ class Traslado extends MY_Controller {
 
 	public function update_traslado(){
 
-		$this->Traslado_model->update( $_POST['productos'] , $_POST['encabezado'] );
+		$data = $this->Traslado_model->update( $_POST['productos'] , $_POST['encabezado'] );
+
+		if($data){
+			$this->session->set_flashdata('info', "Traslado Fue Actualizado");
+		}else{
+			$this->session->set_flashdata('danger', "Traslado No Fue Actualizado");
+		}
 
 		redirect(base_url()."producto/orden/index");
 	}

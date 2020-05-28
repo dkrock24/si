@@ -86,7 +86,7 @@ class Cargo extends MY_Controller {
 		if($data){
 			$this->session->set_flashdata('success', "Cargo Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Cargo No Fue Creado");
+			$this->session->set_flashdata('danger', "Cargo No Fue Creado");
 		}	
 		redirect(base_url()."admin/cargo/index");
 	}
@@ -146,9 +146,9 @@ class Cargo extends MY_Controller {
 		if(isset($_POST)){
 			$data = $this->Cargos_model->update( $_POST );
 			if($data){
-				$this->session->set_flashdata('success', "Cargo Fue Actualizado");
+				$this->session->set_flashdata('info', "Cargo Fue Actualizado");
 			}else{
-				$this->session->set_flashdata('warning', "Cargo No Fue Actualizado");
+				$this->session->set_flashdata('danger', "Cargo No Fue Actualizado");
 			}
 		}
 		redirect(base_url()."admin/cargo/index");
@@ -159,9 +159,9 @@ class Cargo extends MY_Controller {
 		$data = $this->Cargos_model->eliminar( $id );
 
 		if($data){
-			$this->session->set_flashdata('success', "Cargo Fue Eliminado");
-		}else{
 			$this->session->set_flashdata('warning', "Cargo Fue Eliminado");
+		}else{
+			$this->session->set_flashdata('danger', "Cargo Fue Eliminado");
 		}
 
 		redirect(base_url()."admin/cargo/index");

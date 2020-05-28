@@ -35,9 +35,9 @@ class Combo extends MY_Controller {
 	public function index()
 	{
 
-		$model = "Combo_model";
-		$url_page = "producto/combo/index";
-		$pag = $this->MyPagination($model, $url_page , $vista = 39);
+		$model 		= "Combo_model";
+		$url_page 	= "producto/combo/index";
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 39);
 
 		$param = ['combo'=>1];
 		$data['combos'] = $this->Combo_model->get_producto_combo( $param );

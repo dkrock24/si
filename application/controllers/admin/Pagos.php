@@ -109,7 +109,7 @@ class Pagos extends MY_Controller {
 			$data = $this->Pagos_model->update( $_POST );
 
 			if($data){
-				$this->session->set_flashdata('warning', "Tipo Pago Fue Actualizado");
+				$this->session->set_flashdata('info', "Tipo Pago Fue Actualizado");
 			}else{
 				$this->session->set_flashdata('danger', "Tipo Pago No Fue Actualizado");
 			}
@@ -123,9 +123,9 @@ class Pagos extends MY_Controller {
 		$data = $this->Pagos_model->eliminar( $id );
 
 		if($data){
-			$this->session->set_flashdata('danger', "Tipo Pago Fue Eliminado");
+			$this->session->set_flashdata('warning', "Tipo Pago Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('warning', "Tipo Pago No Fue Eliminado");
+			$this->session->set_flashdata('danger', "Tipo Pago No Fue Eliminado");
 		}
 		redirect(base_url()."admin/pagos/index");
 	}
