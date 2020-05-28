@@ -107,9 +107,11 @@
         $("#total" + id).remove();
 
     });
+    $(document).on("click", "#guardar_combo", function() {
+        guardar_combo();
+    });
 
     function guardar_combo() {
-        $(document).on("click", "#guardar_combo", function() {
 
             var flag = false;
 
@@ -131,7 +133,6 @@
                 $("#lista_productos").submit();
             }
 
-        });
     }
 </script>
 

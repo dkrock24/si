@@ -143,7 +143,7 @@ class Combo extends MY_Controller {
 		$data = $this->Combo_model->update_combo( $_POST );
 
 		if($data){
-			$this->session->set_flashdata('success', "Combo Fue Actualizado");
+			$this->session->set_flashdata('info', "Combo Fue Actualizado");
 		}else{
 			$this->session->set_flashdata('danger', "Combo No Fue Actualizado");
 		}
@@ -169,7 +169,7 @@ class Combo extends MY_Controller {
 		$data = $this->Combo_model->eliminar( $id );
 
 		if($data){
-			$this->session->set_flashdata('success', "Combo Fue Eliminado");
+			$this->session->set_flashdata('warning', "Combo Fue Eliminado");
 		}else{
 			$this->session->set_flashdata('danger', "Combo No Fue Eliminado");
 		}
@@ -181,7 +181,7 @@ class Combo extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Producto Combo','Combo Cantidad'
+			'Codigo Barra','Producto Combo','Combo Cantidad'
 		);
 
 		return $column;
@@ -189,7 +189,7 @@ class Combo extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'name_entidad','total'
+			'codigo_barras','name_entidad','total'
 		);
 		
 		$fields['id'] = array('Producto_Combo');

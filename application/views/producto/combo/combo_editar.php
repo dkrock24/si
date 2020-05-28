@@ -232,27 +232,37 @@
 
                                             <div class="panel-body menuContent">
                                                 <form class="form-horizontal" action='../update' method="post" id="lista_productos">
-
-                                                    <?php
-                                                    if ($combo) {
-
-                                                        foreach ($combo as $key => $value) {
-                                                    ?>
-                                                            <div class="form-group" id="total<?php echo $value->id_entidad ?>">
-                                                                <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Producto</label>
-                                                                <div class="col-sm-4"><?php echo $value->dos ?></div>
-                                                                <div class="col-sm-4">
-                                                                    <span><i class="fa fa-info-circle" id='<?php echo $value->producto_a_descargar_Combo ?> '></i> </span>
-                                                                    <br><input type='number' name='<?php echo $value->producto_a_descargar_Combo ?>' min="1" value="<?php echo $value->cantidad ?>" id='<?php echo $value->producto_a_descargar_Combo ?> ' required="required" /></div>
-                                                                <div class="col-sm-2"><a href='#' class='btn btn-warning borrar' id='<?php echo $value->id_entidad ?>'>Borrar</a></div>
-                                                            </div>
-                                                    <?php
+                                                    <table class="table">
+                                                        <tr>
+                                                            <td>Codigo</td>
+                                                            <td>Precio</td>
+                                                            <td>Nombre</td>
+                                                            <td>Cantidad</td>
+                                                            <td>Accion</td>
+                                                        </tr>
+                                                        <?php
+                                                        if ($combo) {
+                                                            foreach ($combo as $key => $value) {
+                                                            ?>
+                                                                <tr id="total<?php echo $value->internalId ?>">
+                                                                    <td><label for="inputEmail3" class="control-label no-padding-right"><?php echo $value->codigoBarras; ?></label></td>
+                                                                    <td><label for="inputEmail3" class="control-label no-padding-right"><?php echo $value->precio; ?></label></td>
+                                                                    <td><label for="inputEmail3" class="control-label no-padding-right"><?php echo $value->dos ?></label></td>
+                                                                    <td><label for="inputEmail3" class="control-label no-padding-right"><span><i class="fa fa-info-circle" id='<?php echo $value->producto_a_descargar_Combo ?> '></i> </span>
+                                                                        <br><input type='number' style="width:80px;" name='<?php echo $value->producto_a_descargar_Combo ?>' min="1" value="<?php echo $value->cantidad ?>" id='<?php echo $value->producto_a_descargar_Combo ?> ' required="required" /></div></label></td>
+                                                                    <td>
+                                                                        <a href='#' style="float:right;" class='btn btn-danger borrar' id='<?php echo $value->internalId ?>'>Borrar</a>
+                                                                    </td>
+                                                                </tr>                                                                
+                                                            <?php
+                                                            }
                                                         }
-                                                    }
-                                                    ?>
+                                                        ?>
+                                                    </table>
+                                                    
 
-                                                    <input type="hidden" id="produto_principal" name="produto_principal" value="<?php echo $value->Producto_Combo ?>">
-                                                    <a href="#" id="guardar_combo" class='btn btn-default' onClick='guardar_combo()' value='Actualizar'>Actualizar</a>
+                                                    <input type="hidden"  id="produto_principal" name="produto_principal" value="<?php echo $value->Producto_Combo ?>">
+                                                    <a href="#" id="guardar_combo" style="text-align: center;float: right;" class='btn btn-info' onClick='guardar_combo()' value='Actualizar'>Actualizar</a>
                                                 </form>
                                             </div>
                                         </p>

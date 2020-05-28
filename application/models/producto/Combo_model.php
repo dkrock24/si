@@ -3,6 +3,7 @@ class Combo_model extends CI_Model {
 
 	const pos_combo = 'pos_combo';
     const producto = 'producto';
+    const prouducto_detalle = 'prouducto_detalle';
 
     function getAllCombo( $limit, $id  ){
 
@@ -98,13 +99,16 @@ class Combo_model extends CI_Model {
 
     function getComboId( $combo_id ){
 
-        $this->db->select('*,p.name_entidad as uno, p2.name_entidad as dos, p.*');
+        $this->db->select('*,pd.precio,p.name_entidad as uno, p2.name_entidad as dos, p.*, p2.codigo_barras AS codigoBarras,p2.id_entidad as internalId');
         $this->db->from(self::pos_combo.' as c');
         $this->db->join(self::producto.' as p', ' on c.Producto_Combo= p.id_entidad');
         $this->db->join(self::producto.' as p2', ' on c.producto_a_descargar_Combo= p2.id_entidad');
+        $this->db->join(self::prouducto_detalle.' as pd', ' on pd.Producto =p2.id_entidad');
+
         $this->db->where('c.Producto_Combo', $combo_id );
+        $this->db->group_by('pd.Producto' );
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];
+        //echo $this->db->queries[0];
         
         if($query->num_rows() > 0 )
         {

@@ -14,9 +14,9 @@
 	.alert-style{
 		margin: 10px;
 		font-size: 16px;
-		color:white; 
+		color:grey; 
 		width: 30%;
-		float: right; 
+		float:right; 
 		position: relative; 
 		display: inline-block; 
 		bottom: 10%;
@@ -33,51 +33,80 @@
 
 <?php if($this->session->flashdata("success")):?>
 
-	 <div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #82b74b">
-	 <button type="button" data-dismiss="alert" aria-label="Close" class="close">
-	    <span aria-hidden="true">&times;</span>
-	 </button>
-	 <div class="icon">
-		<i class="fa fa-check-circle fa-2x"></i>
-	 </div>
-	 <strong>Registro! </strong><br>  <?php echo $this->session->flashdata("success") ?> </div>
-
-	
+	 <div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #fff">
+		<div class="row">
+			<div class="col-lg-1" style="border-left:1px solid #2465b9; background:#2465b9;margin-top:-10px;margin-bottom:-10px;">
+				<div class="icon" style="color:white;position:relative;height:70px;vertical-align: baseline;">
+					<i class="fa fa-check-circle fa-2x" style="margin-top:50%;margin-left:-18%;"></i>
+				</div>
+			</div>
+			<div class="col-lg-11">
+				<button type="button" data-dismiss="alert" aria-label="Close" class="close" style="color:black;">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<strong style="color:#2465b9;">Registro! </strong><br>  <?php echo $this->session->flashdata("success") ?> 
+			</div>
+		</div>
+	</div>	
 
 <?php endif;?>
 
 <?php if($this->session->flashdata("danger")):?>
 
-	 <div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #82b74b; color:white;">
-	 <button type="button" data-dismiss="alert" aria-label="Close" class="close">
-	    <span aria-hidden="true">&times;</span>
-	 </button>
-	 <div class="icon">
-		<i class="fa fa-trash-o fa-2x"></i>
-	 </div>
-	 <strong>Registro! </strong><br>  <?php echo $this->session->flashdata("danger") ?> </div>
+	<div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #fff">
+		<div class="row">
+			<div class="col-lg-1" style="border-left:1px solid #f44336; background:#f44336;margin-top:-10px;margin-bottom:-10px;">
+				<div class="icon" style="color:white;position:relative;height:70px;vertical-align: baseline;">
+					<i class="fa fa-check-circle fa-2x" style="margin-top:50%;margin-left:-18%;"></i>
+				</div>
+			</div>
+			<div class="col-lg-11">
+				<button type="button" data-dismiss="alert" aria-label="Close" class="close" style="color:black;">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<strong style="color:#2465b9;">Registro! </strong><br>  <?php echo $this->session->flashdata("danger") ?> 
+			</div>
+		</div>
+	</div>
 
 <?php endif;?>
 
 <?php if($this->session->flashdata("warning")):?>
 
-	 <div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #82b74b; color:white;">
-	 <button type="button" data-dismiss="alert" aria-label="Close" class="close">
-	    <span aria-hidden="true">&times;</span>
-	 </button>
-	 <div class="icon">
-		<i class="fa fa-check-circle fa-2x"></i>
-	 </div>
-	 <strong>Registro! </strong><br>  <?php echo $this->session->flashdata("warning") ?> </div>
+	<div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #fff">
+		<div class="row">
+			<div class="col-lg-1" style="border-left:1px solid #ffeb3b; background:#ffeb3b;margin-top:-10px;margin-bottom:-10px;">
+				<div class="icon" style="color:black;position:relative;height:70px;vertical-align: baseline;">
+					<i class="fa fa-check-circle fa-2x" style="margin-top:50%;margin-left:-18%;"></i>
+				</div>
+			</div>
+			<div class="col-lg-11">
+				<button type="button" data-dismiss="alert" aria-label="Close" class="close" style="color:black;">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<strong style="color:#2465b9;">Registro! </strong><br>  <?php echo $this->session->flashdata("warning") ?> 
+			</div>
+		</div>
+	</div>
 
 <?php endif;?>
 
 <?php if($this->session->flashdata("info")):?>
 
-	 <div role="alert" class="alert alert-info alert-dismissible fade in xyz alert-style">
-	 <button type="button" data-dismiss="alert" aria-label="Close" class="close">
-	    <span aria-hidden="true">&times;</span>
-	 </button>
-	 <strong></strong> Registro Actualizado <?php echo $this->session->flashdata("info") ?> </div>
+	<div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #fff">
+		<div class="row">
+			<div class="col-lg-1" style="border-left:1px solid #4CAF50; background:#4CAF50;margin-top:-10px;margin-bottom:-10px;">
+				<div class="icon" style="color:white;position:relative;height:70px;vertical-align: baseline;">
+					<i class="fa fa-check-circle fa-2x" style="margin-top:50%;margin-left:-18%;"></i>
+				</div>
+			</div>
+			<div class="col-lg-11">
+				<button type="button" data-dismiss="alert" aria-label="Close" class="close" style="color:black;">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<strong style="color:#2465b9;">Registro! </strong><br>  <?php echo $this->session->flashdata("info") ?> 
+			</div>
+		</div>
+	</div>
 
 <?php endif;?>
