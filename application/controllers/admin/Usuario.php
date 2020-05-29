@@ -84,10 +84,10 @@ class Usuario extends MY_Controller {
 		// Insert Nuevo Usuario
 		$data = $this->Usuario_model->crear_usuario( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Usuario Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Usuario No Fue Creado");
+			$this->session->set_flashdata('danger', "Usuario No Fue Creado: ". $data['message']);
 		}	
 		redirect(base_url()."admin/usuario/index");
 	}
@@ -120,10 +120,10 @@ class Usuario extends MY_Controller {
 		if(isset($_POST)){
 			$data = $this->Usuario_model->update( $_POST );
 
-			if($data){
+			if(!$data['code']){
 				$this->session->set_flashdata('info', "Usuario Fue Actualizado");
 			}else{
-				$this->session->set_flashdata('danger', "Usuario No Fue Actualizado");
+				$this->session->set_flashdata('danger', "Usuario No Fue Actualizado: ". $data['message']);
 			}
 		}
 		redirect(base_url()."admin/usuario/index");

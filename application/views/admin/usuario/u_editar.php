@@ -138,13 +138,16 @@
                 <div id="panelDemo10" class="panel menu_title_bar">    
                                         
                     <div class="panel-heading menuTop">Editar Usuario </div>
-                    <div class="panel-body menuContent">        
-                    
+                    <div class="menuContent">        
+                    <div class="b"> 
+                    <div class="panel-heading">                                   
+                                </div>
                         
                         <input type="hidden" value="<?php echo $usuario[0]->id_usuario; ?>" name="id_usuario">
                         <div class="row">
 
                             <div class="col-lg-4">
+                            <i class="fa fa-info-circle text-purple"></i> Información Básica.<br>
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Usuario</label>
                                     <div class="col-sm-9">
@@ -193,8 +196,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-4">
-                                <!-- Otro -->
+                            <div class="col-lg-4" style="border-left:1px solid grey;border-right:1px solid grey">
+                            <i class="fa fa-info-circle text-purple"></i> Información Básica.<br>
 
                                        <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Rol</label>
@@ -272,26 +275,23 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <div class="col-sm-offset-3 col-sm-9">
-                                        <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
-                                    </div>
-                                </div>
+                 
                             </div>
 
                             <div class="col-lg-4">
                                 <i class="fa fa-info-circle"></i> Vincular Roles al Usuario.
                                 <br><br>
 
-                                <table class="table table-striped table-hover">
+                                <table class="table table-striped table-hover" style="height:400px;width:100%;overflow-y: scroll ;display:inline-block;">
                                     
-                                    <thead>
-                                        <tr>                            
+                                    <thead style="width: 100%;   display: inline-grid;">
+                                        <tr>
+                                            <th scope="row">N°</th>                      
                                             <th scope="row">Nombre Roles</th>
                                         </tr>
                                     </thead>
 
-                                    <tbody>
+                                    <tbody style="width: 100%;   display: inline-grid;">
                                     <?php
                                     $cont =1;
                                     
@@ -299,40 +299,41 @@
                                         
                                         if($ur->usuario_rol_usuario == $usuario[0]->id_usuario ){
                                         ?>
-                                        <tr>
-                                            <?php                                        
-                                                $cont ++;
+                                            <tr style="width: 100%; ">
+                                            <?php                                                
                                                 $check ="";
                                                 if($ur->usuario_rol_role){
                                                     $check = "checked";
                                                 }
                                                 ?>
-                                               
+                                                <td><?= $cont; ?></td>
                                                 <td>
-                                                <input type="checkbox" <?php echo $check ?> value="<?php echo $ur->rol ?>" name="<?php echo $ur->rol ?>">
-                                                <label><?php echo $ur->role; ?></label>
-                                                <br>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                            }
-                                            else {
-                                                ?>
-                                                <tr>
-                                                
-                                                <?php                                        
-                                                    $cont ++;
-                                                    $check ="";
-                                                    ?>
-                                                   
-                                                    <td>
                                                     <input type="checkbox" <?php echo $check ?> value="<?php echo $ur->rol ?>" name="<?php echo $ur->rol ?>">
                                                     <label><?php echo $ur->role; ?></label>
                                                     <br>
-                                                    </td>
-                                                </tr>
-                                                <?php
-                                            }
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        else 
+                                        {
+                                            ?>
+                                            <tr style="width: 100%; ">
+                                            
+                                            <?php                                        
+                                                //$cont ++;
+                                                $check ="";
+                                                ?>
+                                                <td><?= $cont; ?></td>
+                                                <td>
+                                                    <input type="checkbox" <?php echo $check ?> value="<?php echo $ur->rol ?>" name="<?php echo $ur->rol ?>">
+                                                    <label><?php echo $ur->role; ?></label>
+                                                    <br>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        $cont ++;
                                         
                                     }
                                      
@@ -342,14 +343,22 @@
                                 </table>
                             </div>
                         </div>
-                        
+
+                        <div class="panel-footer text-right">
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <button type="button" id="btn_save" class="btn btn-info">Guardar</button>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
         </div>
 
         </form>
-
+        <?php $this->load->view('notificaciones/success'); ?>
 </section>
 
 <!-- Modal Large CLIENTES MODAL-->

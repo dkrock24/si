@@ -140,170 +140,158 @@
                 <div id="panelDemo10" class="panel menu_title_bar">    
                                                 
                     <div class="panel-heading menuTop">Nuevo Usuario</div>
-                    <div class="panel-body menuContent">        
+                    <div class="menuContent">    
+                    <div class="b">    
+                    <div class="panel-heading">                                   
+                                </div>
                         <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
                         <div class="row">
 
                             <div class="col-lg-4">
-                                        <div class="form-group">
-                                            <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Usuario</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" placeholder="Usuario" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
-                                                
-                                            </div>
-                                        </div>
+                            <i class="fa fa-info-circle text-purple"></i> Información Básica.
+                                        <br><br>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Usuario</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" placeholder="Usuario" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                        
+                                    </div>
+                                </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Hora Inicio</label>
-                                            <div class="col-sm-9">
-                                                <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" placeholder="Hora Inicio" value="<?php //echo $onMenu[0]->url_submenu ?>">
-                                                
-                                            </div>
-                                        </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Hora Inicio</label>
+                                    <div class="col-sm-9">
+                                        <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" placeholder="Hora Inicio" value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                        
+                                    </div>
+                                </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Hora Fin</label>
-                                            <div class="col-sm-9">
-                                                <input type="time" class="form-control" id="hora_salida" name="hora_salida" placeholder="Hora Fin" value="<?php //echo $onMenu[0]->icon_submenu ?>">
-                                            </div>
-                                        </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Hora Fin</label>
+                                    <div class="col-sm-9">
+                                        <input type="time" class="form-control" id="hora_salida" name="hora_salida" placeholder="Hora Fin" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                    </div>
+                                </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="encargado" name="encargado" placeholder="Encargado" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                
-                                            </div>
-                                        </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="encargado" name="encargado" placeholder="Encargado" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        
+                                    </div>
+                                </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Password</label>
-                                            <div class="col-sm-9">
-                                                <input type="password" class="form-control" id="password" name="contrasena_usuario" placeholder="*******" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                
-                                            </div>
-                                        </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Password</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" class="form-control" id="password" name="contrasena_usuario" placeholder="*******" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        
+                                    </div>
+                                </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Repetir Password</label>
-                                            <div class="col-sm-9">
-                                                <input type="password" class="form-control" id="password2" name="password2" placeholder="*******" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                
-                                            </div>
-                                        </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Repetir Password</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" class="form-control" id="password2" name="password2" placeholder="*******" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-4">
-                                        <!-- Otro -->
+                            <div class="col-lg-4" style="border-left:1px solid grey;border-right:1px solid grey">
+                                <i class="fa fa-info-circle text-purple"></i> Información Básica.
+                                        <br><br>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Rol</label>
-                                            <div class="col-sm-9">
-                                                <select id="id_rol" name="id_rol" class="form-control">
-                                                    <?php
-                                                    if($roles){
-                                                        foreach ($roles as $key => $p) {
-                                                            ?>
-                                                            <option value="<?php echo $p->id_rol; ?>"><?php echo $p->role; ?></option>
-                                                            <?php
-                                                        }
-                                                    }else{
-                                                        ?>
-                                                        <option value=""><?php echo "No Exiten Roles"; ?></option>
-                                                        <?php                                                        
-                                                    }
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Rol</label>
+                                    <div class="col-sm-9">
+                                        <select id="id_rol" name="id_rol" class="form-control">
+                                            <?php
+                                            if($roles){
+                                                foreach ($roles as $key => $p) {
                                                     ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fotografia</label>
-                                            <div class="col-sm-9">
-                                                <input type="file" class="form-control Imagen" id="img" name="foto" placeholder="Foto" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empleado</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control persona_codigo" id="nombre_persona" name="nombre_persona" placeholder="Nombre Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                <input type="hidden" class="form-control persona_codigo" id="persona" name="persona" placeholder="Persona" value="">
-                                                
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                
-                                                <img src="" name="" id="imagen_nueva" class="preview_producto" />
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                
-                                                <label>
-                                                    <select name="estado" class="form-control">
-                                                        <option value="1">Activo</option>
-                                                        <option value="0">Inactivo</option>
-                                                    </select>
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                <?php
-                                                if($roles){
-                                                    ?>
-                                                    <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
-                                                    <?php
-                                                }else{
-                                                    ?>
-                                                    <span class="btn btn-danger">
-                                                        <i class="fa fa-info-circle fa-lg"> Boton Desactivado. </i>
-                                                    </span>
-                                                    
-                                                    <br><br>
+                                                    <option value="<?php echo $p->id_rol; ?>"><?php echo $p->role; ?></option>
                                                     <?php
                                                 }
+                                            }else{
                                                 ?>
-                                                
-                                            </div>
-                                        </div>
+                                                <option value=""><?php echo "No Exiten Roles"; ?></option>
+                                                <?php                                                        
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fotografia</label>
+                                    <div class="col-sm-9">
+                                        <input type="file" class="form-control Imagen" id="img" name="foto" placeholder="Foto" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empleado</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control persona_codigo" id="nombre_persona" name="nombre_persona" placeholder="Nombre Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        <input type="hidden" class="form-control persona_codigo" id="persona" name="persona" placeholder="Persona" value="">
+                                        
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        
+                                        <img src="" name="" id="imagen_nueva" class="preview_producto" />
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        
+                                        <label>
+                                            <select name="estado" class="form-control">
+                                                <option value="1">Activo</option>
+                                                <option value="0">Inactivo</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+                                <br><br><br>
+
                             </div>
 
                             <div class="col-lg-4">
                                 <i class="fa fa-info-circle"></i> Vincular Roles al Usuario.
                                 <br><br>
 
-                                <table class="table table-striped table-hover">
+                                <table class="table table-striped table-hover" style="height:250px;width:100%;overflow-y: scroll ;display:inline-block;">
                                     <thead>
                                         <tr>
+                                            <th scope="row">N°</th>
                                             <th scope="row">Nombre Roles</th>
                                         </tr>
                                     </thead>
 
-                                    <tbody>
+                                    <tbody style="width: 100%;   display: inline-grid;">
                                     <?php
                                     
                                     $cont =1;
                                     
                                     if($roles){
-                                        foreach ($roles as $r) {   
+                                        foreach ($roles as $r) 
+                                        {
                                         ?>
-                                        <tr>
-                                        <?php                                        
+                                            <tr>                              
+                                                <td><?= $cont; ?></td>
+                                                <td>
+                                                    <input type="checkbox" value="<?php echo $r->id_rol ?>" name="<?php echo $r->id_rol ?>">
+                                                    <label><?php echo $r->role; ?></label>
+                                                    <br>
+                                                </td>
+                                            </tr>
+                                            <?php
                                             $cont ++;
-                                            ?>                               
-                                            <td>
-                                            <input type="checkbox" value="<?php echo $r->id_rol ?>" name="<?php echo $r->id_rol ?>">
-                                            <label><?php echo $r->role; ?></label>
-                                            <br>
-                                            </td>
-                                        </tr>
-                                        <?php
                                         }
                                     }
                                     ?>
@@ -312,6 +300,31 @@
                                 </table>
                             </div>
                         </div>
+
+                        <div class="panel-footer text-right">
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <span class="msg"></span>
+                                    <?php
+                                if($roles){
+                                    ?>
+                                    <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <span class="btn btn-danger">
+                                        <i class="fa fa-info-circle fa-lg"> Boton Desactivado. </i>
+                                    </span>
+                                    
+                                    <br><br>
+                                    <?php
+                                }
+                                ?>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -319,6 +332,7 @@
 
         </form>
     </div>
+    <?php $this->load->view('notificaciones/success'); ?>
 </section>
 
 <!-- Modal Large CLIENTES MODAL-->

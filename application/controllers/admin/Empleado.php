@@ -97,7 +97,7 @@ class Empleado extends MY_Controller {
 	public function crear(){
 		$data = $this->Empleado_model->crear( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Empleado Fue Creado");
 		}else{
 			$this->session->set_flashdata('danger', "Empleado No Fue Creado");
@@ -171,7 +171,7 @@ class Empleado extends MY_Controller {
 		if(isset($_POST)){
 			$data = $this->Empleado_model->update( $_POST );
 
-			if($data){
+			if(!$data['code']){
 				$this->session->set_flashdata('info', "Empleado Fue Actualizado");
 			}else{
 				$this->session->set_flashdata('danger', "Empleado No Fue Actualizado");
