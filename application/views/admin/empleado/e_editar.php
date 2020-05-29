@@ -170,20 +170,17 @@
                     <div id="panelDemo10" class="panel menu_title_bar">
                         <div class="panel-heading menuTop">Editar Empleado : <?php //echo $empleado[0]->nombre_submenu 
                                                                                 ?> </div>
-                        <div class="panel-body menuContent">
+                        <div class=" menuContent">
                             <input type="hidden" value="<?php echo $empleado[0]->id_empleado; ?>" name="id_empleado">
-                            <div class="panel b">
+                            <div class="b">
                                 <div class="panel-heading">
-                                    <div class="pull-right">
-                                        <div class="label label-info">Importante</div>
-                                    </div>
-                                    <h4 class="m0">Editar Nuevo Empleado</h4>
-                                    <small class="text-muted">Crear Nuevo.</small>
                                 </div>
 
                                 <div class="row">
 
                                     <div class="col-lg-4">
+                                    <i class="fa fa-info-circle text-purple"></i> Información Básica.
+                                        <br><br>
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Contratacion</label>
                                             <div class="col-sm-9">
@@ -241,8 +238,9 @@
 
                                     </div>
 
-                                    <div class="col-lg-4">
-                                        <!-- Otro -->
+                                    <div class="col-lg-4" style="border-left:1px solid grey;border-right:1px solid grey">
+                                    <i class="fa fa-info-circle text-purple"></i> Información Básica.
+                                        <br><br>
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Cargo</label>

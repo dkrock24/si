@@ -113,6 +113,10 @@ class Empleado_model extends CI_Model {
             $imagen = file_get_contents($_FILES['img_empleado']['tmp_name']);
 
             $data = array_merge( $data,array('img_empleado' => $imagen, 'img_type'=> $imageProperties['mime'] ));
+        }else{
+            $imagen = file_get_contents("/var/www/html/asstes/img/nofotoprofile.png");
+            $imageProperties = "image/png";
+            $data = array_merge( $data,array('img_empleado' => $imagen, 'img_type'=> $imageProperties ));
         }
         
         $result = $this->db->insert(self::sys_empleado, $data);  

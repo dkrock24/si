@@ -57,7 +57,8 @@ class Empresa_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::pos_empresa.' e');
-        $this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+        //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
+        $this->db->where('id_empresa', $this->session->empresa[0]->id_empresa);
         
         $query = $this->db->get();
         //echo $this->db->queries[3];

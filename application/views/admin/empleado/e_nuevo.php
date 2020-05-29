@@ -135,9 +135,6 @@
             });
         });
 
-
-
-
         $("#imagen_nueva").hide();
 
         function readURL(input) {
@@ -146,6 +143,7 @@
 
                 reader.onload = function(e) {
                     $('.preview_producto').attr('src', e.target.result);
+                    console.log(e.target.result);
                 }
 
                 reader.readAsDataURL(input.files[0]);
@@ -177,29 +175,23 @@
                     <div id="panelDemo10" class="panel menu_title_bar">
 
                         <div class="panel-heading menuTop">Nuevo Empleado </div>
-                        <div class="panel-body menuContent">
+                        <div class="menuContent">
 
                             <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; 
                                                         ?>" name="id_submenu">
 
-                            <div class="panel b">
-                                <div class="panel-heading">
-                                    <div class="pull-right">
-                                        <div class="label label-info">Importante</div>
-                                    </div>
-                                    <h4 class="m0">Crear Nuevo Empleado</h4>
-                                    <small class="text-muted">Crear Nuevo.</small>
+                            <div class="b">
+                                <div class="panel-heading">                                   
                                 </div>
                                 <div class="row">
 
-
-
                                     <div class="col-lg-4">
+                                    <i class="fa fa-info-circle text-purple"></i> Información Básica.
+                                        <br><br>
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Contratacion</label>
                                             <div class="col-sm-9">
-                                                <input type="date" class="form-control" required id="fecha_contratacion_empleado" name="fecha_contratacion_empleado" placeholder="Empresa" value="<?php //echo $onMenu[0]->fecha_contratacion_empleado 
-                                                                                                                                                                                            ?>">
+                                                <input type="date" class="form-control" required id="fecha_contratacion_empleado" name="fecha_contratacion_empleado" placeholder="Empresa" value="<?= date("Y-m-d"); ?>">
 
                                             </div>
                                         </div>
@@ -207,25 +199,31 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Horas</label>
                                             <div class="col-sm-9">
-                                                <input type="number" class="form-control" required id="horas_laborales_mensuales_empleado" name="horas_laborales_mensuales_empleado" placeholder="Hora laborales" value="<?php //echo $onMenu[0]->horas_laborales_mensuales_empleado 
-                                                                                                                                                                                                                ?>">
-
+                                                <input type="number" class="form-control" required id="horas_laborales_mensuales_empleado" name="horas_laborales_mensuales_empleado" placeholder="Hora laborales" value="8">
+                                                
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Turno</label>
                                             <div class="col-sm-9">
-                                                <input type="number" class="form-control" required id="turno" name="turno" placeholder="Turno" value="<?php //echo $onMenu[0]->turno 
-                                                                                                                                                ?>">
+                                                
+                                                <select id="turno" name="turno" class="form-control">
+                                                    <?php
+                                                    foreach ($turnos as $key => $value) {
+                                                        ?>
+                                                        <option value="<?php echo $value->id_turno ?>"><?php echo $value->nombre_turno ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Alias</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" required id="alias" name="alias" placeholder="Alias" value="<?php //echo $onMenu[0]->alias 
-                                                                                                                                            ?>">
+                                                <input type="text" class="form-control" required id="alias" name="alias" placeholder="Alias" value="">
 
                                             </div>
                                         </div>
@@ -233,8 +231,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Nivel</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" required id="nivel" name="nivel" placeholder="Nivel" value="<?php //echo $onMenu[0]->alias 
-                                                                                                                                            ?>">
+                                                <input type="text" class="form-control" required id="nivel" name="nivel" placeholder="Nivel" value="">
 
                                             </div>
                                         </div>
@@ -242,8 +239,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puesto</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" required id="puesto" name="puesto" placeholder="Puesto" value="<?php //echo $onMenu[0]->puesto 
-                                                                                                                                                ?>">
+                                                <input type="text" class="form-control" required id="puesto" name="puesto" placeholder="Puesto" value="">
 
                                             </div>
                                         </div>
@@ -251,8 +247,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Seccion</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" required id="seccion" name="seccion" placeholder="Seccion" value="<?php //echo $onMenu[0]->seccion 
-                                                                                                                                            ?>">
+                                                <input type="text" class="form-control" required id="seccion" name="seccion" placeholder="Seccion" value="">
 
                                             </div>
                                         </div>
@@ -260,8 +255,9 @@
                                     </div>
 
 
-                                    <div class="col-lg-4">
-                                        <!-- Otro -->
+                                    <div class="col-lg-4" style="border-left:1px solid grey;border-right:1px solid grey">
+                                    <i class="fa fa-info-circle text-purple"></i> Información Básica.
+                                        <br><br>
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Cargo</label>
@@ -314,8 +310,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fotografia</label>
                                             <div class="col-sm-9">
-                                                <input type="file" required class="form-control Imagen" id="img" name="img_empleado" placeholder="Foto" value="<?php //echo $onMenu[0]->titulo_submenu 
-                                                                                                                                                        ?>">
+                                                <input type="file" class="form-control Imagen" id="img" name="img_empleado" placeholder="Foto" value="asstes/img/nofotoprofile.png">
 
                                             </div>
                                         </div>
@@ -359,13 +354,9 @@
                                                 </label>
                                             </div>
                                         </div>
-
-
-
-
                                     </div>
 
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4" >
                                         <i class="fa fa-info-circle text-purple"></i> Vincular Sucursales al Empleado.
                                         <br><br>
 
@@ -381,18 +372,14 @@
                                                 foreach ($empresa as $e) {
                                                     ?>
                                                     <tr>
-
                                                         <td>
-
                                                             <span class="label label-success " style="font-size: 15px;">
                                                                 <span class="fa-stack">
                                                                     <i class="fa fa-home"></i>
                                                                 </span>
                                                                 <?php echo $e->nombre_razon_social; ?></span>
-
                                                             <br><br>
                                                             <?php
-
                                                                 foreach ($sucursal_lista as $value) {
                                                                     if ($e->id_empresa == $value->Empresa_Suc) {
 
@@ -411,7 +398,6 @@
                                                 }
                                                 ?>
                                             </tbody>
-
                                         </table>
                                     </div>
                                 </div>

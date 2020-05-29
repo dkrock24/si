@@ -42,6 +42,7 @@ class Empleado extends MY_Controller {
 		$this->load->model('admin/Empresa_model');
 		$this->load->model('admin/Cargos_model');
 		$this->load->model('admin/Sucursal_model');
+		$this->load->model('admin/Turnos_model');	
 
 	}
 
@@ -86,6 +87,7 @@ class Empleado extends MY_Controller {
 		$data['cargos']	= $this->Cargos_model->get_cargos();
 		$data['empresa']	= $this->Empresa_model->getEmpresaOnly();
 		$data['sucursal_lista']	= $this->Empresa_model->getEmpresasWithSucursal2(1);
+		$data['turnos'] = $this->Turnos_model->getTurnos();
 		$data['title'] = "Crear Empleado";
 		$data['home'] = 'admin/empleado/e_nuevo';
 
