@@ -85,7 +85,7 @@
                                 <?php
                                 if(isset($filtros)){
                                     ?>
-                                    <input type="text" name="<?php echo $fields['field'][$key]; ?>" value="<?php echo $filtros[$fields['field'][$key]] ?>" class="form-control filtro-input" /><br>
+                                    <input type="text" name="<?php echo $fields['field'][$key]; ?>" value="<?php echo @$filtros[$fields['field'][$key]] ?>" class="form-control filtro-input" /><br>
                                     <?php
                                 }
                                 ?>                                

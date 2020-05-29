@@ -54,21 +54,12 @@ class Codbarra_model extends CI_Model {
         $this->db->where('Producto',$datos['produto_principal'] );
         $this->db->delete(self::pos_agregar_code_barr);
 
-        $this->save_Codbarra($datos);
-    }
+        $result = $this->save_Codbarra($datos);
 
-    function get_combo_valor( $producto , $combo_producto ){
-
-        $this->db->select('*');
-        $this->db->from(self::pos_combo);
-        $this->db->where('Producto_Combo', $producto);
-        $this->db->where('producto_a_descargar_Combo', $combo_producto );
-        $query = $this->db->get(); 
-        //echo $this->db->queries[1];
-        
-        if($query->num_rows() > 0 )
-        {
-            return $query->result();
+        if(!$result){
+            $result = $this->db->error();
         }
+
+        return $result;
     }
 }

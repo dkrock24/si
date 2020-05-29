@@ -78,7 +78,12 @@ class Marca_model extends CI_Model {
             'id_mar_cat' => $id,
         );
 
-        $this->db->delete(self::marca_categoria, $data); 
+        $result = $this->db->delete(self::marca_categoria, $data); 
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     function get_marcas( ){
@@ -100,7 +105,13 @@ class Marca_model extends CI_Model {
             'id_marca' => $id,
         );
 
-        return $result = $this->db->delete(self::marca, $data); 
+        $result = $this->db->delete(self::marca, $data); 
+
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     function marca_categoria( ){
@@ -159,6 +170,10 @@ class Marca_model extends CI_Model {
         );
         $this->db->where('id_marca', $marca['id_marca']);
         $result = $this->db->update(self::marca, $data);  
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -181,6 +196,9 @@ class Marca_model extends CI_Model {
 
         $this->save_categoria_marca( $data );
 
+        if(!$result){
+            $result = $this->db->error();
+        }
 
         return $result;
     }
@@ -196,6 +214,10 @@ class Marca_model extends CI_Model {
             'id_rol' => $role_id
         );
         $result = $this->db->delete(self::marca, $data);
+
+        if(!$result){
+            $result = $this->db->error();
+        }
 
         return $result;
     }

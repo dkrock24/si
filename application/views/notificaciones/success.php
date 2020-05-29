@@ -1,9 +1,9 @@
 <script type="text/javascript">
 	$(document).ready(function(){
-		var intervalID = window.setInterval(myCallback, 3000);
+		var intervalID = window.setInterval(myCallback, 10000);
 
 		function myCallback() {
-		  $(".xyz").fadeOut( "slow" );
+		  //$(".xyz").fadeOut( "slow" );
 		}
 	});
 	
@@ -33,14 +33,14 @@
 
 <?php if($this->session->flashdata("success")):?>
 
-	 <div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #fff">
+	 <div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #fff; bottom:200px;">
 		<div class="row">
 			<div class="col-lg-1" style="border-left:1px solid #2465b9; background:#2465b9;margin-top:-10px;margin-bottom:-10px;">
-				<div class="icon" style="color:white;position:relative;height:70px;vertical-align: baseline;">
+				<div class="icon" style="color:white;position:relative;height:150px;vertical-align: baseline;">
 					<i class="fa fa-check-circle fa-2x" style="margin-top:50%;margin-left:-18%;"></i>
 				</div>
 			</div>
-			<div class="col-lg-11">
+			<div class="col-lg-11" style="color:black;">
 				<button type="button" data-dismiss="alert" aria-label="Close" class="close" style="color:black;">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -53,14 +53,14 @@
 
 <?php if($this->session->flashdata("danger")):?>
 
-	<div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #fff">
+	<div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #fff; bottom:200px;">
 		<div class="row">
 			<div class="col-lg-1" style="border-left:1px solid #f44336; background:#f44336;margin-top:-10px;margin-bottom:-10px;">
-				<div class="icon" style="color:white;position:relative;height:70px;vertical-align: baseline;">
+				<div class="icon" style="color:white;position:relative;height:150px;vertical-align: baseline;">
 					<i class="fa fa-check-circle fa-2x" style="margin-top:50%;margin-left:-18%;"></i>
 				</div>
 			</div>
-			<div class="col-lg-11">
+			<div class="col-lg-11" style="color:black;">
 				<button type="button" data-dismiss="alert" aria-label="Close" class="close" style="color:black;">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -73,14 +73,14 @@
 
 <?php if($this->session->flashdata("warning")):?>
 
-	<div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #fff">
+	<div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #fff; bottom:200px;">
 		<div class="row">
 			<div class="col-lg-1" style="border-left:1px solid #ffeb3b; background:#ffeb3b;margin-top:-10px;margin-bottom:-10px;">
-				<div class="icon" style="color:black;position:relative;height:70px;vertical-align: baseline;">
+				<div class="icon" style="color:black;position:relative;height:150px;vertical-align: baseline;">
 					<i class="fa fa-check-circle fa-2x" style="margin-top:50%;margin-left:-18%;"></i>
 				</div>
 			</div>
-			<div class="col-lg-11">
+			<div class="col-lg-11" style="color:black;">
 				<button type="button" data-dismiss="alert" aria-label="Close" class="close" style="color:black;">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -93,14 +93,14 @@
 
 <?php if($this->session->flashdata("info")):?>
 
-	<div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #fff">
+	<div role="alert" class="alert alert-dismissible fade in xyz alert-style" style="background: #fff; bottom:200px;">
 		<div class="row">
 			<div class="col-lg-1" style="border-left:1px solid #4CAF50; background:#4CAF50;margin-top:-10px;margin-bottom:-10px;">
-				<div class="icon" style="color:white;position:relative;height:70px;vertical-align: baseline;">
+				<div class="icon" style="color:white;position:relative;height:150px;vertical-align: baseline;">
 					<i class="fa fa-check-circle fa-2x" style="margin-top:50%;margin-left:-18%;"></i>
 				</div>
 			</div>
-			<div class="col-lg-11">
+			<div class="col-lg-11" style="color:black;">
 				<button type="button" data-dismiss="alert" aria-label="Close" class="close" style="color:black;">
 					<span aria-hidden="true">&times;</span>
 				</button>

@@ -53,6 +53,10 @@ class Impuesto_model extends CI_Model {
         );
 
         $result = $this->db->insert(self::impuesto, $data );
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -91,6 +95,10 @@ class Impuesto_model extends CI_Model {
         );
         $this->db->where('id_tipos_impuestos', $impuesto['id_tipos_impuestos']);
         $result = $this->db->update(self::impuesto, $data);
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -100,6 +108,10 @@ class Impuesto_model extends CI_Model {
         );
         $this->db->where('id_tipos_impuestos', $id);
         $result = $this->db->delete(self::impuesto, $data);
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -268,14 +280,7 @@ class Impuesto_model extends CI_Model {
         } 
     }
 
-    
-
-
-    
-
     // No usados abajos
-
-    
 
     function delete_documento( $role_id ){
 
@@ -287,7 +292,7 @@ class Impuesto_model extends CI_Model {
         $data = array(
             'id_rol' => $role_id
         );
-        $this->db->delete(self::documento, $data);
+        $this->db->delete(self::impuesto_documento, $data);
 
         return 1;
     }

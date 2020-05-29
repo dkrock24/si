@@ -177,6 +177,10 @@ class Usuario_model extends CI_Model {
         $insert_id = $this->db->insert_id();
         $this->insert_role_usuario( $insert_id , $datos );
 
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+
         return $insert;
     }
 
@@ -262,6 +266,10 @@ class Usuario_model extends CI_Model {
         $this->delete_role_usuario($datos['id_usuario']);
         $this->update_role_usuario($datos['id_usuario'] , $datos);
 
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+
         return $insert;
     }
 
@@ -289,6 +297,10 @@ class Usuario_model extends CI_Model {
 
         $this->db->where('usuario_rol_usuario', $usuario );
         $result = $this->db->delete(self::usuario_roles, $data ); 
+
+        if(!$result){
+            $result = $this->db->error();
+        }
 
         return $result ;
 

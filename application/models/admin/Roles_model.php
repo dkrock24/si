@@ -72,7 +72,12 @@ class Roles_model extends CI_Model {
         );
 
         $this->db->where('id_rol', $roles['role_id']);
-        $this->db->update(self::roles, $data);
+        $result = $this->db->update(self::roles, $data);
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     function nuevo_rol( $nuevo_rol ){
@@ -99,6 +104,10 @@ class Roles_model extends CI_Model {
             $this->db->query($inset_acceso);
         } 
 
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -118,6 +127,10 @@ class Roles_model extends CI_Model {
             'id_rol' => $role_id
         );
         $result = $this->db->delete(self::roles, $data);
+
+        if(!$result){
+            $result = $this->db->error();
+        }
 
         return $result;
     }
@@ -145,6 +158,10 @@ class Roles_model extends CI_Model {
 
         // Set Mismo Acceso que el Rol copiado
         $this->setAccesosRol( $ultimo_id , $nuevo_rol['role_id'] );
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 

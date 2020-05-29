@@ -99,11 +99,11 @@ class Cliente extends MY_Controller {
 		// Insert Nuevo Cliente
 		
 		$data = $this->Cliente_model->crear_cliente( $_POST );
-
-		if($data){
+		
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Cliente Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Cliente No Fue Creado");
+			$this->session->set_flashdata('danger', "Cliente No Fue Creado : ". $data['message']);
 		}	
 
 		redirect(base_url()."admin/cliente/index");
@@ -165,10 +165,10 @@ class Cliente extends MY_Controller {
 
 		$data = $this->Cliente_model->eliminar( $cliente_id );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Cliente Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Cliente No Fue Eliminado");
+			$this->session->set_flashdata('danger', "Cliente No Fue Eliminado : ". $data['message']);
 		}
 
 		redirect(base_url()."admin/cliente/index");
@@ -178,10 +178,10 @@ class Cliente extends MY_Controller {
 		// Actualizar Giro 
 		$data = $this->Cliente_model->update( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Cliente Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('danger', "Cliente No Fue Actualizado");
+			$this->session->set_flashdata('danger', "Cliente No Fue Actualizado : ". $data['message']);
 		}
 
 		redirect(base_url()."admin/cliente/index");

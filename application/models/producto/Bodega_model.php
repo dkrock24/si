@@ -105,7 +105,12 @@ class Bodega_model extends CI_Model {
             'bodega_estado' 	=> $datos['bodega_estado'],
         );
         
-        $this->db->insert(self::pos_bodega, $data);  
+        $insert = $this->db->insert(self::pos_bodega, $data);  
+
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+        return $insert;
 
 	}
 
@@ -137,7 +142,12 @@ class Bodega_model extends CI_Model {
             'bodega_estado' 	=> $datos['bodega_estado'],
         );
         $this->db->where('id_bodega', $datos['id_bodega']);
-        $this->db->update(self::pos_bodega, $data);  
+        $insert = $this->db->update(self::pos_bodega, $data);  
+
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+        return $insert;
 	}
 
     function eliminar($id){
@@ -146,6 +156,10 @@ class Bodega_model extends CI_Model {
         );
         $this->db->where('id_bodega', $id);
         $retuslt = $this->db->delete(self::pos_bodega, $data);
+
+        if(!$retuslt){
+            $retuslt = $this->db->error();
+        }
         return $retuslt;
     }
 

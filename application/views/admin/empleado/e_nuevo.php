@@ -97,7 +97,17 @@
             var password2 = $("#password2").val();
 
             if ((password == password2) && (password != '' && password2 != '')) {
-                $('form#crear').submit();
+                var data = "";
+                $('input[type^="text"]').each(function () {
+                    if($(this).val()!=""){
+                        $('form#crear').submit();
+                    }else{
+                        
+                        data += "Campo " + $(this).attr('name') + " esta vacio <br>";
+                    }
+                });
+                $(".msg").html(data);
+                
             } else {
                 $(".notificacion_texto").text("Password Diferente.");
                 $('#error').modal('show');
@@ -188,7 +198,7 @@
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Contratacion</label>
                                             <div class="col-sm-9">
-                                                <input type="date" class="form-control" id="fecha_contratacion_empleado" name="fecha_contratacion_empleado" placeholder="Empresa" value="<?php //echo $onMenu[0]->fecha_contratacion_empleado 
+                                                <input type="date" class="form-control" required id="fecha_contratacion_empleado" name="fecha_contratacion_empleado" placeholder="Empresa" value="<?php //echo $onMenu[0]->fecha_contratacion_empleado 
                                                                                                                                                                                             ?>">
 
                                             </div>
@@ -197,7 +207,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Horas</label>
                                             <div class="col-sm-9">
-                                                <input type="number" class="form-control" id="horas_laborales_mensuales_empleado" name="horas_laborales_mensuales_empleado" placeholder="Hora laborales" value="<?php //echo $onMenu[0]->horas_laborales_mensuales_empleado 
+                                                <input type="number" class="form-control" required id="horas_laborales_mensuales_empleado" name="horas_laborales_mensuales_empleado" placeholder="Hora laborales" value="<?php //echo $onMenu[0]->horas_laborales_mensuales_empleado 
                                                                                                                                                                                                                 ?>">
 
                                             </div>
@@ -206,7 +216,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Turno</label>
                                             <div class="col-sm-9">
-                                                <input type="number" class="form-control" id="turno" name="turno" placeholder="Turno" value="<?php //echo $onMenu[0]->turno 
+                                                <input type="number" class="form-control" required id="turno" name="turno" placeholder="Turno" value="<?php //echo $onMenu[0]->turno 
                                                                                                                                                 ?>">
                                             </div>
                                         </div>
@@ -214,7 +224,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Alias</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="alias" name="alias" placeholder="Alias" value="<?php //echo $onMenu[0]->alias 
+                                                <input type="text" class="form-control" required id="alias" name="alias" placeholder="Alias" value="<?php //echo $onMenu[0]->alias 
                                                                                                                                             ?>">
 
                                             </div>
@@ -223,7 +233,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Nivel</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="nivel" name="nivel" placeholder="Nivel" value="<?php //echo $onMenu[0]->alias 
+                                                <input type="text" class="form-control" required id="nivel" name="nivel" placeholder="Nivel" value="<?php //echo $onMenu[0]->alias 
                                                                                                                                             ?>">
 
                                             </div>
@@ -232,7 +242,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puesto</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="puesto" name="puesto" placeholder="Puesto" value="<?php //echo $onMenu[0]->puesto 
+                                                <input type="text" class="form-control" required id="puesto" name="puesto" placeholder="Puesto" value="<?php //echo $onMenu[0]->puesto 
                                                                                                                                                 ?>">
 
                                             </div>
@@ -241,7 +251,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Seccion</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="seccion" name="seccion" placeholder="Seccion" value="<?php //echo $onMenu[0]->seccion 
+                                                <input type="text" class="form-control" required id="seccion" name="seccion" placeholder="Seccion" value="<?php //echo $onMenu[0]->seccion 
                                                                                                                                             ?>">
 
                                             </div>
@@ -256,7 +266,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Cargo</label>
                                             <div class="col-sm-9">
-                                                <select id="Cargo_Laboral_E" name="Cargo_Laboral_E" class="form-control">
+                                                <select id="Cargo_Laboral_E" required name="Cargo_Laboral_E" class="form-control">
                                                     <?php
                                                     if($cargos){
                                                         foreach ($cargos as $key => $p) {
@@ -278,7 +288,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empresa</label>
                                             <div class="col-sm-9">
-                                                <select id="Empresa" name="Empresa" class="form-control">
+                                                <select id="Empresa" required name="Empresa" class="form-control">
                                                     <option>Selecione Empresa</option>
                                                     <?php
                                                     foreach ($empresa as $key => $p) {
@@ -294,7 +304,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Sucursal</label>
                                             <div class="col-sm-9">
-                                                <select id="Sucursal" name="Sucursal" class="form-control">
+                                                <select id="Sucursal" required name="Sucursal" class="form-control">
 
                                                 </select>
                                             </div>
@@ -304,7 +314,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fotografia</label>
                                             <div class="col-sm-9">
-                                                <input type="file" class="form-control Imagen" id="img" name="img_empleado" placeholder="Foto" value="<?php //echo $onMenu[0]->titulo_submenu 
+                                                <input type="file" required class="form-control Imagen" id="img" name="img_empleado" placeholder="Foto" value="<?php //echo $onMenu[0]->titulo_submenu 
                                                                                                                                                         ?>">
 
                                             </div>
@@ -314,7 +324,7 @@
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
                                             <div class="col-sm-9">
 
-                                                <input type="text" class="form-control seleccionar_encargado" required id="encargado_nombre" name="" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" required class="form-control seleccionar_encargado" required id="encargado_nombre" name="" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                                 <input type="hidden" class="form-control seleccionar_encargado" id="encargado_id" name="encargado" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
 
                                             </div>
@@ -323,7 +333,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control seleccionar_encargado" id="persona_nombre" name="persona" placeholder="Encargado" value="<?php //echo $onMenu[0]->titulo_submenu 
+                                                <input type="text" required class="form-control seleccionar_encargado" id="persona_nombre" name="persona" placeholder="Encargado" value="<?php //echo $onMenu[0]->titulo_submenu 
                                                                                                                                                                                 ?>">
                                                 <input type="hidden" class="form-control persona_codigo" id="Persona_E" name="Persona_E" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu 
                                                                                                                                                                         ?>">
@@ -409,10 +419,11 @@
                                 <div class="panel-footer text-right">
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-9">
+                                            <span class="msg"></span>
                                             <?php
                                             if($cargos){
                                                 ?>
-                                                <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
+                                                <input type="submit" id="btn_save1" class="btn btn-info" value="Guardar">
                                                 <?php
                                             }else{
                                                 ?>

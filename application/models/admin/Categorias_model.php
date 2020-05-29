@@ -12,7 +12,6 @@ class Categorias_model extends CI_Model {
             
         }
 
-
         $query = $this->db->query('
                 SELECT categoria.*, c2.nombre_categoria as "cat_padre", e.nombre_comercial, g.* FROM categoria 
                 LEFT JOIN categoria AS c2 on categoria.id_categoria_padre = c2.id_categoria
@@ -69,8 +68,12 @@ class Categorias_model extends CI_Model {
             );
         }
 	
-		$result = $this->db->insert(self::categorias, $data ); 
-        return $result;
+		$insert = $this->db->insert(self::categorias, $data ); 
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+
+        return $insert;
 
 	}
 
@@ -110,8 +113,12 @@ class Categorias_model extends CI_Model {
         }
 
         $this->db->where('id_categoria', $categorias['id_categoria']);
-        $result = $this->db->update(self::categorias, $data);  
-        return $result;
+        $insert = $this->db->update(self::categorias, $data);  
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+
+        return $insert;
 	}
 
     function delete_categoria($id){
@@ -120,8 +127,12 @@ class Categorias_model extends CI_Model {
             'id_categoria' => $id,
         );
 
-        $result = $this->db->delete(self::categorias, $data); 
-        return $result;
+        $insert = $this->db->delete(self::categorias, $data); 
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+
+        return $insert;
     }
 
     function get_categorias_padres(){

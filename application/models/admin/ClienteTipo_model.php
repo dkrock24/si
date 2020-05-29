@@ -71,6 +71,10 @@ class ClienteTipo_model extends CI_Model {
         $datos['Empresa'] = $this->session->empresa[0]->id_empresa;
         $result = $this->db->insert(self::pos_cliente_tipo, $datos);
 
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -78,6 +82,10 @@ class ClienteTipo_model extends CI_Model {
 
         $this->db->where('id_cliente_tipo', $datos['id_cliente_tipo'] ); 
         $result = $this->db->update(self::pos_cliente_tipo, $datos ); 
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 }

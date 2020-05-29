@@ -137,7 +137,13 @@ class Sucursal_model extends CI_Model {
             'es_creado' => date("Y-m-d h:i:s"),
             'es_estado' => 1
         );
-        $this->db->insert(self::sys_empleado_sucursal, $data ); 
+        $result = $this->db->insert(self::sys_empleado_sucursal, $data ); 
+
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
    
     }    
 
@@ -155,8 +161,12 @@ class Sucursal_model extends CI_Model {
         );
 
         $this->db->where('id_sucursal', $datos['id_ciudad']);
-        $insert = $this->db->update(self::pos_sucursal, $data);  
-        return $insert;
+        $result = $this->db->update(self::pos_sucursal, $data);  
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
 }

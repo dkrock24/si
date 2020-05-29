@@ -52,6 +52,10 @@ class Cargos_model extends CI_Model {
         );
         
         $insert = $this->db->insert(self::sys_cargo_laboral, $data);  
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+
         return $insert;
     }
 
@@ -79,6 +83,10 @@ class Cargos_model extends CI_Model {
         
         $this->db->where('id_cargo_laboral', $datos['id_cargo_laboral']);  
         $insert = $this->db->update(self::sys_cargo_laboral, $data);  
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+
         return $insert;
     }
 
@@ -88,8 +96,12 @@ class Cargos_model extends CI_Model {
         );
         
         $this->db->where('id_cargo_laboral', $id );  
-        $insert = $this->db->delete(self::sys_cargo_laboral, $data);  
-        return $insert;
+        $result = $this->db->delete(self::sys_cargo_laboral, $data);  
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
 

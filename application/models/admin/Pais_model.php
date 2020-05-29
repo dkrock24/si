@@ -58,7 +58,13 @@ class Pais_model extends CI_Model {
         );
 
         $this->db->where('id_pais', $pais['id_pais']);
-        $this->db->update(self::pais, $data);  
+		$result = $this->db->update(self::pais, $data);  
+		
+		if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
 	}
 
 	// Delete Pais
@@ -75,7 +81,13 @@ class Pais_model extends CI_Model {
             'fecha_creacion_pais' => date("Y-m-d h:i:s"),
             'estado_pais' => $pais['estado_pais']
         );
-		$this->db->insert(self::pais, $data ); 
+		$result = $this->db->insert(self::pais, $data ); 
+
+		if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
 	}
 
 // DEPARTAMENTOS ---------------------------------------------------------------------
@@ -105,7 +117,11 @@ class Pais_model extends CI_Model {
         );
 
 		$result = $this->db->insert(self::pais_d, $data ); 
-		return $result;
+		if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
 	}
 
 	function editar_dep( $id_dep ){
@@ -136,7 +152,11 @@ class Pais_model extends CI_Model {
         $this->db->where('id_departamento', $departamento['id_departamento']);
 		$result = $this->db->update(self::pais_d, $data );
 
-		return $result;
+		if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
 	}
 
 	function eliminar_dep($id){
@@ -147,7 +167,11 @@ class Pais_model extends CI_Model {
         $this->db->where('id_departamento', $id);
 		$result = $this->db->delete(self::sys_departamento, $data ); 
 
-		return $result;
+		if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
 	}
 
 // END
@@ -180,7 +204,11 @@ class Pais_model extends CI_Model {
             'fecha_ciudad_creacion'=> date("Y-m-d"),
         );
 		$result = $this->db->insert(self::pais_d_c, $data );
-		return $result;
+		if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
 	}
 
 	function get_ciu( $id_ciu ){
@@ -208,7 +236,11 @@ class Pais_model extends CI_Model {
 
         $this->db->where('id_ciudad', $ciudad['id_ciu']);
 		$result = $this->db->update(self::pais_d_c, $data );
-		return $result;
+		if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
 	}
 
 	function eliminar_ciu($id){
@@ -218,7 +250,11 @@ class Pais_model extends CI_Model {
 
         $this->db->where('id_ciudad', $id);
 		$result = $this->db->delete(self::pais_d_c, $data );
-		return $result;
+		if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
 	}
 
 // END

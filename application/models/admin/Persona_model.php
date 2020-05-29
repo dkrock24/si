@@ -94,6 +94,10 @@ class Persona_model extends CI_Model {
         );
         
         $result = $this->db->insert(self::sys_persona, $data);  
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
 	}
 
@@ -120,6 +124,10 @@ class Persona_model extends CI_Model {
         );
         $this->db->where('id_persona', $datos['id_persona']);
         $result = $this->db->update(self::sys_persona, $data);  
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
 	}
 
@@ -129,6 +137,10 @@ class Persona_model extends CI_Model {
         );
         $this->db->where('id_persona', $id);
         $result = $this->db->delete(self::sys_persona, $data);
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 

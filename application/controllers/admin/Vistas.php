@@ -115,53 +115,25 @@ class Vistas extends MY_Controller {
 	/* Funciones para la seccion de componentes de vistas - CRUD */
 
 	public function componentes( $vista_id ){
-		$vista_id;
-		//Paginacion
-		$contador_tabla = 0;
-		if( isset( $_POST['total_pagina'] )){
-			$per_page = $_POST['total_pagina'];
-			$_SESSION['per_page'] = $per_page;
-		}else{
-			if($_SESSION['per_page'] == ''){
-				$_SESSION['per_page'] = 10;
-			}
-		}
 
-		$total_row = $this->Vistas_model->record_count_componente($vista_id);
-		
-		$config = paginacion($total_row, $_SESSION['per_page'] , "admin/vistas/componentes");
-		$this->pagination->initialize($config);
-		if($this->uri->segment(4)){
-			if($_SESSION['per_page']!=0){
-				$page = ($this->uri->segment(4) - 1 ) * $_SESSION['per_page'];
-				//$contador_tabla = $page+1;
-				$contador_tabla =1;
-			}else{
-				$page = 0;
-				$contador_tabla =1;
-			}
-		}else{
-			$page = 0;
-			$contador_tabla =1;
-		}		
+		$model 		= "Vistas_model";
+		$url_page 	= "admin/vistas/componentes";
+		$pag 		= $this->MyPagination($model, $url_page , $vista_id);
 
-		$str_links = $this->pagination->create_links();
-		$data["links"] = explode('&nbsp;',$str_links );
-
-		$id_rol = $this->session->roles;
-
-		$data['menu'] = $this->session->menu;
-		$data['registros'] = $this->Vistas_model->vistas_componente_by_id( $vista_id ,  $config["per_page"], $page);
-		//$data['home'] = 'admin/vistas/componentes_lista';
-		$data['column'] = $this->columnC();
-		$data['fields'] = $this->fieldsC();
-		$data['total_pagina'] = 0;
-		$data['total_records'] 	= 0;
-		$data['contador_tabla'] = $contador_tabla;
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( 23 , $id_rol );
-		$data['home'] = 'template/lista_template';
-		$data['vista_id'] = $vista_id;
-
+		$data['menu'] 			= $this->session->menu;
+		$data['links'] 			= $pag['links'];
+		$data['filtros'] 		= $pag['field'];
+		$data['contador_tabla'] = $pag['contador_tabla'];
+		$data['column'] 		= $this->columnC();
+		$data['fields'] 		= $this->fieldsC();
+		$data['total_pagina'] 	= $pag['config']["per_page"];
+		$data['x_total']		= $pag['config']['x_total'];
+		$data['total_records'] 	= $pag['total_records'];
+		$data['componentes'] 	= $this->Vistas_model->vistas_componente_by_id($vista_id  );
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']);
+		$data['home'] 			= 'admin/vistas/componentes_lista';
+		$data['title'] 			= "Vistas";
+		$data['vista_id'] 		= $vista_id;
 
 		$this->parser->parse('template', $data);
 	}

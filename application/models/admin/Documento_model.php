@@ -86,6 +86,10 @@ class Documento_model extends CI_Model {
         );
         $this->db->where('id_tipo_documento', $documento['id_tipo_documento']);
         $result = $this->db->update(self::documento, $data);  
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -105,6 +109,10 @@ class Documento_model extends CI_Model {
         );
 
         $result = $this->db->insert(self::documento, $data );
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -115,6 +123,10 @@ class Documento_model extends CI_Model {
         );
 
         $result = $this->db->delete(self::documento, $data);
+
+        if(!$result){
+            $result = $this->db->error();
+        }
 
         return $result;
     }

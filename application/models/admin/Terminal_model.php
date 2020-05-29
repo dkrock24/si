@@ -54,7 +54,11 @@ class Terminal_model extends CI_Model {
     }
 
     function crear( $data ){
-        $this->db->insert( self::pos_terminal , $data );
+        $insert = $this->db->insert( self::pos_terminal , $data );
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+        return $insert;
     }
 
     function get_terminal( $terminal_id ){
@@ -66,12 +70,23 @@ class Terminal_model extends CI_Model {
 
     function update( $data ){
         $this->db->where('id_terminal' , $data['id_terminal']);
-        $this->db->update( self::pos_terminal , $data );
+        $insert = $this->db->update( self::pos_terminal , $data );
+
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+        return $insert;
+        
     }
 
     function eliminar( $id ) {
         $this->db->where('id_terminal' , $id );
-        $this->db->delete( self::pos_terminal );   
+        $insert = $this->db->delete( self::pos_terminal );   
+
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+        return $insert;
     }
 
     function get_terminal_by_caja($id_caja){
@@ -200,7 +215,11 @@ class Terminal_model extends CI_Model {
         );
 
         $this->db->where(  $condition );
-        $this->db->update( self::pos_terminal_cajero , $array );
+        $insert = $this->db->update( self::pos_terminal_cajero , $array );
+
+        if(!$insert){
+            $insert = $this->db->error();
+        }
 
     }
 }

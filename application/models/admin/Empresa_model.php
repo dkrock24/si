@@ -169,6 +169,10 @@ class Empresa_model extends CI_Model {
             'empresa_estado'        => $empresa['empresa_estado']
         );
         $result = $this->db->insert(self::pos_empresa, $data ); 
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -226,6 +230,10 @@ class Empresa_model extends CI_Model {
         $this->db->where('id_empresa', $empresa['id_empresa'] ); 
         $result = $this->db->update(self::pos_empresa, $data ); 
 
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }    
 
@@ -237,6 +245,10 @@ class Empresa_model extends CI_Model {
 
         $this->db->where('id_empresa', $id); 
         $result = $this->db->delete(self::pos_empresa, $data ); 
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 }

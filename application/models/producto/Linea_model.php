@@ -52,6 +52,10 @@ class Linea_model extends CI_Model {
         );
         
         $result = $this->db->insert(self::pos_linea, $data);
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -79,6 +83,10 @@ class Linea_model extends CI_Model {
         
         $this->db->where('id_linea', $datos['id_linea']);
         $result = $this->db->update(self::pos_linea, $data);
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -90,6 +98,10 @@ class Linea_model extends CI_Model {
         
         $this->db->where('id_linea', $id);
         $result = $this->db->delete(self::pos_linea, $data);
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 }

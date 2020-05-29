@@ -74,18 +74,21 @@ class Giros_model extends CI_Model {
 	function crear_giro( $nuevo_giro ){
 
 		$data = array(
-            'nombre_giro' => $nuevo_giro['nombre_giro'],
-            'descripcion_giro' => $nuevo_giro['descripcion_giro'],
-            'tipo_giro' => $nuevo_giro['tipo_giro'],
-            'codigo_giro' => $nuevo_giro['codigo_giro'],
-            'Empresa' => $this->session->empresa[0]->id_empresa,
-            'estado_giro' => $nuevo_giro['estado_giro'],
+            'nombre_giro'       => $nuevo_giro['nombre_giro'],
+            'descripcion_giro'  => $nuevo_giro['descripcion_giro'],
+            'tipo_giro'         => $nuevo_giro['tipo_giro'],
+            'codigo_giro'       => $nuevo_giro['codigo_giro'],
+            'Empresa'           => $this->session->empresa[0]->id_empresa,
+            'estado_giro'       => $nuevo_giro['estado_giro'],
             'fecha_giro_creado' => date("Y-m-d h:i:s")
         );
-		$insert = $this->db->insert(self::giros, $data ); 
+        $insert = $this->db->insert(self::giros, $data ); 
+
+        if(!$insert){
+            $insert = $this->db->error();
+        }
 
         return $insert;
-
 	}
 
 	function get_giro_id( $id_giro ){ 
@@ -114,6 +117,11 @@ class Giros_model extends CI_Model {
 
         $this->db->where('id_giro', $giro['id_giro']);
         $insert = $this->db->update(self::giros, $data);  
+
+        if(!$insert){
+            $insert = $this->db->error(); ;
+        }
+
         return $insert;
 	}
 
@@ -123,8 +131,13 @@ class Giros_model extends CI_Model {
         );
 
         $this->db->where('id_giro', $id);
-        $insert = $this->db->delete(self::giros, $data);  
-        return $insert;
+        $result = $this->db->delete(self::giros, $data);  
+
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     function insert_plantilla( $plantilla ){

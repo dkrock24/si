@@ -122,12 +122,12 @@ class Vistas_model extends CI_Model {
         return $result;
     }
 
-    function vistas_componente_by_id( $vista_id, $limit, $id ){
+    function vistas_componente_by_id( $vista_id ){
 
         $this->db->select('*');
         $this->db->from(self::sys_vistas.' as v');
-        $this->db->join(self::sys_vistas_componentes.' as vc', ' on vc.Vista = v.id_vista','left');
-        $this->db->join(self::sys_componentes.' as c', ' on c.id_vista_componente = vc.Componente','left');
+        $this->db->join(self::sys_vistas_componentes.' as vc', ' on vc.Vista = v.id_vista');
+        $this->db->join(self::sys_componentes.' as c', ' on c.id_vista_componente = vc.Componente');
         $this->db->where('vc.Vista', $vista_id);
         //$this->db->limit($limit, $id);
         $query = $this->db->get();
@@ -155,7 +155,12 @@ class Vistas_model extends CI_Model {
             'vista_creado' => date("Y-m-d h:i:s"),
             'vista_estado' => 1,
         );
-        $this->db->insert(self::sys_vistas, $data );
+        $insert = $this->db->insert(self::sys_vistas, $data );
+
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+        return $insert;
     }
 
     function editar($data){
@@ -245,10 +250,14 @@ class Vistas_model extends CI_Model {
             'accion_estado' => $componente['accion_estado'],           
         );
         $this->db->insert(self::sys_componentes, $data );
-        $id_componente = $this->db->insert_id();
+        $insert = $id_componente = $this->db->insert_id();
 
         $this->vista_componente_crear($id_componente , $componente['vista_id'] , $componente['role']);
-        
+
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+        return $insert;
     }
 
     function getVistaId($id){

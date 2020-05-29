@@ -61,9 +61,13 @@ class Moneda_model extends CI_Model {
             'moneda_estado' => $moneda['moneda_estado'],
             'moneda_alias' => $moneda['moneda_alias']
         );
-        $insert = $this->db->insert(self::sys_moneda, $data ); 
+        $result = $this->db->insert(self::sys_moneda, $data ); 
 
-        return $insert;
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     function getMonedaId( $moneda_id ){
@@ -88,9 +92,13 @@ class Moneda_model extends CI_Model {
             'moneda_alias' => $moneda['moneda_alias']
         );
         $this->db->where('id_moneda', $moneda['id_moneda'] );
-        $insert =  $this->db->update(self::sys_moneda, $data ); 
+        $result =  $this->db->update(self::sys_moneda, $data ); 
 
-        return $insert;
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     function eliminar( $id ){
@@ -100,9 +108,13 @@ class Moneda_model extends CI_Model {
         );
 
         $this->db->where('id_moneda', $id);
-        $data =  $this->db->delete(self::sys_moneda, $data );
+        $result =  $this->db->delete(self::sys_moneda, $data );
 
-        return $data;
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
 }

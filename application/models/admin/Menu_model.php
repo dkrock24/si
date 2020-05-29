@@ -37,8 +37,7 @@ class Menu_model extends CI_Model {
         $this->db->from(self::menu);       
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
-        //die;   
-        
+
         if($query->num_rows() > 0 )
         {
             return $query->result();
@@ -56,8 +55,7 @@ class Menu_model extends CI_Model {
         //$this->db->where('S.estado_referencia',null);
         $query = $this->db->get();    
         //echo $this->db->queries[2];
-        //die;
-                
+  
         if($query->num_rows() > 0 )
         {
             return $query->result();
@@ -115,7 +113,13 @@ class Menu_model extends CI_Model {
             'estado_menu' => $menu['estado_menu']
         );
         $this->db->where('id_menu', $menu['id_menu']);
-        $this->db->update(self::menu, $data);  
+        $result = $this->db->update(self::menu, $data);  
+
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     public function update_sub_menu($submenu)
@@ -130,7 +134,13 @@ class Menu_model extends CI_Model {
             'estado_submen'     => $submenu['estado_menu']            
         );
         $this->db->where('id_submenu', $submenu['id_submenu']);
-        $this->db->update(self::submenu, $data);       
+        $result = $this->db->update(self::submenu, $data);   
+
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     function save_menu( $data ){
@@ -146,7 +156,7 @@ class Menu_model extends CI_Model {
             'orden_menu' => $orden_menu[0]['orden_menu'],
             'estado_menu' => $data['estado_menu']
         );
-        $this->db->insert(self::menu, $data );
+        $result = $this->db->insert(self::menu, $data );
 
         $ultimo_id = $this->db->insert_id();
 
@@ -160,6 +170,11 @@ class Menu_model extends CI_Model {
             values($a,$ultimo_id,0,0)";
             $this->db->query($inset_acceso);
         }   
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     function get_last_menu(){
@@ -195,7 +210,7 @@ class Menu_model extends CI_Model {
             'id_vista'           => $submenu['vista'],           
             'estado_submen'     => $submenu['estado_menu']            
         );
-        $this->db->insert('sys_menu_submenu', $data ); 
+        $result = $this->db->insert('sys_menu_submenu', $data ); 
 
         $ultimo_id = $this->db->insert_id();
 
@@ -209,6 +224,12 @@ class Menu_model extends CI_Model {
             values($ultimo_id,$a,0)";
             $this->db->query($inset_acceso);
         }   
+
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     function delete_sub_menu( $id_sub_menu ){

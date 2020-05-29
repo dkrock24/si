@@ -87,8 +87,10 @@ class Empleado_model extends CI_Model {
 	function crear($datos){
 
         $imagen="";
-        $imagen = file_get_contents($_FILES['img_empleado']['tmp_name']);
-        $imageProperties = getimageSize($_FILES['img_empleado']['tmp_name']);
+        if(!empty($_FILES['img_empleado']['tmp_name'])){
+            $imagen = file_get_contents($_FILES['img_empleado']['tmp_name']);
+            $imageProperties = getimageSize($_FILES['img_empleado']['tmp_name']);
+        }
 
 		$data = array(
           	
@@ -117,6 +119,10 @@ class Empleado_model extends CI_Model {
         $insert_id = $this->db->insert_id();
 
         $this->insert_empleado_sucursal($insert_id , $datos);
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
 
 	}
@@ -169,6 +175,10 @@ class Empleado_model extends CI_Model {
 
         $this->update_empleado_sucursal($datos);
 
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
  
 	}
@@ -204,7 +214,11 @@ class Empleado_model extends CI_Model {
         $this->db->where('es_empleado', $empleado );
         $result = $this->db->delete(self::empleado_sucursal, $data ); 
 
-        return $result ;
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
 
     }
 

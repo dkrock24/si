@@ -171,7 +171,11 @@ class Cliente_model extends CI_Model
 
         $result = $this->db->insert(self::cliente, $data);
 
+        if(!$result){
+            $result = $this->db->error();
+        }
         $this->crearFpCliente($this->db->insert_id(),  $datos);
+
         return $result;
     }
 
@@ -321,6 +325,10 @@ class Cliente_model extends CI_Model
         $result = $this->db->update(self::cliente, $data);
 
         $this->updateFpCliente($datos['id_cliente'],  $datos);
+
+        if(!$result){
+            $result = $this->db->error();
+        }
 
         return $result;
     }

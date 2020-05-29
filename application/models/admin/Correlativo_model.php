@@ -79,7 +79,12 @@ class Correlativo_model extends CI_Model {
             'correlativo_estado' => $correlativos['correlativo_estado'],
         );
 
-        $this->db->insert(self::correlativos, $data );
+        $result = $this->db->insert(self::correlativos, $data );
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     function editar( $correlativos_id ){
@@ -111,7 +116,12 @@ class Correlativo_model extends CI_Model {
             'correlativo_estado'=> $correlativos['correlativo_estado'],
         );
         $this->db->where('id_correlativos', $correlativos['id_correlativos'] );
-        $this->db->update(self::correlativos, $data );
+        $result = $this->db->update(self::correlativos, $data );
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     function delete( $id_correlativos ){
@@ -122,6 +132,10 @@ class Correlativo_model extends CI_Model {
         
         $this->db->where('id_correlativos', $id_correlativos );
         $result = $this->db->delete(self::correlativos, $data);
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 }

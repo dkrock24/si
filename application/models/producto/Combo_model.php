@@ -94,6 +94,10 @@ class Combo_model extends CI_Model {
 
         $this->db->where('Producto_Combo', $id);
         $result = $this->db->delete(self::pos_combo);
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -121,8 +125,12 @@ class Combo_model extends CI_Model {
         $this->db->where('Producto_Combo',$datos['produto_principal'] );
         $this->db->delete(self::pos_combo);
 
-        $data = $this->save_Combo($datos);
-        return $data;
+        $result = $this->save_Combo($datos);
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
     }
 
     function get_combo_valor( $producto , $combo_producto ){

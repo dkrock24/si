@@ -1,38 +1,7 @@
 <?php
 class EfectosDocumento_model extends CI_Model {
 
-        const producto =  'producto';
-		const atributo =  'atributo';
-		const atributo_opcion =  'atributos_opciones';
-		const categoria =  'categoria';
-		const producto_valor =  'producto_valor';
-		const categoria_producto =  'categoria_producto';		
-		const producto_atributo =  'producto_atributo';
-		const pos_giros =  'pos_giros';
-		const empresa_giro =  'giros_empresa';
-		const pos_empresa = 'pos_empresa';
-		const giro_plantilla =  'giro_pantilla';
-		const pos_linea = 'pos_linea';
-		const proveedor = 'pos_proveedor';
-		const producto_proveedor = 'pos_proveedor_has_producto';
-		const marcas = 'pos_marca';
-		const cliente = 'pos_cliente';
-		const sucursal = 'pos_sucursal';
-		const producto_detalle = 'prouducto_detalle';
-		const impuestos = 'pos_tipos_impuestos';
-		const producto_img = 'pos_producto_img';
-		const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
-		const producto_bodega = 'pos_producto_bodega';
-		const pos_ordenes = 'pos_ordenes';
-		const pos_ventas = 'pos_ventas';
-		const pos_venta_pagos = 'pos_venta_pagos';
-		const pos_correlativos = 'pos_correlativos';
-		const sys_empleado = 'sys_empleado';
-		const pos_ordenes_detalle = 'pos_orden_detalle';
-		const pos_venta_detalle = 'pos_venta_detalle';
-		const pos_ventas_impuestos = 'pos_ventas_impuestos';
-		const pos_combo = 'pos_combo';
-		const sys_conf = 'sys_conf';	
+	const producto_bodega = 'pos_producto_bodega';	
 
     function accion( $orden , $documento){
         

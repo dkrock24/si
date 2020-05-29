@@ -26,9 +26,7 @@ class Accion_model extends CI_Model {
 
         $this->db->order_by('vc.order','asc');
         $query = $this->db->get(); 
-        //$this->db->queries[1];
-
-        
+        //echo $this->db->queries[1];     
         
         if($query->num_rows() > 0 )
         {

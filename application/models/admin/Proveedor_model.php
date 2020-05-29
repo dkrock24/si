@@ -83,6 +83,10 @@ class Proveedor_model extends CI_Model {
         );
         
         $result = $this->db->insert(self::pos_proveedor, $data);  
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
@@ -134,6 +138,10 @@ class Proveedor_model extends CI_Model {
 
         $this->db->where('id_proveedor', $datos['id_proveedor'] ); 
         $result = $this->db->update(self::pos_proveedor, $data ); 
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 

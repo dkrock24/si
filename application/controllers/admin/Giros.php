@@ -53,7 +53,7 @@ class Giros extends MY_Controller {
 		$data['total_pagina'] 	= $pag['config']["per_page"];
 		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );	
+		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
 		$data['registros'] 		= $this->Giros_model->get_giros( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
 		$data['home'] 			= 'template/lista_template';
 		$data['title'] 			= 'Lista Giros';
@@ -78,10 +78,10 @@ class Giros extends MY_Controller {
 		// Insert Nuevo Giro
 		$data = $this->Giros_model->crear_giro( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Giro Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Giro No Fue Creado");
+			$this->session->set_flashdata('danger', "Giro No Fue Creado : ". $data['message']);
 		}	
 
 		redirect(base_url()."admin/giros/index");
@@ -130,10 +130,10 @@ class Giros extends MY_Controller {
 		// Actualizar Giro 
 		$data = $this->Giros_model->actualizar_giro( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Giro Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('danger', "Giro No Fue Creado");
+			$this->session->set_flashdata('danger', "Giro No Fue Creado :". $data['message']);
 		}
 
 		redirect(base_url()."admin/giros/index");
@@ -143,10 +143,10 @@ class Giros extends MY_Controller {
 		
 		$data = $this->Giros_model->eliminar_giro( $id );
 		
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Giro Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Giro No Fue Eliminado");
+			$this->session->set_flashdata('danger', "Giro No Fue Eliminado :". $data['message']);
 		}
 
 		redirect(base_url()."admin/giros/index");

@@ -94,6 +94,10 @@ class Pagos_model extends CI_Model {
 
         $this->db->where('id_modo_pago' , $data['id_modo_pago'] );
         $result = $this->db->update(self::formas_pago , $data );
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
 
     }
@@ -106,9 +110,11 @@ class Pagos_model extends CI_Model {
 
         $result = $this->db->delete(self::formas_pago, $data);
 
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
-
-
 
     }
 

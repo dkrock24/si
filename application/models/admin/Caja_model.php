@@ -33,8 +33,12 @@ class Caja_model extends CI_Model {
 
     function crear_caja($caja){
 
-        $result = $this->db->insert(self::caja, $caja);  
-        return $result;
+        $insert = $this->db->insert(self::caja, $caja);  
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+
+        return $insert;
     }
 
     function get_caja($caja_id){
@@ -80,7 +84,11 @@ class Caja_model extends CI_Model {
     function update_caja($caja){
 
     	$this->db->where('id_caja', $caja['id_caja']);  
-    	$result = $this->db->update(self::caja, $caja);  
+        $result = $this->db->update(self::caja, $caja);  
+        if(!$result){
+            $result = $this->db->error();
+        }
+
         return $result;
     }
 
