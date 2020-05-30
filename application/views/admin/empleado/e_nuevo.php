@@ -175,6 +175,7 @@
                     <div id="panelDemo10" class="panel menu_title_bar">
 
                         <div class="panel-heading menuTop">Nuevo Empleado </div>
+                        
                         <div class="menuContent">
 
                             <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; 

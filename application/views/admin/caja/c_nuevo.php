@@ -25,181 +25,186 @@
 
                 <div id="panelDemo10" class="panel menu_title_bar">    
                                         
-                    <div class="panel-heading menuTop">Nueva Caja <?php //echo $onMenu[0]->nombre_submenu ?> </div>
-                     <div class="panel-body menuContent">        
-                    <p> 
-                    <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="caja" action='crear' method="post">
-                        <input type="hidden" name="Empresa" value="<?php echo $this->session->empresa[0]->id_empresa ?>">
-                        <div class="row">
+                    <div class="panel-heading menuTop"><i class="fa fa-desktop"></i> Nueva Caja <?php //echo $onMenu[0]->nombre_submenu ?> </div>
+                     <div class="menuContent">        
+                    
+                     <div class="b">
+                        <div class="panel-heading">                                   
+                        </div>
+                            <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="caja" action='crear' method="post">
+                                <input type="hidden" name="Empresa" value="<?php echo $this->session->empresa[0]->id_empresa ?>">
+                                <div class="row">
 
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Nombre Caja</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="nombre_caja" name="nombre_caja" placeholder="Nombre" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
-                                        
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Nombre Caja</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" required class="form-control" id="nombre_caja" name="nombre_caja" placeholder="Nombre" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Interno</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" required class="form-control" id="cod_interno_caja" name="cod_interno_caja" placeholder="Codigo" value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Tipo Documento</label>
+                                            <div class="col-sm-9">
+                                                <select name="pred_id_tpdoc" class="form-control">
+                                                    <?php
+                                                    foreach ($doc as  $d) {
+                                                        ?>
+                                                        <option value="<?php echo $d->id_temp_suc ?>"><?php echo $d->nombre." - ".$d->nombre_sucursal ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Operacion</label>
+                                            <div class="col-sm-9">
+                                                <input type="date" class="form-control" id="fecha_oper_caja" name="fecha_oper_caja" placeholder="Serie" value="<?php echo date('Y-m-d') ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Num. Resolucion</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="resol_num_caja" name="resol_num_caja" placeholder="Resolucion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Resolucion</label>
+                                            <div class="col-sm-9">
+                                                <input type="date" class="form-control" id="resol_fecha_caja" name="resol_fecha_caja" placeholder="Ubicacion" value="<?php echo date('Y-m-d') ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Numero Ticket Resolucion</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="resol_num_tiq_caja" name="resol_num_tiq_caja" placeholder="Numero Ticket Resolucion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Ticket Resolucion</label>
+                                            <div class="col-sm-9">
+                                                <input type="date" class="form-control" id="resol_fec_tiq_caja" name="resol_fec_tiq_caja" placeholder="Cajero" value="<?php echo date('Y-m-d') ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">CTB</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="cod_ctb_caja" name="cod_ctb_caja" placeholder="CTB" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Interno</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="cod_interno_caja" name="cod_interno_caja" placeholder="Codigo" value="<?php //echo $onMenu[0]->url_submenu ?>">
-                                        
+                                    <div class="col-lg-6">
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Abrir Caja</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="abrir_caja" name="abrir_caja" placeholder="Abrir Caja" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Impresion Journ</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="impr_journ" name="impr_journ" placeholder="Impresion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puerto Dos</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="impr_puerto_DOS" name="impr_puerto_DOS" placeholder="Puerto Dos" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puerto Win</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="impr_puerto_WIN" name="impr_puerto_WIN" placeholder="Puerto Win" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Es Pos</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="es_pos" name="es_pos" placeholder="Es Pos" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Numero Turnos</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="num_turnos" name="num_turnos" placeholder="Numero" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Caja</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="pred_cod_cajr" name="pred_cod_cajr" placeholder="Codigo" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Suc</label>
+                                            <div class="col-sm-9">
+                                                <select name="pred_cod_sucu" class="form-control">
+                                                    <?php
+                                                    foreach ($suc as  $s) {
+                                                        ?>
+                                                        <option value="<?php echo $s->id_sucursal ?>"><?php echo $s->nombre_sucursal ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>                                        
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-3 col-sm-9">
+                                                
+                                                <label>
+                                                    <select name="estado_caja" class="form-control">
+                                                        <option value="1">Activo</option>
+                                                        <option value="0">Inactivo</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
+
+
                                     </div>
+
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Tipo Documento</label>
-                                    <div class="col-sm-9">
-                                        <select name="pred_id_tpdoc" class="form-control">
-                                            <?php
-                                            foreach ($doc as  $d) {
-                                                ?>
-                                                <option value="<?php echo $d->id_temp_suc ?>"><?php echo $d->nombre." - ".$d->nombre_sucursal ?></option>
-                                                <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Operacion</label>
-                                    <div class="col-sm-9">
-                                        <input type="date" class="form-control" id="fecha_oper_caja" name="fecha_oper_caja" placeholder="Serie" value="<?php echo date('Y-m-d') ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Num. Resolucion</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="resol_num_caja" name="resol_num_caja" placeholder="Resolucion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Resolucion</label>
-                                    <div class="col-sm-9">
-                                        <input type="date" class="form-control" id="resol_fecha_caja" name="resol_fecha_caja" placeholder="Ubicacion" value="<?php echo date('Y-m-d') ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Numero Ticket Resolucion</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="resol_num_tiq_caja" name="resol_num_tiq_caja" placeholder="Numero Ticket Resolucion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Ticket Resolucion</label>
-                                    <div class="col-sm-9">
-                                        <input type="date" class="form-control" id="resol_fec_tiq_caja" name="resol_fec_tiq_caja" placeholder="Cajero" value="<?php echo date('Y-m-d') ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">CTB</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="cod_ctb_caja" name="cod_ctb_caja" placeholder="CTB" value="<?php //echo $onMenu[0]->icon_submenu ?>">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Abrir Caja</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="abrir_caja" name="abrir_caja" placeholder="Abrir Caja" value="<?php //echo $onMenu[0]->icon_submenu ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Impresion Journ</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="impr_journ" name="impr_journ" placeholder="Impresion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puerto Dos</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="impr_puerto_DOS" name="impr_puerto_DOS" placeholder="Puerto Dos" value="<?php //echo $onMenu[0]->icon_submenu ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Puerto Win</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="impr_puerto_WIN" name="impr_puerto_WIN" placeholder="Puerto Win" value="<?php //echo $onMenu[0]->icon_submenu ?>">
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Es Pos</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="es_pos" name="es_pos" placeholder="Es Pos" value="<?php //echo $onMenu[0]->icon_submenu ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Numero Turnos</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="num_turnos" name="num_turnos" placeholder="Numero" value="<?php //echo $onMenu[0]->icon_submenu ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Caja</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="pred_cod_cajr" name="pred_cod_cajr" placeholder="Codigo" value="<?php //echo $onMenu[0]->icon_submenu ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Suc</label>
-                                    <div class="col-sm-9">
-                                        <select name="pred_cod_sucu" class="form-control">
-                                            <?php
-                                            foreach ($suc as  $s) {
-                                                ?>
-                                                <option value="<?php echo $s->id_sucursal ?>"><?php echo $s->nombre_sucursal ?></option>
-                                                <?php
-                                            }
-                                            ?>
-                                        </select>                                        
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <div class="col-sm-offset-3 col-sm-9">
-                                        
-                                        <label>
-                                            <select name="estado_caja" class="form-control">
-                                                <option value="1">Activo</option>
-                                                <option value="0">Inactivo</option>
-                                            </select>
-                                        </label>
-                                    </div>
-                                </div>
-
+                        
+                            <div class="panel-footer text-right">
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
                                         <button type="submit" id="btn_save" class="btn btn-info">Guardar</button>
                                     </div>
                                 </div>
-
                             </div>
-
-                        </div>
-                        
-                    
-                    </form>
-                    </p>                                    
+                            </form>
+                    </div>
+                                                    
                 </div>
                 </div>
             </div>

@@ -83,6 +83,7 @@ class Cargos_model extends CI_Model {
         
         $this->db->where('id_cargo_laboral', $datos['id_cargo_laboral']);  
         $insert = $this->db->update(self::sys_cargo_laboral, $data);  
+        
         if(!$insert){
             $insert = $this->db->error();
         }

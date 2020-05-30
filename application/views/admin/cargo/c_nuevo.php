@@ -20,36 +20,28 @@
 
         </h3>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
 
                 <div id="panelDemo10" class="panel menu_title_bar">
 
-                    <div class="panel-heading menuTop">Nuevo Cargo Laboral : <?php //echo $onMenu[0]->nombre_submenu 
-                                                                                ?> </div>
-                    <div class="panel-body menuContent">
-                        <p>
-                            <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="cargo" action='crear' method="post">
-                                <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; 
-                                                            ?>" name="id_submenu">
+                    <div class="panel-heading menuTop">Nuevo Cargo Laboral :  </div>
 
+                    <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="cargo" action='crear' method="post">
+                    <div class="menuContent">
+                        <div class="b">
+                                <input type="hidden" value="<?php   ?>" name="id_submenu">
 
                                 <div class="row">
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
 
-                                        <div class="panel b">
                                             <div class="panel-heading">
-                                                <div class="pull-right">
-                                                    <div class="label label-info">Importante</div>
-                                                </div>
-                                                <h4 class="m0">Nuevo Cargo</h4>
-                                                <small class="text-muted">Nuevo Cargo.</small>
-                                            </div>
+                                                <br>
 
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Nombre</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" id="cargo_laboral" name="cargo_laboral" placeholder="Nombre" value="<?php //echo $onMenu[0]->nombre_submenu 
+                                                    <input type="text" required class="form-control" id="cargo_laboral" name="cargo_laboral" placeholder="Nombre" value="<?php //echo $onMenu[0]->nombre_submenu 
                                                                                                                                                                 ?>">
 
                                                 </div>
@@ -92,24 +84,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
-                                        </div>
-
                                     </div>
-
-
-
                                 </div>
-
-                            </form>
-                        </p>
-                    </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-
-
-
             </div>
         </div>
     </div>

@@ -64,10 +64,11 @@ class Caja extends MY_Controller {
 		// Insert Nuevo Usuario
 		$data = $this->Caja_model->crear_caja( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Caja Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Caja No Fue Creado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Caja No Fue Creado : ". $data['message']);
 		}	
 		redirect(base_url()."admin/caja/index");
 	}
@@ -80,7 +81,7 @@ class Caja extends MY_Controller {
 		$vista_id = 8; // Vista Orden Lista
 
 		$data['menu'] = $this->session->menu;
-		$data['doc'] = $this->Documento_model->getAllDocumento();
+		$data['doc'] = $this->Documento_model->getDocTemplate();
 		$data['suc'] = $this->Sucursal_model->getSucursal();
 		$data['caja'] = $this->Caja_model->get_caja( $caja_id );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
@@ -127,10 +128,11 @@ class Caja extends MY_Controller {
 
 		$data = $this->Caja_model->update_caja( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Caja Fue Actualizada");
 		}else{
-			$this->session->set_flashdata('danger', "Caja No Fue Actualizada");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Caja No Fue Actualizada : ". $data['message']);
 		}	
 		redirect(base_url()."admin/caja/index");
 	}

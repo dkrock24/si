@@ -83,14 +83,14 @@ class Cargo extends MY_Controller {
 		// Insert Nuevo Usuario
 		$data = $this->Cargos_model->crear_cargo( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Cargo Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Cargo No Fue Creado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Cargo No Fue Creado : ". $data['message']);
 		}	
 		redirect(base_url()."admin/cargo/index");
 	}
-
 
 	public function editar( $cargo_id ){
 		
@@ -114,19 +114,14 @@ class Cargo extends MY_Controller {
 		}
 
 		$data['title'] = "Ver";
-
 		$data['home'] = 'template/ver_general';
-
 		$data['menu'] = $this->session->menu;		
-
 		$data['data'] = $this->Cargos_model->get_cargo_id( $id );	
 
 		if($data['data']){
 
-			foreach ($data['data']  as $key => $value) {
-			
-				$vars = get_object_vars ( $value );
-				
+			foreach ($data['data']  as $key => $value) {			
+				$vars = get_object_vars ( $value );				
 				continue;
 			}
 	
@@ -137,18 +132,17 @@ class Cargo extends MY_Controller {
 		}else{
 			redirect(base_url()."admin/cargo/index");
 		}
-		
-		
-
 	}
 
 	public function update(){
 		if(isset($_POST)){
 			$data = $this->Cargos_model->update( $_POST );
-			if($data){
+			
+			if(!$data['code']){
 				$this->session->set_flashdata('info', "Cargo Fue Actualizado");
 			}else{
-				$this->session->set_flashdata('danger', "Cargo No Fue Actualizado");
+				$data = $this->db_error_format($data);
+				$this->session->set_flashdata('danger', "Cargo No Fue Actualizado : ". $data['message']);
 			}
 		}
 		redirect(base_url()."admin/cargo/index");
@@ -158,10 +152,11 @@ class Cargo extends MY_Controller {
 		
 		$data = $this->Cargos_model->eliminar( $id );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Cargo Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Cargo Fue Eliminado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Cargo Fue Eliminado : ". $data['message']);
 		}
 
 		redirect(base_url()."admin/cargo/index");
@@ -180,7 +175,7 @@ class Cargo extends MY_Controller {
 			'cargo_laboral','descripcion_cargo_laboral','salario_mensual_cargo_laboral','estado'
 		);
 		
-		$fields['id'] = array('id_cargo_laboral');
+		$fields['id'] 	  = array('id_cargo_laboral');
 		$fields['estado'] = array('estado');
 		$fields['titulo'] = "Cargos Laborales Lista";
 

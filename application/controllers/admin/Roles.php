@@ -60,14 +60,15 @@ class Roles extends MY_Controller {
 
 	public function update_roles()
 	{	
-		$data['roles'] = $this->Roles_model->setRoles( $_POST );	
+		$data = $this->Roles_model->setRoles( $_POST );	
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Rol Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('danger', "Rol No Fue Actualizado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Rol No Fue Actualizado : ". $data['message']);
 		}
-		
+
 		redirect(base_url()."admin/roles/index");
 	}
 
@@ -75,10 +76,11 @@ class Roles extends MY_Controller {
 
 		$data['roles'] = $this->Roles_model->createRolCopia( $_POST );	
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Rol Fue Copiado");
 		}else{
-			$this->session->set_flashdata('danger', "Rol No Fue Copiado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Rol No Fue Copiado : ". $data['message']);
 		}
 		
 		redirect(base_url()."admin/roles/index");
@@ -95,12 +97,13 @@ class Roles extends MY_Controller {
 
 	public function save_rol(){
 
-		$data['role'] = $this->Roles_model->nuevo_rol( $_POST );
+		$data = $this->Roles_model->nuevo_rol( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Rol Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Rol No Fue Creado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Rol No Fue Creado : ". $data['message']);
 		}
 
 		redirect(base_url()."admin/roles/index");
@@ -108,12 +111,12 @@ class Roles extends MY_Controller {
 
 	public function eliminar( $id_rol ){
 
-		$data['role'] = $this->Roles_model->delete_rol( $id_rol );
-
-		if($data){
+		$data = $this->Roles_model->delete_rol( $id_rol );
+		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Eliminado Exitosamente");
 		}else{
-			$this->session->set_flashdata('danger', "No Fue Eliminada");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "No Fue Eliminada : ". $data['message']);
 		}
 
 		redirect(base_url()."admin/roles/index");

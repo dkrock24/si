@@ -106,6 +106,7 @@ class Roles_model extends CI_Model {
 
         if(!$result){
             $result = $this->db->error();
+            $result['code'] = " Codigo Error : ".  $result['code'];
         }
 
         return $result;

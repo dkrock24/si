@@ -176,7 +176,6 @@ class Empleado extends MY_Controller {
 			}else{
 				$this->session->set_flashdata('danger', "Empleado No Fue Actualizado");
 			}
-
 		}
 		redirect(base_url()."admin/empleado/index");
 	}

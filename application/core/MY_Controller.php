@@ -247,4 +247,11 @@ class MY_Controller extends CI_Controller
         fwrite($file, $data);
 		fclose($file);  
 	}
+
+
+	public function db_error_format($data){
+
+		$result['message'] = " <br><br>Codigo Error : ".  $data['message'];
+		return $result;
+	}
 }

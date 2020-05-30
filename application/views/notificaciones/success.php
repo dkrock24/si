@@ -3,7 +3,7 @@
 		var intervalID = window.setInterval(myCallback, 10000);
 
 		function myCallback() {
-		  //$(".xyz").fadeOut( "slow" );
+		  $(".xyz").fadeOut( "slow" );
 		}
 	});
 	
@@ -21,6 +21,7 @@
 		display: inline-block; 
 		bottom: 10%;
 		box-shadow: 2px 2px 5px black;
+		z-index:1000;
 	}
 
 	.icon{

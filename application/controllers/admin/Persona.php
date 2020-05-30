@@ -77,10 +77,11 @@ class Persona extends MY_Controller {
 
 		$data = $this->Persona_model->crear( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Persona Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Persona No Fue Creado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Persona No Fue Creado : ". $data['message']);
 		}
 
 		redirect(base_url()."admin/empleado/nuevo");
@@ -133,10 +134,11 @@ class Persona extends MY_Controller {
 
 		$data['bodegas'] = $this->Persona_model->update( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Persona Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('danger', "Persona No Fue Actualizado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Persona No Fue Actualizado : ". $data['message']);
 		}
 
 		redirect(base_url()."admin/persona/index");
@@ -146,10 +148,11 @@ class Persona extends MY_Controller {
 
 		$data['bodegas'] = $this->Persona_model->eliminar( $id );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Persona Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Persona No Fue Eliminado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Persona No Fue Eliminado : ". $data['message']);
 		}
 
 		redirect(base_url()."admin/persona/index");

@@ -82,7 +82,7 @@ class Giros extends MY_Controller {
 			$this->session->set_flashdata('success', "Giro Fue Creado");
 		}else{
 			$this->session->set_flashdata('danger', "Giro No Fue Creado : ". $data['message']);
-		}	
+		}
 
 		redirect(base_url()."admin/giros/index");
 	}
