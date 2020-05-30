@@ -82,10 +82,11 @@ class Empresa extends MY_Controller {
 
 			$data = $this->Empresa_model->save($_POST);
 
-			if($data){
+			if(!$data['code']){
 				$this->session->set_flashdata('success', "Empresa Fue Creada");
 			}else{
-				$this->session->set_flashdata('danger', "Empresa No Fue Creada");
+				$data = $this->db_error_format($data);
+				$this->session->set_flashdata('danger', "Empresa No Fue Creada  : ". $data['message']);
 			}
 		}
 		redirect(base_url()."admin/Empresa/index");
@@ -124,11 +125,8 @@ class Empresa extends MY_Controller {
 		}
 
 		$data['title'] = "Ver";
-
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
+		$data['menu'] = $this->session->menu;
 		$data['data'] =  $this->Empresa_model->getEmpresaId( $id );	
 		
 		if($data['data']){
@@ -147,7 +145,6 @@ class Empresa extends MY_Controller {
 		}else{
 			redirect(base_url()."admin/empresa/index");
 		}
-
 	}
 
 	public function update(){
@@ -156,10 +153,11 @@ class Empresa extends MY_Controller {
 
 			$data = $this->Empresa_model->update($_POST);
 
-			if($data){
+			if(!$data['code']){
 				$this->session->set_flashdata('info', "Empresa Fue Actualizada");
 			}else{
-				$this->session->set_flashdata('danger', "Empresa No Fue Actualizada");
+				$data = $this->db_error_format($data);
+				$this->session->set_flashdata('danger', "Empresa No Fue Actualizada  : ". $data['message']);
 			}
 		}
 		redirect(base_url()."admin/Empresa/index");
@@ -171,12 +169,12 @@ class Empresa extends MY_Controller {
 
 			$data = $this->Empresa_model->eliminar($id);
 
-			if($data){
+			if(!$data['code']){
 				$this->session->set_flashdata('warning', "Empresa Fue Eliminada");
 			}else{
-				$this->session->set_flashdata('danger', "Empresa No Fue Eliminada");
+				$data = $this->db_error_format($data);
+				$this->session->set_flashdata('danger', "Empresa No Fue Eliminada  : ". $data['message']);
 			}
-
 		}
 		redirect(base_url()."admin/Empresa/index");
 	}

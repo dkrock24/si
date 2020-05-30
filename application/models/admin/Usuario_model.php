@@ -249,9 +249,7 @@ class Usuario_model extends CI_Model {
         );
 
         if($datos['contrasena_usuario'] !=""){
-
-            $data += ['contrasena_usuario' => sha1( $datos['contrasena_usuario']) ];
-            
+            $data += ['contrasena_usuario' => sha1( $datos['contrasena_usuario']) ];            
         }
 
         if(isset($_FILES['foto']) && $_FILES['foto']['tmp_name']!=null){

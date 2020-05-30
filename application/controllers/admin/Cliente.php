@@ -103,6 +103,7 @@ class Cliente extends MY_Controller {
 		if(!$data['code']){
 			$this->session->set_flashdata('success', "Cliente Fue Creado");
 		}else{
+			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Cliente No Fue Creado : ". $data['message']);
 		}	
 
@@ -168,6 +169,7 @@ class Cliente extends MY_Controller {
 		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Cliente Fue Eliminado");
 		}else{
+			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Cliente No Fue Eliminado : ". $data['message']);
 		}
 
@@ -181,6 +183,7 @@ class Cliente extends MY_Controller {
 		if(!$data['code']){
 			$this->session->set_flashdata('info', "Cliente Fue Actualizado");
 		}else{
+			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Cliente No Fue Actualizado : ". $data['message']);
 		}
 

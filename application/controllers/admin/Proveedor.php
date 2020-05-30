@@ -54,7 +54,6 @@ class Proveedor extends MY_Controller {
 		$data['total_pagina'] 	= $pag['config']["per_page"];
 		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-
 		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol'] );
 		$data['registros'] 		= $this->Proveedor_model->get_proveedor( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
 		$data['title'] 			= "Proveedores";
@@ -81,10 +80,10 @@ class Proveedor extends MY_Controller {
 		
 		$data = $this->Proveedor_model->crear( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Proveedor Fue Creado");
 		}else{
-			$this->session->set_flashdata('warning', "Proveedor No Fue Creado");
+			$this->session->set_flashdata('warning', "Proveedor No Fue Creado : ". $data['message']);
 		}	
 
 		redirect(base_url()."admin/proveedor/index");
@@ -131,17 +130,16 @@ class Proveedor extends MY_Controller {
 		}else{
 			redirect(base_url()."admin/proveedor/index");
 		}
-
 	}
 
 	public function update(){
 		
 		$data = $this->Proveedor_model->update( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Proveedor Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('danger', "Proveedor No Fue Actualizado");
+			$this->session->set_flashdata('danger', "Proveedor No Fue Actualizado : ". $data['message']);
 		}
 
 		redirect(base_url()."admin/proveedor/index");

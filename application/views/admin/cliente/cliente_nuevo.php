@@ -109,14 +109,15 @@
 
                     <div class="panel-heading menuTop">Nuevo Cliente : <?php //echo $onMenu[0]->nombre_submenu 
                                                                         ?> </div>
-                    <div class="panel-body menuContent">
-                        <p>
+                    <div class="menuContent">
+                        <div class="b">    
+                            <div class="panel-heading"></div>
                             <form class="form-horizontal" enctype="multipart/form-data" name="cliente" action='crear' method="post">
                                 <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; 
                                                             ?>" name="id_submenu">
                                 <div class="row">
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Website</label>
                                             <div class="col-sm-9">
@@ -177,7 +178,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Nombre Empresa</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="nombre_empresa_o_compania" name="nombre_empresa_o_compania" placeholder="Nombre Empresa" value="<?php //echo $onMenu[0]->titulo_submenu 
+                                                <input type="text" required class="form-control" id="nombre_empresa_o_compania" name="nombre_empresa_o_compania" placeholder="Nombre Empresa" value="<?php //echo $onMenu[0]->titulo_submenu 
                                                                                                                                                                                             ?>">
 
                                             </div>
@@ -203,6 +204,9 @@
 
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="col-lg-4" style="border-left:1px solid grey;border-right:1px solid grey">
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Direccion</label>
@@ -225,7 +229,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
                                             <div class="col-sm-9">
-                                            <input type="text" class="form-control persona_codigo" value="">
+                                            <input type="text" required class="form-control persona_codigo" value="">
                                             <input type="hidden" class="form-control" id="persona" name="Persona" placeholder="Persona" value="">
                                             </div>
                                         </div>
@@ -240,11 +244,6 @@
                                                 </select>
                                             </div>
                                         </div>
-
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <!-- Otro -->
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Logo</label>
@@ -302,6 +301,10 @@
                                             </div>
                                         </div>
 
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <!-- Otro -->
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Formas Pago</label>
                                             <div class="col-sm-9">
@@ -340,18 +343,19 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="submit" class="btn btn-info">Guardar</button>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
 
-
+                                <div class="panel-footer text-right">
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                            <button type="submit" class="btn btn-info">Guardar</button>                                       
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
-                        </p>
+                        </div>
+                    </div>                        
                     </div>
                 </div>
             </div>

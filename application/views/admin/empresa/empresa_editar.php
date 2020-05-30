@@ -16,22 +16,41 @@
         </h3>
 
         <div class="row">
-
             <div class="col-lg-12">
-
                 <div id="panelDemo10" class="panel menu_title_bar">
-
                     <div class="panel-heading menuTop">Nueva Empresa : </div>
-                    <div class="panel-body menuContent">
-                        <p>
+                    <div class="menuContent">
+                    <div class="b">
+                        <div class="panel-heading"></div>
                             <form class="form-horizontal" enctype="multipart/form-data" name="empresa" action='../update' method="post">
                                 <input type="hidden" value="<?php echo $empresa[0]->id_empresa; ?>" name="id_empresa">
-                                <div class="row">
-                                    
+                                <div class="row">                                    
                                     <div class="col-lg-4">
-                                        <div class="form-group img_logo">
-                                            <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Logo</label>
+
+                                        <div class="form-group">
                                             <div class="col-sm-10">
+                                                <label for="inputPassword3" class=" control-label no-padding-right">Nombre Comercial</label>
+                                                <input type="text" class="form-control" id="nombre_comercial" name="nombre_comercial" required="" placeholder="Nombre Comercial" value="<?php echo $empresa[0]->nombre_comercial ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">                                            
+                                            <div class="col-sm-10">
+                                                <label for="inputEmail3" class=" control-label no-padding-right">Razon Social</label>
+                                                <input type="text" class="form-control" id="nombre_razon_social" name="nombre_razon_social" required="" placeholder="Nombre Razon Social" value="<?php echo $empresa[0]->nombre_razon_social ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">                                            
+                                            <div class="col-sm-10">
+                                                <label for="inputPassword3" class=" control-label no-padding-right">NRC</label>
+                                                <input type="text" class="form-control" id="nrc" name="nrc" placeholder="NRC" required="" value="<?php echo $empresa[0]->nrc ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group img_logo">
+                                            <div class="col-sm-10">
+                                                <label for="inputPassword3" class="control-label no-padding-right">Logo</label>
                                                 <input type="file" class="form-control" id="logo_empresa" name="logo_empresa" placeholder="Autorizacion" value=""/>
                                                 <?php
                                                 if($empresa[0]->logo_empresa){
@@ -39,57 +58,21 @@
                                                     <img src="data: <?php echo $empresa[0]->logo_type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($empresa[0]->logo_empresa) ?>" class="preview_producto polaroid" style="width:70%" />
                                                     <?php
                                                 }
-                                                ?>
-                                                
+                                                ?>                                                
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4">
-                                        <div class="form-group">
-                                            
-                                            <div class="col-sm-10">
-                                                <label for="inputEmail3" class=" control-label no-padding-right">Razon Social</label>
-                                                <input type="text" class="form-control" id="nombre_razon_social" name="nombre_razon_social" required="" placeholder="Nombre Razon Social" value="<?php echo $empresa[0]->nombre_razon_social ?>">
+                                    <div class="col-lg-4" style="border-left:1px solid grey;border-right:1px solid grey">                                       
 
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            
-                                            <div class="col-sm-10">
-                                                <label for="inputPassword3" class=" control-label no-padding-right">Nombre Comercial</label>
-                                                <input type="text" class="form-control" id="nombre_comercial" name="nombre_comercial" required="" placeholder="Nombre Comercial" value="<?php echo $empresa[0]->nombre_comercial ?>">
-
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            
-                                            <div class="col-sm-10">
-                                                <label for="inputPassword3" class=" control-label no-padding-right">NRC</label>
-                                                <input type="text" class="form-control" id="nrc" name="nrc" placeholder="NRC" required="" value="<?php echo $empresa[0]->nrc ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            
+                                        <div class="form-group">                                            
                                             <div class="col-sm-10">
                                                 <label for="inputPassword3" class=" control-label no-padding-right">NIT</label>
                                                 <input type="text" class="form-control" id="nit" name="nit" placeholder="NIT" required="" value="<?php echo $empresa[0]->nit ?>">
 
                                             </div>
                                         </div>
-<!--
-                                        <div class="form-group">
-                                            
-                                            <div class="col-sm-10">
-                                                <label for="inputPassword3" class=" control-label no-padding-right">Autorizacion</label>
-                                                <input type="text" class="form-control" id="autorizacion" name="autorizacion" placeholder="Autorizacion" value="<?php echo $empresa[0]->autorizacion ?>">
 
-                                            </div>
-                                        </div>
-                                            -->
                                         <div class="form-group">
                                             
                                             <div class="col-sm-10">
@@ -151,25 +134,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            
+                                        <div class="form-group">                                            
                                             <div class="col-sm-10">
                                                 <label for="inputPassword3" class=" control-label no-padding-right">M. I.</label>
                                                 <input type="text" class="form-control" id="metodo_inventario" name="metodo_inventario" placeholder="Metodo Inventario" value="<?php echo $empresa[0]->metodo_inventario ?>">
 
                                             </div>
                                         </div>
-
-                                        
-
-                                        
-                                    </div>
-
-
-                                    <div class="col-lg-4">
-                                        <!-- Otro -->                                       
-
-                                        
 
                                         <div class="form-group">
                                             
@@ -180,25 +151,20 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <!-- Otro -->                                       
+
+                                        <div class="form-group">                                            
                                             <div class="col-sm-10">
                                             <label for="inputPassword3" class=" control-label no-padding-right">Slogan</label>
                                                 <input type="text" class="form-control" id="slogan" name="slogan" placeholder="Slogan" value="<?php echo $empresa[0]->slogan ?>">
 
                                             </div>
                                         </div>
-<!--
-                                        <div class="form-group">
-                                            
-                                            <div class="col-sm-10">
-                                            <label for="inputPassword3" class=" control-label no-padding-right">Resolusion</label>
-                                                <input type="text" class="form-control" id="resolucion" name="resolucion" placeholder="Resolusion" value="<?php echo $empresa[0]->resolucion ?>">
-                                            </div>
-                                        </div>
-                                                -->
-                                        <div class="form-group">
-                                            
+
+                                        <div class="form-group">                                            
                                             <div class="col-sm-10">
                                             <label for="inputPassword3" class=" control-label no-padding-right">Represent.</label>
                                                 <input type="text" class="form-control" id="representante" name="representante" placeholder="Representante" value="<?php echo $empresa[0]->representante ?>">
@@ -206,26 +172,15 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            
+                                        <div class="form-group">                                            
                                             <div class="col-sm-10">
                                             <label for="inputPassword3" class=" control-label no-padding-right">WebSite</label>
                                                 <input type="text" class="form-control" id="website" name="website" placeholder="WebSite" value="<?php echo $empresa[0]->website ?>">
 
                                             </div>
                                         </div>
-<!--
-                                        <div class="form-group">
-                                            
-                                            <div class="col-sm-10">
-                                            <label for="inputPassword3" class=" control-label no-padding-right">Tiraje</label>
-                                                <input type="text" class="form-control" id="tiraje" name="tiraje" placeholder="Tiraje" value="<?php echo $empresa[0]->tiraje ?>">
 
-                                            </div>
-                                        </div>
-                                                -->
-                                        <div class="form-group">
-                                            
+                                        <div class="form-group">                                            
                                             <div class="col-sm-10">
                                             <label for="inputPassword3" class=" control-label no-padding-right">Telefono</label>
                                                 <input type="text" class="form-control" id="tel" name="tel" placeholder="Telefono" value="<?php echo $empresa[0]->tel ?>">
@@ -251,29 +206,32 @@
 
                                         <div class="form-group">
                                             <div class=" col-sm-10">
-
                                                 <label>
                                                     <select name="empresa_estado" class="form-control">
                                                         <option value="1">Activo</option>
                                                         <option value="0">Inactivo</option>
                                                     </select>
                                                 </label>
-                                                <button type="submit" class="btn btn-info"><i class="fa fa-save"></i> Guardar</button>
+                                                
                                             </div>
                                         </div>
 
-
-                                    </div>
+                                    </div>                                    
                                 </div>
 
-
+                                <div class="panel-footer text-right">
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                            <button type="submit" class="btn btn-info"><i class="fa fa-save"></i> Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
-                        </p>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 </section>

@@ -58,29 +58,34 @@ class Proveedor_model extends CI_Model {
 
          // Insertando Imagenes empresa
         $imagen="";
-        $imagen = file_get_contents($_FILES['logo']['tmp_name']);
-        $imageProperties = getimageSize($_FILES['logo']['tmp_name']);
+        if($_FILES['logo']['tmp_name']){
+            $imagen = file_get_contents($_FILES['logo']['tmp_name']);
+            $imageProperties = getimageSize($_FILES['logo']['tmp_name']);
+        }
 
         $data = array(
-            'codigo_proveedor' =>  $datos['codigo_proveedor'],
-            'empresa_proveedor' =>  $datos['empresa_proveedor'],
-            'titular_proveedor' => $datos['titular_proveedor'],
-            'nrc' => $datos['nrc'],
-            'nit_empresa' => $datos['nit_empresa'],
-            'giro' => $datos['giro'],
-            'logo' => $imagen,
-            'logo_type' => $imageProperties['mime'],
-            'direc_empresa' => $datos['direc_empresa'],
-            'tel_empresa'=> $datos['tel_empresa'],
-            'cel_empresa'=> $datos['cel_empresa'],
-            'website' => $datos['website'],
-            'lineas' => $datos['lineas'],
-            'Empresa_id' => $this->session->empresa[0]->id_empresa,
-            'Persona_Proveedor' => $datos['Persona_Proveedor'],
-            'natural_juridica' => $datos['natural_juridica'],
-            'estado' => $datos['estado'],
-            'creado' => date("Y-m-d h:i:s")
+            'codigo_proveedor'      =>  $datos['codigo_proveedor'],
+            'empresa_proveedor'     =>  $datos['empresa_proveedor'],
+            'titular_proveedor'     => $datos['titular_proveedor'],
+            'nrc'                   => $datos['nrc'],
+            'nit_empresa'           => $datos['nit_empresa'],
+            'giro'                  => $datos['giro'],
+            'direc_empresa'         => $datos['direc_empresa'],
+            'tel_empresa'           => $datos['tel_empresa'],
+            'cel_empresa'           => $datos['cel_empresa'],
+            'website'               => $datos['website'],
+            'lineas'                => $datos['lineas'],
+            'Empresa_id'            => $this->session->empresa[0]->id_empresa,
+            'Persona_Proveedor'     => $datos['Persona_Proveedor'],
+            'natural_juridica'      => $datos['natural_juridica'],
+            'estado'                => $datos['estado'],
+            'creado'                => date("Y-m-d h:i:s")
         );
+
+        if(isset($_FILES['logo']) && $_FILES['logo']['tmp_name']!=null){            
+            $imagen = file_get_contents($_FILES['logo']['tmp_name']);
+            $data   = array_merge( $data,array('logo' => $imagen, 'logo_type'=> $imageProperties['mime'] ));
+        }
         
         $result = $this->db->insert(self::pos_proveedor, $data);  
         if(!$result){
@@ -110,21 +115,21 @@ class Proveedor_model extends CI_Model {
     function update($datos){
 
         $data = array(
-            'codigo_proveedor' =>  $datos['codigo_proveedor'],
-            'empresa' =>  $datos['empresa'],
+            'codigo_proveedor'  =>  $datos['codigo_proveedor'],
+            'empresa_proveedor' =>  $datos['empresa_proveedor'],
             'titular_proveedor' => $datos['titular_proveedor'],
-            'nrc' => $datos['nrc'],
-            'nit_empresa' => $datos['nit_empresa'],
-            'giro' => $datos['giro'],
-            'direc_empresa' => $datos['direc_empresa'],
-            'tel_empresa'=> $datos['tel_empresa'],
-            'cel_empresa'=> $datos['cel_empresa'],
-            'website' => $datos['website'],
-            'lineas' => $datos['lineas'],
+            'nrc'               => $datos['nrc'],
+            'nit_empresa'       => $datos['nit_empresa'],
+            'giro'              => $datos['giro'],
+            'direc_empresa'     => $datos['direc_empresa'],
+            'tel_empresa'       => $datos['tel_empresa'],
+            'cel_empresa'       => $datos['cel_empresa'],
+            'website'           => $datos['website'],
+            'lineas'            => $datos['lineas'],
             'Persona_Proveedor' => $datos['Persona_Proveedor'],
-            'natural_juridica' => $datos['natural_juridica'],
-            'estado' => $datos['estado'],
-            'actualizado' => date("Y-m-d h:i:s")
+            'natural_juridica'  => $datos['natural_juridica'],
+            'estado'            => $datos['estado'],
+            'actualizado'       => date("Y-m-d h:i:s")
         );
 
         if(isset($_FILES['logo']) && $_FILES['logo']['tmp_name']!=null){
