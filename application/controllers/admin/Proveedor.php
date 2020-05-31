@@ -173,8 +173,5 @@ class Proveedor extends MY_Controller {
 		$this->xls( $_SESSION['registros'] , $_SESSION['Vista']  ,$column, $fields  );
 
 	}
-	
-
 }
-
 ?>

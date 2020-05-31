@@ -80,10 +80,10 @@ class Sucursal extends MY_Controller {
 
 		$data = $this->Sucursal_model->crear_sucursal( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Sucursal Fue Creada");
 		}else{
-			$this->session->set_flashdata('danger', "Sucursal No Fue Creada");
+			$this->session->set_flashdata('danger', "Sucursal No Fue Creada : ". $data['message']);
 		}	
 
 		redirect(base_url()."admin/sucursal/index");
@@ -128,17 +128,27 @@ class Sucursal extends MY_Controller {
 		}else{
 			redirect(base_url()."admin/sucursal/index");
 		}
-
 	}
 
 	public function update(){
 
 		$data = $this->Sucursal_model->actualizar( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Sucursal Fue Actualizada");
 		}else{
-			$this->session->set_flashdata('danger', "Sucursal No Fue Actualizada");
+			$this->session->set_flashdata('danger', "Sucursal No Fue Actualizada : ". $data['message']);
+		}
+		redirect(base_url()."admin/sucursal/index");
+	}
+
+	public function eliminar($id){
+		$data = $this->Sucursal_model->delete( $id );
+
+		if(!$data['code']){
+			$this->session->set_flashdata('warning', "Sucursal Fue Eliminada");
+		}else{
+			$this->session->set_flashdata('danger', "Sucursal No Fue Eliminada : ". $data['message']);
 		}
 		redirect(base_url()."admin/sucursal/index");
 	}

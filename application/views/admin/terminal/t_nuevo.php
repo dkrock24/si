@@ -26,13 +26,15 @@
                 <div id="panelDemo10" class="panel menu_title_bar">    
                                         
                     <div class="panel-heading menuTop">Nueva Terminal <?php //echo $onMenu[0]->nombre_submenu ?> </div>
-                     <div class="panel-body menuContent">        
+                     <div class="menuContent">
+                     <div class="b">    
+                        <div class="panel-heading"></div>
                     <p> 
                     <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="terminales" action='crear' method="post">
                         
                         <div class="row">
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Caja</label>
@@ -45,15 +47,14 @@
                                                 <?php
                                             }
                                             ?>
-                                        </select>
-                                        
+                                        </select>                                        
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Nombre</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                        <input type="text" required class="form-control" id="nombre" name="nombre" placeholder="Nombre" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
                                         
                                     </div>
                                 </div>
@@ -61,7 +62,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Codigo</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Codigo" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                        <input type="text" required class="form-control" id="codigo" name="codigo" placeholder="Codigo" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
                                         
                                     </div>
                                 </div>
@@ -69,7 +70,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Sistema Estado</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="sistema_estado" name="sistema_estado" placeholder="Sistema Estado" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                        <input type="text" required class="form-control" id="sistema_estado" name="sistema_estado" placeholder="Sistema Estado" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
                                         
                                     </div>
                                 </div>
@@ -77,8 +78,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Numero</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="numero" name="numero" placeholder="Numero" value="<?php //echo $onMenu[0]->url_submenu ?>">
-                                        
+                                        <input type="text" required class="form-control" id="numero" name="numero" placeholder="Numero" value="<?php //echo $onMenu[0]->url_submenu ?>">
                                     </div>
                                 </div>
 
@@ -86,7 +86,6 @@
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Comentario</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="comentario" name="comentario" placeholder="Comentarios" value="<?php //echo $onMenu[0]->url_submenu ?>">
-                                        
                                     </div>
                                 </div>
 
@@ -94,7 +93,6 @@
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Creado</label>
                                     <div class="col-sm-9">
                                         <input type="date" class="form-control" id="fecha_creado" name="fecha_creado" value="<?php echo date("Y-m-d") ?>">
-                                        
                                     </div>
                                 </div>
 
@@ -102,7 +100,6 @@
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Ult Cod Emp</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="ult_cod_empr" name="ult_cod_empr" value="">
-                                        
                                     </div>
                                 </div>
 
@@ -110,7 +107,6 @@
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Ult Cod Suc</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="ult_cod_sucur" name="ult_cod_sucur" value="">
-                                        
                                     </div>
                                 </div>
 
@@ -118,23 +114,25 @@
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Ult Cod Usu</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="ult_usuario" name="ult_usuario" value="">
-                                        
                                     </div>
                                 </div>
+
+                            </div>
+
+                            <div class="col-lg-4" style="border-left:1px solid grey;border-right:1px solid grey">
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">IP/MACk</label>
                                     <div class="col-sm-9">
                                         <?php echo $_SERVER['REMOTE_ADDR']; ?>
-                                        <input type="text" class="form-control" id="ip_o_mack" name="ip_o_mack" value="">
-                                        
+                                        <input type="text" required class="form-control" id="ip_o_mack" name="ip_o_mack" value="">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Sis. Operativo</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="sist_operativo" name="sist_operativo" value="">
+                                        <input type="text" required class="form-control" id="sist_operativo" name="sist_operativo" value="">
                                         
                                     </div>
                                 </div>
@@ -142,8 +140,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Dispositivo</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="dispositivo" name="dispositivo" value="">
-                                        
+                                        <input type="text" required class="form-control" id="dispositivo" name="dispositivo" value="">
                                     </div>
                                 </div>
 
@@ -151,7 +148,6 @@
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Navegador</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="navegador" name="navegador" value="">
-                                        
                                     </div>
                                 </div>
 
@@ -159,20 +155,13 @@
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Autorizado</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="sys_autorz" name="sys_autorz" value="">
-                                        
                                     </div>
                                 </div>
-
-                            </div>
-
-
-                            <div class="col-lg-6">
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Emp Estado</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="emp_estado" name="emp_estado" value="">
-                                        
                                     </div>
                                 </div>
 
@@ -180,50 +169,52 @@
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Emp Autorz</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="emp_autorz" name="emp_autorz" value="">
-                                        
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">F. Inicio</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="fh_inicio" name="fh_inicio" value="">
-                                        
+                                        <input type="date" class="form-control" id="fh_inicio" name="fh_inicio" value="<?php echo date("Y-m-d") ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Modelo</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="modelo" name="modelo" placeholder="Modelo" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" required class="form-control" id="modelo" name="modelo" placeholder="Modelo" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
+
+                            </div>
+
+                            <div class="col-lg-4">
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Serie</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="series" name="series" placeholder="Serie" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" required class="form-control" id="series" name="series" placeholder="Serie" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Marca</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="marca" name="marca" placeholder="Marca" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" required class="form-control" id="marca" name="marca" placeholder="Marca" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Licencia</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="licencia" name="licencia" placeholder="Licencia" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" required class="form-control" id="licencia" name="licencia" placeholder="Licencia" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Ubicacion</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="ubicacion" name="ubicacion" placeholder="Ubicacion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" required class="form-control" id="ubicacion" name="ubicacion" placeholder="Ubicacion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
@@ -238,13 +229,6 @@
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Cajero</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="cajero" name="cajero" placeholder="Cajero" value="<?php //echo $onMenu[0]->icon_submenu ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Ubicacion</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="ubicacion" name="ubicacion" placeholder="Ubicacion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                     </div>
                                 </div>
 
@@ -294,15 +278,23 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
-                                        <button type="submit" id="btn_save" class="btn btn-info">Guardar</button>
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
-                    
+
+                        <div class="panel-footer text-right">
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <button type="submit" id="btn_save" class="btn btn-info">Guardar</button>                      
+                                </div>
+                            </div>
+                        </div>
                     </form>
-                    </p>                                    
+                    </p>  
+                    </div>
+                    </div>                                  
                 </div>
                 </div>
             </div>

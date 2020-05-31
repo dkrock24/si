@@ -1,11 +1,11 @@
 <?php
 class Sucursal_model extends CI_Model {
 
-    const pos_sucursal = 'pos_sucursal';
-    const pos_bodega = 'pos_bodega';
-	const pos_empresa = 'pos_empresa';	
-    const sys_empleado_sucursal = 'sys_empleado_sucursal';	
-    const sys_usuario = 'sys_usuario';	
+    const pos_sucursal  = 'pos_sucursal';
+    const pos_bodega    = 'pos_bodega';
+	const pos_empresa   = 'pos_empresa';
+    const sys_usuario   = 'sys_usuario';
+    const sys_empleado_sucursal = 'sys_empleado_sucursal';
 	
 	function getSucursal(){
 		$this->db->select('DISTINCT(s.id_sucursal) , s.*');
@@ -108,34 +108,36 @@ class Sucursal_model extends CI_Model {
     function crear_sucursal( $datos ){
 
         $data = array(
-            'nombre_sucursal' => $datos['nombre_sucursal'],
-            'direct' => $datos['direct'],
-            'encargado_sucursal' => $datos['encargado'],
-            'tel' => $datos['tel'],
-            'cel' => $datos['cel'],
-            'estado' => $datos['estado'],
-            'Ciudad_Suc' => $datos['Ciudad_Suc'],            
-            //'Empresa_Suc' => $this->session->empresa[0]->Empresa_Suc
-            'Empresa_Suc' => $datos['Empresa_Suc']            
+            'nombre_sucursal'   => $datos['nombre_sucursal'],
+            'direct'            => $datos['direct'],
+            'encargado_sucursal'=> $datos['encargado'],
+            'tel'               => $datos['tel'],
+            'cel'               => $datos['cel'],
+            'estado'            => $datos['estado'],
+            'Ciudad_Suc'        => $datos['Ciudad_Suc'],            
+            'Empresa_Suc'       => $datos['Empresa_Suc']
         );
         
-        $this->db->insert(self::pos_sucursal, $data );
-
-        $id = $this->db->insert_id();
+        $result   = $this->db->insert(self::pos_sucursal, $data );
+        $id       = $this->db->insert_id();
         $empleado = $this->session->userdata['usuario'][0]->id_empleado;
 
         $this->insert_empleado_sucursal( $empleado , $id);
 
-        return $id;  
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;  
     }
 
     function insert_empleado_sucursal($empleado, $sucursal ){
 
         $data = array(
-            'es_empleado' => $empleado,
-            'es_sucursal' => $sucursal,
-            'es_creado' => date("Y-m-d h:i:s"),
-            'es_estado' => 1
+            'es_empleado'   => $empleado,
+            'es_sucursal'   => $sucursal,
+            'es_creado'     => date("Y-m-d h:i:s"),
+            'es_estado'     => 1
         );
         $result = $this->db->insert(self::sys_empleado_sucursal, $data ); 
 
@@ -143,25 +145,45 @@ class Sucursal_model extends CI_Model {
             $result = $this->db->error();
         }
 
-        return $result;
-   
+        return $result;   
     }    
 
     function actualizar( $datos ){
         
         $data = array(
             'nombre_sucursal' => $datos['nombre_sucursal'],
-            'direct' => $datos['direct'],
-            'encargado' => $datos['encargado'],
-            'tel' => $datos['tel'],
-            'cel' => $datos['cel'],
-            'estado' => $datos['estado'],
-            'Ciudad_Suc' => $datos['Ciudad_Suc'],            
-            'Empresa_Suc' => $datos['Empresa_Suc']
+            'direct'        => $datos['direct'],
+            'encargado_sucursal'     => $datos['encargado_sucursal'],
+            'tel'           => $datos['tel'],
+            'cel'           => $datos['cel'],
+            'estado'        => $datos['estado'],
+            'Ciudad_Suc'    => $datos['Ciudad_Suc'],            
+            'Empresa_Suc'   => $datos['Empresa_Suc']
         );
 
-        $this->db->where('id_sucursal', $datos['id_ciudad']);
+        $this->db->where('id_sucursal', $datos['id_sucursal']);
         $result = $this->db->update(self::pos_sucursal, $data);  
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
+    }
+
+    function delete($id){
+
+        $data   = array(
+            'es_sucursal' => $id
+        );
+
+        $result = $this->db->delete(self::sys_empleado_sucursal, $data );
+
+        $data   = array(
+            'id_sucursal' => $id
+        );
+
+        $result = $this->db->delete(self::pos_sucursal , $data);
+
         if(!$result){
             $result = $this->db->error();
         }

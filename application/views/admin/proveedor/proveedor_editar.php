@@ -183,9 +183,14 @@
                                         <div class="form-group img_logo">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Logo</label>
                                             <div class="col-sm-9">
-                                                <input type="file" class="form-control" id="logo" name="logo" placeholder="Logo" value="<?php //echo $proveedor[0]->titulo_submenu 
-                                                                                                                                        ?>">
-                                                <img src="data: <?php echo $proveedor[0]->logo_type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($proveedor[0]->logo) ?>" clas="preview_producto polaroid" style="width:50%" />
+                                                <input type="file" class="form-control" id="logo" name="logo" placeholder="Logo" value="<?php //echo $proveedor[0]->titulo_submenu ?>">
+                                                <?php
+                                                if($proveedor[0]->logo_type){
+                                                    ?>
+                                                    <img src="data: <?php echo $proveedor[0]->logo_type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($proveedor[0]->logo) ?>" clas="preview_producto polaroid" style="width:50%" />
+                                                    <?php
+                                                }
+                                                ?>
                                             </div>
                                         </div>
                                     </div>

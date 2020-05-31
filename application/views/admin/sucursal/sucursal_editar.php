@@ -11,34 +11,31 @@
         <div class="row">
             <div class="col-lg-12">
                 <div id="" class="panel menu_title_bar">
-                    <div class="panel-heading menuTop">Editar Sucursal</div>
+                    <div class="panel-heading menuTop"><i class="fa fa-home" style="font-size: 40px;"></i>Editar Sucursal</div>
 
                     <div class="panel-body menuContent">
                         <div class="row">
                             <div class="col-lg-6">
                                 <form class="form-horizontal" action='../update' method="post">
-                                    <input type="hidden" name="id_ciudad" value="<?php echo $sucursal[0]->id_sucursal; ?>">
+                                    <input type="hidden" name="id_sucursal" value="<?php echo $sucursal[0]->id_sucursal; ?>">
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="nombre_sucursal" name="nombre_sucursal" value="<?php echo $sucursal[0]->nombre_sucursal ?>">
-
+                                            <input type="text" required class="form-control" id="nombre_sucursal" name="nombre_sucursal" value="<?php echo $sucursal[0]->nombre_sucursal ?>">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Direccion</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="direct" name="direct" value="<?php echo $sucursal[0]->direct ?>">
-
+                                            <input type="text" required class="form-control" id="direct" name="direct" value="<?php echo $sucursal[0]->direct ?>">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Encargado</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="encargado" name="encargado" value="<?php echo $sucursal[0]->encargado_sucursal ?>">
-
+                                            <input type="text" class="form-control" id="encargado" name="encargado_sucursal" value="<?php echo $sucursal[0]->encargado_sucursal ?>">
                                         </div>
                                     </div>
 
@@ -46,7 +43,6 @@
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Telefono</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="tel" name="tel" value="<?php echo $sucursal[0]->tel ?>">
-
                                         </div>
                                     </div>
 
@@ -54,7 +50,6 @@
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Celular</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="cel" name="cel" value="<?php echo $sucursal[0]->cel ?>">
-
                                         </div>
                                     </div>
 

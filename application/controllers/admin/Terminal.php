@@ -47,7 +47,6 @@ class Terminal extends MY_Controller {
 		$url_page = "admin/terminal/index";
 		$pag = $this->MyPagination($model, $url_page , $vista = 34);
 
-
 		$data['menu'] 			= $this->session->menu;
 		$data['links'] 			= $pag['links'];
 		$data['filtros'] 		= $pag['field'];
@@ -83,10 +82,11 @@ class Terminal extends MY_Controller {
 		// Insert Nuevo Usuario
 		$data = $this->Terminal_model->crear( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Terminal Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Terminal No Fue Creado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Terminal No Fue Creado : ". $data['message']);
 		}	
 		redirect(base_url()."admin/terminal/index");
 	}
@@ -140,10 +140,12 @@ class Terminal extends MY_Controller {
 
 		if(isset($_POST)){
 			$data = $this->Terminal_model->update( $_POST );
-			if($data){
+			
+			if(!$data['code']){
 				$this->session->set_flashdata('info', "Terminal Fue Actualizado");
 			}else{
-				$this->session->set_flashdata('danger', "Terminal No Fue Actualizado");
+				$data = $this->db_error_format($data);
+				$this->session->set_flashdata('danger', "Terminal No Fue Actualizado : ". $data['message']);
 			}
 		}
 		redirect(base_url()."admin/terminal/index");
@@ -153,10 +155,11 @@ class Terminal extends MY_Controller {
 		
 		$data = $this->Terminal_model->eliminar( $id );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Terminal Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Terminal Fue Eliminado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Terminal No Fue Eliminado : ". $data['message']);
 		}
 
 		redirect(base_url()."admin/terminal/index");
