@@ -1,3 +1,4 @@
+
 <!-- Main section-->
 <section>
     <!-- Page content-->
@@ -42,7 +43,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Categoria1</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="categoria_padre" name="nombre_categoria" placeholder="Nombre" value="<?php echo $categorias[0]->nombre_categoria; ?>">
+                                        <input type="text" required class="form-control" id="categoria_padre" name="nombre_categoria" placeholder="Nombre" value="<?php echo $categorias[0]->nombre_categoria; ?>">
                                     </div>
                                 </div>   
                             

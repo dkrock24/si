@@ -1,3 +1,4 @@
+
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
     var path = "";
@@ -268,7 +269,7 @@ include("asstes/js/compras/pos_funciones.php");
                                                 <div class="form-group has-success">
                                                     <label><i class="fa fa-user sz"></i> Empleado :</label>
                                                     <input type="hidden" class="form-control" name="empleado" id="recibe_nombre" />
-                                                    <input type="text" class="form-control" name="empleado2" id="firma_llegada" />
+                                                    <input type="text" required class="form-control" name="empleado2" id="firma_llegada" />
 
                                                 </div>
                                             </div>
@@ -363,6 +364,10 @@ include("asstes/js/compras/pos_funciones.php");
                                     Can [ = ]<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;">
                                         <!--Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display:inline-block;">-->
                                     </span>
+
+                                    <pan class="msg_error">
+                                        
+                                    </pan>
 
                                 </div>
                             </div>

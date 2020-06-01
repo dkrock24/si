@@ -164,7 +164,6 @@ class Giros extends MY_Controller {
 		$data['plantilla_giro_total'] = $this->Giros_model->get_total_plantilla_giro( $id_giro );
 
 		echo json_encode( $data );
-		//echo json_encode( $giro );
 	}
 
 	public function guardar_giro_atributos(){

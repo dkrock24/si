@@ -535,8 +535,7 @@ include("asstes/js/compras/pos_funciones.php");
             <!-- end Team Panel-->
         </div>
     </div>
-
-
+    <?php $this->load->view('notificaciones/success'); ?>
 </section>
 
 

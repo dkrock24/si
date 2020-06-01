@@ -1986,7 +1986,9 @@
                 'imp_excluyente': _impuestos_orden_excluyentes
             }
 
-            if (_orden.length != 0) {
+            var empleado_encargado = $("#firma_llegada").val();
+
+            if (_orden.length != 0 && empleado_encargado!="") {
                 $.ajax({
                     type: 'POST',
                     data: {
@@ -2010,6 +2012,9 @@
                     },
                     error: function() {}
                 });
+            }else{
+                var msg = $(".msg_error");
+                msg.html("<h2 style='display: inline-block;'><label class='label label-danger'>Falta Encargado de Traslado</label></h2>");
             }
 
             if (method != "update_orden") {

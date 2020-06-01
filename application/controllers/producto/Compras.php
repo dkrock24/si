@@ -141,10 +141,11 @@ class Compras extends MY_Controller {
 
 		$this->EfectosDocumento_model->accion($_POST , $documento );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Compra Fue Creada");
 		}else{
-			$this->session->set_flashdata('danger', "Compra No Fue Creada");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Compra No Fue Creada :". $data['message']);
 		}
 
 		echo $data;
@@ -182,10 +183,11 @@ class Compras extends MY_Controller {
 		$_POST['orden'][0]['id_bodega'] = $compra['bodega'];
 		$this->EfectosDocumento_model->accion($_POST , $documento );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Compra Fue Actualizada");
 		}else{
-			$this->session->set_flashdata('danger', "Compra No Fue Actualizada");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Compra No Fue Actualizada :". $data['message']);
 		}
 
 		echo $data['result'];

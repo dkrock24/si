@@ -84,10 +84,11 @@ class Combo extends MY_Controller {
 
 		$data = $this->Combo_model->save_Combo( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Combo Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Combo No Fue Creado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Combo No Fue Creado :". $data['message']);
 		}
 
 		redirect(base_url()."producto/combo/nuevo");
@@ -142,10 +143,11 @@ class Combo extends MY_Controller {
 
 		$data = $this->Combo_model->update_combo( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Combo Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('danger', "Combo No Fue Actualizado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Combo No Fue Actualizado :". $data['message']);
 		}
 
 		redirect(base_url()."producto/combo/index");
@@ -162,20 +164,18 @@ class Combo extends MY_Controller {
 		echo json_encode($data);
 	}
 
-	
-
 	public function eliminar($id){
 
 		$data = $this->Combo_model->eliminar( $id );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Combo Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Combo No Fue Eliminado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Combo No Fue Eliminado :". $data['message']);
 		}
 
 		redirect(base_url()."producto/combo/index");
-
 	}
 
 	public function column(){
