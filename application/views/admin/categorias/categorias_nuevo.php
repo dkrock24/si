@@ -1,3 +1,4 @@
+
 <!-- Main section-->
 <section>
     <!-- Page content-->
@@ -20,16 +21,14 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <form class="form-horizontal" action='crear' method="post">
-                                    <input type="hidden" value="<?php //echo $dep; 
-                                                                ?>" name="id_departamento">
+                                    <input type="hidden" value="<?php //echo $dep; ?>" name="id_departamento">
 
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Giro</label>
                                         <div class="col-sm-8">
                                             <select name="codigo_giro" class="form-control">
                                                 <?php
-                                                if(isset($giros)){
-                                                
+                                                if(isset($giros)){                                                
                                                     foreach ($giros as $g) {
                                                         ?>
                                                         <option value="<?php echo $g->id_giro ?>"><?php echo $g->nombre_giro ?></option>
@@ -45,11 +44,10 @@
                                         </div>
                                     </div>
 
-
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Categoria1</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="categoria_padre" name="nombre_categoria" placeholder="Nombre" value="">
+                                            <input type="text" required class="form-control" id="categoria_padre" name="nombre_categoria" placeholder="Nombre" value="">
                                         </div>
                                     </div>
 
@@ -68,7 +66,6 @@
                                             </select>
                                         </div>
                                     </div>
-
 
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
@@ -91,7 +88,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 

@@ -32,17 +32,11 @@ class Bodega extends MY_Controller {
 
 	public function index()
 	{
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
-
 		$model 		= "Bodega_model";
 		$url_page 	= "producto/bodega/index";
 		$pag 		= $this->MyPagination($model, $url_page, $vista = 20) ;
 
-		$menu_session = $this->session->menu;	
-
-
-		$data['registros'] = $this->Bodega_model->getBodegas( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
-			
+		$data['registros'] 		= $this->Bodega_model->getBodegas( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
 		$data['menu'] 			= $this->session->menu;		
 		$data['links'] 			= $pag['links'];
 		$data['filtros'] 		= $pag['field'];
@@ -86,7 +80,8 @@ class Bodega extends MY_Controller {
 		if($data){
 			$this->session->set_flashdata('success', "Bodega Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Bodega No Fue Creado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Bodega No Fue Creado : ". $data['message']);
 		}
 
 		redirect(base_url()."producto/bodega/index");
@@ -148,7 +143,8 @@ class Bodega extends MY_Controller {
 		if($data){
 			$this->session->set_flashdata('info', "Bodega Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('danger', "Bodega No Fue Actualizado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Bodega No Fue Actualizado : ". $data['message']);
 		}
 
 		redirect(base_url()."producto/bodega/index");
@@ -160,7 +156,8 @@ class Bodega extends MY_Controller {
 		if($data){
 			$this->session->set_flashdata('warning', "Eliminado Exitosamente");
 		}else{
-			$this->session->set_flashdata('danger', "No Fue Eliminada");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "No Fue Eliminada : ". $data['message']);
 		}
 		redirect(base_url()."producto/bodega/index");
 	}

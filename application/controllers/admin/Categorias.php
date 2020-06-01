@@ -70,15 +70,12 @@ class Categorias extends MY_Controller {
 
 	public function nuevo(){
 		// GET PAIS
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
-		$data['menu'] = $this->session->menu;	
+		$data['title'] 		= "Crear Categoria";
+		$data['menu'] 		= $this->session->menu;
+		$data['marcas'] 	= $this->Marca_model->getAllMarca();
+		$data['giros'] 		= $this->Giros_model->getAllgiros();
+		$data['home'] 		= 'admin/categorias/categorias_nuevo';
 		$data['categorias']	= $this->Categorias_model->get_categorias_padres();
-		$data['marcas'] = $this->Marca_model->getAllMarca();
-		//$data['empresa'] = $this->Empresa_model->getEmpresas();
-		$data['giros'] = $this->Giros_model->getAllgiros();
-		$data['home'] = 'admin/categorias/categorias_nuevo';
-		$data['title'] = "Crear Categoria";
 
 		$this->parser->parse('template', $data);
 	}
@@ -87,10 +84,11 @@ class Categorias extends MY_Controller {
 
 		$data['info'] = $this->Categorias_model->crear_categoria( $_POST );
 
-		if($data){
-			$this->session->set_flashdata('warning', "Categoria Fue Creado");
+		if(!$data['code']){
+			$this->session->set_flashdata('warning', "Categoria Fue Creada");
 		}else{
-			$this->session->set_flashdata('danger', "Categoria No Fue Creado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Categoria No Fue Creada :". $data['message']);
 		}
 
 		redirect(base_url()."admin/categorias/index");
@@ -99,13 +97,12 @@ class Categorias extends MY_Controller {
 	public function editar( $id_categoria ){
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
-		$data['menu'] = $this->session->menu;
+		$data['menu'] 		= $this->session->menu;
 		$data['categorias'] = $this->Categorias_model->get_categoria_id( $id_categoria );
 		$data['categorias_padres']	= $this->Categorias_model->get_categorias_padres();
-		//$data['empresa'] = $this->Empresa_model->getEmpresas();
-		$data['giros'] = $this->Giros_model->getAllgiros();
-		$data['home'] = 'admin/categorias/categorias_editar';
-		$data['title'] = "Editar Categoria";
+		$data['giros'] 		= $this->Giros_model->getAllgiros();
+		$data['home'] 		= 'admin/categorias/categorias_editar';
+		$data['title'] 		= "Editar Categoria";
 
 		$this->general->editar_valido($data['categorias'], "admin/categorias/index");
 
@@ -119,40 +116,34 @@ class Categorias extends MY_Controller {
 		}
 
 		$data['title'] = "Ver";
-
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
-		$data['data'] = $this->Categorias_model->get_categoria_id( $id );	
+		$data['menu'] = $this->session->menu;
+		$data['data'] = $this->Categorias_model->get_categoria_id( $id );
 		
 		if($data['data']){
 
-			foreach ($data['data']  as $key => $value) {
-			
-				$vars = get_object_vars ( $value );
-				
+			foreach ($data['data']  as $key => $value) {			
+				$vars = get_object_vars ( $value );				
 				continue;
 			}
 	
-			$data['columns'] = $vars;
-	
+			$data['columns'] = $vars;	
 			$this->parser->parse('template', $data);
 
 		}else{
 			redirect(base_url()."admin/categorias/index");
 		}
-
 	}
 
 	public function actualizar(){
 		// Insert pais
 		$data['info'] = $this->Categorias_model->actualizar_categoria( $_POST );
 
-		if($data){
-			$this->session->set_flashdata('info', "Categoria Fue Actualizado");
+		if(!$data['code']){
+			$this->session->set_flashdata('info', "Categoria Fue Actualizada");
 		}else{
-			$this->session->set_flashdata('danger', "Categoria No Fue Actualizado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Categoria No Fue Actualizada :". $data['message']);
 		}
 
 		redirect(base_url()."admin/categorias/index");
@@ -161,10 +152,12 @@ class Categorias extends MY_Controller {
 	public function eliminar($id){
 		
 		$data['info'] =$this->Categorias_model->delete_categoria( $id );
-		if($data){
-			$this->session->set_flashdata('warning', "Categoria Fue Eliminado");
+
+		if(!$data['code']){
+			$this->session->set_flashdata('warning', "Categoria Fue Eliminada");
 		}else{
-			$this->session->set_flashdata('danger', "Categoria No Fue Eliminado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Categoria No Fue Eliminada :". $data['message']);
 		}
 		redirect(base_url()."admin/categorias/index");
 	}

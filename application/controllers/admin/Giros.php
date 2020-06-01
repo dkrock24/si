@@ -81,6 +81,7 @@ class Giros extends MY_Controller {
 		if(!$data['code']){
 			$this->session->set_flashdata('success', "Giro Fue Creado");
 		}else{
+			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Giro No Fue Creado : ". $data['message']);
 		}
 
@@ -133,6 +134,7 @@ class Giros extends MY_Controller {
 		if(!$data['code']){
 			$this->session->set_flashdata('info', "Giro Fue Actualizado");
 		}else{
+			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Giro No Fue Creado :". $data['message']);
 		}
 
@@ -146,6 +148,7 @@ class Giros extends MY_Controller {
 		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Giro Fue Eliminado");
 		}else{
+			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Giro No Fue Eliminado :". $data['message']);
 		}
 
@@ -242,5 +245,4 @@ class Giros extends MY_Controller {
 	}
 
 }
-
 ?>

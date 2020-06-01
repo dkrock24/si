@@ -6,10 +6,8 @@ class Categorias_model extends CI_Model {
 
 	function get_categorias($limit, $id  , $filters ){
 
-        if($filters!=null || $filters != ""){
-				
-            $filters = " and ".$filters;
-            
+        if($filters!=null || $filters != ""){				
+            $filters = " and ".$filters;            
         }
 
         $query = $this->db->query('
@@ -25,8 +23,7 @@ class Categorias_model extends CI_Model {
     function record_count($filter){
         /*
         $this->db->where('Empresa',$this->session->empresa[0]->id_empresa . ' '. $filter);
-        $this->db->from(self::categorias);
-        
+        $this->db->from(self::categorias);        
         $result = $this->db->count_all_results();
         */
 
@@ -96,8 +93,8 @@ class Categorias_model extends CI_Model {
             $data = array(
                 'nombre_categoria'  => $categorias['nombre_categoria'],                
                 'id_categoria_padre'=> $categorias['categoria_padre'],
-                'Empresa' => $categorias['Empresa'],
-                'codigo_giro' => $categorias['codigo_giro'],
+                'Empresa'           => $categorias['Empresa'],
+                'codigo_giro'       => $categorias['codigo_giro'],
                 'categoria_estado'  => $categorias['categoria_estado'],
                 'actualizado_categoria'  => date("Y-m-d h:i:s")
             );
@@ -105,8 +102,8 @@ class Categorias_model extends CI_Model {
         }else{
             $data = array(
                 'nombre_categoria'  => $categorias['nombre_categoria'],                 
-                'Empresa' => $categorias['Empresa'],   
-                'codigo_giro' => $categorias['codigo_giro'],         
+                'Empresa'           => $categorias['Empresa'],   
+                'codigo_giro'       => $categorias['codigo_giro'],         
                 'categoria_estado'  => $categorias['categoria_estado'],
                 'actualizado_categoria'  => date("Y-m-d h:i:s")
             );

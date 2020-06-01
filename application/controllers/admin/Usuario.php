@@ -87,6 +87,7 @@ class Usuario extends MY_Controller {
 		if(!$data['code']){
 			$this->session->set_flashdata('success', "Usuario Fue Creado");
 		}else{
+			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Usuario No Fue Creado: ". $data['message']);
 		}	
 		redirect(base_url()."admin/usuario/index");
@@ -123,7 +124,8 @@ class Usuario extends MY_Controller {
 			if(!$data['code']){
 				$this->session->set_flashdata('info', "Usuario Fue Actualizado");
 			}else{
-				$this->session->set_flashdata('danger', "Usuario No Fue Actualizado: ". $data['message']);
+				$data = $this->db_error_format($data);
+				$this->session->set_flashdata('danger', "Usuario No Fue Actualizado : ". $data['message']);
 			}
 		}
 		redirect(base_url()."admin/usuario/index");
