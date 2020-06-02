@@ -2003,11 +2003,14 @@
                         if (method == "guardar_compra") {
                             window.location.href = "editar/" + data;
                         } else if (method == "../venta/guardar_venta") {
+                            alert(method);
                             //location.reload();
                             var datos = JSON.parse(data);
                             $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
                             $(".print_venta").attr("href", "venta/" + datos['id']);
-                            //window.location.href = "../venta/ver/" + data;
+                            window.location.href = "../compras/editar/" + data;
+                        } else if (method == "update_compra") {
+                            window.location.href = "../index";
                         }
                     },
                     error: function() {}

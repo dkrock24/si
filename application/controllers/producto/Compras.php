@@ -181,7 +181,7 @@ class Compras extends MY_Controller {
 		$documento[0] 	= (object) array('efecto_inventario' => '1');
 		$documento 		= $this->Documento_model->getDocumentoById($compra['id_tipo_documento']);
 		$_POST['orden'][0]['id_bodega'] = $compra['bodega'];
-		$this->EfectosDocumento_model->accion($_POST , $documento );
+		$data = $this->EfectosDocumento_model->accion($_POST , $documento );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('info', "Compra Fue Actualizada");

@@ -37,9 +37,13 @@ class EfectosDocumento_model extends CI_Model {
 
                 $this->db->where('Producto', $productos['producto_id'] );
                 $this->db->where('Bodega', $productos['id_bodega'] );
-                $this->db->update(self::producto_bodega, $data );
+                $result = $this->db->update(self::producto_bodega, $data );
+                if(!$result){
+                    $result = $this->db->error();
+                }
             }
         }
+        return $result;
     }
 
     function devolucionNuevoDocumento( $orden , $documento){
@@ -71,6 +75,7 @@ class EfectosDocumento_model extends CI_Model {
         $this->db->where('Producto', $producto );
         $this->db->where('Bodega', $bodega );
         $this->db->update(self::producto_bodega, $data );
+
     }
 
     function iva( $orden , $documento){
