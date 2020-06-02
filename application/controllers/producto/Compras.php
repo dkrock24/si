@@ -273,10 +273,43 @@ class Compras extends MY_Controller {
 
 	}
 
+	public function eliminar($compra_id){
+
+		$data['compra'] 	= $this->Compras_model->editar_compra($compra_id);
+		$data['detalle'] 	= $this->Compras_model->get_compra_detalle($compra_id);
+		$bodega 			= $data['compra'][0]->Bodega;
+		$orden['orden'] 	= (object) $data['detalle'];
+		$flag = false;
+
+		foreach ($orden['orden'] as $key => $productos) {
+			// Restar en inventarios
+			$this->EfectosDocumento_model->anulacionCompra(
+				$productos->id_producto , 
+				$bodega,
+				$productos->cantidad_pro_compra
+			);
+			$flag = true;
+		}
+
+		//Eliminar Encbezado
+		if($flag){
+			$data = $this->Compras_model->eliminar($compra_id);
+		}
+
+		if(!$data['code']){
+			$this->session->set_flashdata('success', "Compra Fue Eliminada");
+		}else{
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Compra No Fue Eliminada :". $data['message']);
+		}
+
+		redirect(base_url()."producto/compras/index");
+	}
+
     public function column(){
 
 		$column = array(
-			'Series','Sucursal','Bodega','Proveedor','Documento','Compra','Creado','Estado'
+			'Referencia','Series','Sucursal','Bodega','Proveedor','Documento','Fecha Compra','Creado','Estado'
 		);
 		return $column;
 	}
@@ -284,7 +317,7 @@ class Compras extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'numero_serie','nombre_sucursal','nombre_bodega','empresa_proveedor','Documento','fecha_compra','fecha_creacion','estado'
+			'documento_referencia','numero_serie','nombre_sucursal','nombre_bodega','empresa_proveedor','Documento','fecha_compra','fecha_creacion','estado'
 		);
 		
 		$fields['id'] 		= array('id_compras');

@@ -313,6 +313,13 @@ include("asstes/js/compras/pos_funciones.php");
                                                 </div>
                                             </div>
 
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group has-success">
+                                                    <label><i class="fa fa-link sz"></i> Documento Referencia :</label>
+                                                    <input type="text" required required class="form-control" name="documento_referencia" id="compra_referencia" />
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 

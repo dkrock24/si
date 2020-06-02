@@ -102,6 +102,7 @@ class Compras_model extends CI_Model
 			'Proveedor' 	=> $compra['proveedor'],
 			'modo_pago_id' 	=> $compra['modo_pago_id'],			
 			'numero_serie' 	=> date_timestamp_get($fecha),
+			'documento_referencia' => $compra['documento_referencia'],
 			'fecha_compra' 	=> $compra['fecha_compra'],
 			'Tipo_Documento'=> $compra['id_tipo_documento'],
 			'Empresa'		=> $this->session->empresa[0]->id_empresa,
@@ -193,6 +194,7 @@ class Compras_model extends CI_Model
 			'Sucursal' 		=> $compra['sucursal'],
 			'Bodega' 		=> $compra['bodega'],
 			'Proveedor' 	=> $compra['proveedor'],
+			'documento_referencia' => $compra['documento_referencia'],
 			'modo_pago_id' 	=> $compra['modo_pago_id'],
 			'fecha_compra' 	=> $compra['fecha_compra'],
 			'Tipo_Documento'=> $compra['id_tipo_documento'],
@@ -222,6 +224,21 @@ class Compras_model extends CI_Model
 		}
 
 		return $flag;
+	}
+
+	function eliminar($compra_id){
+
+		$result = $this->elimnar_compra_detalle($compra_id);
+		
+		if($result){
+			$data 	= array('id_compras' => $compra_id);
+			$result = $this->db->delete(self::pos_compras, $data);
+		}
+
+		if(!$result){
+            $result = $this->db->error();
+        }
+        return $result;
 	}
 
 	function printer($data ){

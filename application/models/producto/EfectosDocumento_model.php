@@ -59,6 +59,20 @@ class EfectosDocumento_model extends CI_Model {
         }
     }
 
+    function anulacionCompra( $producto, $bodega , $cantidad_resta){
+
+        $cantidad       = $this->get_cantidad_bodega($producto, $bodega);
+        $cantidad_nueva = ($cantidad[0]->Cantidad - $cantidad_resta);
+        
+        $data = array(
+            'Cantidad'	=>  $cantidad_nueva
+        );
+
+        $this->db->where('Producto', $producto );
+        $this->db->where('Bodega', $bodega );
+        $this->db->update(self::producto_bodega, $data );
+    }
+
     function iva( $orden , $documento){
 
     }
