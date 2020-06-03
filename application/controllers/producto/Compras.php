@@ -292,12 +292,10 @@ class Compras extends MY_Controller {
 		}
 
 		//Eliminar Encbezado
-		if($flag){
-			$data = $this->Compras_model->eliminar($compra_id);
-		}
+		$data = $this->Compras_model->eliminar($compra_id);
 
 		if(!$data['code']){
-			$this->session->set_flashdata('success', "Compra Fue Eliminada");
+			$this->session->set_flashdata('warning', "Compra Fue Eliminada");
 		}else{
 			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Compra No Fue Eliminada :". $data['message']);

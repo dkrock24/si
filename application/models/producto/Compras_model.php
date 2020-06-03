@@ -230,10 +230,8 @@ class Compras_model extends CI_Model
 
 		$result = $this->elimnar_compra_detalle($compra_id);
 		
-		if($result){
-			$data 	= array('id_compras' => $compra_id);
-			$result = $this->db->delete(self::pos_compras, $data);
-		}
+		$data 	= array('id_compras' => $compra_id);
+		$result = $this->db->delete(self::pos_compras, $data);
 
 		if(!$result){
             $result = $this->db->error();
