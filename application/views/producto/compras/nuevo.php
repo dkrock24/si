@@ -136,193 +136,190 @@ include("asstes/js/compras/pos_funciones.php");
 
                         <div class="panel-wrapper collapse in">
                             <div class="panel-body">
-                                
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Tipo Documento</label>
-                                                    <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
-                                                        <?php
-                                                        foreach ($vista_doc as $key => $value) {
-                                                        ?>
-                                                            <option value="<?= $value->id_tipo_documento ?>"><?= $value->nombre ?></option>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label>Tipo Documento</label>
+                                                <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
+                                                    <?php
+                                                    foreach ($vista_doc as $key => $value) {
+                                                    ?>
+                                                        <option value="<?= $value->id_tipo_documento ?>"><?= $value->nombre ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
                                             </div>
+                                        </div>
 
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Sucursal Destino</label>
-                                                    <select class="form-control" name="sucursal" id="sucursal_id">
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label>Sucursal Destino</label>
+                                                <select class="form-control" name="sucursal" id="sucursal_id">
+                                                    <?php
+                                                    $id_sucursal = 0;
+
+                                                    foreach ($empleado as $sucursal) {
+                                                        $id_sucursal = $sucursal->id_sucursal;
+                                                    ?>
+                                                        <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
                                                         <?php
-                                                        $id_sucursal = 0;
+                                                    }
 
-                                                        foreach ($empleado as $sucursal) {
-                                                            $id_sucursal = $sucursal->id_sucursal;
+                                                    foreach ($sucursales as $sucursal) {
+                                                        if ($sucursal->id_sucursal != $id_sucursal) {
                                                         ?>
                                                             <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
-                                                            <?php
+                                                    <?php
                                                         }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
 
-                                                        foreach ($sucursales as $sucursal) {
-                                                            if ($sucursal->id_sucursal != $id_sucursal) {
-                                                            ?>
-                                                                <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label>Bodega Destino</label>
+                                                <select class="form-control" name="bodega" id="bodega_select">
+                                                    <?php
+
+                                                    if (isset($bodega[0]->nombre_bodega)) {
+
+                                                        foreach ($bodega as $b) {
+
+                                                            if ($b->Sucursal == $id_sucursal) {
+
+                                                    ?>
+                                                                <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
                                                         <?php
                                                             }
                                                         }
+                                                    } else {
                                                         ?>
-                                                    </select>
-                                                </div>
+                                                        <option value="">No hay Bodega</option>
+                                                    <?php
+                                                    }
+
+
+                                                    ?>
+
+                                                </select>
                                             </div>
+                                        </div>
 
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Bodega Destino</label>
-                                                    <select class="form-control" name="bodega" id="bodega_select">
-                                                        <?php
-
-                                                        if (isset($bodega[0]->nombre_bodega)) {
-
-                                                            foreach ($bodega as $b) {
-
-                                                                if ($b->Sucursal == $id_sucursal) {
-
-                                                        ?>
-                                                                    <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
-                                                            <?php
-                                                                }
-                                                            }
-                                                        } else {
-                                                            ?>
-                                                            <option value="">No hay Bodega</option>
-                                                        <?php
-                                                        }
-
-
-                                                        ?>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Fecha Compra</label>
-                                                    <input type="date" name="fecha_compra" value="<?php echo date("Y-m-d"); ?>" class="form-control">
-                                                </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label>Fecha Compra</label>
+                                                <input type="date" name="fecha_compra" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Proveedor Codigo</label>
-                                                    <?php
-                                                    if (isset($proveedor[0]->id_proveedor)) {
-                                                    ?>
-                                                        <input type="text" name="proveedor" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $proveedor[0]->id_proveedor ?>">
-                                                        <select multiple="" class="form-control cliente_codigo2" id="cliente_codigo2" name="abc"></select>
-                                                    <?php
-                                                    } else {
-                                                        echo "No Hay Cliente";
-                                                    }
-                                                    ?>
-                                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label>Proveedor Codigo</label>
+                                                <?php
+                                                if (isset($proveedor[0]->id_proveedor)) {
+                                                ?>
+                                                    <input type="text" name="proveedor" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $proveedor[0]->id_proveedor ?>">
+                                                    <select multiple="" class="form-control cliente_codigo2" id="cliente_codigo2" name="abc"></select>
+                                                <?php
+                                                } else {
+                                                    echo "No Hay Cliente";
+                                                }
+                                                ?>
                                             </div>
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Proveedor Nombre</label>
-                                                    <?php
-                                                    if (isset($proveedor[0]->id_proveedor)) {
-                                                    ?>
-                                                        <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $proveedor[0]->empresa_proveedor ?>">
-                                                    <?php
-                                                    } else {
-                                                        echo "No Hay Cliente";
-                                                    }
-                                                    ?>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Proveedor NRC</label>
-                                                    <?php
-                                                    if (isset($proveedor[0]->id_proveedor)) {
-                                                    ?>
-                                                        <input type="text" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $proveedor[0]->nrc ?>">
-                                                    <?php
-                                                    } else {
-                                                        echo "No Hay Cliente";
-                                                    }
-                                                    ?>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-user sz"></i> Empleado :</label>
-                                                    <input type="hidden" class="form-control" name="empleado" id="recibe_nombre" />
-                                                    <input type="text" required class="form-control" name="empleado2" id="firma_llegada" />
-
-                                                </div>
-                                            </div>
-
                                         </div>
-                                    </div>
-
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Forma Pago</label>
-                                                    <select class="form-control" id="modo_pago_id" name="modo_pago_id">
-                                                        <?php
-                                                        if ($modo_pago) {
-                                                            foreach ($modo_pago as $value) {
-                                                        ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
-                                                            }
-                                                        } else {
-                                                                ?><option value=""><?php echo "No Hay Pagos"; ?></option><?php
-                                                        }
-                                                            ?>
-
-                                                    </select>
-                                                </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label>Proveedor Nombre</label>
+                                                <?php
+                                                if (isset($proveedor[0]->id_proveedor)) {
+                                                ?>
+                                                    <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $proveedor[0]->empresa_proveedor ?>">
+                                                <?php
+                                                } else {
+                                                    echo "No Hay Cliente";
+                                                }
+                                                ?>
                                             </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label>Proveedor NRC</label>
+                                                <?php
+                                                if (isset($proveedor[0]->id_proveedor)) {
+                                                ?>
+                                                    <input type="text" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $proveedor[0]->nrc ?>">
+                                                <?php
+                                                } else {
+                                                    echo "No Hay Cliente";
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
 
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label>Estado Orden :</label>
-                                                    <select name="compra_estado" id="compra_estado" class="form-control">
-                                                        <?php
-                                                        foreach($estados as $e){
-                                                            
-                                                            ?>
-                                                            <option value="<?php echo $e->id_orden_estado ?>"><?php echo $e->orden_estado_nombre ?></option>
-                                                            <?php
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-user sz"></i> Empleado :</label>
+                                                <input type="hidden" class="form-control" name="empleado" id="recibe_nombre" />
+                                                <input type="text" required class="form-control" name="empleado2" id="firma_llegada" />
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label>Forma Pago</label>
+                                                <select class="form-control" id="modo_pago_id" name="modo_pago_id">
+                                                    <?php
+                                                    if ($modo_pago) {
+                                                        foreach ($modo_pago as $value) {
+                                                    ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
                                                         }
+                                                    } else {
+                                                            ?><option value=""><?php echo "No Hay Pagos"; ?></option><?php
+                                                    }
                                                         ?>
-                                                    </select>
-                                                </div>
-                                            </div>
 
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label><i class="fa fa-link sz"></i> Documento Referencia :</label>
-                                                    <input type="text" required required class="form-control" name="documento_referencia" id="compra_referencia" />
-                                                </div>
+                                                </select>
                                             </div>
+                                        </div>
 
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label>Estado Orden :</label>
+                                                <select name="compra_estado" id="compra_estado" class="form-control">
+                                                    <?php
+                                                    foreach($estados as $e){
+                                                        
+                                                        ?>
+                                                        <option value="<?php echo $e->id_orden_estado ?>"><?php echo $e->orden_estado_nombre ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success">
+                                                <label><i class="fa fa-link sz"></i> Documento Referencia :</label>
+                                                <input type="text" required required class="form-control" name="documento_referencia" id="compra_referencia" />
+                                            </div>
                                         </div>
                                     </div>
-                                
+                                </div>                                
                             </div>
                         </div>
                     </div>

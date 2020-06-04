@@ -36,7 +36,7 @@
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Inicial</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="valor_inical" name="valor_inical" placeholder="Inicial" value="<?php echo $correlativo[0]->valor_inical ?>">
+                                                <input type="text" required class="form-control" id="valor_inical" name="valor_inical" placeholder="Inicial" value="<?php echo $correlativo[0]->valor_inical ?>">
                                                 
                                             </div>
                                         </div>
@@ -44,7 +44,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Final</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="valor_final" name="valor_final" placeholder="Final" value="<?php echo $correlativo[0]->valor_final ?>">
+                                                <input type="text" required class="form-control" id="valor_final" name="valor_final" placeholder="Final" value="<?php echo $correlativo[0]->valor_final ?>">
                                                 
                                             </div>
                                         </div>
@@ -52,14 +52,14 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Siguiente</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="siguiente_valor" name="siguiente_valor" placeholder="Siguiente" value="<?php echo $correlativo[0]->siguiente_valor ?>">
+                                                <input type="text" required class="form-control" id="siguiente_valor" name="siguiente_valor" placeholder="Siguiente" value="<?php echo $correlativo[0]->siguiente_valor ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Prefix</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="prefix" name="prefix" placeholder="Prefix" value="<?php echo $correlativo[0]->prefix ?>">
+                                                <input type="text" required class="form-control" id="prefix" name="prefix" placeholder="Prefix" value="<?php echo $correlativo[0]->prefix ?>">
                                                 
                                             </div>
                                         </div>
@@ -67,7 +67,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Serie</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="numero_de_serire" name="numero_de_serire" placeholder="Numero de Serie" value="<?php echo $correlativo[0]->numero_de_serire ?>">
+                                                <input type="text" required class="form-control" id="numero_de_serire" name="numero_de_serire" placeholder="Numero de Serie" value="<?php echo $correlativo[0]->numero_de_serire ?>">
                                                 
                                             </div>
                                         </div>

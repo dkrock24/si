@@ -90,8 +90,6 @@ class Giros extends MY_Controller {
 
 	public function editar( $id_giro ){
 		
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
 		$data['menu'] 	= $this->session->menu;		
 		$data['giros'] 	= $this->Giros_model->get_giro_id( $id_giro );
 		$data['home'] 	= 'admin/giros/giros_editar';

@@ -26,7 +26,6 @@
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" required id="nombre" name="nombre" placeholder="Nombre Documento" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
-                                            
                                         </div>
                                     </div>
 
@@ -34,7 +33,6 @@
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Inventario</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" required id="efecto_inventario" name="efecto_inventario" placeholder="Efecto Inventario" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
-                                            
                                         </div>
                                     </div>
 
@@ -42,7 +40,6 @@
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Iva</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" required id="efecto_en_iva" name="efecto_en_iva" placeholder="Efecto Iva" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
-                                            
                                         </div>
                                     </div>
 
@@ -50,7 +47,6 @@
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Cuentas</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" required id="efecto_en_cuentas" name="efecto_en_cuentas" placeholder="Efecto Cuentas" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
-                                            
                                         </div>
                                     </div>
 
@@ -58,7 +54,6 @@
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Caja</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" required id="efecto_en_caja" name="efecto_en_caja" placeholder="Efecto Cajas" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
-                                            
                                         </div>
                                     </div>
 
@@ -66,7 +61,6 @@
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Reportes</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" required id="efecto_en_report_venta" name="efecto_en_report_venta" placeholder="Efecto Reportes" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
-                                            
                                         </div>
                                     </div>
 
@@ -74,7 +68,6 @@
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Autmatico</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" required id="automatico" name="automatico" placeholder="Autmatico" value="<?php //echo $onMenu[0]->url_submenu ?>">
-                                            
                                         </div>
                                     </div>
 
@@ -83,13 +76,10 @@
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" required id="emitir_a" name="emitir_a" placeholder="Emitir a" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                         </div>
-                                    </div>
-
-                                    
+                                    </div>                                    
 
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            
                                             <label>
                                                 <select name="estado" class="form-control">
                                                     <option value="1">Activo</option>
@@ -104,7 +94,6 @@
                                             <button type="submit" class="btn btn-info">Guardar</button>
                                         </div>
                                     </div>
-
 
                                 </div>
                             </div>

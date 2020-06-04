@@ -22,8 +22,7 @@ class Documento extends MY_Controller {
 	}
 
 	public function index()
-	{	
-
+	{
 		$model 		= "Documento_model";
 		$url_page 	= "admin/documento/index";
 		$pag 		= $this->MyPagination($model, $url_page , $vista = 27);
@@ -49,8 +48,6 @@ class Documento extends MY_Controller {
 
 	public function editar( $documento_id )
 	{	
-		$id_rol = $this->session->roles;
-
 		$data['menu'] 		= $this->session->menu;
 		$data['documento'] 	= $this->Documento_model->getDocumentoById( $documento_id );
 		$data['vistas'] 	= $this->Vistas_model->get_all_vistas();
@@ -80,11 +77,8 @@ class Documento extends MY_Controller {
 		}
 
 		$data['title'] = "Ver";
-
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
+		$data['menu'] = $this->session->menu;
 		$data['data'] = $this->Documento_model->getDocumentoById( $id );	
 		
 		if($data['data']){
@@ -103,20 +97,6 @@ class Documento extends MY_Controller {
 		}else{
 			redirect(base_url()."admin/documento/index");
 		}
-
-	}
-
-	public function update()
-	{	
-		$data['documento'] = $this->Documento_model->setDocumento( $_POST );
-
-		if($data){
-			$this->session->set_flashdata('info', "Documento Fue Actializado");
-		}else{
-			$this->session->set_flashdata('danger', "Documento No Fue Actializado");
-		}	
-		
-		redirect(base_url()."admin/documento/index");
 	}
 
 	public function nuevo(){
@@ -130,13 +110,26 @@ class Documento extends MY_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function update()
+	{	
+		$data = $this->Documento_model->setDocumento( $_POST );
+
+		if(!$data['code']){
+			$this->session->set_flashdata('info', "Documento Fue Actializado");
+		}else{
+			$this->session->set_flashdata('danger', "Documento No Fue Actializado :". $data['message']);
+		}	
+		
+		redirect(base_url()."admin/documento/index");
+	}
+
 	public function save(){
 		$data = $this->Documento_model->nuevo_documento( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Documento Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Documento No Fue Creado");
+			$this->session->set_flashdata('danger', "Documento No Fue Creado :". $data['message']);
 		}
 
 		redirect(base_url()."admin/documento/index");
@@ -145,10 +138,10 @@ class Documento extends MY_Controller {
 	public function eliminar( $id ){
 		$data = $this->Documento_model->delete_documento( $id );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Documento Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Documento No Fue Eliminado");
+			$this->session->set_flashdata('danger', "Documento No Fue Eliminado :". $data['message']);
 		}
 		redirect(base_url()."admin/documento/index");
 	}

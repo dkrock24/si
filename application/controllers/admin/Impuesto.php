@@ -62,10 +62,12 @@ class Impuesto extends MY_Controller {
 	public function save(){
 
 		$data = $this->Impuesto_model->nuevo_impuesto( $_POST );
-		if($data){
+
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Impuesto Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Impuesto No Fue Creado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Impuesto No Fue Creado : ". $data['message']);
 		}
 
 		redirect(base_url()."admin/impuesto/index");
@@ -117,10 +119,11 @@ class Impuesto extends MY_Controller {
 
 		$data['impuesto'] = $this->Impuesto_model->updateImpuesto( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Impuesto Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('danger', "Impuesto No Fue Actualizado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Impuesto No Fue Actualizado : ". $data['message']);
 		}	
 		
 		redirect(base_url()."admin/impuesto/index");
@@ -130,10 +133,11 @@ class Impuesto extends MY_Controller {
 		
 		$data['impuesto'] = $this->Impuesto_model->eliminar( $id );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Impuesto Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Impuesto No Fue Eliminado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Impuesto No Fue Eliminado : ". $data['message']);
 		}	
 		
 		redirect(base_url()."admin/impuesto/index");
@@ -197,7 +201,6 @@ class Impuesto extends MY_Controller {
 
 		$data['impuesto_option'] = $this->Impuesto_model->getImpuestoDatos($table_intermedia, $tabla_destino , $columna1, $columna2 , $columna3 ,$field);
 		echo json_encode($data);
-
 	}
 
 	function export(){

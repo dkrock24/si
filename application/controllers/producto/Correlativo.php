@@ -38,7 +38,6 @@ class Correlativo extends MY_Controller {
 		$model 		= "Correlativo_model";
 		$url_page 	= "producto/correlativo/index";
 		$pag 		= $this->MyPagination($model, $url_page , $vista = 28);
-
 		
 		$data['registros'] 		= $this->Correlativo_model->getCorrelativos(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters'] );
 		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
@@ -70,23 +69,24 @@ class Correlativo extends MY_Controller {
 		$vista_id = 20; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
-		$data['menu'] = $this->session->menu;
-		$data['sucursal'] = $this->Sucursal_model->getSucursal();
-		$data['documento'] = $this->Documento_model->getAllDocumento();
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['title'] = "Nuevo Correlativo";
-		$data['home'] = 'producto/correlativo/c_nuevo';
+		$data['menu'] 		= $this->session->menu;
+		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
+		$data['documento'] 	= $this->Documento_model->getAllDocumento();
+		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['title'] 		= "Nuevo Correlativo";
+		$data['home'] 		= 'producto/correlativo/c_nuevo';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function save(){
-		$data['bodegas'] = $this->Correlativo_model->save( $_POST );
+		$data = $this->Correlativo_model->save( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Correlativo Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Correlativo No Fue Creado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Correlativo No Fue Creado :". $data['message']);
 		}
 
 		redirect(base_url()."producto/correlativo/index");
@@ -99,15 +99,14 @@ class Correlativo extends MY_Controller {
 		
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
-		$data['menu'] = $this->session->menu;
-		$data['correlativo'] = $this->Correlativo_model->editar( $correlatiov_id );
-		$data['sucursal'] = $this->Sucursal_model->getSucursal();
-		$data['documento'] = $this->Documento_model->getAllDocumento();
-		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['title'] = "Editar Correlativo";
-		$data['home'] = 'producto/correlativo/c_editar';
+		$data['menu'] 		= $this->session->menu;
+		$data['home'] 		= 'producto/correlativo/c_editar';
+		$data['title'] 		= "Editar Correlativo";
+		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
+		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$data['documento'] 	= $this->Documento_model->getAllDocumento();
+		$data['correlativo']= $this->Correlativo_model->editar( $correlatiov_id );
 
 		$this->general->editar_valido($data['correlativo'], "producto/correlativo/index");
 
@@ -120,20 +119,15 @@ class Correlativo extends MY_Controller {
 			redirect(base_url()."producto/correlativo/index");
 		}
 
-		$data['title'] = "Ver";
-
+		$data['title']= "Ver";
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
+		$data['menu'] = $this->session->menu;
 		$data['data'] = $this->Correlativo_model->editar( $id );	
 		
 		if($data['data']){
 
-			foreach ($data['data']  as $key => $value) {
-			
-				$vars = get_object_vars ( $value );
-				
+			foreach ($data['data']  as $key => $value) {			
+				$vars = get_object_vars ( $value );				
 				continue;
 			}
 	
@@ -149,12 +143,13 @@ class Correlativo extends MY_Controller {
 
 	public function update(){
 
-		$data['bodegas'] = $this->Correlativo_model->update( $_POST );
+		$data = $this->Correlativo_model->update( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Correlativo Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('danger', "Correlativo No Fue Actualizado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Correlativo No Fue Actualizado :". $data['message']);
 		}
 
 		redirect(base_url()."producto/correlativo/index");
@@ -162,12 +157,13 @@ class Correlativo extends MY_Controller {
 
 	public function eliminar($id){
 
-		$data['correlativo'] = $this->Correlativo_model->delete( $id );
+		$data = $this->Correlativo_model->delete( $id );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Correlativo Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Correlativo No Fue Eliminado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Correlativo No Fue Eliminado :". $data['message']);
 		}
 
 		redirect(base_url()."producto/correlativo/index");
@@ -176,7 +172,7 @@ class Correlativo extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Sucursal','Documento','Inicial','Final','Siguiente','Prefix','Serie','Creado','Estado'
+			'Sucursal','Documento','N° Inicial','N° Final','N° Siguiente','Prefix','Serie','Creado','Estado'
 		);
 		return $column;
 	}

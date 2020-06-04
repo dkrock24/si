@@ -28,45 +28,43 @@
                     <div class="panel-body menuContent">        
                     
                         <form class="form-horizontal" enctype="multipart/form-data" id="save" name="correlativo" action='save' method="post">
-                        <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
+                        <input type="hidden" value="" name="id_submenu">
                         <div class="row">
 
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Inicial</label>
+                                    <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">N° Inicial</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="valor_inical" name="valor_inical" placeholder="Inicial" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
-                                        
+                                        <input type="text" required class="form-control" id="valor_inical" name="valor_inical" placeholder="Inicial" value="">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Final</label>
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">N° Final</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="valor_final" name="valor_final" placeholder="Final" value="<?php //echo $onMenu[0]->url_submenu ?>">
-                                        
+                                        <input type="text" required class="form-control" id="valor_final" name="valor_final" placeholder="Final" value="">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Siguiente</label>
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">N° Siguiente</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="siguiente_valor" name="siguiente_valor" placeholder="Siguiente" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                        <input type="text" required class="form-control" id="siguiente_valor" name="siguiente_valor" placeholder="Siguiente" value="">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Prefix</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="prefix" name="prefix" placeholder="Prefix" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        <input type="text" required class="form-control" id="prefix" name="prefix" placeholder="Prefix" value="">
                                         
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Serie</label>
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">N° Serie</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="numero_de_serire" name="numero_de_serire" placeholder="Numero de Serie" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                        <input type="text" required class="form-control" id="numero_de_serire" name="numero_de_serire" placeholder="Numero de Serie" value="">
                                         
                                     </div>
                                 </div>

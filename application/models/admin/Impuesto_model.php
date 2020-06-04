@@ -1,11 +1,11 @@
 <?php
 class Impuesto_model extends CI_Model {
 
-    const impuesto = 'pos_tipos_impuestos';
-    const impuesto_categoria = 'pos_impuesto_categoria';
-    const impuesto_cliente = 'pos_impuesto_cliente';
-    const impuesto_documento = 'pos_impuesto_documento';
-    const impuesto_proveedor = 'pos_impuesto_proveedor';
+    const impuesto          = 'pos_tipos_impuestos';
+    const impuesto_categoria= 'pos_impuesto_categoria';
+    const impuesto_cliente  = 'pos_impuesto_cliente';
+    const impuesto_documento= 'pos_impuesto_documento';
+    const impuesto_proveedor= 'pos_impuesto_proveedor';
 
     function getImpuesto($limit, $id, $filters){
 
@@ -36,20 +36,20 @@ class Impuesto_model extends CI_Model {
 
         $data = array(
             'nombre' => $impuesto['nombre'],
+            'mensaje' => $impuesto['mensaje'],
+            'especial' => $impuesto['especial'],
             'porcentage' => $impuesto['porcentaje'],
+            'condicion' => $impuesto['condicion'],
+            'excluyente' => $impuesto['excluyente'],
+            'imp_estado' => $impuesto['imp_estado'],
+            'imp_empresa'=> $this->session->empresa[0]->id_empresa,
             'suma_resta_nada' => $impuesto['suma_resta_nada'],
-            'aplicar_a_producto' => $impuesto['aplicar_a_producto'],
+            'condicion_valor' => $impuesto['c_valor'],
             'aplicar_a_cliente' => $impuesto['aplicar_a_cliente'],
+            'condicion_simbolo' => $impuesto['c_simbolo'],
+            'aplicar_a_producto' => $impuesto['aplicar_a_producto'],
             'aplicar_a_proveedor' => $impuesto['aplicar_a_proveedor'],
             'aplicar_a_grab_brut_exent' => $impuesto['aplicar_a_grab_brut_exent'],
-            'especial' => $impuesto['especial'],
-            'excluyente' => $impuesto['excluyente'],
-            'condicion' => $impuesto['condicion'],
-            'condicion_simbolo' => $impuesto['c_simbolo'],
-            'condicion_valor' => $impuesto['c_valor'],
-            'mensaje' => $impuesto['mensaje'],
-            'imp_empresa'=> $this->session->empresa[0]->id_empresa,
-            'imp_estado' => $impuesto['imp_estado'],
         );
 
         $result = $this->db->insert(self::impuesto, $data );
@@ -78,20 +78,20 @@ class Impuesto_model extends CI_Model {
 
         $data = array(
             'nombre' => $impuesto['nombre'],
+            'mensaje' => $impuesto['mensaje'],
+            'especial' => $impuesto['especial'],
+            'condicion' => $impuesto['condicion'],
             'porcentage' => $impuesto['porcentage'],
+            'imp_estado' => $impuesto['imp_estado'],
+            'excluyente' => $impuesto['excluyente'],
+            'imp_empresa'=> $this->session->empresa[0]->id_empresa,
             'suma_resta_nada' => $impuesto['suma_resta_nada'],
-            'aplicar_a_producto' => $impuesto['aplicar_a_producto'],
+            'condicion_valor' => $impuesto['c_valor'],
             'aplicar_a_cliente' => $impuesto['aplicar_a_cliente'],
+            'condicion_simbolo' => $impuesto['c_simbolo'],
+            'aplicar_a_producto' => $impuesto['aplicar_a_producto'],
             'aplicar_a_proveedor' => $impuesto['aplicar_a_proveedor'],
             'aplicar_a_grab_brut_exent' => $impuesto['aplicar_a_grab_brut_exent'],
-            'especial' => $impuesto['especial'],
-            'excluyente' => $impuesto['excluyente'],
-            'condicion' => $impuesto['condicion'],
-            'condicion_simbolo' => $impuesto['c_simbolo'],
-            'condicion_valor' => $impuesto['c_valor'],
-            'mensaje' => $impuesto['mensaje'],
-            'imp_empresa'=> $this->session->empresa[0]->id_empresa,
-            'imp_estado' => $impuesto['imp_estado'],
         );
         $this->db->where('id_tipos_impuestos', $impuesto['id_tipos_impuestos']);
         $result = $this->db->update(self::impuesto, $data);
@@ -103,11 +103,14 @@ class Impuesto_model extends CI_Model {
     }
 
     function eliminar($id){
+
          $data = array(
             'id_tipos_impuestos' => $id
         );
+
         $this->db->where('id_tipos_impuestos', $id);
         $result = $this->db->delete(self::impuesto, $data);
+
         if(!$result){
             $result = $this->db->error();
         }
@@ -130,6 +133,7 @@ class Impuesto_model extends CI_Model {
     }
 
     function getImpuestoDatos( $table_intermedia ,$tabla_destino , $columna1, $columna2 , $columna3 , $field){
+        
         $this->db->select('i.* , destino.'.$field.' as valor_field  ,inter.'.$columna2.' as eId, inter.'.$columna1.' as iId , inter.estado');
         $this->db->from(self::impuesto .' as i');
         $this->db->join($table_intermedia . ' as inter', 'on inter.'.$columna1.' = i.id_tipos_impuestos');
@@ -153,8 +157,8 @@ class Impuesto_model extends CI_Model {
         if(!$val){
 
             $data =array(
-                $info['columna'] => $info['id'],
-                'Impuesto' => $info['impuesto']
+                $info['columna']=> $info['id'],
+                'Impuesto'      => $info['impuesto']
             );
 
             $this->db->insert($info['tabla'], $data );
@@ -181,7 +185,7 @@ class Impuesto_model extends CI_Model {
         // Delete genrico
         $data = array(
             $info['columna'] => $info['entidad'],
-            'impuesto' => $info['impuesto']
+            'impuesto'       => $info['impuesto']
         );
         $this->db->delete($info['tabla'], $data);
     }
@@ -220,6 +224,7 @@ class Impuesto_model extends CI_Model {
     }
 
     function getAllImpCat(){
+
         $this->db->select('*');
         $this->db->from(self::impuesto .' as i');
         $this->db->join(self::impuesto_categoria.' as c',' on i.id_tipos_impuestos = c.Impuesto');
@@ -236,6 +241,7 @@ class Impuesto_model extends CI_Model {
     }
 
     function getAllImpCli(){
+
         $this->db->select('*');
         $this->db->from(self::impuesto .' as i');
         $this->db->join(self::impuesto_cliente.' as c',' on i.id_tipos_impuestos = c.Impuesto');
@@ -251,6 +257,7 @@ class Impuesto_model extends CI_Model {
     }
 
     function getAllImpDoc(){
+
         $this->db->select('*');
         $this->db->from(self::impuesto .' as i');
         $this->db->join(self::impuesto_documento.' as d',' on i.id_tipos_impuestos = d.Impuesto');
@@ -297,5 +304,4 @@ class Impuesto_model extends CI_Model {
         return 1;
     }
 }
-
 ?>

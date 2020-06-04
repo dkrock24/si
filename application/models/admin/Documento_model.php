@@ -2,11 +2,10 @@
 class Documento_model extends CI_Model {
 
     const documento = 'pos_tipo_documento';
-    const pos_temp_sucursal = 'pos_temp_sucursal';
     const pos_sucursal = 'pos_sucursal';
+    const pos_temp_sucursal = 'pos_temp_sucursal';
 
     function getDocumento($limit, $id , $filters){
-
         $this->db->select('*');
         $this->db->from(self::documento);  
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
@@ -23,7 +22,6 @@ class Documento_model extends CI_Model {
     }
 
     function getDocTemplate(){
-
         $this->db->select('*');
         $this->db->from(self::documento.' as d');   
         $this->db->join(self::pos_temp_sucursal.' as t',' on d.id_tipo_documento = t.Documento');   
@@ -38,7 +36,6 @@ class Documento_model extends CI_Model {
     }
 
     function getAllDocumento(){
-
         $this->db->select('*');
         $this->db->from(self::documento);   
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);      
@@ -58,7 +55,6 @@ class Documento_model extends CI_Model {
     }
 
     function getDocumentoById( $documento_id ){
-
         $this->db->select('*');
         $this->db->from(self::documento);   
         $this->db->where('id_tipo_documento', $documento_id ); 
@@ -74,22 +70,22 @@ class Documento_model extends CI_Model {
     function setDocumento( $documento ){
 
         $data = array(
-            'nombre' => $documento['nombre'],
-            'efecto_inventario' => $documento['efecto_inventario'],
-            'efecto_en_iva' => $documento['efecto_en_iva'],
-            'efecto_en_cuentas' => $documento['efecto_en_cuentas'],
-            'efecto_en_caja' => $documento['efecto_en_caja'],
-            'efecto_en_report_venta' => $documento['efecto_en_report_venta'],
-            'automatico' => $documento['automatico'],
-            'emitir_a' => $documento['emitir_a'],            
             'estado' => $documento['estado'],
+            'nombre' => $documento['nombre'],
+            'emitir_a' => $documento['emitir_a'],            
+            'automatico' => $documento['automatico'],
+            'efecto_en_iva' => $documento['efecto_en_iva'],
+            'efecto_en_caja' => $documento['efecto_en_caja'],
+            'efecto_en_cuentas' => $documento['efecto_en_cuentas'],
+            'efecto_inventario' => $documento['efecto_inventario'],
+            'efecto_en_report_venta' => $documento['efecto_en_report_venta'],
         );
         $this->db->where('id_tipo_documento', $documento['id_tipo_documento']);
-        $result = $this->db->update(self::documento, $data);  
+        $result = $this->db->update(self::documento, $data);
+
         if(!$result){
             $result = $this->db->error();
         }
-
         return $result;
     }
 
@@ -97,22 +93,21 @@ class Documento_model extends CI_Model {
 
         $data = array(
             'nombre' => $documento['nombre'],
-            'efecto_inventario' => $documento['efecto_inventario'],
-            'efecto_en_iva' => $documento['efecto_en_iva'],
-            'efecto_en_cuentas' => $documento['efecto_en_cuentas'],
-            'efecto_en_caja' => $documento['efecto_en_caja'],
-            'efecto_en_report_venta' => $documento['efecto_en_report_venta'],
-            'automatico' => $documento['automatico'],
-            'emitir_a' => $documento['emitir_a'],            
-            'Empresa'=> $this->session->empresa[0]->id_empresa,
             'estado' => $documento['estado'],
+            'Empresa'=> $this->session->empresa[0]->id_empresa,
+            'emitir_a' => $documento['emitir_a'],            
+            'automatico' => $documento['automatico'],
+            'efecto_en_iva' => $documento['efecto_en_iva'],
+            'efecto_en_caja' => $documento['efecto_en_caja'],
+            'efecto_inventario' => $documento['efecto_inventario'],
+            'efecto_en_cuentas' => $documento['efecto_en_cuentas'],
+            'efecto_en_report_venta' => $documento['efecto_en_report_venta'],
         );
 
         $result = $this->db->insert(self::documento, $data );
         if(!$result){
             $result = $this->db->error();
         }
-
         return $result;
     }
 
