@@ -21,8 +21,6 @@
                             <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; 
                                                         ?>" name="id_submenu">
                             <div class="row">
-
-
                                 <div class="col-lg-6">
                                     <!-- Otro -->
                                     <div class="form-group">
