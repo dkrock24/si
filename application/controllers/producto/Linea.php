@@ -59,23 +59,20 @@ class Linea extends MY_Controller {
 
 	public function nuevo(){
 
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
-		
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
-		$data['menu'] = $this->session->menu;
+		$data['menu'] 	= $this->session->menu;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['home'] = 'producto/linea/linea_nuevo';
-		$data['title'] = 'Crear Linea';
+		$data['home'] 	= 'producto/linea/linea_nuevo';
+		$data['title'] 	= 'Crear Linea';
 
 		$this->parser->parse('template', $data);
 	}
 
 	public function save_linea(){
-		$data['bodegas'] = $this->Linea_model->save_linea( $_POST );
+		$data = $this->Linea_model->save_linea( $_POST );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('success', "Linea Fue Creada");
@@ -88,18 +85,14 @@ class Linea extends MY_Controller {
 
 	public function editar( $linea_id ){
 
-		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;
+		$id_rol 	= $this->session->roles[0];
+		$vista_id 	= 20; // Vista Orden Lista
 
-		$id_rol = $this->session->roles[0];
-		$vista_id = 20; // Vista Orden Lista
-		$id_usuario 	= $this->session->usuario[0]->id_usuario;
-
-		$data['menu'] = $this->session->menu;
+		$data['title'] 	= 'Editar Linea';
+		$data['menu'] 	= $this->session->menu;
+		$data['home'] 	= 'producto/linea/linea_editar';
 		$data['lineas'] = $this->Linea_model->getLineaId( $linea_id );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['home'] = 'producto/linea/linea_editar';
-		$data['title'] = 'Editar Linea';
 
 		$this->parser->parse('template', $data);
 	}
@@ -134,7 +127,7 @@ class Linea extends MY_Controller {
 
 	public function update(){
 
-		$data['bodegas'] = $this->Linea_model->update_linea( $_POST );
+		$data = $this->Linea_model->update_linea( $_POST );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('info', "Linea Fue Actualizada");
@@ -147,7 +140,7 @@ class Linea extends MY_Controller {
 
 	public function eliminar($id){
 
-		$data['info'] = $data['bodegas'] = $this->Linea_model->eliminar_linea( $id );
+		$data = $this->Linea_model->eliminar_linea( $id );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Linea Fue Eliminado");
