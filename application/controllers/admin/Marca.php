@@ -23,8 +23,7 @@ class Marca extends MY_Controller {
 	}
 
 	public function index()
-	{	
-		
+	{		
 		$model 		= "Marca_model";
 		$url_page 	= "admin/marca/index";
 		$pag 		= $this->MyPagination($model, $url_page , $vista = 29);
@@ -88,12 +87,13 @@ class Marca extends MY_Controller {
 
 	public function update()
 	{	
-		$data['documento'] = $this->Marca_model->setMarca( $_POST );	
+		$data = $this->Marca_model->setMarca( $_POST );	
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Marca Fue Actualizado");
 		}else{
-			$this->session->set_flashdata('danger', "Marca No Fue Actualizado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Marca No Fue Actualizado : ". $data['message']);
 		}
 		
 		redirect(base_url()."admin/marca/index");
@@ -115,10 +115,11 @@ class Marca extends MY_Controller {
 
 		$data = $this->Marca_model->nuevo_marca( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Marca Fue Creado");
 		}else{
-			$this->session->set_flashdata('danger', "Marca No Fue Creado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Marca No Fue Creado : ". $data['message']);
 		}
 		redirect(base_url()."admin/marca/index");
 	}
@@ -136,10 +137,11 @@ class Marca extends MY_Controller {
 
 		$data = $this->Marca_model->eliminar_marca( $id );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Marca Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Marca No Fue Eliminado");
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Marca No Fue Eliminado : ". $data['message']);
 		}
 
 		redirect(base_url()."admin/marca/index");

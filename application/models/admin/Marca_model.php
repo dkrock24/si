@@ -5,7 +5,6 @@ class Marca_model extends CI_Model {
     const categoria = 'categoria';
     const marca_categoria = 'pos_marca_categoria';
 
-
     function getMarca( $limit, $id , $filters ){
 
         $this->db->select('*');
@@ -74,11 +73,13 @@ class Marca_model extends CI_Model {
     }
 
     function delete_categoria_marca($id){
+
         $data = array(
             'id_mar_cat' => $id,
         );
 
         $result = $this->db->delete(self::marca_categoria, $data); 
+
         if(!$result){
             $result = $this->db->error();
         }
@@ -101,6 +102,7 @@ class Marca_model extends CI_Model {
     }
 
     function eliminar_marca($id){
+
         $data = array(
             'id_marca' => $id,
         );
@@ -148,6 +150,7 @@ class Marca_model extends CI_Model {
     }
 
     function get_lista_marca_categoria($datos){
+
         $this->db->select('*');
         $this->db->from(self::marca_categoria.' as c');   
         $this->db->where('c.Categoria', $datos['categoria']);
@@ -164,12 +167,14 @@ class Marca_model extends CI_Model {
 
         $data = array(
             'nombre_marca' => $marca['nombre_marca'],
+            'estado_marca' => $marca['estado_marca'],
             'descripcion_marca' => $marca['descripcion_marca'],
             'fecha_atualizado_marca' => date("Y-m-d h:i:s"),          
-            'estado_marca' => $marca['estado_marca'],
         );
+
         $this->db->where('id_marca', $marca['id_marca']);
-        $result = $this->db->update(self::marca, $data);  
+        $result = $this->db->update(self::marca, $data);
+
         if(!$result){
             $result = $this->db->error();
         }
@@ -180,11 +185,11 @@ class Marca_model extends CI_Model {
     function nuevo_marca( $marca ){
 
         $data = array(
-            'nombre_marca' => $marca['nombre_marca'],
-            'descripcion_marca' => $marca['descripcion_marca'],
-            'fecha_creado_marca' => date("Y-m-d h:i:s"),          
             'Empresa'=> $this->session->empresa[0]->id_empresa,
+            'nombre_marca' => $marca['nombre_marca'],
             'estado_marca' => $marca['estado'],
+            'descripcion_marca' => $marca['descripcion_marca'],
+            'fecha_creado_marca' => date("Y-m-d h:i:s"),
         );
 
         $result = $this->db->insert(self::marca, $data );

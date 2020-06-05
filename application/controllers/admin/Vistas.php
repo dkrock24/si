@@ -157,10 +157,17 @@ class Vistas extends MY_Controller {
 		redirect(base_url()."admin/vistas/componentes/".$data['vista_id']  );
 	}
 
-	public function componente_eliminar( $componente_vista_id ){
+	public function componente_eliminar($vista, $componente_vista_id ){
 
-		$Vista_id = $this->Vistas_model->componente_eliminar($componente_vista_id);
-		redirect(base_url()."admin/vistas/componentes/". $Vista_id  );
+		$data = $this->Vistas_model->componente_eliminar($vista , $componente_vista_id);
+		
+		if(!$data['code']){
+			$this->session->set_flashdata('warning', "Componente Fue Eliminado");
+		}else{
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Componente No Fue Eliminado : ". $data['message']);
+		}
+		redirect(base_url()."admin/vistas/componentes/". $vista  );
 	}
 
 	public function copiar( $id , $componente_id ){

@@ -3,7 +3,6 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-
         $(".crear").click(function() {
             var categoria = $("#categoria").val();
             var marca = $("#marca").val();
@@ -39,8 +38,6 @@
                 error: function() {}
             });
         });
-
-
     });
 </script>
 
@@ -50,7 +47,6 @@
         height: 350px;
         overflow-y: scroll;
     }
-
     hr {
         color: black;
         border-color: black;
@@ -65,16 +61,12 @@
                 <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Marca</button>
             </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
-
         </h3>
         <div class="row">
             <div class="col-lg-12">
-
-
                 <div id="panelDemo10" class="panel menu_title_bar">
 
-                    <div class="panel-heading menuTop">Nueva Marca : <?php //echo $onMenu[0]->nombre_submenu 
-                                                                        ?> </div>
+                    <div class="panel-heading menuTop">Nueva Marca : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
                     <div class="panel-body menuContent">
 
                         <div class="row">
@@ -90,18 +82,14 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="nombre_marca" name="nombre_marca" placeholder="Nombre Marca" value="<?php //echo $onMenu[0]->nombre_submenu 
-                                                                                                                                                            ?>">
-
+                                            <input type="text" required class="form-control" id="nombre_marca" name="nombre_marca" placeholder="Nombre Marca" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Descripcion</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="descripcion_marca" name="descripcion_marca" placeholder="Descripcion Marca" value="<?php //echo $onMenu[0]->nombre_submenu 
-                                                                                                                                                                            ?>">
-
+                                            <input type="text" required class="form-control" id="descripcion_marca" name="descripcion_marca" placeholder="Descripcion Marca" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
                                         </div>
                                     </div>
 
@@ -121,19 +109,14 @@
                                                     ?>
                                                     <option value="">No Hay Categoria</option>
                                                     <?php
-                                                }
-                                                
+                                                }                                                
                                                 ?>
                                             </select>
-
-
                                         </div>
                                     </div>
 
-
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-
                                             <label>
                                                 <select name="estado" class="form-control">
                                                     <option value="1">Activo</option>
@@ -143,11 +126,8 @@
                                             <button type="submit" class="btn btn-info">Guardar</button>
                                         </div>
                                     </div>
-
                                     <hr>
-
                                     <div class="form-group">
-
                                         <div class="alert alert-default">
                                             <i class="fa fa-info-circle"></i>
                                             <strong>Info!</strong> Vincular Marca Existente con Categoria Existente.
@@ -182,19 +162,16 @@
                                         </div>
                                     </div>
                                     <br>
-
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right"></label>
                                         <div class="col-sm-10">
                                             <span class="btn btn-info crear">Crear</span>
                                         </div>
                                     </div>
-
                                 </div>
                             </form>
 
                             <div class="col-lg-6">
-
                                 <table class="table marca_categoria">
                                     <thead style="background: #cfdbe2;color: black;">
                                         <tr>
@@ -225,10 +202,8 @@
                                         } }?>
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

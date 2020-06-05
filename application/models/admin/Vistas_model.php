@@ -272,22 +272,39 @@ class Vistas_model extends CI_Model {
         } 
     }
 
-    function componente_eliminar($componente_vista_id){
+    function componente_eliminar($vista,$componente_vista_id){
 
-        // Retornar Vista Id
-        
-        $Vista_id = $this->getVistaId($componente_vista_id);
+        // obtener id de componente en vista
+        $id_vista_componente = $this->get_vista_componente_id($vista,$componente_vista_id);
 
-        // eliminando Acceso a compoente vista
-        $this->db->where('id_vista_componente', $componente_vista_id);
-        $this->db->delete(self::sys_vistas_acceso); 
+        // eliminando Acceso a compoente de vista
+        $this->db->where('id_vista_componente', $id_vista_componente[0]->id);
+        $result = $this->db->delete(self::sys_vistas_acceso);
 
         // Eliminando Componente de la vista
-        $this->db->where('id', $componente_vista_id);
-        $this->db->delete(self::sys_vistas_componentes);
-        
-        return $Vista_id[0]->Vista;
+        $this->db->where('Vista', $vista);
+        $this->db->where('Componente', $componente_vista_id);
+        $result = $this->db->delete(self::sys_vistas_componentes);
 
+        if(!$result){
+            $result = $this->db->error();
+        }
+        
+        return $result;
+    }
+
+    function get_vista_componente_id($vista , $componente){
+        
+        $this->db->select('id');
+        $this->db->from(self::sys_vistas_componentes);
+        $this->db->where('Vista',$vista);
+        $this->db->where('Componente',$componente);
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
     }
 
     function vista_componente_crear( $id_componente , $vista_id ,$role ){
