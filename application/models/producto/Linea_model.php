@@ -45,13 +45,14 @@ class Linea_model extends CI_Model {
     function save_linea( $datos ){
 
         $data = array(
-            'tipo_producto'     =>  $datos['tipo_producto'],
+            'Empresa'       => $this->session->empresa[0]->id_empresa,
+            'estado_linea'  => $datos['estado_linea'],
+            'tipo_producto' =>  $datos['tipo_producto'],
             'descripcion_tipo_producto'  => $datos['descripcion_tipo_producto'],
-            'Empresa' => $this->session->empresa[0]->id_empresa,
-            'estado_linea'     => $datos['estado_linea'],
         );
         
         $result = $this->db->insert(self::pos_linea, $data);
+
         if(!$result){
             $result = $this->db->error();
         }
@@ -76,9 +77,9 @@ class Linea_model extends CI_Model {
     function update_linea( $datos ){
 
         $data = array(
-            'tipo_producto'     =>  $datos['tipo_producto'],
+            'tipo_producto' =>  $datos['tipo_producto'],
+            'estado_linea'  => $datos['estado_linea'],
             'descripcion_tipo_producto'  => $datos['descripcion_tipo_producto'],
-            'estado_linea'     => $datos['estado_linea'],
         );
         
         $this->db->where('id_linea', $datos['id_linea']);
@@ -93,7 +94,7 @@ class Linea_model extends CI_Model {
     function eliminar_linea( $id ){
 
         $data = array(
-            'id_linea'     =>  $id
+            'id_linea'  =>  $id
         );
         
         $this->db->where('id_linea', $id);

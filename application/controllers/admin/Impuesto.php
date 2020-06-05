@@ -98,10 +98,8 @@ class Impuesto extends MY_Controller {
 		
 		if($data['data']){
 
-			foreach ($data['data']  as $key => $value) {
-			
-				$vars = get_object_vars ( $value );
-				
+			foreach ($data['data']  as $key => $value) {			
+				$vars = get_object_vars ( $value );				
 				continue;
 			}
 	

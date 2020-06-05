@@ -77,10 +77,10 @@ class Linea extends MY_Controller {
 	public function save_linea(){
 		$data['bodegas'] = $this->Linea_model->save_linea( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('success', "Linea Fue Creada");
 		}else{
-			$this->session->set_flashdata('danger', "Linea No Fue Creada");
+			$this->session->set_flashdata('danger', "Linea No Fue Creada : ". $data['message']);
 		}
 
 		redirect(base_url()."producto/linea/index");
@@ -111,19 +111,14 @@ class Linea extends MY_Controller {
 		}
 
 		$data['title'] = "Ver";
-
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
+		$data['menu'] = $this->session->menu;
 		$data['data'] = $this->Linea_model->getLineaId( $id );	
 		
 		if($data['data']){
 
-			foreach ($data['data']  as $key => $value) {
-			
-				$vars = get_object_vars ( $value );
-				
+			foreach ($data['data']  as $key => $value) {			
+				$vars = get_object_vars ( $value );				
 				continue;
 			}
 	
@@ -141,10 +136,10 @@ class Linea extends MY_Controller {
 
 		$data['bodegas'] = $this->Linea_model->update_linea( $_POST );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('info', "Linea Fue Actualizada");
 		}else{
-			$this->session->set_flashdata('danger', "Linea No Fue Actualizada");
+			$this->session->set_flashdata('danger', "Linea No Fue Actualizada : ". $data['message']);
 		}
 
 		redirect(base_url()."producto/linea/index");
@@ -154,10 +149,10 @@ class Linea extends MY_Controller {
 
 		$data['info'] = $data['bodegas'] = $this->Linea_model->eliminar_linea( $id );
 
-		if($data){
+		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Linea Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Linea No Fue Eliminado");
+			$this->session->set_flashdata('danger', "Linea No Fue Eliminado : ". $data['message']);
 		}
 
 		redirect(base_url()."producto/linea/index");
