@@ -171,7 +171,11 @@
                                 </div>
                             </form>
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" style="
+                                                    height: 500px;
+                                                    position: relative;
+                                                    overflow: scroll;
+                                                ">
                                 <table class="table marca_categoria">
                                     <thead style="background: #cfdbe2;color: black;">
                                         <tr>

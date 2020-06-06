@@ -49,6 +49,7 @@
         <h3 style="height: 50px; "><i class="icon-arrow-right"></i> <?php echo $fields['titulo']; ?></h3>
 
         <div class="panel menu_title_bar">
+        <?php $this->load->view('notificaciones/success'); ?>
             <!-- START table-responsive-->
             <div class="dataList">
                 <table id="datatable1" class="table table-striped table-hover" width="100%">
@@ -274,5 +275,5 @@
         </div>
     </div>
     </div>
-    <?php $this->load->view('notificaciones/success'); ?>
+
 </section>

@@ -38,8 +38,6 @@ class Reporte extends My_Controller {
 		$this->load->model('admin/Menu_model');
 		$this->load->model('admin/Caja_model');
 		$this->load->model('accion/Accion_model');
-
-		
 	}
 
 // Start Report **********************************************************************************
@@ -61,7 +59,15 @@ class Reporte extends My_Controller {
 				'caja'		=> $_POST['caja']
 			);
 			$data['filters'] 	= $filters;    
-            $data['registros'] 	= $this->Reporte_model->filtrar_venta($filters);
+			$info 			= $this->Reporte_model->filtrar_venta($filters);
+			$data['registros']  = $info;
+
+			if($info){
+				$this->session->set_flashdata('reporte', "Reporte Generado");
+			}else{
+				$this->session->set_flashdata('reporte', "Reporte Sin Registros : ");
+			}
+
         }else{
 			$data['registros'] 	= 1;
 			$data['filters'] 	= array(
@@ -163,8 +169,5 @@ class Reporte extends My_Controller {
 
 		return $fields;
 	}
-	
-
 }
-
 ?>
