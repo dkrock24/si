@@ -215,10 +215,11 @@ class Venta_model extends CI_Model {
 
 			$total_orden 		= $orden['orden'][0]['total'];
 			$total_orden 		= (float) $total_orden;
+
 			$efecto_inventario 	= $documento[0]->efecto_inventario;
 
 			if($efecto_inventario == 1){ // Si suma en inventario la venta, es devolucion
-				$total_orden = $total_orden* -1;
+				//$total_orden = $total_orden* -1;
 			}
 
 			$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal , $documento );

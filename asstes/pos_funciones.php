@@ -1684,6 +1684,11 @@
                     $("input[name='pagoInput1']:first").focus();
                     $("input[name='pagoInput1']:first").val(internal_total);
                     $("input[name='pagoInput1']:first").select();
+
+                    if($("#check_devolucion").is(":checked")){
+                        this.convetirToNegativo = true;
+                        $('#orden_estado option[value=10]').prop('selected', 'selected').change();
+                    }
                 },
                 error: function() {}
             });

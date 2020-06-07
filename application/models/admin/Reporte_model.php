@@ -129,7 +129,10 @@ class Reporte_model extends CI_Model {
         }
 
         $this->db->select('v.id , v.num_correlativo, v.fh_inicio, v.id_cliente , v.total_doc , d.nombre ,
-        MIN(v.num_correlativo ) AS inicio , MAX(v.num_correlativo )AS fin , (SELECT SUM(v2.total_doc) FROM pos_ventas AS v2 WHERE v2.anulado=1 ) AS total_anulado,
+        MIN(v.num_correlativo ) AS inicio , 
+        MAX(v.num_correlativo )AS fin , 
+        (SELECT count(v2.total_doc) FROM pos_ventas AS v2 WHERE  v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10 ) AS total_devolucion,
+        (SELECT SUM(v2.total_doc) FROM pos_ventas AS v2 WHERE  v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10 ) AS sum_devolucion,
         SUM(v.desc_val) AS descuento,
         (SELECT SUM(v.total_doc) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = v.id AND vp.id_forma_pago=1) AS efectivo,
         (SELECT SUM(v.total_doc) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = v.id AND vp.id_forma_pago=3) AS cheque,
