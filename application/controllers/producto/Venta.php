@@ -72,14 +72,14 @@ class Venta extends MY_Controller {
 		$check_devol_param 		= $form['check_devolucion'] === 'true'? true: false;
 
 		if($check_devol_param == false){
-			$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
+			//$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
 		}else{
 			if($documento_tipo[0]->efecto_inventario == 1){
 
-				$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
+				//$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
 			}else{
 
-				$this->EfectosDocumento_model->devolucionNuevoDocumento($_POST ,$documento_tipo);
+				//$this->EfectosDocumento_model->devolucionNuevoDocumento($_POST ,$documento_tipo);
 			}
 		}
 
@@ -93,9 +93,13 @@ class Venta extends MY_Controller {
 			$correlativo_documento
 		);
 
-		$data['msj_title'] = "Venta grabada Correctamente ";
-		$data['msj_orden'] = "Número Transacción : ". $id;
-		$data['id'] = $id;
+		if($id['code']){
+			$data['code'] = $id['code'];
+		}else{
+			$data['msj_title'] = "Venta grabada Correctamente ";
+			$data['msj_orden'] = "Número Transacción : ". $id;
+			$data['id'] = $id;
+		}
 
 		echo json_encode($data);
 	}

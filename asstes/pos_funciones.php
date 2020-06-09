@@ -2014,29 +2014,33 @@
                     url: path + method,
 
                     success: function(data) {
-
+                        var datos = JSON.parse(data);
+                        
                         if(orden_numero){
                             cerrar_orden(orden_numero);
                         }
 
-                        if (method == "guardar_orden") {
-                            window.location.href = "editar/" + data;
-                        } 
-                        else if (method == "../venta/guardar_venta") 
-                        {
-                            var datos = JSON.parse(data);
-                            $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
-                            $(".print_venta").attr("href", "venta/" + datos['id']);
-                            if(vista_id == 13){
-                                if(orden_numero){
-                                    window.location.href = "../../venta/facturacion/" + datos['id'];
+                        if(!datos.code){
+                            if (method == "guardar_orden") {
+                                window.location.href = "editar/" + data;
+                            } 
+                            else if (method == "../venta/guardar_venta") 
+                            {                                
+                                $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
+                                $(".print_venta").attr("href", "venta/" + datos['id']);
+                                if(vista_id == 13){
+                                    if(orden_numero){
+                                        //window.location.href = "../../venta/facturacion/" + datos['id'];
+                                    }else{
+                                        //window.location.href = "../venta/facturacion/" + datos['id'];
+                                    }
                                 }else{
-                                    window.location.href = "../venta/facturacion/" + datos['id'];
+                                    //window.location.href = "../venta/facturacion/" + datos['id'];                            
                                 }
-                            }else{
-                                window.location.href = "../venta/facturacion/" + datos['id'];                            
                             }
-                        }
+                        }else{
+                            alert(1);
+                        }                        
                     },
                     error: function() {}
                 });

@@ -214,16 +214,15 @@ class Venta_model extends CI_Model {
 		function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal , $correlativo_documento){
 
 			$total_orden 		= $orden['orden'][0]['total'];
-			$total_orden 		= (float) $total_orden;
-
+			$total_orden 		= $total_orden;
 			$efecto_inventario 	= $documento[0]->efecto_inventario;
 
 			if($efecto_inventario == 1){ // Si suma en inventario la venta, es devolucion
 				//$total_orden = $total_orden* -1;
-			}
+			}			
 
 			$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal , $documento );
-			
+
 			if($siguiente_correlativo[0]){
 
 				$numero = 0;
@@ -283,21 +282,27 @@ class Venta_model extends CI_Model {
 				);
 
 				/* GUARDAR ENCABEZADO DE LA VENTA */
-				$this->db->insert(self::pos_ventas, $data ); 
-				$id_orden = $this->db->insert_id();
+				$result 	= $this->db->insert(self::pos_ventas, $data );
+				if(!$result){
+					$result = $this->db->error();
+					return $result;
+				}
 
-				/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
-				$this->guardar_venta_detalle( $id_orden , $orden , $efecto_inventario );	
-				
-				/* GUARDAR FORMATOS DE PAGO */
-				$this->save_forma_pago($id_orden , $orden['pagos']);
-
-				/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
-				$this->save_venta_impuestos( $id_orden , $orden , 2);	
-
-				/* INCREMENTO CORRELATIVOS AUTOMATICOS */
-				if($correlativo_documento == $siguiente_correlativo[0]->siguiente_valor){
-					$this->incremento_correlativo( $siguiente_correlativo[0]->siguiente_valor, $sucursal , $documento[0]->id_tipo_documento);
+				$id_orden 	= $this->db->insert_id();
+				if($result){
+					/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
+					$this->guardar_venta_detalle( $id_orden , $orden , $efecto_inventario );	
+					
+					/* GUARDAR FORMATOS DE PAGO */
+					$this->save_forma_pago($id_orden , $orden['pagos']);
+					
+					/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
+					$this->save_venta_impuestos( $id_orden , $orden , 2);	
+					
+					/* INCREMENTO CORRELATIVOS AUTOMATICOS */
+					if($correlativo_documento == $siguiente_correlativo[0]->siguiente_valor){
+						$this->incremento_correlativo( $siguiente_correlativo[0]->siguiente_valor, $sucursal , $documento[0]->id_tipo_documento);
+					}
 				}
 
 				/* PROCESAR EFECTOS DE INVENTARIO SOBRE TIPO DOCUMENTO EN BODEGA */
