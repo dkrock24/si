@@ -2,43 +2,43 @@
 class Orden_model extends CI_Model
 {
 
-	const producto =  'producto';
-	const atributo =  'atributo';
-	const atributo_opcion =  'atributos_opciones';
-	const categoria =  'categoria';
-	const producto_valor =  'producto_valor';
-	const categoria_producto =  'categoria_producto';
-	const producto_atributo =  'producto_atributo';
-	const pos_giros =  'pos_giros';
-	const empresa_giro =  'giros_empresa';
-	const pos_empresa = 'pos_empresa';
-	const giro_plantilla =  'giro_pantilla';
-	const pos_linea = 'pos_linea';
-	const proveedor = 'pos_proveedor';
-	const producto_proveedor = 'pos_proveedor_has_producto';
-	const marcas = 'pos_marca';
-	const cliente = 'pos_cliente';
-	const sucursal = 'pos_sucursal';
-	const producto_detalle = 'prouducto_detalle';
-	const impuestos = 'pos_tipos_impuestos';
-	const producto_img = 'pos_producto_img';
-	const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
-	const producto_bodega = 'pos_producto_bodega';
-	const pos_ordenes = 'pos_ordenes';
-	const pos_correlativos = 'pos_correlativos';
-	const sys_empleado = 'sys_empleado';
-	const pos_ordenes_detalle = 'pos_orden_detalle';
-	const pos_combo = 'pos_combo';
-	const sys_conf = 'sys_conf';
-	const pos_temp_suc = 'pos_temp_sucursal';
-	const pos_doc_temp = 'pos_doc_temp';
-	const sys_persona = 'sys_persona';
-	const sys_empleado_sucursal = 'sys_empleado_sucursal';	
-	const sys_usuario = 'sys_usuario';	
-	const pos_bodega = "pos_bodega";
-	const empleado = "sys_empleado";
-	const pos_orden_impuestos = "pos_orden_impuestos";
-	const pos_ventas_impuestos = "pos_ventas_impuestos";
+	const sys_conf				 = 'sys_conf';
+	const producto				 =  'producto';
+	const atributo				 =  'atributo';
+	const categoria				 =  'categoria';
+	const pos_giros				 =  'pos_giros';
+	const pos_linea				 = 'pos_linea';
+	const marcas				 = 'pos_marca';
+	const pos_combo				 = 'pos_combo';
+	const pos_empresa			 = 'pos_empresa';
+	const pos_bodega			 = "pos_bodega";
+	const pos_ordenes			 = 'pos_ordenes';
+	const sys_persona			 = 'sys_persona';
+	const sys_usuario			 = 'sys_usuario';	
+	const cliente				 = 'pos_cliente';
+	const sucursal				 = 'pos_sucursal';
+	const sys_empleado			 = 'sys_empleado';
+	const pos_doc_temp			 = 'pos_doc_temp';
+	const empleado				 = "sys_empleado";
+	const proveedor				 = 'pos_proveedor';
+	const empresa_giro			 =  'giros_empresa';
+	const giro_plantilla		 =  'giro_pantilla';
+	const producto_valor		 =  'producto_valor';
+	const producto_img			 = 'pos_producto_img';
+	const pos_correlativos		 = 'pos_correlativos';
+	const producto_atributo		 =  'producto_atributo';
+	const producto_detalle		 = 'prouducto_detalle';
+	const pos_ordenes_detalle	 = 'pos_orden_detalle';
+	const pos_temp_suc			 = 'pos_temp_sucursal';
+	const categoria_producto	 =  'categoria_producto';
+	const impuestos				 = 'pos_tipos_impuestos';
+	const producto_bodega		 = 'pos_producto_bodega';
+	const atributo_opcion		 =  'atributos_opciones';
+	const pos_orden_impuestos	 = "pos_orden_impuestos";
+	const pos_ventas_impuestos	 = "pos_ventas_impuestos";
+	const sys_empleado_sucursal	 = 'sys_empleado_sucursal';	
+	const producto_proveedor	 = 'pos_proveedor_has_producto';
+	const pos_proveedor_has_producto	 = 'pos_proveedor_has_producto';
 
 	// Ordenes
 	const pos_tipo_documento = 'pos_tipo_documento';
@@ -828,46 +828,6 @@ class Orden_model extends CI_Model
 		}
 	}
 
-	function get_lineas()
-	{
-		$this->db->select('*');
-		$this->db->from(self::pos_linea);
-		$this->db->where('estado_linea = 1');
-		$query = $this->db->get();
-		//echo $this->db->queries[0];
-
-		if ($query->num_rows() > 0) {
-			return $query->result();
-		}
-	}
-
-	function get_marcas()
-	{
-
-		$this->db->select('*');
-		$this->db->from(self::marcas);
-		$this->db->where('estado_marca = 1');
-		$query = $this->db->get();
-		//echo $this->db->queries[0];
-
-		if ($query->num_rows() > 0) {
-			return $query->result();
-		}
-	}
-
-	function get_proveedor()
-	{
-		$this->db->select('*');
-		$this->db->from(self::proveedor);
-		$this->db->where('estado = 1');
-		$query = $this->db->get();
-		//echo $this->db->queries[0];
-
-		if ($query->num_rows() > 0) {
-			return $query->result();
-		}
-	}
-
 	function get_producto($id_producto)
 	{
 
@@ -896,230 +856,10 @@ class Orden_model extends CI_Model
 		return $query->result();
 	}
 
-	function get_producto_proveedor($producto)
-	{
-		$query = $this->db->query("SELECT *
-				FROM `producto` as `P`
-				LEFT JOIN `pos_proveedor_has_producto` as `pp` ON `pp`.`producto_id_producto` = `P`.`id_entidad`
-				LEFT JOIN `pos_proveedor` as `proveedor` ON `proveedor`.`id_proveedor` = `PP`.`proveedor_id_proveedor`
-				where P.id_entidad=" . $producto);
-		//echo $this->db->queries[0];
-		return $query->result();
-	}
-
-	function actualizar_producto($producto)
-	{
-
-		$data = array(
-			'name_entidad' => $producto['name_entidad'],
-			'producto_estado' => $producto['producto_estado'],
-			'Empresa' => $producto['empresa'],
-			'Giro' => $producto['giro'],
-			'id_producto_relacionado' => $producto['procuto_asociado']
-		);
-
-		//echo $_FILES['11']['tmp_name'];
-		//var_dump($_FILES['11']);
-		//var_dump($producto);
-		//die;
-
-		$this->db->where('id_entidad', $producto['id_producto']);
-		$update = $this->db->update(self::producto, $data);
-		if ($update) {
-			$this->actualizar_categoria_producto($producto['sub_categoria'], $producto['id_producto']);
-
-			$this->actualizar_proveedor_producto($producto['proveedor1'], $producto['id_producto']);
-			$this->actualizar_proveedor_producto2($producto['proveedor2'], $producto['id_producto']);
-
-			$this->producto_atributo_actualizacion($producto['id_producto'], $producto);
-
-			$this->producto_precios_actualizacion($producto['id_producto'], $producto);
-
-			if (isset($_FILES['11']) && $_FILES['11']['tmp_name'] != null) {
-				$this->producto_imagen_actualizar($producto['id_producto'], $_FILES['11']);
-			}
-		}
-	}
-
-	// Actualizar producto
-	function actualizar_categoria_producto($id_sub_categoria, $id_producto)
-	{
-		$data = array(
-			'id_categoria' => $id_sub_categoria,
-		);
-
-		$this->db->where('id_producto', $id_producto);
-		$this->db->update(self::categoria_producto, $data);
-	}
-
-	// Actualizar producto
-	function actualizar_proveedor_producto($id_proveedor, $id_producto)
-	{
-		$data = array(
-			'proveedor_id_proveedor' => $id_proveedor,
-		);
-
-		$this->db->where('producto_id_producto', $id_producto);
-		$this->db->where('proveedor_id_proveedor', $id_proveedor);
-		$this->db->update(self::pos_proveedor_has_producto, $data);
-	}
-
-	function actualizar_proveedor_producto2($id_proveedor, $id_producto)
-	{
-		$data = array(
-			'proveedor_id_proveedor' => $id_proveedor,
-		);
-
-		$this->db->where('producto_id_producto', $id_producto);
-		$this->db->where('proveedor_id_proveedor', $id_proveedor);
-		$this->db->update(self::pos_proveedor_has_producto, $data);
-	}
-
-	// Actualizar Atributos
-	function producto_atributo_actualizacion($id_producto, $producto)
-	{
-
-		$this->db->select('*');
-		$this->db->from(self::producto_atributo);
-		$this->db->where('Producto', $id_producto);
-		$query = $this->db->get();
-		//echo $this->db->queries[1];
-		$datos = $query->result();
-
-		// Recorrer la lista de producto_atributos
-		$id_prod_atrri = 0;
-		foreach ($datos as $value) {
-
-			$id_prod_atrri 	= $value->id_prod_atrri;
-			$Atributo 		= $value->Atributo;
-
-			if (isset($producto[$Atributo])) {
-				$this->actualizar_producto_valor($id_prod_atrri, $producto[$Atributo]);
-			}
-		}
-	}
-
-	// Actualizar Precios del producto
-	function producto_precios_actualizacion($id_producto, $producto)
-	{
-
-		$data = array(
-			'Producto' => $id_producto,
-		);
-
-		$this->db->delete(self::producto_detalle, $data);
-
-		$this->producto_precios($id_producto, $producto);
-	}
-
-	// Actualizar producto valor
-	function actualizar_producto_valor($id_prod_atrri, $producto_valor)
-	{
-		$data = array(
-			'valor' => $producto_valor,
-		);
-
-		$this->db->where('id_prod_atributo', $id_prod_atrri);
-		$this->db->update(self::producto_valor, $data);
-	}
-
-	// Actualizar Imagen del producto
-	function producto_imagen_actualizar($producto_id, $imagen)
-	{
-
-		$imagen = file_get_contents($_FILES['11']['tmp_name']);
-		$imageProperties = getimageSize($_FILES['11']['tmp_name']);
-
-		$data = array(
-			'producto_img_blob' => $imagen,
-			'imageType' => $imageProperties['mime'],
-			'estado_producto_img' => 1,
-			'producto_img_actualizado' => date("Y-m-d h:i:s")
-		);
-
-		$this->db->where('id_producto', $producto_id);
-		$this->db->update(self::producto_img, $data);
-	}
-
-	// Buscar un producto para ser mostrado en la editicion de producto
-	function get_producto_atributos($id_producto)
-	{
-
-		$query = $this->db->query("SELECT *,a.id_prod_atributo as AtributoId
-					FROM `producto` as `p`
-					LEFT JOIN `giros_empresa` as `eg` ON `eg`.`id_giro_empresa`=`p`.`Giro`
-					LEFT JOIN `giro_pantilla` as `gp` ON `gp`.`Giro`=`eg`.`Giro`
-					LEFT JOIN `atributo` as `a` ON `a`.`id_prod_atributo`=`gp`.`Atributo`
-					LEFT JOIN `producto_atributo` as `pa` ON `pa`.`Producto`=`p`.`id_entidad`
-					LEFT JOIN `producto_valor` as `pv` ON `pv`.`id_prod_atributo`=`pa`.`id_prod_atrri`
-					LEFT JOIN `atributos_opciones` as `ao` ON `ao`.`Atributo`=`a`.`id_prod_atributo`
-					WHERE `p`.`id_entidad` = " . $id_producto . " and pa.Atributo = a.id_prod_atributo");
-
-		return $query->result();
-	}
-
-	function get_empresa_giro_atributos($id_giro)
-	{
-
-		$this->db->select('*');
-		$this->db->from(self::empresa_giro . ' as eg');
-		$this->db->join(self::giro_plantilla . ' as gp', ' on gp.Giro=eg.Giro');
-		$this->db->join(self::atributo . ' as a', ' on a.id_prod_atributo=gp.Atributo');
-		$this->db->join(self::atributo_opcion . ' as ao', ' on a.id_prod_atributo=ao.Atributo', 'left');
-		$this->db->where('eg.id_giro_empresa', $id_giro);
-		$this->db->order_by('a.id_prod_atributo', 'ASC');
-		$query = $this->db->get();
-		//echo $this->db->queries[4];
-
-		if ($query->num_rows() > 0) {
-			return $query->result();
-		}
-	}
-
-	function get_clientes()
-	{
-		$this->db->select('*');
-		$this->db->from(self::cliente);
-		$this->db->where('estado = 1');
-		$query = $this->db->get();
-		//echo $this->db->queries[1];
-
-		if ($query->num_rows() > 0) {
-			return $query->result();
-		}
-	}
-
-	function get_sucursales()
-	{
-		$this->db->select('*');
-		$this->db->from(self::sucursal);
-		$this->db->where('estado = 1');
-		$query = $this->db->get();
-		//echo $this->db->queries[1];
-
-		if ($query->num_rows() > 0) {
-			return $query->result();
-		}
-	}
-
-	function get_inpuesto()
-	{
-		$this->db->select('*');
-		$this->db->from(self::impuestos);
-		$this->db->where('id_tipos_impuestos = 1');
-		$query = $this->db->get();
-		//echo $this->db->queries[0];
-
-		if ($query->num_rows() > 0) {
-			return $query->result();
-		}
-	}
-
 	// Orden Editar
 
 	function get_orden($order_id)
 	{
-
 		$this->db->select('*');
 		$this->db->from(self::pos_ordenes . ' as o');
 		$this->db->join(self::sucursal . ' as s', 'on s.id_sucursal = o.id_sucursal');
@@ -1127,9 +867,6 @@ class Orden_model extends CI_Model
 		$this->db->join(self::pos_empresa . ' as em', 'on em.id_empresa = s.Empresa_Suc', 'left');
 		$this->db->join(self::cliente.' as c',' on c.id_cliente = o.id_cliente');
 		$this->db->join(self::sys_persona.' as p',' on p.id_persona = e.Persona_E');
-		//$this->db->join(self::empresa_giro . ' as eg', 'on eg.Empresa = em.id_empresa', 'left');
-		//$this->db->join(self::pos_giros . ' as pg', 'on pg.id_giro = eg.Giro', 'left');
-
 		$this->db->where('o.num_correlativo', $order_id);
 		$this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
 		$query = $this->db->get();
@@ -1139,7 +876,8 @@ class Orden_model extends CI_Model
 		}
 	}
 
-	function get_impuestos( $order_id ){
+	function get_impuestos( $order_id )
+	{
 
 		$this->db->select('*');
 		$this->db->from(self::pos_orden_impuestos);
@@ -1151,7 +889,8 @@ class Orden_model extends CI_Model
 		}
 	}
 
-	function get_impuestos_venta( $order_id ){
+	function get_impuestos_venta( $order_id )
+	{
 
 		$this->db->select('*');
 		$this->db->from(self::pos_ventas_impuestos);
@@ -1165,8 +904,6 @@ class Orden_model extends CI_Model
 
 	function get_orden_detalle($order_id)
 	{
-			
-
 		$valores =  explode(",", $order_id);
 		
 		$this->db->select('*');
@@ -1184,9 +921,7 @@ class Orden_model extends CI_Model
 
 	function producto_combo($producto_id)
 	{
-
 		// Validar si Producto es combo para llevar todos los productos relacionados.
-
 		$this->db->select('*');
 		$this->db->from(self::pos_combo . ' as c');
 		$this->db->where('c.Producto_Combo', $producto_id);
@@ -1199,7 +934,6 @@ class Orden_model extends CI_Model
 
 	function getConfg($componente_conf)
 	{
-
 		$this->db->select('*');
 		$this->db->from(self::sys_conf . ' as c');
 		$this->db->where('c.modulo_conf', 1); // 1 = ordenes modulo
@@ -1213,7 +947,6 @@ class Orden_model extends CI_Model
 
 	function getConfgImpuesto($impuesto_conf)
 	{
-
 		$this->db->select('*');
 		$this->db->from(self::sys_conf . ' as c');
 		$this->db->where('c.modulo_conf', 1); // 1 = ordenes modulo
