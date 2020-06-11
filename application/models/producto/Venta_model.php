@@ -576,119 +576,6 @@ class Venta_model extends CI_Model {
 
 		// Fin ordenes
 
-		//	Creacion de un nuevo producto
-		function nuevo_producto( $producto , $usuario ){
-
-			//	Creando cabecera de la tabla producto
-			$data = array(
-	            'name_entidad' => $producto['name_entidad'],
-	            'producto_estado' => $producto['producto_estado'],
-	            'Marca' => $producto['marca'],
-	            'Linea' => $producto['linea'],
-	            'id_producto_relacionado' => $producto['procuto_asociado'],
-	            'creado_producto' => date("Y-m-d h:i:s"),
-	            'Empresa' => $producto['empresa'],
-	            'Giro' => $producto['giro']
-	        );
-			
-
-			$this->db->insert(self::producto, $data ); 
-			$id_producto = $this->db->insert_id();
-
-			$this->producto_categoria( $id_producto , $producto['sub_categoria'] );
-
-			// cinsertamos los proveedores en un array para recorrerlos
-			$proveedor_array = array($producto['proveedor1'], $producto['proveedor2'], $producto['marca'] );
-
-			$this->producto_proveedor( $id_producto , $proveedor_array );
-
-			// Insertando Atributos para el producto
-			$this->producto_atributos( $id_producto, $producto );
-
-			// Insertando los detalles de los precios
-			$this->producto_precios( $id_producto, $producto );
-		}
-
-		function producto_categoria($id_producto , $sub_categoria){
-			//	Creando detalle en producto categoria
-
-			$data = array(
-	            'id_categoria' => $sub_categoria,
-	            'id_producto' => $id_producto
-	        );
-
-			$this->db->insert(self::categoria_producto, $data ); 
-		}
-
-		function producto_proveedor($producto , $proveedores ){
-			// Insertando los proveedores para el producto
-
-			$contador = 0;
-			$valor =0;
-			do{
-				
-				$data = array(
-		            'proveedor_id_proveedor' => $proveedores[$valor],
-		            'producto_id_producto' => $producto,
-		            'marca_id_producto' => $proveedores[2]
-		        );
-
-		        $this->db->insert(self::producto_proveedor, $data );
-
-		        if( $proveedores[0] == $proveedores[1] ){
-		        	$contador=2;
-		        }else{
-		        	$contador += 1;
-		        	$valor += 1;
-		        }
-		        
-			}while( $contador <= 1 );
-
-		}
-
-		function producto_atributos($id_producto, $producto){
-			// Inserta todos los atributos relacionados al producto
-			foreach ($producto as $key => $value) {
-	            
-	            $atributo = (int)$key;
-
-				$int2 = (int) $atributo;
-
-	            if($int2 != 0){
-
-                    $data = array(
-                        'Producto' => $id_producto,
-                        'Atributo' => $int2
-                    );
-                    $this->db->insert(self::producto_atributo, $data ); 
-                    $id_producto_atributo = $this->db->insert_id();
-
-                    // llamando el insert de los valores de los atributos del producto
-	        		$this->producto_atributo_valor( $id_producto_atributo , $producto[$int2] );
-	            }
-	        }
-	        if( $_FILES['11'] ){
-	        	$id = 11;
-	            // Si viene Atribut0 11=Imagen insertemos la imagen blob
-	       		$this->producto_images( $id_producto , $_FILES['11'] );
-
-	       		$data = array(
-                        'Producto' => $id_producto,
-                        'Atributo' => $id
-                    );
-                
-                $this->db->insert(self::producto_atributo, $data ); 
-                $id_producto_atributo = $this->db->insert_id();
-
-                $imageName = getimageSize($_FILES['11']['tmp_name']);
-
-                // llamando el insert de los valores de los atributos del producto
-	        	$this->producto_atributo_valor( $id_producto_atributo , $imageName['mime'] );
-
-	        }
-	       	
-		}
-
 		function producto_precios( $id_producto, $producto ){
 			
 			foreach ($producto as $key => $value) {
@@ -757,78 +644,10 @@ class Venta_model extends CI_Model {
             $this->db->insert(self::producto_img, $data ); 
 		}
 
-		function get_categorias(){
-			$this->db->select('*');
-	        $this->db->from(self::categoria);
-	        $this->db->where('id_categoria_padre IS NULL' );
-	        $this->db->where('categoria_estado = 1');
-	        $query = $this->db->get(); 
-	        //echo $this->db->queries[1];
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
-		}
-
-		function get_sub_categorias(){
-			$this->db->select('*');
-	        $this->db->from(self::categoria);
-	        $this->db->where('id_categoria_padre IS NULL' );
-	        $this->db->where('categoria_estado = 1');
-	        $query = $this->db->get(); 
-	        //echo $this->db->queries[1];
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
-		}
-
 		function sub_categoria( $id_categoria ){
 			$this->db->select('*');
 	        $this->db->from(self::categoria);
 	        $this->db->where('id_categoria_padre = '. $id_categoria);
-	        $query = $this->db->get(); 
-	        //echo $this->db->queries[0];
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
-		}
-
-		function get_lineas( ){
-			$this->db->select('*');
-	        $this->db->from(self::pos_linea);
-	        $this->db->where('estado_linea = 1');
-	        $query = $this->db->get(); 
-	        //echo $this->db->queries[0];
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
-		}
-
-		function get_marcas(){
-
-			$this->db->select('*');
-	        $this->db->from(self::marcas);
-	        $this->db->where('estado_marca = 1');
-	        $query = $this->db->get(); 
-	        //echo $this->db->queries[0];
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
-		}
-
-		function get_proveedor( ){
-			$this->db->select('*');
-	        $this->db->from(self::proveedor);
-	        $this->db->where('estado = 1');
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[0];
 	        
@@ -959,9 +778,7 @@ class Venta_model extends CI_Model {
 	        	if(isset( $producto[$Atributo] )){
 	        		$this->actualizar_producto_valor($id_prod_atrri, $producto[$Atributo] );
 	        	}
-
-	        }
-	        
+	        }	        
 		}
 
 		// Actualizar Precios del producto
@@ -1001,115 +818,6 @@ class Venta_model extends CI_Model {
 
 			$this->db->where('id_producto', $producto_id);
 			$this->db->update(self::producto_img, $data );
-		}
-
-		// Buscar un producto para ser mostrado en la editicion de producto
-		function get_producto_atributos( $id_producto ){
-
-			$query = $this->db->query("SELECT *,a.id_prod_atributo as AtributoId
-					FROM `producto` as `p`
-					LEFT JOIN `giros_empresa` as `eg` ON `eg`.`id_giro_empresa`=`p`.`Giro`
-					LEFT JOIN `giro_pantilla` as `gp` ON `gp`.`Giro`=`eg`.`Giro`
-					LEFT JOIN `atributo` as `a` ON `a`.`id_prod_atributo`=`gp`.`Atributo`
-					LEFT JOIN `producto_atributo` as `pa` ON `pa`.`Producto`=`p`.`id_entidad`
-					LEFT JOIN `producto_valor` as `pv` ON `pv`.`id_prod_atributo`=`pa`.`id_prod_atrri`
-					LEFT JOIN `atributos_opciones` as `ao` ON `ao`.`Atributo`=`a`.`id_prod_atributo`
-					WHERE `p`.`id_entidad` = ".$id_producto." and pa.Atributo = a.id_prod_atributo");
-
-		    return $query->result();
-		}
-
-		function get_empresa_giro_atributos( $id_giro ){
-
-			$this->db->select('*');
-	        $this->db->from(self::empresa_giro .' as eg');
-	        $this->db->join(self::giro_plantilla .' as gp',' on gp.Giro=eg.Giro');
-	        $this->db->join(self::atributo .' as a',' on a.id_prod_atributo=gp.Atributo');
-	        $this->db->join(self::atributo_opcion .' as ao',' on a.id_prod_atributo=ao.Atributo','left');
-	        $this->db->where('eg.id_giro_empresa', $id_giro );	     
-	        $this->db->order_by('a.id_prod_atributo', 'ASC');
-	        $query = $this->db->get(); 
-	        //echo $this->db->queries[4];
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
-		}
-
-		function get_clientes(){
-			$this->db->select('*');
-	        $this->db->from(self::cliente);
-	        $this->db->where('estado = 1');
-	        $query = $this->db->get(); 
-	        //echo $this->db->queries[1];
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
-		}
-
-		function get_sucursales(){
-			$this->db->select('*');
-	        $this->db->from(self::sucursal);
-	        $this->db->where('estado = 1');
-	        $query = $this->db->get(); 
-	        //echo $this->db->queries[1];
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
-		}
-
-		function get_inpuesto(){
-			$this->db->select('*');
-	        $this->db->from(self::impuestos);
-	        $this->db->where('id_tipos_impuestos = 1');
-	        $query = $this->db->get(); 
-	        //echo $this->db->queries[0];
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
-		}
-
-		// Orden Editar
-
-		function get_orden( $order_id ){
-
-			$this->db->select('*');
-	        $this->db->from(self::pos_ordenes.' as o');
-	        $this->db->join(self::sucursal.' as s', 'on s.id_sucursal = o.id_sucursal');
-	        $this->db->join(self::sys_empleado.' as e', 'on e.id_empleado = o.id_cajero', 'left');
-	        $this->db->join(self::pos_empresa.' as em', 'on em.id_empresa = s.Empresa_Suc', 'left');
-	        $this->db->join(self::empresa_giro.' as eg', 'on eg.Empresa = em.id_empresa', 'left');
-	        $this->db->join(self::pos_giros.' as pg', 'on pg.id_giro = eg.Giro', 'left');
-	        $this->db->where('o.id', $order_id );
-	        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
-	        $query = $this->db->get(); 
-	        //echo $this->db->queries[0];
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
-		}
-
-		function get_orden_detalle( $order_id ){
-
-			$this->db->select('*');
-	        $this->db->from(self::pos_ordenes_detalle.' as do');
-	        $this->db->where('do.id_orden', $order_id );	        
-	        $query = $this->db->get(); 
-	        //echo $this->db->queries[0];
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
 		}
 
 		function producto_combo( $producto_id ){
@@ -1154,8 +862,6 @@ class Venta_model extends CI_Model {
 	            return $query->result();
 	        }
 		}
-
-
 		// Venta
 
 		function getVentaId($id_venta){
