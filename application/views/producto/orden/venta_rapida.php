@@ -818,7 +818,7 @@ include("asstes/pos_orden.php");
                 
             </div>
             <div class="modal-footer" style="background: none; color:white;">
-
+                    <spam class="db_msj" style="float:left;color:red;"></spam>
                     <button type="button" data-dismiss="modal" id="procesar_btn" class="mb-sm btn-lg btn btn-purple btn-outline guardar" name="../venta/guardar_venta">PROCESAR</button>
                     <button type="button" data-dismiss="modal" class="mb-sm btn-lg btn btn-danger btn-outline">CANCELAR</button>
                 </div>

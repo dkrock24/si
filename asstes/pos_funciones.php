@@ -2030,16 +2030,16 @@
                                 $(".print_venta").attr("href", "venta/" + datos['id']);
                                 if(vista_id == 13){
                                     if(orden_numero){
-                                        //window.location.href = "../../venta/facturacion/" + datos['id'];
+                                        window.location.href = "../../venta/facturacion/" + datos['id'];
                                     }else{
-                                        //window.location.href = "../venta/facturacion/" + datos['id'];
+                                        window.location.href = "../venta/facturacion/" + datos['id'];
                                     }
                                 }else{
-                                    //window.location.href = "../venta/facturacion/" + datos['id'];                            
+                                    window.location.href = "../venta/facturacion/" + datos['id'];                            
                                 }
                             }
                         }else{
-                            alert(1);
+                            $(".db_msj").html("<i class='fa fa-exclamation-triangle'></i> Base de Datos Notificación. CODIGO : " +datos.code);
                         }                        
                     },
                     error: function() {}
