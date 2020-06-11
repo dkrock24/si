@@ -420,7 +420,7 @@ function get_total_orden(){
 
 	total_orden = 0;
 	_orden.forEach(function(element) {
-		if(element.id_producto_combo == null ){
+		if(element.id_producto_combo == null || element.id_producto_combo==0){
 			total_orden += parseFloat(element.total);
 		}
 	});
@@ -660,19 +660,19 @@ function ivaTotal(){
 		}
 		c++;		
 	});
+	
 	//total_iva_suma =  sub_total_;
-	sub_total();	
+	sub_total();
 }
 
 function sub_total(){
-
+	
 	var _total_impues_exclu=0;
 
 	$.each(_impuestos_orden_excluyentes , function(i, item){
 		_total_impues_exclu += parseFloat( item.ordenImpTotal );
 		
 	});
-
 	sub_total_ = total_orden - _total_impues_exclu ;
 }
 

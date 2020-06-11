@@ -1,41 +1,45 @@
 <?php
 class Venta_model extends CI_Model {
 
-		const producto =  'producto';
-		const atributo =  'atributo';
-		const atributo_opcion =  'atributos_opciones';
-		const categoria =  'categoria';
-		const producto_valor =  'producto_valor';
-		const categoria_producto =  'categoria_producto';		
-		const producto_atributo =  'producto_atributo';
-		const pos_giros =  'pos_giros';
-		const empresa_giro =  'giros_empresa';
-		const pos_empresa = 'pos_empresa';
-		const giro_plantilla =  'giro_pantilla';
-		const pos_linea = 'pos_linea';
-		const proveedor = 'pos_proveedor';
-		const producto_proveedor = 'pos_proveedor_has_producto';
-		const marcas = 'pos_marca';
-		const cliente = 'pos_cliente';
-		const sucursal = 'pos_sucursal';
-		const producto_detalle = 'prouducto_detalle';
-		const impuestos = 'pos_tipos_impuestos';
-		const producto_img = 'pos_producto_img';
+		const producto				 =  'producto';
+		const atributo				 =  'atributo';
+		const atributo_opcion		 =  'atributos_opciones';
+		const categoria				 =  'categoria';
+		const producto_valor		 =  'producto_valor';
+		const categoria_producto	 =  'categoria_producto';		
+		const producto_atributo		 =  'producto_atributo';
+		const pos_giros				 =  'pos_giros';
+		const empresa_giro			 =  'giros_empresa';
+		const pos_empresa			 = 'pos_empresa';
+		const giro_plantilla		 =  'giro_pantilla';
+		const pos_linea				 = 'pos_linea';
+		const proveedor				 = 'pos_proveedor';
+		const producto_proveedor	 = 'pos_proveedor_has_producto';
+		const marcas				 = 'pos_marca';
+		const cliente				 = 'pos_cliente';
+		const sucursal				 = 'pos_sucursal';
+		const producto_detalle		 = 'prouducto_detalle';
+		const impuestos				 = 'pos_tipos_impuestos';
+		const producto_img			 = 'pos_producto_img';
 		const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
-		const producto_bodega = 'pos_producto_bodega';
-		const pos_ordenes = 'pos_ordenes';
-		const pos_ventas = 'pos_ventas';
-		const pos_venta_pagos = 'pos_venta_pagos';
-		const pos_correlativos = 'pos_correlativos';
-		const sys_empleado = 'sys_empleado';
-		const pos_ordenes_detalle = 'pos_orden_detalle';
-		const pos_venta_detalle = 'pos_venta_detalle';
-		const pos_ventas_impuestos = 'pos_ventas_impuestos';
-		const pos_combo = 'pos_combo';
-		const sys_conf = 'sys_conf';		
+		const producto_bodega		 = 'pos_producto_bodega';
+		const pos_ordenes			 = 'pos_ordenes';
+		const pos_ventas			 = 'pos_ventas';
+		const pos_venta_pagos		 = 'pos_venta_pagos';
+		const pos_correlativos		 = 'pos_correlativos';
+		const sys_empleado			 = 'sys_empleado';
+		const pos_ordenes_detalle	 = 'pos_orden_detalle';
+		const pos_venta_detalle		 = 'pos_venta_detalle';
+		const pos_ventas_impuestos	 = 'pos_ventas_impuestos';
+		const pos_combo				 = 'pos_combo';
+		const sys_conf				 = 'sys_conf';		
+		const pos_tipo_documento 	 = 'pos_tipo_documento';
 
 		// Ordenes
-		const pos_tipo_documento = 'pos_tipo_documento';
+
+		private $_orden_id;
+
+		private $_orden;
 
 		function getVentas($limit, $id , $filters ){
 
@@ -216,6 +220,7 @@ class Venta_model extends CI_Model {
 			$total_orden 		= $orden['orden'][0]['total'];
 			$total_orden 		= $total_orden;
 			$efecto_inventario 	= $documento[0]->efecto_inventario;
+			$this->_orden 		= $orden;
 
 			if($efecto_inventario == 1){ // Si suma en inventario la venta, es devolucion
 				//$total_orden = $total_orden* -1;
@@ -288,16 +293,17 @@ class Venta_model extends CI_Model {
 					return $result;
 				}
 
-				$id_orden 	= $this->db->insert_id();
+				$this->_orden_id = $this->db->insert_id();
+				
 				if($result){
 					/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
-					$this->guardar_venta_detalle( $id_orden , $orden , $efecto_inventario );	
+					$this->guardar_venta_detalle( $efecto_inventario );	
 					
 					/* GUARDAR FORMATOS DE PAGO */
-					$this->save_forma_pago($id_orden , $orden['pagos']);
+					$this->save_forma_pago( $this->_orden['pagos']);
 					
 					/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
-					$this->save_venta_impuestos( $id_orden , $orden , 2);	
+					$this->save_venta_impuestos( 2);	
 					
 					/* INCREMENTO CORRELATIVOS AUTOMATICOS */
 					if($correlativo_documento == $siguiente_correlativo[0]->siguiente_valor){
@@ -306,40 +312,40 @@ class Venta_model extends CI_Model {
 				}
 
 				/* PROCESAR EFECTOS DE INVENTARIO SOBRE TIPO DOCUMENTO EN BODEGA */
-				//$this->efecto_bodega($id_orden , $orden ,$documento);
+				//$this->efecto_bodega($this->_orden_id , $orden ,$documento);
 			}else{
 				echo "No hay correlativo";
 			}
 
-			return $id_orden;
-
+			return $this->_orden_id;
 		}
 
 		function getTerminal($id_caja){
+
 			$this->load->model('admin/Terminal_model', 'temrinal');
 			$result = $this->terminal->get_terminal_by_caja($id_caja);
 			return $result;
 		}
 
-		function save_venta_impuestos($id_venta , $datos , $impTipo){
+		function save_venta_impuestos($impTipo){
 			/* 
 				Insertando los impuestos generados en la vista de Ventas rapidas.
 				$impTipo = 1 -> Orden
 				$impTipo = 2 -> Venta Rapida
 			*/
 
-			if(isset($datos['impuestos'])){
-				foreach ($datos['impuestos'] as $impuestos_datos) {
+			if(isset($this->_orden['impuestos'])){
+				foreach ($this->_orden['impuestos'] as $impuestos_datos) {
 
 					foreach ($impuestos_datos as $key => $value) {
 						
 						$data = array(
-							'id_venta' => $id_venta, 
+							'id_venta' 		=> $this->_orden_id, 
 							'ordenEspecial' => $value['ordenEspecial'],
-							'ordenImpName' => $value['ordenImpName'],
+							'ordenImpName' 	=> $value['ordenImpName'],
 							'ordenImpTotal' => $value['ordenImpTotal'],
-							'ordenImpVal' => $value['ordenImpVal'],
-							'ordenSimbolo' => $value['ordenSimbolo'],
+							'ordenImpVal' 	=> $value['ordenImpVal'],
+							'ordenSimbolo' 	=> $value['ordenSimbolo'],
 							'vent_imp_tipo' => $impTipo ,
 							'vent_imp_estado' => 1
 						);
@@ -350,18 +356,18 @@ class Venta_model extends CI_Model {
 			}		
 		}
 
-		function save_forma_pago($id_venta , $formas_pago ){
+		function save_forma_pago($formas_pago ){
 
 			foreach ($formas_pago as $key => $value) {
 						
 				$data = array(
-					'venta_pagos' => $id_venta, 
-					'id_forma_pago' => $value['id'],
-					'nombre_metodo_pago' => $value['type'],
+					'venta_pagos' 		=> $this->_orden_id , 
+					'id_forma_pago' 	=> $value['id'],
+					'nombre_metodo_pago'=> $value['type'],
 					'valor_metodo_pago' => $value['amount'],
 					'banco_metodo_pago' => $value['banco'],
-					'numero_metodo_pago' => $value['valor'],
-					'series_metodo_pago' => $value['serie'],
+					'numero_metodo_pago'=> $value['valor'],
+					'series_metodo_pago'=> $value['serie'],
 					'estado_venta_pago' => 1
 				);
 
@@ -369,8 +375,9 @@ class Venta_model extends CI_Model {
 			}
 		}
 
-		function guardar_venta_detalle( $id_orden , $datos ,$efecto_inventario ){
-			foreach ($datos['orden'] as $key => $orden) {
+		function guardar_venta_detalle( $efecto_inventario ){
+
+			foreach ($this->_orden['orden'] as $key => $orden) {
 
 				if($orden['descuento']){
 					$descuento_porcentaje = $orden['descuento'];
@@ -379,7 +386,7 @@ class Venta_model extends CI_Model {
 				}
 				
 				$data = array(
-		            'id_venta' 		=> $id_orden,
+		            'id_venta' 		=> $this->_orden_id,
 		            'producto' 		=> $orden['producto'],
 		            'producto_id' 	=> $orden['producto_id'],
 		            'producto2' 	=> $orden['producto2'],
@@ -411,8 +418,7 @@ class Venta_model extends CI_Model {
 		            //'id_bomba' 		=> $orden[''],
 		            //'id_kit' 		=> $orden[''],
 		            //'tp_c' 			=> $orden[''],
-		           	'p_inc_imp0' 	=> $orden['iva']
-		            
+		           	'p_inc_imp0' 	=> $orden['iva'],		            
 	        	);
 
 	        	$this->db->insert(self::pos_venta_detalle, $data ); 
@@ -1081,9 +1087,6 @@ class Venta_model extends CI_Model {
 	        $this->db->join(self::pos_empresa.' as em', 'on em.id_empresa = s.Empresa_Suc', 'left');
 	        $this->db->join(self::empresa_giro.' as eg', 'on eg.Empresa = em.id_empresa', 'left');
 	        $this->db->join(self::pos_giros.' as pg', 'on pg.id_giro = eg.Giro', 'left');
-	        
-
-
 	        $this->db->where('o.id', $order_id );
 	        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
 	        $query = $this->db->get(); 

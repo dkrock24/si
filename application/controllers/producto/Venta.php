@@ -71,31 +71,32 @@ class Venta extends MY_Controller {
 		$cliente 				= $this->get_clientes_id($_POST['cliente']);
 		$check_devol_param 		= $form['check_devolucion'] === 'true'? true: false;
 
-		if($check_devol_param == false){
-			//$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
-		}else{
-			if($documento_tipo[0]->efecto_inventario == 1){
-
-				//$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
-			}else{
-
-				//$this->EfectosDocumento_model->devolucionNuevoDocumento($_POST ,$documento_tipo);
-			}
-		}
-
 		$id = $this->Venta_model->guardar_venta( 
-			$_POST , 
-			$id_usuario ,
-			$cliente , 
-			$form ,
-			$documento_tipo , 
-			$_POST['sucursal_origen'] , 
+			$_POST,
+			$id_usuario,
+			$cliente,
+			$form,
+			$documento_tipo,
+			$_POST['sucursal_origen'],
 			$correlativo_documento
 		);
 
 		if($id['code']){
 			$data['code'] = $id['code'];
 		}else{
+
+			if($check_devol_param == false){
+
+				$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
+			}else{
+				if($documento_tipo[0]->efecto_inventario == 1){
+	
+					$this->EfectosDocumento_model->accion($_POST ,$documento_tipo);
+				}else{
+					$this->EfectosDocumento_model->devolucionNuevoDocumento($_POST ,$documento_tipo);
+				}
+			}
+
 			$data['msj_title'] = "Venta grabada Correctamente ";
 			$data['msj_orden'] = "Número Transacción : ". $id;
 			$data['id'] = $id;
@@ -118,7 +119,7 @@ class Venta extends MY_Controller {
 
 		$data['encabezado'] 	= $this->Venta_model->getVentaId( $id_venta );		
 		$data['detalle'] 		= $this->Venta_model->getVentaDetalleId( $id_venta );
-		$data['cliente'] 		=  $this->Cliente_model->get_clientes_id($data['encabezado'][0]->id_cliente);
+		$data['cliente'] 		= $this->Cliente_model->get_clientes_id($data['encabezado'][0]->id_cliente);
 		$data['impuestos'] 		= $this->Orden_model->get_impuestos_venta( $data['encabezado'][0]->id );		
 		$data['modo_pago'] 		= $this->Venta_model->getVentaPagosId( $id_venta );
 		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
