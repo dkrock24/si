@@ -24,9 +24,9 @@ class Correlativo_model extends CI_Model {
     function save_linea( $datos ){
 
         $data = array(
-            'tipo_producto'     =>  $datos['tipo_producto'],
+            'tipo_producto' =>  $datos['tipo_producto'],
+            'estado_linea'  => $datos['estado_linea'],
             'descripcion_tipo_producto'  => $datos['descripcion_tipo_producto'],
-            'estado_linea'     => $datos['estado_linea'],
         );
         
         $result = $this->db->insert(self::correlativo, $data);
@@ -36,7 +36,6 @@ class Correlativo_model extends CI_Model {
         }
 
         return $result;
-
     }
 
     function getLineaId( $linea_id ){
@@ -56,9 +55,9 @@ class Correlativo_model extends CI_Model {
     function update_linea( $datos ){
 
         $data = array(
-            'tipo_producto'     =>  $datos['tipo_producto'],
+            'tipo_producto' =>  $datos['tipo_producto'],
+            'estado_linea'  => $datos['estado_linea'],
             'descripcion_tipo_producto'  => $datos['descripcion_tipo_producto'],
-            'estado_linea'     => $datos['estado_linea'],
         );
         
         $this->db->where('id_linea', $datos['id_linea']);
@@ -70,6 +69,4 @@ class Correlativo_model extends CI_Model {
 
         return $result;
     }
-
-    
 }

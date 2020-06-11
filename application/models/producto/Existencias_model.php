@@ -39,9 +39,8 @@ class Existencias_model extends CI_Model {
             LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
             LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
             LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
-
             WHERE P.id_entidad = ". $producto_id);
             //echo $this->db->queries[1];
-            return $query->result();
+        return $query->result();
     }
 }

@@ -1,29 +1,29 @@
 <?php
 class Producto_model extends CI_Model {
 
-		const producto =  'producto';
-		const atributo =  'atributo';
-		const atributo_opcion =  'atributos_opciones';
-		const categoria =  'categoria';
-		const producto_valor =  'producto_valor';
-		const categoria_producto =  'categoria_producto';		
-		const producto_atributo =  'producto_atributo';
-		const empresa_giro =  'giros_empresa';
-		const giro_plantilla =  'giro_pantilla';
-		const pos_linea = 'pos_linea';
-		const proveedor = 'pos_proveedor';
+		const producto			 = 'producto';
+		const atributo			 = 'atributo';
+		const atributo_opcion	 = 'atributos_opciones';
+		const categoria			 = 'categoria';
+		const producto_valor	 = 'producto_valor';
+		const categoria_producto = 'categoria_producto';		
+		const producto_atributo	 = 'producto_atributo';
+		const empresa_giro		 = 'giros_empresa';
+		const giro_plantilla	 = 'giro_pantilla';
+		const pos_linea			 = 'pos_linea';
+		const proveedor			 = 'pos_proveedor';
 		const producto_proveedor = 'pos_proveedor_has_producto';
-		const marcas = 'pos_marca';
-		const cliente = 'pos_cliente';
-		const sucursal = 'pos_sucursal';
-		const producto_detalle = 'prouducto_detalle';
-		const impuestos = 'pos_tipos_impuestos';
-		const producto_img = 'pos_producto_img';
+		const marcas			 = 'pos_marca';
+		const cliente			 = 'pos_cliente';
+		const sucursal			 = 'pos_sucursal';
+		const producto_detalle	 = 'prouducto_detalle';
+		const impuestos			 = 'pos_tipos_impuestos';
+		const producto_img		 = 'pos_producto_img';
 		const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
-		const pos_bodega = 'pos_bodega';
-		const pos_producto_bodega = 'pos_producto_bodega';
-		const correlativos =  'pos_correlativos';	
-		const persona =  'sys_persona';	
+		const pos_bodega		 = 'pos_bodega';
+		const pos_producto_bodega= 'pos_producto_bodega';
+		const correlativos		 = 'pos_correlativos';	
+		const persona			 = 'sys_persona';	
 		
         
         function getProd( $limit, $id , $filters ){
@@ -52,10 +52,7 @@ class Producto_model extends CI_Model {
 				 );
 
 				//echo $this->db->queries[1];
-				
-				//die;
-		        return $query->result();
-
+		    return $query->result();
 		}
 
 		function getAllProducto(){
@@ -72,8 +69,7 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where P.producto_estado=1 and P.Empresa=".$this->session->empresa[0]->id_empresa);
 
 		        //echo $this->db->queries[1];
-		        return $query->result();
-
+		    return $query->result();
 		}
 
 		function record_count($filter){
@@ -105,9 +101,7 @@ class Producto_model extends CI_Model {
 				$result = $this->db->count_all_results();
 				return $result;
 			}
-			
-		}
-		
+		}	
 
 		// ::::::: CREAR 
 
@@ -261,9 +255,7 @@ class Producto_model extends CI_Model {
 
                 // llamando el insert de los valores de los atributos del producto
 	        	$this->producto_atributo_valor( $id_producto_atributo , $imageName['mime'] );
-
-	        }
-	       	
+	        }	       	
 		}
 
 		function producto_precios( $id_producto, $producto ){
@@ -313,15 +305,13 @@ class Producto_model extends CI_Model {
 			$imageProperties = @getimageSize($_FILES['11']['tmp_name']);
 
 			$data = array(
-                'id_producto' => $id_producto,
+                'id_producto' 		=> $id_producto,
                 'producto_img_blob' => $imagen,
-                'imageType' => $imageProperties['mime'],
+                'imageType' 		=> $imageProperties['mime'],
                 'estado_producto_img' => 1,
                 'creado_producto_img' => date("Y-m-d h:i:s")
             );
             $this->db->insert(self::producto_img, $data ); 
-            
-
 		}
 
 		// ::::::: END CREAR

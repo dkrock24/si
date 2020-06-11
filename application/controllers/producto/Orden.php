@@ -77,10 +77,10 @@ class Orden extends MY_Controller {
 		$data['menu'] 		= $this->session->menu;		
 
 		if($terminal_acceso){
+			$data['terminal'] 		= $terminal_acceso;
 			$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento($this->vista_id);
 			$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 			$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );
-			$data['terminal'] 		= $terminal_acceso;
 			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] 		= $this->Cliente_model->get_cliente();
@@ -104,12 +104,12 @@ class Orden extends MY_Controller {
 
 	public function producto_combo(){
 		
-		$producto_id = $_POST['producto_id'];
-		$id_bodega = $_POST['id_bodega'];
+		$producto_id 	= $_POST['producto_id'];
+		$id_bodega 		= $_POST['id_bodega'];
 		$id_producto_detalle = $_POST['id_producto_detalle'];
 
-		$data['p_combos'] = $this->Orden_model->producto_combo( $producto_id );
-		$data['productos'] = array();
+		$data['p_combos'] 	= $this->Orden_model->producto_combo( $producto_id );
+		$data['productos'] 	= array();
 
 		$cnt = 0;
 		foreach ($data['p_combos'] as $key => $value) {
@@ -119,8 +119,7 @@ class Orden extends MY_Controller {
 			$cnt +=1;
 		}
 
-		echo json_encode($data['productos']);
-		
+		echo json_encode($data['productos']);		
 	}
 
 	function get_producto_completo2( $producto_id, $id_bodega ){
@@ -129,12 +128,12 @@ class Orden extends MY_Controller {
 
 		$contador	=0;
 		$atributos	= array();
-/*
+		/*
 		foreach ($data['producto'] as $key => $value) {
 			//$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
 			$contador+=1;
 		}
-*/
+		*/
 		$data['atributos'] 	= $atributos;
 		$data['precios'] 	= $this->Orden_model->get_producto_precios($producto_id);
 		$data['prod_precio']= $this->Orden_model->get_producto_precios( $producto_id );

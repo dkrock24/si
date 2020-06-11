@@ -1,18 +1,18 @@
 <?php
 class Compras_model extends CI_Model
 {
-	const producto =  'producto';
-	const producto_detalle = 'prouducto_detalle';
-	const pos_bodega = "pos_bodega";
-	const pos_compras = "pos_compras";
-	const pos_compras_detalle = "pos_compras_detalle";
-	const sys_traslados = "sys_traslados";
-	const sys_traslados_detalle = "sys_traslados_detalle";
-	const pos_doc_temp = 'pos_doc_temp';
-	const pos_temp_suc = 'pos_temp_sucursal';
-	const sucursal = 'pos_sucursal';
-	const pos_empresa = 'pos_empresa';
+	const sucursal		 	 = 'pos_sucursal';
+	const producto		 	 =  'producto';
+	const pos_bodega		 = "pos_bodega";
+	const pos_compras		 = "pos_compras";
+	const pos_empresa		 = 'pos_empresa';
+	const pos_doc_temp		 = 'pos_doc_temp';
+	const pos_temp_suc		 = 'pos_temp_sucursal';
+	const sys_traslados		 = "sys_traslados";
+	const producto_detalle	 = 'prouducto_detalle';
 	const pos_tipo_documento = 'pos_tipo_documento';
+	const pos_compras_detalle= "pos_compras_detalle";
+	const sys_traslados_detalle= "sys_traslados_detalle";
 
 	function getCompras($limit, $id, $filters)
 	{
@@ -67,32 +67,35 @@ class Compras_model extends CI_Model
 
 	function get_producto_completo($producto_id)
 	{
-		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-		,  pinv.id_inventario
-		, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, impuestos.porcentage ,
-		 `sub_c`.`id_categoria` as 'categoria',pde.presentacion,pde.factor,pde.precio,pde.unidad,pde.cod_barra,pde.id_producto_detalle
-		FROM `producto` as `P`
-		LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
-		LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
-		LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
-		LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
-		LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
-		LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-		LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
-		LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
-		LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
-		LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
-		LEFT JOIN prouducto_detalle AS pde ON pde.Producto = P.id_entidad
+		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria',
+					`sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, 
+					e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca,
+					pinv.id_inventario, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, 
+					impuestos.porcentage ,`sub_c`.`id_categoria` as 'categoria',pde.presentacion,
+					pde.factor,pde.precio,pde.unidad,pde.cod_barra,pde.id_producto_detalle
 
-		WHERE pde.id_producto_detalle = " . $producto_id);
+					FROM `producto` as `P`
+					LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
+					LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
+					LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
+					LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
+					LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
+					LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
+					LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
+					LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
+					LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
+					LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
+					LEFT JOIN prouducto_detalle AS pde ON pde.Producto = P.id_entidad
+
+					WHERE pde.id_producto_detalle = " . $producto_id);
 			//echo $this->db->queries[0];
 		return $query->result();
 	}
 
 	function guardar_compra($datos , $compra){
 
+		$fecha 		= date_create();
 		$usuario_id = $this->session->usuario[0]->id_empleado;
-		$fecha 		 = date_create();		
 		
 		$data = array(
 			'Usuario' 		=> $usuario_id,
@@ -109,13 +112,18 @@ class Compras_model extends CI_Model
             'fecha_creacion'=> date("Y-m-d h:i:s"),
 			'status_open_close' => $compra['compra_estado'],
         );
-		$this->db->insert(self::pos_compras, $data ); 
+		$result = $this->db->insert(self::pos_compras, $data );
 
-		$compra_id = $this->db->insert_id();
+		if($result){
+			$compra_id = $this->db->insert_id();
+			$this->guardar_compra_detalle($compra_id ,$datos);
+		}
 
-		$this->guardar_compra_detalle($compra_id ,$datos);
+		if(!$result){
+            $result = $this->db->error();
+        }
 
-		return $compra_id;
+		return $result;
 	}
 
 	function guardar_compra_detalle($compra_id ,$detalle){
@@ -165,8 +173,6 @@ class Compras_model extends CI_Model
 
 	function get_compra_detalle( $id ){
 
-		$valores =   $id;
-		
 		$this->db->select('*');
 		$this->db->from(self::pos_compras . ' as c');
 		$this->db->join(self::pos_compras_detalle . ' as cd',' on c.id_compras = cd.id_compra');
@@ -194,19 +200,21 @@ class Compras_model extends CI_Model
 			'Sucursal' 		=> $compra['sucursal'],
 			'Bodega' 		=> $compra['bodega'],
 			'Proveedor' 	=> $compra['proveedor'],
-			'documento_referencia' => $compra['documento_referencia'],
 			'modo_pago_id' 	=> $compra['modo_pago_id'],
 			'fecha_compra' 	=> $compra['fecha_compra'],
 			'Tipo_Documento'=> $compra['id_tipo_documento'],
-            'fecha_actualizacion'=> date("Y-m-d h:i:s"),
-			'status_open_close' => $compra['compra_estado'],
+            'fecha_actualizacion'	=> date("Y-m-d h:i:s"),
+			'status_open_close' 	=> $compra['compra_estado'],
+			'documento_referencia' 	=> $compra['documento_referencia'],
 		);
 		$this->db->where('id_compras', $compra['id_compras']);
 		$this->db->update(self::pos_compras, $data ); 
 
 		$delete_result = $this->elimnar_compra_detalle($compra['id_compras']);
 
-		$this->guardar_compra_detalle($compra['id_compras'] ,$datos);		
+		if($delete_result){
+			$this->guardar_compra_detalle($compra['id_compras'] ,$datos);
+		}
 
 		return $compra['id_compras'];
 	}
@@ -230,8 +238,10 @@ class Compras_model extends CI_Model
 
 		$result = $this->elimnar_compra_detalle($compra_id);
 		
-		$data 	= array('id_compras' => $compra_id);
-		$result = $this->db->delete(self::pos_compras, $data);
+		if($result){
+			$data 	= array('id_compras' => $compra_id);
+			$result = $this->db->delete(self::pos_compras, $data);
+		}		
 
 		if(!$result){
             $result = $this->db->error();

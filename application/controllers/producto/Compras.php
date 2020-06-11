@@ -138,11 +138,13 @@ class Compras extends MY_Controller {
 		$documento 	= $this->Documento_model->getDocumentoById($compra['id_tipo_documento']);
 
 		$_POST['orden'][0]['id_bodega'] = $compra['bodega'];
-
-		$this->EfectosDocumento_model->accion($_POST , $documento );
-
+		
 		if(!$data['code']){
+			
+			$this->EfectosDocumento_model->accion($_POST , $documento );
+
 			$this->session->set_flashdata('success', "Compra Fue Creada");
+
 		}else{
 			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Compra No Fue Creada :". $data['message']);

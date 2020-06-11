@@ -431,7 +431,6 @@ class Traslado_model extends CI_Model
 	}
 
 	function update( $producto, $encabezado ){
-		//var_dump($producto, $encabezado);
 
 		$registros = array();
 
