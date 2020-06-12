@@ -19,6 +19,7 @@ class Compras extends MY_Controller {
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');	
 		$this->load->model('producto/Estados_model');
+		$this->load->model('admin/Empleado_model');		
 	}
 
 	public function index()
@@ -83,7 +84,7 @@ class Compras extends MY_Controller {
 		$data['menu'] 	    = $this->session->menu;	
 		$data['compra'] 	= $this->Compras_model->editar_compra($compra_id);
 		$data['detalle'] 	= $this->Compras_model->get_compra_detalle($compra_id);
-		$data['empleado'] 	= $this->Usuario_model->get_empleado( $data['compra'][0]->Empleado );
+		$data['empleado'] 	= $this->Empleado_model->getEmpleadoId( $data['compra'][0]->Empleado );
 		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
 		$data['vista_doc']	= $this->Vistas_model->get_vista_documento($this->vista_id);
 		$data['proveedor']	= $this->Proveedor_model->get_proveedor_id( $data['compra'][0]->Proveedor  );

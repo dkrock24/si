@@ -163,7 +163,7 @@ include("asstes/js/compras/pos_funciones.php");
         <div class="col-lg-12 col-md-12">
             <!-- Team Panel-->
             <div class="">
-
+            <?php $this->load->view('notificaciones/success'); ?>
                 <!-- START panel-->
                 <form name="encabezado_form" id="encabezado_form" method="post" action="#">
 
