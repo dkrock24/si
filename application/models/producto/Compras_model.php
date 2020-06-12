@@ -111,15 +111,15 @@ class Compras_model extends CI_Model
 			'Empresa'		=> $this->session->empresa[0]->id_empresa,
             'fecha_creacion'=> date("Y-m-d h:i:s"),
 			'status_open_close' => $compra['compra_estado'],
-        );
+		);
+		
 		$result = $this->db->insert(self::pos_compras, $data );
 
 		if($result){
 			$compra_id = $this->db->insert_id();
 			$this->guardar_compra_detalle($compra_id ,$datos);
-		}
-
-		if(!$result){
+			return $compra_id;
+		}else{
             $result = $this->db->error();
         }
 

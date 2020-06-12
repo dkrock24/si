@@ -150,7 +150,7 @@ class Compras extends MY_Controller {
 			$this->session->set_flashdata('danger', "Compra No Fue Creada :". $data['message']);
 		}
 
-		echo $data;
+		echo json_encode( $data );
 	}
 
 	function update_compra(){

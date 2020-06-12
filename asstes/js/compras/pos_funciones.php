@@ -141,11 +141,11 @@
                     precioUnidad = _productos_precio.unidad;
 
                     set_calculo_precio(precioUnidad, producto_cantidad_linea);
-
+                    console.log("datos -", datos['producto'][0]);
                     _productos.producto_id = datos['producto'][0].id_entidad;
                     _productos.combo = datos['producto'][0].combo;
                     _productos.inventario_id = datos['producto'][0].id_inventario;
-                    _productos.producto = datos['producto'][0].cod_barra;
+                    _productos.producto = datos['producto'][0].codigo_barras;
                     _productos.descuento_limite = datos['producto'][0].descuento_limite;
                     _productos.descuento = 0.00; // datos['producto'][7].valor;
                     _productos.cantidad = cantidad;
@@ -577,7 +577,7 @@
                     _productos.producto_id      = datos['producto'][0].id_entidad;
                     _productos.combo            = datos['producto'][0].combo;
                     _productos.inventario_id    = datos['producto'][0].id_inventario;
-                    _productos.producto         = datos['producto'][0].cod_barra;
+                    _productos.producto         = datos['producto'][0].codigo_barras;
                     _productos.descuento_limite = datos['producto'][0].descuento_limite;
                     _productos.descuento        = 0.00; // datos['producto'][7].valor;
                     _productos.cantidad         = producto_cantidad_linea;
@@ -734,7 +734,7 @@
                         break;
                     case 38: //alert('up');                        
                         break;
-                    case 48: // = ;
+                    case 111: // / ;
                         focus_general_input(input_cantidad, 1);
                         break;
                     case 40:
@@ -2000,8 +2000,13 @@
                     },
                     url: path + method,
                     success: function(data) {
+                        var _compra = JSON.parse(data);
                         if (method == "guardar_compra") {
-                            window.location.href = "editar/" + data;
+                            if(_compra.message){
+                                alert("Erro DB");
+                            }else{
+                                window.location.href = "editar/" + _compra;
+                            }
                         } else if (method == "../venta/guardar_venta") {
                             alert(method);
                             //location.reload();
@@ -2012,6 +2017,7 @@
                         } else if (method == "update_compra") {
                             window.location.href = "../index";
                         }
+
                     },
                     error: function() {}
                 });
