@@ -573,7 +573,6 @@
 
                     precioUnidad = _productos_precio.unidad;
                     set_calculo_precio(precioUnidad, producto_cantidad_linea);
-
                     _productos.producto_id      = datos['producto'][0].id_entidad;
                     _productos.combo            = datos['producto'][0].combo;
                     _productos.inventario_id    = datos['producto'][0].id_inventario;
@@ -586,7 +585,7 @@
                     _productos.combo_total      = null;
                     _productos.invisible        = 0;
                     _productos.bodega           = datos['producto'][0].nombre_bodega;
-                    _productos.id_bodega        = datos['producto'][0].id_bodega;
+                    _productos.id_bodega        = $("#bodega_select").val();
                     _productos.impuesto_id      = datos['producto'][0].tipos_impuestos_idtipos_impuestos;
                     _productos.por_iva          = datos['producto'][0].porcentage;
                     _productos.gen              = datos['producto'][0].iva;

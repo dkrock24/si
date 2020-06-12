@@ -83,7 +83,7 @@ class Compras extends MY_Controller {
 		$data['menu'] 	    = $this->session->menu;	
 		$data['compra'] 	= $this->Compras_model->editar_compra($compra_id);
 		$data['detalle'] 	= $this->Compras_model->get_compra_detalle($compra_id);
-		$data['empleado'] 	= $this->Usuario_model->get_empleado( $id_usuario );
+		$data['empleado'] 	= $this->Usuario_model->get_empleado( $data['compra'][0]->Empleado );
 		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
 		$data['vista_doc']	= $this->Vistas_model->get_vista_documento($this->vista_id);
 		$data['proveedor']	= $this->Proveedor_model->get_proveedor_id( $data['compra'][0]->Proveedor  );
@@ -136,8 +136,6 @@ class Compras extends MY_Controller {
 
 		$data 		= $this->Compras_model->guardar_compra($_POST , $compra);
 		$documento 	= $this->Documento_model->getDocumentoById($compra['id_tipo_documento']);
-
-		$_POST['orden'][0]['id_bodega'] = $compra['bodega'];
 		
 		if(!$data['code']){
 			
