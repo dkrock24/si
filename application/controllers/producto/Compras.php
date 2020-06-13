@@ -168,23 +168,24 @@ class Compras extends MY_Controller {
 		$productos['orden'][0]->id_bodega 	= $data['compra'][0]->Bodega;
 		$productos['orden'][0]->producto_id = $productos['orden'][0]->id_producto;
 		
-		/*
-		* Guardando los valores del reintegro de la compra a su bodega correspondiente
-		*/		
-		$documento[0] 		= (object) array('efecto_inventario' => '2'); 
-		$productos['orden'] = json_decode(json_encode($productos['orden']), true);
-		$productos['orden'][0]['cantidad'] = $productos['orden'][0]['cantidad_pro_compra'];		
-		$this->EfectosDocumento_model->accion($productos , $documento );
-		
-		/*
-		* Guardando los valores nuevo de la compra
-		*/
-		$documento[0] 	= (object) array('efecto_inventario' => '1');
-		$documento 		= $this->Documento_model->getDocumentoById($compra['id_tipo_documento']);
-		$_POST['orden'][0]['id_bodega'] = $compra['bodega'];
-		$data = $this->EfectosDocumento_model->accion($_POST , $documento );
+		if(!$data['result']['code']){
 
-		if(!$data['code']){
+			/*
+			* Guardando los valores del reintegro de la compra a su bodega correspondiente
+			*/		
+			$documento[0] 		= (object) array('efecto_inventario' => '2'); 
+			$productos['orden'] = json_decode(json_encode($productos['orden']), true);
+			$productos['orden'][0]['cantidad'] = $productos['orden'][0]['cantidad_pro_compra'];		
+			$this->EfectosDocumento_model->accion($productos , $documento );
+			
+			/*
+			* Guardando los valores nuevo de la compra
+			*/
+			$documento[0] 	= (object) array('efecto_inventario' => '1');
+			$documento 		= $this->Documento_model->getDocumentoById($compra['id_tipo_documento']);
+			$_POST['orden'][0]['id_bodega'] = $compra['bodega'];
+			$data = $this->EfectosDocumento_model->accion($_POST , $documento );
+
 			$this->session->set_flashdata('info', "Compra Fue Actualizada");
 		}else{
 			$data = $this->db_error_format($data);

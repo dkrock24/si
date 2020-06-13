@@ -205,7 +205,7 @@ class Compras_model extends CI_Model
 			'Tipo_Documento'=> $compra['id_tipo_documento'],
             'fecha_actualizacion'	=> date("Y-m-d h:i:s"),
 			'status_open_close' 	=> $compra['compra_estado'],
-			'documento_referencia' 	=> $compra['documento_referencia'],
+			'documento_referencia1' 	=> $compra['documento_referencia'],
 		);
 		$this->db->where('id_compras', $compra['id_compras']);
 		$this->db->update(self::pos_compras, $data ); 

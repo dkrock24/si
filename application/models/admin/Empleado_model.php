@@ -235,9 +235,10 @@ class Empleado_model extends CI_Model {
         $this->db->join(self::sys_cargo_laboral.' as c', 'on c.id_cargo_laboral = e.Cargo_Laboral_E');
         $this->db->join(self::pos_sucursal.' as s', 'on s.id_sucursal = e.Sucursal');
         $this->db->join(self::pos_empresa.' as em', 'on em.id_empresa = s.Empresa_Suc');
-        $this->db->where('em.id_empresa', $this->session->empresa[0]->id_empresa);
+        //$this->db->where('em.id_empresa', $this->session->empresa[0]->id_empresa);
         $this->db->where('e.id_empleado', $empleado_id );
         $query = $this->db->get();
+        //echo $this->db->queries[2];
         
         if($query->num_rows() > 0 )
         {

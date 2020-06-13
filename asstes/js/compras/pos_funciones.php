@@ -1988,6 +1988,7 @@
             var empleado_encargado = $("#firma_llegada").val();
 
             if (_orden.length != 0 && empleado_encargado!="") {
+;
                 $.ajax({
                     type: 'POST',
                     data: {
@@ -1999,26 +2000,28 @@
                     },
                     url: path + method,
                     success: function(data) {
-                        var _compra = JSON.parse(data);
+                        //var _compra = JSON.parse(data);
+                        var id_compra = formulario[0].value;
+
                         if (method == "guardar_compra") {
                             if(_compra.message){
                                 alert("Erro DB");
                             }else{
-                                window.location.href = "editar/" + _compra;
+                                window.location.href = "editar/" + id_compra;
                             }
                         } else if (method == "../venta/guardar_venta") {
-                            alert(method);
                             //location.reload();
                             var datos = JSON.parse(data);
                             $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
                             $(".print_venta").attr("href", "venta/" + datos['id']);
-                            window.location.href = "../compras/editar/" + data;
+                            window.location.href = "../compras/editar/" + id_compra;
                         } else if (method == "update_compra") {
-                            window.location.href = "../index";
+                            window.location.href = id_compra;
                         }
-
                     },
-                    error: function() {}
+                    error: function() {
+                        alert("Error al procesar Compra");
+                    }
                 });
             }else{
                 var msg = $(".msg_error");
