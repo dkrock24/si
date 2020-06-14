@@ -2000,23 +2000,27 @@
                     },
                     url: path + method,
                     success: function(data) {
-                        //var _compra = JSON.parse(data);
-                        var id_compra = formulario[0].value;
+                        console.log(data);
+                        var compra_result   = JSON.parse(data);
+                        var id_compra       = formulario[0].value;
 
                         if (method == "guardar_compra") {
-                            if(_compra.message){
+                            
+                            if(compra_result.message){
                                 alert("Erro DB");
                             }else{
-                                window.location.href = "editar/" + id_compra;
+                                window.location.href = "editar/" + compra_result.id;
                             }
+
                         } else if (method == "../venta/guardar_venta") {
+
                             //location.reload();
-                            var datos = JSON.parse(data);
-                            $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
-                            $(".print_venta").attr("href", "venta/" + datos['id']);
+                            $(".transacion").text(compra_result['msj_title'] + compra_result['msj_orden']);
+                            $(".print_venta").attr("href", "venta/" + compra_result['id']);
                             window.location.href = "../compras/editar/" + id_compra;
+
                         } else if (method == "update_compra") {
-                            window.location.href = id_compra;
+                            window.location.href = compra_result;
                         }
                     },
                     error: function() {

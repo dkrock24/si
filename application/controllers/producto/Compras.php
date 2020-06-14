@@ -144,6 +144,8 @@ class Compras extends MY_Controller {
 
 			$this->session->set_flashdata('success', "Compra Fue Creada");
 
+			$data =  ['id' => $data];
+
 		}else{
 			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Compra No Fue Creada :". $data['message']);
@@ -161,14 +163,14 @@ class Compras extends MY_Controller {
 		/*
 		* obteniendo la compra
 		*/
-		$data['compra'] 	= $this->Compras_model->editar_compra($compra['id_compras']);
+		$_compra['compra'] 	= $this->Compras_model->editar_compra($compra['id_compras']);
 		$productos['orden'] = $this->Compras_model->get_compra_detalle($compra['id_compras']);
-		$data['result'] 	= $this->Compras_model->update_compra($_POST , $compra);
+		$data 				= $this->Compras_model->update_compra($_POST , $compra);
 		
-		$productos['orden'][0]->id_bodega 	= $data['compra'][0]->Bodega;
+		$productos['orden'][0]->id_bodega 	= $_compra['compra'][0]->Bodega;
 		$productos['orden'][0]->producto_id = $productos['orden'][0]->id_producto;
 		
-		if(!$data['result']['code']){
+		if(!isset($data['code'])){
 
 			/*
 			* Guardando los valores del reintegro de la compra a su bodega correspondiente
@@ -184,7 +186,7 @@ class Compras extends MY_Controller {
 			$documento[0] 	= (object) array('efecto_inventario' => '1');
 			$documento 		= $this->Documento_model->getDocumentoById($compra['id_tipo_documento']);
 			$_POST['orden'][0]['id_bodega'] = $compra['bodega'];
-			$data = $this->EfectosDocumento_model->accion($_POST , $documento );
+			$this->EfectosDocumento_model->accion($_POST , $documento );
 
 			$this->session->set_flashdata('info', "Compra Fue Actualizada");
 		}else{
@@ -192,7 +194,7 @@ class Compras extends MY_Controller {
 			$this->session->set_flashdata('danger', "Compra No Fue Actualizada :". $data['message']);
 		}
 
-		echo $data['result'];
+		echo json_encode($data);
 	}
 	
 	function get_impuestos_lista(){
