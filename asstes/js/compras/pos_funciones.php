@@ -1980,9 +1980,10 @@
             }
 
             var impuestos_data = {
-                'imp_condicion': _impuestos_orden_condicion,
-                'imp_especial': _impuestos_orden_especial,
-                'imp_excluyente': _impuestos_orden_excluyentes
+                'imp_condicion' : _impuestos_orden_condicion,
+                'imp_especial'  : _impuestos_orden_especial,
+                'imp_excluyente': _impuestos_orden_excluyentes,
+                'imp_iva'       : _impuestos_orden_iva
             }
 
             var empleado_encargado = $("#firma_llegada").val();
@@ -2009,7 +2010,7 @@
                             if(compra_result.message){
                                 alert("Erro DB");
                             }else{
-                                window.location.href = "editar/" + compra_result.id;
+                                //window.location.href = "editar/" + compra_result.id;
                             }
 
                         } else if (method == "../venta/guardar_venta") {
@@ -2333,6 +2334,7 @@
             _impuestos_orden_condicion = [];
             _impuestos_orden_especial = [];
             _impuestos_orden_excluyentes = [];
+            _impuestos_orden_iva = [];
 
             total_msg = parseFloat(0.00);
             $(".total_msg").text("$ " + total_msg.toFixed(2));

@@ -11,8 +11,11 @@ class Compras_model extends CI_Model
 	const sys_traslados		 = "sys_traslados";
 	const producto_detalle	 = 'prouducto_detalle';
 	const pos_tipo_documento = 'pos_tipo_documento';
-	const pos_compras_detalle= "pos_compras_detalle";
-	const sys_traslados_detalle= "sys_traslados_detalle";
+	const pos_compras_detalle	= "pos_compras_detalle";
+	const sys_traslados_detalle	= "sys_traslados_detalle";
+	const pos_compras_impuestos = 'pos_compras_impuestos';
+
+	private $_orden;
 
 	function getCompras($limit, $id, $filters)
 	{
@@ -96,6 +99,7 @@ class Compras_model extends CI_Model
 
 		$fecha 		= date_create();
 		$usuario_id = $this->session->usuario[0]->id_empleado;
+		$this->_orden 		= $datos;
 		
 		$data = array(
 			'Usuario' 		=> $usuario_id,
@@ -118,6 +122,7 @@ class Compras_model extends CI_Model
 		if($result){
 			$compra_id = $this->db->insert_id();
 			$this->guardar_compra_detalle($compra_id ,$datos);
+			$this->save_compra_impuestos($compra_id , 2);
 			return $compra_id;
 		}else{
             $result = $this->db->error();
@@ -150,6 +155,34 @@ class Compras_model extends CI_Model
 			);
 			$this->db->insert(self::pos_compras_detalle, $data );			
 		}
+	}
+
+	function save_compra_impuestos($compra_id, $impTipo){
+		/* 
+			Insertando los impuestos generados en la vista de Ventas rapidas.
+			$impTipo = 1 -> Orden
+			$impTipo = 2 -> Venta Rapida
+		*/
+		if(isset($this->_orden['impuestos'])){
+			foreach ($this->_orden['impuestos'] as $impuestos_datos) {
+
+				foreach ($impuestos_datos as $key => $value) {
+					
+					$data = array(
+						'id_compra' 		=> $compra_id, 
+						'compraEspecial' 	=> $value['ordenEspecial'],
+						'compraImpName' 	=> $value['ordenImpName'],
+						'compraImpTotal' 	=> $value['ordenImpTotal'],
+						'compraImpVal' 		=> $value['ordenImpVal'],
+						'compraSimbolo' 	=> $value['ordenSimbolo'],
+						'compra_imp_tipo' 	=> $impTipo ,
+						'compra_imp_estado' => 1
+					);
+
+					$this->db->insert(self::pos_compras_impuestos, $data ); 
+				}
+			}	
+		}		
 	}
 
 	function editar_compra($compra_id)

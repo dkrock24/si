@@ -16,6 +16,7 @@ var _impuestos = [];
 var _impuestos_orden_condicion = [];
 var _impuestos_orden_especial = [];
 var _impuestos_orden_excluyentes = [];
+var _impuestos_orden_iva = [];
 var _impuestos_total = [];
 var exist_cat;
 var _conf = [];
@@ -239,6 +240,30 @@ function aplicar_imp( prod){
 
 					total += calcu3;
 					console.log(" G -> ", total);
+
+					if(_impuestos_orden_iva.length==0 ){
+						_impuestos_orden_iva[_impuestos_orden_iva.length] = {
+							ordenImpName : item.nombre,
+							ordenSimbolo : 0,
+							ordenImpVal  : item.porcentage,
+							ordenImpTotal: total,
+							ordenEspecial: item.especial
+						};
+					}
+
+					$.each(_impuestos_orden_iva, function(i, ioi) {
+						if(ioi.ordenImpName == item.nombre){
+
+							_impuestos_orden_iva[_impuestos_orden_iva.indexOf(ioi)] = {
+								ordenImpName : item.nombre,
+								ordenSimbolo : 0,
+								ordenImpVal  : item.porcentage,
+								ordenImpTotal: total,
+								ordenEspecial: item.especial
+							};
+						}
+					});					
+
 					return false;
 				}
 
@@ -290,6 +315,7 @@ function aplicar_imp( prod){
 				sub_total =  parseFloat(_orden[_orden.indexOf(element)].total_anterior) + parseFloat(total.toFixed(2));				
 				_orden[_orden.indexOf(element)].impSuma = total;
 				_orden[_orden.indexOf(element)].impA = 1;
+
 				aplicable = false;
 			}			
 		}
@@ -401,7 +427,9 @@ function aplicar_imp_especial(prod){
 				}
 
 				if(item.condicion_simbolo == '<='){
+
 					if(eval(total_orden <= item.condicion_valor) ){
+
 						_impuestos_orden_condicion[_impuestos_orden_condicion.length] = {
 							ordenImpName : item.nombre,
 							ordenSimbolo : 0,

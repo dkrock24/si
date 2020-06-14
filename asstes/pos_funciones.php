@@ -1990,9 +1990,10 @@
             }
 
             var impuestos_data = {
-                'imp_condicion': _impuestos_orden_condicion,
-                'imp_especial': _impuestos_orden_especial,
-                'imp_excluyente': _impuestos_orden_excluyentes
+                'imp_condicion' : _impuestos_orden_condicion,
+                'imp_especial'  : _impuestos_orden_especial,
+                'imp_excluyente': _impuestos_orden_excluyentes,
+                'imp_iva'       : _impuestos_orden_iva
             }
 
             if (_orden.length != 0) {
