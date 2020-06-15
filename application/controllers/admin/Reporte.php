@@ -127,7 +127,7 @@ class Reporte extends My_Controller {
 				'cajero'    => 0,
 				'caja'		=> 0,
 			);
-		}				
+		}
 
 		$data['fields'] 	= $this->fields();
 		$data['menu'] = $this->session->menu;

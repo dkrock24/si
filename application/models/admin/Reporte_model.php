@@ -90,7 +90,7 @@ class Reporte_model extends CI_Model {
             $this->db->where( $caja );
         }
         $query = $this->db->get();
-        //echo $this->db->queries[4];    
+        //echo $this->db->queries[4];
         if($query->num_rows() > 0 )
         {
             return $query->result();
@@ -165,7 +165,7 @@ class Reporte_model extends CI_Model {
         }
         $this->db->group_by('d.nombre', 'ASC' );              
         $query = $this->db->get();
-        //echo $this->db->queries[4];                
+        //echo $this->db->queries[3];
         if($query->num_rows() > 0 )
         {
             return $query->result();
