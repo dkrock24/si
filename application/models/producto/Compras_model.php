@@ -226,6 +226,7 @@ class Compras_model extends CI_Model
 	function update_compra($datos , $compra){
 
 		$usuario_id 	= $this->session->usuario[0]->id_empleado;
+		$this->_orden 	= $datos;
 		
 		$data = array(
 			'Usuario' 		=> $usuario_id,
@@ -243,10 +244,11 @@ class Compras_model extends CI_Model
 		$this->db->where('id_compras', $compra['id_compras']);
 		$result = $this->db->update(self::pos_compras, $data ); 
 
-		$delete_result = $this->elimnar_compra_detalle($compra['id_compras']);
+		$delete_result = $this->eliminar_compra_detalle($compra['id_compras']);
 
 		if($delete_result){
 			$this->guardar_compra_detalle($compra['id_compras'] ,$datos);
+			$this->save_compra_impuestos($compra['id_compras'] , 2);
 		}
 
 		if(!$result){
@@ -258,7 +260,7 @@ class Compras_model extends CI_Model
 		return $result;
 	}
 
-	function elimnar_compra_detalle($compra_id){
+	function eliminar_compra_detalle($compra_id){
 
 		$flag = false;
 
@@ -267,6 +269,10 @@ class Compras_model extends CI_Model
 
 		$result = $this->db->affected_rows();
 		if($result){
+			
+			$data = array('id_compra' => $compra_id);
+			$this->db->delete(self::pos_compras_impuestos, $data);
+
 			$flag = true;
 		}
 
@@ -275,7 +281,7 @@ class Compras_model extends CI_Model
 
 	function eliminar($compra_id){
 
-		$result = $this->elimnar_compra_detalle($compra_id);
+		$result = $this->eliminar_compra_detalle($compra_id);
 		
 		if($result){
 			$data 	= array('id_compras' => $compra_id);

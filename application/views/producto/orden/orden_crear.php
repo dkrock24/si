@@ -905,7 +905,7 @@ include("asstes/pos_orden.php");
                         <div class="row">
 
                             <div class="col-lg-2 col-md-2">
-                                <spam style="">TIPO PAGO </spam> [ N°8 ]
+                                <span>TIPO PAGO </span> [ N°8 ]
                                 <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
                                     <?php
                                     foreach ($modo_pago as $mp) {
@@ -921,7 +921,20 @@ include("asstes/pos_orden.php");
                                 <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
                             </div>
 
-                            
+                            <div class="col-lg-2 col-md-2">
+                            Correlativo
+                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
+                            </div>
+
+                            <div class="col-lg-2 col-md-2">
+                            <spam>Nombre Cliente</spam>
+                                <input type="text" class="form-control has-success" name="cliente" placeholder="">
+                            </div>
+
+                            <div class="col-lg-2 col-md-1">
+                                D. Identificacion
+                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
+                            </div>
 
                             <div class="col-lg-2 col-md-2">
                             Estado
@@ -937,21 +950,6 @@ include("asstes/pos_orden.php");
                                 </select>
 
                             </div>
-
-                            <div class="col-lg-2 col-md-2">
-                            Correlativo
-                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
-                            </div>
-
-                            <div class="col-lg-3 col-md-3">
-                            <spam>Nombre Cliente</spam>
-                                <input type="text" class="form-control has-success" name="cliente" placeholder="">
-                            </div>
-
-                            <div class="col-lg-2 col-md-2">
-                                D. Identificacion
-                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
-                            </div>                            
 
                         </div><br>
 

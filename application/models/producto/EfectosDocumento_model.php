@@ -15,6 +15,7 @@ class EfectosDocumento_model extends CI_Model {
     function inventario( $orden , $documento){
 
         $cantidad = 0;
+        $result   = 0;
 
         foreach ($orden['orden'] as $key => $productos) {
 
