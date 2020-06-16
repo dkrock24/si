@@ -47,10 +47,17 @@
         float: right;
     }
     .header_report{
-        background: #eef5be;
+        background: #47525d;
     }
     .filters_report{
         background: #fff;
+    }
+
+    .btn-color{
+        background: #416b75;
+    }
+    .table > thead > tr > th {
+        color:white;
     }
 </style>
 <!-- Main section-->
@@ -71,10 +78,10 @@
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <br>
-                                    <a href="#" class="btn btn-info" onclick="exportPdf()">
+                                    <a href="#" class="btn btn-info btn-color" onclick="exportPdf()">
                                         <i class="fa fa-file-pdf-o sz"></i> PDF
                                     </a>
-                                    <a href="export" class="btn btn-info">
+                                    <a href="export" class="btn btn-info btn-color">
                                         <i class="fa fa-file-excel-o h sz"></i> XLS
                                     </a>
                                 </div>
@@ -214,8 +221,8 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <br>
-                                                    <button type="submit" class="btn btn-info">
-                                                        <i class="fa fa-search sz icon-white"></i> Filtrar
+                                                    <button type="submit" class="btn btn-info btn-color">
+                                                        <i class="fa fa-search sz icon-white"></i> FILTRAR
                                                     </button>
                                                 </div>
                                             </div>
@@ -232,16 +239,16 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Documento</th>
-                                                        <th>N Inical</th>
-                                                        <th>N Final</th>
+                                                        <th># Inical</th>
+                                                        <th># Final</th>
                                                         <th>C. Devolución</th>
-                                                        <th>Total Dev</th>
-                                                        <th>Desc</th>
+                                                        <th>Σ Devolución</th>
+                                                        <th>Descuento</th>
                                                         <th>Monto</th>
                                                         <th>Apli</th>
-                                                        <th>Efectivo</th>
-                                                        <th>Cheque</th>
-                                                        <th>T.Credito</th>
+                                                        <th>Σ Efectivo</th>
+                                                        <th>Σ TCredito</th>
+                                                        <th>Σ Cheque</th>
                                                         <th>Credito</th>                                          
                                                     </tr>
                                                 </thead>
@@ -250,8 +257,10 @@
                                                 //$date=date_create("2013-03-15");
                                                 //echo date_format($date,"Y/m/d H:i:s");
                                                 $cnt = 1;
-                                                $total_devolucion=0;
-                                                $cantidad_devolucion=0;
+                                                $total_devolucion       =0;
+                                                $suma_devolucion        =0;
+                                                $cantidad_devolucion    =0;
+
                                                 foreach ($registros as $key => $value) {
                                                 ?>
                                                     <tr>
@@ -260,18 +269,21 @@
                                                         <td><?= $value->inicio ?></td>
                                                         <td><?= $value->fin ?></td>
                                                         <td><?= $value->total_devolucion ?></td>
-                                                        <td><?= $value->sum_devolucion ?></td>
-                                                        <td><?= $value->descuento ?></td>
-                                                        <td><?= $value->descuento ?></td>
-                                                        <td><?= $value->descuento ?></td>
+                                                        <td><?= $moneda . number_format($value->sum_devolucion,2) ?></td>
+                                                        <td><?= $moneda . number_format($value->descuento,2) ?></td>
+                                                        <td><?= $moneda . $value->descuento ?></td>
+                                                        <td><?= $moneda . $value->descuento ?></td>
                                                         <td><?= $moneda . number_format($value->efectivo, 2) ?></td>
-                                                        <td><?= $moneda . number_format($value->cheque, 2) ?></td>
                                                         <td><?= $moneda . number_format($value->tcredito, 2) ?></td>
+                                                        <td><?= $moneda . number_format($value->cheque, 2) ?></td>
                                                         <td><?= $moneda . number_format($value->credito, 2) ?></td>
                                                     </tr>
                                                 <?php
-                                                $cantidad_devolucion += $value->total_devolucion;
-                                                $total_devolucion += $value->sum_devolucion;
+
+                                                $cantidad_devolucion    += $value->total_devolucion;
+                                                $total_devolucion       += $value->total_devolucion;
+                                                $suma_devolucion        += number_format($value->sum_devolucion,2) * (-1);
+
                                                 }
                                                 ?>
                                                 <thead class="header_report">
@@ -281,7 +293,7 @@
                                                         <th></th>
                                                         <th></th>
                                                         <th><?= $total_devolucion; ?></th>
-                                                        <th><?= $total_devolucion ?></th>
+                                                        <th><?= $moneda ." ". $suma_devolucion ?></th>
                                                         <th>N Dev</th>
                                                         <th>Monto</th>
                                                         <th>Apli</th>
@@ -296,12 +308,6 @@
                                         <?php
                                         }
                                         ?>
-                                    </div>
-                                </div>
-                                <div class="panel-footer text-right">
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-3 col-sm-9">
-                                        </div>
                                     </div>
                                 </div>
                             </div>

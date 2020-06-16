@@ -131,13 +131,24 @@ class Reporte_model extends CI_Model {
         $this->db->select('v.id , v.num_correlativo, v.fh_inicio, v.id_cliente , v.total_doc , d.nombre ,
         MIN(v.num_correlativo ) AS inicio , 
         MAX(v.num_correlativo )AS fin , 
-        (SELECT count(v2.total_doc) FROM pos_ventas AS v2 WHERE  v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10 ) AS total_devolucion,
-        (SELECT SUM(v2.total_doc) FROM pos_ventas AS v2 WHERE  v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10 ) AS sum_devolucion,
+        (SELECT COUNT(v2.id) FROM pos_ventas AS v2 WHERE v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10) AS total_devolucion,
+
+        (SELECT SUM(v2.total_doc) FROM pos_ventas AS v2 WHERE v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10) AS sum_devolucion,
+
         SUM(v.desc_val) AS descuento,
-        (SELECT SUM(v.total_doc) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = v.id AND vp.id_forma_pago=1) AS efectivo,
-        (SELECT SUM(v.total_doc) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = v.id AND vp.id_forma_pago=3) AS cheque,
-        (SELECT SUM(v.total_doc) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = v.id AND vp.id_forma_pago=2) AS tcredito,
-        (SELECT SUM(v.total_doc) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = v.id AND vp.id_forma_pago=7) AS credito,
+        
+        (SELECT SUM(vp.valor_metodo_pago) FROM pos_ventas AS v3 JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v3.id
+        WHERE v3.id_tipod = d.id_tipo_documento && vp.id_forma_pago=1 ) AS efectivo,
+
+        (SELECT SUM(vp.valor_metodo_pago) FROM pos_ventas AS v4 JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v4.id
+        WHERE v4.id_tipod = d.id_tipo_documento && vp.id_forma_pago=2 ) AS tcredito,
+        
+        (SELECT SUM(vp.valor_metodo_pago) FROM pos_ventas AS v5 JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v5.id
+        WHERE v5.id_tipod = d.id_tipo_documento && vp.id_forma_pago=3 ) AS cheque,
+        
+        (SELECT SUM(vp.valor_metodo_pago) FROM pos_ventas AS v6 JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v6.id
+        WHERE v6.id_tipod = d.id_tipo_documento && vp.id_forma_pago=4 ) AS credito,
+
         c.nombre_empresa_o_compania ,p.nombre_metodo_pago, s.orden_estado_nombre');
         $this->db->from(self::ventas.' as v');  
         $this->db->join(self::usuarios.' as u','u.id_usuario = v.id_cajero');  
@@ -163,7 +174,7 @@ class Reporte_model extends CI_Model {
         if($caja){
             $this->db->where( $caja );
         }
-        $this->db->group_by('d.nombre', 'ASC' );              
+        $this->db->group_by('d.id_tipo_documento', 'ASC' );              
         $query = $this->db->get();
         //echo $this->db->queries[3];
         if($query->num_rows() > 0 )
