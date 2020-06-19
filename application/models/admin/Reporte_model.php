@@ -131,23 +131,30 @@ class Reporte_model extends CI_Model {
         $this->db->select('v.id , v.num_correlativo, v.fh_inicio, v.id_cliente , v.total_doc , d.nombre ,
         MIN(v.num_correlativo ) AS inicio , 
         MAX(v.num_correlativo )AS fin , 
-        (SELECT COUNT(v2.id) FROM pos_ventas AS v2 WHERE v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10) AS total_devolucion,
+        (SELECT COUNT(v2.id) FROM pos_ventas AS v2 WHERE v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10
+        AND DATE(v2.fh_inicio) >= "'.$f_inicio.'" AND DATE(v2.fh_final) <= "'.$f_fin.'") AS total_devolucion,
 
-        (SELECT SUM(v2.total_doc) FROM pos_ventas AS v2 WHERE v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10) AS sum_devolucion,
+        (SELECT SUM(vp.valor_metodo_pago) FROM pos_ventas AS dev JOIN pos_venta_pagos AS vp ON vp.venta_pagos = dev.id
+        WHERE dev.id_tipod = d.id_tipo_documento && dev.orden_estado=10 
+        AND DATE(dev.fh_inicio) >= "'.$f_inicio.'" AND DATE(dev.fh_final) <= "'.$f_fin.'") AS sum_devolucion,
 
         SUM(v.desc_val) AS descuento,
         
         (SELECT SUM(vp.valor_metodo_pago) FROM pos_ventas AS v3 JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v3.id
-        WHERE v3.id_tipod = d.id_tipo_documento && vp.id_forma_pago=1 ) AS efectivo,
+        WHERE v3.id_tipod = d.id_tipo_documento && vp.id_forma_pago=1 
+        AND DATE(v3.fh_inicio) >= "'.$f_inicio.'" AND DATE(v3.fh_final) <= "'.$f_fin.'") AS efectivo,
 
         (SELECT SUM(vp.valor_metodo_pago) FROM pos_ventas AS v4 JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v4.id
-        WHERE v4.id_tipod = d.id_tipo_documento && vp.id_forma_pago=2 ) AS tcredito,
+        WHERE v4.id_tipod = d.id_tipo_documento && vp.id_forma_pago=2 
+        AND DATE(v4.fh_inicio) >= "'.$f_inicio.'" AND DATE(v4.fh_final) <= "'.$f_fin.'") AS tcredito,
         
         (SELECT SUM(vp.valor_metodo_pago) FROM pos_ventas AS v5 JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v5.id
-        WHERE v5.id_tipod = d.id_tipo_documento && vp.id_forma_pago=3 ) AS cheque,
+        WHERE v5.id_tipod = d.id_tipo_documento && vp.id_forma_pago=3 
+        AND DATE(v5.fh_inicio) >= "'.$f_inicio.'" AND DATE(v5.fh_final) <= "'.$f_fin.'") AS cheque,
         
         (SELECT SUM(vp.valor_metodo_pago) FROM pos_ventas AS v6 JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v6.id
-        WHERE v6.id_tipod = d.id_tipo_documento && vp.id_forma_pago=4 ) AS credito,
+        WHERE v6.id_tipod = d.id_tipo_documento && vp.id_forma_pago=4 
+        AND DATE(v6.fh_inicio) >= "'.$f_inicio.'" AND DATE(v6.fh_final) <= "'.$f_fin.'") AS credito,
 
         c.nombre_empresa_o_compania ,p.nombre_metodo_pago, s.orden_estado_nombre');
         $this->db->from(self::ventas.' as v');  

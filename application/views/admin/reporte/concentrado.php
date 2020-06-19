@@ -40,24 +40,24 @@
     }
     .sz2 {
         font-size: 30px;
-        color: #0f4871;
+        color: #129cd6;
     }
     .btn-process{
         display:inline-block;
         float: right;
     }
     .header_report{
-        background: #47525d;
+        background: #dedede; 
     }
     .filters_report{
         background: #fff;
     }
 
     .btn-color{
-        background: #416b75;
+        background: #129cd6;
     }
     .table > thead > tr > th {
-        color:white;
+        color:black;
     }
 </style>
 <!-- Main section-->
@@ -97,7 +97,7 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label for="" class=""> <i class="fa fa-clock-o sz"></i> Fecha Inicio</label>
+                                                    <label for="" class=""> <i class="fa fa-clock-o sz2"></i> Fecha Inicio</label>
                                                     <input type="date" class="form-control" id="fecha_i" name="fecha_i" value="<?php echo $filters['fh_inicio']; ?>">
                                                 </div>
                                             </div>
@@ -105,7 +105,7 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label for="" class=""><i class="fa fa-clock-o sz"></i> Fecha Fin</label>
+                                                    <label for="" class=""><i class="fa fa-clock-o sz2"></i> Fecha Fin</label>
                                                     <input type="date" class="form-control" id="fecha_f" name="fecha_f" value="<?php echo $filters['fh_fin']; ?>">
                                                 </div>
                                             </div>
@@ -113,7 +113,7 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label for="" class=""><i class="fa fa-home sz"></i> Sucursal</label>
+                                                    <label for="" class=""><i class="fa fa-home sz2"></i> Sucursal</label>
                                                     <select name="sucursal" id="sucursal" class="form-control">
                                                         <?php
                                                         if ($filters['sucursal']) {
@@ -145,7 +145,7 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label for="" class=""><i class="fa fa-desktop sz"></i> Caja</label>
+                                                    <label for="" class=""><i class="fa fa-desktop sz2"></i> Caja</label>
                                                     <select name="caja" id="caja" class="form-control">
                                                         <option value="0"> - </option>
                                                     </select>
@@ -155,7 +155,7 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label for="" class=""><i class="fa fa-user-o sz"></i> Cajero</label>
+                                                    <label for="" class=""><i class="fa fa-user-o sz2"></i> Cajero</label>
                                                     <select name="cajero" class="form-control">
                                                         <?php
                                                         if ($filters['cajero']) {
@@ -186,7 +186,7 @@
                                         <div class="col-lg-1">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label for="" class=""><i class="fa fa-edit sz"></i> Turno</label>
+                                                    <label for="" class=""><i class="fa fa-edit sz2"></i> Turno</label>
                                                     <select name="turno" class="form-control">
                                                         <?php
                                                         if ($filters['turno']) {
@@ -258,8 +258,13 @@
                                                 //echo date_format($date,"Y/m/d H:i:s");
                                                 $cnt = 1;
                                                 $total_devolucion       =0;
-                                                $suma_devolucion        =0;
-                                                $cantidad_devolucion    =0;
+                                                $suma_devolucion        =0.00;
+                                                $cantidad_devolucion    =0.00;
+                                                $suma_descuento         =0.00;
+                                                $suma_efectivo          =0.00;
+                                                $suma_tcredito          =0.00;
+                                                $suma_cheque            =0.00;
+                                                $suma_credito           =0.00;
 
                                                 foreach ($registros as $key => $value) {
                                                 ?>
@@ -283,7 +288,11 @@
                                                 $cantidad_devolucion    += $value->total_devolucion;
                                                 $total_devolucion       += $value->total_devolucion;
                                                 $suma_devolucion        += number_format($value->sum_devolucion,2) * (-1);
-
+                                                $suma_descuento         += number_format($value->descuento,2);
+                                                $suma_efectivo          += $value->efectivo;
+                                                $suma_tcredito          += number_format($value->tcredito,2);
+                                                $suma_cheque            += number_format($value->cheque,2);
+                                                $suma_credito           += number_format($value->cheque,2);
                                                 }
                                                 ?>
                                                 <thead class="header_report">
@@ -294,13 +303,13 @@
                                                         <th></th>
                                                         <th><?= $total_devolucion; ?></th>
                                                         <th><?= $moneda ." ". $suma_devolucion ?></th>
-                                                        <th>N Dev</th>
-                                                        <th>Monto</th>
+                                                        <th><?= $moneda ." ". $suma_descuento ?></th>
+                                                        <th>N/A</th>
                                                         <th>Apli</th>
-                                                        <th>Efectivo</th>
-                                                        <th>Cheque</th>
-                                                        <th>T.Credito</th>
-                                                        <th>Credito</th>                                            
+                                                        <th><?= $moneda ." ". $suma_efectivo ?></th>
+                                                        <th><?= $moneda ." ". $suma_tcredito ?></th>
+                                                        <th><?= $moneda ." ". $suma_cheque ?></th>
+                                                        <th><?= $moneda ." ". $suma_credito ?></th>
                                                     </tr>
                                                  </thead>
                                                 </tbody>
