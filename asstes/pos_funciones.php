@@ -2351,6 +2351,7 @@
         // --------------- * -----------------------------
 
         if (_orden != null) {
+            console.log(this.convetirToNegativo);
             _orden.forEach(function(element) {
 
                 t += parseInt(element.cantidad);
@@ -2366,7 +2367,8 @@
                         t2 += parseFloat(element.total);
                     }
                 }
-                descuento += parseFloat(element.descuento_calculado);
+                
+                descuento += parseFloat(element.descuento_calculado);                
 
             });
         } else {
@@ -2437,7 +2439,11 @@
             sub_total_ = Math.abs(sub_total_);
         }
 
-        total_msg = (t2 - descuento);
+        if(!this.convetirToNegativo){
+            total_msg = (t2 - descuento);
+        }else{
+            total_msg = (t2 + descuento);
+        }
 
         $(".iva_nombre").empty();
         $(".iva_valor").empty();
