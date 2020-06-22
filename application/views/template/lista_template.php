@@ -154,10 +154,25 @@
 
                                             if ($field != 'estado') {
                                         ?>
-                                    <td>                                        
+                                    <td>
                                         <?php
                                             $a = substr($table->$field, 0, 1);
-                                            echo $table->$field;
+                                            if(isset($fields['reglas'][$field]['aplicar'])){
+                                                    echo $fields['reglas'][$field]['valor'];
+                                            }
+
+                                            if(isset($fields['reglas'][$field]['condicion'])){
+                                                if($fields['reglas'][$field]['condicion'] == 1){
+                                                    if($table->$field == 'Devolucion'){
+                                                        echo "<span class='label label-danger'>".$fields['estado'][0]."</span>";
+                                                    }
+                                                }
+                                            }
+
+                                            if(!isset($fields['reglas'][$field]['condicion'])){
+                                                echo $table->$field;
+                                            }
+                                            
                                         ?>
                                     </td>
                                 <?php
@@ -188,7 +203,6 @@
                                 }
                             }
                             ?>
-
 
                             <td class="alignRigth">
                                 <div class="btn-group dropright mb-sm">

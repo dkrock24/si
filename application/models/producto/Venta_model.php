@@ -48,8 +48,13 @@ class Venta_model extends CI_Model {
 			}
 
 			$query = $this->db->query("select ventas.id,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,
-			ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
-			,tdoc.nombre as tipo_documento,total_doc, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
+			ventas.num_correlativo,DATE_FORMAT(ventas.fecha, '%M %d %Y-%H:%i%p') as fecha,ventas.anulado,ventas.modi_el, 
+			cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
+			,tdoc.nombre as tipo_documento,
+			FORMAT((SELECT SUM(vp.valor_metodo_pago) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = ventas.id),2) as total_doc,
+			usuario.nombre_usuario, 
+			(SELECT GROUP_CONCAT(vp.nombre_metodo_pago SEPARATOR '/') FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = ventas.id ) as nombre_modo_pago,
+			oe.orden_estado_nombre, FORMAT(ventas.desc_val,2) as desc_val
 
 			from pos_ventas as ventas 
 
@@ -869,7 +874,8 @@ class Venta_model extends CI_Model {
 			$query = $this->db->query("select ventas.id,ventas.id_cajero,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,id_tipod,id_condpago,
 			ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
 			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre, empresa.nombre_comercial, empresa.direccion
-			, giro.nombre_giro as giro, emp.alias, t.nombre as terminal ,ventas.id_cliente , ventas.total_doc ,cliente.nit_cliente, cliente.nrc_cli,venta_vista_id
+			, giro.nombre_giro as giro, emp.alias, t.nombre as terminal ,ventas.id_cliente , ventas.total_doc ,cliente.nit_cliente, cliente.nrc_cli,venta_vista_id,ventas.devolucion_documento
+			, ventas.devolucion_nombre, ventas.devolucion_dui, ventas.devolucion_nit, ventas.desc_val
 
 			from pos_ventas as ventas
 

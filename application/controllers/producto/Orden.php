@@ -428,7 +428,7 @@ class Orden extends MY_Controller {
 		$this->generarDocumento( $name , $data['temp'][0]->factura_template );
 
 		$data['title'] 			= "Ventas Detalle";
-		$data['home'] = 'producto/ventas/venta_detalle2';		
+		$data['home'] = 'producto/ventas/venta_detalle2';
 
 		//$this->parser->parse('template', $data);
 		$this->load->view('producto/ventas/venta_detalle2', $data);

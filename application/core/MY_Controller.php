@@ -254,4 +254,8 @@ class MY_Controller extends CI_Controller
 		$result['message'] = " <br><br>Codigo Error : ".  $data['message'];
 		return $result;
 	}
+
+	public function return_modena(){
+		return $this->Moneda_model->get_modena_by_user();
+	}
 }

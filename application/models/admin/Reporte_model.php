@@ -138,7 +138,8 @@ class Reporte_model extends CI_Model {
         WHERE dev.id_tipod = d.id_tipo_documento && dev.orden_estado=10 
         AND DATE(dev.fh_inicio) >= "'.$f_inicio.'" AND DATE(dev.fh_final) <= "'.$f_fin.'") AS sum_devolucion,
 
-        SUM(v.desc_val) AS descuento,
+        (SELECT SUM(venta.desc_val ) FROM pos_ventas AS venta WHERE 
+        DATE(venta.fh_inicio) >= "'.$f_inicio.'" AND DATE(venta.fh_final) <= "'.$f_fin.'" )AS descuento,
         
         (SELECT SUM(vp.valor_metodo_pago) FROM pos_ventas AS v3 JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v3.id
         WHERE v3.id_tipod = d.id_tipo_documento && vp.id_forma_pago=1 

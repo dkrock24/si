@@ -26,8 +26,6 @@ class Venta extends MY_Controller {
 		$this->load->model('producto/EfectosDocumento_model');
 		$this->load->model('admin/Template_model');
 		$this->load->model('admin/Terminal_model');
-
-		
 	}
 
 	public function index()
@@ -46,6 +44,7 @@ class Venta extends MY_Controller {
 		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
+		$data['moneda'] 		= $this->return_modena();
 		$data['column'] 		= $this->column();
 		$data['fields'] 		= $this->fields();
 		$data['registros'] 		= $this->Venta_model->getVentas( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
@@ -122,7 +121,7 @@ class Venta extends MY_Controller {
 		$data['cliente'] 		= $this->Cliente_model->get_clientes_id($data['encabezado'][0]->id_cliente);
 		$data['impuestos'] 		= $this->Orden_model->get_impuestos_venta( $data['encabezado'][0]->id );		
 		$data['modo_pago'] 		= $this->Venta_model->getVentaPagosId( $id_venta );
-		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
+		$data['moneda'] 		= $this->return_modena();
 		$data['terminal'] 		= $terminal_acceso;
 		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );//$this->Producto_model->get_sucursales();
 		
@@ -177,7 +176,7 @@ class Venta extends MY_Controller {
 		$data['terminal'] 		= $terminal_acceso;
 		$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 		$data['impuestos'] 		= $this->Orden_model->get_impuestos( $data['orden'][0]->id );
-		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
+		$data['moneda'] 		= $this->return_modena();
 		$data['title'] 			= "Venta";
 		$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
 		$data['temp'] 			= $this->Template_model->printer_venta
@@ -213,7 +212,7 @@ class Venta extends MY_Controller {
 		$data['terminal'] 		= $terminal_acceso;
 		$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 		$data['impuestos'] 		= $this->Orden_model->get_impuestos( $data['orden'][0]->id );
-		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
+		$data['moneda'] 		= $this->return_modena();
 		$data['title'] 			= "Venta";
 		$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
 		$data['temp'] 			= $this->Template_model->printer_venta
@@ -250,18 +249,36 @@ class Venta extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Correlativo','Sucursal','Terminal','Cliente','C Pago','Tipo Doc','Total','Cajero','Creado','Estado'
+			'Correlativo','Sucursal','Terminal','Cliente','Cajero','C Pago','Tipo Doc','Descuento','Total','Creado','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'num_correlativo','nombre_sucursal','num_caja','nombre_empresa_o_compania','nombre_modo_pago','tipo_documento','total_doc','nombre_usuario','fecha','orden_estado_nombre'
+			'num_correlativo','nombre_sucursal','num_caja','nombre_empresa_o_compania','nombre_usuario','nombre_modo_pago',
+			'tipo_documento','desc_val','total_doc','fecha','orden_estado_nombre'
+		);
+
+		$moneda_simbolo = $this->return_modena();
+
+		$fields['reglas'] = array(
+			'total_doc' => array(
+				'valor' => $moneda_simbolo[0]->moneda_simbolo .' ',
+				'aplicar' => 'total_doc'
+			),
+			'desc_val' => array(
+				'valor' => $moneda_simbolo[0]->moneda_simbolo .' ',
+				'aplicar' => 'desc_val'
+			),
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id');
-		$fields['estado'] = array('orden_estado');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Ventas Lista";
 
 		return $fields;
@@ -274,6 +291,10 @@ class Venta extends MY_Controller {
 		
 		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
 
+	}
+
+	public function format_status(){
+		return 1;
 	}
 
 }

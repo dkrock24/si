@@ -2280,11 +2280,15 @@
 
                 _orden[_orden.indexOf(element)].precioUnidad= Math.abs(element.precioUnidad);
                 _orden[_orden.indexOf(element)].total       = Math.abs(element.total);
+                _orden[_orden.indexOf(element)].desc_val       = Math.abs(element.desc_val);
+                _orden[_orden.indexOf(element)].descuento_calculado       = Math.abs(element.descuento_calculado);
 
                 if(this.documento_inventario == 1 || this.convetirToNegativo == true )
                 {
                     _orden[_orden.indexOf(element)].precioUnidad = element.precioUnidad * -1;
                     _orden[_orden.indexOf(element)].total = element.total * -1;
+                    _orden[_orden.indexOf(element)].descuento_calculado = element.descuento_calculado * -1;
+                    _orden[_orden.indexOf(element)].desc_val = element.desc_val * -1;
                 }
 
                 var precio_tag  = parseFloat(element.precioUnidad);
@@ -2351,7 +2355,6 @@
         // --------------- * -----------------------------
 
         if (_orden != null) {
-            console.log(this.convetirToNegativo);
             _orden.forEach(function(element) {
 
                 t += parseInt(element.cantidad);
@@ -2442,7 +2445,7 @@
         if(!this.convetirToNegativo){
             total_msg = (t2 - descuento);
         }else{
-            total_msg = (t2 + descuento);
+            total_msg = (t2 - descuento);
         }
 
         $(".iva_nombre").empty();
