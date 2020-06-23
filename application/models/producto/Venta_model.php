@@ -953,7 +953,6 @@ class Venta_model extends CI_Model {
 		}
 
 		function setVentaToAnulada($venta_data){
-
 			$data = array(
 				'anulado_el'	=> date("Y-m-d h:i:s"),	
 				'anulado'		=> 1,
@@ -968,5 +967,6 @@ class Venta_model extends CI_Model {
 				$result = $this->db->error();
 				return $result;
 			}
+			return $result;
 		}
     }

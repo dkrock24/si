@@ -19,15 +19,25 @@ class EfectosDocumento_model extends CI_Model {
 
         foreach ($orden['orden'] as $key => $productos) {
 
-            $cantidad = $this->get_cantidad_bodega($productos['producto_id'], $productos['id_bodega']);
+            if(!is_object($productos)){
+                $prod_id        =  $productos['producto_id'];
+                $prod_bodega    =  $productos['id_bodega'];
+                $prod_cantidad  =  $productos['cantidad'];
+            }else{
+                $prod_id        =  $productos->producto_id;
+                $prod_bodega    =  $productos->id_bodega;
+                $prod_cantidad  =  $productos->cantidad;
+            }            
+
+            $cantidad = $this->get_cantidad_bodega($prod_id, $prod_bodega);
             
             if($documento[0]->efecto_inventario ==1){
 
-                $cantidad_nueva = ($cantidad[0]->Cantidad + $productos['cantidad']);
+                $cantidad_nueva = ($cantidad[0]->Cantidad + $prod_cantidad);
 
             }else if($documento[0]->efecto_inventario ==2){
                 
-                $cantidad_nueva = ($cantidad[0]->Cantidad - $productos['cantidad']);
+                $cantidad_nueva = ($cantidad[0]->Cantidad - $prod_cantidad);
             }
 
             if(isset($cantidad_nueva)){
@@ -36,8 +46,8 @@ class EfectosDocumento_model extends CI_Model {
                     'Cantidad'	=>  $cantidad_nueva
                 );
 
-                $this->db->where('Producto', $productos['producto_id'] );
-                $this->db->where('Bodega', $productos['id_bodega'] );
+                $this->db->where('Producto', $prod_id);
+                $this->db->where('Bodega', $prod_bodega);
                 $result = $this->db->update(self::producto_bodega, $data );
                 if(!$result){
                     $result = $this->db->error();
