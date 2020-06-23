@@ -8,6 +8,7 @@
         var input_cantidad          = $("#cantidad");
         var total_venta             = 0.00;
         var convetirToNegativo      = false;
+        var convetirToAnulado       = false;
         var input_devolucion        = "";
         var input_devolucion_nombre = "";
         var input_devolucion_dui    = "";
@@ -1599,6 +1600,24 @@
             correlativo_documento(cli_form_pago, tipo_documento, sucursal_id);
         });
 
+        $(document).on('click','.btn_anular_documento', function(){
+            anulacion_data = {nota_anulacion:"nota_anulacion", id:_orden[0].id};
+
+            path = "../venta";
+            $.ajax({
+                type: "POST",
+                url: path + "/anular_venta",
+                datatype: 'json',
+                data : anulacion_data,
+                cache: false,
+
+                success: function(data) {
+                },
+                error: function() {}
+
+            });
+        });
+
         $(document).on('click', '.guardar', function() {
             f4_guardar();
         });
@@ -1973,11 +1992,7 @@
             var orden_numero    = $("#orden_numero").val();
             var vista_id        = formulario.find(x => x.name === 'vista_id').value;
 
-            if($("#check_devolucion").is(":checked")){
-                this.convetirToNegativo = true;
-            }else{
-                this.convetirToNegativo = false;
-            }
+            this.convetirToNegativo  =  $("#check_devolucion").is(":checked")   ? true : false;
 
             formulario[formulario.length] = { name : 'devolucion_nit'       , value :  $("#input_devolucion_nit").val()};           
             formulario[formulario.length] = { name : 'devolucion_dui'       , value :  $("#input_devolucion_dui").val()};
@@ -2278,17 +2293,17 @@
             
             _orden.forEach(function(element) {
 
-                _orden[_orden.indexOf(element)].precioUnidad= Math.abs(element.precioUnidad);
-                _orden[_orden.indexOf(element)].total       = Math.abs(element.total);
-                _orden[_orden.indexOf(element)].desc_val       = Math.abs(element.desc_val);
-                _orden[_orden.indexOf(element)].descuento_calculado       = Math.abs(element.descuento_calculado);
+                _orden[_orden.indexOf(element)].total               = Math.abs(element.total);
+                _orden[_orden.indexOf(element)].desc_val            = Math.abs(element.desc_val);
+                _orden[_orden.indexOf(element)].precioUnidad        = Math.abs(element.precioUnidad);
+                _orden[_orden.indexOf(element)].descuento_calculado = Math.abs(element.descuento_calculado);
 
-                if(this.documento_inventario == 1 || this.convetirToNegativo == true )
+                if(this.documento_inventario == 1 || this.convetirToNegativo == true)
                 {
-                    _orden[_orden.indexOf(element)].precioUnidad = element.precioUnidad * -1;
-                    _orden[_orden.indexOf(element)].total = element.total * -1;
+                    _orden[_orden.indexOf(element)].total               = element.total * -1;
+                    _orden[_orden.indexOf(element)].desc_val            = element.desc_val * -1;
+                    _orden[_orden.indexOf(element)].precioUnidad        = element.precioUnidad * -1;
                     _orden[_orden.indexOf(element)].descuento_calculado = element.descuento_calculado * -1;
-                    _orden[_orden.indexOf(element)].desc_val = element.desc_val * -1;
                 }
 
                 var precio_tag  = parseFloat(element.precioUnidad);

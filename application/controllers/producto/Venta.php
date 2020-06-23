@@ -159,6 +159,26 @@ class Venta extends MY_Controller {
 		echo json_encode($data);
 	}
 
+	public function anular_venta(){
+
+		// Set venta to anulada
+		$result = $this->setVentaToAnulada($_POST);
+
+		// Get venta and return to bodega
+		if($result){
+			$data 	= $this->Venta_model->get_venta_by_id($_POST['id']);
+
+			$documento_tipo[0] = (object) array('efecto_inventario' => 1);
+
+			$this->EfectosDocumento_model->accion($data ,$documento_tipo);
+		}
+	}
+
+	private function setVentaToAnulada($venta_data){
+		$result = $this->Venta_model->setVentaToAnulada($venta_data);
+		return $result;
+	}
+
 	function facturacion($id){
 
 		$terminal_acceso 	= FALSE;

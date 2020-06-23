@@ -43,12 +43,13 @@
         });
 
         function modal_devolucion_data(value){
-            if($("#check_devolucion").is(":checked")){
-                this.convetirToNegativo = true;
-            }else{
-                this.convetirToNegativo = false;
-            }
             
+            this.convetirToNegativo  =  $("#check_devolucion").is(":checked")   ? true : false;
+            this.convetirToAnulado   =  $("#check_anulacion").is(":checked")    ? true : false;
+
+            console.log(this.convetirToNegativo);
+            console.log(this.convetirToAnulado);
+
             this.input_devolucion        = $("#input_devolucion").val();
             this.input_devolucion_nombre = $("#input_devolucion_nombre").val();
             this.input_devolucion_dui    = $("#input_devolucion_dui").val();
@@ -77,12 +78,8 @@
 
         function get_venta(venta_id){            
             $("#devolucion").modal('hide');
-            //$("#input_devolucion").val('');
-            if($("#check_devolucion").is(":checked")){
-                this.convetirToNegativo = true;
-            }else{
-                this.convetirToNegativo = false;
-            }
+            
+            this.convetirToNegativo  =  $("#check_devolucion").is(":checked")   ? true : false;
                         
             $.ajax({
                 type: "POST",
@@ -98,19 +95,19 @@
                     var venta = datos["orden_detalle"];
 
                     if(!venta){
-                        var type = "info";
-                        var title = "Venta No Valida ";
+                        var type    = "info";
+                        var title   = "Venta No Valida ";
                         var mensaje = "Venta No Existe : autoload_ventan";
-                        var boton = "info";
+                        var boton   = "info";
                         var  finalMessage = "Gracias..."
                         generalAlert(type , mensaje , title , boton, finalMessage);
                     }
 
                     _conf.comboAgrupado = parseInt(datos['conf'][0].valor_conf);
-                    _conf.impuesto = parseInt(datos['impuesto'][0].valor_conf);                    
+                    _conf.impuesto      = parseInt(datos['impuesto'][0].valor_conf);                    
                     
                     venta.forEach(function(element) {
-                        if(this.convetirToNegativo == true){
+                        if(this.convetirToNegativo == true || this.convetirToAnulado == true){
                             venta[venta.indexOf(element)].precioUnidad = element.precioUnidad * -1;
                             venta[venta.indexOf(element)].total = element.total * -1;                            
                         }
@@ -201,6 +198,14 @@
         function validation_imputs(){
             
         }
+
+        $(document).on('click', '.anulado', function(e) {
+            
+            var msg_anulado = "# " + $("#input_devolucion").val();
+
+            $(".anular_documento").text(msg_anulado);
+
+        });
 
     });
 </script>

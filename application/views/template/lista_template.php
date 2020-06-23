@@ -158,13 +158,30 @@
                                         <?php
                                             $a = substr($table->$field, 0, 1);
                                             if(isset($fields['reglas'][$field]['aplicar'])){
-                                                    echo $fields['reglas'][$field]['valor'];
+                                                echo $fields['reglas'][$field]['valor'];
                                             }
 
                                             if(isset($fields['reglas'][$field]['condicion'])){
                                                 if($fields['reglas'][$field]['condicion'] == 1){
                                                     if($table->$field == 'Devolucion'){
-                                                        echo "<span class='label label-danger'>".$fields['estado'][0]."</span>";
+                                                        $estado = $fields['estado'][0];
+                                                        echo "<h5><span class='label label-danger'>".$table->$estado."</span></h5>";
+                                                    }
+                                                    if($table->$field == 'En proceso'){
+                                                        $estado = $fields['estado'][0];
+                                                        echo "<h5><span class='label label-primary'>".$table->$estado."</span></h5>";
+                                                    }
+                                                    if($table->$field == 'Facturada'){
+                                                        $estado = $fields['estado'][0];
+                                                        echo "<h5><span class='label label-success'>".$table->$estado."</span></h5>";
+                                                    }
+                                                    if($table->$field == 'Anulada'){
+                                                        $estado = $fields['estado'][0];
+                                                        echo "<h5><span class='label label-warning'>".$table->$estado."</span></h5>";
+                                                    }
+                                                    if($table->$field == 'Procesada'){
+                                                        $estado = $fields['estado'][0];
+                                                        echo "<h5><span class='label label-info'>".$table->$estado."</span></h5>";
                                                     }
                                                 }
                                             }

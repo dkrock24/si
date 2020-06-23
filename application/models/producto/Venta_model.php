@@ -936,4 +936,37 @@ class Venta_model extends CI_Model {
 				return $query->result();
 			}
 		}
+
+		function get_venta_by_id($venta){
+
+			$this->db->select('*');
+			$this->db->from(self::pos_ventas . ' as v');
+			$this->db->join(self::pos_venta_detalle . ' as vd',' on v.id = vd.id_venta');
+			//$this->db->where('o.orden_estado != 4');
+			$this->db->where_in('v.id', $venta );
+			$query = $this->db->get();
+			//echo $this->db->queries[0];
+
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}
+		}
+
+		function setVentaToAnulada($venta_data){
+
+			$data = array(
+				'anulado_el'	=> date("Y-m-d h:i:s"),	
+				'anulado'		=> 1,
+				'anulado_conc'	=> $venta_data['nota_anulacion'],
+				'orden_estado'	=> 7
+			);
+
+			$this->db->where('id', $venta_data['id'] );
+			$result = $this->db->update(self::pos_ventas, $data );
+			
+			if(!$result){
+				$result = $this->db->error();
+				return $result;
+			}
+		}
     }

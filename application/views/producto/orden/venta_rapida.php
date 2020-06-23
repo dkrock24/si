@@ -506,8 +506,7 @@ include("asstes/pos_orden.php");
             <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 4
                 <i class="fa fa-credit-card"></i>
             </span>
-            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 5
-                Dev.
+            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 5 Dev.
             </span>
             <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">
                 
@@ -526,13 +525,35 @@ include("asstes/pos_orden.php");
                             <?php echo Date("d/M/y"); ?>
                         </span>
                     </div>                
-            </span>            
-
+            </span>
+            <span class="btn btn-info anulado" data-toggle="modal" data-target="#anulado" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 8 Anular
+            </span>
         </div>
     </div>
 </section>
 
-
+<!-- Modal Large CLIENTES MODAL-->
+<div id="anulado" tabindex="-1" role="dialog" aria-labelledby="anulado" class="modal fade fade-scale">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                Anular Venta
+            </div>
+            <div class="modal-body">
+                Desea Anular el siguiente documento ?
+                <h2 class="anular_documento"></h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-info btn_anular_documento btn-pre" name="5">Si</button>
+                <button type="button" data-dismiss="modal" class="btn btn-success">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Small-->
 
 <!-- Modal Large CLIENTES MODAL-->
 <div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal" class="modal fade fade-scale">
@@ -925,13 +946,13 @@ include("asstes/pos_orden.php");
 
     <!-- METODO DE PAGOS MODAL-->
     <div id="devolucion" tabindex="-1" role="dialog" aria-labelledby="devolucion" class="modal flip fade-scale">
-        <div class="modal-dialog modal-md">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header" style="background: #dde6e9">
                     <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <span style="font-size: 20px; ">[ Devolcion ]</span>
+                    <span style="font-size: 20px; ">Devolción / Anulación</span>
                 </div>
                 <div class="modal-body">
 
@@ -952,9 +973,19 @@ include("asstes/pos_orden.php");
                                     <span class="inline checkbox c-checkbox">
                                         <label>
                                         <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">
-                                        <span class="fa fa-check check_devolucion"></span> Aplicar Devolucion ?
+                                        <span class="fa fa-check check_devolucion"></span> Aplicar Devolución ?
                                         </label>
                                     </span>
+                                    <textarea class="form-control" name="nota_devolucion"></textarea>
+                                </div>
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <span class="inline checkbox c-checkbox">
+                                        <label>
+                                        <input type="checkbox" id="check_anulacion" name="check_anulacion" class="">
+                                        <span class="fa fa-check check_anulacion"></span> Aplicar Anulación ?
+                                        </label>
+                                    </span>
+                                    <textarea class="form-control" name="nota_anulacion"></textarea><br>
                                 </div>
                                 <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                     <input type="text" class="form-control has-success input_devolucion" placeholder="Documento Referencia" name="input_devolucion" id="input_devolucion" value=""><br>
