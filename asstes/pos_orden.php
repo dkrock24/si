@@ -47,9 +47,6 @@
             this.convetirToNegativo  =  $("#check_devolucion").is(":checked")   ? true : false;
             this.convetirToAnulado   =  $("#check_anulacion").is(":checked")    ? true : false;
 
-            console.log(this.convetirToNegativo);
-            console.log(this.convetirToAnulado);
-
             this.input_devolucion        = $("#input_devolucion").val();
             this.input_devolucion_nombre = $("#input_devolucion_nombre").val();
             this.input_devolucion_dui    = $("#input_devolucion_dui").val();

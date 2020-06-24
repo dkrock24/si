@@ -24,6 +24,7 @@
         $("#autorizacion_descuento").appendTo("body");
         $("#devolucion").appendTo("body");        
         $('#imprimir').appendTo("body");
+        $('#anulado').appendTo("body");        
         $('#en_proceso').appendTo("body");
         $('#en_reserva').appendTo("body");
         $('#m_orden_creada').appendTo("body");
@@ -1600,23 +1601,46 @@
             correlativo_documento(cli_form_pago, tipo_documento, sucursal_id);
         });
 
+        /*
+        * PROCESO ANULAR
+        */
         $(document).on('click','.btn_anular_documento', function(){
-            anulacion_data = {nota_anulacion:"nota_anulacion", id:_orden[0].id};
 
-            path = "../venta";
-            $.ajax({
-                type: "POST",
-                url: path + "/anular_venta",
-                datatype: 'json',
-                data : anulacion_data,
-                cache: false,
+            convetirToAnulado   =  $("#check_anulacion").is(":checked")    ? true : false;
 
-                success: function(data) {
-                },
-                error: function() {}
+            var notificar_data = {
+                id : "#anular_documento_msg",
+                msj : "Ingresar N° Orden Para Anular",
+                color: "#2D3B48",
+                text_class :".anular_documento_msg",
+                icon : "fa fa-exclamation-circle"
+            };
+            
+            if(convetirToAnulado){
+                anulacion_data = {nota_anulacion:"nota_anulacion", id:_orden[0].id};
 
-            });
+                path = "../venta";
+                $.ajax({
+                    type: "POST",
+                    url: path + "/anular_venta",
+                    datatype: 'json',
+                    data : anulacion_data,
+                    cache: false,
+
+                    success: function(data) {
+                        window.location.href = "venta_rapida";
+                    },
+                    error: function() {}
+                });
+            }else{                
+                notificador(notificar_data);
+            }
         });
+
+        function notificador(notificar_data){
+            $(notificar_data.id).css("background-color", notificar_data.color);
+            $(notificar_data.text_class).html("<i class='"+notificar_data.icon+"'></i> "+notificar_data.msj);
+        }
 
         $(document).on('click', '.guardar', function() {
             f4_guardar();

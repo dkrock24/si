@@ -19,15 +19,9 @@ class EfectosDocumento_model extends CI_Model {
 
         foreach ($orden['orden'] as $key => $productos) {
 
-            if(!is_object($productos)){
-                $prod_id        =  $productos['producto_id'];
-                $prod_bodega    =  $productos['id_bodega'];
-                $prod_cantidad  =  $productos['cantidad'];
-            }else{
-                $prod_id        =  $productos->producto_id;
-                $prod_bodega    =  $productos->id_bodega;
-                $prod_cantidad  =  $productos->cantidad;
-            }            
+            $prod_id = !is_object($productos) ? $productos['producto_id'] : $productos->producto_id;
+            $prod_bodega = !is_object($productos) ? $productos['id_bodega'] : $productos->id_bodega;
+            $prod_cantidad = !is_object($productos) ? $productos['cantidad'] : $productos->cantidad;
 
             $cantidad = $this->get_cantidad_bodega($prod_id, $prod_bodega);
             

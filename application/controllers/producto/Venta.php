@@ -160,6 +160,8 @@ class Venta extends MY_Controller {
 	}
 
 	public function anular_venta(){
+
+		$_result = false;
 		// Set venta to anulada
 		$result = $this->setVentaToAnulada($_POST);
 		
@@ -170,7 +172,16 @@ class Venta extends MY_Controller {
 			$documento_tipo[0] = (object) array('efecto_inventario' => 1);
 
 			$this->EfectosDocumento_model->accion($data ,$documento_tipo);
+
+			$_result = true;
+
+			$this->session->set_flashdata('info', "Orden Fue Anulada");
 		}
+		else{
+			$this->session->set_flashdata('danger', "Orden No Fue Anulada : ");
+		}
+		
+		return $_result;
 	}
 
 	private function setVentaToAnulada($venta_data){

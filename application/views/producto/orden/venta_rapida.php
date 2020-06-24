@@ -109,7 +109,7 @@ include("asstes/pos_orden.php");
 
     <div class="row">
         <div class="col-lg-9 col-md-9">
-
+        
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <!-- Team Panel-->
@@ -118,7 +118,6 @@ include("asstes/pos_orden.php");
                             <div class="row">
 
                                 <div class="col-lg-4">
-
                                     <div class="input-group m-b" id="headerInputs">
                                         <span class="input-group-addon bg-green">[ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
                                         <input type="text" placeholder="Buscar Producto" autocomplete="off" name="[producto_buscar]" class="form-control producto_buscar">
@@ -136,7 +135,7 @@ include("asstes/pos_orden.php");
                                 <div class="col-lg-8" style="text-align: left;" id="headerInputs">
                                     <!--
                                     <button class="btn bg-green" id="grabar" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Agregar"><i class='fa fa-shopping-cart'></i></button>
--->
+                                    -->
                                     <!--<span class='btn bg-green guardar' name="1" id="../venta/guardar_venta" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Procesar"><i class='fa fa-money'></i> <span style="font-size:18;">[ F4 ]</span></span>-->
 
                                     <span class="btn bg-green" id="btn_existencias" data-toggle="tooltip" data-placement="bottom" title="Existencias" style="font-size: 25px;"><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ 6 ]</span> </span>
@@ -199,7 +198,7 @@ include("asstes/pos_orden.php");
                     <!-- end Team Panel-->
                 </div>
             </div>
-
+            <?php $this->load->view('notificaciones/success'); ?>
         </div>
         <div class="col-lg-3 col-md-3">
             <div style="border:0px solid black">
@@ -216,8 +215,6 @@ include("asstes/pos_orden.php");
                     <!-- Campos del cliente -->
                     <input type="hidden" name="impuesto" value="" id="impuesto" />
                     <!-- Fin Campos del cliente -->
-
-
 
                     <div class="row">
                         <div class="col-lg-12 col-md-12" style="width: 100%; background: #2D3B48/*#0f4871*/;text-align: center;color: white;">
@@ -257,27 +254,33 @@ include("asstes/pos_orden.php");
 
                         <div class="col-lg-12 col-md-12 paper_cut">
                         </div>
+                        
                     </div><br>
 
-                    <!--
-                <div class="row">
-                    <div class="col-lg-12 col-md-12" style="width: 100%; background: white;">
-                        Imagen
-                      <div class="panel b m0">
-                       
-                         <div class="panel-body">
-                            <p>
-                               <a href="#">
-                                  <span class="producto_imagen"></span>
-                               </a>
-                            </p>
-                            
-                         </div>
-                      </div>
+                    <div class="row" id="anular_documento_msg">
+                        <div class="col-lg-12 col-md-12" style="width: 100%;color:#fff;">
+                            <h4 class="anular_documento_msg"></h4>
+                        </div>
                     </div>
-                </div>
-                -->
 
+                    <!--
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12" style="width: 100%; background: white;">
+                            Imagen
+                        <div class="panel b m0">
+                        
+                            <div class="panel-body">
+                                <p>
+                                <a href="#">
+                                    <span class="producto_imagen"></span>
+                                </a>
+                                </p>
+                                
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    -->
             </div>
 
             <!-- Modal Large Documenos -->
@@ -483,7 +486,6 @@ include("asstes/pos_orden.php");
                 </div>
             </div>
             <!-- Modal Small-->
-
 
             </form>
         </div>
@@ -1008,7 +1010,7 @@ include("asstes/pos_orden.php");
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success bg-green btn_aut_desc input_devolucion_btn" name="5">Aceptar Devolución</button>
+                    <button type="button" class="btn btn-success bg-green btn_aut_desc input_devolucion_btn" name="5">Aceptar</button>
                 </div>
             </div>
         </div>
