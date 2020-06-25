@@ -102,6 +102,10 @@ include("asstes/pos_orden.php");
         border-bottom: 2px solid #27c24c;
         font-size:22px;
     }
+    .oculto2{
+        display:inline-block;
+        float:right;
+    }
 </style>
 
 
@@ -549,8 +553,7 @@ include("asstes/pos_orden.php");
                 <h2 class="anular_documento"></h2>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-info btn_anular_documento btn-pre" name="5">Si</button>
-                <button type="button" data-dismiss="modal" class="btn btn-success">No</button>
+                <input type="button" data-dismiss="modal" id="btn_anular_documento" class="btn btn-info btn_anular_documento btn-pre" name="5" value="Si">
             </div>
         </div>
     </div>
@@ -972,6 +975,7 @@ include("asstes/pos_orden.php");
                             <div class="row">
 
                                 <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                
                                     <span class="inline checkbox c-checkbox">
                                         <label>
                                         <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">

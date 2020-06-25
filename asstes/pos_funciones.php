@@ -645,6 +645,8 @@
                     case 106: // *
                         focus_general_input($("#descuento"), 0);
                         break;
+                    case 48: open_anulado_modal();
+                        break;
                 }
 
                 var c = "";
@@ -763,11 +765,21 @@
                 }
             });
 
+            function open_anulado_modal(){
+                $("#anulado").modal();
+                $('#anulado').on('shown.bs.modal', function(e){                    
+                    setTimeout(function() {                    
+                        $(".btn_anular_documento").focus();
+                    }, 100);  
+                });
+            }
+
             function open_devolucion(){
                 $("#devolucion").modal();
                 setTimeout(function() {                    
                     $("#check_devolucion").focus();
-                }, 100);                  
+                    $(".check_devolucion").css('border','2px solid #4974a7'); 
+                }, 100);
             }
 
             function producto_tabla_foco() {
@@ -1640,6 +1652,11 @@
         function notificador(notificar_data){
             $(notificar_data.id).css("background-color", notificar_data.color);
             $(notificar_data.text_class).html("<i class='"+notificar_data.icon+"'></i> "+notificar_data.msj);
+
+            setTimeout(function() {
+                $(notificar_data.id).css("background-color", "#e9ebee");                
+                $(notificar_data.text_class).html("");
+            }, 3000);
         }
 
         $(document).on('click', '.guardar', function() {

@@ -2,6 +2,29 @@
     $(document).ready(function() {
         // OBTENER ORDENES PARA CONVERTIRLAS A VENTA
 
+        if($('input').focus() ){
+            $(this).css('border','2px solid red');           
+        }
+        
+        $( "input[type=text]" ).focus(function() {
+            $(this).css('border','2px solid red');
+            console.log(4);
+        });
+        $( "input[type=checkbox]" ).focus(function() {
+            $( this ).before( '<i class="fa fa-check oculto2"></i>' );
+            $(this).css('border','2px solid red');
+            console.log(5);
+        });
+        $( "input[type=checkbox]" ).blur(function() {
+            $( this ).before( '<i class="fa fa-check oculto2"></i>' );
+            $(".oculto2").remove();
+            $(this).css('border','2px solid blue');
+        });
+
+        $( "textarea" ).focus(function() {
+            $(this).css('border','2px solid red');
+        });      
+
         registro_editado = 1;
 
         var contador_ingreso = 0;
