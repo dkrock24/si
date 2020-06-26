@@ -1648,7 +1648,8 @@
             };
             
             if(convetirToAnulado){
-                anulacion_data = {nota_anulacion:"nota_anulacion", id:_orden[0].id};
+                var nota_anulado = $("#nota_anulacion").val();
+                anulacion_data   = {nota_anulacion:nota_anulado, id:_orden[0].id};
 
                 path = "../venta";
                 $.ajax({

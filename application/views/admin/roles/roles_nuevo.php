@@ -4,7 +4,7 @@
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">
             <a href="index" style="top: -12px;position: relative; text-decoration: none">
-                <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Lista Roles</button>
+                <button type="button" class="mb-sm btn btn-success"> Lista Roles</button>
             </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
         </h3>

@@ -4,7 +4,7 @@
         <div class="content-wrapper">
             <h3 style="height: 50px; font-size: 13px;">                
                 <a href="../index" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Pais</button> </a> 
+                    <button type="button" class="mb-sm btn btn-success"> Pais</button> </a> 
                 <a href="../dep/<?php echo $ciu[0]->id_pais;  ?>" style="top: 0px;position: relative; text-decoration: none">
                     <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info btn-outline">Departamento</button></a>
                     <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Ciudades</button>

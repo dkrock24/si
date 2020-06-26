@@ -954,8 +954,10 @@ class Venta_model extends CI_Model {
 
 		function setVentaToAnulada($venta_data){
 			$data = array(
-				'anulado_el'	=> date("Y-m-d h:i:s"),	
 				'anulado'		=> 1,
+				'anulado_el'	=> date("Y-m-d h:i:s"),	
+				'modi_el'		=> date("Y-m-d h:i:s"),	
+				'anulado_por' 	=> $this->session->db[0]->id_usuario,
 				'anulado_conc'	=> $venta_data['nota_anulacion'],
 				'orden_estado'	=> 7
 			);

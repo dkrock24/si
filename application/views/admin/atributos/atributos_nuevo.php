@@ -66,7 +66,7 @@
             
             <h3 style="height: 50px; font-size: 13px;">                
                 <a href="index" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Atributos</button> </a> 
+                    <button type="button" class="mb-sm btn  btn-succes"> Atributos</button> </a> 
                 <a href="" style="top: -12px;position: relative; text-decoration: none">
                     <button type="button" style="top: 0px; position: relative;" class="mb-sm btn btn-info btn-outline">/ Nuevo</button></a>
                 </h3>

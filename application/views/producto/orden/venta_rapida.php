@@ -988,7 +988,7 @@ include("asstes/pos_orden.php");
                                         <span class="fa fa-check check_anulacion"></span> Aplicar Anulación ?
                                         </label>
                                     </span>
-                                    <textarea class="form-control" name="nota_anulacion"></textarea><br>
+                                    <textarea class="form-control" name="nota_anulacion" id="nota_anulacion"></textarea><br>
                                 </div>
                                 <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                     <input type="text" class="form-control has-success input_devolucion" placeholder="Documento Referencia" name="input_devolucion" id="input_devolucion" value=""><br>

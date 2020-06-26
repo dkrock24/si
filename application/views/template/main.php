@@ -73,7 +73,29 @@
         padding: 10px 20px;
     }
 
-      
+    /* Formularios, botones y lineas style*/
+
+.lineas_formulario{
+    display:inline-block;
+    float:right;
+}
+
+.lineas_top_formulario{
+    color:#4974a7;
+}
+
+.background_inputs{
+    background:#68af93
+}
+
+/** Botones */
+.btn-success{
+    background:#4974a7;
+}
+
+.btn-info{
+    background:#68af93
+}      
     </style>
 
   </head>

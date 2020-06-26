@@ -15,7 +15,7 @@
     <div class="content-wrapper">  
         <h3 style="height: 50px; font-size: 13px;">  
             <a href="index" style="top: -12px;position: relative; text-decoration: none">
-                <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Caja</button> 
+                <button type="button" class="mb-sm btn btn-success"> Caja</button> 
             </a> 
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
             
@@ -25,7 +25,7 @@
 
                 <div id="panelDemo10" class="panel menu_title_bar">    
                                         
-                    <div class="panel-heading menuTop"><i class="fa fa-desktop"></i> Nueva Caja <?php //echo $onMenu[0]->nombre_submenu ?> </div>
+                    <div class="panel-heading menuTop"><h4><i class="fa fa-desktop"></i> Nueva Caja</h4>  <?php //echo $onMenu[0]->nombre_submenu ?> </div>
                      <div class="menuContent">        
                     
                      <div class="b">
@@ -198,7 +198,7 @@
                             <div class="panel-footer text-right">
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
-                                        <button type="submit" id="btn_save" class="btn btn-info">Guardar</button>
+                                        <button type="submit" id="btn_save" class="btn btn-danger">Guardar</button>
                                     </div>
                                 </div>
                             </div>

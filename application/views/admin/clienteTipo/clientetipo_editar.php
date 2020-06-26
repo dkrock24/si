@@ -34,7 +34,7 @@
     <div class="content-wrapper">  
         <h3 style="height: 50px; font-size: 13px;">  
         <a href="../../cliente/index" style="top: -12px;position: relative; text-decoration: none">
-                <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Clientes</button>
+                <button type="button" class="mb-sm btn btn-success"> Clientes</button>
             </a>
             <a href="../index" style="top: -12px;position: relative; text-decoration: none">
                 <button type="button" class="mb-sm btn  btn-primary btn-outline"> Clientes Tipo</button> 

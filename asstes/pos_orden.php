@@ -3,8 +3,10 @@
         // OBTENER ORDENES PARA CONVERTIRLAS A VENTA
         
         $( "input[type=text]" ).focus(function() {
-            $( this ).before( '<i class="fa fa-check lineas_formulario" style="color:#68af93"></i>' );
-            $(this).css('border','1px solid #4974a7');
+            if(this.name != '[producto_buscar]'){
+                $( this ).before( '<i class="fa fa-check lineas_formulario" style="color:#68af93"></i>' );
+                $(this).css('border','1px solid #4974a7');
+            }
         });
         $( "input[type=text]" ).blur(function() {
             $(".lineas_formulario").remove();
@@ -63,9 +65,8 @@
 
         function modal_devolucion_data(value){
             
-            this.convetirToNegativo  =  $("#check_devolucion").is(":checked")   ? true : false;
-            this.convetirToAnulado   =  $("#check_anulacion").is(":checked")    ? true : false;
-
+            this.convetirToNegativo     =  $("#check_devolucion").is(":checked")   ? true : false;
+            this.convetirToAnulado      =  $("#check_anulacion").is(":checked")    ? true : false;
             this.input_devolucion        = $("#input_devolucion").val();
             this.input_devolucion_nombre = $("#input_devolucion_nombre").val();
             this.input_devolucion_dui    = $("#input_devolucion_dui").val();

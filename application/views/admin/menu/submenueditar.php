@@ -4,7 +4,7 @@
         <div class="content-wrapper">  
             <h3 style="height: 50px; font-size: 13px;">  
                 <a href="../index" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Menus</button> 
+                    <button type="button" class="mb-sm btn btn-success"> Menus</button> 
                 </a> 
                 <a href="../submenu/<?php echo  $onMenu[0]->id_menu; ?>" style="top: -12px;position: relative; text-decoration: none">
                     <button type="button" class="mb-sm btn btn-primary btn-outline"> Lista Sub Menu</button> 

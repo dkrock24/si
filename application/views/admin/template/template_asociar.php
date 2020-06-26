@@ -63,7 +63,7 @@
         ?>
             <h3 style="height: 50px; ">
              <a href="<?php echo $url; ?>/../index" style="top: -12px;position: relative; text-decoration: none">
-                <button type="button" class="mb-sm btn btn-pill-left btn-primary btn-outline"> Lista</button> 
+                <button type="button" class="mb-sm btn btn-success"> Lista</button> 
               </a> 
 
               <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Template Sucursales</button>

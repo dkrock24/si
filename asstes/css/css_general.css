@@ -37,3 +37,67 @@
 	opacity: 1;
 	transform: scale(1);
 }
+
+/* Formularios, botones y lineas style*/
+.lineas_formulario{
+    display:inline-block;
+    float:right;
+}
+
+.lineas_top_formulario{
+    color:#4974a7;
+}
+
+.background_inputs{
+    background:#68af93
+}
+.btn-up-white{
+	background:none;
+	border:1px solid grey;
+}
+.btn-danger{
+	background:#70c8cb;
+	color:black;
+}
+
+.btn-primary{
+	background:#4974a7;
+	color:white;
+}
+
+.btn-success{
+	background:#a5db6a;
+	color:black;
+}
+
+.btn-warning{
+    background:#68af93;
+}
+
+.btn-info{
+    background:#129cd6
+}
+
+/** labels */
+.label-danger{
+    background:#4974a7;
+}
+
+.label-primary{
+	background:#70c8cb;
+	color:black;
+}
+.label-success{
+	background:#a5db6a;
+	color:black;
+}
+.label-warning{
+    background:#68af93;
+}
+.label-info{
+    background:#129cd6;
+}
+
+a{
+	text-decoration: none;
+}
