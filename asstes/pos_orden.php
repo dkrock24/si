@@ -1,28 +1,24 @@
 <script>
     $(document).ready(function() {
         // OBTENER ORDENES PARA CONVERTIRLAS A VENTA
-
-        if($('input').focus() ){
-            $(this).css('border','2px solid red');           
-        }
         
         $( "input[type=text]" ).focus(function() {
-            $(this).css('border','2px solid red');
-            console.log(4);
+            $( this ).before( '<i class="fa fa-check lineas_formulario" style="color:#68af93"></i>' );
+            $(this).css('border','1px solid #4974a7');
+        });
+        $( "input[type=text]" ).blur(function() {
+            $(".lineas_formulario").remove();
         });
         $( "input[type=checkbox]" ).focus(function() {
-            $( this ).before( '<i class="fa fa-check oculto2"></i>' );
-            $(this).css('border','2px solid red');
-            console.log(5);
+            $( this ).before( '<i class="fa fa-check lineas_formulario" style="color:#68af93"></i>' );
+            $(this).css('border','1px solid #4974a7');
         });
         $( "input[type=checkbox]" ).blur(function() {
-            $( this ).before( '<i class="fa fa-check oculto2"></i>' );
-            $(".oculto2").remove();
-            $(this).css('border','2px solid blue');
+            $(".lineas_formulario").remove();
         });
 
         $( "textarea" ).focus(function() {
-            $(this).css('border','2px solid red');
+            $(this).css('border','1px solid #4974a7');
         });      
 
         registro_editado = 1;
@@ -218,14 +214,6 @@
         function validation_imputs(){
             
         }
-
-        $(document).on('click', '.anulado', function(e) {
-            
-            var msg_anulado = "# " + $("#input_devolucion").val();
-
-            $(".anular_documento").text(msg_anulado);
-
-        });
 
     });
 </script>

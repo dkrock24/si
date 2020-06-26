@@ -101,7 +101,7 @@ body{
         }
 
 .linea_superior{
-    border-bottom: 2px solid #82b74b;
+    border-bottom: 2px solid #4974a7;
 }
 
 .panel-body {
@@ -137,4 +137,27 @@ body{
 
 #restante_venta , #cambio_venta , #compra_venta{
     font-size: 60px;
+}
+
+/* Formularios, botones y lineas style*/
+
+.lineas_formulario{
+    display:inline-block;
+    float:right;
+}
+
+.lineas_top_formulario{
+    color:#4974a7;
+}
+
+.background_inputs{
+    background:#68af93
+}
+
+.btn-success{
+    background:#4974a7;
+}
+
+.btn-info{
+    background:#68af93
 }

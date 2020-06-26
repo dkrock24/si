@@ -765,13 +765,32 @@
                 }
             });
 
+            $(".anulado").click(function(){
+                $('#anulado').on('shown.bs.modal', function(e){                    
+                    setTimeout(function() {                    
+                        $(".btn_anular_documento").focus();
+                    }, 100);  
+                });
+            });
+
             function open_anulado_modal(){
+                show_anulado_numero();
                 $("#anulado").modal();
                 $('#anulado').on('shown.bs.modal', function(e){                    
                     setTimeout(function() {                    
                         $(".btn_anular_documento").focus();
                     }, 100);  
                 });
+            }
+
+            $(document).on('click', '.anulado', function(e) {
+                show_anulado_numero();
+            });
+
+            function show_anulado_numero(){
+                var msg_anulado = "# " + $("#input_devolucion").val();
+
+                $(".anular_documento").text(msg_anulado);
             }
 
             function open_devolucion(){
@@ -1939,7 +1958,7 @@
                     av($('#modo_pago_id'), "white");
                 }
                 if (key == 100) {
-                    //av($('#cliente_nombre'), "white");
+                    av($('#cliente_nombre'), "white");
                 }
                 if (key == 101) {
                     av($('#sucursal_id') , "white");
@@ -1958,11 +1977,12 @@
         });
 
         function av(input, color){
+            $(".lineas_formulario").remove();
+            $( input ).before( '<i class="fa fa-check lineas_formulario" style="color:#68af93"></i>' );
             setTimeout(function() { input.focus() }, 1000);
-            input.css("background", "#27c24c");
-
+            input.addClass("background_inputs");
             setTimeout(function() {
-                input.css("background", color);
+                input.removeClass("background_inputs");
                 input.css("color", "black");
             }, 1000);
         }

@@ -99,13 +99,10 @@ include("asstes/pos_orden.php");
         background:#fff;
         color: black;
         border-top: 2px solid white;
-        border-bottom: 2px solid #27c24c;
+        border-bottom: 2px solid #4974a7;
         font-size:22px;
     }
-    .oculto2{
-        display:inline-block;
-        float:right;
-    }
+    
 </style>
 
 
@@ -532,7 +529,7 @@ include("asstes/pos_orden.php");
                         </span>
                     </div>                
             </span>
-            <span class="btn btn-info anulado" data-toggle="modal" data-target="#anulado" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 8 Anular
+            <span class="btn btn-info anulado" data-toggle="modal" data-target="#anulado" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 0 Anular
             </span>
         </div>
     </div>
@@ -540,20 +537,20 @@ include("asstes/pos_orden.php");
 
 <!-- Modal Large CLIENTES MODAL-->
 <div id="anulado" tabindex="-1" role="dialog" aria-labelledby="anulado" class="modal fade fade-scale">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                Anular Venta
+                <h3><i class="fa fa-cart-arrow-down"></i> Anular Venta</h3>
             </div>
             <div class="modal-body">
-                Desea Anular el siguiente documento ?
+                <h3>Desea Anular el siguiente documento ?</h3>
                 <h2 class="anular_documento"></h2>
             </div>
             <div class="modal-footer">
-                <input type="button" data-dismiss="modal" id="btn_anular_documento" class="btn btn-info btn_anular_documento btn-pre" name="5" value="Si">
+                <input type="button" data-dismiss="modal" id="btn_anular_documento" class="btn btn-info btn_anular_documento" name="5" value="Aceptar">
             </div>
         </div>
     </div>
@@ -1014,7 +1011,7 @@ include("asstes/pos_orden.php");
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success bg-green btn_aut_desc input_devolucion_btn" name="5">Aceptar</button>
+                    <button type="button" class="btn btn-success input_devolucion_btn" name="5">Aceptar</button>
                 </div>
             </div>
         </div>

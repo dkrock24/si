@@ -57,8 +57,8 @@
       }
       .menuContent{
          background: none;
-         border-top:6px solid #82b74b;
-         border-bottom: 2px solid #0f4871;
+         border-top:4px solid #4974a7;
+         border-bottom: 2px solid #68af93;
 
       }
 
