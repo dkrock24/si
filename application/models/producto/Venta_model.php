@@ -48,7 +48,7 @@ class Venta_model extends CI_Model {
 			}
 
 			$query = $this->db->query("select ventas.id,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,
-			ventas.num_correlativo,DATE_FORMAT(ventas.fecha, '%M %d %Y-%H:%i%p') as fecha,ventas.anulado,ventas.modi_el, 
+			ventas.num_correlativo,DATE_FORMAT(ventas.fecha, '%m/%d/%y | %H:%i') as fecha,ventas.anulado,ventas.modi_el, 
 			cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
 			,tdoc.nombre as tipo_documento,
 			FORMAT((SELECT SUM(vp.valor_metodo_pago) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = ventas.id),2) as total_doc,
@@ -276,6 +276,7 @@ class Venta_model extends CI_Model {
 					'fh_final' 				=> date("Y-m-d h:i:s"),
 					'creado_el' 			=> date("Y-m-d h:i:s"),
 					'fecha_inglab' 			=> date("Y-m-d h:i:s"),
+					'modi_el' 				=> date("Y-m-d h:i:s"),
 					'orden_estado'			=> $orden['estado'], // Facturada
 					'facturado_el' 			=> 0, // Actualizara al procesar la venta
 					'anulado' 				=> 0, // Actualizara al procesar alguna accion
@@ -875,7 +876,9 @@ class Venta_model extends CI_Model {
 			ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
 			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre, empresa.nombre_comercial, empresa.direccion
 			, giro.nombre_giro as giro, emp.alias, t.nombre as terminal ,ventas.id_cliente , ventas.total_doc ,cliente.nit_cliente, cliente.nrc_cli,venta_vista_id,ventas.devolucion_documento
-			, ventas.devolucion_nombre, ventas.devolucion_dui, ventas.devolucion_nit, ventas.desc_val
+			, ventas.devolucion_nombre, ventas.devolucion_dui, ventas.devolucion_nit, ventas.desc_val, anulado,anulado_el, anulado_conc,modi_el,
+			(select pe.primer_nombre_persona as anulado_nombre from sys_usuario as us left join sys_empleado as em on us.Empleado = em.id_empleado 
+			left join sys_persona as pe on pe.id_persona = em.Persona_E WHERE us.id_usuario = anulado_por ) as anulado_nombre
 
 			from pos_ventas as ventas
 

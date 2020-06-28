@@ -101,3 +101,8 @@
 a{
 	text-decoration: none;
 }
+
+.mover_right{
+	float:right;
+	display: inline;
+}

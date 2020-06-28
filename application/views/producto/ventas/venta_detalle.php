@@ -28,6 +28,10 @@
         border:1px solid grey;
         color:black;
     }
+    .mover_right{
+	    float:right;
+	    display: inline;
+    }
 </style>
 
 <section>
@@ -48,18 +52,20 @@
                     <p>
                         <h3>
                             <i class="fa fa-cart-arrow-down sz2"></i>
-                            Venta Información : <span class="label label-info"><strong><?php echo $encabezado[0]->num_correlativo; ?></strong></span>
+                            Venta Información : <span class="label label-info"># <strong><?php echo $encabezado[0]->num_correlativo; ?></strong></span>
                             <?php $date = date_create($encabezado[0]->fecha);  ?>
-                            <span class="label label-info 2x-lg"><?php echo date_format($date, "m/d/Y H:i a"); ?></span>
-                            <a href="#" class="">
-                                <i class="fa fa-print" data-toggle='modal' data-target='#imprimir' >
-                                </i>
-                            </a>
+                            <span class="label label-info 2x-lg mover_right"><?php echo date_format($date, "m/d/Y"). " |"; ?> <span class="label label-success 2x-lg mover_right"> <?php echo date_format($date, "H:i a"); ?></span></span>
                         </h3>
                     </p>
 
                 </div>
-                <table class="table table-borderless ">
+                <table class="table table-striped borders">
+                    <thead class="menuContent">
+                        <tr>
+                            <th>-</th>
+                            <th>-</th>
+                        </tr>
+                    </thead>
                     <tbody>
 
                         <tr>
@@ -78,16 +84,56 @@
 
                         <tr>
                             <td class="linea-sombra line-right">DEVOLUCION
-                                <h4 class="data-right">
+                                <h3 class="data-right">
                                     <?php if($encabezado[0]->devolucion_documento){ ?>
-                                    <span class="label label-danger"><strong><?php echo $encabezado[0]->devolucion_documento; ?></strong></span>
+                                    <span class="label label-danger"><strong># <?php echo $encabezado[0]->devolucion_documento; ?></strong></span>
+                                    <?php } ?>
+                                </h3>
+                            </td>
+
+                            <td class="linea-sombra">CAJA
+                                <h3 class="data-right">
+                                <span class="label label-danger"><strong># <?php echo $encabezado[0]->num_caja; ?></strong></span>
+                                </h3>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="linea-sombra line-right">ANULADO 
+                                <h4 class="data-right">
+                                    <?php if($encabezado[0]->anulado){ ?>
+                                    <span class="label label-danger"><strong>Si</strong></span>
+                                    <?php }else{
+                                        ?>
+                                        <span class="label label-danger"><strong>No</strong></span>
+                                        <?php
+                                    } ?>
+                                </h4>
+                            </td>
+
+                            <td class="linea-sombra">ANULADO EN
+                                <h4 class="data-right">
+                                <?php if($encabezado[0]->anulado_el){ ?>
+                                <span class="label label-danger"><strong><?php echo $encabezado[0]->anulado_el; ?></strong></span>
+                                <?php } ?>
+                                </h4>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="linea-sombra line-right">ANULADO POR 
+                                <h4 class="data-right">
+                                    <?php if($encabezado[0]->anulado_nombre){ ?>
+                                    <span class="label label-danger"><strong><?php echo $encabezado[0]->anulado_nombre; ?></strong></span>
                                     <?php } ?>
                                 </h4>
                             </td>
 
-                            <td class="linea-sombra">CAJA
+                            <td class="linea-sombra">ANULADO COMENTARIO
                                 <h4 class="data-right">
-                                <span class="label label-danger"><strong><?php echo $encabezado[0]->num_caja; ?></strong></span>
+                                <?php if($encabezado[0]->anulado_conc){ ?>
+                                <span class="label label-danger"><strong><?php echo $encabezado[0]->anulado_conc; ?></strong></span>
+                                <?php } ?>
                                 </h4>
                             </td>
                         </tr>
@@ -129,8 +175,13 @@
             <div class="col-md-4">
                 <div class="panel-body linea_superior">
                     <p>
-                        <h3><i class="fa fa-money"></i> PAGO : <?php //echo $venta[0]->fecha ?></h3>
+                        <h3><i class="fa fa-money"></i> PAGO : <?php //echo $venta[0]->fecha ?>
+                        <a href="#" class="mover_right">
+                            <i class="fa fa-print" data-toggle='modal' data-target='#imprimir' ></i>
+                        </a>
+                        </h3>
                     </p>
+                    
                 </div>
                 <table id="" class="table table-striped borders">
 
@@ -179,6 +230,7 @@
                             <th>Nombre</th>
                             <th>DUI</th>
                             <th>NIT</th>
+                            <th>FECHA</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -187,6 +239,8 @@
                             <td><?= $encabezado[0]->devolucion_nombre ?></td>
                             <td><?= $encabezado[0]->devolucion_dui ?></td>
                             <td><?= $encabezado[0]->devolucion_nit ?></td>
+                            <?php $date = date_create($encabezado[0]->modi_el);  ?>
+                            <td><?= date_format($date, "m/d/Y") ?></td>
                         </tr>
                     </tbody>
                 </table>
@@ -201,7 +255,7 @@
                     </p>
                 </div>
 
-                <div class="table-responsive" style="height: 400px; overflow: auto; position: relative;">
+                <div class="table-responsive" style="overflow: auto; position: relative;">
                     <table id="" class="table table-striped borders">
 
                         <thead class="menuContent">
