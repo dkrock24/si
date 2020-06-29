@@ -36,9 +36,10 @@ class Producto_model extends CI_Model {
 				$limite = "";
 			}
 	        
-	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, 
+	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, round(P.precio_venta,2) as precio_venta,
 			 `sub_c`.`nombre_categoria` , e.nombre_razon_social,
-			  e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
+			  e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, 
+			  (Select sum(round(Cantidad,0)) from pos_producto_bodega as pb Where pb.Producto = P.id_entidad ) as prodCantidad
 	        	
 				FROM `producto` as `P`
 				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
