@@ -110,7 +110,7 @@ class Orden_model extends CI_Model
 	{
 		
 		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*,  m.nombre_marca,	b.nombre_bodega
-	        		, pde.presentacion , pde.cod_barra as pres_cod_bar , pde.id_producto_detalle, pde.precio
+	        		, pde.presentacion , pde.cod_barra as pres_cod_bar , pde.id_producto_detalle, pde.precio, pb.Cantidad
 				FROM `producto` as `P`
 				
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca				

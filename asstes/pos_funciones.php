@@ -298,7 +298,8 @@
                         var mensaje = "Error en Parametros : search_texto 1";
                         var boton = "info";
                         var finalMessage = "Gracias..."
-                        generalAlert(type, mensaje, title, boton, finalMessage);
+                        var url = null;
+                        generalAlert(type, mensaje, title, boton, finalMessage,url);
 
                     }
                 },
@@ -316,6 +317,17 @@
 
             if (_productos_lista.length == 1) {
 
+                if(_productos_lista[0].Cantidad){
+                    var type = "info";
+                    var title = _productos_lista[0].name_entidad +" Sin Existencias ";
+                    var mensaje = "";
+                    var boton = "info";
+                    var finalMessage = "Gracias..."
+                    var url = null;
+                    generalAlert(type, mensaje, title, boton, finalMessage,url);
+
+                    return;
+                }
                 get_producto_completo(_productos_lista[0].id_producto_detalle);
                 input_producto_buscar.val("");
 

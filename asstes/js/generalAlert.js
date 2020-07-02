@@ -25,7 +25,9 @@ function generalAlert( type , mensaje , title , boton , finalMessage, url) {
         if (isConfirm) {
             swal("Ok ", finalMessage);
             //redirec("index");
-            window.location.href = url;
+            if(url != null){
+                window.location.href = url;
+            }
         } else {
             swal("Cancelado", "Debes Hacer Login de Nuevo", "error");
         } 

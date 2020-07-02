@@ -244,9 +244,9 @@
                         <th>Sucursal</th>
                         <th>Bodega</th>
                         <th>Existencia</th>
-                        <th>Costo</th>
-                        <th>Costo Anterior</th>
-                        <th>Costo utilidad</th>
+                        <th>Precio</th>
+                        <th>Precio Anterior</th>
+                        <th>Utilidad</th>
                         <th>Cod ubicacion</th>
                     </tr>
                 </thead>

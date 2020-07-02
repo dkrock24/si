@@ -148,7 +148,7 @@ class Producto_model extends CI_Model {
 
 			$this->producto_categoria( $id_producto , $producto['sub_categoria'] );
 
-			// cinsertamos los proveedores en un array para recorrerlos
+			// insertamos los proveedores en un array para recorrerlos
 			$proveedor_array = array($producto['proveedor1'], $producto['proveedor2'], $producto['Marca'] );
 
 			$this->producto_proveedor( $id_producto , $proveedor_array );
@@ -171,7 +171,7 @@ class Producto_model extends CI_Model {
 				$data = array(
 		          	'Producto' 		=> 	$producto_id ,
 		            'Bodega' 		=> $value->id_bodega,
-		            'Cantidad' 		=> 100,
+		            'Cantidad' 		=> 0,
 		            'Descripcion' 	=> "",
 		            'pro_bod_creado' 	=> date("Y-m-d H:i:s"),
 		            'pro_bod_estado' 	=> 1
@@ -337,6 +337,7 @@ class Producto_model extends CI_Model {
 	        $this->db->from(self::categoria);
 	        $this->db->where('id_categoria_padre IS NULL' );
 			$this->db->where('categoria_estado = 1');
+			$this->db->where('nombre_categoria != ""');
 			$this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];

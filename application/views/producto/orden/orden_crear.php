@@ -611,7 +611,7 @@ include("asstes/pos_orden.php");
                             <th style="color: black;">Sucursal</th>
                             <th style="color: black;">Bodega</th>
                             <th style="color: black;">Existencia</th>
-                            <th style="color: black;">Costo</th>
+                            <th style="color: black;">Precio</th>
                             
                             <th style="color: black;">Presentacion</th>
                             <th style="color: black;">Codigo</th>
