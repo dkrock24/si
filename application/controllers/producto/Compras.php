@@ -139,7 +139,6 @@ class Compras extends MY_Controller {
 		$documento 	= $this->Documento_model->getDocumentoById($compra['id_tipo_documento']);
 		
 		if(!$data['code']){
-			
 			$this->EfectosDocumento_model->accion($_POST , $documento );
 
 			$this->session->set_flashdata('success', "Compra Fue Creada");

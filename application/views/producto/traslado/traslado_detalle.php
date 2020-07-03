@@ -114,7 +114,7 @@
                             <tr>
                                 <td>
                                     <?php
-                                        if($traslado[0]->estado_tras == 1 ){
+                                        if($traslado[0]->estado_tras == 8 ){ // 8 Estado Creado
                                             ?>
                                             <input type="submit" class="btn btn-info" value="ACEPTAR">
                                             <?php

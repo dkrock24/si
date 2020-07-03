@@ -352,13 +352,21 @@ class Traslado extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'correlativo_tras','envia','recibe','fecha_salida','fecha_llegada','transporte_placa','descripcion_tras','creado_tras','estado'
+			'correlativo_tras','envia','recibe','fecha_salida','fecha_llegada','transporte_placa',
+			'descripcion_tras','creado_tras','orden_estado_nombre'
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 		= array('id_tras');
-		$fields['estado'] 	= array('estado_tras');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Traslados Lista";
-		$fields['estado_alterno'] 	= "Completado";
+		//$fields['estado_alterno'] 	= "Completado";
 
 		return $fields;
 	}

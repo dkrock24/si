@@ -160,28 +160,41 @@
                                             if(isset($fields['reglas'][$field]['aplicar'])){
                                                 echo $fields['reglas'][$field]['valor'];
                                             }
-
+                                            
                                             if(isset($fields['reglas'][$field]['condicion'])){
+                                                
                                                 if($fields['reglas'][$field]['condicion'] == 1){
+                                                    
                                                     if($table->$field == 'Devolucion'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-danger'>".$table->$estado."</span></h5>";
                                                     }
-                                                    if($table->$field == 'En proceso'){
+                                                    else if($table->$field == 'En proceso'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-primary'>".$table->$estado."</span></h5>";
                                                     }
-                                                    if($table->$field == 'Facturada'){
+                                                    else if($table->$field == 'Facturada'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-success'>".$table->$estado."</span></h5>";
                                                     }
-                                                    if($table->$field == 'Anulada'){
+                                                    else if($table->$field == 'Anulada'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-warning'>".$table->$estado."</span></h5>";
                                                     }
-                                                    if($table->$field == 'Procesada'){
+                                                    else if($table->$field == 'Procesada'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-info'>".$table->$estado."</span></h5>";
+                                                    }
+                                                    else if($table->$field == 'Creado'){
+                                                        $estado = $fields['estado'][0];
+                                                        echo "<h5><span class='label label-success'>".$table->$estado."</span></h5>";
+                                                    }
+                                                    else if($table->$field == 'Enviado'){
+                                                        $estado = $fields['estado'][0];
+                                                        echo "<h5><span class='label label-danger'>".$table->$estado."</span></h5>";
+                                                    }else{
+                                                        $estado = $fields['estado'][0];
+                                                        echo "<h5><span class='label label-warning'>".$table->$estado."</span></h5>";
                                                     }
                                                 }
                                             }
@@ -193,7 +206,7 @@
                                         ?>
                                     </td>
                                 <?php
-                            }
+                            }/*
                             if ($field == 'estado') {
                                 $estado = $fields['estado'][0];
                                 ?>
@@ -217,7 +230,7 @@
                                         ?>
                                     </td>
                             <?php
-                                }
+                                }*/
                             }
                             ?>
 

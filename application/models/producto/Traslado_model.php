@@ -51,10 +51,11 @@ class Traslado_model extends CI_Model
 			$filters = " and ".$filters;
 		}
 		$query = $this->db->query("select t.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
-									CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2
+									CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2, estados.*
 									from sys_traslados as t
 									left join sys_persona as p On p.id_persona = t.firma_llegada 
 									left join sys_persona as p2 On p2.id_persona = t.firma_salida
+									left join pos_orden_estado as estados On estados.id_orden_estado = t.estado_tras
 									
 									where  t.Empresa =" 
 									. $this->session->empresa[0]->id_empresa . $filters. " ORDER BY id_tras desc Limit " . $id . ',' . $limit);
