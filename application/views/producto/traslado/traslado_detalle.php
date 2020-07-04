@@ -152,6 +152,7 @@
                                     <th>Descripción</th>
                                     <th>Modelo</th>
                                     <th>Bodega Origen</th>
+                                    <th>Bodega Destino</th>
                                     <th>Presentación</th>
                                     <th>Precio</th>
                                     <th>Factor</th>
@@ -173,6 +174,7 @@
                                         <td><?= $value->descripcion_producto ?></td>
                                         <td><?= $value->modelo ?></td>
                                         <td><?= $value->nombre_bodega ?></td>
+                                        <td><?= $value->bodega_destino_val ?></td>
                                         <td><?= $value->presentacion ?></td>
                                         <td><?= $moneda[0]->moneda_simbolo . " " . number_format($value->precio_venta,2) ?></td>
                                         <td><?= $value->factor ?></td>

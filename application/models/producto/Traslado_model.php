@@ -319,11 +319,12 @@ class Traslado_model extends CI_Model
 
 		$valores =   $id;
 		
-		$this->db->select('*');
+		$this->db->select('t.*,d.*,p.*,b.*,pd.*,,b2.nombre_bodega AS bodega_destino_val');
 		$this->db->from(self::sys_traslados . ' as t');
 		$this->db->join(self::sys_traslados_detalle . ' as d',' on t.id_tras = d.traslado');
 		$this->db->join(self::producto. ' as p', ' on p.id_entidad = d.id_producto_tras');
 		$this->db->join(self::pos_bodega. ' as b', ' on b.id_bodega = d.bodega_origen');
+		$this->db->join(self::pos_bodega. ' as b2', ' on b2.id_bodega = t.bodega_destino');
 		$this->db->join(self::producto_detalle. ' as pd', ' on pd.Producto = d.id_producto_tras');
 		
 		$this->db->where('t.id_tras', $id );
