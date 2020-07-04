@@ -41,6 +41,7 @@ class Traslado_model extends CI_Model
 	const pos_ventas_impuestos = "pos_ventas_impuestos";
 	const sys_traslados = "sys_traslados";
 	const sys_traslados_detalle = "sys_traslados_detalle";
+	const pos_traslado_temporal = "pos_traslado_temporal";
 
 	// Ordenes
 	const pos_tipo_documento = 'pos_tipo_documento';
@@ -97,12 +98,12 @@ class Traslado_model extends CI_Model
 
 		$traslado_id = $this->db->insert_id();
 
-		$this->traslado_detalle( $traslado_id ,$producto );
+		$this->traslado_detalle( $traslado_id ,$producto , $registros['bodega_destino']);
 
 		return $traslado_id;
 	}
 
-	function traslado_detalle( $traslado_id ,$producto ){	
+	function traslado_detalle( $traslado_id ,$producto , $bodega_destino){	
 
 		foreach ($producto as $key => $value) {
 
@@ -116,9 +117,18 @@ class Traslado_model extends CI_Model
 				'estado_tras_detalle' 	=> 0,
 			);	
 			$this->db->insert(self::sys_traslados_detalle, $data);
-			
-		}		
 
+			$data = array(
+				'id_bodega_temp' => $bodega_destino,
+				'id_producto_temp' => $value['producto_id'],
+				'compra_temp_estado' => 0,
+				'cantidad_producto_temp' => $value['cantidad'],
+				'id_producto_detalle_temp' => $value['producto2'],
+			);
+
+			$this->db->insert(self::pos_traslado_temporal, $data);			
+			
+		}
 	}
 
 	function record_count($filter)

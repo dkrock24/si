@@ -2106,7 +2106,7 @@
 
                         if (method == "save_traslado") {
 
-                            window.location.href = "editar/"+data;
+                            //window.location.href = "editar/"+data;
                         }
 
                         if (method == "update_traslado") {

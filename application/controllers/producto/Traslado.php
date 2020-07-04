@@ -71,7 +71,21 @@ class Traslado extends MY_Controller {
 
 	public function save_traslado(){
 
+		$registros = array();
+
+		$encabezado = $_POST['encabezado'];
+		foreach ($encabezado as $key => $value) {
+			$registros[$value['name']] = $encabezado[$key]['value'];
+		}
+
 		$data = $this->Traslado_model->save_traslado($_POST['productos'] , $_POST['encabezado']);
+
+		$documento 	= $this->Documento_model->getDocumentoById($registros['documento']);
+
+		$traslado['orden']  = $_POST['productos'];
+
+		$this->EfectosDocumento_model->accion($traslado , $documento );
+
 		echo $data;
 	}
 
