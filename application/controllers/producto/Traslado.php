@@ -164,10 +164,10 @@ class Traslado extends MY_Controller {
 		if(isset($_POST)){
 			$data = $this->Traslado_model->aceptar_traslado($_POST);
 
-			if($data){
-				$this->session->set_flashdata('success', "Traslado Fue Creado");
+			if(!$data['code']){
+				$this->session->set_flashdata('success', "Traslado Fue Ingresado En Sucursal Destino");
 			}else{
-				$this->session->set_flashdata('danger', "Traslado No Fue Creado");
+				$this->session->set_flashdata('danger', "Traslado No Fue Ingresado");
 			}
 
 		}
@@ -358,7 +358,7 @@ class Traslado extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Correlativo','Firma Salida','Firma Llegada','Salida','Llegada','Placa','Descripcion','Creado','Estado'
+			'Correlativo','Firma Salida','Firma Llegada','Salida','Llegada','Total','Origen','Destino','Creado','Estado'
 		);
 		return $column;
 	}
@@ -366,8 +366,8 @@ class Traslado extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'correlativo_tras','envia','recibe','fecha_salida','fecha_llegada','transporte_placa',
-			'descripcion_tras','creado_tras','orden_estado_nombre'
+			'correlativo_tras','envia','recibe','fecha_salida','fecha_llegada','total_productos_tras',
+			'origen','destino','creado_tras','orden_estado_nombre'
 		);
 
 		$fields['reglas'] = array(

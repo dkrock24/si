@@ -52,14 +52,26 @@ class Traslado_model extends CI_Model
 			$filters = " and ".$filters;
 		}
 		$query = $this->db->query("select t.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
-									CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2, estados.*
-									from sys_traslados as t
-									left join sys_persona as p On p.id_persona = t.firma_llegada 
-									left join sys_persona as p2 On p2.id_persona = t.firma_salida
-									left join pos_orden_estado as estados On estados.id_orden_estado = t.estado_tras
-									
-									where  t.Empresa =" 
-									. $this->session->empresa[0]->id_empresa . $filters. " ORDER BY id_tras desc Limit " . $id . ',' . $limit);
+				CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2, estados.*,
+				DATE_FORMAT(t.fecha_salida, '%m/%d/%Y') as fecha_salida,
+				DATE_FORMAT(t.fecha_llegada, '%m/%d/%Y') as fecha_llegada,
+				DATE_FORMAT(t.creado_tras, '%m/%d/%Y') as creado_tras,
+				(select cantidad_product_recibido from sys_traslados_detalle as td where td.traslado = t.id_tras) as total_productos_tras,
+				(select CONCAT(s.nombre_sucursal,' | ',b.nombre_bodega) from pos_sucursal as s
+					join pos_bodega as b ON b.Sucursal = s.id_sucursal
+					 where s.id_sucursal = t.sucursal_origin and b.id_bodega = t.bodega_origen) as origen,
+				
+				(select CONCAT(s.nombre_sucursal,' | ',b.nombre_bodega) from pos_sucursal as s
+					join pos_bodega as b ON b.Sucursal = s.id_sucursal
+					 where s.id_sucursal = t.sucursal_destino and b.id_bodega = t.bodega_destino) as destino
+					 
+				from sys_traslados as t
+				left join sys_persona as p On p.id_persona = t.firma_llegada 
+				left join sys_persona as p2 On p2.id_persona = t.firma_salida
+				left join pos_orden_estado as estados On estados.id_orden_estado = t.estado_tras
+				
+				where  t.Empresa =" 
+				. $this->session->empresa[0]->id_empresa . $filters. " ORDER BY id_tras desc Limit " . $id . ',' . $limit);
 
 		//echo $this->db->queries[1];
 		return $query->result();
@@ -349,9 +361,8 @@ class Traslado_model extends CI_Model
 
 	function aceptar_traslado($datos){
 		
-		$id 			=  array_keys($datos);
-		$traslado_id 	= $this->get_id_traslado($id[0]);
-		
+		$id =  array_keys($datos);
+		$traslado_id = $this->get_id_traslado($id[0]);
 
 		$cambio = array(
 			"estado_tras" => 3
@@ -362,16 +373,16 @@ class Traslado_model extends CI_Model
 		foreach ($datos as $key => $value) {
 
 			$data = array(
-				'cantidad_product_recibido' => $value,		
 				'estado_tras_detalle' => 1,
+				'cantidad_product_recibido' => $value,		
 			);
 
 			$this->db->where('id_tras_detalle', $key );
 			$this->db->update(self::sys_traslados_detalle, $data);						
 		}
-		$traslado 		= $this->get_traslado_detalle( $traslado_id[0]->traslado );
+		$traslado = $this->get_traslado_detalle( $traslado_id[0]->traslado );
 
-		$this->traslado_bodega( $traslado );
+		return $this->traslado_bodega( $traslado );
 	}
 
 	function traslado_bodega($traslado  ){
@@ -380,6 +391,7 @@ class Traslado_model extends CI_Model
 			//echo $value->id_producto_tras." - ". $value->bodega_destino."<br>";
 
 			// Get Bodega Origen
+			/*
 			$origen_cantidad = $this->get_cantidad_bodega($value->id_producto_tras, $value->bodega_origen);
 			$origen_nueva = ($origen_cantidad[0]->Cantidad - $value->cantidad_product_recibido);
 
@@ -390,6 +402,7 @@ class Traslado_model extends CI_Model
 			$this->db->where('Producto', $value->id_producto_tras);
 			$this->db->where('Bodega', $value->bodega_origen);
 			$this->db->update(self::producto_bodega, $data);	
+			*/
 
 			// Set bodega Destino
 			$cantidad = $this->get_cantidad_bodega($value->id_producto_tras, $value->bodega_destino);
@@ -401,8 +414,12 @@ class Traslado_model extends CI_Model
 
 			$this->db->where('Producto', $value->id_producto_tras);
 			$this->db->where('Bodega', $value->bodega_destino);
-			$this->db->update(self::producto_bodega, $data);		
-
+			$result = $this->db->update(self::producto_bodega, $data);
+			
+			if(!$result){
+				$result = $this->db->error();
+				return $result;
+			}
 		}
 	}
 
