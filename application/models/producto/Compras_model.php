@@ -24,7 +24,9 @@ class Compras_model extends CI_Model
 		}
 		$query = $this->db->query("select c.*,s.*,b.*,prov.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
 			CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2,
-			td.nombre as Documento
+			td.nombre as Documento,
+			DATE_FORMAT(c.fecha_creacion, '%m/%d/%Y') as fecha_creacion,
+			DATE_FORMAT(c.fecha_compra, '%m/%d/%Y') as fecha_compra
 			from pos_compras as c
 			left join sys_persona as p On p.id_persona = c.Usuario 
 			left join sys_persona as p2 On p2.id_persona = c.Empleado

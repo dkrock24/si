@@ -206,7 +206,7 @@
                                         ?>
                                     </td>
                                 <?php
-                            }/*
+                            }
                             if ($field == 'estado') {
                                 $estado = $fields['estado'][0];
                                 ?>
@@ -230,7 +230,7 @@
                                         ?>
                                     </td>
                             <?php
-                                }*/
+                                }
                             }
                             ?>
 

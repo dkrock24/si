@@ -44,7 +44,7 @@
         </h3>
 
         <div class="row menu_title_bar">
-            <div class="col-md-8">
+            <div class="col-md-7">
 
                 <!-- Aside panel-->
 
@@ -52,9 +52,9 @@
                     <p>
                         <h3>
                             <i class="fa fa-cart-arrow-down sz2"></i>
-                            Venta Información : <span class="label label-info"># <strong><?php echo $encabezado[0]->num_correlativo; ?></strong></span>
+                            Venta Información : <span class="label label-default" style="color:black"># <strong><?php echo $encabezado[0]->num_correlativo; ?></strong></span>
                             <?php $date = date_create($encabezado[0]->fecha);  ?>
-                            <span class="label label-info 2x-lg mover_right"><?php echo date_format($date, "m/d/Y"). " |"; ?> <span class="label label-success 2x-lg mover_right"> <?php echo date_format($date, "H:i a"); ?></span></span>
+                            <span class="label label-default 2x-lg mover_right" style="color:black"><?php echo date_format($date, "m/d/Y"). " |"; ?> <span class="label label-success 2x-lg mover_right"> <?php echo date_format($date, "H:i a"); ?></span></span>
                         </h3>
                     </p>
 
@@ -172,7 +172,7 @@
                 <!-- end Aside panel-->
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="panel-body linea_superior">
                     <p>
                         <h3><i class="fa fa-money"></i> PAGO : <?php //echo $venta[0]->fecha ?>
@@ -190,6 +190,9 @@
                             <th>#</th>
                             <th>Metodo Pago</th>
                             <th>Valor</th>
+                            <th>Banco</th>
+                            <th>Número</th>
+                            <th>Serie</th>
                             <th>Estado</th>
                         </tr>
                     </thead>
@@ -203,6 +206,9 @@
                                 <td><?= $cnt ?></td>
                                 <td><?= $value->nombre_metodo_pago ?></td>
                                 <td><?= $moneda[0]->moneda_simbolo . " " . $value->valor_metodo_pago ?></td>
+                                <td><?= $value->banco_metodo_pago ?></td>
+                                <td><?= $value->numero_metodo_pago ?></td>
+                                <td><?= $value->series_metodo_pago ?></td>
                                 <td><?php if ($value->estado_venta_pago == 1) {
                                         echo "Cancelado";
                                     } else {

@@ -310,7 +310,7 @@ class Compras extends MY_Controller {
     public function column(){
 
 		$column = array(
-			'Referencia','Series','Sucursal','Bodega','Proveedor','Documento','Fecha Compra','Creado','Estado'
+			'Referencia','Serie','Sucursal','Bodega','Proveedor','Documento','Compra','Creado','Estado'
 		);
 		return $column;
 	}
@@ -318,7 +318,8 @@ class Compras extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'documento_referencia','numero_serie','nombre_sucursal','nombre_bodega','empresa_proveedor','Documento','fecha_compra','fecha_creacion','estado'
+			'documento_referencia','numero_serie','nombre_sucursal','nombre_bodega',
+			'empresa_proveedor','Documento','fecha_compra','fecha_creacion','estado'
 		);
 		
 		$fields['id'] 		= array('id_compras');

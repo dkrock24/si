@@ -261,7 +261,7 @@ class Producto extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Codigo','Producto','Sub Categoria','Marca','Precio','Giro','Existencias','Creado','Estado'
+			'Codigo','Producto','Sub Categoria','Marca','Giro','Precio','Costo','Existencias','Creado','Estado'
 		);
 		return $column;
 	}
@@ -269,8 +269,8 @@ class Producto extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'codigo_barras','name_entidad','nombre_categoria','nombre_marca','precio_venta',
-			'nombre_giro','prodCantidad','creado_producto','estado'
+			'codigo_barras','name_entidad','nombre_categoria','nombre_marca',
+			'nombre_giro','precio_venta','costo','prodCantidad','creado_producto','estado'
 		);
 
 		$moneda_simbolo = $this->return_modena();
@@ -279,6 +279,10 @@ class Producto extends MY_Controller {
 			'precio_venta' => array(
 				'valor' => $moneda_simbolo[0]->moneda_simbolo .' ',
 				'aplicar' => 'precio_venta'
+			),
+			'costo' => array(
+				'valor' => $moneda_simbolo[0]->moneda_simbolo .' ',
+				'aplicar' => 'costo'
 			),
 		);
 		

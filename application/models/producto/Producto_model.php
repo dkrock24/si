@@ -39,6 +39,7 @@ class Producto_model extends CI_Model {
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, round(P.precio_venta,2) as precio_venta,
 			 `sub_c`.`nombre_categoria` , e.nombre_razon_social,
 			  e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, 
+			  DATE_FORMAT(P.creado_producto,'%m/%d/%Y') as creado_producto,
 			  (Select sum(round(Cantidad,0)) from pos_producto_bodega as pb Where pb.Producto = P.id_entidad ) as prodCantidad
 	        	
 				FROM `producto` as `P`
@@ -407,7 +408,11 @@ class Producto_model extends CI_Model {
 
 		function get_producto( $id_producto ){
 
-			$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', sub_c.id_categoria as 'id_sub_categoria', c.id_categoria as 'id_categoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, img.producto_img_blob,img.imageType,cli.nombre_empresa_o_compania,cli.id_cliente 
+			$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `
+				c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', 
+				sub_c.id_categoria as 'id_sub_categoria', c.id_categoria as 'id_categoria', 
+				e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, 
+				img.producto_img_blob,img.imageType,cli.nombre_empresa_o_compania,cli.id_cliente 
 				FROM `producto` as `P`
 				LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`id_prod_atrri`
 				LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
