@@ -476,7 +476,7 @@ class Orden extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Correlativo','Sucursal','Terminal','Cliente','Metodo Pago','Tipo Documento','Cajero','Creado','Actual','Estado'
+			'Correlativo','Sucursal','Terminal','Cliente','Metodo Pago','Documento','Cajero','Creado','Actual','Estado'
 		);
 		return $column;
 	}

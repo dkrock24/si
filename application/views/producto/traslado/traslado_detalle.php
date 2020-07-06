@@ -27,7 +27,7 @@
                             <h3>
                                 <i class="fa fa-file-text-o"></i>
                                 TRASLADO : <?php $date = date_create($traslado[0]->creado_tras);  ?>
-                                <span class="label label-info 2x-lg"><?php echo date_format($date, "m/d/Y H:i a"); ?></span>
+                                <span class="label label-default 2x-lg" style="color:black"><?php echo date_format($date, "m/d/Y H:i a"); ?></span>
                                 <a href="#" class="">
                                     <i class="fa fa-print" data-toggle='modal' data-target='#imprimir'>
                                     </i>

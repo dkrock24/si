@@ -49,7 +49,7 @@ class Orden_model extends CI_Model
 			$filters = " and ".$filters;
 		}
 		$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,
-			orden.num_correlativo,orden.fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
+			orden.num_correlativo,DATE_FORMAT(orden.fecha,'%m/%d/%Y') AS fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
 			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
 
 			from pos_ordenes as orden 

@@ -3,7 +3,7 @@
         // OBTENER ORDENES PARA CONVERTIRLAS A VENTA
         
         $( "input[type=text]" ).focus(function() {
-            if(this.name != '[producto_buscar]'){
+            if( this.name != '[producto_buscar]' ){
                 $( this ).before( '<i class="fa fa-check lineas_formulario" style="color:#68af93"></i>' );
                 $(this).css('border','1px solid #4974a7');
             }
