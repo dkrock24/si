@@ -366,8 +366,16 @@ class Traslado extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'correlativo_tras','envia','recibe','fecha_salida','fecha_llegada','total_productos_tras',
-			'origen','destino','creado_tras','orden_estado_nombre'
+			['correlativo_tras' => 'Correlativo'],
+			['envia' => 'Firma Salida'],
+			['recibe' => 'Firma Llegada'],
+			['fecha_salida' => 'Salida'],
+			['fecha_llegada' => 'Llegada'],
+			['total_productos_tras' => 'Total'],
+			['origen' => 'Origen'],
+			['destino' => 'Destino'],
+			['creado_tras' => 'Creado'],
+			['orden_estado_nombre'=> 'Estado']
 		);
 
 		$fields['reglas'] = array(

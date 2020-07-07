@@ -172,7 +172,13 @@ class Categorias extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_categoria','cat_padre','nombre_giro','nombre_comercial','creado_categoria','actualizado_categoria','estado'
+			['nombre_categoria' => 'Categoria'],
+			['cat_padre' => 'Sub Categoria'],
+			['nombre_giro' => 'Giro'],
+			['nombre_comercial' => 'Empresa'],
+			['creado_categoria' => 'Creado'],
+			['actualizado_categoria' => 'Actualizado'],
+			['categoria_estado' => 'Estado'],
 		);
 		
 		$fields['id'] = array('id_categoria');

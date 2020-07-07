@@ -163,7 +163,11 @@ class Marca extends MY_Controller {
 	public function fields(){
 		
 		$fields['field'] = array(
-			'nombre_marca','descripcion_marca','fecha_creado_marca','fecha_atualizado_marca','estado'
+			['nombre_marca' => 'Nombre'],
+			['descripcion_marca' => 'Descripcion'],
+			['fecha_creado_marca' => 'Creado'],
+			['fecha_atualizado_marca' => 'Actualizado'],
+			['estado_marca'=> 'Estado']
 		);
 		
 		$fields['id'] 		= array('id_marca');

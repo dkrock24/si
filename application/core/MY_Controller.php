@@ -125,7 +125,7 @@ class MY_Controller extends CI_Controller
 			}			
         }
 
-        $total_row = $this->$model->record_count($_SESSION['filters']);
+		$total_row = $this->$model->record_count($_SESSION['filters']);
 				
 		if($this->uri->segment(4)){
 			if($_SESSION['per_page']!=0)
@@ -159,7 +159,8 @@ class MY_Controller extends CI_Controller
 		{
             $ff = array();
             foreach ($f['field'] as $item) {
-                $ff[key($item)] = "";
+                $ff[key($item)
+				] = "";
             }
             $_SESSION['filtros'] = $ff;
 		}		
@@ -171,7 +172,6 @@ class MY_Controller extends CI_Controller
 		$data['total_records'] 	= $total_row;
         $data['contador_tabla'] = $contador_tabla;
         $data['field'] 			= $_SESSION['filtros'];
-        
         return $data;
 
 	}

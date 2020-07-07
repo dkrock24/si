@@ -156,7 +156,15 @@ class Documento extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre','efecto_inventario','efecto_en_iva','efecto_en_cuentas','efecto_en_caja','efecto_en_report_venta','automatico','emitir_a','estado'
+			['nombre' => 'Nombre'],
+			['efecto_inventario' => 'Inventario'],
+			['efecto_en_iva' => 'Iva'],
+			['efecto_en_cuentas' => 'Cuentas'],
+			['efecto_en_caja' => 'Caja'],
+			['efecto_en_report_venta' => 'Ventas'],
+			['automatico' => 'Automatico'],
+			['emitir_a' => 'Emitir'],
+			['estado'=> 'Estado']
 		);
 		
 		$fields['id'] = array('id_tipo_documento');

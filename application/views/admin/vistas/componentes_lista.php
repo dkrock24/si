@@ -47,6 +47,7 @@
                     <tbody>
                         <?php
                         $contado=1;
+                        if($componentes){
                         foreach ($componentes as $compo) {
                         ?>
                             <tr>
@@ -90,6 +91,7 @@
                             </tr>
                             <?php
                             $contado+=1;
+                        }
                         }
                     ?>                       
                     </tbody>

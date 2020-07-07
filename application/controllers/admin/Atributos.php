@@ -123,7 +123,11 @@ class Atributos extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'nam_atributo','tipo_atributo','creado_atributo','actualizado_atributo','estado'
+			['nam_atributo' => 'Nombre'],
+			['tipo_atributo' => 'Tipo'],
+			['creado_atributo' => 'Creado'],
+			['actualizado_atributo' => 'Actualizado'],
+			['estado_atributo'=> 'Estado']
 		);
 		
 		$fields['id'] = array('id_prod_atributo');

@@ -289,7 +289,13 @@ class Pais extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_pais','zip_code','moneda_nombre','moneda_simbolo','fecha_creacion_pais','fecha_actualizacion_pais','estado'
+			['nombre_pais' => 'Nombre'],
+			['zip_code' => 'Codigo'],
+			['moneda_nombre' => 'Moneda'],
+			['moneda_simbolo' => 'Simbolo'],
+			['fecha_creacion_pais' => 'Creado'],
+			['fecha_actualizacion_pais' => 'Actualizado'],
+			['estado_pais'=> 'Estado']
 		);
 		
 		$fields['id'] = array('id_pais');

@@ -161,7 +161,9 @@ class Linea extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'tipo_producto','descripcion_tipo_producto','estado'
+			['tipo_producto' => 'Tipo'],
+			['descripcion_tipo_producto' => 'Descripcion'],
+			['estado_linea'=> 'Estado']
 		);
 		
 		$fields['id'] = array('id_linea');

@@ -207,14 +207,18 @@ class Template extends MY_Controller {
 
 		$column = array(
 			//'Sucursal','Pago','Documento','Formato','Lineas','Descripcion','Creado','Estado'
-			'Formato','Lineas','Descripcion','Creado','Estado'
+			'Formato','Lineas','Descripción','Creado','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'factura_nombre','factura_lineas','factura_descripcion','factura_creado','estado'
+			['factura_nombre' => 'Formato'],
+			['factura_lineas' => 'Lineas'],
+			['factura_descripcion' => 'Descripción'],
+			['factura_creado' => 'Creado'],
+			['factura_estatus'=> 'Estado']
 		);
 		
 		$fields['id'] 		= array('id_factura');

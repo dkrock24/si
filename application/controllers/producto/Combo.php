@@ -189,7 +189,9 @@ class Combo extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'codigo_barras','name_entidad','total'
+			['codigo_barras' => 'Codigo Barra'],
+			['name_entidad' => 'Producto Combo'],
+			['total' => 'Combo Cantidad'],
 		);
 		
 		$fields['id'] = array('Producto_Combo');

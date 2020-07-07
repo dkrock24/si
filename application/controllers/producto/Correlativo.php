@@ -179,7 +179,15 @@ class Correlativo extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_sucursal','nombre','valor_inical','valor_final','siguiente_valor','prefix','numero_de_serire','fecha_creacion','estado'
+			['nombre_sucursal' => 'Sucursal'],
+			['nombre' => 'Documento'],
+			['valor_inical' => 'N° Inicial'],
+			['valor_final' => 'N° Final'],
+			['siguiente_valor' => 'N° Siguiente'],
+			['prefix' => 'Prefix'],
+			['numero_de_serire' => 'Serie'],
+			['fecha_creacion' => 'Creado'],
+			['correlativo_estado'=> 'Estado'],
 		);
 		
 		$fields['id'] = array('id_correlativos');

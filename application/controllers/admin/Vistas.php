@@ -102,7 +102,13 @@ class Vistas extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'vista_nombre','vista_codigo','vista_accion','vista_url','vista_descripcion','total','estado'
+			['vista_nombre' => 'Nombre'],
+			['vista_codigo' => 'Codigo'],
+			['vista_accion' => 'Metodo'],
+			['vista_url' => 'Url'],
+			['vista_descripcion' => 'Descripcion'],
+			['total' => 'Botones'],
+			['vista_estado'=> 'Estado']
 		);
 		
 		$fields['id'] 	  = array('id_vista');
@@ -201,7 +207,15 @@ class Vistas extends MY_Controller {
 
 	public function fieldsC(){
 		$fields['field'] = array(
-			'vista_nombre','accion_nombre','accion_btn_nombre','accion_btn_css','accion_btn_icon','accion_btn_url','accion_btn_codigo','accion_valor','estado'
+			['vista_nombre' => 'Vista'],
+			['accion_nombre' => 'Accion'],
+			['accion_btn_nombre' => 'btn Nombre'],
+			['accion_btn_css' => 'btn Css'],
+			['accion_btn_icon' => 'btn Icon'],
+			['accion_btn_url' => 'btn Url'],
+			['accion_btn_codigo' => 'btn Codigo'],
+			['accion_valor' => 'btn Posicion'],
+			['accion_estado'=> 'Estado']
 		);
 		
 		$fields['id'] = array('id');

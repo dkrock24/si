@@ -152,7 +152,18 @@ class Impuesto extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'nombre','porcentage','suma_resta_nada','aplicar_a_producto','aplicar_a_cliente','aplicar_a_proveedor','aplicar_a_grab_brut_exent','especial','excluyente','condicion','condicion_valor','estado'
+			['nombre' => 'Nombre'],
+			['porcentage' => 'Porcentaje'],
+			['suma_resta_nada' => 'SRN'],
+			['aplicar_a_producto' => 'A_producto'],
+			['aplicar_a_cliente' => 'A_cliente'],
+			['aplicar_a_proveedor' => 'A_proveedor'],
+			['aplicar_a_grab_brut_exent' => 'A_G_B_E'],
+			['especial' => 'Es'],
+			['excluyente' => 'Ex'],
+			['condicion' => 'Co'],
+			['condicion_valor' => 'Valor'],
+			['imp_estado'  => 'Estado']
 		);
 		
 		$fields['id'] 		= array('id_tipos_impuestos');

@@ -216,14 +216,20 @@ class Giros extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Nombre','Tipo','Descripcion','Codigo','Creado', 'Actualizado', 'Estado'
+			'Nombre','Tipo','Descripción','Codigo','Creado', 'Actualizado', 'Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_giro','tipo_giro','descripcion_giro','codigo_giro','fecha_giro_creado','fecha_giro_actualizado','estado'
+			['nombre_giro' => 'Nombre'],
+			['tipo_giro' => 'Tipo'],
+			['descripcion_giro' => 'Descripción'],
+			['codigo_giro' => 'Codigo'],
+			['fecha_giro_creado' => 'Creado'],
+			['fecha_giro_actualizado' => 'Actualizado'],
+			['estado_giro'=> 'Estado']
 		);
 		
 		$fields['id'] 		= array('id_giro');

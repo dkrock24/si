@@ -170,7 +170,10 @@ class Moneda extends MY_Controller {
 	public function fields(){
 		
 		$fields['field'] = array(
-			'moneda_nombre','moneda_simbolo','moneda_alias','estado'
+			['moneda_nombre' => 'Nombre'],
+			['moneda_simbolo' => 'Simbolo'],
+			['moneda_alias' => 'Alias'],
+			['moneda_estado' => 'Estado']
 		);
 		
 		$fields['id'] 		= array('id_moneda');

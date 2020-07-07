@@ -318,8 +318,15 @@ class Compras extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'documento_referencia','numero_serie','nombre_sucursal','nombre_bodega',
-			'empresa_proveedor','Documento','fecha_compra','fecha_creacion','estado'
+			['documento_referencia' => 'Referencia'],
+			['numero_serie' => 'Serie'],
+			['nombre_sucursal' => 'Sucursal'],
+			['nombre_bodega' => 'Bodega'],
+			['empresa_proveedor' => 'Proveedor'],
+			['Documento' => 'Documento'],
+			['fecha_compra' => 'Compra'],
+			['fecha_creacion' => 'Creado'],
+			['estado' => 'Estado']
 		);
 		
 		$fields['id'] 		= array('id_compras');
