@@ -17,20 +17,24 @@ function b()
         
     });    
 
-    generate(y);
+    var e = [] ;
+    x.map(function (value, label) {
+        e.push(value.value);
+    }); 
+
+    generate(e,y);
 }; 
 
 function exportPdf(){
     $("#opciones").modal();
 }
 
-function generate(x) {
-    
-    var doc = new jsPDF();
+function generate(e,x) {
+
+    var doc = new jsPDF('p','pt', 'a4', true);
 
     // Simple data example
     var head = x;
-    
 
     var body = []; 
 
@@ -67,7 +71,12 @@ function generate(x) {
         
     });
 
-    doc.autoTable({ head: [head], body: body } );
+    doc.text(documento_titulo, 35, 25);
+    doc.autoTable({ 
+        columnStyles: { europe: { halign: 'center' } }, // European countries centered
+        head: [e], 
+        body: body 
+    });
 
     // Simple html example
     //doc.autoTable({head: head, body: '#datosLista'});

@@ -210,7 +210,17 @@ class Empleado extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'primer_apellido_persona','primer_nombre_persona','horas_laborales_mensuales_empleado','turno','alias','seccion','puesto','encargado','nombre_sucursal','cargo_laboral','estado'
+			['primer_apellido_persona' => 'Apellido'],
+			['primer_nombre_persona' => 'Nombre'],
+			['horas_laborales_mensuales_empleado' => 'Horas'],
+			['turno' => 'Turno'],
+			['alias' => 'Alias'],
+			['seccion' => 'Seccion'],
+			['puesto' => 'Puesto'],
+			['encargado' => 'Encargado'],
+			['nombre_sucursal' => 'Sucursal'],
+			['cargo_laboral' => 'Cargo'],
+			['estado' => 'Estado']
 		);
 		
 		$fields['id'] = array('id_empleado');

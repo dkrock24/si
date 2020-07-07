@@ -159,7 +159,7 @@ class MY_Controller extends CI_Controller
 		{
             $ff = array();
             foreach ($f['field'] as $item) {
-                $ff[$item] = "";
+                $ff[key($item)] = "";
             }
             $_SESSION['filtros'] = $ff;
 		}		
@@ -206,25 +206,33 @@ class MY_Controller extends CI_Controller
 		$rowCount = 2;
 		
 		foreach ($listInfo as $list) {
-
 			$indice = 0;
 
 			for ($i = 65; $i <= 90; $i++) {
-
-				if( isset( $fields['field'][$indice] )){
-
-					$a =  $fields['field'][$indice];
-					
-
-					if(isset($list->$a)){
-
-						$list->$a;
+				$key_field = "";
+				if(isset($fields['field'][$indice])){
+					foreach ($fields['field'][$indice] as $key => $value) {
+						$key_field = $key;
 						
-						$objPHPExcel->getActiveSheet()->SetCellValue(chr($i) . $rowCount, $list->$a );				
+						continue;
+					}$indice++;
+				}else{
+					continue;
+				}
+				
+				if( isset( $key_field )){
+					if(isset($list->$key_field)){
+						$list->$key_field;
+
+
+						$list->$key_field;
+						
+						$objPHPExcel->getActiveSheet()->SetCellValue(chr($i) . $rowCount, $list->$key_field );				
 						
 					}
-					$indice++;
+					
 				}
+				
 			}
 			
 			$rowCount++;

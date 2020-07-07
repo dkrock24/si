@@ -193,14 +193,22 @@ class Cliente extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Nombre','Nombre','Apellido','NRC','NIT','Clase','T. Pago','T. Documento', 'Descuento', 'Estado'
+			'Nombre','Apellido','NRC','NIT','Clase','T. Pago','T. Documento', 'Descuento', 'Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_empresa_o_compania','primer_nombre_persona','primer_apellido_persona','nrc_cli','nit_cliente','clase_cli','codigo_modo_pago','nombre','porcentage_descuentos','estado'
+			['nombre_empresa_o_compania'=> 'Nombre'],
+			['primer_nombre_persona'=> 'Nombre'],
+			['primer_apellido_persona'=> 'Apellido'],
+			['nrc_cli'=> 'NRC'],
+			['nrc_cli'=> 'NIT'],
+			['clase_cli' => 'Clase'],
+			['nombre'=> 'T. Documento'],
+			['porcentage_descuentos'=> 'Descuento'],
+			['estado_cliente' => 'Estado']
 		);
 		
 		$fields['id'] = array('id_cliente');

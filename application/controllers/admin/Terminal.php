@@ -187,14 +187,21 @@ class Terminal extends MY_Controller {
 
 	public function column(){
 		$column = array(
-			'Sucursal','Nombre','Numero','Ubicacion','Modelo','Serie','Marca','Estado'
+			'Sucursal','Nombre','Número','Ubicación','Modelo','Serie','Marca','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_sucursal','nombre','numero','ubicacion','modelo','series','marca','estado'
+			['nombre_sucursal' => 'Sucursal'],
+			['nombre' => 'Nombre'],
+			['numero' => 'Número'],
+			['ubicacion' => 'Ubicación'],
+			['modelo' => 'Modelo'],
+			['series' => 'Serie'],
+			['marca' => 'Marca'],
+			['estado_terminal' => 'Estado'],
 		);
 		
 		$fields['id'] = array('id_terminal');

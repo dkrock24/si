@@ -32,8 +32,8 @@ class Caja extends MY_Controller {
 		$data['links'] 			= $pag['links'];
 		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
-		$data['column'] = $this->column();
-		$data['fields'] = $this->fields();
+		$data['column'] 		= $this->column();
+		$data['fields'] 		= $this->fields();
 		$data['total_pagina'] 	= $pag['config']["per_page"];
 		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
@@ -147,7 +147,15 @@ class Caja extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_sucursal','nombre_caja','cod_interno_caja','nombre','factura_nombre','resol_num_caja','resol_num_tiq_caja','pred_cod_cajr','estado'
+			['nombre_sucursal' => 'Sucursal'],
+			['nombre_caja'=> 'Nombre'],
+			['cod_interno_caja'=> 'Codigo'],
+			['nombre'=> 'Documento'],
+			['factura_nombre'=> 'Template'],
+			['resol_num_caja'=> 'Resolucion'],
+			['resol_num_tiq_caja'=> 'RNTicket'],
+			['pred_cod_cajr'=> 'Cajero'],
+			['estado'=> 'Estado'],
 		);
 		
 		$fields['id'] = array('id_caja');

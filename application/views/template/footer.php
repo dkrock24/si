@@ -170,13 +170,15 @@
 
           <?php
             if($fields['field']){
-              foreach ($fields['field'] as $item) {
+              foreach ($fields['field'] as $key => $item) {
+                foreach ($item as $key => $item2) {
                 ?>
                   
-                  <input type="checkbox" checked="checked" name="<?php echo $item ?>" value="<?php echo $item ?>" />
-                  <label><?php echo $item ?></label>
+                  <input type="checkbox" checked="checked" name="<?php echo $key ?>" value="<?php echo $item2 ?>" />
+                  <label><?php echo $item2 ?></label>
                   <br/>
                 <?php
+                }
               }
             }
           ?>

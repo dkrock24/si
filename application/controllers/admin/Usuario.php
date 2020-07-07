@@ -168,7 +168,15 @@ class Usuario extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_usuario','contrasena_usuario','hora_inicio','hora_salida','usuario_encargado','role','Empleado','alias','estado'
+			['nombre_usuario' => 'Usuario'],
+			['contrasena_usuario' => 'Password'],
+			['hora_inicio' => 'Hora Inicio'],
+			['hora_salida' => 'Hora fin'],
+			['usuario_encargado' => 'Encargado'],
+			['role' => 'Rol'],
+			['Empleado' => 'Id'],
+			['alias' => 'Empleado'],
+			['estado' => 'Estado'],
 		);
 		
 		$fields['id'] 		= array('id_usuario');

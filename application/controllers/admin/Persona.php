@@ -174,7 +174,18 @@ class Persona extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'primer_nombre_persona','segundo_nombre_persona','primer_apellido_persona','segundo_apellido_persona','dui','nit','direccion_residencia_persona1','tel','whatsapp','sexo','nombre_ciudad','estado'
+			['primer_nombre_persona' => 'P.Nombre'],
+			['segundo_nombre_persona' => 'S.Nombre'],
+			['primer_apellido_persona' => 'P.Apellido'],
+			['segundo_apellido_persona' => 'S.Apellido'],
+			['dui' => 'DUI'],
+			['nit' => 'NIT'],
+			['direccion_residencia_persona1' => 'Direccion'],
+			['tel' => 'Tel'],
+			['whatsapp' => 'Whatsapp'],
+			['sexo' => 'Sexo'],
+			['nombre_ciudad' => 'Ciudad'],
+			['persona_estado' =>  'Estado']
 		);
 		
 		$fields['id'] 		= array('id_persona');

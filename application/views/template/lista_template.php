@@ -78,7 +78,7 @@
                                     <?php
                                     if(isset($filtros)){
                                         ?>
-                                        <input type="text" name="<?php echo $fields['field'][$key]; ?>" value="<?php echo @$filtros[$fields['field'][$key]] ?>" class="form-control filtro-input" /><br>
+                                        <input type="text" name="<?php echo key($fields['field'][$key]); ?>" value="<?php echo @$filtros[$fields['field'][$key]] ?>" class="form-control filtro-input" /><br>
                                         <?php
                                     }
                                     ?>                                
@@ -156,40 +156,41 @@
                                         ?>
                                     <td>
                                         <?php
-                                            $a = substr($table->$field, 0, 1);
-                                            if(isset($fields['reglas'][$field]['aplicar'])){
-                                                echo $fields['reglas'][$field]['valor'];
+                                        $c = key($field);
+                                            $a = substr($table->$c, 0, 1);
+                                            if(isset($fields['reglas'][$c]['aplicar'])){
+                                                echo $fields['reglas'][$c]['valor'];
                                             }
                                             
-                                            if(isset($fields['reglas'][$field]['condicion'])){
+                                            if(isset($fields['reglas'][$c]['condicion'])){
                                                 
-                                                if($fields['reglas'][$field]['condicion'] == 1){
+                                                if($fields['reglas'][$c]['condicion'] == 1){
                                                     
-                                                    if($table->$field == 'Devolucion'){
+                                                    if($table->$c == 'Devolucion'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-danger'>".$table->$estado."</span></h5>";
                                                     }
-                                                    else if($table->$field == 'En proceso'){
+                                                    else if($table->$c == 'En proceso'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-primary'>".$table->$estado."</span></h5>";
                                                     }
-                                                    else if($table->$field == 'Facturada'){
+                                                    else if($table->$c == 'Facturada'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-success'>".$table->$estado."</span></h5>";
                                                     }
-                                                    else if($table->$field == 'Anulada'){
+                                                    else if($table->$c == 'Anulada'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-warning'>".$table->$estado."</span></h5>";
                                                     }
-                                                    else if($table->$field == 'Procesada'){
+                                                    else if($table->$c == 'Procesada'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-info'>".$table->$estado."</span></h5>";
                                                     }
-                                                    else if($table->$field == 'Creado'){
+                                                    else if($table->$c == 'Creado'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-success'>".$table->$estado."</span></h5>";
                                                     }
-                                                    else if($table->$field == 'Enviado'){
+                                                    else if($table->$c == 'Enviado'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-danger'>".$table->$estado."</span></h5>";
                                                     }else{
@@ -199,8 +200,8 @@
                                                 }
                                             }
 
-                                            if(!isset($fields['reglas'][$field]['condicion'])){
-                                                echo $table->$field;
+                                            if(!isset($fields['reglas'][$c]['condicion'])){
+                                                echo $table->$c;
                                             }
                                             
                                         ?>

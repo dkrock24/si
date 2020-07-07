@@ -81,6 +81,7 @@ class Reporte extends My_Controller {
 		}		
 
 		$data['fields']	= $this->fields();
+		$data['column']	= $this->column();
 		$data['menu'] 	= $this->session->menu;
 		$data['moneda'] = $this->session->empresa[0]->moneda_simbolo;
         $data['title'] 	= 'Reportes';
@@ -152,7 +153,7 @@ class Reporte extends My_Controller {
 	public function column(){
 
 		$column = array(
-			'id','nombre','num_correlativo','nombre_empresa_o_compania','orden_estado_nombre'
+			'Id','Nombre','Correlativo','Empresa','Cliente','Pago','Fecha','Total','Estado'
 		);
 		return $column;
 	}
@@ -160,7 +161,15 @@ class Reporte extends My_Controller {
 	public function fields(){
 		
 		$fields['field'] = array(
-			'id','nombre','num_correlativo','nombre_empresa_o_compania','orden_estado_nombre'
+			['id'=> 'Id'],
+			['nombre' => 'Nombre'],
+			['num_correlativo' => 'Correlativo'],
+			['nombre_empresa_o_compania' =>'Empresa'],
+			['id_cliente' => 'Cliente'],
+			['nombre_metodo_pago' => 'Pago'],
+			['fh_inicio' => 'Fecha'],
+			['total_doc' => 'Total'],
+			['orden_estado_nombre' => 'Estado']
 		);
 		
 		$fields['id'] 		= array('id');

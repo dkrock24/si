@@ -484,7 +484,16 @@ class Orden extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'num_correlativo','nombre_sucursal','num_caja','nombre_empresa_o_compania','nombre_modo_pago','tipo_documento','nombre_usuario','fecha','orden_estado_nombre','estado'
+			['num_correlativo' => 'Correlativo'],
+			['nombre_sucursal' => 'Sucursal'],
+			['num_caja' => 'Terminal'],
+			['nombre_empresa_o_compania' => 'Cliente'],
+			['nombre_modo_pago' => 'Metodo Pago'],
+			['tipo_documento' => 'Documento'],
+			['nombre_usuario' => 'Cajero'],
+			['fecha' => 'Creado'],
+			['orden_estado_nombre' => 'Actual'],
+			['orden_estado' => 'Estado'],
 		);
 		
 		$fields['id'] 		= array('num_correlativo');

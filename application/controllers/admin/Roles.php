@@ -133,7 +133,11 @@ class Roles extends MY_Controller {
 	public function fields(){
 		
 		$fields['field'] = array(
-			'role','pagina','fecha_creacion','fecha_actualizacion','estado'
+			['role' => 'Nombre'],
+			['pagina' => 'Pagina'],
+			['fecha_creacion' => 'Creacion'],
+			['fecha_actualizacion' => 'Actualizacion'],
+			['estado_rol' => 'Estado'],
 		);
 		
 		$fields['id'] 		= array('id_rol');

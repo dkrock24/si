@@ -286,8 +286,17 @@ class Venta extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'num_correlativo','nombre_sucursal','num_caja','nombre_empresa_o_compania','nombre_usuario','nombre_modo_pago',
-			'tipo_documento','desc_val','total_doc','fecha','orden_estado_nombre'
+			['num_correlativo' => 'Correlativo'],
+			['nombre_sucursal' => 'Sucursal'],
+			['num_caja' => 'Terminal'],
+			['nombre_empresa_o_compania' => 'Cliente'],
+			['nombre_usuario' => 'Cajero'],
+			['nombre_modo_pago' => 'C Pago'],
+			['tipo_documento' => 'Tipo Doc'],
+			['desc_val' => 'Descuento'],
+			['total_doc' => 'Total'],
+			['fecha' => 'Creado'],
+			['orden_estado_nombre' => 'Estado'],
 		);
 
 		$moneda_simbolo = $this->return_modena();

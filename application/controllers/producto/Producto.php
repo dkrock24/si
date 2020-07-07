@@ -269,8 +269,16 @@ class Producto extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'codigo_barras','name_entidad','nombre_categoria','nombre_marca',
-			'nombre_giro','precio_venta','costo','prodCantidad','creado_producto','estado'
+			['codigo_barras' => 'Codigo'],
+			['name_entidad' => 'Producto'],
+			['nombre_categoria' => 'Sub Categoria'],
+			['nombre_marca' => 'Marca'],
+			['nombre_giro' => 'Giro'],
+			['precio_venta' => 'Precio'],
+			['costo' => 'Costo'],
+			['prodCantidad' => 'Existencias'],
+			['creado_producto' => 'Creado'],
+			['producto_estado'=> 'Estado']
 		);
 
 		$moneda_simbolo = $this->return_modena();

@@ -171,10 +171,14 @@ class Cargo extends MY_Controller {
 	}
 
 	public function fields(){
-		$fields['field'] = array(
-			'cargo_laboral','descripcion_cargo_laboral','salario_mensual_cargo_laboral','estado'
-		);
 		
+		$fields['field'] = array(
+			['cargo_laboral' => 'Cargo'],
+			['descripcion_cargo_laboral' => 'Descripcion'],
+			['salario_mensual_cargo_laboral' => 'Salario'],
+			['estado' => 'Estado']
+		);
+
 		$fields['id'] 	  = array('id_cargo_laboral');
 		$fields['estado'] = array('estado');
 		$fields['titulo'] = "Cargos Laborales Lista";

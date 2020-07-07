@@ -182,7 +182,7 @@ class Empresa extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Nombre','NRC','NIT','GIRO','TEL','MONEDA','CODIGO','CREADO','ACTUA.','ESTADO'
+			'Nombre','NRC','NIT','GIRO','TEL','MONEDA','CODIGO','CREADO','ACTUA','ESTADO'
 		);
 		return $column;
 	}
@@ -190,7 +190,16 @@ class Empresa extends MY_Controller {
 	public function fields(){
 
 		$fields['field'] = array(
-			'nombre_razon_social','nrc','nit','giro','tel','moneda_nombre','codigo','empresa_creado','empresa_actualizado','estado'
+			['nombre_razon_social' => 'Nombre'],
+			['nrc' => 'NRC'],
+			['nit' => 'NIT'],
+			['giro' => 'GIRO'],
+			['tel' => 'TEL'],
+			['moneda_nombre' => 'MONEDA'],
+			['codigo' => 'CODIGO'],
+			['empresa_creado' => 'CREADO'],
+			['empresa_actualizado' =>'ACTUA'],
+			['empresa_estado' =>'ESTADO']
 		);
 		
 		$fields['id'] 		= array('id_empresa');

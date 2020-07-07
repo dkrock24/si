@@ -103,7 +103,7 @@
                                              </td>
                                              <td class="" width="10%">
                                                 <div class="">
-                                                   <input type="number" class="cantidad_input" style="width:80px;" name="cantidad<?php echo $value->id_pro_bod; ?>">
+                                                   <input type="number" class="cantidad_input" readonly style="width:80px;" name="cantidad<?php echo $value->id_pro_bod; ?>">
                                                 </div>
                                              </td>
                                              <td class="" width="10%">

@@ -155,7 +155,17 @@ class Proveedor extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'codigo_proveedor','empresa_proveedor','titular_proveedor','nrc','giro','tel_empresa','cel_empresa','tipo_producto','primer_nombre_persona','primer_apellido_persona','estado'
+			['codigo_proveedor' => 'Codigo'],
+			['empresa_proveedor' => 'Empresa'],
+			['titular_proveedor' => 'Titular'],
+			['nrc' => 'NRC'],
+			['giro' => 'Giro'],
+			['tel_empresa' => 'Tel'],
+			['cel_empresa' => 'Cel'],
+			['tipo_producto' => 'Linea'],
+			['primer_nombre_persona' => 'Nombre'],
+			['primer_apellido_persona' => 'Apellido'],
+			['estado' => 'Estado']
 		);
 		
 		$fields['id'] 		= array('id_proveedor');

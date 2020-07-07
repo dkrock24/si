@@ -604,7 +604,6 @@
 
             document.onkeydown = function(e) {
                 //productos_tabla
-
                 switch (e.keyCode) {
                     case 37: //alert('left');     
                         input_producto_buscar.select();             
@@ -656,6 +655,9 @@
                         break;
                     case 106: // *
                         focus_general_input($("#descuento"), 0);
+                        break;
+                    case 107: // #
+                        focus_general_input($("#venta_numero"), 0);
                         break;
                     case 48: open_anulado_modal();
                         break;

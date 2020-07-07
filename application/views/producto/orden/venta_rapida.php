@@ -162,6 +162,7 @@ include("asstes/pos_orden.php");
                                     [C / ]<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display: inline-block;">
                                     <input type="text" class="form-control border-input" placeholder="D *" id="descuento" name="descuento" size="2px" style="width: 80px;display: inline-block;">
                                     <input type="text" name="orden_numero" id="orden_numero" placeholder="O -" value="" class="form-control" style="width:100px; display: inline-block;" />
+                                    <input type="text" name="venta_numero" id="venta_numero" placeholder="#" value="" class="form-control" style="width:120px; display: inline-block;" />
                                 </div>
                             </div>
                         </div>

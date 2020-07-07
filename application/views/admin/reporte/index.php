@@ -2,8 +2,8 @@
 
 <script type="text/javascript">
     var headers = <?php echo json_encode($fields['field']); ?>;
-    var records = <?php echo json_encode($registros); ?>
-
+    var records = <?php echo json_encode($registros); ?>;
+    
     var documento_titulo = <?php echo json_encode($fields['titulo']); ?>;
 
     $(document).ready(function() {
@@ -48,7 +48,7 @@
         float: right;
     }
     .header_report{
-        background: #eef5be;
+        background: #707b73;
     }
     .filters_report{
         background: #fff;
@@ -218,18 +218,18 @@
                                             <table id="tablePreview" class="table table-striped table-hover table-sm table-borderless">
                                                 <thead class="header_report">
                                                     <tr>
-                                                        <th>#</th>
-                                                        <th>Id</th>
-                                                        <th>Documento</th>
-                                                        <th>Numero</th>
-                                                        <th>Fecha</th>
-                                                        <th>Id Cliente</th>
-                                                        <th>Nombre</th>
-                                                        <th>Cond-Pago</th>
-                                                        <th>Valor Grabado</th>
-                                                        <th>Valor Exento Total</th>
-                                                        <th>Estado</th>
-                                                        <th>Detalle</th>
+                                                        <th style="color:#fff">#</th>
+                                                        <th style="color:#fff">Id</th>
+                                                        <th style="color:#fff">Documento</th>
+                                                        <th style="color:#fff">Número</th>
+                                                        <th style="color:#fff">Fecha</th>
+                                                        <th style="color:#fff">Cliente</th>
+                                                        <th style="color:#fff">Nombre</th>
+                                                        <th style="color:#fff">Cond-Pago</th>
+                                                        <th style="color:#fff">Valor Grabado</th>
+                                                        <th style="color:#fff">Valor Exento Total</th>
+                                                        <th style="color:#fff">Estado</th>
+                                                        <th style="color:#fff">Detalle</th>
                                                     </tr>
                                                 </thead>
                                                 <?php

@@ -156,14 +156,20 @@ class Sucursal extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Empresa','Sucursal','Direccion','Tel','Cel','Encargado',  'Estado'
+			'Empresa','Sucursal','Dirección','Telefono','Celular','Encargado',  'Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_comercial','nombre_sucursal','direct','tel','cel','encargado_sucursal','estado'
+			['nombre_comercial' => 'Empresa'],
+			['nombre_sucursal' => 'Sucursal'],
+			['direct' => 'Dirección'],
+			['tel' => 'Telefono'],
+			['cel' => 'Celular'],
+			['encargado_sucursal' => 'Encargado'],
+			['estado'=> 'Estado']
 		);
 		
 		$fields['id'] 		= array('id_sucursal');
