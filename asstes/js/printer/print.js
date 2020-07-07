@@ -22,6 +22,7 @@ function b()
         e.push(value.value);
     }); 
 
+
     generate(e,y);
 }; 
 
@@ -31,7 +32,7 @@ function exportPdf(){
 
 function generate(e,x) {
 
-    var doc = new jsPDF('p','pt', 'a4', true);
+    var doc = new jsPDF('landscape');
 
     // Simple data example
     var head = x;
@@ -41,6 +42,7 @@ function generate(e,x) {
     var a = 0;
     var attr;
 
+    
     a = 0;
     var flag = true;
     newObject = records.map(function (value, label) {
@@ -70,13 +72,23 @@ function generate(e,x) {
         }
         
     });
-
-    doc.text(documento_titulo, 35, 25);
-    doc.autoTable({ 
-        columnStyles: { europe: { halign: 'center' } }, // European countries centered
-        head: [e], 
-        body: body 
-    });
+    console.log(img[0]);
+    //var img = new Image();
+    doc.setFontSize(12);
+    doc.text(documento_titulo, 15, 10);
+    doc.setFontSize(12);
+    doc.text(img[0], 150, 10);
+    //img.src = '/asstes/img/bg1.jpg';
+    //doc.addImage(img, 'jpg', 10, 50);
+    doc.autoTable( 
+        //styles: { fillColor: [255, 0, 0] },
+        //tableWidth: 'auto',
+        //columnStyles: { 0: { halign: 'center' } }, // Cells in first column centered and green
+        //margin: { top: 10 },
+        e, 
+        body 
+    );
+    
 
     // Simple html example
     //doc.autoTable({head: head, body: '#datosLista'});

@@ -5,6 +5,9 @@
     var headers = <?php echo json_encode($fields['field']); ?>;
     var records = <?php echo json_encode($registros); ?>;
     var documento_titulo = <?php echo json_encode($fields['titulo']); ?>;
+    var img = [
+        empresa = "<?php echo $_SESSION['empresa'][0]->nombre_comercial ?>",
+    ];
 
     $(document).ready(function() {
         $(".filtro-input").each(function() {
@@ -47,11 +50,14 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; "><i class="icon-arrow-right"></i> <?php echo $fields['titulo']; ?></h3>
-
+        
         <div class="panel menu_title_bar">
         <?php $this->load->view('notificaciones/success'); ?>
             <!-- START table-responsive-->
             <div class="dataList">
+                <?php
+                //var_dump( $_SESSION['empresa'][0]->nombre_comercial);
+                ?>
                 <table id="datatable1" class="table table-striped table-hover" width="100%">
                     <thead class="linea_superior">
                         <tr class="">
