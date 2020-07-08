@@ -150,10 +150,68 @@ class Reporte extends My_Controller {
 		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
 	}
 
+	public function export2(){
+
+		$column = array(
+			'Nombre','Inicial','Final','C. Devolucion','Σ Devolucion',
+			'Descuento','Monto','Σ Efectivo','Σ TCredito','Σ Cheque','Credito'
+		);
+
+		$fields = $this->fields();
+
+		$original_registros = $_SESSION['registros'];
+
+		$total_devolucion       =0;
+		$suma_devolucion        =0.00;
+		$cantidad_devolucion    =0.00;
+		$suma_descuento         =0.00;
+		$suma_efectivo          =0.00;
+		$suma_tcredito          =0.00;
+		$suma_cheque            =0.00;
+		$suma_credito           =0.00;
+
+		foreach ($_SESSION['registros'] as $key => $value) {
+			$cantidad_devolucion    += $value->total_devolucion;
+			$total_devolucion       += $value->total_devolucion;
+			$suma_devolucion        += number_format($value->sum_devolucion,2) * (-1);
+			$suma_descuento         += number_format($value->descuento,2);
+			$suma_efectivo          += $value->efectivo;
+			$suma_tcredito          += number_format($value->tcredito,2);
+			$suma_cheque            += number_format($value->cheque,2);
+			$suma_credito           += number_format($value->cheque,2);
+		}
+		
+
+		$total_registros = array(
+			"id" 				=> "" ,
+			"num_correlativo" 	=> "",
+			"fh_inicio" 		=> "",
+			"id_cliente" 		=> "",
+			"total_doc" 		=> "",
+			"nombre" 			=> "TOTALES",
+			"inicio" 			=> "",
+			"fin" 				=> "",
+			"total_devolucion"  => $total_devolucion,
+			"sum_devolucion" 	=> $suma_devolucion,
+			"descuento" 		=> $suma_descuento,
+			"efectivo" 			=> $suma_efectivo,
+			"tcredito" 			=> $suma_tcredito,
+			"cheque" 			=> $suma_cheque,
+			"credito" 			=> $suma_credito,
+			"nombre_empresa_o_compania" => "",
+			"nombre_metodo_pago" 		=> "",
+			"orden_estado_nombre" 		=> ""
+		);
+		$original_registros[] = (object) $total_registros;
+
+
+		$this->xls( $original_registros , $_SESSION['Vista'] ,$column, $fields  );
+	}
+
 	public function column(){
 
 		$column = array(
-			'Id','Nombre','Correlativo','Empresa','Cliente','Pago','Fecha','Total','Estado'
+			'Id','Sucursal','Nombre','Correlativo','Empresa','Cliente','Pago','Fecha','Total','Estado'
 		);
 		return $column;
 	}
@@ -161,15 +219,17 @@ class Reporte extends My_Controller {
 	public function fields(){
 		
 		$fields['field'] = array(
-			['id'=> 'Id'],
-			['nombre' => 'Nombre'],
-			['num_correlativo' => 'Correlativo'],
-			['nombre_empresa_o_compania' =>'Empresa'],
-			['id_cliente' => 'Cliente'],
-			['nombre_metodo_pago' => 'Pago'],
-			['fh_inicio' => 'Fecha'],
-			['total_doc' => 'Total'],
-			['orden_estado_nombre' => 'Estado']
+			['nombre'	=> 'Documento'],
+			['inicio'	=> 'Inicio'],
+			['fin' 		=> 'Fin'],
+			['total_devolucion' => 'Total Devolucion'],
+			['sum_devolucion' 	=> 'Suma Devolucion'],
+			['descuento'=>'Descuento'],
+			['descuento'=> 'Descuento'],
+			['efectivo' => 'Efectivo'],
+			['tcredito' => 'T.Credito'],
+			['cheque' 	=> 'Cheque'],
+			['credito' 	=> 'Crdito']
 		);
 		
 		$fields['id'] 		= array('id');

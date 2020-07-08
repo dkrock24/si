@@ -40,14 +40,14 @@
     }
     .sz2 {
         font-size: 30px;
-        color: #129cd6;
+        color: #0f4871;
     }
     .btn-process{
         display:inline-block;
         float: right;
     }
     .header_report{
-        background: #dedede; 
+        background: #707b73; 
     }
     .filters_report{
         background: #fff;
@@ -81,7 +81,7 @@
                                     <a href="#" class="btn btn-info btn-color" onclick="exportPdf()">
                                         <i class="fa fa-file-pdf-o sz"></i> PDF
                                     </a>
-                                    <a href="export" class="btn btn-info btn-color">
+                                    <a href="export2" class="btn btn-info btn-color">
                                         <i class="fa fa-file-excel-o h sz"></i> XLS
                                     </a>
                                 </div>
@@ -237,19 +237,19 @@
                                             <table id="tablePreview" class="table table-striped table-hover table-sm table-borderless">
                                                 <thead class="header_report">
                                                     <tr>
-                                                        <th>#</th>
-                                                        <th>Documento</th>
-                                                        <th># Inical</th>
-                                                        <th># Final</th>
-                                                        <th>C. Devolución</th>
-                                                        <th>Σ Devolución</th>
-                                                        <th>Descuento</th>
-                                                        <th>Monto</th>
-                                                        <th>Apli</th>
-                                                        <th>Σ Efectivo</th>
-                                                        <th>Σ TCredito</th>
-                                                        <th>Σ Cheque</th>
-                                                        <th>Credito</th>                                          
+                                                        <th style="color:#fff">#</th>
+                                                        <th style="color:#fff">Documento</th>
+                                                        <th style="color:#fff"># Inical</th>
+                                                        <th style="color:#fff"># Final</th>
+                                                        <th style="color:#fff">C. Devolución</th>
+                                                        <th style="color:#fff">Σ Devolución</th>
+                                                        <th style="color:#fff">Descuento</th>
+                                                        <th style="color:#fff">Monto</th>
+                                                        <th style="color:#fff">Apli</th>
+                                                        <th style="color:#fff">Σ Efectivo</th>
+                                                        <th style="color:#fff">Σ TCredito</th>
+                                                        <th style="color:#fff">Σ Cheque</th>
+                                                        <th style="color:#fff">Credito</th>                                          
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -297,19 +297,19 @@
                                                 ?>
                                                 <thead class="header_report">
                                                     <tr class="">
-                                                        <th></th>                                                        
-                                                        <th>TOTALES</th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th><?= $total_devolucion; ?></th>
-                                                        <th><?= $moneda ." ". $suma_devolucion ?></th>
-                                                        <th><?= $moneda ." ". $suma_descuento ?></th>
-                                                        <th>N/A</th>
-                                                        <th>Apli</th>
-                                                        <th><?= $moneda ." ". $suma_efectivo ?></th>
-                                                        <th><?= $moneda ." ". $suma_tcredito ?></th>
-                                                        <th><?= $moneda ." ". $suma_cheque ?></th>
-                                                        <th><?= $moneda ." ". $suma_credito ?></th>
+                                                        <th style="color:#fff"></th>                                                        
+                                                        <th style="color:#fff">TOTALES</th>
+                                                        <th style="color:#fff"></th>
+                                                        <th style="color:#fff"></th>
+                                                        <th style="color:#fff"><?= $total_devolucion; ?></th>
+                                                        <th style="color:#fff"><?= $moneda ." ". $suma_devolucion ?></th>
+                                                        <th style="color:#fff"><?= $moneda ." ". $suma_descuento ?></th>
+                                                        <th style="color:#fff">N/A</th>
+                                                        <th style="color:#fff">Apli</th>
+                                                        <th style="color:#fff"><?= $moneda ." ". $suma_efectivo ?></th>
+                                                        <th style="color:#fff"><?= $moneda ." ". $suma_tcredito ?></th>
+                                                        <th style="color:#fff"><?= $moneda ." ". $suma_cheque ?></th>
+                                                        <th style="color:#fff"><?= $moneda ." ". $suma_credito ?></th>
                                                     </tr>
                                                  </thead>
                                                 </tbody>

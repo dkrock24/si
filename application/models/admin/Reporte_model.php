@@ -15,6 +15,7 @@ class Reporte_model extends CI_Model {
     const pagos     = 'pos_venta_pagos';
     const estados   = 'pos_orden_estado';
     const turnos    = ' pos_turnos';
+    const sucursal  = 'pos_sucursal';
     
     function index($limit, $id , $filters ){
 
@@ -64,7 +65,9 @@ class Reporte_model extends CI_Model {
             $caja = " v.id_caja = ". $caja;
         }
 
-        $this->db->select('v.id , v.num_correlativo, v.fh_inicio, v.id_cliente , v.total_doc , d.nombre , c.nombre_empresa_o_compania ,p.nombre_metodo_pago, s.orden_estado_nombre');
+        $this->db->select('v.id , v.num_correlativo, v.fh_inicio, v.id_cliente , v.total_doc , d.nombre ,
+        su.nombre_sucursal,
+         c.nombre_empresa_o_compania ,p.nombre_metodo_pago, s.orden_estado_nombre');
         $this->db->from(self::ventas.' as v');  
         $this->db->join(self::usuarios.' as u','u.id_usuario = v.id_cajero');  
         $this->db->join(self::empleado.' as e','e.id_empleado = u.Empleado');
@@ -72,6 +75,7 @@ class Reporte_model extends CI_Model {
         $this->db->join(self::cliente.' as c','c.id_cliente = v.id_cliente');
         $this->db->join(self::pagos.' as p','p.venta_pagos = v.id');
         $this->db->join(self::estados.' as s','s.id_orden_estado = v.orden_estado');
+        $this->db->join(self::sucursal.' as su','su.id_sucursal = v.id_sucursal');
         
         $this->db->where('DATE(v.fh_inicio)'  . ' >= ' , $f_inicio );
         $this->db->where('DATE(v.fh_final) <=' , $f_fin );

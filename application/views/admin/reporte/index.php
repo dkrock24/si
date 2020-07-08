@@ -91,7 +91,7 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label for="" class=""> <i class="fa fa-clock-o sz"></i> Fecha Inicio</label>
+                                                    <label for="" class=""> <i class="fa fa-clock-o sz2"></i> Fecha Inicio</label>
                                                     <input type="date" class="form-control" id="fecha_i" name="fecha_i" value="<?php echo $filters['fh_inicio']; ?>">
                                                 </div>
                                             </div>
@@ -99,7 +99,7 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label for="" class=""><i class="fa fa-clock-o sz"></i> Fecha Fin</label>
+                                                    <label for="" class=""><i class="fa fa-clock-o sz2"></i> Fecha Fin</label>
                                                     <input type="date" class="form-control" id="fecha_f" name="fecha_f" value="<?php echo $filters['fh_fin']; ?>">
                                                 </div>
                                             </div>
@@ -107,7 +107,7 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label for="" class=""><i class="fa fa-home sz"></i> Sucursal</label>
+                                                    <label for="" class=""><i class="fa fa-home sz2"></i> Sucursal</label>
                                                     <select name="sucursal" id="sucursal" class="form-control">
                                                         <?php
                                                         if ($filters['sucursal']) {
@@ -141,7 +141,7 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label for="" class=""><i class="fa fa-desktop sz"></i> Caja</label>
+                                                    <label for="" class=""><i class="fa fa-desktop sz2"></i> Caja</label>
                                                     <select name="caja" id="caja" class="form-control">
                                                         <option value="0"> - </option>
                                                     </select>
@@ -151,7 +151,7 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label for="" class=""><i class="fa fa-user-o sz"></i> Cajero</label>
+                                                    <label for="" class=""><i class="fa fa-user-o sz2"></i> Cajero</label>
                                                     <select name="cajero" class="form-control">
                                                         <option value="0"> - </option>
                                                         <?php
@@ -168,7 +168,7 @@
                                         <div class="col-lg-1">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <label for="" class=""><i class="fa fa-edit sz"></i> Turno</label>
+                                                    <label for="" class=""><i class="fa fa-edit sz2"></i> Turno</label>
                                                     <select name="turno" class="form-control">
                                                         <?php
                                                         if ($filters['turno']) {
@@ -220,6 +220,7 @@
                                                     <tr>
                                                         <th style="color:#fff">#</th>
                                                         <th style="color:#fff">Id</th>
+                                                        <th style="color:#fff">Sucursal</th>
                                                         <th style="color:#fff">Documento</th>
                                                         <th style="color:#fff">Número</th>
                                                         <th style="color:#fff">Fecha</th>
@@ -242,6 +243,7 @@
                                                     <tr>
                                                         <th><?= $cnt++; ?></th>
                                                         <td><?= $value->id ?></td>
+                                                        <td><?= $value->nombre_sucursal ?></td>
                                                         <td><?= $value->nombre ?></td>
                                                         <td><?= $value->num_correlativo ?></td>
                                                         <td><?= $value->fh_inicio ?></td>

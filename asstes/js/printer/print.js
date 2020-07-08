@@ -72,12 +72,11 @@ function generate(e,x) {
         }
         
     });
-    console.log(img[0]);
     //var img = new Image();
     doc.setFontSize(12);
     doc.text(documento_titulo, 15, 10);
     doc.setFontSize(12);
-    doc.text(img[0], 150, 10);
+    //doc.text(img[0], 150, 10);
     //img.src = '/asstes/img/bg1.jpg';
     //doc.addImage(img, 'jpg', 10, 50);
     doc.autoTable( 
