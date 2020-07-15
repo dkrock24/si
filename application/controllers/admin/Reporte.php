@@ -146,7 +146,10 @@ class Reporte extends My_Controller {
 
 		$data['turno'] 		= $this->Turnos_model->getTurnos();
 		$data['cajero'] 	= $this->Usuario_model->get_cajeros('Cajero');
-		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
+
+		$data['sucursal'] 	= $this->Sucursal_model->getSucursalByEmployee($this->session->usuario[0]->Empleado);
+		//var_dump($data['sucursal']);
+		//die;
 
         if( isset( $_POST['fecha_i'])){
             
@@ -160,7 +163,10 @@ class Reporte extends My_Controller {
 			);
 			$data['filters'] = $filters;
     
-            $data['registros'] = $this->Reporte_model->concentrado($filters);
+			$data['registros'] = $this->Reporte_model->concentrado($filters);
+			$data['corte'] = $this->Reporte_model->concentrado_corte($filters);
+			//var_dump($data['corte']);
+			die;
         }else{
 			$data['registros'] = 1;
 
@@ -174,6 +180,7 @@ class Reporte extends My_Controller {
 			);
 		}
 
+		$data['fields'] 	= $this->fields();
 		$data['menu'] = $this->session->menu;
 		$data['moneda'] = $this->session->empresa[0]->moneda_simbolo;
 		$data['title'] 	= 'Reportes';

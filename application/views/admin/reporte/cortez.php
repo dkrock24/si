@@ -89,7 +89,7 @@
                         </div><br><br>
                     </div>
                     <div class="menuContent">
-                        <form class="form-horizontal" name="reporte_ventas" action='concentrado' method="post">
+                        <form class="form-horizontal" name="reporte_ventas" action='cortez' method="post">
                             <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
                             <div class="b">
                                 <div class="panel-body">
@@ -239,6 +239,7 @@
                                                     <tr>
                                                         <th style="color:#fff">#</th>
                                                         <th style="color:#fff">Documento</th>
+                                                        <th style="color:#fff">Cantidad</th>
                                                         <th style="color:#fff"># Inical</th>
                                                         <th style="color:#fff"># Final</th>
                                                         <th style="color:#fff">C. Devolución</th>
@@ -271,6 +272,7 @@
                                                     <tr>
                                                         <th><?= $cnt++; ?></th>                                                            
                                                         <td><?= $value->nombre ?></td>
+                                                        <td><?= $value->cantidad_documentos ?></td>
                                                         <td><?= $value->inicio ?></td>
                                                         <td><?= $value->fin ?></td>
                                                         <td><?= $value->total_devolucion ?></td>
@@ -299,6 +301,7 @@
                                                     <tr class="">
                                                         <th style="color:#fff"></th>                                                        
                                                         <th style="color:#fff">TOTALES</th>
+                                                        <th style="color:#fff"></th>
                                                         <th style="color:#fff"></th>
                                                         <th style="color:#fff"></th>
                                                         <th style="color:#fff"><?= $total_devolucion; ?></th>

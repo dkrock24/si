@@ -6,6 +6,7 @@ class Sucursal_model extends CI_Model {
 	const pos_empresa   = 'pos_empresa';
     const sys_usuario   = 'sys_usuario';
     const sys_empleado_sucursal = 'sys_empleado_sucursal';
+    const sys_empleado = 'sys_empleado';
 	
 	function getSucursal(){
 		$this->db->select('DISTINCT(s.id_sucursal) , s.*');
@@ -31,7 +32,7 @@ class Sucursal_model extends CI_Model {
         $this->db->where('u.id_usuario', $id_usuario );
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get(); 
-        //echo $this->db->queries[2];
+        echo $this->db->queries[2];
         
         if($query->num_rows() > 0 )
         {
@@ -91,6 +92,20 @@ class Sucursal_model extends CI_Model {
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function getSucursalByEmployee($empleado){
+        $this->db->select('s.*');
+        $this->db->from(self::pos_sucursal.' as s');
+        $this->db->join(self::sys_empleado.' as em', ' on s.id_sucursal = em.Sucursal');
+        $this->db->where('em.id_empleado', $empleado );
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa );
+        $query = $this->db->get(); 
         
         if($query->num_rows() > 0 )
         {
