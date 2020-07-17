@@ -164,9 +164,13 @@ class Reporte extends My_Controller {
 			$data['filters'] = $filters;
     
 			$data['registros'] = $this->Reporte_model->concentrado($filters);
-			$data['corte'] = $this->Reporte_model->concentrado_corte($filters);
-			//var_dump($data['corte']);
-			die;
+
+			//Si hay data a cortar, que realize el corte
+			if($data['registros'])
+			{
+				$data['corte'] = $this->Reporte_model->concentrado_corte($filters);
+			}
+			
         }else{
 			$data['registros'] = 1;
 
