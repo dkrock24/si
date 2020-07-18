@@ -331,16 +331,16 @@ class Reporte_model extends CI_Model {
     }
 
     /*
-    * Guardando el corte comó venta en la tabla de ventas
+    * Recorrer los datos en documentos concentrados
+    * Guardar el corte comó venta en la tabla de ventas
     */
-    function cortar_proceso($registros_venta , $filters)
+    function cortar_proceso($datos_venta , $filters)
     {
-
         $id_venta_corte = $this->save_venta($filters);
 
         if ($id_venta_corte)
         {
-            foreach ($registros_venta as $value) 
+            foreach ($datos_venta as $value) 
             {            
                 $this->update_venta_cortada($value ,$id_venta_corte);
             }   
