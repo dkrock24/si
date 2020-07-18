@@ -21,6 +21,7 @@ class Reporte_model extends CI_Model {
     const pos_ventas        = 'pos_ventas';
     const pos_caja  = 'pos_caja';
     const pos_terminal  = 'pos_terminal';
+    const pos_corte_config = 'pos_corte_config';
     
     function index($limit, $id , $filters )
     {
@@ -225,7 +226,6 @@ class Reporte_model extends CI_Model {
     */
     function concentrado_corte($filters)
     {
-
         $time       = "";
         $cajero     = "";
         $mask       = " 00:00:00";
@@ -336,15 +336,20 @@ class Reporte_model extends CI_Model {
     */
     function cortar_proceso($datos_venta , $filters)
     {
-        $id_venta_corte = $this->save_venta($filters);
+        $corte_config = $this->get_corte_config($filters);
 
-        if ($id_venta_corte)
+        if ($corte_config)
         {
-            foreach ($datos_venta as $value) 
-            {            
-                $this->update_venta_cortada($value ,$id_venta_corte);
-            }   
-        }
+            $id_venta_corte = $this->save_venta($datos_venta , $filters, $corte_config[0]);        
+
+            if ($id_venta_corte)
+            {
+                foreach ($datos_venta as $value) 
+                {            
+                    $this->update_venta_cortada($value ,$id_venta_corte);
+                }   
+            }
+        }        
     }
 
     /*
@@ -352,7 +357,6 @@ class Reporte_model extends CI_Model {
     */
     function update_venta_cortada($data , $id_venta_corte)
     {
-
         $total_venta = $data->efectivo + $data->tcredito + $data->cheque+ $data->credito;
         
         $data_corte = array(
@@ -373,30 +377,30 @@ class Reporte_model extends CI_Model {
     /*
     * Guardar el corte en venta
     */
-    function save_venta($venta_data)
+    function save_venta($datos_venta , $venta_data, $corte_config)
     {
         $venta_id = null;
 
         $correlativo = $this->get_siguiente_correlativo(
-            $venta_data['sucursal'],
-            $venta_data['documento']
+            $corte_config->sucursal_id,
+            $corte_config->documento_corte
         );
 
         $cajaInfo   = $this->get_caja_info($venta_data);
-
+        
         if($correlativo && $cajaInfo)
         {
             $data = array(
-                'id_sucursal'       => $venta_data['sucursal'] ,
+                'id_sucursal'       => $venta_data['sucursal'],
                 'id_sucursal_origin'=> $venta_data['sucursal'],
                 'id_caja'           => $venta_data['caja'],
-                'id_cajero'         => $venta_data['cajero'],
-                'id_vendedor'       => $venta_data['vendedor'],
-                'id_tipod'          => $venta_data['documento'],
-                'numero_documento'  => $correlativo,
+                //'id_cajero'         => $venta_data['cajero'],
+                'id_vendedor'       => $this->session->db[0]->id_empleado,
+                'id_tipod'          => $corte_config->documento_corte,
+                'numero_documento'  => $correlativo[0]->siguiente_valor,
                 'id_usuario'        => $this->session->db[0]->id_usuario,
                 'num_caja'          => $venta_data['caja'],
-                'num_correlativo'   => $correlativo,
+                'num_correlativo'   => $correlativo[0]->siguiente_valor,
                 'fecha'             => date("Y-m-d h:i:s"),
                 'fh_inicio'         => date("Y-m-d h:i:s"),
                 'fh_final'          => date("Y-m-d h:i:s"),
@@ -414,12 +418,12 @@ class Reporte_model extends CI_Model {
             );
             
             $this->incremento_correlativo( 
-                $correlativo,
-                $venta_data['sucursal'],
-                $venta_data['documento']
+                $correlativo[0]->siguiente_valor,
+                $corte_config->sucursal_id,
+                $corte_config->documento_corte
             );
             
-            $this->db->insert(self::pos_ventas, $data ); 
+            $this->db->insert(self::pos_ventas, $data );
             $venta_id = $this->db->insert_id();
         }
         return $venta_id;
@@ -430,10 +434,11 @@ class Reporte_model extends CI_Model {
     */
     function get_siguiente_correlativo($sucursal , $documento)
     {
-        $this->db->select('*');
+
+        $this->db->select('siguiente_valor');
         $this->db->from(self::pos_correlativos);
         $this->db->where('Sucursal',$sucursal);
-        $this->db->where('TipoDocumento',$documento[0]->id_tipo_documento);
+        $this->db->where('TipoDocumento',$documento);
         $query = $this->db->get(); 
         
         if($query->num_rows() > 0 )
@@ -468,6 +473,24 @@ class Reporte_model extends CI_Model {
         $this->db->from(self::pos_caja.' as c');
         $this->db->join(self::pos_terminal.' as t', ' on t.Caja = c.id_caja');
         $this->db->where('c.id_caja', $caja['caja']);
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    /*
+    * Obtener la configuracion de corte para el documento por sucursal y terminal
+    */
+    function get_corte_config($corte_config_params)
+    {
+        $this->db->select('*');
+        $this->db->from(self::pos_corte_config.' as cc');
+        $this->db->join(self::pos_terminal .' as  t', ' on t.id_terminal = cc.terminal_id');
+        $this->db->where('cc.sucursal_id', $corte_config_params['sucursal']);
+        $this->db->where('t.Caja', $corte_config_params['caja']);
         $query = $this->db->get(); 
 
         if($query->num_rows() > 0 )

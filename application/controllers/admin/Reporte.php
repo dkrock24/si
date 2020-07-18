@@ -159,7 +159,7 @@ class Reporte extends My_Controller {
 				'sucursal'  => $_POST['sucursal'],
 				'turno'     => $_POST['turno'],
 				'cajero'    => $_POST['cajero'],
-				'caja'		=> 0,
+				'caja'		=> $_POST['caja'],
 			);
 			$data['filters'] = $filters;
     
