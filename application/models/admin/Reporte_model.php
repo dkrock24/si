@@ -4,12 +4,13 @@ class Reporte_model extends CI_Model {
     const menu      = 'sys_menu';
     const submenu   = 'sys_menu_submenu';
     const sub_men_acceso = 'sys_submenu_acceso';
-    const empresa   = 'sys_empresa';
+    const empresa   = 'pos_empresa';
     const usuarios  = 'sys_usuario';    
     const roles     = 'sys_role';
     const cargos    = 'sr_cargos';
     const ventas    = 'pos_ventas';
     const empleado  = 'sys_empleado';
+    const persona   = 'sys_persona';
     const documento = 'pos_tipo_documento';
     const cliente   = 'pos_cliente';
     const pagos     = 'pos_venta_pagos';
@@ -22,6 +23,10 @@ class Reporte_model extends CI_Model {
     const pos_caja  = 'pos_caja';
     const pos_terminal  = 'pos_terminal';
     const pos_corte_config = 'pos_corte_config';
+    const template = 'pos_doc_temp';
+    const giro_empresa = 'giros_empresa';
+    const giros = 'pos_giros';
+    const moneda = 'sys_moneda';
     
     function index($limit, $id , $filters )
     {
@@ -264,6 +269,7 @@ class Reporte_model extends CI_Model {
             MIN(v.num_correlativo ) AS inicio , 
             MAX(v.num_correlativo )AS fin , 
             COUNT(v.id) as cantidad_documentos,
+            SUM(impSuma) as impSuma,
             (SELECT COUNT(v2.id) FROM pos_ventas AS v2 WHERE v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10
             AND DATE(v2.fh_inicio) >= "'.$f_inicio.'" AND DATE(v2.fh_final) <= "'.$f_fin.'") AS total_devolucion,
 
@@ -322,12 +328,11 @@ class Reporte_model extends CI_Model {
         $data = $query->result();
 
         // Iniciar corte con las ventas filtradas
-        $this->cortar_proceso($data , $filters);
+        $corteData = $this->cortar_proceso($data , $filters);
 
-        if($query->num_rows() > 0 )
-        {
-            return $data;
-        }
+        $corte = $this->getCorteData($corteData);
+
+        return $corte;
     }
 
     /*
@@ -336,6 +341,7 @@ class Reporte_model extends CI_Model {
     */
     function cortar_proceso($datos_venta , $filters)
     {
+        $id_venta_corte = null;
         $corte_config = $this->get_corte_config($filters);
 
         if ($corte_config)
@@ -349,7 +355,8 @@ class Reporte_model extends CI_Model {
                     $this->update_venta_cortada($value ,$id_venta_corte);
                 }   
             }
-        }        
+        }
+        return $id_venta_corte;   
     }
 
     /*
@@ -386,21 +393,23 @@ class Reporte_model extends CI_Model {
             $corte_config->documento_corte
         );
 
+        $calculos = $this->calcular_montos($datos_venta);
+
         $cajaInfo   = $this->get_caja_info($venta_data);
-        
+
         if($correlativo && $cajaInfo)
         {
             $data = array(
                 'id_sucursal'       => $venta_data['sucursal'],
                 'id_sucursal_origin'=> $venta_data['sucursal'],
                 'id_caja'           => $venta_data['caja'],
-                //'id_cajero'         => $venta_data['cajero'],
                 'id_vendedor'       => $this->session->db[0]->id_empleado,
+                'id_cajero'         => $this->session->db[0]->id_usuario,
+                'id_usuario'        => $this->session->db[0]->id_usuario,
                 'id_tipod'          => $corte_config->documento_corte,
                 'numero_documento'  => $correlativo[0]->siguiente_valor,
-                'id_usuario'        => $this->session->db[0]->id_usuario,
-                'num_caja'          => $venta_data['caja'],
                 'num_correlativo'   => $correlativo[0]->siguiente_valor,
+                'num_caja'          => $cajaInfo[0]->cod_interno_caja,
                 'fecha'             => date("Y-m-d h:i:s"),
                 'fh_inicio'         => date("Y-m-d h:i:s"),
                 'fh_final'          => date("Y-m-d h:i:s"),
@@ -408,10 +417,10 @@ class Reporte_model extends CI_Model {
                 'creado_el'         => date("Y-m-d h:i:s"),
                 'id_condpago'       => 0,
                 'id_cliente'        => 0,
-                'digi_total'        => 0,
-                'impSuma'           => 0,
-                'total_doc'         => 0,
-                'id_bodega'         => 0,
+                'digi_total'        => $calculos['total_Venta'],
+                'total_doc'         => $calculos['total_Venta'],
+                'impSuma'           => $datos_venta[0]->impSuma,
+                //'id_bodega'         => 0,
                 'cortado'           => 2,
                 'venta_vista_id'    => 90,
                 'orden_estado'      => 11,
@@ -427,6 +436,44 @@ class Reporte_model extends CI_Model {
             $venta_id = $this->db->insert_id();
         }
         return $venta_id;
+    }
+
+    /*
+    * 
+    */
+    function calcular_montos($corte_data)
+    {
+        $data = array(
+            'cantidad_devolucion'=> 0.00,
+            'total_devolucion'=> 0.00,
+            'suma_devolucion'=> 0.00,
+            'suma_descuento'=> 0.00,
+            'suma_efectivo'=> 0.00,
+            'suma_tcredito'=> 0.00,
+            'suma_cheque'=> 0.00,
+            'suma_credito'=> 0.00,
+            'total_venta' => 0.00,
+        );
+
+        foreach ($corte_data as $key => $value) 
+        {
+            $data['cantidad_devolucion']    += $value->total_devolucion;
+            $data['total_devolucion']       += $value->total_devolucion;
+            $data['suma_efectivo']          += $value->efectivo;
+            $data['suma_devolucion']        += number_format($value->sum_devolucion,2) * (-1);
+            $data['suma_descuento']         += number_format($value->descuento,2);
+            $data['suma_tcredito']          += number_format($value->tcredito,2);
+            $data['suma_cheque']            += number_format($value->cheque,2);
+            $data['suma_credito']           += number_format($value->cheque,2);
+        }
+        $data['total_Venta'] = (
+            $data['suma_efectivo'] +
+            $data['suma_tcredito'] +
+            $data['suma_cheque']   +
+            $data['suma_credito']
+        );
+
+        return $data;
     }
 
     /*
@@ -492,6 +539,74 @@ class Reporte_model extends CI_Model {
         $this->db->where('cc.sucursal_id', $corte_config_params['sucursal']);
         $this->db->where('t.Caja', $corte_config_params['caja']);
         $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    /*
+    * Retornar el corte en tabla ventas
+    */
+    function getCorteData($id)
+    {
+        $this->db->select('v.*,c.*,s.*,g.*,p.*,t.*,caja.*,m.*, e.nombre_razon_social,e.nombre_comercial,e.nrc,e.nit');
+        $this->db->from(self::pos_ventas.' as v');
+        $this->db->join(self::corte_detalle.' as c',' on c.id_venta = v.id');
+        $this->db->join(self::sucursal.' as s',' on s.id_sucursal = v.id_sucursal');
+        $this->db->join(self::empresa.' as e',' on e.id_empresa = s.Empresa_Suc');
+        $this->db->join(self::pos_caja.' as caja',' on caja.id_caja = v.id_caja');
+        $this->db->join(self::pos_terminal.' as t',' on t.Caja = caja.id_caja');
+        $this->db->join(self::giro_empresa.' as ge',' on ge.Empresa = e.id_empresa');
+        $this->db->join(self::giros.' as g',' on ge.Giro = g.id_giro');
+        $this->db->join(self::usuarios.' as u',' on u.id_usuario = v.id_usuario');
+        $this->db->join(self::empleado.' as em',' on em.id_empleado = u.Empleado');
+        $this->db->join(self::persona.' as p',' on p.id_persona = em.Persona_E');
+        $this->db->join(self::moneda.' as m',' on m.id_moneda = e.Moneda');
+        $this->db->where('v.id',$id);
+        $this->db->where('ge.Empresa limit 1');
+        $query = $this->db->get();
+        //echo $this->db->queries[13];
+        //die;
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    /*
+    * Retornar el detalle del corte para el template
+    */
+    function corte_detalle($venta)
+    {
+        $this->db->select('*');
+        $this->db->from(self::corte_detalle.' as c');
+        //$this->db->join(self::documento.' as d',' on c.documento_corte = d.id_documento');
+        $this->db->where('c.id_venta',$venta);
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function template($corte)
+    {
+        $caja['caja'] = $corte[0]->id_caja;
+        $terminal = $this->get_caja_info($caja);
+
+        $this->db->select('*, d.nombre as documento_nombre');
+        $this->db->from(self::pos_corte_config.' as c');
+        $this->db->join(self::template.' as t', ' on c.template_id = t.id_factura');
+        $this->db->join(self::documento.' as d', ' on d.id_tipo_documento = c.documento_corte');
+        $this->db->where('c.sucursal_id',$corte[0]->id_sucursal);
+        $this->db->where('c.terminal_id',$terminal[0]->id_terminal);
+        $this->db->where('c.documento_corte',$corte[0]->id_tipod);
+        $query = $this->db->get(); 
+        //echo $this->db->queries[16];
 
         if($query->num_rows() > 0 )
         {
