@@ -551,7 +551,7 @@ class Reporte_model extends CI_Model {
     */
     function getCorteData($id)
     {
-        $this->db->select('v.*,c.*,s.*,g.*,p.*,t.*,caja.*,m.*, e.nombre_razon_social,e.nombre_comercial,e.nrc,e.nit');
+        $this->db->select('v.*,c.*,s.*,g.*,p.*,t.*,caja.*,m.*,cor.*,cc.*, em.codigo_empleado,e.nombre_razon_social,e.nombre_comercial,e.nrc,e.nit');
         $this->db->from(self::pos_ventas.' as v');
         $this->db->join(self::corte_detalle.' as c',' on c.id_venta = v.id');
         $this->db->join(self::sucursal.' as s',' on s.id_sucursal = v.id_sucursal');
@@ -564,10 +564,16 @@ class Reporte_model extends CI_Model {
         $this->db->join(self::empleado.' as em',' on em.id_empleado = u.Empleado');
         $this->db->join(self::persona.' as p',' on p.id_persona = em.Persona_E');
         $this->db->join(self::moneda.' as m',' on m.id_moneda = e.Moneda');
+        $this->db->join(self::pos_correlativos.' as cor',' on cor.Sucursal = v.id_sucursal');
+        $this->db->join(self::pos_corte_config.' as cc',' on cc.sucursal_id = v.id_sucursal');
         $this->db->where('v.id',$id);
+        $this->db->where('cor.Sucursal = v.id_sucursal');
+        $this->db->where('cor.TipoDocumento = v.id_tipod');
+        $this->db->where('cc.sucursal_id = v.id_sucursal');
+        $this->db->where('cc.documento_corte = v.id_tipod');
         $this->db->where('ge.Empresa limit 1');
         $query = $this->db->get();
-        //echo $this->db->queries[13];
+        //echo $this->db->queries[11];
         //die;
 
         if($query->num_rows() > 0 )

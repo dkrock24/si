@@ -419,7 +419,7 @@
                             <hr style="border-bottom:1px dashed black">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                             <?php
-                                $vista_id  = $orden[0]->venta_vista_id;
+                                $vista_id  = $corte[0]->venta_vista_id;
                                 $vista_url = "../../orden/venta_rapida";
 
                                 if($vista_id == 13 ){
@@ -432,7 +432,7 @@
                                 <a href="<?= $vista_url; ?>" class="btn btn-default printer">
                                     <h3> <i class="icon-plus"></i> Nueva </h3>
                                 </a>
-                                <a href="#" id="prin" name="<?= $orden[0]->id ?>" class="btn btn-success" style="color:black">
+                                <a href="#" id="prin" name="<?= $corte[0]->id ?>" class="btn btn-success" style="color:black">
                                     <h3> <i class="icon-printer"></i> Imprimir </h3>
                                 </a>
                                 <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
