@@ -11,6 +11,7 @@ class Cliente_model extends CI_Model
     const pos_formas_pago = 'pos_formas_pago';
     const pos_fp_cliente = 'pos_formas_pago_cliente';
     const pos_formas_pago_cliente = 'pos_formas_pago_cliente';
+    const pos_orden_estado = 'pos_orden_estado';
 
     function get_cliente()
     {
@@ -103,11 +104,12 @@ class Cliente_model extends CI_Model
     {
         $this->db->select('p.primer_nombre_persona,p.primer_apellido_persona,fp.codigo_modo_pago,c.nombre_empresa_o_compania,
         c.nrc_cli,c.nit_cliente,c.clase_cli,c.estado_cliente,c.id_cliente,td.nombre,
-        c.porcentage_descuentos');
+        c.porcentage_descuentos,es.*');
         $this->db->from(self::cliente.' as c');
         $this->db->join(self::tipos_documentos.' as td', ' on c.TipoDocumento=td.id_tipo_documento');
         $this->db->join(self::formas_pago.' as fp', ' on c.TipoPago=fp.id_modo_pago');
         $this->db->join(self::sys_persona. ' as p', ' on p.id_persona = Persona');
+        $this->db->join(self::pos_orden_estado. ' as es', ' on es.id_orden_estado = c.estado_cliente');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         if($filters!=""){
             $this->db->where($filters);

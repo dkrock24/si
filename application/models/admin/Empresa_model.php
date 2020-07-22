@@ -8,13 +8,15 @@ class Empresa_model extends CI_Model {
     const sys_moneda    = 'sys_moneda';
     const usuario_roles = 'sys_usuario_roles';
     const empleado_sucursal = 'sys_empleado_sucursal';
+    const pos_orden_estado = 'pos_orden_estado';
 
     function getEmpresas( $limit, $id , $filters){
         
         $this->db->select('id_empresa , nombre_razon_social ,nombre_comercial,nrc,nit,autorizacion,giro,direccion,slogan,resolucion,representante,
-        ,website,tiraje,tel,moneda_nombre,natural_juridica,metodo_inventario,admin,codigo,empresa_creado,empresa_actualizado,empresa_estado');
+        ,website,tiraje,tel,moneda_nombre,natural_juridica,metodo_inventario,admin,codigo,empresa_creado,empresa_actualizado,empresa_estado,es.*');
         $this->db->from(self::pos_empresa.' e');
         $this->db->join(self::sys_moneda.' m', 'on e.Moneda = m.id_moneda');
+        $this->db->join( self::pos_orden_estado .' as es', ' on es.id_orden_estado = e.empresa_estado' );
         
         if($this->session->empresa[0]->id_empresa == 1){
             //$this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);

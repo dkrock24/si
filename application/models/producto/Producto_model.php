@@ -408,8 +408,8 @@ class Producto_model extends CI_Model {
 
 		function get_producto( $id_producto ){
 
-			$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `
-				c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', 
+			$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, 
+			`c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', 
 				sub_c.id_categoria as 'id_sub_categoria', c.id_categoria as 'id_categoria', 
 				e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, 
 				img.producto_img_blob,img.imageType,cli.nombre_empresa_o_compania,cli.id_cliente 
@@ -426,7 +426,7 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `pos_producto_img` as `img` ON `img`.`id_producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_cliente` as `cli` ON `cli`.`id_cliente` = `img`.`id_producto`
 				where P.id_entidad=".$id_producto );
-		         //echo $this->db->queries[0];
+		        //echo $this->db->queries[0];
 		        return $query->result();
 		}
 

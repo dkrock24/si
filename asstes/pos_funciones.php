@@ -316,7 +316,7 @@
             $(".dataSelect").html(table_tr);
 
             if (_productos_lista.length == 1) {
-
+                console.log(_productos_lista[0].Cantidad);
                 if(_productos_lista[0].Cantidad){
                     var type = "info";
                     var title = _productos_lista[0].name_entidad +" Sin Existencias ";

@@ -353,7 +353,7 @@ class Reporte_model extends CI_Model {
                 foreach ($datos_venta as $value) 
                 {            
                     $this->update_venta_cortada($value ,$id_venta_corte);
-                }   
+                }
             }
         }
         return $id_venta_corte;   
@@ -368,7 +368,7 @@ class Reporte_model extends CI_Model {
         
         $data_corte = array(
             'id_venta'          => $id_venta_corte,
-            'iva_corte'         => $total_venta * 0.13,
+            'iva_corte'         => ($total_venta * 0.13) / 1.13,
             'total_corte'       => $total_venta,
             'monto_grabado'     => $total_venta,
             'monto_excento'     => 0.00,
@@ -481,7 +481,6 @@ class Reporte_model extends CI_Model {
     */
     function get_siguiente_correlativo($sucursal , $documento)
     {
-
         $this->db->select('siguiente_valor');
         $this->db->from(self::pos_correlativos);
         $this->db->where('Sucursal',$sucursal);

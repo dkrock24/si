@@ -164,10 +164,11 @@
                                         <?php
                                         $c = key($field);
                                             $a = substr($table->$c, 0, 1);
+                                            
                                             if(isset($fields['reglas'][$c]['aplicar'])){
                                                 echo $fields['reglas'][$c]['valor'];
                                             }
-                                            
+
                                             if(isset($fields['reglas'][$c]['condicion'])){
                                                 
                                                 if($fields['reglas'][$c]['condicion'] == 1){

@@ -2010,7 +2010,7 @@
                             if(compra_result.message){
                                 alert("Erro DB");
                             }else{
-                                //window.location.href = "editar/" + compra_result.id;
+                                window.location.href = "editar/" + compra_result.id;
                             }
 
                         } else if (method == "../venta/guardar_venta") {

@@ -155,11 +155,18 @@ class Caja extends MY_Controller {
 			['resol_num_caja'=> 'Resolucion'],
 			['resol_num_tiq_caja'=> 'RNTicket'],
 			['pred_cod_cajr'=> 'Cajero'],
-			['estado'=> 'Estado'],
+			['orden_estado_nombre' => 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id_caja');
-		$fields['estado'] = array('estado_caja');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Caja Lista";
 
 		return $fields;

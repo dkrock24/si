@@ -14,6 +14,7 @@ class Compras_model extends CI_Model
 	const pos_compras_detalle	= "pos_compras_detalle";
 	const sys_traslados_detalle	= "sys_traslados_detalle";
 	const pos_compras_impuestos = 'pos_compras_impuestos';
+	const pos_orden_estado = 'pos_orden_estado';
 
 	private $_orden;
 
@@ -22,7 +23,7 @@ class Compras_model extends CI_Model
 		if ($filters) {
 			$filters = " and " . $filters;
 		}
-		$query = $this->db->query("select c.*,s.*,b.*,prov.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
+		$query = $this->db->query("select c.*,es.*,s.*,b.*,prov.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
 			CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2,
 			td.nombre as Documento,
 			DATE_FORMAT(c.fecha_creacion, '%m/%d/%Y') as fecha_creacion,
@@ -33,7 +34,8 @@ class Compras_model extends CI_Model
 			left join pos_sucursal as s On  s.id_sucursal = c.Sucursal
 			left join pos_bodega as b On b.Sucursal = s.id_sucursal
 			left join pos_proveedor as prov On prov.id_proveedor = c.Proveedor
-			left join pos_tipo_documento as td On td.id_tipo_documento = c.Tipo_Documento			
+			left join pos_tipo_documento as td On td.id_tipo_documento = c.Tipo_Documento
+			left join pos_orden_estado as es On es.id_orden_estado = c.status_open_close
 			where  c.Empresa ="
 			. $this->session->empresa[0]->id_empresa . $filters . " 
 			AND  b.id_bodega = (SELECT bodega FROM pos_compras AS compras WHERE id_compras = c.id_compras)

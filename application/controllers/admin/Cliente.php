@@ -208,11 +208,18 @@ class Cliente extends MY_Controller {
 			['clase_cli' => 'Clase'],
 			['nombre'=> 'T. Documento'],
 			['porcentage_descuentos'=> 'Descuento'],
-			['estado_cliente' => 'Estado']
+			['orden_estado_nombre' => 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id_cliente');
-		$fields['estado'] = array('estado_cliente');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Cliente Lista";
 
 		return $fields;

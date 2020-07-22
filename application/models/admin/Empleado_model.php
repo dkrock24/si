@@ -10,7 +10,7 @@ class Empleado_model extends CI_Model {
     const pos_empresa = 'pos_empresa';
     const empleado_sucursal = 'sys_empleado_sucursal';
     const sucursal = 'pos_sucursal';
-
+    const pos_orden_estado = 'pos_orden_estado';
 
 	function get_empleados(){
 
@@ -57,11 +57,12 @@ class Empleado_model extends CI_Model {
     function getAllEmpleados( $limit, $id , $filters ){
 
         $this->db->select('p.*,e.horas_laborales_mensuales_empleado,e.turno,e.alias,e.seccion,e.puesto,e.encargado
-        ,s.*,c.*,e.id_empleado');
+        ,s.*,c.*,e.id_empleado,es.*');
         $this->db->from(self::sys_persona.' as p');
         $this->db->join(self::sys_empleado.' as e', 'on p.id_persona = e.Persona_E');
         $this->db->join(self::pos_sucursal.' as s', 'on s.id_sucursal = e.Sucursal');
         $this->db->join(self::sys_cargo_laboral.' as c', 'on c.id_cargo_laboral = e.Cargo_Laboral_E');
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = e.estado');
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
         if($filters!=""){
             $this->db->where($filters);

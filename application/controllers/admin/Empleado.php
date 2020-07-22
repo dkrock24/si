@@ -220,11 +220,18 @@ class Empleado extends MY_Controller {
 			['encargado' => 'Encargado'],
 			['nombre_sucursal' => 'Sucursal'],
 			['cargo_laboral' => 'Cargo'],
-			['estado' => 'Estado']
+			['orden_estado_nombre' => 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id_empleado');
-		$fields['estado'] = array('estado');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Empleado Lista";
 
 		return $fields;

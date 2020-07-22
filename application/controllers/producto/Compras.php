@@ -40,8 +40,7 @@ class Compras extends MY_Controller {
 		$data['registros'] 		= $this->Compras_model->getCompras( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
 		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
 		$data['title'] 			= "Compras";
-		$data['home'] 			= 'template/lista_template';		
-
+		$data['home'] 			= 'template/lista_template';
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
@@ -326,11 +325,18 @@ class Compras extends MY_Controller {
 			['Documento' => 'Documento'],
 			['fecha_compra' => 'Compra'],
 			['fecha_creacion' => 'Creado'],
-			['estado' => 'Estado']
+			['orden_estado_nombre' => 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 		= array('id_compras');
-		$fields['estado'] 	= array('status_open_close');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Compras Lista";
 		$fields['estado_alterno'] 	= "Completado";
 

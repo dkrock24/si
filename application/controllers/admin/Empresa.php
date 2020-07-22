@@ -199,11 +199,18 @@ class Empresa extends MY_Controller {
 			['codigo' => 'CODIGO'],
 			['empresa_creado' => 'CREADO'],
 			['empresa_actualizado' =>'ACTUA'],
-			['empresa_estado' =>'ESTADO']
+			['orden_estado_nombre' =>'ESTADO']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 		= array('id_empresa');
-		$fields['estado'] 	= array('empresa_estado');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Empresa Lista";
 
 		return $fields;
