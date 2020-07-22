@@ -6,11 +6,13 @@ class Impuesto_model extends CI_Model {
     const impuesto_cliente  = 'pos_impuesto_cliente';
     const impuesto_documento= 'pos_impuesto_documento';
     const impuesto_proveedor= 'pos_impuesto_proveedor';
+    const pos_orden_estado = 'pos_orden_estado';
 
     function getImpuesto($limit, $id, $filters){
 
         $this->db->select('*');
         $this->db->from(self::impuesto);  
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = pos_tipos_impuestos.imp_estado');
         $this->db->where('imp_empresa', $this->session->empresa[0]->id_empresa);
         if($filters!=""){
             $this->db->where($filters);

@@ -229,11 +229,18 @@ class Giros extends MY_Controller {
 			['codigo_giro' => 'Codigo'],
 			['fecha_giro_creado' => 'Creado'],
 			['fecha_giro_actualizado' => 'Actualizado'],
-			['estado_giro'=> 'Estado']
+			['orden_estado_nombre'=> 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 		= array('id_giro');
-		$fields['estado'] 	= array('estado_giro');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Giros Lista";
 
 		return $fields;

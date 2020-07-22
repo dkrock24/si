@@ -476,7 +476,7 @@ class Orden extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Correlativo','Sucursal','Terminal','Cliente','Metodo Pago','Documento','Cajero','Creado','Actual','Estado'
+			'Correlativo','Sucursal','Terminal','Cliente','Metodo Pago','Documento','Cajero','Creado','Estado'
 		);
 		return $column;
 	}
@@ -493,11 +493,17 @@ class Orden extends MY_Controller {
 			['nombre_usuario' => 'Cajero'],
 			['fecha' => 'Creado'],
 			['orden_estado_nombre' => 'Actual'],
-			['orden_estado' => 'Estado'],
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 		= array('num_correlativo');
-		$fields['estado'] 	= array('orden_estado');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Orden Lista";
 
 		return $fields;

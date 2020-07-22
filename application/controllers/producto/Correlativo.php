@@ -187,11 +187,18 @@ class Correlativo extends MY_Controller {
 			['prefix' => 'Prefix'],
 			['numero_de_serire' => 'Serie'],
 			['fecha_creacion' => 'Creado'],
-			['correlativo_estado'=> 'Estado'],
+			['orden_estado_nombre'=> 'Estado'],
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id_correlativos');
-		$fields['estado'] = array('correlativo_estado');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Correlativos Lista";
 
 		return $fields;

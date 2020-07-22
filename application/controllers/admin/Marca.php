@@ -167,11 +167,18 @@ class Marca extends MY_Controller {
 			['descripcion_marca' => 'Descripcion'],
 			['fecha_creado_marca' => 'Creado'],
 			['fecha_atualizado_marca' => 'Actualizado'],
-			['estado_marca'=> 'Estado']
+			['orden_estado_nombre'=> 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 		= array('id_marca');
-		$fields['estado'] 	= array('estado_marca');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Marcas Lista";
 
 		return $fields;

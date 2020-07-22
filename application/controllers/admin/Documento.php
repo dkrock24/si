@@ -164,11 +164,18 @@ class Documento extends MY_Controller {
 			['efecto_en_report_venta' => 'Ventas'],
 			['automatico' => 'Automatico'],
 			['emitir_a' => 'Emitir'],
-			['estado'=> 'Estado']
+			['orden_estado_nombre'=> 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id_tipo_documento');
-		$fields['estado'] = array('estado');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Tipos Documentos Lista";
 
 		return $fields;

@@ -163,11 +163,18 @@ class Impuesto extends MY_Controller {
 			['excluyente' => 'Ex'],
 			['condicion' => 'Co'],
 			['condicion_valor' => 'Valor'],
-			['imp_estado'  => 'Estado']
+			['orden_estado_nombre'  => 'Estado']
 		);
 		
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
+		);
+
 		$fields['id'] 		= array('id_tipos_impuestos');
-		$fields['estado'] 	= array('imp_estado');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Tipos Impuestos Lista";
 
 		return $fields;

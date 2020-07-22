@@ -173,11 +173,18 @@ class Moneda extends MY_Controller {
 			['moneda_nombre' => 'Nombre'],
 			['moneda_simbolo' => 'Simbolo'],
 			['moneda_alias' => 'Alias'],
-			['moneda_estado' => 'Estado']
+			['orden_estado_nombre' => 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 		= array('id_moneda');
-		$fields['estado'] 	= array('moneda_estado');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Moneda Lista";
 
 		return $fields;

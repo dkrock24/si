@@ -14,6 +14,7 @@ class Template_model extends CI_Model {
     const pos_orden = 'pos_ordenes';
     const pos_ventas = 'pos_ventas';
     const sucursal = 'pos_sucursal';
+    const pos_orden_estado = 'pos_orden_estado';
 
 	function get_cliente(){
 		$this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,TipoDocumento');
@@ -68,6 +69,7 @@ class Template_model extends CI_Model {
     function getAllTemplate( $limit, $id , $filters){ 
         $this->db->select('*');
         $this->db->from(self::pos_doc_temp.' as td');
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = td.factura_estatus');
         //$this->db->join(self::pos_temp_sucursal.' as ts',' on td.id_factura=ts.Template','left');
         //$this->db->join(self::tipos_documentos.' dt',' on dt.id_tipo_documento=ts.Documento','left');
         //$this->db->join(self::pos_sucursal.' s',' on ts.Sucursal=s.id_sucursal','left');

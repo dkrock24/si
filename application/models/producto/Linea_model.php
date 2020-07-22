@@ -1,13 +1,15 @@
 <?php
 class Linea_model extends CI_Model {
 
-	const pos_linea = 'pos_linea';
+    const pos_linea = 'pos_linea';
+    const pos_orden_estado = 'pos_orden_estado';
 	
 	function getLinea( $limit, $id , $filters ){
 
 		$this->db->select('*');
         $this->db->from(self::pos_linea);
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = pos_linea.estado_linea');
         if($filters!=""){
             $this->db->where($filters);
         }

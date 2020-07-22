@@ -3,18 +3,17 @@ class Categorias_model extends CI_Model {
 	
 	const categorias =  'categoria';
 
-
 	function get_categorias($limit, $id  , $filters ){
 
         if($filters!=null || $filters != ""){				
             $filters = " and ".$filters;            
         }
-
         $query = $this->db->query('
-                SELECT categoria.*, c2.nombre_categoria as "cat_padre", e.nombre_comercial, g.* FROM categoria 
+                SELECT categoria.*,es.*, c2.nombre_categoria as "cat_padre", e.nombre_comercial, g.* FROM categoria 
                 LEFT JOIN categoria AS c2 on categoria.id_categoria_padre = c2.id_categoria
                 LEFT JOIN pos_empresa as e on e.id_empresa = categoria.Empresa 
                 LEFT JOIN pos_giros as g on g.id_giro = categoria.codigo_giro
+                LEFT JOIN pos_orden_estado AS es ON es.id_orden_estado = categoria.categoria_estado
                 where categoria.Empresa='.$this->session->empresa[0]->id_empresa .' '.$filters .' order by categoria.codigo_giro asc Limit '.  $id.','.$limit);
         //echo $this->db->queries[2];
         return $query->result();

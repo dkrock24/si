@@ -178,11 +178,18 @@ class Bodega extends MY_Controller {
 			['predeterminada_bodega' => 'Predefinida'],
 			['nombre_comercial' => 'Empresa'],
 			['nombre_sucursal' => 'Sucursal'],
-			['bodega_estado' => 'Estado'],
+			['orden_estado_nombre' => 'Estado'],
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id_bodega');
-		$fields['estado'] = array('bodega_estado');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Bodega Lista";
 
 		return $fields;

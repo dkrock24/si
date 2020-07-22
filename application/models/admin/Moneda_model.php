@@ -7,10 +7,12 @@ class Moneda_model extends CI_Model {
     const empleado_sucursal = 'sys_empleado_sucursal';
     const pos_empresa = 'pos_empresa';
     const sys_moneda = 'sys_moneda';
+    const pos_orden_estado = 'pos_orden_estado';
 
     function getMoneda(  $limit, $id , $filters){
     	$this->db->select('*');
         $this->db->from(self::sys_moneda);
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = sys_moneda.moneda_estado');
         if($filters!=""){
             $this->db->where($filters);
         }

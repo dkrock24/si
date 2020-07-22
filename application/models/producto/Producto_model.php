@@ -36,7 +36,7 @@ class Producto_model extends CI_Model {
 				$limite = "";
 			}
 	        
-	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, round(P.precio_venta,2) as precio_venta,
+	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*,es.*, round(P.precio_venta,2) as precio_venta,
 			 `sub_c`.`nombre_categoria` , e.nombre_razon_social,
 			  e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, 
 			  DATE_FORMAT(P.creado_producto,'%m/%d/%Y') as creado_producto,
@@ -49,6 +49,7 @@ class Producto_model extends CI_Model {
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
+				LEFT JOIN `pos_orden_estado` as `es` ON `es`.`id_orden_estado` = `P`.`producto_estado`
 				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where P.Empresa = '".$this->session->empresa[0]->id_empresa."'
 				$filters   $limite "
 				 );

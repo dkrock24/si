@@ -278,7 +278,7 @@ class Producto extends MY_Controller {
 			['costo' => 'Costo'],
 			['prodCantidad' => 'Existencias'],
 			['creado_producto' => 'Creado'],
-			['producto_estado'=> 'Estado']
+			['orden_estado_nombre'=> 'Estado']
 		);
 
 		$moneda_simbolo = $this->return_modena();
@@ -292,10 +292,14 @@ class Producto extends MY_Controller {
 				'valor' => $moneda_simbolo[0]->moneda_simbolo .' ',
 				'aplicar' => 'costo'
 			),
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id_entidad');
-		$fields['estado'] = array('producto_estado');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Producto Lista";
 
 		return $fields;

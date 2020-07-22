@@ -178,11 +178,18 @@ class Categorias extends MY_Controller {
 			['nombre_comercial' => 'Empresa'],
 			['creado_categoria' => 'Creado'],
 			['actualizado_categoria' => 'Actualizado'],
-			['categoria_estado' => 'Estado'],
+			['orden_estado_nombre' => 'Estado'],
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id_categoria');
-		$fields['estado'] = array('categoria_estado');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Categoria Lista";
 
 		return $fields;

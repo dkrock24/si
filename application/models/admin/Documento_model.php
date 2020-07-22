@@ -4,10 +4,12 @@ class Documento_model extends CI_Model {
     const documento = 'pos_tipo_documento';
     const pos_sucursal = 'pos_sucursal';
     const pos_temp_sucursal = 'pos_temp_sucursal';
+    const pos_orden_estado = 'pos_orden_estado';
 
     function getDocumento($limit, $id , $filters){
         $this->db->select('*');
         $this->db->from(self::documento);  
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = pos_tipo_documento.estado');
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
         if($filters!=""){
             $this->db->where($filters);

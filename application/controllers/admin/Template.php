@@ -218,11 +218,18 @@ class Template extends MY_Controller {
 			['factura_lineas' => 'Lineas'],
 			['factura_descripcion' => 'Descripción'],
 			['factura_creado' => 'Creado'],
-			['factura_estatus'=> 'Estado']
+			['orden_estado_nombre'=> 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 		= array('id_factura');
-		$fields['estado'] 	= array('factura_estatus');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Template Lista";
 
 		return $fields;

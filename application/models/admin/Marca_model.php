@@ -4,12 +4,14 @@ class Marca_model extends CI_Model {
     const marca = 'pos_marca';
     const categoria = 'categoria';
     const marca_categoria = 'pos_marca_categoria';
+    const pos_orden_estado = 'pos_orden_estado';
 
     function getMarca( $limit, $id , $filters ){
 
         $this->db->select('*');
         $this->db->from(self::marca);  
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = estado_marca');
         if($filters!=""){
             $this->db->where($filters);
         }

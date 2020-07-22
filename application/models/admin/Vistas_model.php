@@ -15,8 +15,9 @@ class Vistas_model extends CI_Model {
 
 	function get_vistas( $limit, $id ,$filters){
 
-        $this->db->select('v.*,  count(vc.Vista) as total');
+        $this->db->select('v.*, es.*, count(vc.Vista) as total');
         $this->db->from(self::sys_vistas.' as v');
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = v.vista_estado');
         $this->db->join(self::sys_vistas_componentes.' as vc', ' on vc.Vista = v.id_vista','left');
         $this->db->join(self::sys_componentes.' as c', ' on c.id_vista_componente = vc.Componente','left');
         if($filters!=""){

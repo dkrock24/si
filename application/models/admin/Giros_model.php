@@ -6,11 +6,12 @@ class Giros_model extends CI_Model {
     const atributos = 'atributo';
     const empresa = 'pos_empresa';
     const empresa_plantilla = 'giros_empresa';
-
+    const pos_orden_estado = 'pos_orden_estado';
 
 	function get_giros( $limit, $id , $filters ){;
 		$this->db->select('*');
         $this->db->from(self::giros);
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = pos_giros.estado_giro');
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);  
         if($filters!=""){
             $this->db->where($filters);

@@ -4,7 +4,8 @@ class Correlativo_model extends CI_Model {
     const empleado      =  'sys_empleado';
     const sucursal      =  'pos_sucursal';
     const documento     =  'pos_tipo_documento';
-	const correlativos  =  'pos_correlativos';    
+    const correlativos  =  'pos_correlativos';  
+    const pos_orden_estado = 'pos_orden_estado';  
 
 	function get_correlativo_sucursal($documento  , $sucursal ){
 
@@ -40,7 +41,8 @@ class Correlativo_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::correlativos.' as c');
         $this->db->join(self::sucursal.' as s',' on c.Sucursal = s.id_sucursal');   
-        $this->db->join(self::documento.' as d',' on c.TipoDocumento = d.id_tipo_documento');  
+        $this->db->join(self::documento.' as d',' on c.TipoDocumento = d.id_tipo_documento'); 
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = c.correlativo_estado');
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
         $this->db->order_by('c.id_correlativos','desc');
         if($filters!=""){
