@@ -137,11 +137,18 @@ class Roles extends MY_Controller {
 			['pagina' => 'Pagina'],
 			['fecha_creacion' => 'Creacion'],
 			['fecha_actualizacion' => 'Actualizacion'],
-			['estado_rol' => 'Estado'],
+			['orden_estado_nombre' => 'Estado'],
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 		= array('id_rol');
-		$fields['estado'] 	= array('estado_rol');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Roles Lista";
 
 		return $fields;

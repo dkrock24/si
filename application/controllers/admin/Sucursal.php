@@ -169,11 +169,18 @@ class Sucursal extends MY_Controller {
 			['tel' => 'Telefono'],
 			['cel' => 'Celular'],
 			['encargado_sucursal' => 'Encargado'],
-			['estado'=> 'Estado']
+			['orden_estado_nombre'=> 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 		= array('id_sucursal');
-		$fields['estado'] 	= array('estado');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Sucursales Lista";
 
 		return $fields;

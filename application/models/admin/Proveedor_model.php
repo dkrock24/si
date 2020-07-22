@@ -12,6 +12,7 @@ class Proveedor_model extends CI_Model {
     const pos_formas_pago = 'pos_formas_pago';
     const pos_fp_cliente = 'pos_formas_pago_cliente';
     const pos_formas_pago_cliente = 'pos_formas_pago_cliente';
+    const pos_orden_estado = 'pos_orden_estado';
 
 	function getAllProveedor(){
 		$this->db->select('*');
@@ -28,11 +29,12 @@ class Proveedor_model extends CI_Model {
 	}
 
     function get_proveedor( $limit, $id , $filters){
-        $this->db->select('p.*,l.id_linea,l.tipo_producto,l.descripcion_tipo_producto,pro.codigo_proveedor,
+        $this->db->select('p.*,es.*,l.id_linea,l.tipo_producto,l.descripcion_tipo_producto,pro.codigo_proveedor,
         pro.titular_proveedor,pro.nrc,pro.giro,pro.tel_empresa,pro.cel_empresa,pro.estado,pro.id_proveedor,pro.empresa_proveedor');
         $this->db->from(self::pos_proveedor.' as pro');
         $this->db->join(self::sys_persona.' as p',' on p.id_persona = pro.Persona_Proveedor');
         $this->db->join(self::pos_linea.' as l',' on l.id_linea = pro.lineas');
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = pro.estado');
         $this->db->where('pro.Empresa_id', $this->session->empresa[0]->id_empresa);
         if($filters!=""){
             $this->db->where($filters);

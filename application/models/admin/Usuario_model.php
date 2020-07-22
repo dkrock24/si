@@ -9,13 +9,15 @@ class Usuario_model extends CI_Model {
     const sys_usuario = 'sys_usuario';
     const sys_role = 'sys_role';
     const sys_cargo_laboral = ' sys_cargo_laboral';
+    const pos_orden_estado = 'pos_orden_estado';
 
     function get_usuarios( $limit, $id , $filters){;
-        $this->db->select('r.*,s.*,u.nombre_usuario,u.contrasena_usuario,u.hora_inicio,u.hora_salida,u.usuario_encargado,u.Empleado,u.id_usuario,e.alias,e.id_empleado');
+        $this->db->select('r.*,s.*,es.*,u.nombre_usuario,u.contrasena_usuario,u.hora_inicio,u.hora_salida,u.usuario_encargado,u.Empleado,u.id_usuario,e.alias,e.id_empleado');
         $this->db->from(self::sys_usuario.' as u');
         $this->db->join(self::sys_role.' as r', 'u.id_rol = r.id_rol');
         $this->db->join(self::empleado.' as e', 'e.id_empleado = u.Empleado');
         $this->db->join(self::sucursal.' as s', 's.id_sucursal = e.Sucursal');
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = e.estado');
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
         if($filters!=""){
             $this->db->where($filters);

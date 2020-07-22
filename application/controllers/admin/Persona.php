@@ -185,11 +185,18 @@ class Persona extends MY_Controller {
 			['whatsapp' => 'Whatsapp'],
 			['sexo' => 'Sexo'],
 			['nombre_ciudad' => 'Ciudad'],
-			['persona_estado' =>  'Estado']
+			['orden_estado_nombre' =>  'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 		= array('id_persona');
-		$fields['estado'] 	= array('persona_estado');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Persona Lista";
 
 		return $fields;

@@ -8,7 +8,7 @@ class Terminal_model extends CI_Model {
     const usuario = 'sys_usuario';
     const empleado = 'sys_empleado';
     const persona = 'sys_persona';
-
+    const pos_orden_estado = 'pos_orden_estado';
 
 	function validar_usuario_terminal( $usuario_id , $terminal_nombe ){
 		$this->db->select('*');
@@ -31,6 +31,7 @@ class Terminal_model extends CI_Model {
         $this->db->from( self::pos_terminal.' as terminal');
         $this->db->join( self::sucursal.' as sucursal',
                                     ' on terminal.Sucursal=sucursal.id_sucursal' );
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = terminal.estado_terminal');
         $this->db->where('sucursal.Empresa_Suc', $this->session->empresa[0]->id_empresa);
         if($filters!=""){
             $this->db->where($filters);

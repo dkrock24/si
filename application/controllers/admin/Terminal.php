@@ -201,11 +201,18 @@ class Terminal extends MY_Controller {
 			['modelo' => 'Modelo'],
 			['series' => 'Serie'],
 			['marca' => 'Marca'],
-			['estado_terminal' => 'Estado'],
+			['orden_estado_nombre' => 'Estado'],
+		);
+		
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id_terminal');
-		$fields['estado'] = array('estado_terminal');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Terminal Lista";
 
 		return $fields;

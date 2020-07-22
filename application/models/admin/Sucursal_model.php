@@ -7,6 +7,7 @@ class Sucursal_model extends CI_Model {
     const sys_usuario   = 'sys_usuario';
     const sys_empleado_sucursal = 'sys_empleado_sucursal';
     const sys_empleado = 'sys_empleado';
+    const pos_orden_estado = 'pos_orden_estado';
 	
 	function getSucursal(){
 		$this->db->select('DISTINCT(s.id_sucursal) , s.*');
@@ -81,9 +82,10 @@ class Sucursal_model extends CI_Model {
 	}
 
     function getAllSucursal( $limit, $id , $filters){
-        $this->db->select('s.*,e.nombre_comercial, e.id_empresa');
+        $this->db->select('s.*,es.*,e.nombre_comercial, e.id_empresa');
         $this->db->from(self::pos_sucursal.' as s');
         $this->db->join(self::pos_empresa.' as e', ' on s.Empresa_Suc = e.id_empresa');
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = s.estado');
         //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa );
         if($filters!=""){

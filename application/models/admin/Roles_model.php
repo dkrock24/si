@@ -8,11 +8,13 @@ class Roles_model extends CI_Model {
     const usuarios  = 'sr_usuarios';    
     const roles     = 'sys_role';
     const cargos    = 'sr_cargos';
+    const pos_orden_estado = 'pos_orden_estado';
     
     function getRoles($limit, $id , $filters ){
 
         $this->db->select('*');
-        $this->db->from(self::roles);  
+        $this->db->from(self::roles);
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = '.self::roles.'.estado_rol');
         $this->db->where(self::roles.'.Empresa', $this->session->empresa[0]->id_empresa);  
         if($filters!=""){
             $this->db->where($filters);

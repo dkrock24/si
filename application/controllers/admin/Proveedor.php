@@ -165,11 +165,18 @@ class Proveedor extends MY_Controller {
 			['tipo_producto' => 'Linea'],
 			['primer_nombre_persona' => 'Nombre'],
 			['primer_apellido_persona' => 'Apellido'],
-			['estado' => 'Estado']
+			['orden_estado_nombre' => 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 		= array('id_proveedor');
-		$fields['estado'] 	= array('estado');
+		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Proveedor Lista";
 
 		return $fields;
