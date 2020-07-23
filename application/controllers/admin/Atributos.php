@@ -127,11 +127,18 @@ class Atributos extends MY_Controller {
 			['tipo_atributo' => 'Tipo'],
 			['creado_atributo' => 'Creado'],
 			['actualizado_atributo' => 'Actualizado'],
-			['estado_atributo'=> 'Estado']
+			['orden_estado_nombre'=> 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id_prod_atributo');
-		$fields['estado'] = array('estado_atributo');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Atributos Lista";
 
 		return $fields;

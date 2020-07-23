@@ -4,11 +4,13 @@ class Atributos_model extends CI_Model {
 	const atributos =  'atributo';
     const atributos_opciones =  'atributos_opciones';
     const giro_pantilla = 'giro_pantilla';
+    const pos_orden_estado = 'pos_orden_estado';
 
 	function get_atributos( $limit, $id , $filters ){
 
 		$this->db->select('*');
         $this->db->from(self::atributos);
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = atributo.estado_atributo');
         if($filters!=""){
             $this->db->where($filters);
         }

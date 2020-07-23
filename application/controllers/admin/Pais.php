@@ -295,11 +295,18 @@ class Pais extends MY_Controller {
 			['moneda_simbolo' => 'Simbolo'],
 			['fecha_creacion_pais' => 'Creado'],
 			['fecha_actualizacion_pais' => 'Actualizado'],
-			['estado_pais'=> 'Estado']
+			['orden_estado_nombre'=> 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id_pais');
-		$fields['estado'] = array('estado_pais');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Pais Lista";
 
 		return $fields;

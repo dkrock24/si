@@ -7,13 +7,14 @@ class Pais_model extends CI_Model {
 	const pais_d_c =  'sys_ciudad';
 	const sys_moneda = 'sys_moneda';
 	const sys_departamento = 'sys_departamento';
-
+    const pos_orden_estado = 'pos_orden_estado';
 
 	function get_pais( $limit, $id , $filters ){
 
 		$this->db->select('*');
         $this->db->from(self::pais.' as p');
-		$this->db->join(self::sys_moneda.' as m','on '. 'm.id_moneda = p.id_moneda');
+        $this->db->join(self::sys_moneda.' as m','on '. 'm.id_moneda = p.id_moneda');
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = p.estado_pais');
 		if($filters!=""){
             $this->db->where($filters);
         }

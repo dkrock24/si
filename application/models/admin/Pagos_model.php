@@ -7,11 +7,13 @@ class Pagos_model extends CI_Model {
     const sys_persona =  'sys_persona';
     const pos_tipo_documento= 'pos_tipo_documento';
     const pos_formas_pago_cliente = 'pos_formas_pago_cliente';
+    const pos_orden_estado = 'pos_orden_estado';
 
     function getPagos($limit, $id, $filters ){
 
         $this->db->select('*');
-        $this->db->from(self::formas_pago);  
+        $this->db->from(self::formas_pago);
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = pos_formas_pago.estado_modo_pago');
         //$this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
         
         if($filters!=""){

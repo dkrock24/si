@@ -146,11 +146,18 @@ class Pagos extends MY_Controller {
 			['descripcion_modo_pago' => 'Descripcion'],
 			['valor_modo_pago' => 'Valor pago'],
 			['creado_modo_pago' => 'Creado'],
-			['estado_modo_pago'=> 'Estado']
+			['orden_estado_nombre'=> 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] 	  = array('id_modo_pago');
-		$fields['estado'] = array('estado_modo_pago');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Formas de Pago";
 
 		return $fields;
