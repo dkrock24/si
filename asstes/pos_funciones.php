@@ -317,7 +317,7 @@
 
             if (_productos_lista.length == 1) {
                 console.log(_productos_lista[0].Cantidad);
-                if(_productos_lista[0].Cantidad){
+                if(_productos_lista[0].Cantidad == 0){
                     var type = "info";
                     var title = _productos_lista[0].name_entidad +" Sin Existencias ";
                     var mensaje = "";
@@ -2084,7 +2084,8 @@
                 'imp_condicion' : _impuestos_orden_condicion,
                 'imp_especial'  : _impuestos_orden_especial,
                 'imp_excluyente': _impuestos_orden_excluyentes,
-                'imp_iva'       : _impuestos_orden_iva
+                'imp_iva'       : _impuestos_orden_iva,
+                'exento_iva'    : _impuestos_orden_exento
             }
 
             if (_orden.length != 0) {
@@ -2546,14 +2547,19 @@
         if (total_iva != 0 && _orden.length != 0) {
             total_msg += parseFloat(total_iva_suma);
         }
+        
 
         iva_nombre += "<p style='text-align: right;'>IVA</p>";
         iva_valor += "<?php echo $moneda[0]->moneda_simbolo; ?>" + total_iva.toFixed(2);
         iva_total += "<p><?php echo $moneda[0]->moneda_simbolo; ?>" + total_msg.toFixed(2) + "</p>";
 
+
+        var exento_valor = "<?php echo $moneda[0]->moneda_simbolo; ?>" + exento_iva_suma.toFixed(2);
+
         $(".iva_nombre").html(iva_nombre);
         $(".iva_valor").text(iva_valor);
         $(".iva_total").html(iva_total);
+        $(".exento_valor").text(exento_valor);
 
         total_msg += parseFloat(imp_espeical_total);
 

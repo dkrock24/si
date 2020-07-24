@@ -4,6 +4,8 @@ var _tipo_cliente;
 var total_orden = 0;
 var total_iva = 0;
 var total_iva_suma = 0;
+var exento_iva = 0;
+var exento_iva_suma = 0;
 var total_sin_impuesto = 0;
 var result = 0;
 var docVal, catVal, proVal, cliVal;
@@ -17,6 +19,7 @@ var _impuestos_orden_condicion = [];
 var _impuestos_orden_especial = [];
 var _impuestos_orden_excluyentes = [];
 var _impuestos_orden_iva = [];
+var _impuestos_orden_exento = [];
 var _impuestos_total = [];
 var exist_cat;
 var _conf = [];
@@ -225,12 +228,12 @@ function aplicar_imp( prod){
 
 		if(element.id_producto_combo == null || element.id_producto_combo == 0){
 
-			$.each(_catVal, function(i, item) {
-
-				var yes = check_aplicable(item.nombre);							
+			$.each(_catVal, function(i, item) 
+			{
+				var yes = check_aplicable(item.nombre);	
 				
-				if( item.condicion == 0 && item.especial==0 && yes == true){
-					
+				if( item.condicion == 0 && item.especial==0 && yes == true)
+				{					
 					aplicable = true;
 					var calcu = (parseFloat(element.precioUnidad) * parseFloat( element.presentacionFactor) * (element.cantidad));
 					
@@ -241,20 +244,12 @@ function aplicar_imp( prod){
 					total += calcu3;
 					console.log(" G -> ", total);
 
-					if(_impuestos_orden_iva.length==0 ){
-						_impuestos_orden_iva[_impuestos_orden_iva.length] = {
-							ordenImpName : item.nombre,
-							ordenSimbolo : 0,
-							ordenImpVal  : item.porcentage,
-							ordenImpTotal: total,
-							ordenEspecial: item.especial
-						};
-					}
-
-					$.each(_impuestos_orden_iva, function(i, ioi) {
-						if(ioi.ordenImpName == item.nombre){
-
-							_impuestos_orden_iva[_impuestos_orden_iva.indexOf(ioi)] = {
+					if(element.gen !="Exentos")
+					{
+						alert(2);
+						if(_impuestos_orden_iva.length==0 )
+						{
+							_impuestos_orden_iva[_impuestos_orden_iva.length] = {
 								ordenImpName : item.nombre,
 								ordenSimbolo : 0,
 								ordenImpVal  : item.porcentage,
@@ -262,7 +257,45 @@ function aplicar_imp( prod){
 								ordenEspecial: item.especial
 							};
 						}
-					});					
+
+						$.each(_impuestos_orden_iva, function(i, ioi) {
+							if(ioi.ordenImpName == item.nombre)
+							{
+								_impuestos_orden_iva[_impuestos_orden_iva.indexOf(ioi)] = {
+									ordenImpName : item.nombre,
+									ordenSimbolo : 0,
+									ordenImpVal  : item.porcentage,
+									ordenImpTotal: total,
+									ordenEspecial: item.especial
+								};
+							}
+						});
+
+					}else{
+						if(_impuestos_orden_exento.length==0 )
+						{
+							_impuestos_orden_exento[_impuestos_orden_exento.length] = {
+								ordenImpName : item.nombre,
+								ordenSimbolo : 'E',
+								ordenImpVal  : 0.13,
+								ordenImpTotal: total,
+								ordenEspecial: item.especial
+							};
+						}
+
+						$.each(_impuestos_orden_exento, function(i, ioi) {
+							if(ioi.ordenImpName == item.nombre)
+							{
+								_impuestos_orden_exento[_impuestos_orden_exento.indexOf(ioi)] = {
+									ordenImpName : item.nombre,
+									ordenSimbolo : 'E',
+									ordenImpVal  : 0.13,
+									ordenImpTotal: total,
+									ordenEspecial: item.especial
+								};
+							}
+						});
+					}				
 
 					return false;
 				}
@@ -308,7 +341,7 @@ function aplicar_imp( prod){
 				if(item.excluyente ==0 && item.especial==1){
 					console.log("3 aplicar_imp");
 					//alert("Excluyente");
-				}				
+				}
 			});
 			if(aplicable){
 				console.log("4 aplicar_imp", total);
@@ -462,10 +495,10 @@ function quitar_imp(imp, prod){
 
 function impuesto_valor(prod){
 
-	var imp_asociados = 0;
-	var dinero = 0;
-	var cant_galon = 0;
-	var precio_galon = 0;
+	var dinero 			= 0;
+	var cant_galon 		= 0;
+	var precio_galon 	= 0;
+	var imp_asociados 	= 0;
 
 	$.each(_impuestos.cat, function(i, item) {	
 
@@ -668,13 +701,16 @@ function separar_iva(prod){
 
 function ivaTotal(){
 	total_iva 		= 0;
+	exento_iva 		= 0;
+	exento_iva_suma = 0;
 	total_iva_suma 	= 0;
 	sub_total_ 		= 0;
+	sub_total_exento= 0;
 	var c 			= 1;
 	
 	$.each(_orden, function(i, item) {
 
-		if(item.impSuma){
+		if(item.impSuma && item.gen !="Exentos"){
 			
 			var tmp = parseFloat(item.impSuma).toFixed(2);
 
@@ -685,6 +721,8 @@ function ivaTotal(){
 			if(item.iva==0){
 				//total_iva_suma += parseFloat(tmp);
 			}
+		}else{
+			exento_iva_suma += (parseFloat(item.total_anterior )*0.13)/1.13 ;
 		}
 		c++;		
 	});

@@ -236,8 +236,12 @@ include("asstes/pos_orden.php");
                                     <td><?php echo $moneda[0]->moneda_simbolo; ?> <span class="sub_total_tabla"></span></td>
                                 </tr>
                                 <tr>
-                                    <td><b>Iva</b></td>
+                                    <td><b>Total Iva</b></td>
                                     <td><span class="iva_valor"></span></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Exento</b></td>
+                                    <td><span class="exento_valor"></span></td>
                                 </tr>
                                 <tr>
                                     <td><b>Desc</b></td>

@@ -2437,9 +2437,12 @@
         iva_valor += "<?php echo $moneda[0]->moneda_simbolo; ?>" + total_iva.toFixed(2);
         iva_total += "<p><?php echo $moneda[0]->moneda_simbolo; ?>" + total_msg.toFixed(2) + "</p>";
 
+        var exento_valor = "<?php echo $moneda[0]->moneda_simbolo; ?>" + exento_iva_suma.toFixed(2);
+
         $(".iva_nombre").html(iva_nombre);
         $(".iva_valor").text(iva_valor);
         $(".iva_total").html(iva_total);
+        $(".exento_valor").text(exento_valor);
 
         total_msg += parseFloat(imp_espeical_total);
 
