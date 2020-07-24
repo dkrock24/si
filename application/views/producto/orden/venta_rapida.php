@@ -179,7 +179,7 @@ include("asstes/pos_orden.php");
                                         <th style="color: black;">Cantidad</th>
                                         <th style="color: black;">Presentación</th>
                                         <th style="color: black;">Factor</th>
-                                        <th style="color: black;">Unidad</th>
+                                        <th style="color: black;">Precio Uni</th>
                                         <th style="color: black;">Descuento</th>
                                         <th style="color: black;">Total</th>
                                         <th style="color: black;">Bodega</th>   
@@ -232,11 +232,11 @@ include("asstes/pos_orden.php");
 
                             <table class="table table-sm table-hover" style="font-size: 22px;">
                                 <tr>
-                                    <td style="color:#0f4871;"><b>Sub total</b></td>
+                                    <td style="color:#0f4871;"><b>Gravado</b></td>
                                     <td><?php echo $moneda[0]->moneda_simbolo; ?> <span class="sub_total_tabla"></span></td>
                                 </tr>
                                 <tr>
-                                    <td><b>Total Iva</b></td>
+                                    <td><b>Iva</b></td>
                                     <td><span class="iva_valor"></span></td>
                                 </tr>
                                 <tr>

@@ -246,12 +246,12 @@ function aplicar_imp( prod){
 
 					if(element.gen !="Exentos")
 					{
-						alert(2);
+						_orden[_orden.indexOf(element)].tipo = "G";
 						if(_impuestos_orden_iva.length==0 )
 						{
 							_impuestos_orden_iva[_impuestos_orden_iva.length] = {
 								ordenImpName : item.nombre,
-								ordenSimbolo : 0,
+								ordenSimbolo : 'G',
 								ordenImpVal  : item.porcentage,
 								ordenImpTotal: total,
 								ordenEspecial: item.especial
@@ -259,11 +259,12 @@ function aplicar_imp( prod){
 						}
 
 						$.each(_impuestos_orden_iva, function(i, ioi) {
+							_orden[_orden.indexOf(element)].tipo = "G";
 							if(ioi.ordenImpName == item.nombre)
 							{
 								_impuestos_orden_iva[_impuestos_orden_iva.indexOf(ioi)] = {
 									ordenImpName : item.nombre,
-									ordenSimbolo : 0,
+									ordenSimbolo : 'G',
 									ordenImpVal  : item.porcentage,
 									ordenImpTotal: total,
 									ordenEspecial: item.especial
@@ -274,23 +275,25 @@ function aplicar_imp( prod){
 					}else{
 						if(_impuestos_orden_exento.length==0 )
 						{
+							_orden[_orden.indexOf(element)].tipo = "E";
 							_impuestos_orden_exento[_impuestos_orden_exento.length] = {
 								ordenImpName : item.nombre,
 								ordenSimbolo : 'E',
 								ordenImpVal  : 0.13,
-								ordenImpTotal: total,
+								ordenImpTotal: calcu,
 								ordenEspecial: item.especial
 							};
 						}
 
 						$.each(_impuestos_orden_exento, function(i, ioi) {
+							_orden[_orden.indexOf(element)].tipo = "E";
 							if(ioi.ordenImpName == item.nombre)
 							{
 								_impuestos_orden_exento[_impuestos_orden_exento.indexOf(ioi)] = {
 									ordenImpName : item.nombre,
 									ordenSimbolo : 'E',
 									ordenImpVal  : 0.13,
-									ordenImpTotal: total,
+									ordenImpTotal: calcu,
 									ordenEspecial: item.especial
 								};
 							}
@@ -722,7 +725,7 @@ function ivaTotal(){
 				//total_iva_suma += parseFloat(tmp);
 			}
 		}else{
-			exento_iva_suma += (parseFloat(item.total_anterior )*0.13)/1.13 ;
+			exento_iva_suma += (parseFloat(item.total_anterior )) ;
 		}
 		c++;		
 	});
@@ -739,7 +742,7 @@ function sub_total(){
 		_total_impues_exclu += parseFloat( item.ordenImpTotal );
 		
 	});
-	sub_total_ = total_orden - _total_impues_exclu ;
+	sub_total_ = total_orden - _total_impues_exclu - exento_iva_suma ;
 }
 
 /*********** Orden  ************/

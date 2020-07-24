@@ -2364,11 +2364,14 @@
         // Remueve los productos selecionados
         _config_impuestos();
         contador_tabla = 1;
+        gravado_exento = "";
         //total_iva = Math.abs(total_iva);
         if (_orden.length >= 1) {
             var tr_html = "";           
             
             _orden.forEach(function(element) {
+                
+                gravado_exento = _orden[_orden.indexOf(element)].tipo;
 
                 _orden[_orden.indexOf(element)].total               = Math.abs(element.total);
                 _orden[_orden.indexOf(element)].desc_val            = Math.abs(element.desc_val);
@@ -2397,7 +2400,7 @@
                     tr_html += "<td class=''>" + element.presentacionFactor + "</td>";
                     tr_html += "<td class=''><input type='text' class='form-control preProducto' size='4' id='" + element.producto + "' value='" + precio_tag.toFixed(2) + "' style='border:1px solid blue;'></input></td>";
                     tr_html += "<td class=''><input type='text' class='form-control cntProducto' size='4' id='d" + element.producto + "' value='" + desc_tag.toFixed(2) + "' style='border:1px solid green;width:100px;'></input></td>";
-                    tr_html += "<td class=' total'>" + total_tag.toFixed(2) + "</td>";
+                    tr_html += "<td class=' total'>" + total_tag.toFixed(2) +" "+ gravado_exento + "</td>";
                     tr_html += "<td class=' '>" + element.bodega + "</td>";
                     if (element.combo == 1 || !element.id_producto_combo || element.invisible == 0) {
                         tr_html += "<td class='border-left'><button type='button' class='btn btn-labeled bg-green eliminar' name='" + element.id_producto_detalle + "' id='eliminar' value=''><span class=''><i class='fa fa-times'></i></span></button></td>";
@@ -2562,6 +2565,8 @@
         $(".exento_valor").text(exento_valor);
 
         total_msg += parseFloat(imp_espeical_total);
+
+        sub_total_ = (parseFloat(sub_total_) -parseFloat( total_iva ));
 
         // --------------- * -----------------------------
         $(".total_msg").        text(total_msg.toFixed(2));
