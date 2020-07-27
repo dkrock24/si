@@ -92,7 +92,8 @@
 	color:black;
 }
 .label-warning{
-    background:#68af93;
+	color:black;
+    background:#ffc107!important;
 }
 .label-info{
     background:#129cd6;

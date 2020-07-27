@@ -85,7 +85,7 @@ class Sucursal_model extends CI_Model {
         $this->db->select('s.*,es.*,e.nombre_comercial, e.id_empresa');
         $this->db->from(self::pos_sucursal.' as s');
         $this->db->join(self::pos_empresa.' as e', ' on s.Empresa_Suc = e.id_empresa');
-        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = s.estado');
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = s.sucursal_estado');
         //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa );
         if($filters!=""){
@@ -130,7 +130,7 @@ class Sucursal_model extends CI_Model {
             'encargado_sucursal'=> $datos['encargado'],
             'tel'               => $datos['tel'],
             'cel'               => $datos['cel'],
-            'estado'            => $datos['estado'],
+            'sucursal_estado'            => $datos['estado'],
             'Ciudad_Suc'        => $datos['Ciudad_Suc'],            
             'Empresa_Suc'       => $datos['Empresa_Suc']
         );
@@ -173,7 +173,7 @@ class Sucursal_model extends CI_Model {
             'encargado_sucursal'     => $datos['encargado_sucursal'],
             'tel'           => $datos['tel'],
             'cel'           => $datos['cel'],
-            'estado'        => $datos['estado'],
+            'sucursal_estado'        => $datos['estado'],
             'Ciudad_Suc'    => $datos['Ciudad_Suc'],            
             'Empresa_Suc'   => $datos['Empresa_Suc']
         );

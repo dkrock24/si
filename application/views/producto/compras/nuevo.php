@@ -418,7 +418,7 @@ include("asstes/js/compras/pos_funciones.php");
 
                                 <table class="table table-sm table-hover" style="font-size: 22px;">
                                     <tr>
-                                        <td style="color:#0f4871;"><b>Sub total</b></td>
+                                        <td style="color:#0f4871;"><b>Gravado</b></td>
                                         <td><?php echo $moneda[0]->moneda_simbolo; ?> <span class="sub_total_tabla"></span></td>
                                     </tr>
                                     <tr>

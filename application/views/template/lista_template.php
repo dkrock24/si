@@ -200,9 +200,12 @@
                                                     else if($table->$c == 'Enviado'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-danger'>".$table->$estado."</span></h5>";
-                                                    }else{
+                                                    }else if($table->$c == 'Inactivo'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h5><span class='label label-warning'>".$table->$estado."</span></h5>";
+                                                    }else{
+                                                        $estado = $fields['estado'][0];
+                                                        echo "<h5><span class='label label-info'>".$table->$estado."</span></h5>";
                                                     }
                                                 }
                                             }

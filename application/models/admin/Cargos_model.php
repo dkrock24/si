@@ -22,7 +22,7 @@ class Cargos_model extends CI_Model {
      function get_all_cargo( $limit, $id, $filters ){;
         $this->db->select('*');
         $this->db->from(self::sys_cargo_laboral);
-        $this->db->join(self::pos_orden_estado.' as es', ' on es.id_orden_estado = sys_cargo_laboral.id_Cargo_laboral');
+        $this->db->join(self::pos_orden_estado.' as es', ' on es.id_orden_estado = sys_cargo_laboral.cargo_estado');
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
         if($filters!=""){
             $this->db->where($filters);
@@ -80,7 +80,7 @@ class Cargos_model extends CI_Model {
             'cargo_laboral'    => $datos['cargo_laboral'],
             'descripcion_cargo_laboral'=> $datos['descripcion_cargo_laboral'],
             'salario_mensual_cargo_laboral'       => $datos['salario_mensual_cargo_laboral'],
-            'estado'            => $datos['estado'],
+            'cargo_estado'            => $datos['estado'],
         );
         
         $this->db->where('id_cargo_laboral', $datos['id_cargo_laboral']);  

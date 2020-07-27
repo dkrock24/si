@@ -151,7 +151,6 @@ class Empleado_model extends CI_Model {
 	function update($datos){
 
         $imagen="";
-        
 
         $data = array(
             'fecha_contratacion_empleado'   =>  $datos['fecha_contratacion_empleado'],
@@ -161,7 +160,7 @@ class Empleado_model extends CI_Model {
             'seccion'   => $datos['seccion'],
             'puesto'    => $datos['puesto'],
             'encargado' => $datos['encargado'],
-            'nivel'=> $datos['nivel'],
+            'nivel'     => $datos['nivel'],
             'Cargo_Laboral_E'   => $datos['Cargo_Laboral_E'],
             'Persona_E' => $datos['Persona_E'],
             'Sucursal'  => $datos['Sucursal'],

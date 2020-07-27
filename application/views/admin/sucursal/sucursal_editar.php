@@ -109,7 +109,7 @@
                                             <label>
                                                 <select name="estado" class="form-control">
                                                     <?php
-                                                    if ($sucursal[0]->estado == 1) {
+                                                    if ($sucursal[0]->sucursal_estado == 1) {
                                                         ?>
                                                         <option value="1">Activo</option>
                                                         <option value="0">Inactivo</option>
