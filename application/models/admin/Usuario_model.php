@@ -1,15 +1,16 @@
 <?php
 class Usuario_model extends CI_Model {
-	const empleado =  'sys_empleado';
-    const sucursal = 'pos_sucursal';
-    const persona = 'sys_persona';
-    const usuario_roles = 'sys_usuario_roles';
-    const empleado_sucursal = 'sys_empleado_sucursal';
-    const pos_empresa = 'pos_empresa';
-    const sys_usuario = 'sys_usuario';
-    const sys_role = 'sys_role';
-    const sys_cargo_laboral = ' sys_cargo_laboral';
-    const pos_orden_estado = 'pos_orden_estado';
+
+    const sys_role              = 'sys_role';
+    const persona               = 'sys_persona';
+    const pos_empresa           = 'pos_empresa';
+    const sys_usuario           = 'sys_usuario';
+	const empleado              = 'sys_empleado';
+    const sucursal              = 'pos_sucursal';
+    const pos_orden_estado      = 'pos_orden_estado';
+    const usuario_roles         = 'sys_usuario_roles';
+    const sys_cargo_laboral     = 'sys_cargo_laboral';
+    const empleado_sucursal     = 'sys_empleado_sucursal';
 
     function get_usuarios( $limit, $id , $filters){;
         $this->db->select('r.*,s.*,es.*,u.nombre_usuario,u.contrasena_usuario,u.hora_inicio,u.hora_salida,u.usuario_encargado,u.Empleado,u.id_usuario,e.alias,e.id_empleado');

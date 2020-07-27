@@ -1,4 +1,3 @@
-
 <?php
 class Pais_model extends CI_Model {
 	

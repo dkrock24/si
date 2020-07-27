@@ -103,13 +103,23 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        
-                                        <label>
-                                            <select name="categoria_estado" class="form-control">
+                                    <label>
+                                        <select name="categoria_estado" class="form-control">
+                                            <?php
+                                            if ($cargo[0]->categoria_estado == 1) {
+                                                ?>
                                                 <option value="1">Activo</option>
-                                                <option value="0">Inactivo</option>              
-                                            </select>
-                                        </label>
+                                                <option value="0">Inactivo</option>
+                                            <?php
+                                            } else {
+                                                ?>
+                                                <option value="0">Inactivo</option>
+                                                <option value="1">Activo</option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </label>
                                         
                                     </div>
                                 </div>

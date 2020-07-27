@@ -181,7 +181,6 @@ class Vistas_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::sys_vistas);    
-        $this->db->where('vista_estado', 1);
         $this->db->where('id_vista', $vista_id );
         $query = $this->db->get();   
         //echo $this->db->queries[1];

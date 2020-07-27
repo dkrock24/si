@@ -115,7 +115,7 @@ class Impuesto extends MY_Controller {
 
 	public function update(){	
 
-		$data['impuesto'] = $this->Impuesto_model->updateImpuesto( $_POST );
+		$data = $this->Impuesto_model->updateImpuesto( $_POST );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('info', "Impuesto Fue Actualizado");
@@ -129,7 +129,7 @@ class Impuesto extends MY_Controller {
 
 	public function eliminar($id){
 		
-		$data['impuesto'] = $this->Impuesto_model->eliminar( $id );
+		$data = $this->Impuesto_model->eliminar( $id );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Impuesto Fue Eliminado");

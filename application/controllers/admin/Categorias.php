@@ -82,7 +82,7 @@ class Categorias extends MY_Controller {
 
 	public function crear(){
 
-		$data['info'] = $this->Categorias_model->crear_categoria( $_POST );
+		$data = $this->Categorias_model->crear_categoria( $_POST );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Categoria Fue Creada");
@@ -137,7 +137,7 @@ class Categorias extends MY_Controller {
 
 	public function actualizar(){
 		// Insert pais
-		$data['info'] = $this->Categorias_model->actualizar_categoria( $_POST );
+		$data = $this->Categorias_model->actualizar_categoria( $_POST );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('info', "Categoria Fue Actualizada");
@@ -151,7 +151,7 @@ class Categorias extends MY_Controller {
 
 	public function eliminar($id){
 		
-		$data['info'] =$this->Categorias_model->delete_categoria( $id );
+		$data =$this->Categorias_model->delete_categoria( $id );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Categoria Fue Eliminada");
