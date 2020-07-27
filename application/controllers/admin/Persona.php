@@ -132,7 +132,7 @@ class Persona extends MY_Controller {
 
 	public function update(){
 
-		$data['bodegas'] = $this->Persona_model->update( $_POST );
+		$data = $this->Persona_model->update( $_POST );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('info', "Persona Fue Actualizado");
@@ -146,7 +146,7 @@ class Persona extends MY_Controller {
 
 	function eliminar($id){
 
-		$data['bodegas'] = $this->Persona_model->eliminar( $id );
+		$data = $this->Persona_model->eliminar( $id );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Persona Fue Eliminado");

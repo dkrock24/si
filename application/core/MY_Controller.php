@@ -259,7 +259,12 @@ class MY_Controller extends CI_Controller
 
 	public function db_error_format($data){
 
-		$result['message'] = " <br><br>Codigo Error : ".  $data['message'];
+		$result['message'] = NULL;
+
+		if(isset($data['message']))
+		{
+			$result['message'] = " <br><br>Codigo Error : ".  $data['message'];
+		}
 		return $result;
 	}
 

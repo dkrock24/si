@@ -139,6 +139,7 @@ class Proveedor extends MY_Controller {
 		if(!$data['code']){
 			$this->session->set_flashdata('info', "Proveedor Fue Actualizado");
 		}else{
+			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Proveedor No Fue Actualizado : ". $data['message']);
 		}
 

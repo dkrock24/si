@@ -125,7 +125,8 @@ class Persona_model extends CI_Model {
             'persona_estado'            => $datos['persona_estado']
         );
         $this->db->where('id_persona', $datos['id_persona']);
-        $result = $this->db->update(self::sys_persona, $data);  
+        $result = $this->db->update(self::sys_persona, $data);
+
         if(!$result){
             $result = $this->db->error();
         }
