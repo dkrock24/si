@@ -98,14 +98,14 @@
                                         <!-- Otro -->
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Website</label>
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="website" name="website" placeholder="Website" value="<?php echo $proveedor[0]->website ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-8">
                                                 <select id="Persona_Proveedor" name="Persona_Proveedor" class="form-control">
                                                     <?php
                                                     foreach ($persona as $key => $p) {
@@ -129,14 +129,14 @@
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Natural</label>
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="natural_juridica" name="natural_juridica" placeholder="Natural Juridica" value="<?php echo $proveedor[0]->natural_juridica ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Linea</label>
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-8">
                                                 <select id="lineas" name="lineas" class="form-control">
                                                     <?php
                                                     foreach ($linea as $key => $l) {
@@ -158,8 +158,22 @@
                                             </div>
                                         </div>
 
+                                        <div class="form-group img_logo">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Logo</label>
+                                            <div class="col-sm-8">
+                                                <input type="file" class="form-control" id="logo" name="logo" placeholder="Logo" value="<?php //echo $proveedor[0]->titulo_submenu ?>">
+                                                <?php
+                                                if($proveedor[0]->logo_type){
+                                                    ?>
+                                                    <img src="data: <?php echo $proveedor[0]->logo_type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($proveedor[0]->logo) ?>" clas="preview_producto polaroid" style="width:50%" />
+                                                    <?php
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+
                                         <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
+                                            <div class="col-sm-offset-3 col-sm-8">
                                                 <label>
                                                     <select name="estado" class="form-control">
                                                         <?php
@@ -180,19 +194,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group img_logo">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Logo</label>
-                                            <div class="col-sm-9">
-                                                <input type="file" class="form-control" id="logo" name="logo" placeholder="Logo" value="<?php //echo $proveedor[0]->titulo_submenu ?>">
-                                                <?php
-                                                if($proveedor[0]->logo_type){
-                                                    ?>
-                                                    <img src="data: <?php echo $proveedor[0]->logo_type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($proveedor[0]->logo) ?>" clas="preview_producto polaroid" style="width:50%" />
-                                                    <?php
-                                                }
-                                                ?>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
 

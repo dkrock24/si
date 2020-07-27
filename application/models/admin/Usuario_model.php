@@ -17,7 +17,7 @@ class Usuario_model extends CI_Model {
         $this->db->join(self::sys_role.' as r', 'u.id_rol = r.id_rol');
         $this->db->join(self::empleado.' as e', 'e.id_empleado = u.Empleado');
         $this->db->join(self::sucursal.' as s', 's.id_sucursal = e.Sucursal');
-        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = e.estado');
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = u.usuario_estado');
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
         if($filters!=""){
             $this->db->where($filters);
@@ -172,7 +172,7 @@ class Usuario_model extends CI_Model {
             'usuario_encargado'         => $datos['encargado'],
             'id_rol'            => $datos['id_rol'],
             'Empleado'          => $datos['persona'],
-            'estado'            => $datos['estado'],
+            'usuario_estado'    => $datos['estado'],
         );
         
         $insert = $this->db->insert(self::sys_usuario, $data);
@@ -247,7 +247,7 @@ class Usuario_model extends CI_Model {
             'usuario_encargado' => $datos['encargado'],
             'id_rol'            => $datos['id_rol'],
             'Empleado'          => $datos['persona'],
-            'estado'            => $datos['estado'],
+            'usuario_estado'    => $datos['estado'],
         );
 
         if($datos['contrasena_usuario'] !=""){

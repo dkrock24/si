@@ -146,6 +146,20 @@ class Proveedor extends MY_Controller {
 		redirect(base_url()."admin/proveedor/index");
 	}
 
+	public function eliminar($proveedor){
+
+		$data = $this->Proveedor_model->eliminar( $proveedor );
+
+		if(!$data['code']){
+			$this->session->set_flashdata('warning', "Proveedor Fue Eliminado");
+		}else{
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Proveedor No Fue Eliminado : ". $data['message']);
+		}
+
+		redirect(base_url()."admin/proveedor/index");
+	}
+
 	public function column(){
 
 		$column = array(

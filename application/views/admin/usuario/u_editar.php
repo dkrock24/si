@@ -258,7 +258,7 @@
                                         <label>
                                             <select name="estado" class="form-control">
                                                 <?php 
-                                                    if( $usuario[0]->estado ==1 ){ 
+                                                    if( $usuario[0]->usuario_estado ==1 ){ 
                                                         ?>
                                                         <option value="1">Activo</option>
                                                         <option value="0">Inactivo</option>

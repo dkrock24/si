@@ -166,4 +166,18 @@ class Proveedor_model extends CI_Model {
             return $query->result();
         }
     }
+
+    function eliminar($proveedor){
+        
+        $data = array(
+            'id_proveedor' => $proveedor
+        );
+        $result = $this->db->delete(self::pos_proveedor, $data);
+
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
+    }
 }

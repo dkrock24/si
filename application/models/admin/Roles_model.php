@@ -9,6 +9,7 @@ class Roles_model extends CI_Model {
     const roles     = 'sys_role';
     const cargos    = 'sr_cargos';
     const pos_orden_estado = 'pos_orden_estado';
+    const sys_vistas_acceso = 'sys_vistas_acceso';
     
     function getRoles($limit, $id , $filters ){
 
@@ -121,11 +122,16 @@ class Roles_model extends CI_Model {
         );
         $result =$this->db->delete('sys_submenu_acceso', $data);
 
-         $data = array(
+        $data = array(
             'id_rol' => $role_id
         );
         $result = $this->db->delete('sys_menu_acceso', $data);
         
+        $data = array(
+            'id_role' => $role_id
+        );
+        $result = $this->db->delete('sys_vistas_acceso', $data);
+
         $data = array(
             'id_rol' => $role_id
         );
