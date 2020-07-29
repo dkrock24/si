@@ -1,53 +1,58 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-    function validarUrl_method($menu_session)
-    {
+if(!isset($_SESSION['usuario'])){
+	
+	redirect('admin/login','index');
+}
 
-    	$flag = FALSE;
-		foreach ($menu_session as $key => $menu_url) {
+function validarUrl_method($menu_session)
+{
 
-			$url_browser = "/".$menu_url->url_submenu;
+	$flag = FALSE;
+	foreach ($menu_session as $key => $menu_url) {
 
-			$r = preg_match_all("/.*?(\d+)$/", $_SERVER['PATH_INFO'], $matches);
-			$b = is_numeric(substr($_SERVER['PATH_INFO'], -1, 1));
+		$url_browser = "/".$menu_url->url_submenu;
 
-			if($b){
+		$r = preg_match_all("/.*?(\d+)$/", $_SERVER['PATH_INFO'], $matches);
+		$b = is_numeric(substr($_SERVER['PATH_INFO'], -1, 1));
 
-				$last_part 		= substr(strrchr($_SERVER['PATH_INFO'], "/"), 1);
-				$last_part_cantidad =  strlen($last_part);
-				$string_lenght 	= strlen($_SERVER['PATH_INFO']);
-				$strin_final 	= substr($_SERVER['PATH_INFO'], 0 , ($string_lenght - ($last_part_cantidad + 1) ) );
+		if($b){
 
-				if($url_browser == $strin_final ){
-					$flag = TRUE;
-				}
+			$last_part 		= substr(strrchr($_SERVER['PATH_INFO'], "/"), 1);
+			$last_part_cantidad =  strlen($last_part);
+			$string_lenght 	= strlen($_SERVER['PATH_INFO']);
+			$strin_final 	= substr($_SERVER['PATH_INFO'], 0 , ($string_lenght - ($last_part_cantidad + 1) ) );
 
-			}else{
-
-				if($url_browser == $_SERVER['PATH_INFO'] ){
-
-					$flag = TRUE;
-				}
+			if($url_browser == $strin_final ){
+				$flag = TRUE;
 			}
 
-			if($flag){
-				continue;
+		}else{
+
+			if($url_browser == $_SERVER['PATH_INFO'] ){
+
+				$flag = TRUE;
 			}
 		}
 
-        return $flag;
-    }
+		if($flag){
+			continue;
+		}
+	}
 
-   	function parametros($menu_session , $pagina){
-		   // Validar Permiso a la Url
-		
-   		if(isset($menu_session)){
-   			$url_acceso = validarUrl_method($menu_session );
-			if( !$url_acceso ){
-				
-				//header("location: ".base_url(). $pagina);
-			}
-   		}
-   	}
+	return $flag;
+}
+
+function parametros($menu_session , $pagina){
+		// Validar Permiso a la Url
+	
+	if(isset($menu_session)){
+		$url_acceso = validarUrl_method($menu_session );
+		if( !$url_acceso ){
+			
+			//header("location: ".base_url(). $pagina);
+		}
+	}
+}
 
     	

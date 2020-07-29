@@ -249,7 +249,7 @@
                                     <div class="media-box-body clearfix">
                                        <p class="m0">Salir</p>
                                        <p class="m0 text-muted">
-                                          <small>Logout System</small>
+                                          <small>Cerrar Sessión</small>
                                        </p>
                                     </div>
                                  </div>
@@ -263,7 +263,7 @@
                                     <div class="media-box-body clearfix">
                                        <p class="m0">Perfil</p>
                                        <p class="m0 text-muted">
-                                          <small>Informacion Personal</small>
+                                          <small>Información Personal</small>
                                        </p>
                                     </div>
                                  </div>
@@ -275,17 +275,17 @@
                                        <em class="fa fa-cog fa-2x text-success"></em>
                                     </div>
                                     <div class="media-box-body clearfix">
-                                       <p class="m0">Preferencias</p>
+                                       <p class="m0">Inicio</p>
                                        <p class="m0 text-muted">
-                                          <small>Preferencias</small>
+                                          <small>Dashboard</small>
                                        </p>
                                     </div>
                                  </div>
                               </a>
                               <!-- last list item-->
                               <a href="#" class="list-group-item">
-                                 <small>More notifications</small>
-                                 <span class="label label-danger pull-right">14</span>
+                                 <small>Notificación</small>
+                                 <span class="label label-danger pull-right">0</span>
                               </a>
                            </div>
                            <!-- END list group-->
