@@ -903,12 +903,10 @@ class Venta_model extends CI_Model {
 
 		function getVentaDetalleId($id_venta){
 			$query = $this->db->query("select *
-
-			from pos_venta_detalle as vd
-			left join producto as p ON p.id_entidad = vd.producto_id	
-			left join pos_bodega as b on b.id_bodega = vd.id_bodega		
-			
-			where vd.id_venta =".$id_venta);
+				from pos_venta_detalle as vd
+				left join producto as p ON p.id_entidad = vd.producto_id	
+				left join pos_bodega as b on b.id_bodega = vd.id_bodega
+				where vd.id_venta =".$id_venta);
 
 		    //echo $this->db->queries[1];
 		    return $query->result();

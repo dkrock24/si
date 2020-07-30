@@ -674,7 +674,7 @@ class Producto_model extends CI_Model {
 			$this->db->select('*');
 	        $this->db->from(self::correlativos.' as c');
         	$this->db->join(self::sucursal.' as s', 'on c.Sucursal = s.id_sucursal');
-	        $this->db->where('estado = 1');
+	        $this->db->where('correlativo_estado = 1');
 	        $this->db->where('Empresa_Suc', $this->session->empresa[0]->id_empresa );
 	        $query = $this->db->get(); 
 	        //echo $this->db->queries[1];

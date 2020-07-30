@@ -47,8 +47,7 @@
             <div class="col-md-7">
 
                 <!-- Aside panel-->
-
-                <div class="panel-body ">
+                <div class="panel-body linea_superior">
                     <p>
                         <h3>
                             <i class="fa fa-cart-arrow-down sz2"></i>
@@ -57,71 +56,83 @@
                             <span class="label label-default 2x-lg mover_right" style="color:black"><?php echo date_format($date, "m/d/Y"). " |"; ?> <span class="label label-success 2x-lg mover_right"> <?php echo date_format($date, "H:i a"); ?></span></span>
                         </h3>
                     </p>
-
                 </div>
-                <table class="table table-striped borders">
+
+                <table id="" class="table table-striped borders">
                     <thead class="menuContent">
                         <tr>
-                            <th>-</th>
-                            <th>-</th>
+                            <th>Sucursal</th>
+                            <th>Caja</th>
+                            <th>Documento</th>
+                            <th>Pago</th>
+                            <th>Cliente</th>
+                            <th>Usuario</th>
+                            <th>Estado</th>
                         </tr>
                     </thead>
                     <tbody>
-
                         <tr>
-                            <td class="linea-sombra line-right">CLIENTE
-                                <h4 class="data-right">
-                                <span class="label label-primary"><strong><?php echo $encabezado[0]->nombre_empresa_o_compania; ?></strong></span>
-                                </h4>
+                            <td>
+                                <span class=""><strong><?php echo $encabezado[0]->nombre_sucursal; ?></strong></span>
                             </td>
-
-                            <td class="linea-sombra">SUCURSAL
-                                <h4 class="data-right">
-                                <span class="label label-primary"><strong><?php echo $encabezado[0]->nombre_sucursal; ?></strong></span>
-                                </h4>
+                            <td>
+                                <span class=""><strong># <?php echo $encabezado[0]->num_caja; ?></strong></span>
+                            </td>
+                            <td>
+                                <span><strong><?php echo $encabezado[0]->tipo_documento; ?></strong></span>
+                            </td>
+                            <td>
+                                <span><strong><?php echo $encabezado[0]->nombre_modo_pago; ?></strong></span>
+                            </td>
+                            <td>
+                                <span><strong><?php echo $encabezado[0]->nombre_empresa_o_compania; ?></strong></span>
+                            </td>
+                            <td>
+                                <span><strong><?php echo $encabezado[0]->nombre_usuario; ?></strong></span>
+                            </td>
+                            <td>
+                                <span><strong><?php echo $encabezado[0]->orden_estado_nombre; ?></strong></span>
                             </td>
                         </tr>
+                    </tbody>
+                </table>
 
+                <div class="panel-body linea_superior">
+                    <p>
+                        <h3><i class="fa fa-refresh"></i> Anulado Información : <?php //echo $venta[0]->fecha ?></h3>
+                    </p>
+                </div>
+
+                <table id="" class="table table-striped borders">
+                    <thead class="menuContent">
                         <tr>
-                            <td class="linea-sombra line-right">DEVOLUCION
-                                <h3 class="data-right">
-                                    <?php if($encabezado[0]->devolucion_documento){ ?>
-                                    <span class="label label-danger"><strong># <?php echo $encabezado[0]->devolucion_documento; ?></strong></span>
-                                    <?php } ?>
-                                </h3>
-                            </td>
-
-                            <td class="linea-sombra">CAJA
-                                <h3 class="data-right">
-                                <span class="label label-danger"><strong># <?php echo $encabezado[0]->num_caja; ?></strong></span>
-                                </h3>
-                            </td>
+                            <th>Anulado</th>
+                            <th>Anulado por</th>
+                            <th>Anulado en</th>
+                            <th>Anulado comentario</th>
                         </tr>
-
+                    </thead>
+                    <tbody>
                         <tr>
-                            <td class="linea-sombra line-right">ANULADO 
-                                <h4 class="data-right">
-                                    <?php if($encabezado[0]->anulado){ ?>
-                                    <span class="label label-danger"><strong>Si</strong></span>
-                                    <?php }else{
-                                        ?>
-                                        <span class="label label-danger"><strong>No</strong></span>
-                                        <?php
-                                    } ?>
-                                </h4>
+                            <td class=""> 
+                                <?php if($encabezado[0]->anulado){ ?>
+                                <span class="label label-danger"><strong>Si</strong></span>
+                                <?php }else{
+                                    ?>
+                                    <span class="label label-danger"><strong>No</strong></span>
+                                    <?php
+                                } ?>
                             </td>
 
-                            <td class="linea-sombra">ANULADO EN
+                            <td class="">
                                 <h4 class="data-right">
                                 <?php if($encabezado[0]->anulado_el){ ?>
                                 <span class="label label-danger"><strong><?php echo $encabezado[0]->anulado_el; ?></strong></span>
                                 <?php } ?>
                                 </h4>
                             </td>
-                        </tr>
 
-                        <tr>
-                            <td class="linea-sombra line-right">ANULADO POR 
+                            <td class=""> 
                                 <h4 class="data-right">
                                     <?php if($encabezado[0]->anulado_nombre){ ?>
                                     <span class="label label-danger"><strong><?php echo $encabezado[0]->anulado_nombre; ?></strong></span>
@@ -129,42 +140,13 @@
                                 </h4>
                             </td>
 
-                            <td class="linea-sombra">ANULADO COMENTARIO
+                            <td class="">
                                 <h4 class="data-right">
                                 <?php if($encabezado[0]->anulado_conc){ ?>
                                 <span class="label label-danger"><strong><?php echo $encabezado[0]->anulado_conc; ?></strong></span>
                                 <?php } ?>
                                 </h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="linea-sombra line-right">DOCUMENTO
-                                <h4 class="data-right">
-                                <span class="label label-primary"><strong><?php echo $encabezado[0]->tipo_documento; ?></strong></span>
-                                </h4>
-                            </td>
-                            <td class="linea-sombra">MODO PAGO
-                                <h4 class="data-right">
-                                <span class="label label-primary"><strong><?php echo $encabezado[0]->nombre_modo_pago; ?></strong></span>
-                                </h4>
-                            </td>
-
-                        </tr>
-
-                        <tr>
-                            <td class="linea-sombra line-right">ESTADO
-                                <h4 class="data-right">
-                                <span class="label label-primary"><strong><?php echo $encabezado[0]->orden_estado_nombre; ?></strong></span>
-                                </h4>
-                            </td>
-
-                            <td class="linea-sombra">USUARIO
-                                <h4 class="data-right">
-                                <span class="label label-primary"><strong><?php echo $encabezado[0]->nombre_usuario; ?></strong></span>
-                                </h4>
-                            </td>
-
+                            </td>                            
                         </tr>
 
                     </tbody>
@@ -175,13 +157,12 @@
             <div class="col-md-5">
                 <div class="panel-body linea_superior">
                     <p>
-                        <h3><i class="fa fa-money"></i> PAGO : <?php //echo $venta[0]->fecha ?>
+                        <h3><i class="fa fa-money"></i> Pago Información: <?php //echo $venta[0]->fecha ?>
                         <a href="#" class="mover_right">
                             <i class="fa fa-print" data-toggle='modal' data-target='#imprimir' ></i>
                         </a>
                         </h3>
-                    </p>
-                    
+                    </p>                    
                 </div>
                 <table id="" class="table table-striped borders">
 
@@ -203,12 +184,12 @@
                         foreach ($modo_pago as $key => $value) {
                         ?>
                             <tr>
-                                <td><?= $cnt ?></td>
-                                <td><?= $value->nombre_metodo_pago ?></td>
-                                <td><?= $moneda[0]->moneda_simbolo . " " . $value->valor_metodo_pago ?></td>
-                                <td><?= $value->banco_metodo_pago ?></td>
-                                <td><?= $value->numero_metodo_pago ?></td>
-                                <td><?= $value->series_metodo_pago ?></td>
+                                <td><?php echo $cnt ?></td>
+                                <td><?php echo $value->nombre_metodo_pago ?></td>
+                                <td><?php echo $moneda[0]->moneda_simbolo . " " . $value->valor_metodo_pago ?></td>
+                                <td><?php echo $value->banco_metodo_pago ?></td>
+                                <td><?php echo $value->numero_metodo_pago ?></td>
+                                <td><?php echo $value->series_metodo_pago ?></td>
                                 <td><?php if ($value->estado_venta_pago == 1) {
                                         echo "Cancelado";
                                     } else {
@@ -225,14 +206,14 @@
 
                 <div class="panel-body linea_superior">
                     <p>
-                        <h3><i class="fa fa-refresh"></i> DATOS DEVOLUCION : <?php //echo $venta[0]->fecha ?></h3>
+                        <h3><i class="fa fa-refresh"></i> Devolución Información: <?php //echo $venta[0]->fecha ?></h3>
                     </p>
                 </div>
                 <table id="" class="table table-striped borders">
 
                     <thead class="menuContent">
                         <tr>
-                            <th>#</th>
+                            <th>Devolución</th>
                             <th>Nombre</th>
                             <th>DUI</th>
                             <th>NIT</th>
@@ -240,14 +221,20 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <?php if($encabezado[0]->devolucion_nombre!=""): ?>
                         <tr>
-                            <td>1</td>
-                            <td><?= $encabezado[0]->devolucion_nombre ?></td>
-                            <td><?= $encabezado[0]->devolucion_dui ?></td>
-                            <td><?= $encabezado[0]->devolucion_nit ?></td>
-                            <?php $date = date_create($encabezado[0]->modi_el);  ?>
-                            <td><?= date_format($date, "m/d/Y") ?></td>
+                            <td>
+                                    <?php if($encabezado[0]->devolucion_documento){ ?>
+                                    <span><strong># <?php echo $encabezado[0]->devolucion_documento; ?></strong></span>
+                                    <?php } ?>
+                            </td>
+                            <td><?php echo $encabezado[0]->devolucion_nombre ?>  </td>
+                            <td><?php echo $encabezado[0]->devolucion_dui ?>     </td>
+                            <td><?php echo $encabezado[0]->devolucion_nit ?>     </td>
+                                <?php $date = date_create($encabezado[0]->modi_el);  ?>
+                            <td><?php echo date_format($date, "m/d/Y") ?>        </td>
                         </tr>
+                    <?php endif; ?>
                     </tbody>
                 </table>
             </div>
@@ -257,7 +244,7 @@
 
                 <div class="panel-body linea_superior">
                     <p>
-                        <h4><i class="fa fa-shopping-cart"></i> ARTICULOS </h4>
+                        <h3><i class="fa fa-shopping-cart"></i> Productos Información :</h3>
                     </p>
                 </div>
 
@@ -279,7 +266,6 @@
                                 <th>Descuento</th>
                                 <th>Total</th>
                                 <th>Inc.Iva</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -288,19 +274,25 @@
                             foreach ($detalle as $key => $value) {
                             ?>
                                 <tr>
-                                    <td><?= $cnt ?></td>
-                                    <td><?= $value->codigo_producto ?></td>
-                                    <td><?= $value->name_entidad ?></td>
-                                    <td><?= $value->descripcion ?></td>
-                                    <td><?= $value->modelo ?></td>
-                                    <td><?= $value->nombre_bodega ?></td>
-                                    <td><?= $value->presentacion ?></td>
-                                    <td><?= $moneda[0]->moneda_simbolo . " " . number_format($value->precio_venta,2) ?></td>
-                                    <td><?= $value->factor ?></td>
-                                    <td><?= number_format($value->cantidad,1) ?></td>
-                                    <td><?= $moneda[0]->moneda_simbolo . " " . number_format($encabezado[0]->desc_val,2) ?></td>
-                                    <td><?= $moneda[0]->moneda_simbolo . " " . number_format($value->total - $encabezado[0]->desc_val,2) ?></td>
-                                    <td><?= $value->incluye_iva ?></td>
+                                    <td><?php echo $cnt ?></td>
+                                    <td><?php echo $value->codigo_producto ?></td>
+                                    <td><?php echo $value->name_entidad ?></td>
+                                    <td><?php echo $value->descripcion ?></td>
+                                    <td><?php echo $value->modelo ?></td>
+                                    <td><?php echo $value->nombre_bodega ?></td>
+                                    <td><?php echo $value->presentacion ?></td>
+                                    <td><?php echo $moneda[0]->moneda_simbolo . " " . number_format($value->precio_venta,2) ?></td>
+                                    <td><?php echo $value->factor ?></td>
+                                    <td><?php echo number_format($value->cantidad,1) ?></td>
+                                    <td><?php echo $moneda[0]->moneda_simbolo . " " . number_format($encabezado[0]->desc_val,2) ?></td>
+                                    <td><?php echo $moneda[0]->moneda_simbolo . " " . number_format($value->total - $encabezado[0]->desc_val,2) ?></td>
+                                    <td>
+                                        <?php if($value->incluye_iva == 0): ?>
+                                            <?php echo "No"; ?>
+                                        <?php else: ?>
+                                            <?php echo "Si"; ?>
+                                        <?php endif; ?>
+                                    </td>
 
                                 </tr>
                             <?php

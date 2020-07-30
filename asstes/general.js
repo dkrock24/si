@@ -712,11 +712,11 @@ function ivaTotal(){
 	var c 			= 1;
 	
 	$.each(_orden, function(i, item) {
-
-		if(item.impSuma && item.gen !="Exentos"){
+		console.log(item.gen);
+		if(item.impSuma && (item.gen !="Exentos" && item.gen !="Exent" )){
 			
 			var tmp = parseFloat(item.impSuma).toFixed(2);
-
+			console.log("RRRRRRRRRRRRr");
 			total_iva += parseFloat(tmp);
 
 			sub_total_ += parseFloat(item.total_anterior ) - parseFloat( tmp ) ;						
@@ -725,6 +725,7 @@ function ivaTotal(){
 				//total_iva_suma += parseFloat(tmp);
 			}
 		}else{
+			
 			exento_iva_suma += (parseFloat(item.total_anterior )) ;
 		}
 		c++;		
