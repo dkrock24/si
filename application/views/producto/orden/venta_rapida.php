@@ -228,7 +228,7 @@ include("asstes/pos_orden.php");
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-12 col-md-12" style="width: 100%; background: white;">
+                        <div class="col-lg-12 col-md-12" style="width: 100%; height:85%; background: white; right: 0px;">
 
                             <table class="table table-sm table-hover" style="font-size: 22px;">
                                 <tr>
@@ -254,6 +254,102 @@ include("asstes/pos_orden.php");
                                 <tr>
                                     <td style="color:#0f4871"><b>Total</b></td>
                                     <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td>
+                                </tr>
+                            </table>
+                            <hr>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span class="btn btn-info" 
+                                            data-toggle="modal" 
+                                            data-target="#documentoModel" 
+                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">1
+                                            <i class="icon-settings"></i>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="btn btn-info" 
+                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">2
+                                            <i class="icon-grid"></i>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="btn btn-info" 
+                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">3
+                                            <i class="icon-trash"></i>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="btn btn-info guardar" 
+                                            id="../venta/guardar_venta" 
+                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 4
+                                            <i class="fa fa-credit-card"></i>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="btn btn-info devolucion" 
+                                            data-toggle="modal" 
+                                            data-target="#devolucion" 
+                                            id="../venta/guardar_venta" 
+                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 
+                                            5 <i class="fa fa-refresh"></i> 
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="btn btn-info anulado" 
+                                            data-toggle="modal" 
+                                            data-target="#anulado" 
+                                            id="../venta/guardar_venta" 
+                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">
+                                            0 <i class="fa fa-ban"></i> 
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table><br>
+                            <table class="table">
+                                <tr>
+                                    <td style="font-size: 30px;">CAJA</td>
+                                    <td style="font-size: 16px;">
+                                        <?php echo $terminal[0]->nombre_caja; ?> 
+                                        <?php //echo $terminal[0]->nombre; ?> 
+                                        <?php //echo $terminal[0]->codigo; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 30px;">CAJERO</td>
+                                    <td style="font-size: 16px;">
+                                        <?php echo $empleado[0]->primer_nombre_persona; ?>
+                                        <?php //echo $terminal[0]->nombre; ?>
+                                        <?php //echo $terminal[0]->codigo; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <hr>
+                                        <span class="btn btn-info guardar" 
+                                            id="../venta/guardar_venta" 
+                                            style="background: #2D3B48; font-size: 30px;margin-top: 2px;
+                                            margin-left: 4px; position:absolute;
+                                            bottom:0;
+                                            width:100%;
+                                            height:60px;">
+                                            <input type="hidden" name="terminal" id="terminal_id" value="<?php echo $terminal[0]->id_terminal ?>" />
+                                            <div class="" style="font-size: 30px;overflow: hidden;">
+                                                <?php
+                                                if (isset($empleado[0]->nombre_sucursal)) {
+                                                    echo $empleado[0]->nombre_sucursal . " [ " . $terminal[0]->nombre . " ]";
+                                                } else {
+                                                    echo "Sin Sucursal";
+                                                }
+                                                ?>
+                                                <span class="label label-warning">
+                                                    <?php echo Date("d/M/y"); ?>
+                                                </span>
+                                            </div>                
+                                        </span>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -494,48 +590,6 @@ include("asstes/pos_orden.php");
             <!-- Modal Small-->
 
             </form>
-        </div>
-    </div>
-
-    <div class="row bg-red" style="position: fixed;bottom: 0px; width: 100%;">
-        <div class="col-lg-12 col-md-12 abajo" style="height: 50px;">
-            <span class="btn btn-info" data-toggle="modal" data-target="#documentoModel" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">1
-                <i class="icon-settings"></i>
-            </span>
-
-            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">2
-                <i class="icon-grid"></i>
-            </span>
-
-            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">3
-                <i class="icon-trash"></i>
-            </span>
-
-            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 4
-                <i class="fa fa-credit-card"></i>
-            </span>
-            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 5 Dev.
-            </span>
-            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">
-                
-                    <input type="hidden" name="terminal" id="terminal_id" value="<?php echo $terminal[0]->id_terminal ?>" />
-                    <div class="" style="font-size: 30px;overflow: hidden;">
-                        <?php
-                        if (isset($empleado[0]->nombre_sucursal)) {
-                            echo $empleado[0]->nombre_sucursal . " [ " . $terminal[0]->nombre . " ]";
-                        } else {
-                            echo "Sin Sucursal";
-                        }
-
-                        ?>
-
-                        <span class="label label-warning">
-                            <?php echo Date("d/M/y"); ?>
-                        </span>
-                    </div>                
-            </span>
-            <span class="btn btn-info anulado" data-toggle="modal" data-target="#anulado" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 0 Anular
-            </span>
         </div>
     </div>
 </section>

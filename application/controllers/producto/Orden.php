@@ -365,11 +365,10 @@ class Orden extends MY_Controller {
 
 		$terminal_datos = $this->Terminal_model->validar_usuario_terminal($usuario_id, $terminal_nombe);
 		
-		if(!$terminal_datos){
-			$terminal_datos == FALSE;
+		if($terminal_datos){
+			return $terminal_datos;
 		}
-
-		return $terminal_datos;
+		return false;		
 	}
 
 	/************ Venta Rapida *********/
