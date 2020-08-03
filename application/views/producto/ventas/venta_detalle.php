@@ -32,6 +32,9 @@
 	    float:right;
 	    display: inline;
     }
+    .panel-body {
+        padding: 0px;
+    }
 </style>
 
 <section>
@@ -181,6 +184,7 @@
                         <?php
 
                         $cnt = 1;
+                        $total_pago = 0.00;
                         foreach ($modo_pago as $key => $value) {
                         ?>
                             <tr>
@@ -198,9 +202,16 @@
                                 </td>
                             </tr>
                         <?php
+                            $total_pago += $value->valor_metodo_pago;
                             $cnt++;
                         }
                         ?>
+                        <tr style="border-top:2px solid black;">
+                            <td><?php //echo $cnt ?></td>
+                            <td>TOTAL</td>
+                            <td><?php echo $moneda[0]->moneda_simbolo .' '.$total_pago ?></td>
+                            <td colspan="4"></td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -271,6 +282,10 @@
                         <tbody>
                             <?php
                             $cnt = 1;
+                            $cantidad=0.00;
+                            $descuento=0.00;
+                            $total=0.00;
+                            $gen = "";
                             foreach ($detalle as $key => $value) {
                             ?>
                                 <tr>
@@ -285,7 +300,9 @@
                                     <td><?php echo $value->factor ?></td>
                                     <td><?php echo number_format($value->cantidad,1) ?></td>
                                     <td><?php echo $moneda[0]->moneda_simbolo . " " . number_format($encabezado[0]->desc_val,2) ?></td>
-                                    <td><?php echo $moneda[0]->moneda_simbolo . " " . number_format($value->total - $encabezado[0]->desc_val,2) ?></td>
+                                    <td><?php echo $moneda[0]->moneda_simbolo . " " . number_format($value->total - $encabezado[0]->desc_val,2) ?>
+                                        <?php echo substr($value->gen,0,1); ?>
+                                    </td>
                                     <td>
                                         <?php if($value->incluye_iva == 0): ?>
                                             <?php echo "No"; ?>
@@ -297,8 +314,32 @@
                                 </tr>
                             <?php
                                 $cnt++;
+                                $cantidad   += $value->cantidad;
+                                $descuento  += number_format($encabezado[0]->desc_val,2);
+                                $total      += number_format($value->total - $encabezado[0]->desc_val,2);
                             }
                             ?>
+                            <?php
+                            foreach ($impuestos as $key => $impuestos) 
+                            {
+                                ?>
+                                <tr style="border-top:0px solid black;">
+                                    <td colspan="10"><?php //echo $cnt ?></td>                                    
+                                    <td><?php echo $impuestos->ordenImpName; ?></td>
+                                    <td><?php echo $moneda[0]->moneda_simbolo ." ". number_format($impuestos->ordenImpTotal,2).' ('.$impuestos->ordenImpVal.')'; ?></td>
+                                    <td><?php echo $impuestos->ordenSimbolo ? $impuestos->ordenSimbolo : ""; ?></td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                            <tr style="border-top:2px solid black;">
+                                <td colspan="8"><?php //echo $cnt ?></td>
+                                <td><h3>Total</h3></td>
+                                <td><h3><?php echo $cantidad; ?></h3></td>
+                                <td><h3><?php echo $moneda[0]->moneda_simbolo . " " . $descuento; ?></h3></td>
+                                <td><h3><?php echo $moneda[0]->moneda_simbolo . " " . $total; ?></h3></td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
