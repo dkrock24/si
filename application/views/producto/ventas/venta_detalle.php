@@ -325,14 +325,17 @@
                                 ?>
                                 <tr style="border-top:0px solid black;">
                                     <td colspan="10"><?php //echo $cnt ?></td>                                    
-                                    <td><?php echo $impuestos->ordenImpName; ?></td>
+                                    <td><b><?php echo $impuestos->ordenImpName; ?></b></td>
                                     <td><?php echo $moneda[0]->moneda_simbolo ." ". number_format($impuestos->ordenImpTotal,2).' ('.$impuestos->ordenImpVal.')'; ?></td>
                                     <td><?php echo $impuestos->ordenSimbolo ? $impuestos->ordenSimbolo : ""; ?></td>
                                 </tr>
                                 <?php
+                                if($impuestos->ordenImpName != "IVA"){
+                                    $total += number_format($impuestos->ordenImpTotal,2);
+                                }
                             }
                             ?>
-                            <tr style="border-top:2px solid black;">
+                            <tr style="border-top:2px solid grey;">
                                 <td colspan="8"><?php //echo $cnt ?></td>
                                 <td><h3>Total</h3></td>
                                 <td><h3><?php echo $cantidad; ?></h3></td>

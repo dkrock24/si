@@ -110,6 +110,7 @@
                 success: function(data) {
                     var datos = JSON.parse(data);
                     var venta = datos["orden_detalle"];
+                    console.log("Venta", venta);
 
                     if(!venta){
                         var type    = "info";

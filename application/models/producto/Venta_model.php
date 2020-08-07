@@ -255,7 +255,7 @@ class Venta_model extends CI_Model {
 					'fecha' 				=> date("Y-m-d h:i:s"),	            
 					'digi_total' 			=> $total_orden,
 					'total_doc' 			=> $total_orden,
-					'impSuma'				=> $orden['orden'][0]['impSuma'],
+					//'impSuma'				=> $orden['orden'][0]['impSuma'],
 					'iva'					=> $orden['orden'][0]['iva'],
 					'desc_porc' 			=> $orden['orden'][0]['descuento_limite'],
 					'id_bodega' 			=> $orden['orden'][0]['id_bodega'],
@@ -342,7 +342,6 @@ class Venta_model extends CI_Model {
 
 			if(isset($this->_orden['impuestos'])){
 				foreach ($this->_orden['impuestos'] as $impuestos_datos) {
-
 					foreach ($impuestos_datos as $key => $value) {
 						
 						$data = array(
@@ -397,7 +396,8 @@ class Venta_model extends CI_Model {
 		            'producto_id' 	=> $orden['producto_id'],
 		            'producto2' 	=> $orden['producto2'],
 		            'inventario_id' => $orden['inventario_id'],
-		            'id_bodega' 	=> $orden['id_bodega'],
+					'id_bodega' 	=> $orden['id_bodega'],
+					'categoria'		=> $orden['categoria'],
 		            'bodega' 		=> $orden['bodega'],
 		            'combo' 		=> $orden['combo'],
 		            'combo_total'	=> $orden['combo_total'],
@@ -409,7 +409,8 @@ class Venta_model extends CI_Model {
 		            'tipoprec' 		=> $orden['presentacion'],
 		            'precioUnidad' 	=> ($efecto_inventario == 1) ?  ($orden['precioUnidad']* 1): $orden['precioUnidad'],
 		            'factor' 		=> $orden['presentacionFactor'],
-		            'total' 		=> ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'] ,
+					'total' 		=> ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'] ,
+					'impSuma'		=> $orden['impSuma'],
 		            'gen' 			=> $orden['gen'],
 		            'descuento' 	=> $orden['descuento'] ,
 		            'por_desc' 		=> $descuento_porcentaje,
