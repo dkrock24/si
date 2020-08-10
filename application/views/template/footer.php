@@ -145,12 +145,9 @@
         if(i ==  momentNow.format('MMMM') ){
           console.log(months[i].Translate);
           $('#time-part').html(months[i].Translate +" "+ momentNow.format('DD') + " / "+ momentNow.format('Y'));
+          $('.time-part').html(months[i].Translate +" "+ momentNow.format('DD') + " / "+ momentNow.format('Y'));
         }
       }
-
-  
-
-
 
     });
   </script>

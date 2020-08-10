@@ -102,6 +102,28 @@ include("asstes/pos_orden.php");
         border-bottom: 2px solid #4974a7;
         font-size:22px;
     }
+
+    .pantalla-info{
+        display:inline-block;
+        font-size: 20px;
+        overflow: hidden;
+        float:right;
+        margin-top:10px;
+    }
+    .pantalla-detalle{
+        color:white;
+    }
+    .pantalla-td-h3{
+        display:inline-block; margin-right:2%;
+    }
+
+    .pantalla-tr{
+        background: #2D3B48;
+    }
+
+    .pantalla-tr-td{
+        font-size: 16px;background: #2b957a;color:white;
+    }
     
 </style>
 
@@ -228,7 +250,7 @@ include("asstes/pos_orden.php");
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-12 col-md-12" style="width: 100%; height:85%; background: white; right: 0px;">
+                        <div class="col-lg-12 col-md-12" style="width: 100%; height:90%; background: white; right: 0px;">
 
                             <table class="table table-sm table-hover" style="font-size: 22px;">
                                 <tr>
@@ -257,7 +279,7 @@ include("asstes/pos_orden.php");
                                 </tr>
                             </table>
                             <hr>
-                            <table>
+                            <table class="table">
                                 <tr>
                                     <td>
                                         <span class="btn btn-info" 
@@ -278,7 +300,9 @@ include("asstes/pos_orden.php");
                                             style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">3
                                             <i class="icon-trash"></i>
                                         </span>
-                                    </td>
+                                    </td>                                   
+                                </tr>
+                                <tr>
                                     <td>
                                         <span class="btn btn-info guardar" 
                                             id="../venta/guardar_venta" 
@@ -286,8 +310,6 @@ include("asstes/pos_orden.php");
                                             <i class="fa fa-credit-card"></i>
                                         </span>
                                     </td>
-                                </tr>
-                                <tr>
                                     <td>
                                         <span class="btn btn-info devolucion" 
                                             data-toggle="modal" 
@@ -307,48 +329,50 @@ include("asstes/pos_orden.php");
                                         </span>
                                     </td>
                                 </tr>
-                            </table><br>
+                            </table>
                             <table class="table">
-                                <tr>
-                                    <td style="font-size: 30px;">CAJA</td>
-                                    <td style="font-size: 16px;">
-                                        <?php echo $terminal[0]->nombre_caja; ?> 
-                                        <?php //echo $terminal[0]->nombre; ?> 
-                                        <?php //echo $terminal[0]->codigo; ?>
+                                <tr class="pantalla-tr">
+                                    <td class="pantalla-tr-td" colspan="1">
+                                        <h3 class="pantalla-td-h3"><i class="fa fa-desktop"></i></h3>
+                                        <div class="pantalla-info">Terminal</div>
+                                    </td>
+                                    <td class="pantalla-detalle">
+                                        <?php echo strtoupper($terminal[0]->nombre_caja);?> /
+                                        <?php echo  $terminal[0]->nombre ; ?>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="font-size: 30px;">CAJERO</td>
-                                    <td style="font-size: 16px;">
+                                <tr class="pantalla-tr">
+                                    <td class="pantalla-tr-td" colspan="1">
+                                        <h3 class="pantalla-td-h3"><i class="fa fa-user"></i></h3>
+                                        <div class="pantalla-info">Cajero</div>
+                                    </td>
+                                    <td class="pantalla-detalle">
                                         <?php echo $empleado[0]->primer_nombre_persona; ?>
-                                        <?php //echo $terminal[0]->nombre; ?>
-                                        <?php //echo $terminal[0]->codigo; ?>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <hr>
-                                        <span class="btn btn-info guardar" 
-                                            id="../venta/guardar_venta" 
-                                            style="background: #2D3B48; font-size: 30px;margin-top: 2px;
-                                            margin-left: 4px; position:absolute;
-                                            bottom:0;
-                                            width:100%;
-                                            height:60px;">
-                                            <input type="hidden" name="terminal" id="terminal_id" value="<?php echo $terminal[0]->id_terminal ?>" />
-                                            <div class="" style="font-size: 30px;overflow: hidden;">
-                                                <?php
-                                                if (isset($empleado[0]->nombre_sucursal)) {
-                                                    echo $empleado[0]->nombre_sucursal . " [ " . $terminal[0]->nombre . " ]";
-                                                } else {
-                                                    echo "Sin Sucursal";
-                                                }
-                                                ?>
-                                                <span class="label label-warning">
-                                                    <?php echo Date("d/M/y"); ?>
-                                                </span>
-                                            </div>                
-                                        </span>
+                               
+                                <tr class="pantalla-tr">
+                                    <td class="pantalla-tr-td" colspan="1">
+                                        <input type="hidden" name="terminal" id="terminal_id" value="<?php echo $terminal[0]->id_terminal ?>" />
+                                        <h3 class="pantalla-td-h3"><i class="fa fa-home"></i></h3>
+                                        <div class="pantalla-info">Sucursal</div>
+                                    </td>
+                                    <td class="pantalla-detalle">
+                                        <?php
+                                        if (isset($empleado[0]->nombre_sucursal)) {
+                                            echo $empleado[0]->nombre_sucursal ;
+                                        } else {
+                                            echo "Sin Sucursal";
+                                        }
+                                        ?>
+                                    </td>
+                                </tr>
+                                <tr class="pantalla-tr">
+                                    <td class="pantalla-tr-td" style="text-align:center;">
+                                        <h3><label class="time-time"></label></h3>
+                                    </td>
+                                    <td style="font-size: 16px;color:white;">                                        
+                                        <h3><label class="time-date"></label></h3>
                                     </td>
                                 </tr>
                             </table>

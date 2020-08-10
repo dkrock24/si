@@ -759,7 +759,6 @@ function ivaTotal(){
 			}
 
 		}else{
-			
 			exento_iva_suma += (parseFloat(item.total_anterior )) ;
 		}
 		c++;		
@@ -783,6 +782,7 @@ function sub_total(){
 		sub_total_ = total_orden - _total_impues_exclu - exento_iva_suma ;
 		sub_total_ = (parseFloat(sub_total_) - parseFloat( total_iva ));
 	}
+	
 }
 
 /*********** Orden  ************/
