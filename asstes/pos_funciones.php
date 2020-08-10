@@ -603,8 +603,9 @@
 
             document.onkeydown = function(e) {
                 //productos_tabla
-                switch (e.keyCode) {
-                    case 37: //alert('left');     
+                console.log(e.key);
+                switch (e.key) {
+                    case 'ArrowLeft': 
                         input_producto_buscar.select();             
                         input_producto_buscar.focus();
                         $('.producto_agregados > tr').blur();
@@ -613,38 +614,38 @@
                         currCell = 0;
                         moveCursorToEnd(input_producto_buscar);
                         break;
-                    case 38: //alert('up');                        
+                    case 'ArrowUp':
                         break;
                     case 111: // /;
                         focus_general_input(input_cantidad, 1);
                         break;
-                    case 40: //alert('down');
+                    case 'ArrowDown':
                         break;
-                    case 49: // 1
+                    case '!': // 1
                         $("#documentoModel").modal();
                         break;
-                    case 50: // 2                  
+                    case '"': // 2                  
                         producto_tabla_foco();
                         break;
-                    case 51: // 3
+                    case '#': // 3
                         eliminar_elemento_tabla(id_celda);
                         break;
-                    case 52: // 4
+                    case '$': // 4
                         f4_guardar();
                         break
-                    case 53: // 5
+                    case '%': // 5
                         open_devolucion();
                         break;
-                    case 54: // 6
+                    case '&': // 6
                         show_existencias();
                         break;
-                    case 55: // 7
+                    case '/': // 7
                         descuento();
                         break;
-                    case 56: // 8
+                    case '(': // 8
                         f7_foco_efectivo();
                         break;                    
-                    case 57: // 9
+                    case ')': // 9
                         f8_table_pagos();
                         break;
                     case 109: // -
