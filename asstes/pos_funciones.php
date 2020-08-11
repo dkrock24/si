@@ -616,50 +616,50 @@
                         break;
                     case 'ArrowUp':
                         break;
-                    case 111: // /;
+                    case '?': // /;
                         focus_general_input(input_cantidad, 1);
                         break;
                     case 'ArrowDown':
                         break;
-                    case '!': // 1
+                    case '!':
                         $("#documentoModel").modal();
                         break;
-                    case '"': // 2                  
+                    case '"':                  
                         producto_tabla_foco();
                         break;
-                    case '#': // 3
+                    case '#':
                         eliminar_elemento_tabla(id_celda);
                         break;
-                    case '$': // 4
+                    case '$':
                         f4_guardar();
                         break
-                    case '%': // 5
+                    case '%':
                         open_devolucion();
                         break;
-                    case '&': // 6
+                    case '&':
                         show_existencias();
                         break;
-                    case '/': // 7
+                    case '/':
                         descuento();
                         break;
-                    case '(': // 8
+                    case '(':
                         f7_foco_efectivo();
                         break;                    
-                    case ')': // 9
+                    case ')':
                         f8_table_pagos();
                         break;
-                    case 109: // -
+                    case '-':
                         focus_general_input($("#buscar_orden"), 0);
                         focus_general_input($("#orden_numero"), 0);
                         //orden_numero
                         break;
-                    case 106: // *
+                    case '*':
                         focus_general_input($("#descuento"), 0);
                         break;
-                    case 107: // #
+                    case 'C':
                         focus_general_input($("#venta_numero"), 0);
                         break;
-                    case 48: open_anulado_modal();
+                    case '=': open_anulado_modal();
                         break;
                 }
 
@@ -693,7 +693,7 @@
                     pagoLinea = parseInt(pagoLinea);
                     //$("input[name=pagoInput" + pagoLinea + "]").focus();
 
-                    $('tr').css('background', 'none');
+                    //$('tr').css('background', 'none');$('tr').css('background', 'none');
                     $('tr').css('color', 'black');
 
                     if ($(currCell.closest('tr')).attr('id')) {
@@ -730,7 +730,7 @@
 
                     //$("input[name=pagoInput" + pagoLinea + "]").focus();
 
-                    $('tr').css('background', 'none');
+                    //$('tr').css('background', 'none');
                     $('tr').css('color', 'black');
 
                     if ($(currCell.closest('tr')).attr('id')) {
@@ -829,7 +829,7 @@
                     $("input[cd=" + Xh + "]").select();
                 }
 
-                $('tr').css('background', 'none');
+                //$('tr').css('background', 'none');
                 $('tr').css('color', 'black');
                 id_celda = $(currCell).attr('name');
                 $(currCell).css('background', '#ececec');
@@ -1010,6 +1010,9 @@
             // Descuento Aprobacion flag_autenticacion
             $("#autorizacion_descuento").modal();
             $("#input_autorizacion_descuento").focus();
+            setTimeout(() => {
+                $("#input_autorizacion_descuento").val("");
+            }, 100);
         }
 
         $(document).on('click', '#btn_discount', function() {
@@ -1964,29 +1967,29 @@
 
         $(document).on('keydown keyup input click', function(e) {
             if ($('#documentoModel').is(':visible')) {
-                var key = e.which;
-                if (key == 97) { //Modal de Facturacion en Venta Rapida                    
+                var key = e.key;
+                if (key == 'Q') { //Modal de Facturacion en Venta Rapida                    
                     av($('#id_tipo_documento'), "white");
                 }
-                if (key == 98) {
+                if (key == 'W') {
                     av($('#cliente_codigo'), "none");
                 }
-                if (key == 99) {
+                if (key == 'E') {
                     av($('#modo_pago_id'), "white");
                 }
-                if (key == 100) {
+                if (key == 'R') {
                     av($('#cliente_nombre'), "white");
                 }
-                if (key == 101) {
+                if (key == 'T') {
                     av($('#sucursal_id') , "white");
                 }
-                if (key == 102) {
+                if (key == 'Y') {
                     av($('#bodega_select'), "white");
                 }
-                if (key == 103) {
+                if (key == 'U') {
                     av($('#sucursal_id2'), "white");
                 }
-                if (key == 104) {
+                if (key == 'I') {
                     av($('#fecha_factura'), "white");                    
                 }
                 $(this).css("background", "white");
@@ -2316,7 +2319,7 @@
                 var unidad_factor = _orden[_orden.indexOf(x)].precioUnidad * _orden[_orden.indexOf(x)].presentacionFactor;
                 _orden[_orden.indexOf(x)].cantidad  = prod_val_input;
                 _orden[_orden.indexOf(x)].total     = calcularTotalProducto(unidad_factor, prod_val_input);
-                //depurar_producto();
+                depurar_producto();
             }
         });
 

@@ -124,7 +124,84 @@ include("asstes/pos_orden.php");
     .pantalla-tr-td{
         font-size: 16px;background: #2b957a;color:white;
     }
+
+
+    #documentoModel{
+        margin-top:-20px;
+        display: block;
+        float: right;
+        position: absolute;
+        width: 100%;
+        right: -320px;
+		-webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+		   -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+		     -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+		        transition: opacity 0.3s linear, right 0.3s ease-out;
+    }
+    #documentoModel > div > .modal-content{
+        height:90%;
+    }
+
+    #devolucion{
+        margin-top:-20px;
+        margin-left: 75%;
+        width:25%;
+        display: block;
+        float: right;
+        position: absolute;
+        height:100%;
+        right: -95%;
+		-webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+		   -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+		     -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+		        transition: opacity 0.3s linear, right 0.3s ease-out;
+    }
+
+    #devolucion > div > .modal-content{
+        height:95%;
+    }
+
+    #anulado{
+        margin-top:-20px !important;
+        margin-left: 75% !important;
+        width:25% !important;
+        display: block !important;
+        float: right !important;
+        position: absolute !important;
+        height:100% !important;
+        right: -95% !important;
+		-webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+		   -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+		     -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+		        transition: opacity 0.3s linear, right 0.3s ease-out;
+    }
+
+    #anulado > div > .modal-content{
+        /*float: right !important;*/
+        height:100% !important;
+    }
+
+    #autorizacion_descuento{
+        margin-top:-20px !important;
+        margin-left: 75% !important;
+        width:25% !important;
+        display: block !important;
+        float: right !important;
+        position: absolute !important;
+        height:100% !important;
+        right: -95% !important;
+		-webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+		   -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+		     -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+		        transition: opacity 0.3s linear, right 0.3s ease-out;
+    }
+
+    #autorizacion_descuento > div > .modal-content{
+        /*float: right !important;*/
+        height:100% !important;
+    }
     
+
 </style>
 
 
@@ -181,10 +258,10 @@ include("asstes/pos_orden.php");
                                         </ul>
                                     </div>
 
-                                    [C / ]<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display: inline-block;">
-                                    <input type="text" class="form-control border-input" placeholder="D *" id="descuento" name="descuento" size="2px" style="width: 80px;display: inline-block;">
-                                    <input type="text" name="orden_numero" id="orden_numero" placeholder="O -" value="" class="form-control" style="width:100px; display: inline-block;" />
-                                    <input type="text" name="venta_numero" id="venta_numero" placeholder="#" value="" class="form-control" style="width:120px; display: inline-block;" />
+                                    [C ?]<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display: inline-block;">
+                                    <input type="text" class="form-control border-input" placeholder="Des. *" id="descuento" name="descuento" size="2px" style="width: 80px;display: inline-block;">
+                                    <input type="text" name="orden_numero" id="orden_numero" placeholder="Orden -" value="" class="form-control" style="width:100px; display: inline-block;" />
+                                    <!-- <input type="text" name="venta_numero" id="venta_numero" placeholder="Venta" value="" class="form-control" style="width:120px; display: inline-block;" />-->
                                 </div>
                             </div>
                         </div>
@@ -410,34 +487,35 @@ include("asstes/pos_orden.php");
             </div>
 
             <!-- Modal Large Documenos -->
-            <div id="documentoModel" tabindex="-1" role="dialog" aria-labelledby="documentoModel" class="modal fade fade-scale">
+            <div id="documentoModel" tabindex="-1" role="dialog" aria-labelledby="documentoModel" class="modal flip fade-scale">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <div class="modal-header" style="background: #dde6e9">
+                        <div class="modal-header" style="background: #2D3B48;color:white;">
+                            <div class="row">
+                                <div class="col-lg-1 col-md-1">
+                                    <i class="fa fa-cog" style="background:none;font-size:60px;" ></i>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <span style="text-align:center;">FACTURACION PARAMETROS</span>
+                                </div>
+                            </div>
                             <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                                 <span aria-hidden="true">&times;</span>
-                            </button>                            
-                            <img src="/asstes/img/settings.png" width="5%" />
-                            <span style="text-align:center;">FACTURACION PARAMETROS</span>
+                            </button>
                         </div>
                         <div class="modal-body">
 
                             <div class="panel-body">
 
-                                <div class="row"><br><br>
+                                <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
-                                            <label> <span class="fa fa-edit"></span> Tipo Documento [ 1 ] <?php //echo $terminal[0]->pred_id_tpdoc; 
-                                                                                                            ?></label>
+                                            <label> <span class="fa fa-edit"></span> [ Shift + q ] Tipo Documento <?php //echo $terminal[0]->pred_id_tpdoc; ?></label>
                                             <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
-
                                                 <?php
                                                 foreach ($tipoDocumento as $d) {
-
                                                     $doc = strtoupper($d->nombre);
-
                                                     if ($d->id_tipo_documento == $terminal[0]->pred_id_tpdoc) {
-
                                                         //if (strpos($doc, 'ORDEN') === false) {
                                                 ?>
                                                             <option value="<?php echo $d->id_tipo_documento; ?>"><?php echo $d->nombre . ' - ' . $d->factura_nombre; ?></option>
@@ -462,10 +540,11 @@ include("asstes/pos_orden.php");
                                             </select>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-lg-6 col-md-6">
-
                                         <div class="form-group has-success">
-                                            <span class="fa fa-user"></span> <label>Cliente Codigo [ 2 ]</label> 
+                                            <span class="fa fa-user"></span> <label>[ Shift + w ] Cliente Codigo</label> 
 
                                             <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $cliente[0]->id_cliente ?>">
 
@@ -478,20 +557,20 @@ include("asstes/pos_orden.php");
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
-                                            <span class="fa fa-money"></span> <label>Forma Pago [ 3 ]</label>
+                                            <span class="fa fa-money"></span> <label>[ Shift + e ]  Forma Pago</label>
                                             <select class="form-control" id="modo_pago_id" name="modo_pago_id">
                                                 <?php
                                                 foreach ($modo_pago as $value) {
-                                                ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php
-                                                                                                                                                    }
-                                                                                                                                                        ?>
+                                                ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php }?>
                                             </select>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-user"></span>
-                                            <label>Cliente Nombre [ 4 ]</label>
+                                            <label>[ Shift + r ]  Cliente Nombre</label>
                                             <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania ?>">
                                             <input type="hidden" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $cliente[0]->direccion_cliente ?>">
                                         </div>
@@ -502,7 +581,7 @@ include("asstes/pos_orden.php");
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-home"></span>
-                                            <label>Sucursal Destino [ 5 ]</label>
+                                            <label>[ Shift + t ]  Sucursal Destino</label>
                                             <select class="form-control" name="sucursal_destino" id="sucursal_id">
                                                 <?php
                                                 $id_sucursal = 0;
@@ -525,10 +604,12 @@ include("asstes/pos_orden.php");
                                             </select>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-building"></span>
-                                            <label>Bodega [ 6 ]</label>
+                                            <label>[ Shift + y ]  Bodega</label>
                                             <select class="form-control" name="bodega" id="bodega_select">
                                                 <?php
                                                 foreach ($bodega as $b) {
@@ -545,11 +626,10 @@ include("asstes/pos_orden.php");
                                 </div>
 
                                 <div class="row">
-
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-home"></span>
-                                            <label>Sucursal Origin [ 7 ]</label>
+                                            <label>[ Shift + u ]  Sucursal Origin</label>
                                             <select class="form-control" name="sucursal_origin" id="sucursal_id2">
                                                 <?php
                                                 $id_sucursal = 0;
@@ -573,16 +653,20 @@ include("asstes/pos_orden.php");
                                         </div>
 
                                     </div>
+                                </div>
+
+                                <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-clock-o"></span>
-                                            <label>Fecha [ 8 ]</label>
+                                            <label>[ Shift + i ] Fecha</label>
                                             <input type="date" name="fecha" id="fecha_factura" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                         </div>
                                     </div>
                                 </div>
 
                                 <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo @$empleado[0]->id_empleado; ?>">
+                                <!--
                                 <div class="label">
                                     <?php
                                     if (isset($empleado[0]->id_sucursal)) {
@@ -603,11 +687,11 @@ include("asstes/pos_orden.php");
                                     ?>
 
                                 </div>
+                                -->
 
-                            </div><br><br>
+                            </div>
 
                         </div>
-                        <div class="modal-footer" style="border-top:2px solid #0f4871"></div>
                     </div>
                 </div>
             </div>
@@ -619,21 +703,25 @@ include("asstes/pos_orden.php");
 </section>
 
 <!-- Modal Large CLIENTES MODAL-->
-<div id="anulado" tabindex="-1" role="dialog" aria-labelledby="anulado" class="modal fade fade-scale">
-    <div class="modal-dialog ">
+<div id="anulado" tabindex="-1" role="dialog" aria-labelledby="anulado" class="modal flip fade-scale" style="width:500px;">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background: #2D3B48; color:white;">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <h3><i class="fa fa-cart-arrow-down" style="background:none;font-size:60px;"></i> ANULAR VENTA</h3>
+                    </div>
+                </div>
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h3><i class="fa fa-cart-arrow-down"></i> Anular Venta</h3>
             </div>
             <div class="modal-body">
-                <h3>Desea Anular el siguiente documento ?</h3>
+                <h3><i class="fa fa-close"></i> Anular Documento :</h3>
                 <h2 class="anular_documento"></h2>
             </div>
             <div class="modal-footer">
-                <input type="button" data-dismiss="modal" id="btn_anular_documento" class="btn btn-info btn_anular_documento" name="5" value="Aceptar">
+                <input type="button" data-dismiss="modal" id="btn_anular_documento" style="float:left;" class="btn btn-info btn_anular_documento" name="5" value="Aceptar">
             </div>
         </div>
     </div>
@@ -764,7 +852,7 @@ include("asstes/pos_orden.php");
 <div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta" class="modal flip fade-scale">
     <div class="modal-dialog modal-lg" style="width: 80%;">
         <div class="modal-content">
-            <div class="modal-header" style="background: #dde6e9; color:black;">
+            <div class="modal-header" style="background: #2D3B48; color:white;">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -929,48 +1017,55 @@ include("asstes/pos_orden.php");
                     <button type="button" data-dismiss="modal" class="mb-sm btn-lg btn btn-danger btn-outline">CANCELAR</button>
                 </div>
         </div>
-    </div>
-    <!-- Modal Small-->
+</div>
+<!-- Modal Small-->
 
 
-    <!-- METODO DE PAGOS MODAL-->
-    <div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento" class="modal flip fade-scale">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header" style="background: #dde6e9">
-                    <button type="button" data-dismiss="modal" aria-label="Close" class="close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <span style="font-size: 20px; ">[ Autorización Descuento ]</span>
-
-                </div>
-                <div class="modal-body">
-
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6" style="text-align:center;">
-                            <img src="/asstes/img/user_autorization.png" width="50%" />
-                        </div>
-                        <div class="col-lg-6 col-md-6">
-                            Usuario
-                            <input type="text" class="form-control has-success" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
-                            Password
-                            <input type="password" class="form-control has-success" name="input_autorizacion_passwd" id="input_autorizacion_passwd">
-                        </div>
+<!-- METODO DE PAGOS MODAL-->
+<div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento" class="modal flip fade-scale">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #2D3B48; color:white;">
+                <div class="row">
+                    <div class="col-md-2 col-md-2">
+                        <i class="fa fa-check" style="background:none;font-size:60px;" ></i> 
                     </div>
-                    
+                    <div class="col-md-8 col-md-8">
+                        <span style="text-align:left;"> AUTORIZAR DESCUENTO </span>
+                    </div>
                 </div>
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-success bg-green btn_aut_desc" name="5">Autorizar</button>
-                    <button type="button" data-dismiss="modal" class="btn btn-warning">Cancelar</button>
+                <div class="row">
+                    <div class="col-lg-8 col-md-8" style="text-align:center;">
+                        <i class="fa fa-user-circle" style="background:none;font-size:160px;" ></i>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-8 col-md-8">
+                        Usuario
+                        <input type="text" class="form-control has-success" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
+                        Password
+                        <input type="password" class="form-control has-success" name="input_autorizacion_passwd" id="input_autorizacion_passwd">
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="modal-footer" style="float:left;">
+                <button type="button" data-dismiss="modal" class="btn btn-success btn_aut_desc" name="5">Autorizar</button>
+                <button type="button" data-dismiss="modal" class="btn btn-warning">Cancelar</button>
             </div>
         </div>
     </div>
-    <!-- Modal Small-->
+</div>
+<!-- Modal Small-->
 
-
-    <!-- METODO DE PAGOS MODAL-->
+<!-- METODO DE PAGOS MODAL-->
 <div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip fade-scale">
     <div class="modal-dialog modal-md">
         <div class="modal-content" style="background:#f1f1f1;">
@@ -1029,76 +1124,80 @@ include("asstes/pos_orden.php");
 </div>
 <!-- Modal Small-->
 
-    <!-- METODO DE PAGOS MODAL-->
-    <div id="devolucion" tabindex="-1" role="dialog" aria-labelledby="devolucion" class="modal flip fade-scale">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header" style="background: #dde6e9">
-                    <button type="button" data-dismiss="modal" aria-label="Close" class="close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <span style="font-size: 20px; ">Devolción / Anulación</span>
-                </div>
-                <div class="modal-body">
-
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                            <p class="msg_error"></p>
-                        </div>
+<!-- METODO DE PAGOS MODAL-->
+<div id="devolucion" tabindex="-1" role="dialog" aria-labelledby="devolucion" class="modal flip fade-scale">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #2D3B48; color:white;">
+                <div class="row">
+                    <div class="col-lg-1 col-md-1">
+                        <i class="fa fa-reply-all" style="background:none;font-size:60px;" ></i>
                     </div>
+                    <div class="col-lg-6 col-md-6">
+                        <span style="text-align:center;">DEVOLUCION - ANULAR</span>
+                    </div>
+                </div>
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6" style="border-right:1px solid grey;">
-                            <br/><br/><img src="/asstes/img/download.png" /><br/><br/><br/>
-                        </div>
-                        <div class="col-lg-6 col-md-6">
-                            <div class="row">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6" style="font-size:24px;text-align:center;margin-top:0px;">
+                        <p class="msg_error"></p>
+                        
+                    </div>
+                </div>
 
-                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                
-                                    <span class="inline checkbox c-checkbox">
-                                        <label>
-                                        <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">
-                                        <span class="fa fa-check check_devolucion"></span> Aplicar Devolución ?
-                                        </label>
-                                    </span>
-                                    <textarea class="form-control" name="nota_devolucion"></textarea>
-                                </div>
-                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                    <span class="inline checkbox c-checkbox">
-                                        <label>
-                                        <input type="checkbox" id="check_anulacion" name="check_anulacion" class="">
-                                        <span class="fa fa-check check_anulacion"></span> Aplicar Anulación ?
-                                        </label>
-                                    </span>
-                                    <textarea class="form-control" name="nota_anulacion" id="nota_anulacion"></textarea><br>
-                                </div>
-                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                    <input type="text" class="form-control has-success input_devolucion" placeholder="Documento Referencia" name="input_devolucion" id="input_devolucion" value=""><br>
-                                </div>
+                <div class="row">
 
-                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                    <input type="text" class="form-control has-success" placeholder="Cliente Nombre" name="input_devolucion_nombre" id="input_devolucion_nombre" value=""><br>
-                                </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:left;margin-top:0px;">
+                                <span class="inline checkbox c-checkbox">
+                                    <label>
+                                    <input type="checkbox" id="check_devolucion" name="check_devolucion" class="">
+                                    <span class="fa fa-check check_devolucion"></span> Aplicar Devolución ?
+                                    </label>
+                                </span>
+                                <textarea class="form-control" name="nota_devolucion"></textarea>
+                            </div>
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:left;margin-top:0px;">
+                                <span class="inline checkbox c-checkbox">
+                                    <label>
+                                    <input type="checkbox" id="check_anulacion" name="check_anulacion" class="">
+                                    <span class="fa fa-check check_anulacion"></span> Aplicar Anulación ?
+                                    </label>
+                                </span>
+                                <textarea class="form-control" name="nota_anulacion" id="nota_anulacion"></textarea><br>
+                            </div>
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                <input type="text" class="form-control has-success input_devolucion" placeholder="Documento Referencia" name="input_devolucion" id="input_devolucion" value=""><br>
+                            </div>
 
-                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                    <input type="text" class="form-control has-success" placeholder="Cliente DUI" name="input_devolucion_dui" id="input_devolucion_dui" value=""><br>
-                                </div>
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                <input type="text" class="form-control has-success" placeholder="Cliente Nombre" name="input_devolucion_nombre" id="input_devolucion_nombre" value=""><br>
+                            </div>
 
-                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                    <input type="text" class="form-control has-success" placeholder="Cliente NIT" name="input_devolucion_nit" id="input_devolucion_nit" value=""><br>
-                                </div>
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                <input type="text" class="form-control has-success" placeholder="Cliente DUI" name="input_devolucion_dui" id="input_devolucion_dui" value=""><br>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                <input type="text" class="form-control has-success" placeholder="Cliente NIT" name="input_devolucion_nit" id="input_devolucion_nit" value=""><br>
                             </div>
                         </div>
-                    </div>                       
-                </div>
+                    </div>
+                </div>                       
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success input_devolucion_btn" name="5">Aceptar</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success input_devolucion_btn" style="float:left;" name="5">Aceptar</button>
             </div>
         </div>
     </div>
-    <!-- Modal Small-->
+</div>
+<!-- Modal Small-->
 
 <?php $this->load->view('scripts_files.php'); ?>
