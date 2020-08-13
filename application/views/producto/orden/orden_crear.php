@@ -49,13 +49,13 @@ include("asstes/pos_orden.php");
     }
 
     i{
-        color:#a5db6a;
+        color:#2D3B48;
     }
     .format-label{
         width: 100%;
         height:30px;
-        background: #788388;
-        color: white;
+        background:none;
+        color: black;
         padding:0px;
         margin-bottom:-5px;
         text-align:right;
@@ -128,11 +128,12 @@ include("asstes/pos_orden.php");
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-3">
-                                            <div class="icono-1" >
-                                                <label><i class="fa fa-file-o sz" style="font-size:50px;"></i></label> 
-                                            </div>
+                                            
                                             <div class="form-group has-success control-style">
-                                                <label class="format-label"> Tipo Documento</label> 
+                                                <label class="format-label">
+                                                    <i class="fa fa-file-o sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                    Tipo Documento
+                                                </label> 
                                                 <select class="form-control" name="id_tipo_documento" id="id_tipo_documento" class="id_tipo_documento">
                                                     <?php
                                                     if ($tipoDocumento) {
@@ -156,11 +157,11 @@ include("asstes/pos_orden.php");
                                         </div>
 
                                         <div class="col-lg-3 col-md-3">
-                                            <div class="icono-1" >
-                                                <label><i class="fa fa-building sz" style="font-size:50px;"></i></label> 
-                                            </div>
                                             <div class="form-group has-success control-style">
-                                                <label class="format-label">Sucursal Destino</label>
+                                                <label class="format-label">
+                                                    <i class="fa fa-building sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                    Sucursal Destino
+                                                </label>
                                                 <select class="form-control" name="sucursal_destino" id="sucursal_id">
                                                     <?php
                                                     $id_sucursal = 0;
@@ -185,11 +186,11 @@ include("asstes/pos_orden.php");
                                         </div>
 
                                         <div class="col-lg-3 col-md-3">
-                                            <div class="icono-1" >
-                                                <label><i class="fa fa-home sz" style="font-size:50px;"></i></label> 
-                                            </div>
                                             <div class="form-group has-success control-style">
-                                            <label class="format-label">Bodega</label>
+                                                <label class="format-label">
+                                                    <i class="fa fa-home sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                    Bodega
+                                                </label>
                                                 <select class="form-control" name="bodega" id="bodega_select">
                                                     <?php
 
@@ -213,11 +214,11 @@ include("asstes/pos_orden.php");
                                         </div>
 
                                         <div class="btn-group col-lg-3 col-md-3">
-                                            <div class="icono-1" >
-                                                <label></label> 
-                                            </div>
                                             <div class="form-group has-success control-style" >
-                                                <label class="format-label">Estado Orden</label>
+                                                <label class="format-label">
+                                                    <i class="fa fa-arrow-down sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                    Estado Orden
+                                                </label>
                                                 <select name="orden_estado" id="orden_estado" class="form-control">
                                                     <?php
                                                     foreach($estados as $e){
@@ -245,11 +246,11 @@ include("asstes/pos_orden.php");
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-3">
-                                            <div class="icono-1" >
-                                                <label><i class="fa fa-user sz" style="font-size:50px;"></i></label> 
-                                            </div>
                                             <div class="form-group has-success control-style">
-                                                <label class="format-label">Cliente Codigo</label>
+                                                <label class="format-label">
+                                                    <i class="fa fa-user sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                    Cliente Codigo
+                                                </label>
                                                 <?php
                                                 if (isset($cliente[0]->id_cliente)) {
                                                 ?>
@@ -263,11 +264,11 @@ include("asstes/pos_orden.php");
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3">
-                                            <div class="icono-1" >
-                                                <label><i class="fa fa-user sz" style="font-size:50px;"></i></label> 
-                                            </div>
                                             <div class="form-group has-success control-style">
-                                                <label class="format-label"> Cliente Nombre</label>
+                                                <label class="format-label">
+                                                    <i class="fa fa-user sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                    Cliente Nombre
+                                                </label>
                                                 <?php
                                                 if (isset($cliente[0]->id_cliente)) {
                                                 ?>
@@ -280,11 +281,11 @@ include("asstes/pos_orden.php");
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3">
-                                            <div class="icono-1" >
-                                                <label><i class="fa fa-user sz" style="font-size:50px;"></i></label> 
-                                            </div>
                                             <div class="form-group has-success control-style">
-                                                <label class="format-label">Cliente Direccion</label>
+                                                <label class="format-label">
+                                                    <i class="fa fa-user sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                    Cliente Direccion
+                                                </label>
                                                 <?php
                                                 if (isset($cliente[0]->id_cliente)) {
                                                 ?>
@@ -298,11 +299,11 @@ include("asstes/pos_orden.php");
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3">
-                                            <div class="icono-1" >
-                                                <label><i class="fa fa-money sz" style="font-size:50px;"></i></label> 
-                                            </div>
                                             <div class="form-group has-success control-style">
-                                                <label class="format-label">Forma Pago</label>
+                                                <label class="format-label">
+                                                    <i class="fa fa-money sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                    Forma Pago
+                                                </label>
                                                 <select class="form-control" id="modo_pago_id" name="modo_pago_id">
                                                     <?php
                                                     if ($modo_pago) {
@@ -326,30 +327,30 @@ include("asstes/pos_orden.php");
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-lg-3 col-md-3">
-                                        <div class="icono-1" >
-                                                <label><i class="fa fa-comment sz" style="font-size:50px;"></i></label> 
-                                            </div>
                                             <div class="form-group has-success control-style">
-                                                <label class="format-label">Comentarios</label>
+                                                <label class="format-label">
+                                                    <i class="fa fa-comment sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                    Comentarios
+                                                </label>
                                                 <input type="text" name="comentarios" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3">
-                                        <div class="icono-1" >
-                                                <label><i class="fa fa-clock-o sz" style="font-size:50px;"></i></label> 
-                                            </div>
                                             <div class="form-group has-success control-style">
-                                                <label class="format-label"> Fecha</label>
+                                                <label class="format-label">
+                                                    <i class="fa fa-clock-o sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                    Fecha
+                                                </label>
                                                 <input type="date" name="fecha" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-lg-3 col-md-3">
-                                        <div class="icono-1" >
-                                                <label><i class="fa fa-building sz" style="font-size:50px;"></i></label> 
-                                            </div>
                                             <div class="form-group has-success control-style">
-                                            <label class="format-label">Sucursal Origen</label>
+                                            <label class="format-label">
+                                                <i class="fa fa-building sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                Sucursal Origen
+                                            </label>
                                                 <select class="form-control" name="sucursal_origin" id="sucursal_id2">
                                                     <?php
                                                     $id_sucursal = 0;
@@ -378,11 +379,11 @@ include("asstes/pos_orden.php");
                                         </div>
 
                                         <div class="col-lg-3 col-md-3">
-                                            <div class="icono-1" >
-                                                <label><i class="fa fa-user sz" style="font-size:50px;"></i></label> 
-                                            </div>
                                             <div class="form-group has-success control-style">
-                                                <label class="format-label"> Vendedor</label>
+                                                <label class="format-label">
+                                                    <i class="fa fa-user sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                    Vendedor
+                                                </label>
                                                 <div class="" style="border:1px solid grey;height:35px;">
                                                     <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo @$empleado[0]->id_empleado; ?>">
                                                     <a href="#" class="vendedores_lista1" id="<?php echo @$empleado[0]->id_sucursal; ?>"><?php echo @$empleado[0]->primer_nombre_persona . " " . @$empleado[0]->primer_apellido_persona; ?></a>
@@ -402,11 +403,11 @@ include("asstes/pos_orden.php");
                 <!-- END panel-->
 
                 <!-- START table-responsive-->
-                <div class="row" style="padding:20px;">
+                <div class="row" style="padding:0px;">
                     <div class="col-md-10">
                         <table class="table table-sm table-hover" style="margin-bottom: 0px;">
 
-                            <div class="row">
+                            <div class="row" style="background:#2D3B48;padding-top: 25px;">
                                 <div class="col-md-4">
                                     <div class="input-group m-b" id="headerInputs" style="margin-left:10px;">
                                         <input type="text" placeholder="<- Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
@@ -428,17 +429,17 @@ include("asstes/pos_orden.php");
                                     <?php
                                     if (isset($tipoDocumento) && isset($sucursales) && isset($bodega) && isset($cliente)) {
                                     ?>
-                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 33px;" name="guardar_orden" id="guardar_orden"><i class='fa fa-save'></i> </button>
+                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 33px;" name="guardar_orden" id="guardar_orden"><i class='fa fa-save' style="color:white;"></i> </button>
                                     <?php
                                     } else {
                                     ?>
-                                        <button type="button" class="btn btn-labeled" style="font-size: 25px;" name="" id=""><i class='fa fa-save'></i></button>
+                                        <button type="button" class="btn btn-labeled" style="font-size: 25px;" name="" id=""><i class='fa fa-save' style="color:white;"></i></button>
                                     <?php
                                     }
                                     ?>
 
-                                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 25px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ 6 ]</span></span>
-                                    <span class="btn bg-green" id="btn_discount" style="font-size: 25px;"><i class="fa fa-percent" aria-hidden="true"></i> <span style="font-size:18;">[ 7 ]</span></span>
+                                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 25px;" data-target='#existencias'><i class="fa fa-dropbox" style="color:white;"></i> <span style="font-size:18;">[ 6 ]</span></span>
+                                    <span class="btn bg-green" id="btn_discount" style="font-size: 25px;"><i class="fa fa-percent" aria-hidden="true" style="color:white;"></i> <span style="font-size:18;color:white;">[ 7 ]</span></span>
 
                                 <!--
                                     <div class="btn-group">
@@ -493,8 +494,8 @@ include("asstes/pos_orden.php");
                         </div>
                     </div>
 
-                    <div class="col-md-2"><br><br>
-                        <div class="row">
+                    <div class="col-md-2">
+                        <div class="row" style="background:#2D3B48;padding-top: 7px;">
                             <div class="col-md-12" style="width: 100%; background: #2D3B48/*#0f4871*/;text-align: center;color: white;">
 
                                 <span style="font-size: 40px;">
@@ -574,14 +575,14 @@ include("asstes/pos_orden.php");
             -->
 
             <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;" >2
-                <i class="icon-grid"></i>
+                <i class="icon-grid" style="color:white;"></i>
             </span>
 
             <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 3
-                <i class="icon-trash"></i>
+                <i class="icon-trash" style="color:white;"></i>
             </span>
             <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">4
-                <i class="fa fa-credit-card"></i>
+                <i class="fa fa-credit-card" style="color:white;"></i>
             </span>
             <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">5
                 Dev.
