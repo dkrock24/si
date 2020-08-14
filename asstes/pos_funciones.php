@@ -53,7 +53,7 @@
 
         function getImpuestosLista() {
             /** Load Impuestos everytime */
-
+            console.log("GET LISTA-------------");
             $.ajax({
                 url: path + "get_impuestos_lista",
                 datatype: 'json',
@@ -2084,7 +2084,12 @@
             if ($("#orden_estado_venta").val()) {
                 orden_estado = $("#orden_estado_venta").val();
             }
-            _impuestos_orden_iva[0].ordenImpTotal = total_iva;
+
+            if(_impuestos_orden_iva[0]){
+                _impuestos_orden_iva[0].ordenImpTotal = total_iva;                
+            }else{
+                _impuestos_orden_iva.ordenImpTotal = total_iva;
+            }
 
             var impuestos_data = {
                 'imp_condicion' : _impuestos_orden_condicion,

@@ -133,6 +133,10 @@ function impuestos(){
 
 function imp_list(imp_doc , doc){
 	
+	if(_impuestos.doc == undefined){
+		getImpuestosLista();
+	}
+
 	var x 	= false;
 	var c 	= 0;
 	_ImpList= [];
@@ -156,14 +160,12 @@ function imp_list(imp_doc , doc){
 }
 
 function imp_cat_val(categoria){
-
 	var x 	= false;
 	var c 	= 0;
 	_catVal = [];
 	_proVal = [];
 	categoria = parseInt(categoria);
 	var impuestos_internos = _impuestos.cat.filter(x => x.Categoria  ==  categoria);
-	console.log("categorias", impuestos_internos, categoria);
 	$.each(impuestos_internos, function(i, item) {    	
     	// Categoria de producto sea igual
     	if(item.estado !=0 )
@@ -520,7 +522,6 @@ function get_total_orden(){
 			total_orden += parseFloat(element.total);
 		}
 	});
-	console.log("Total orden -> ", total_orden);
 	return total_orden;
 }
 
@@ -645,7 +646,6 @@ function separar_iva(prod){
 	var inpuesto = 0;
 	_impuestos_orden_excluyentes = [];
 	
-	console.log("A");
 	_orden.forEach(function(element) {
 
 		if(element.iva == 1 || element.iva=='on'){
@@ -719,7 +719,6 @@ function separar_iva(prod){
 					}
 
 					if(aplicable){
-						console.log(total, " quien es");
 						sub_total =  parseFloat(_orden[_orden.indexOf(element)].total) - parseFloat(total.toFixed(2));
 								
 						_orden[_orden.indexOf(element)].impSuma = total;
@@ -744,7 +743,7 @@ function ivaTotal(){
 	var c 			= 1;
 	
 	$.each(_orden, function(i, item) {
-		if(item.impSuma && (item.gen !="Exentos" && item.gen !="Exent" ))
+		if(item.impSuma && ( item.gen !="Exentos" && item.gen !="Exent" ))
 		{			
 			var tmp = parseFloat(item.impSuma).toFixed(2);
 			
@@ -757,11 +756,10 @@ function ivaTotal(){
 			}else{
 				sub_total_ += parseFloat(item.total_anterior ) - parseFloat( tmp );
 			}
-
 		}else{
 			exento_iva_suma += (parseFloat(item.total_anterior )) ;
 		}
-		c++;		
+		c++;
 	});
 
 	//total_iva_suma =  sub_total_;
@@ -777,12 +775,10 @@ function sub_total(){
 
 	if(sub_total_ < 0){
 		sub_total_ = sub_total_ - _total_impues_exclu - exento_iva_suma ;
-
 	}else{
 		sub_total_ = total_orden - _total_impues_exclu - exento_iva_suma ;
 		sub_total_ = (parseFloat(sub_total_) - parseFloat( total_iva ));
 	}
-	
 }
 
 /*********** Orden  ************/

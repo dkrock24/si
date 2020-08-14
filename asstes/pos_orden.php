@@ -87,10 +87,13 @@
             }
         }
 
-        if(path == "../"){            
+        if(path == "../"){
             var id_orden = window.location.pathname.split("/").pop();
             getImpuestosLista();
-            get_orden(id_orden);            
+            setTimeout(() => {
+                get_orden(id_orden);
+            }, 500);
+
         }
 
         function get_venta(venta_id){            
