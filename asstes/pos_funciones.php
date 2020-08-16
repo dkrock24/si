@@ -53,7 +53,6 @@
 
         function getImpuestosLista() {
             /** Load Impuestos everytime */
-            console.log("GET LISTA-------------");
             $.ajax({
                 url: path + "get_impuestos_lista",
                 datatype: 'json',
@@ -316,7 +315,6 @@
             $(".dataSelect").html(table_tr);
 
             if (_productos_lista.length == 1) {
-                console.log(_productos_lista[0].Cantidad);
                 if(_productos_lista[0].Cantidad == 0){
                     var type = "info";
                     var title = _productos_lista[0].name_entidad +" Sin Existencias ";
@@ -603,7 +601,6 @@
 
             document.onkeydown = function(e) {
                 //productos_tabla
-                console.log(e.key);
                 switch (e.key) {
                     case 'ArrowLeft': 
                         input_producto_buscar.select();             
@@ -1551,7 +1548,6 @@
                 var tipo_descuento_limite = descuento_limite.substring(0, 1);
 
                 if (descuento) {
-
                     if (primer_digito == 0) {
 
                         if (tipo_descuento_limite == 0) {
@@ -1661,7 +1657,7 @@
             var notificar_data = {
                 id : "#anular_documento_msg",
                 msj : "Ingresar N° Orden Para Anular",
-                color: "#2D3B48",
+                color: "#2b957a",
                 text_class :".anular_documento_msg",
                 icon : "fa fa-exclamation-circle"
             };
@@ -1693,7 +1689,7 @@
             $(notificar_data.text_class).html("<i class='"+notificar_data.icon+"'></i> "+notificar_data.msj);
 
             setTimeout(function() {
-                $(notificar_data.id).css("background-color", "#e9ebee");                
+                $(notificar_data.id).css("background-color", "#fff");                
                 $(notificar_data.text_class).html("");
             }, 3000);
         }
@@ -2100,7 +2096,6 @@
             }
 
             if (_orden.length != 0) {
-
                 $.ajax({
                     type: 'POST',
                     data: {
@@ -2119,6 +2114,11 @@
 
                     success: function(data) {
                         var datos = JSON.parse(data);
+
+                        if(method == "update_orden"){
+                            location.reload();
+                            return;
+                        }
                         
                         if(orden_numero){
                             cerrar_orden(orden_numero);
@@ -2526,9 +2526,9 @@
                     imp_espeical_total -= parseFloat(sub);
                 }
 
-                impuestos_nombre += "<i style='text-align: right;'>" + element.ordenImpName + "(" + element.ordenImpVal + ")</i><br>";
+                impuestos_nombre += "<i style='text-align: right;color:grey;'>" + element.ordenImpName + "(" + element.ordenImpVal + ")</i><br>";
 
-                impuestos_total += "<i><?php echo $moneda[0]->moneda_simbolo; ?> " + sub + "</i><br>";
+                impuestos_total += "<i style='text-align: right;color:grey;'><?php echo $moneda[0]->moneda_simbolo." "; ?> " + sub + "</i><br>";
 
             });
 
@@ -2564,11 +2564,11 @@
         
 
         iva_nombre += "<p style='text-align: right;'>IVA</p>";
-        iva_valor += "<?php echo $moneda[0]->moneda_simbolo; ?>" + total_iva.toFixed(2);
+        iva_valor += total_iva.toFixed(2);
         iva_total += "<p><?php echo $moneda[0]->moneda_simbolo; ?>" + total_msg.toFixed(2) + "</p>";
 
 
-        var exento_valor = "<?php echo $moneda[0]->moneda_simbolo; ?>" + exento_iva_suma.toFixed(2);
+        var exento_valor = exento_iva_suma.toFixed(2);
 
         $(".iva_nombre").html(iva_nombre);
         $(".iva_valor").text(iva_valor);
@@ -2679,7 +2679,7 @@
 
       for(var i in months){
         if(i ==  momentNow.format('MMMM') ){
-          console.log(months[i].Translate);
+          //console.log(months[i].Translate);
           $('#time-part').html(months[i].Translate +" "+ momentNow.format('DD') + " / "+ momentNow.format('Y'));
           $('.time-date').html(months[i].Translate +" "+ momentNow.format('DD') + " / "+ momentNow.format('Y'));
         }

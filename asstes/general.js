@@ -25,6 +25,7 @@ var exist_cat;
 var _conf = [];
 var sub_total_ = 0;
 var registro_editado = 0;
+var descuento_total = 0;
 
 /* Impuestos Acumulados */
 
@@ -34,6 +35,9 @@ $(document).ready(function(){
 	$("#id_tipo_documento").change(function(){
 		//tipo_documento($(this).val());
 	});
+	if(_tipo_documento==null){
+		_tipo_documento = $("#orden_documento").val();
+	}
 
 });
 
@@ -166,7 +170,7 @@ function imp_cat_val(categoria){
 	_proVal = [];
 	categoria = parseInt(categoria);
 	var impuestos_internos = _impuestos.cat.filter(x => x.Categoria  ==  categoria);
-	$.each(impuestos_internos, function(i, item) {    	
+	$.each(impuestos_internos, function(i, item) {
     	// Categoria de producto sea igual
     	if(item.estado !=0 )
 		{			
@@ -460,10 +464,10 @@ function aplicar_imp_especial(prod){
 	var total = 0;
 	var contador = 0;
 	_impuestos_orden_condicion = [];
-
 	$.each(_catVal, function(i, item) {
 		
 		var yes = check_aplicable(item.nombre);		
+		console.log("----------->", yes);
 
 			if( item.condicion == 1 && yes == true){
 				
@@ -743,7 +747,10 @@ function ivaTotal(){
 	var c 			= 1;
 	
 	$.each(_orden, function(i, item) {
-		if(item.impSuma && ( item.gen !="Exentos" && item.gen !="Exent" ))
+		
+		descuento_total += item.descuento_calculado;
+
+		if (item.impSuma && ( item.gen !="Exentos" && item.gen !="Exent" ))
 		{			
 			var tmp = parseFloat(item.impSuma).toFixed(2);
 			
@@ -774,11 +781,13 @@ function sub_total(){
 	});
 
 	if(sub_total_ < 0){
-		sub_total_ = sub_total_ - _total_impues_exclu - exento_iva_suma ;
+		sub_total_ = sub_total_ - _total_impues_exclu - exento_iva_suma - descuento_total ;
 	}else{
 		sub_total_ = total_orden - _total_impues_exclu - exento_iva_suma ;
 		sub_total_ = (parseFloat(sub_total_) - parseFloat( total_iva ));
 	}
+
+	$("#descuento").val("");
 }
 
 /*********** Orden  ************/

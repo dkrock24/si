@@ -200,7 +200,10 @@ include("asstes/pos_orden.php");
         /*float: right !important;*/
         height:100% !important;
     }
-    
+
+    .myTableFormat > tbody > tr > td {
+        border-top: 0px solid #eee;
+    }    
 
 </style>
 
@@ -267,7 +270,7 @@ include("asstes/pos_orden.php");
                         </div>
 
                         <!-- START table-responsive-->
-                        <div class="table-responsive" style="width: 100%;">  
+                        <div class="table-responsive" style="width: 100%;height:100%;">  
                             <div class="lista_productos">                                
                                 <table class="table table-sm table-hover">  
                                 <thead class="bg-info-dark" style="background: #cfdbe2;">
@@ -288,9 +291,6 @@ include("asstes/pos_orden.php");
                                     <tbody class="producto_agregados" style="border-top:  0px solid black; color: black; background: white; overflow: scroll;">
                                     </tbody>
                                 </table>
-                            </div>
-
-                            <div class="col-lg-12 col-md-12 paper_cut">
                             </div>
                         </div>
                         <!-- END table-responsive-->
@@ -327,24 +327,24 @@ include("asstes/pos_orden.php");
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-12 col-md-12" style="width: 100%; height:90%; background: white; right: 0px;">
+                        <div class="col-lg-12 col-md-12" style="width: 100%; height:89%; background: white; right: 0px;">
 
-                            <table class="table table-sm table-hover" style="font-size: 22px;">
+                            <table class="table table-sm table-hover myTableFormat" style="font-size: 22px;">
                                 <tr>
                                     <td style="color:#0f4871;"><b>Gravado</b></td>
-                                    <td><?php echo $moneda[0]->moneda_simbolo; ?> <span class="sub_total_tabla"></span></td>
+                                    <td><?php echo $moneda[0]->moneda_simbolo." "; ?> <span class="sub_total_tabla"></span></td>
                                 </tr>
                                 <tr>
                                     <td><b>Iva</b></td>
-                                    <td><span class="iva_valor"></span></td>
+                                    <td><?php echo $moneda[0]->moneda_simbolo." "; ?><span class="iva_valor"></span></td>
                                 </tr>
                                 <tr>
                                     <td><b>Exento</b></td>
-                                    <td><span class="exento_valor"></span></td>
+                                    <td><?php echo $moneda[0]->moneda_simbolo." "; ?><span class="exento_valor"></span></td>
                                 </tr>
                                 <tr>
-                                    <td><b>Desc</b></td>
-                                    <td><span class="descuento_tabla"></span></td>
+                                    <td><b>Descuento</b></td>
+                                    <td><?php echo $moneda[0]->moneda_simbolo." "; ?><span class="descuento_tabla"></span></td>
                                 </tr>
                                 <tr>
                                     <td><span class="impuestos_nombre"></span></td>
@@ -352,11 +352,15 @@ include("asstes/pos_orden.php");
                                 </tr>
                                 <tr>
                                     <td style="color:#0f4871"><b>Total</b></td>
-                                    <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td>
+                                    <td><?php echo $moneda[0]->moneda_simbolo." "; ?><span class="total_tabla"></span></td>
                                 </tr>
                             </table>
-                            <hr>
-                            <table class="table">
+                            <div class="row" id="anular_documento_msg">
+                                <div class="col-lg-12 col-md-12" style="width: 100%;color:#fff;">
+                                    <h4 class="anular_documento_msg"></h4>
+                                </div>
+                            </div>
+                            <table class="table myTableFormat">
                                 <tr>
                                     <td>
                                         <span class="btn btn-info" 
@@ -407,7 +411,7 @@ include("asstes/pos_orden.php");
                                     </td>
                                 </tr>
                             </table>
-                            <table class="table">
+                            <table class="table myTableFormat">
                                 <tr class="pantalla-tr">
                                     <td class="pantalla-tr-td" colspan="1">
                                         <h3 class="pantalla-td-h3"><i class="fa fa-desktop"></i></h3>
@@ -458,12 +462,6 @@ include("asstes/pos_orden.php");
                         <div class="col-lg-12 col-md-12 paper_cut">
                         </div>
                         
-                    </div><br>
-
-                    <div class="row" id="anular_documento_msg">
-                        <div class="col-lg-12 col-md-12" style="width: 100%;color:#fff;">
-                            <h4 class="anular_documento_msg"></h4>
-                        </div>
                     </div>
 
                     <!--

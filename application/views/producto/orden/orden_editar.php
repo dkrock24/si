@@ -67,7 +67,7 @@ include("asstes/pos_orden.php");
     }
 
     i{
-        color:#2D3B48;
+        color:grey;
     }
     .format-label{
         width: 100%;
@@ -86,6 +86,18 @@ include("asstes/pos_orden.php");
     .control-style{
         float:right;
         display:inline-block;width:80%;
+    }
+
+    .myTableFormat > tbody > tr > td {
+        border-top: 0px solid #eee;
+    }
+
+    .bg-green{
+        color:white;
+    }
+
+    .panel {
+        margin-bottom:0px;
     }
 </style>
 
@@ -423,8 +435,8 @@ include("asstes/pos_orden.php");
 
                                 <span>
                                     Can [ / ] <input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;height:50px;display:inline-block;" />
-                                    Des.<input type="text" class="form-control border-input" placeholder="[ * ]" id="descuento" name="descuento" size="2px" value="" style="width: 80px;height:50px;display:inline-block;" />
-                                    Orden.<input type="text" class="form-control border-input" placeholder="[ - ]" id="buscar_orden" name="buscar_orden" style="width: 100px;height:50px;display:inline-block;">
+                                    <input type="text" class="form-control border-input" placeholder="Des *" id="descuento" name="descuento" size="2px" value="" style="width: 80px;height:50px;display:inline-block;" />
+                                    <input type="text" class="form-control border-input" placeholder="Orden -" id="buscar_orden" name="buscar_orden" style="width: 100px;height:50px;display:inline-block;">
                                 </span>
 
                             </div>
@@ -476,18 +488,18 @@ include("asstes/pos_orden.php");
                                     </tr>
                                     <tr>
                                         <td><b>Iva</b></td>
-                                        <td><span class="iva_valor"></span></td>
+                                        <td><?php echo $moneda[0]->moneda_simbolo; ?> <span class="iva_valor"></span></td>
                                     </tr>
                                     <tr>
                                         <td><b>Exento</b></td>
-                                        <td><span class="exento_valor"></span></td>
+                                        <td><?php echo $moneda[0]->moneda_simbolo; ?> <span class="exento_valor"></span></td>
                                     </tr>
                                     <tr>
-                                        <td><b>Desc</b></td>
-                                        <td><span class="descuento_tabla"></span></td>
+                                        <td><b>Descuento</b></td>
+                                        <td><?php echo $moneda[0]->moneda_simbolo; ?> <span class="descuento_tabla"></span></td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size:14px;"><span class="impuestos_nombre"></span></td>
+                                        <td style="font-size:16px;"><span class="impuestos_nombre"></span></td>
                                         <td><span class="impuestos_total"></span></td>
                                     </tr>
                                     <tr>

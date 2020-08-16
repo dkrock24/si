@@ -216,9 +216,10 @@ class Orden extends MY_Controller {
 
 		$cliente = $this->get_clientes_id( $dataParametros['cliente_codigo'] );
 
-		$this->Orden_model->update( $_POST , $id_usuario ,$cliente , $dataParametros);
+		$data = $this->Orden_model->update( $_POST , $id_usuario ,$cliente , $dataParametros);
 
-		redirect(base_url()."producto/orden/index");
+		echo json_encode($data);
+		//redirect(base_url()."producto/orden/index");
 	}
 
 	public function cerrar_orden(){

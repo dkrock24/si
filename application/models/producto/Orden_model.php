@@ -553,6 +553,8 @@ class Orden_model extends CI_Model
 
 		$this->delete_orden_detalle($orden_id);
 		$this->guardar_orden_detalle($orden_id, $orden);
+
+		return array($dataParametros['orden_numero']);
 	}
 
 	function cerrar_orden( $correlativo_orden ){
