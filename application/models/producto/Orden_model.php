@@ -560,7 +560,7 @@ class Orden_model extends CI_Model
 	function cerrar_orden( $correlativo_orden ){
 
 		$data = array(
-			'orden_estado' => 4,
+			'orden_estado' => 6,
 		);
 
 		$this->db->where('num_correlativo', $correlativo_orden);

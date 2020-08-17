@@ -366,20 +366,17 @@ include("asstes/pos_orden.php");
                                         <span class="btn btn-info" 
                                             data-toggle="modal" 
                                             data-target="#documentoModel" 
-                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">1
-                                            <i class="icon-settings"></i>
+                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">1 <i class="icon-settings"></i>
                                         </span>
                                     </td>
                                     <td>
                                         <span class="btn btn-info" 
-                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">2
-                                            <i class="icon-grid"></i>
+                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">2 <i class="icon-grid"></i>
                                         </span>
                                     </td>
                                     <td>
                                         <span class="btn btn-info" 
-                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">3
-                                            <i class="icon-trash"></i>
+                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">3 <i class="icon-trash"></i>
                                         </span>
                                     </td>                                   
                                 </tr>
@@ -387,8 +384,7 @@ include("asstes/pos_orden.php");
                                     <td>
                                         <span class="btn btn-info guardar" 
                                             id="../venta/guardar_venta" 
-                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 4
-                                            <i class="fa fa-credit-card"></i>
+                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">4 <i class="fa fa-credit-card"></i>
                                         </span>
                                     </td>
                                     <td>
@@ -396,8 +392,7 @@ include("asstes/pos_orden.php");
                                             data-toggle="modal" 
                                             data-target="#devolucion" 
                                             id="../venta/guardar_venta" 
-                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 
-                                            5 <i class="fa fa-refresh"></i> 
+                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">5 <i class="fa fa-refresh"></i> 
                                         </span>
                                     </td>
                                     <td>
@@ -405,8 +400,7 @@ include("asstes/pos_orden.php");
                                             data-toggle="modal" 
                                             data-target="#anulado" 
                                             id="../venta/guardar_venta" 
-                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">
-                                            0 <i class="fa fa-ban"></i> 
+                                            style="width:100%;background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">0 <i class="fa fa-ban"></i> 
                                         </span>
                                     </td>
                                 </tr>

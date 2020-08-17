@@ -560,9 +560,10 @@
             var currCell = $('.producto_agregados > tr').first();
             var editing = false;
             var id_celda = 0;
+            var contadorPagoIndice = 1;
 
-            $(document).on("click", "tr", function() {
-                $('tr').css('background', 'none');
+            $(document).on("click", ".producto_agregados > tr", function() {
+                //$('tr').css('background', 'none');
                 $('tr').css('color', 'black');
 
                 id_celda = $(this).attr('name');
@@ -666,77 +667,83 @@
                     c = currCell.next();
                 } else if (e.keyCode == 37) {
                     // Left Arrow
-                    //c = currCell.prev();
+                    c = currCell.prev();
                 } else if (e.keyCode == 38) {
                     // Up Arrow
-                    
-                    c = currCell.closest('tr').prev().find('td:eq(' +
-                        currCell.index() + ')');
 
-                    height -= 39;
-                    //$('.lista_productos').animate({scrollIntoView: height}, 1);
-                    id_celda = $(currCell.closest('tr').prev()).attr('name');
+                    if($('#procesar_venta').not(":visible")){
+                        c = currCell.closest('tr').prev().find('td:eq(' +currCell.index() + ')');
 
-                    if($('.dataSelect').not(":visible")){
-                        var Xh = $(currCell.closest('tr').prev()).attr('name');
-                        console.log(Xh);
-                        $("input[cd=" + Xh + "]").focus();
-                        $("input[cd=" + Xh + "]").select();
+                        height -= 39;
+                        //$('.lista_productos').animate({scrollIntoView: height}, 1);
+                        id_celda = $(currCell.closest('tr').prev()).attr('name');
+
+                        if($('.dataSelect').not(":visible")){
+                            var Xh = $(currCell.closest('tr').prev()).attr('name');
+                            console.log(Xh);
+                            $("input[cd=" + Xh + "]").focus();
+                            $("input[cd=" + Xh + "]").select();
+                        }
+
+                        //$('tr').css('background', 'none');$('tr').css('background', 'none');
+                        $('tr').css('color', 'black');
+
+                        if ($(currCell.closest('tr')).attr('id')) {
+                            imagen($(currCell.closest('tr').prev()).attr('id'));
+                        }
+                        $('.lista_productos').animate({
+                            scrollTop: height
+                        }, 1);
                     }
-                    var count = $(currCell.closest('tr').prev()).attr('id');
-                    $(":input[name=pagoInput" + count + "]:first").focus();
 
-                    var pagoLinea = $(currCell.closest('tr').prev()).attr('id');
-                    pagoLinea = parseInt(pagoLinea);
-                    //$("input[name=pagoInput" + pagoLinea + "]").focus();
-
-                    //$('tr').css('background', 'none');$('tr').css('background', 'none');
-                    $('tr').css('color', 'black');
-
-                    if ($(currCell.closest('tr')).attr('id')) {
-                        imagen($(currCell.closest('tr').prev()).attr('id'));
-                    }
-                    $('.lista_productos').animate({
-                        scrollTop: height
-                    }, 1);
+                    if($('#procesar_venta').is(":visible")){
+                        // Subir en modal de pagos al siguiente metodo de pago
+                        if($("input[name=pagoInput" + (contadorPagoIndice-1) + "]:first").length){
+                            contadorPagoIndice = contadorPagoIndice -1;
+                        }
+                        console.log("Subiendo -->", contadorPagoIndice);
+                        $("input[name=pagoInput" + contadorPagoIndice + "]:first").focus();                   
+                    }                    
                 
                 } else if (e.keyCode == 40) {
                     // Down Arrow
-                    
-                    c = currCell.closest('tr').next().find('td:eq(' +
-                        currCell.index() + ')');
 
-                    $('.lista_productos').animate({
-                        scrollIntoView: height
-                    }, 1);
-                    height += 39;
+                    if($('#procesar_venta').not(":visible")){
+                        c = currCell.closest('tr').next().find('td:eq(' +currCell.index()+ ')');
 
-                    id_celda = $(currCell.closest('tr').next()).attr('name');
+                        $('.lista_productos').animate({
+                            scrollIntoView: height
+                        }, 1);
+                        height += 39;
 
-                    var pagoLinea = $(currCell.closest('tr')).attr('id');
-                    if($('.dataSelect').not(":visible")){
-                        var Xh = $(currCell.closest('tr').next()).attr('name');
-                        $("input[cd=" + Xh + "]").focus();
-                        $("input[cd=" + Xh + "]").select();
+                        id_celda = $(currCell.closest('tr').next()).attr('name');
+
+                        var pagoLinea = $(currCell.closest('tr')).attr('id');
+                        if($('.dataSelect').not(":visible")){
+                            var Xh = $(currCell.closest('tr').next()).attr('name');
+                            $("input[cd=" + Xh + "]").focus();
+                            $("input[cd=" + Xh + "]").select();
+                        }
+                        //$('tr').css('background', 'none');
+                        $('tr').css('color', 'black');
+
+                        if ($(currCell.closest('tr')).attr('id')) {
+                            imagen($(currCell.closest('tr').next()).attr('id'));
+                        }
+
+                        $('.lista_productos').animate({
+                            scrollTop: height
+                        }, 1);
+                    }                   
+
+                    if($('#procesar_venta').is(":visible")){
+                        // Bajar en modal de pagos al siguiente metodo de pago
+                        if($("input[name=pagoInput" + (contadorPagoIndice+1) + "]:first").length){
+                            contadorPagoIndice = contadorPagoIndice +1;
+                        }
+                        console.log("Bajando -->", contadorPagoIndice);
+                        $("input[name=pagoInput" + contadorPagoIndice + "]:first").focus();
                     }
-                    
-                    var count = $(currCell.closest('tr').next()).attr('id');
-                    $(":input[name=pagoInput" + count + "]:first").focus();                    
-
-                    pagoLinea = parseInt(pagoLinea) + 1;                   
-
-                    //$("input[name=pagoInput" + pagoLinea + "]").focus();
-
-                    //$('tr').css('background', 'none');
-                    $('tr').css('color', 'black');
-
-                    if ($(currCell.closest('tr')).attr('id')) {
-                        imagen($(currCell.closest('tr').next()).attr('id'));
-                    }
-
-                    $('.lista_productos').animate({
-                        scrollTop: height
-                    }, 1);
                     
                 } else if (!editing && (e.keyCode == 13 || e.keyCode == 32)) {
                     // Enter or Spacebar - edit cell
@@ -822,8 +829,13 @@
                 currCell = $('.producto_agregados > tr').first();
                 if($('.dataSelect').not(":visible")){
                     var Xh = $(currCell).attr('name');
+                    valorInput = $("input[cd=" + Xh + "]").val();
                     $("input[cd=" + Xh + "]").focus();
                     $("input[cd=" + Xh + "]").select();
+                    
+                    setTimeout(() => {
+                        $("input[cd=" + Xh + "]").val(valorInput);
+                    }, 200);
                 }
 
                 //$('tr').css('background', 'none');
@@ -840,8 +852,13 @@
 
             function f8_table_pagos() {
                 //$("input[name=pagoInput1]").focus();
+                var valor_pago = $("input[name='pagoInput1']:first").val();
                 $("input[name='pagoInput1']:first").focus();
                 currCell = $('.pagos_tabla').first();
+
+                setTimeout(() => {
+                    $("input[name='pagoInput1']:first").val(valor_pago);
+                }, 200);
 
                 id_celda = $(currCell).attr('name');
                 //currCell.focus();
@@ -1860,7 +1877,7 @@
             cambio = temp.toFixed(2) - total_msg.toFixed(2);
             cambio = cambio * 1;
 
-            $("#cambio_venta").text(11);
+            $("#cambio_venta").text(cambio);
 
             if (cambio == 0) {
                 $("#cambio_venta").text(0.00);

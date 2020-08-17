@@ -169,7 +169,7 @@
                         var mensaje = "Orden Estado No Valida : get_orden";
                         var boton = "info";
                         var  finalMessage = "Gracias..."
-                        var url = "../nuevo";
+                        var url = "";
                         generalAlert(type , mensaje , title , boton, finalMessage,url);
                         return;
                     }

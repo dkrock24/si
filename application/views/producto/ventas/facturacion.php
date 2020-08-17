@@ -66,7 +66,20 @@ include("asstes/pos_orden.php");
 
         });
 
+        jQuery(document).ready(function(e) {
+            document.onkeydown = function(e) {
+                if(e.keyCode == 97){
+                    $("#nuevo")[0].click();
+                }
+                if(e.keyCode == 98){
+                    $("#prin")[0].click();
+                }
+            }
+        });
     });
+    
+    // facturacion vista. Accesos para nueva order,imprimir.
+    
 </script>
 
 <style>
@@ -128,15 +141,12 @@ include("asstes/pos_orden.php");
                                 }
                             ?>
 
-                                <a href="<?= $vista_url; ?>" class="btn btn-default printer">
-                                    <h3> <i class="icon-plus"></i> Nueva </h3>
+                                <a href="<?php echo $vista_url; ?>" class="btn btn-default printer" id="nuevo">
+                                    <h3> <i class="icon-plus"></i> Nueva [ 1 ]</h3>
                                 </a>
-                                <a href="#" id="prin" name="<?= $orden[0]->id ?>" class="btn btn-success" style="color:black">
-                                    <h3> <i class="icon-printer"></i> Imprimir </h3>
+                                <a href="#" id="prin" name="<?php echo $orden[0]->id ?>" class="btn btn-info" style="color:black">
+                                    <h3> <i class="icon-printer"></i> Imprimir [ 2 ]</h3>
                                 </a>
-                                <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
-                                    <h3> <i class="icon-close"></i> Cerrar </h3>
-                                </button>
 
                             </div>
                         </div>
