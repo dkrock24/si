@@ -285,7 +285,7 @@ include("asstes/pos_orden.php");
                                         <th style="color: black;">Descuento</th>
                                         <th style="color: black;">Total</th>
                                         <th style="color: black;">Bodega</th>   
-                                        <th style="color: black;"></th>                                        
+                                        <th style="color: black;"><span class="badge badge-success total_items" style="background:#2D3B48;font-size: 16px;">0</span></th>                                        
                                     </tr>
                                 </thead>                              
                                     <tbody class="producto_agregados" style="border-top:  0px solid black; color: black; background: white; overflow: scroll;">

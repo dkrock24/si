@@ -2393,6 +2393,7 @@
         _config_impuestos();
         contador_tabla = 1;
         gravado_exento = "";
+        total_items    = 0;
         //total_iva = Math.abs(total_iva);
         if (_orden.length >= 1) {
             var tr_html = "";           
@@ -2437,12 +2438,13 @@
                     }
 
                     tr_html += "</tr>";
-
+                    total_items+=1;
                     contador_tabla++;
                 }
             });
             $(".cantidad_tabla").val(4);
             $(".sub_total_tabla").val(4);
+            $(".total_items").text(total_items);
 
             calculo_totales();
             $("#cantidad").val(1);
