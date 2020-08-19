@@ -507,8 +507,34 @@ include("asstes/pos_orden.php");
                                         <td><?php echo $moneda[0]->moneda_simbolo; ?><span class="total_tabla"></span></td>
                                     </tr>
                                 </table>
-                            </div>
 
+                                <table class="table myTableFormat">
+                                    <tr>
+                                        <td>
+                                            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">2
+                                                <i class="icon-grid" style="color:white;"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">3
+                                                <i class="icon-trash" style="color:white;"></i>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">4
+                                                <i class="fa fa-credit-card" style="color:white;"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">5
+                                                <i class="fa fa-refresh" alt="Devolucion" style="color:white;"></i>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
 
                         </div><br>
                     </div>
@@ -539,31 +565,6 @@ include("asstes/pos_orden.php");
 
     <div class="row bg-red" style="position: fixed;bottom: 0px; width: 100%;">
         <div class="col-lg-12 col-md-12 abajo" style="height: 50px;">
-            <!--
-            <span 
-                class="btn btn-info" 
-                data-toggle="modal" 
-                data-target="#documentoModel" 
-                style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">F1
-                <i class="icon-settings"></i>
-            </span>
-            -->
-
-            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">2
-                <i class="icon-grid" style="color:white;"></i>
-            </span>
-
-            <span class="btn btn-info" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">3
-                <i class="icon-trash" style="color:white;"></i>
-            </span>
-
-            <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">4
-                <i class="fa fa-credit-card" style="color:white;"></i>
-            </span>
-
-            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">5
-                <i class="fa fa-refresh" alt="Devolucion" style="color:white;"></i>
-            </span>
         </div>
     </div>
 

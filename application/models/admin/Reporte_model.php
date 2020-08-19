@@ -27,6 +27,7 @@ class Reporte_model extends CI_Model {
     const giro_empresa = 'giros_empresa';
     const giros = 'pos_giros';
     const moneda = 'sys_moneda';
+    const venta_detalle = 'pos_venta_detalle';
     
     function index($limit, $id , $filters )
     {
@@ -80,8 +81,19 @@ class Reporte_model extends CI_Model {
 
         $this->db->select('v.id , v.num_correlativo, v.fh_inicio, v.id_cliente , v.total_doc , d.nombre ,
         su.nombre_sucursal,
-         c.nombre_empresa_o_compania ,p.nombre_metodo_pago, s.orden_estado_nombre');
+        (select sum(v_d.total) FROM pos_venta_detalle AS v_d WHERE v_d.id_venta = v.id AND v_d.gen = "Grava" ) AS grabado,
+  
+        (select sum(v_i.ordenImpTotal) FROM pos_ventas_impuestos AS v_i WHERE v_i.id_venta = v.id AND v_i.ordenSimbolo = "G" ) AS impuesto_g,
+
+        (select sum(v_i.ordenImpTotal) FROM pos_ventas_impuestos AS v_i WHERE v_i.id_venta = v.id AND v_i.ordenSimbolo = "0" ) AS impuesto,
+
+        (select sum(v_d.total) FROM pos_venta_detalle AS v_d WHERE v_d.id_venta = v.id AND v_d.gen = "Exent" ) AS exento,
+
+        vd.p_inc_imp0,
+        COUNT(v.id) AS producto_total,
+        c.nombre_empresa_o_compania ,p.nombre_metodo_pago, s.orden_estado_nombre');
         $this->db->from(self::ventas.' as v');  
+        $this->db->join(self::venta_detalle.' as vd',' vd ON vd.id_venta = v.id');
         $this->db->join(self::usuarios.' as u','u.id_usuario = v.id_cajero');  
         $this->db->join(self::empleado.' as e','e.id_empleado = u.Empleado');
         $this->db->join(self::documento.' as d','d.id_tipo_documento = v.id_tipod');
@@ -92,6 +104,7 @@ class Reporte_model extends CI_Model {
         
         $this->db->where('DATE(v.fh_inicio)'  . ' >= ' , $f_inicio );
         $this->db->where('DATE(v.fh_final) <=' , $f_fin );
+        $this->db->group_by('vd.id_venta');
 
         if( $time != "" ){
             $this->db->where( $time );   
@@ -107,7 +120,8 @@ class Reporte_model extends CI_Model {
             $this->db->where( $caja );
         }
         $query = $this->db->get();
-        //echo $this->db->queries[4];
+        //echo $this->db->queries[3];
+        //die;
         if($query->num_rows() > 0 )
         {
             return $query->result();

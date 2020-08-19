@@ -225,10 +225,11 @@
                                                         <th style="color:#fff">Número</th>
                                                         <th style="color:#fff">Fecha</th>
                                                         <th style="color:#fff">Cliente</th>
-                                                        <th style="color:#fff">Nombre</th>
                                                         <th style="color:#fff">Cond-Pago</th>
-                                                        <th style="color:#fff">Valor Grabado</th>
-                                                        <th style="color:#fff">Valor Exento Total</th>
+                                                        <th style="color:#fff">C/U</th>
+                                                        <th style="color:#fff">Valor Gravado</th>
+                                                        <th style="color:#fff">Valor Exento</th>
+                                                        <th style="color:#fff">Total</th>
                                                         <th style="color:#fff">Estado</th>
                                                         <th style="color:#fff">Detalle</th>
                                                     </tr>
@@ -237,22 +238,28 @@
                                                 //$date=date_create("2013-03-15");
                                                 //echo date_format($date,"Y/m/d H:i:s");
                                                 $cnt = 1;
+                                                
                                                 foreach ($registros as $key => $value) {
+                                                    $exento = 0;
+                                                    $grabado = 0;
+                                                    $grabado = $value->grabado + $value->impuesto;
+                                                    $exento  = !$value->p_inc_imp0 ? ($value->exento  + $value->impuesto) : $value->exento;
                                                 ?>
                                                 <tbody>
                                                     <tr>
-                                                        <th><?= $cnt++; ?></th>
-                                                        <td><?= $value->id ?></td>
-                                                        <td><?= $value->nombre_sucursal ?></td>
-                                                        <td><?= $value->nombre ?></td>
-                                                        <td><?= $value->num_correlativo ?></td>
-                                                        <td><?= $value->fh_inicio ?></td>
-                                                        <td><?= $value->id_cliente ?></td>
-                                                        <td><?= $value->nombre_empresa_o_compania ?></td>
-                                                        <td><?= $value->nombre_metodo_pago ?></td>
-                                                        <td><?= $moneda . number_format($value->total_doc, 2) ?></td>
-                                                        <td><?= number_format($value->total_doc, 2) ?></td>
-                                                        <td><?= $value->orden_estado_nombre ?></td>
+                                                        <th><?php echo $cnt++; ?></th>
+                                                        <td><?php echo $value->id ?></td>
+                                                        <td><?php echo $value->nombre_sucursal ?></td>
+                                                        <td><?php echo $value->nombre ?></td>
+                                                        <td><?php echo $value->num_correlativo ?></td>
+                                                        <td><?php echo $value->fh_inicio ?></td>
+                                                        <td><?php echo  $value->id_cliente." ".$value->nombre_empresa_o_compania ?></td>
+                                                        <td><?php echo $value->nombre_metodo_pago ?></td>
+                                                        <td><?php echo $value->producto_total ?></td>
+                                                        <td><?php echo $moneda . number_format($grabado, 2) ?></td>
+                                                        <td><?php echo $moneda . number_format($exento, 2) ?></td>
+                                                        <td><?php echo $moneda . number_format($grabado+$exento, 2) ?></td>
+                                                        <td><?php echo $value->orden_estado_nombre ?></td>
                                                         <td>
                                                             <a href="../../producto/venta/ver/<?php echo  $value->id ?>" target="_blank">
                                                                 <span class="btn btn-success btn-sm" style="background:#5d9cec">
