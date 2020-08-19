@@ -169,7 +169,6 @@ class Reporte extends My_Controller {
 			if($data['registros'])
 			{
 				$data['corte'] 		= $this->Reporte_model->concentrado_corte($filters);
-				var_dump($data['corte']);die;
 				$data['detalle'] 	= $this->Reporte_model->corte_detalle($data['corte'][0]->id);
 				$data['temp'] 		= $this->Reporte_model->template( $data['corte'] );
 				$name 		  		= $data['corte'][0]->id_sucursal.'_'.$data['corte'][0]->id_caja;

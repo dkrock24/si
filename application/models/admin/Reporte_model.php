@@ -226,7 +226,6 @@ class Reporte_model extends CI_Model {
 
     function get_turno( $turno_id )
     {
-
         $this->db->select('*');
         $this->db->from(self::turnos);  
         $this->db->where('id_turno' , $turno_id );  
@@ -237,7 +236,6 @@ class Reporte_model extends CI_Model {
         {
             return $query->result();
         }
-
     }
 
     /*
@@ -283,7 +281,7 @@ class Reporte_model extends CI_Model {
             MIN(v.num_correlativo ) AS inicio , 
             MAX(v.num_correlativo )AS fin , 
             COUNT(v.id) as cantidad_documentos,
-            SUM(impSuma) as impSuma,
+            SUM(vd.impSuma) as impSuma,
             (SELECT COUNT(v2.id) FROM pos_ventas AS v2 WHERE v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10
             AND DATE(v2.fh_inicio) >= "'.$f_inicio.'" AND DATE(v2.fh_final) <= "'.$f_fin.'") AS total_devolucion,
 
@@ -312,6 +310,7 @@ class Reporte_model extends CI_Model {
 
             c.nombre_empresa_o_compania ,p.nombre_metodo_pago, s.orden_estado_nombre');
         $this->db->from(self::ventas.' as v');  
+        $this->db->from(self::venta_detalle.' as vd',' vd.id_venta = v.id');  
         $this->db->join(self::usuarios.' as u','u.id_usuario = v.id_cajero');  
         $this->db->join(self::empleado.' as e','e.id_empleado = u.Empleado');
         $this->db->join(self::documento.' as d','d.id_tipo_documento = v.id_tipod');
@@ -360,7 +359,7 @@ class Reporte_model extends CI_Model {
 
         if ($corte_config)
         {
-            $id_venta_corte = $this->save_venta($datos_venta , $filters, $corte_config[0]);        
+            $id_venta_corte = $this->save_venta($datos_venta , $filters, $corte_config[0]);      
 
             if ($id_venta_corte)
             {
@@ -369,7 +368,8 @@ class Reporte_model extends CI_Model {
                     $this->update_venta_cortada($value ,$id_venta_corte);
                 }
             }
-        }
+        }        
+        
         return $id_venta_corte;   
     }
 
@@ -433,21 +433,23 @@ class Reporte_model extends CI_Model {
                 'id_cliente'        => 0,
                 'digi_total'        => $calculos['total_Venta'],
                 'total_doc'         => $calculos['total_Venta'],
-                'impSuma'           => $datos_venta[0]->impSuma,
+                'impSuma1'           => $datos_venta[0]->impSuma,
                 //'id_bodega'         => 0,
                 'cortado'           => 2,
                 'venta_vista_id'    => 90,
                 'orden_estado'      => 11,
             );
             
-            $this->incremento_correlativo( 
-                $correlativo[0]->siguiente_valor,
-                $corte_config->sucursal_id,
-                $corte_config->documento_corte
-            );
-            
             $this->db->insert(self::pos_ventas, $data );
             $venta_id = $this->db->insert_id();
+
+            if($venta_id){
+                $this->incremento_correlativo( 
+                    $correlativo[0]->siguiente_valor,
+                    $corte_config->sucursal_id,
+                    $corte_config->documento_corte
+                );
+            }            
         }
         return $venta_id;
     }
