@@ -340,12 +340,46 @@ class Reporte_model extends CI_Model {
 
         $data = $query->result();
 
+        $corte_config = $this->get_corte_config($filters);
+
+        $infoEmpresa = $this->getInfoEmpresa($filters);
+
         // Iniciar corte con las ventas filtradas
-        $corteData = $this->cortar_proceso($data , $filters);
+        //$corteData = $this->cortar_proceso($data , $filters);
 
-        $corte = $this->getCorteData($corteData);
+        //$corte = $this->getCorteData($corteData);
+        //$data = array_merge($data, $infoEmpresa);
+        $data = (object) array_merge ((array) $infoEmpresa[0], (array) $data[0]);
+        $data = (object) array_merge ((array) $data,        (array) $corte_config[0] );
 
-        return $corte;
+        return $data;
+    }
+
+    public function getInfoEmpresa($filters){
+
+        $this->db->select('s.*,g.*,m.*,e.*,u.*,em.*,p.*,caja.*');
+
+        $this->db->from(self::sucursal.' as s');
+        $this->db->join(self::empresa.' as e',' on e.id_empresa = s.Empresa_Suc');
+        $this->db->join(self::pos_terminal.' as t',' on t.Sucursal = s.id_sucursal');
+        $this->db->join(self::pos_caja.' as caja',' on caja.id_caja = t.Caja');
+        $this->db->join(self::giro_empresa.' as ge',' on ge.Empresa = e.id_empresa');
+        $this->db->join(self::giros.' as g',' on ge.Giro = g.id_giro');
+        $this->db->join(self::usuarios.' as u',' on u.id_usuario = '. $this->session->usuario[0]->id_usuario);
+        $this->db->join(self::empleado.' as em',' on em.id_empleado = u.Empleado');
+        $this->db->join(self::persona.' as p',' on p.id_persona = em.Persona_E');
+        $this->db->join(self::moneda.' as m',' on m.id_moneda = e.Moneda');
+        $this->db->where('s.id_sucursal',$filters['sucursal']);
+        $this->db->where('caja.id_caja',$filters['caja']);
+        $this->db->where('ge.Empresa limit 1');
+        $query = $this->db->get();
+        //echo $this->db->queries[6];
+        //die;
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
     }
 
     /*
@@ -534,7 +568,7 @@ class Reporte_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::pos_caja.' as c');
         $this->db->join(self::pos_terminal.' as t', ' on t.Caja = c.id_caja');
-        $this->db->where('c.id_caja', $caja['caja']);
+        $this->db->where('c.id_caja', $caja);
         $query = $this->db->get(); 
 
         if($query->num_rows() > 0 )
@@ -614,18 +648,19 @@ class Reporte_model extends CI_Model {
         }
     }
 
-    function template($corte)
+    function template($configCorte)
     {
-        $caja['caja'] = $corte[0]->id_caja;
-        $terminal = $this->get_caja_info($caja);
+        $corte = (array) $configCorte;
+        //var_dump($corte['documento_corte']);die;
+        $terminal = $this->get_caja_info($corte['Caja']);
 
         $this->db->select('*, d.nombre as documento_nombre');
         $this->db->from(self::pos_corte_config.' as c');
         $this->db->join(self::template.' as t', ' on c.template_id = t.id_factura');
         $this->db->join(self::documento.' as d', ' on d.id_tipo_documento = c.documento_corte');
-        $this->db->where('c.sucursal_id',$corte[0]->id_sucursal);
+        $this->db->where('c.sucursal_id',$corte['Sucursal']);
         $this->db->where('c.terminal_id',$terminal[0]->id_terminal);
-        $this->db->where('c.documento_corte',$corte[0]->id_tipod);
+        $this->db->where('c.documento_corte',$corte['documento_corte']);
         $query = $this->db->get(); 
         //echo $this->db->queries[16];
 

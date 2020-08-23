@@ -37,7 +37,7 @@
     $(document).ready(function() {
 
         setTimeout(function() {
-            $("#m_orden_creada").modal();
+            //$("#m_orden_creada").modal();
             //$("#imprimir").modal(); 
         }, 1000);
 
@@ -361,6 +361,9 @@
                                 </div>
                             </div>
                         </form>
+                        <div class="corte_formato_vista">
+                            <?php include("asstes/temp/" . $file . ".php"); ?>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -168,13 +168,19 @@ class Reporte extends My_Controller {
 			//Si hay data a cortar, que realize el corte
 			if($data['registros'])
 			{
-				$data['corte'] 		= $this->Reporte_model->concentrado_corte($filters);
-				$data['detalle'] 	= $this->Reporte_model->corte_detalle($data['corte'][0]->id);
-				$data['temp'] 		= $this->Reporte_model->template( $data['corte'] );
-				$name 		  		= $data['corte'][0]->id_sucursal.'_'.$data['corte'][0]->id_caja;
+				$corte 		= $this->Reporte_model->concentrado_corte($filters);
+				//$corte		= array_merge($corte['data'], $corte[0]);
+				$data['corte'] = $corte;
+				//var_dump($corte);
+				//die;
+				
+				//$data['detalle'] 	= $this->Reporte_model->corte_detalle($data['corte'][0]->id);
+				$data['temp'] 		= $this->Reporte_model->template( $corte );
+				//array_merge($data['corte'], $data['temp']);
+				$name 		  		= $corte->Sucursal.'_'.$corte->Caja;
 				$data['file'] 		= $name;
 				$data['msj_title'] 	= "Corte Procesado";
-				$data['msj_orden'] 	= "Su número de transacción es: # ". $data['corte'][0]->num_correlativo;
+				//$data['msj_orden'] 	= "Su número de transacción es: # ". $data['data'][0]->num_correlativo;
 				$this->generarDocumento( $name , $data['temp'][0]->factura_template );
 			}
 			
