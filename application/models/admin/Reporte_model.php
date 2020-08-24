@@ -164,6 +164,15 @@ class Reporte_model extends CI_Model {
         MIN(v.num_correlativo ) AS inicio , 
         MAX(v.num_correlativo )AS fin , 
         COUNT(v.id) as cantidad_documentos,
+
+        (SELECT SUM(vd.total+vi.ordenImpTotal)
+            FROM pos_venta_detalle AS vd JOIN pos_ventas_impuestos AS vi ON vi.id_venta=vd.id_venta
+            WHERE vd.gen="Grava" AND vi.ordenSimbolo="G") AS gravado,
+        
+        (SELECT SUM(vd.total)
+            FROM pos_venta_detalle AS vd 
+            WHERE vd.gen="Exent" ) AS exento,
+
         (SELECT COUNT(v2.id) FROM pos_ventas AS v2 WHERE v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10
         AND DATE(v2.fh_inicio) >= "'.$f_inicio.'" AND DATE(v2.fh_final) <= "'.$f_fin.'") AS total_devolucion,
 
@@ -336,7 +345,8 @@ class Reporte_model extends CI_Model {
         }
         $this->db->group_by('d.id_tipo_documento', 'ASC' );              
         $query = $this->db->get();
-        //echo $this->db->queries[3];
+        //echo $this->db->queries[4];
+        //die;
 
         $data = $query->result();
 

@@ -279,15 +279,9 @@
                                                         <th style="color:#fff">Cantidad</th>
                                                         <th style="color:#fff"># Inical</th>
                                                         <th style="color:#fff"># Final</th>
-                                                        <th style="color:#fff">C. Devolución</th>
-                                                        <th style="color:#fff">Σ Devolución</th>
-                                                        <th style="color:#fff">Descuento</th>
-                                                        <th style="color:#fff">Monto</th>
-                                                        <th style="color:#fff">Apli</th>
-                                                        <th style="color:#fff">Σ Efectivo</th>
-                                                        <th style="color:#fff">Σ TCredito</th>
-                                                        <th style="color:#fff">Σ Cheque</th>
-                                                        <th style="color:#fff">Credito</th>                                          
+                                                        <th style="color:#fff">Gravado</th>
+                                                        <th style="color:#fff">Exento</th>
+                                                        <th style="color:#fff">Total</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -298,40 +292,27 @@
                                                 $total_devolucion       =0;
                                                 $suma_devolucion        =0.00;
                                                 $cantidad_devolucion    =0.00;
-                                                $suma_descuento         =0.00;
-                                                $suma_efectivo          =0.00;
-                                                $suma_tcredito          =0.00;
-                                                $suma_cheque            =0.00;
-                                                $suma_credito           =0.00;
+                                                $total_documento        =0.00;
 
                                                 foreach ($registros as $key => $value) {
+                                                    $total_documento = 0;
+                                                    $total_documento = ($value->gravado + $value->exento);
                                                 ?>
                                                     <tr>
-                                                        <th><?= $cnt++; ?></th>                                                            
-                                                        <td><?= $value->nombre ?></td>
-                                                        <td><?= $value->cantidad_documentos ?></td>
-                                                        <td><?= $value->inicio ?></td>
-                                                        <td><?= $value->fin ?></td>
-                                                        <td><?= $value->total_devolucion ?></td>
-                                                        <td><?= $moneda . number_format($value->sum_devolucion,2) ?></td>
-                                                        <td><?= $moneda . number_format($value->descuento,2) ?></td>
-                                                        <td><?= $moneda . $value->descuento ?></td>
-                                                        <td><?= $moneda . $value->descuento ?></td>
-                                                        <td><?= $moneda . number_format($value->efectivo, 2) ?></td>
-                                                        <td><?= $moneda . number_format($value->tcredito, 2) ?></td>
-                                                        <td><?= $moneda . number_format($value->cheque, 2) ?></td>
-                                                        <td><?= $moneda . number_format($value->credito, 2) ?></td>
+                                                        <th><?php echo $cnt++; ?></th>                                                            
+                                                        <td><?php echo $value->nombre ?></td>
+                                                        <td><?php echo $value->cantidad_documentos ?></td>
+                                                        <td><?php echo $value->inicio ?></td>
+                                                        <td><?php echo $value->fin ?></td>
+                                                        <td><?php echo $moneda .$value->gravado ?></td>
+                                                        <td><?php echo $moneda .$value->exento ?></td>
+                                                        <td><?php echo $moneda .$total_documento ?></td>
                                                     </tr>
                                                 <?php
 
                                                 $cantidad_devolucion    += $value->total_devolucion;
                                                 $total_devolucion       += $value->total_devolucion;
                                                 $suma_devolucion        += number_format($value->sum_devolucion,2) * (-1);
-                                                $suma_descuento         += number_format($value->descuento,2);
-                                                $suma_efectivo          += $value->efectivo;
-                                                $suma_tcredito          += number_format($value->tcredito,2);
-                                                $suma_cheque            += number_format($value->cheque,2);
-                                                $suma_credito           += number_format($value->cheque,2);
                                                 }
                                                 ?>
                                                 <thead class="header_report">
@@ -341,15 +322,9 @@
                                                         <th style="color:#fff"></th>
                                                         <th style="color:#fff"></th>
                                                         <th style="color:#fff"></th>
-                                                        <th style="color:#fff"><?= $total_devolucion; ?></th>
-                                                        <th style="color:#fff"><?= $moneda ." ". $suma_devolucion ?></th>
-                                                        <th style="color:#fff"><?= $moneda ." ". $suma_descuento ?></th>
-                                                        <th style="color:#fff">N/A</th>
-                                                        <th style="color:#fff">Apli</th>
-                                                        <th style="color:#fff"><?= $moneda ." ". $suma_efectivo ?></th>
-                                                        <th style="color:#fff"><?= $moneda ." ". $suma_tcredito ?></th>
-                                                        <th style="color:#fff"><?= $moneda ." ". $suma_cheque ?></th>
-                                                        <th style="color:#fff"><?= $moneda ." ". $suma_credito ?></th>
+                                                        <th style="color:#fff"></th>
+                                                        <th style="color:#fff"></th>
+                                                        <th style="color:#fff"></th>
                                                     </tr>
                                                  </thead>
                                                 </tbody>
@@ -361,9 +336,6 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="corte_formato_vista">
-                            <?php include("asstes/temp/" . $file . ".php"); ?>
-                        </div>
                     </div>
                 </div>
             </div>

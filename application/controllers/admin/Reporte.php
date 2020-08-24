@@ -169,7 +169,6 @@ class Reporte extends My_Controller {
 			if($data['registros'])
 			{
 				$corte 		= $this->Reporte_model->concentrado_corte($filters);
-				//$corte		= array_merge($corte['data'], $corte[0]);
 				$data['corte'] = $corte;
 				//var_dump($corte);
 				//die;
