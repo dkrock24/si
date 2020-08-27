@@ -280,6 +280,7 @@
                                                         <th style="color:#fff"># Inical</th>
                                                         <th style="color:#fff"># Final</th>
                                                         <th style="color:#fff">Gravado</th>
+                                                        <th style="color:#fff">Impuesto</th>
                                                         <th style="color:#fff">Exento</th>
                                                         <th style="color:#fff">Total</th>
                                                     </tr>
@@ -296,7 +297,7 @@
 
                                                 foreach ($registros as $key => $value) {
                                                     $total_documento = 0;
-                                                    $total_documento = ($value->gravado + $value->exento);
+                                                    $total_documento = ($value->gravado + $value->exento + $value->gravado_impuesto );
                                                 ?>
                                                     <tr>
                                                         <th><?php echo $cnt++; ?></th>                                                            
@@ -304,9 +305,10 @@
                                                         <td><?php echo $value->cantidad_documentos ?></td>
                                                         <td><?php echo $value->inicio ?></td>
                                                         <td><?php echo $value->fin ?></td>
-                                                        <td><?php echo $moneda .$value->gravado ?></td>
-                                                        <td><?php echo $moneda .$value->exento ?></td>
-                                                        <td><?php echo $moneda .$total_documento ?></td>
+                                                        <td><?php echo $moneda . number_format( $value->gravado, 2) ?></td>
+                                                        <td><?php echo $moneda . number_format( $value->gravado_impuesto ,2) ?></td>
+                                                        <td><?php echo $moneda . number_format( $value->exento, 2) ?></td>
+                                                        <td><?php echo $moneda . number_format( $total_documento , 2 ) ?></td>
                                                     </tr>
                                                 <?php
 
@@ -319,6 +321,7 @@
                                                     <tr class="">
                                                         <th style="color:#fff"></th>                                                        
                                                         <th style="color:#fff">TOTALES</th>
+                                                        <th style="color:#fff"></th>
                                                         <th style="color:#fff"></th>
                                                         <th style="color:#fff"></th>
                                                         <th style="color:#fff"></th>

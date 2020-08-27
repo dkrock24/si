@@ -165,13 +165,17 @@ class Reporte_model extends CI_Model {
         MAX(v.num_correlativo )AS fin , 
         COUNT(v.id) as cantidad_documentos,
 
-        (SELECT SUM(vd.total+vi.ordenImpTotal)
-            FROM pos_venta_detalle AS vd JOIN pos_ventas_impuestos AS vi ON vi.id_venta=vd.id_venta
-            WHERE vd.gen="Grava" AND vi.ordenSimbolo="G") AS gravado,
-        
         (SELECT SUM(vd.total)
             FROM pos_venta_detalle AS vd 
-            WHERE vd.gen="Exent" ) AS exento,
+            WHERE vd.gen="Grava" and DATE(vd.creado_el) >= "'.$f_inicio.'" AND DATE(vd.creado_el) <= "'.$f_fin.'" ) AS gravado,
+        
+        (SELECT SUM(vi.ordenImpTotal)
+            FROM pos_ventas_impuestos AS vi join pos_venta_detalle vd on vd.id_venta = vi.id_venta
+            WHERE vi.ordenSimbolo="0" AND DATE(vd.creado_el) >= "'.$f_inicio.'" AND DATE(vd.creado_el) <= "'.$f_fin.'" ) AS gravado_impuesto,
+        
+        (SELECT SUM(vd.total)
+            FROM pos_venta_detalle AS vd join pos_ventas as ve on ve.id = vd.id_venta
+            WHERE vd.gen="Exent" and DATE(ve.fh_inicio) >= "'.$f_inicio.'" AND DATE(ve.fh_final) <= "'.$f_fin.'" ) AS exento,
 
         (SELECT COUNT(v2.id) FROM pos_ventas AS v2 WHERE v2.id_tipod = d.id_tipo_documento && v2.orden_estado=10
         AND DATE(v2.fh_inicio) >= "'.$f_inicio.'" AND DATE(v2.fh_final) <= "'.$f_fin.'") AS total_devolucion,
