@@ -150,7 +150,11 @@ class Reporte extends My_Controller {
 		$data['sucursal'] 	= $this->Sucursal_model->getSucursalByEmployee($this->session->usuario[0]->Empleado);
 		//var_dump($data['sucursal']);
 		//die;
-
+		$cortar = false;
+		if(isset($_POST['corteValido'])){
+			$cortar = true;
+		}
+		$data['showModal'] = 0;
         if( isset( $_POST['fecha_i'])){
             
             $filters = array(
@@ -168,19 +172,27 @@ class Reporte extends My_Controller {
 			//Si hay data a cortar, que realize el corte
 			if($data['registros'])
 			{
-				$corte 		= $this->Reporte_model->concentrado_corte($filters);
-				$data['corte'] = $corte;
-				//var_dump($corte);
+				$corte = $this->Reporte_model->concentrado_corte( $filters, $cortar );
+				unset($corte->logo_empresa);
+				unset($corte->img);
+				unset($corte->img_empleado);
+				$data['corte'] = (array) $corte;
+
+				//var_dump($data['corte']['corteId']);
 				//die;
-				
-				//$data['detalle'] 	= $this->Reporte_model->corte_detalle($data['corte'][0]->id);
-				$data['temp'] 		= $this->Reporte_model->template( $corte );
-				//array_merge($data['corte'], $data['temp']);
-				$name 		  		= $corte->Sucursal.'_'.$corte->Caja;
-				$data['file'] 		= $name;
-				$data['msj_title'] 	= "Corte Procesado";
-				//$data['msj_orden'] 	= "Su número de transacción es: # ". $data['data'][0]->num_correlativo;
-				$this->generarDocumento( $name , $data['temp'][0]->factura_template );
+
+				if(isset($data['corte']['corteId'])){
+					$data['showModal'] = 1;
+
+					$data['detalle'] 	= $this->Reporte_model->corte_detalle($corte->corteId);
+					$data['temp'] 		= $this->Reporte_model->template( $corte );
+					$name 		  		= $corte->Sucursal.'_'.$corte->Caja;
+					$data['file'] 		= $name;
+					$data['msj_title'] 	= "Corte Procesado";
+					$data['msj_orden'] 	= "Su número de transacción es: # ". $corte->num_correlativo;
+					$this->generarDocumento( $name , $data['temp'][0]->factura_template );
+
+				}
 			}
 			
         }else{
@@ -201,7 +213,7 @@ class Reporte extends My_Controller {
 		$data['moneda'] = $this->session->empresa[0]->moneda_simbolo;
 		$data['title'] 	= 'Reportes';
 		$data['home'] 	= 'admin/reporte/cortez';
-
+		var_dump("showModal",$data['showModal']);
 		$this->parser->parse('template', $data);
 	}
 

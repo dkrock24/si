@@ -29,17 +29,7 @@
                 },
                 error: function() {}
             });
-        });        
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-
-        setTimeout(function() {
-            //$("#m_orden_creada").modal();
-            //$("#imprimir").modal(); 
-        }, 1000);
+        });
 
         $(".printer").click(function() {
 
@@ -66,6 +56,23 @@
             document.body.innerHTML = originalContents;
 
         });
+
+        cortar();
+
+        function cortar(){
+            var showCorte = <?php echo $showModal; ?>;
+            console.log("-->"+showCorte);
+            if (showCorte==1) {
+                showModal();
+            }
+        }
+
+        function showModal(){
+            setTimeout(function() {
+                $("#m_orden_creada").modal('show');
+                //$("#imprimir").modal(); 
+            }, 2000);
+        }
 
     });
 </script>
@@ -261,6 +268,16 @@
                                                     <button type="submit" class="btn btn-info btn-color">
                                                         <i class="fa fa-search sz icon-white"></i> FILTRAR
                                                     </button>
+                                                    <?php
+                                                    if ($registros != 1) {
+                                                        ?>
+                                                        <input type="hidden" name="corteValido" value="1"/>
+                                                        <button type="submit" class="btn btn-success">
+                                                            <i class="fa fa-arrow-right sz icon-white"></i> CORTAR
+                                                        </button>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                 </div>
                                             </div>
 
@@ -397,7 +414,7 @@
                             <hr style="border-bottom:1px dashed black">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                             <?php
-                                $vista_id  = $corte[0]->venta_vista_id;
+                                $vista_id  = $corte['corteData'][0]->venta_vista_id;
                                 $vista_url = "../../orden/venta_rapida";
 
                                 if($vista_id == 13 ){
@@ -410,7 +427,7 @@
                                 <a href="<?= $vista_url; ?>" class="btn btn-default printer">
                                     <h3> <i class="icon-plus"></i> Nueva </h3>
                                 </a>
-                                <a href="#" id="prin" name="<?= $corte[0]->id ?>" class="btn btn-success" style="color:black">
+                                <a href="#" id="prin" name="<?= $corte['corteData'][0]->id ?>" class="btn btn-success" style="color:black">
                                     <h3> <i class="icon-printer"></i> Imprimir </h3>
                                 </a>
                                 <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
