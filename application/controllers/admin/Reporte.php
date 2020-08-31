@@ -191,7 +191,6 @@ class Reporte extends My_Controller {
 					$data['msj_title'] 	= "Corte Procesado";
 					$data['msj_orden'] 	= "Su número de transacción es: # ". $corte->num_correlativo;
 					$this->generarDocumento( $name , $data['temp'][0]->factura_template );
-
 				}
 			}
 			
@@ -213,7 +212,6 @@ class Reporte extends My_Controller {
 		$data['moneda'] = $this->session->empresa[0]->moneda_simbolo;
 		$data['title'] 	= 'Reportes';
 		$data['home'] 	= 'admin/reporte/cortez';
-		var_dump("showModal",$data['showModal']);
 		$this->parser->parse('template', $data);
 	}
 
