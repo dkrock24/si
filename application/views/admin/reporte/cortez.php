@@ -7,8 +7,7 @@
     var documento_titulo = <?php echo json_encode($fields['titulo']); ?>;
 
     $(document).ready(function() {
-        $("#sucursal").change(function(){
-            var sucursal = $(this).val();
+        var sucursal = $("#sucursal").val();
             $.ajax({
                 url: "change_caja/"+sucursal,
                 datatype: 'json',
@@ -29,7 +28,7 @@
                 },
                 error: function() {}
             });
-        });
+        
 
         $(".printer").click(function() {
 
@@ -71,10 +70,15 @@
             setTimeout(function() {
                 $("#m_orden_creada").modal('show');
                 //$("#imprimir").modal(); 
-            }, 2000);
+            }, 500);
         }
 
+        $("#ticketModal").click(function(){
+            showModal();
+        });
+
     });
+
 </script>
 
 <style>
@@ -160,26 +164,12 @@
                                                     <label for="" class=""><i class="fa fa-home sz2"></i> Sucursal</label>
                                                     <select name="sucursal" id="sucursal" class="form-control">
                                                         <?php
-                                                        if ($filters['sucursal']) {
-                                                            foreach ($sucursal as $key => $value) {
-                                                                if ($filters['sucursal'] == $value->id_sucursal) {
-                                                        ?>
-                                                                    <option value="<?= $value->id_sucursal ?>"><?= $value->nombre_sucursal ?></option>
-                                                                    <option value="0">-</option>
-                                                            <?php
-                                                                }
-                                                            }
-                                                        } else {
-                                                            ?>
-                                                            <option value="0">-</option>
-                                                            <?php
-                                                        }
                                                         foreach ($sucursal as $key => $value) {
-                                                            if ($filters['sucursal'] != $value->id_sucursal) {
-                                                            ?>
-                                                                <option value="<?= $value->id_sucursal ?>"><?= $value->nombre_sucursal ?></option>
+                                                            //if ($filters['sucursal'] != $value->id_sucursal) {
+                                                        ?>
+                                                            <option value="<?= $value->id_sucursal ?>"><?= $value->nombre_sucursal ?></option>
                                                         <?php
-                                                            }
+                                                            //}
                                                         }
                                                         ?>
                                                     </select>
@@ -190,9 +180,7 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <label for="" class=""><i class="fa fa-desktop sz2"></i> Caja</label>
-                                                    <select name="caja" id="caja" class="form-control">
-                                                        <option value="0"> - </option>
-                                                    </select>
+                                                    <select name="caja" id="caja" class="form-control"></select>
                                                 </div>
                                             </div>
                                         </div>
@@ -265,16 +253,21 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <br>
-                                                    <button type="submit" class="btn btn-info btn-color">
-                                                        <i class="fa fa-search sz icon-white"></i> FILTRAR
-                                                    </button>
+                                                   
                                                     <?php
-                                                    if ($registros != 1) {
+                                                    if ($registros == 1) {
                                                         ?>
-                                                        <input type="hidden" name="corteValido" value="1"/>
+                                                         <button type="submit" class="btn btn-info btn-color">
+                                                            <i class="fa fa-search sz icon-white"></i> FILTRAR
+                                                        </button>
+                                                        <?php
+                                                    }else{
+                                                        ?>
+                                                        <input type="hidden" name="corteValido" value="<?php echo $corteUnico; ?>"/>
                                                         <button type="submit" class="btn btn-success">
                                                             <i class="fa fa-arrow-right sz icon-white"></i> CORTAR
                                                         </button>
+                                                        <a href="#" class="btn btn-default" id="ticketModal">Ticket</a>
                                                         <?php
                                                     }
                                                     ?>
@@ -387,26 +380,30 @@
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <span style="font-size: 20px; ">Documento : <?= $temp[0]->documento_nombre ?> | Formato : <?= $temp[0]->factura_nombre ?> </span>
+                <span style="font-size: 20px; ">Documento : <?php echo isset($temp[0]->documento_nombre); ?> | Formato : <?php echo isset($temp[0]->factura_nombre); ?> </span>
 
             </div>
             <div class="modal-body">
 
                 <div class="row">
                     <div class="col-lg-8 col-md-8">
-                        <?php include("asstes/temp/" . $file . ".php"); ?>
+                        <?php
+                        if(isset($temp)){
+                            include("asstes/temp/" . $file . ".php");
+                        }
+                        ?>
                     </div>
                     <div class="col-lg-4 col-md-4" style="border-left:1px dashed black;height:900px;position: relative;float:right;margin:0px;">
 
                         <div class="row">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                <?php echo $msj_title ?>
+                                <?php echo isset($msj_title); ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                 <h1>
-                                    <?php echo $msj_orden ?>
+                                    <?php echo isset($msj_orden) ?>
                                 </h1>
                             </div>
                         </div>
@@ -414,25 +411,28 @@
                             <hr style="border-bottom:1px dashed black">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                             <?php
-                                $vista_id  = $corte['corteData'][0]->venta_vista_id;
-                                $vista_url = "../../orden/venta_rapida";
-
-                                if($vista_id == 13 ){
-                                    $vista_url = "../../orden/nuevo";
-                                }else if($vista_id == 38){
+                                if(isset($corte['corteData'][0]->venta_vista_id))
+                                {
+                                    $vista_id  = $corte['corteData'][0]->venta_vista_id;
                                     $vista_url = "../../orden/venta_rapida";
-                                }
+
+                                    if($vista_id == 13 ){
+                                        $vista_url = "../../orden/nuevo";
+                                    }else if($vista_id == 38){
+                                        $vista_url = "../../orden/venta_rapida";
+                                    }
+                                }                                
                             ?>
 
-                                <a href="<?= $vista_url; ?>" class="btn btn-default printer">
-                                    <h3> <i class="icon-plus"></i> Nueva </h3>
-                                </a>
-                                <a href="#" id="prin" name="<?= $corte['corteData'][0]->id ?>" class="btn btn-success" style="color:black">
-                                    <h3> <i class="icon-printer"></i> Imprimir </h3>
-                                </a>
-                                <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
-                                    <h3> <i class="icon-close"></i> Cerrar </h3>
-                                </button>
+                            <a href="<?php echo isset($vista_url); ?>" class="btn btn-default printer">
+                                <h3> <i class="icon-plus"></i> Nueva </h3>
+                            </a>
+                            <a href="#" id="prin" name="<?php echo isset($corte['corteData'][0]->id) ?>" class="btn btn-success" style="color:black">
+                                <h3> <i class="icon-printer"></i> Imprimir </h3>
+                            </a>
+                            <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
+                                <h3> <i class="icon-close"></i> Cerrar </h3>
+                            </button>
 
                             </div>
                         </div>

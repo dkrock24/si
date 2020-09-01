@@ -420,7 +420,7 @@ class Reporte_model extends CI_Model {
             if ($id_venta_corte)
             {
                 foreach ($datos_venta as $value) 
-                {            
+                {
                     $this->update_venta_cortada($value ,$id_venta_corte);
                 }
             }
@@ -447,7 +447,7 @@ class Reporte_model extends CI_Model {
             'total_documentos'  => $data->cantidad_documentos,
             'correlativo_inicio'=> $data->inicio,
         );
-
+        
         $this->db->insert(self::corte_detalle, $data_corte ); 
     }
 

@@ -144,17 +144,28 @@ class Reporte extends My_Controller {
 	
 	public function cortez(){
 
+		if(!isset($_SESSION['corteUnico'])){
+			$_SESSION['corteUnico'] = 0;
+		}
+		
+
 		$data['turno'] 		= $this->Turnos_model->getTurnos();
 		$data['cajero'] 	= $this->Usuario_model->get_cajeros('Cajero');
 
 		$data['sucursal'] 	= $this->Sucursal_model->getSucursalByEmployee($this->session->usuario[0]->Empleado);
-		//var_dump($data['sucursal']);
-		//die;
+
 		$cortar = false;
+		$data['corteUnico'] = $_SESSION['corteUnico'];
 		if(isset($_POST['corteValido'])){
-			$cortar = true;
+			if($_SESSION['corteUnico'] == 0){
+				$_SESSION['corteUnico'] = 1;
+				$cortar = true;
+				$data['corteUnico'] = $_SESSION['corteUnico'];
+			}
 		}
+		
 		$data['showModal'] = 0;
+		
         if( isset( $_POST['fecha_i'])){
             
             $filters = array(
@@ -185,6 +196,8 @@ class Reporte extends My_Controller {
 					$data['showModal'] = 1;
 
 					$data['detalle'] 	= $this->Reporte_model->corte_detalle($corte->corteId);
+					//var_dump($data['detalle']);
+					//die;
 					$data['temp'] 		= $this->Reporte_model->template( $corte );
 					$name 		  		= $corte->Sucursal.'_'.$corte->Caja;
 					$data['file'] 		= $name;
@@ -309,6 +322,11 @@ class Reporte extends My_Controller {
 		$fields['titulo'] 	= "Reporte - Ventas";
 
 		return $fields;
+	}
+
+	public function cleanCorte(){
+		unset($_SESSION['corteUnico']);
+		var_dump($_SESSION['corteUnico']);
 	}
 }
 ?>
