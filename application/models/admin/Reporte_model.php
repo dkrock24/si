@@ -333,6 +333,7 @@ class Reporte_model extends CI_Model {
         
         $this->db->where('DATE(v.fh_inicio)'  . ' >= ' , $f_inicio );
         $this->db->where('DATE(v.fh_final) <=' , $f_fin );
+        $this->db->where('v.cortado' , NULL );
 
         if( $time != "" ){
             $this->db->where( $time );   
@@ -356,28 +357,48 @@ class Reporte_model extends CI_Model {
         $dataResult = $data;
 
         $corte_config = $this->get_corte_config($filters);
-
-        $infoEmpresa = $this->getInfoEmpresa($filters);
+        $infoEmpresa  = $this->getInfoEmpresa($filters);
 
         // Iniciar corte con las ventas filtradas
         $corteData = array();
         $corte     = array();
         
-        //$data = array_merge($data, $infoEmpresa);
-        $data = (object) array_merge ((array) $infoEmpresa[0], (array) $data[0]);
-        $data = (object) array_merge ((array) $data,        (array) $corte_config[0] );
-        if ($cortar) {
-            $corteData = ['corteId' => $this->cortar_proceso($dataResult , $filters) ];
-            $corte     = ['corteData' => $this->getCorteData($corteData)];
+        if($data)
+        {
+            $data = (object) array_merge ((array) $infoEmpresa[0], (array) $data[0]);
+            $data = (object) array_merge ((array) $data,        (array) $corte_config[0] );
+            if ($cortar) {
+                $corteData = ['corteId' => $this->cortar_proceso($dataResult , $filters) ];
+                $corte     = ['corteData' => $this->getCorteData($corteData)];
+                
+                $data = (object) array_merge ((array) $data, (array) $corteData );
+                $data = (object) array_merge ((array) $data, (array) $corte );
 
-            $data = (object) array_merge ((array) $data,        (array) $corteData );
-            $data = (object) array_merge ((array) $data,        (array) $corte );
+                $ventaList = $this->getVentaList($filters);
+                var_dump($ventaList);
+                die;
+            }
         }
 
         return $data;
     }
 
-    public function getInfoEmpresa($filters){
+    private function getVentaList($filters){
+        $table = self::pos_ventas;
+        $this->db->select('*');
+        $this->db->from(self::pos_ventas)
+            ->where('DATE('.self::pos_ventas.'.creado_el)' . ' >= ', $filters['fh_inicio'])
+            ->where('DATE('.self::pos_ventas.'.creado_el)' . ' <= ', $filters['fh_fin'])
+            ->where(self::pos_ventas.'.cortado',NULL);
+        
+        $query = $this->db->get();      
+        //echo $this->db->queries[14];
+        $data  = $query->result();
+
+        return  $data;            
+    }
+
+    private function getInfoEmpresa($filters){
 
         $this->db->select('s.*,g.*,m.*,e.*,u.*,em.*,p.*,caja.*');
 
@@ -408,7 +429,7 @@ class Reporte_model extends CI_Model {
     * Recorrer los datos en documentos concentrados
     * Guardar el corte comó venta en la tabla de ventas
     */
-    function cortar_proceso($datos_venta , $filters)
+    private function cortar_proceso($datos_venta , $filters)
     {
         $id_venta_corte = null;
         $corte_config   = $this->get_corte_config($filters);
@@ -432,7 +453,7 @@ class Reporte_model extends CI_Model {
     /*
     * Guardar el detalle del corte concentrado en corte detalle
     */
-    function update_venta_cortada($data , $id_venta_corte)
+    private function update_venta_cortada($data , $id_venta_corte)
     {
         $total_venta = $data->efectivo + $data->tcredito + $data->cheque+ $data->credito;
         
@@ -454,7 +475,7 @@ class Reporte_model extends CI_Model {
     /*
     * Guardar el corte en venta
     */
-    function save_venta($datos_venta , $venta_data, $corte_config)
+    private function save_venta($datos_venta , $venta_data, $corte_config)
     {
         $venta_id = null;
 
@@ -489,7 +510,6 @@ class Reporte_model extends CI_Model {
                 'digi_total'        => $calculos['total_Venta'],
                 'total_doc'         => $calculos['total_Venta'],
                 'impSuma1'           => $datos_venta[0]->impSuma,
-                //'id_bodega'         => 0,
                 'cortado'           => 2,
                 'venta_vista_id'    => 90,
                 'orden_estado'      => 11,
@@ -512,7 +532,7 @@ class Reporte_model extends CI_Model {
     /*
     * 
     */
-    function calcular_montos($corte_data)
+    private function calcular_montos($corte_data)
     {
         $data = array(
             'cantidad_devolucion'=> 0.00,
@@ -550,7 +570,7 @@ class Reporte_model extends CI_Model {
     /*
     * Obtener el siguiente correlativo del documento en la sucursal correspondiente
     */
-    function get_siguiente_correlativo($sucursal , $documento)
+    private function get_siguiente_correlativo($sucursal , $documento)
     {
         $this->db->select('siguiente_valor');
         $this->db->from(self::pos_correlativos);
@@ -567,7 +587,7 @@ class Reporte_model extends CI_Model {
     /*
     * Aunmentar la Secuencia del tipo de documento en la sucursal.
     */
-    function incremento_correlativo($numero,  $sucursal , $documento )
+    private function incremento_correlativo($numero,  $sucursal , $documento )
     {
 			
         $correlativo = (int) $numero+1;
@@ -584,7 +604,7 @@ class Reporte_model extends CI_Model {
     /*
     * Obtener informacion de caja y terminal segun la sucursal
     */
-    function get_caja_info($caja)
+    private function get_caja_info($caja)
     {
         $this->db->select('*');
         $this->db->from(self::pos_caja.' as c');
@@ -601,7 +621,7 @@ class Reporte_model extends CI_Model {
     /*
     * Obtener la configuracion de corte para el documento por sucursal y terminal
     */
-    function get_corte_config($corte_config_params)
+    private function get_corte_config($corte_config_params)
     {
         $this->db->select('*');
         $this->db->from(self::pos_corte_config.' as cc');
@@ -619,7 +639,7 @@ class Reporte_model extends CI_Model {
     /*
     * Retornar el corte en tabla ventas
     */
-    function getCorteData($data)
+    private function getCorteData($data)
     {
         $this->db->select('v.*,c.*,s.*,g.*,p.*,t.*,caja.*,m.*,cor.*,cc.*, em.codigo_empleado,e.nombre_razon_social,e.nombre_comercial,e.nrc,e.nit');
         $this->db->from(self::pos_ventas.' as v');
@@ -655,7 +675,7 @@ class Reporte_model extends CI_Model {
     /*
     * Retornar el detalle del corte para el template
     */
-    function corte_detalle($venta)
+    public function corte_detalle($venta)
     {
         $this->db->select('*');
         $this->db->from(self::corte_detalle.' as c');
@@ -669,7 +689,7 @@ class Reporte_model extends CI_Model {
         }
     }
 
-    function template($configCorte)
+    public function template($configCorte)
     {
         $corte = (array) $configCorte;
         //var_dump($corte['documento_corte']);die;

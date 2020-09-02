@@ -380,7 +380,7 @@
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <span style="font-size: 20px; ">Documento : <?php echo isset($temp[0]->documento_nombre); ?> | Formato : <?php echo isset($temp[0]->factura_nombre); ?> </span>
+                <span style="font-size: 20px; ">Documento : <?php echo @$temp[0]->documento_nombre; ?> | Formato : <?php echo @$temp[0]->factura_nombre; ?> </span>
 
             </div>
             <div class="modal-body">
@@ -397,13 +397,13 @@
 
                         <div class="row">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                <?php echo isset($msj_title); ?>
+                                <?php echo @$msj_title; ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                 <h1>
-                                    <?php echo isset($msj_orden) ?>
+                                    <?php echo @$msj_orden ?>
                                 </h1>
                             </div>
                         </div>
@@ -424,10 +424,10 @@
                                 }                                
                             ?>
 
-                            <a href="<?php echo isset($vista_url); ?>" class="btn btn-default printer">
+                            <a href="<?php echo @$vista_url; ?>" class="btn btn-default printer">
                                 <h3> <i class="icon-plus"></i> Nueva </h3>
                             </a>
-                            <a href="#" id="prin" name="<?php echo isset($corte['corteData'][0]->id) ?>" class="btn btn-success" style="color:black">
+                            <a href="#" id="prin" name="<?php echo @$corte['corteData'][0]->id; ?>" class="btn btn-success" style="color:black">
                                 <h3> <i class="icon-printer"></i> Imprimir </h3>
                             </a>
                             <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">

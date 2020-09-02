@@ -147,21 +147,20 @@ class Reporte extends My_Controller {
 		if(!isset($_SESSION['corteUnico'])){
 			$_SESSION['corteUnico'] = 0;
 		}
-		
 
 		$data['turno'] 		= $this->Turnos_model->getTurnos();
 		$data['cajero'] 	= $this->Usuario_model->get_cajeros('Cajero');
-
-		$data['sucursal'] 	= $this->Sucursal_model->getSucursalByEmployee($this->session->usuario[0]->Empleado);
+		$data['sucursal'] 	= $this->Sucursal_model
+								->getSucursalByEmployee($this->session->usuario[0]->Empleado);
 
 		$cortar = false;
 		$data['corteUnico'] = $_SESSION['corteUnico'];
 		if(isset($_POST['corteValido'])){
-			if($_SESSION['corteUnico'] == 0){
+			//if($_SESSION['corteUnico'] == 0){
 				$_SESSION['corteUnico'] = 1;
 				$cortar = true;
 				$data['corteUnico'] = $_SESSION['corteUnico'];
-			}
+			//}
 		}
 		
 		$data['showModal'] = 0;
