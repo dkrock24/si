@@ -308,6 +308,7 @@
                                                 foreach ($registros as $key => $value) {
                                                     $total_documento = 0;
                                                     $total_documento = ($value->gravado + $value->exento + $value->gravado_impuesto );
+                                                    
                                                 ?>
                                                     <tr>
                                                         <th><?php echo $cnt++; ?></th>                                                            
