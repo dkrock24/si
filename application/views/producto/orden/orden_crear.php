@@ -185,6 +185,7 @@ include("asstes/pos_orden.php");
 
                                                     foreach ($sucursales as $sucursal) {
                                                         if ($sucursal->id_sucursal != $id_sucursal) {
+                                                            $id_sucursal = $sucursal->id_sucursal;
                                                         ?>
                                                             <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
                                                     <?php
@@ -202,7 +203,6 @@ include("asstes/pos_orden.php");
                                                 </label>
                                                 <select class="form-control" name="bodega" id="bodega_select">
                                                     <?php
-
                                                     if (isset($bodega[0]->nombre_bodega)) {
                                                         foreach ($bodega as $b) {
                                                             if ($b->Sucursal == $id_sucursal) {

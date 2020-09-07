@@ -89,6 +89,25 @@ class Usuario_model extends CI_Model {
         {
             return $query->result();
         }
+    }
+    
+    function get_empleado_oren( $id_usuario ){
+		$this->db->select('*');
+        $this->db->from(self::empleado);
+        $this->db->join(self::sucursal,' on '.self::empleado.'.Sucursal='.self::sucursal.'.id_sucursal');
+        $this->db->join(self::persona,' on '.self::persona.'.id_persona='.self::empleado.'.Persona_E');
+        $this->db->join(self::sys_usuario.' as u',' on u.Empleado='.self::empleado.'.id_empleado');
+
+        $this->db->where('u.id_usuario = ', $id_usuario);
+        $this->db->where('Empresa_Suc = ', $this->session->empresa[0]->id_empresa);
+        $this->db->where(self::empleado.'.estado = 1');
+        $query = $this->db->get();
+        //echo $this->db->queries[3];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
 	}
 
     function get_empleados_by_sucursal( $sucursal ){

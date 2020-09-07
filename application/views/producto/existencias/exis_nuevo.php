@@ -64,7 +64,6 @@
                     }else{
 
                         if(productos.length == 1){
-                            
                             get_producto_completo(productos[0].id_entidad);
 
                         }else{
@@ -148,7 +147,7 @@
                         html += '<td>' + item.nombre_sucursal + '</td>';
                         html += '<td>' + item.nombre_bodega + '</td>';
                         html += '<td>' + item.Cantidad + '</td>';
-                        html += '<td>' + item.moneda_simbolo + " "+  item.precio_venta + '</td>';
+                        html += '<td>' + item.moneda_simbolo + " "+  item.precio + '</td>';
                         html += '<td>' + 0.00 + '</td>';
                         html += '<td>' + item.moneda_simbolo + " "+  item.Utilidad + '</td>';
                         html += '<td>' + item.cod_barra + '</td>';

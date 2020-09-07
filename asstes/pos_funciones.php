@@ -151,7 +151,7 @@
 
                 producto_id = item.id_entidad;
                 precio = parseInt(item.precio_venta);
-                table_tr += '<option value="' + item.id_producto_detalle + '">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + ' - ' + precio.toFixed(2) + '</option>';
+                table_tr += '<option value="' + item.id_entidad + '">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + ' - ' + precio.toFixed(2) + '</option>';
                 contador_precios++;
 
                 $('.1dataSelect').show();

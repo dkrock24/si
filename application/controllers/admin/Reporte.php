@@ -94,7 +94,7 @@ class Reporte extends My_Controller {
 	}
 
 	public function change_caja($sucursal){
-		$data['caja']		= $this->Caja_model->getCajaSucursal($sucursal);
+		$data['caja'] = $this->Caja_model->getCajaSucursal($sucursal);
 		echo json_encode($data);
 	}
 

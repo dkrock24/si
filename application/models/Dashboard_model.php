@@ -20,10 +20,12 @@ class Dashboard_model extends CI_Model
 
     function total_ventas(){
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
+        $this->db->where('DATE(v.creado_el)', date('Y-m-d'));
         $this->db->from( self::ventas.' as v');
         $this->db->join( self::sucursal.' as s', 'v.id_sucursal = s.id_sucursal');
 
         $result = $this->db->count_all_results();
+
         return $result;
     }
 

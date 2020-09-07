@@ -20,14 +20,14 @@ class Reporte_model extends CI_Model {
     const corte_detalle     = 'pos_corte_detalle';
     const pos_correlativos  = 'pos_correlativos';
     const pos_ventas        = 'pos_ventas';
-    const pos_caja  = 'pos_caja';
-    const pos_terminal  = 'pos_terminal';
-    const pos_corte_config = 'pos_corte_config';
-    const template = 'pos_doc_temp';
-    const giro_empresa = 'giros_empresa';
-    const giros = 'pos_giros';
-    const moneda = 'sys_moneda';
-    const venta_detalle = 'pos_venta_detalle';
+    const pos_caja          = 'pos_caja';
+    const pos_terminal      = 'pos_terminal';
+    const pos_corte_config  = 'pos_corte_config';
+    const template          = 'pos_doc_temp';
+    const giro_empresa      = 'giros_empresa';
+    const giros             = 'pos_giros';
+    const moneda            = 'sys_moneda';
+    const venta_detalle     = 'pos_venta_detalle';
     
     function index($limit, $id , $filters )
     {
@@ -130,7 +130,6 @@ class Reporte_model extends CI_Model {
 
     function concentrado( $filters )
     {
-
         $time       = "";
         $cajero     = "";
         $mask       = " 00:00:00";
@@ -169,6 +168,7 @@ class Reporte_model extends CI_Model {
             FROM pos_venta_detalle AS vd join pos_ventas AS v_1 ON v_1.id = vd.id_venta
             WHERE vd.gen="Grava" and DATE(vd.creado_el) >= "'.$f_inicio.'" AND DATE(vd.creado_el) <= "'.$f_fin.'" 
             AND v_1.cortado IS NULL
+            AND v_1.id_sucursal = '.$sucursal.'
             ) AS gravado,
         
         (SELECT SUM(vi.ordenImpTotal)
@@ -177,6 +177,7 @@ class Reporte_model extends CI_Model {
             join pos_ventas AS v_1 ON v_1.id = vd.id_venta
             WHERE vi.ordenSimbolo IN("0") AND DATE(vd.creado_el) >= "'.$f_inicio.'" AND DATE(vd.creado_el) <= "'.$f_fin.'" 
             AND v_1.cortado IS NULL 
+            AND v_1.id_sucursal = '.$sucursal.'
             ) AS gravado_impuesto,
         
         (SELECT SUM(vd.total)
@@ -184,7 +185,8 @@ class Reporte_model extends CI_Model {
             join pos_ventas as ve on ve.id = vd.id_venta
             join pos_ventas AS v_1 ON v_1.id = vd.id_venta
             WHERE vd.gen="Exent" and DATE(ve.fh_inicio) >= "'.$f_inicio.'" AND DATE(ve.fh_final) <= "'.$f_fin.'" 
-            AND v_1.cortado IS NULL 
+            AND v_1.cortado IS NULL
+            AND v_1.id_sucursal = '.$sucursal.'
             ) AS exento,
 
         (SELECT COUNT(v2.id) 
@@ -192,6 +194,7 @@ class Reporte_model extends CI_Model {
             WHERE v2.id_tipod = d.id_tipo_documento && v2.orden_estado = 10
             AND DATE(v2.fh_inicio) >= "'.$f_inicio.'" AND DATE(v2.fh_final) <= "'.$f_fin.'"
             AND v2.cortado IS NULL
+            AND v2.id_sucursal = '.$sucursal.'
             ) AS total_devolucion,
 
         (SELECT SUM(vp.valor_metodo_pago)
@@ -200,12 +203,14 @@ class Reporte_model extends CI_Model {
             WHERE dev.id_tipod = d.id_tipo_documento && dev.orden_estado=10
             AND DATE(dev.fh_inicio) >= "'.$f_inicio.'" AND DATE(dev.fh_final) <= "'.$f_fin.'"
             AND dev.cortado IS NULL
+            AND dev.id_sucursal = '.$sucursal.'
             ) AS sum_devolucion,
 
         (SELECT SUM(venta.desc_val )
             FROM pos_ventas AS venta WHERE
             DATE(venta.fh_inicio) >= "'.$f_inicio.'" AND DATE(venta.fh_final) <= "'.$f_fin.'"
             AND venta.cortado IS NULL
+            AND venta.id_sucursal = '.$sucursal.'
             )AS descuento,
         
         (SELECT SUM(vp.valor_metodo_pago) 
@@ -214,6 +219,7 @@ class Reporte_model extends CI_Model {
             WHERE v3.id_tipod = d.id_tipo_documento && vp.id_forma_pago=1 
             AND DATE(v3.fh_inicio) >= "'.$f_inicio.'" AND DATE(v3.fh_final) <= "'.$f_fin.'"
             AND v3.cortado IS NULL
+            AND v3.id_sucursal = '.$sucursal.'
             ) AS efectivo,
 
         (SELECT SUM(vp.valor_metodo_pago) 
@@ -222,6 +228,7 @@ class Reporte_model extends CI_Model {
             WHERE v4.id_tipod = d.id_tipo_documento && vp.id_forma_pago=2 
             AND DATE(v4.fh_inicio) >= "'.$f_inicio.'" AND DATE(v4.fh_final) <= "'.$f_fin.'"
             AND v4.cortado IS NULL
+            AND v4.id_sucursal = '.$sucursal.'
             ) AS tcredito,
         
         (SELECT SUM(vp.valor_metodo_pago) 
@@ -230,6 +237,7 @@ class Reporte_model extends CI_Model {
             WHERE v5.id_tipod = d.id_tipo_documento && vp.id_forma_pago=3 
             AND DATE(v5.fh_inicio) >= "'.$f_inicio.'" AND DATE(v5.fh_final) <= "'.$f_fin.'"
             AND v5.cortado IS NULL
+            AND v5.id_sucursal = '.$sucursal.'
             ) AS cheque,
         
         (SELECT SUM(vp.valor_metodo_pago) 
@@ -238,6 +246,7 @@ class Reporte_model extends CI_Model {
             WHERE v6.id_tipod = d.id_tipo_documento && vp.id_forma_pago=4 
             AND DATE(v6.fh_inicio) >= "'.$f_inicio.'" AND DATE(v6.fh_final) <= "'.$f_fin.'"
             AND v6.cortado IS NULL
+            AND v6.id_sucursal = '.$sucursal.'
             ) AS credito,
 
         c.nombre_empresa_o_compania ,p.nombre_metodo_pago, s.orden_estado_nombre');
