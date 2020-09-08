@@ -1512,8 +1512,10 @@
                 cache: false,
 
                 success: function(data) {
+                    select_option ="";
                     var datos = JSON.parse(data);
                     var bodega = datos["bodega"];
+                    
                     $.each(bodega, function(i, item) {
                         select_option += '<option value="' + item.id_bodega + '">' + item.nombre_bodega + '</option>';
                     });

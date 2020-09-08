@@ -81,6 +81,7 @@ class Orden extends MY_Controller {
 			$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento($this->vista_id);
 			$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 			$data['empleado'] 		= $this->Usuario_model->get_empleado_oren( $id_usuario );
+			
 			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] 		= $this->Cliente_model->get_cliente();
@@ -294,7 +295,7 @@ class Orden extends MY_Controller {
 
 	function get_bodega_sucursal( $Sucursal ){
 
-		$data['bodega'] 		= $this->Orden_model->get_bodega_sucursal( $Sucursal );
+		$data['bodega'] 		= $this->Bodega_model->get_bodega_sucursal( $Sucursal );
 		$data['correlativo'] 	= $this->Correlativo_model->get_by_id($Sucursal);
 
 		echo json_encode( $data );
@@ -385,9 +386,9 @@ class Orden extends MY_Controller {
 		if($terminal_acceso){
 			
 			$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento($this->vista_id);
-			$data['sucursales'] 	= $this->Producto_model->get_sucursales();
+			$data['sucursales'] 	= $this->Sucursal_model->getSucursal();
 			$data['modo_pago'] 		= $this->ModoPago_model->getAllFormasPago();
-			$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );
+			$data['empleado'] 		= $this->Usuario_model->get_empleado_oren( $id_usuario );
 			$data['estados']		= $this->Estados_model->get_estados_vistas($this->vista_id);
 			$data['terminal'] 		= $terminal_acceso;
 			//$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal(  ,$data['empleado'][0]->id_sucursal );

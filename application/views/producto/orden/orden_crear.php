@@ -175,7 +175,7 @@ include("asstes/pos_orden.php");
                                                 <select class="form-control" name="sucursal_destino" id="sucursal_id">
                                                     <?php
                                                     $id_sucursal = 0;
-
+                                                    $id_sucursal2 = $empleado[0]->id_sucursal;
                                                     foreach ($empleado as $sucursal) {
                                                         $id_sucursal = $sucursal->id_sucursal;
                                                     ?>
@@ -205,7 +205,7 @@ include("asstes/pos_orden.php");
                                                     <?php
                                                     if (isset($bodega[0]->nombre_bodega)) {
                                                         foreach ($bodega as $b) {
-                                                            if ($b->Sucursal == $id_sucursal) {
+                                                            if ($b->Sucursal == $id_sucursal2) {
                                                     ?>
                                                                 <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
                                                         <?php

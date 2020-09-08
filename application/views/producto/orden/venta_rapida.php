@@ -576,10 +576,8 @@ include("asstes/pos_orden.php");
                                             <label>[ Shift + t ]  Sucursal Destino</label>
                                             <select class="form-control" name="sucursal_destino" id="sucursal_id">
                                                 <?php
-                                                $id_sucursal = 0;
-
+                                                $id_sucursal = $empleado[0]->id_sucursal;
                                                 foreach ($empleado as $sucursal) {
-                                                    $id_sucursal = $sucursal->id_sucursal;
                                                 ?>
                                                     <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
                                                     <?php
