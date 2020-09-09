@@ -127,7 +127,7 @@ class Template_model extends CI_Model {
     function get_sucursales(){
         $this->db->select('*');        
         $this->db->from(self::sucursal);
-        $this->db->where('estado = 1');
+        $this->db->where('sucursal_estado = 1');
         $this->db->where('Empresa_Suc', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
