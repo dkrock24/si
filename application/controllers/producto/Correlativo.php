@@ -70,7 +70,7 @@ class Correlativo extends MY_Controller {
 		$id_usuario 	= $this->session->usuario[0]->id_usuario;
 
 		$data['menu'] 		= $this->session->menu;
-		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
+		$data['sucursal'] 	= $this->Sucursal_model->getAllSucursalEmpresa();
 		$data['documento'] 	= $this->Documento_model->getAllDocumento();
 		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['title'] 		= "Nuevo Correlativo";

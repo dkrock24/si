@@ -107,7 +107,7 @@ class Compras_model extends CI_Model
 		
 		$data = array(
 			'Usuario' 		=> $usuario_id,
-			'Empleado' 		=> $compra['empleado'],
+			'Empleado' 		=> $usuario_id,
 			'Sucursal' 		=> $compra['sucursal'],
 			'Bodega' 		=> $compra['bodega'],
 			'Proveedor' 	=> $compra['proveedor'],

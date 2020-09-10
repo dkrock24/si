@@ -158,10 +158,9 @@ include("asstes/js/compras/pos_funciones.php");
                                                 <label>Sucursal Destino</label>
                                                 <select class="form-control" name="sucursal" id="sucursal_id">
                                                     <?php
-                                                    $id_sucursal = 0;
+                                                    $id_sucursal = $empleado[0]->id_sucursal;
 
                                                     foreach ($empleado as $sucursal) {
-                                                        $id_sucursal = $sucursal->id_sucursal;
                                                     ?>
                                                         <option value="<?php echo $sucursal->id_sucursal; ?>"><?php echo $sucursal->nombre_sucursal; ?></option>
                                                         <?php
@@ -184,16 +183,12 @@ include("asstes/js/compras/pos_funciones.php");
                                                 <label>Bodega Destino</label>
                                                 <select class="form-control" name="bodega" id="bodega_select">
                                                     <?php
-
                                                     if (isset($bodega[0]->nombre_bodega)) {
-
                                                         foreach ($bodega as $b) {
-
                                                             if ($b->Sucursal == $id_sucursal) {
-
-                                                    ?>
+                                                            ?>
                                                                 <option value="<?php echo $b->id_bodega; ?>"><?php echo $b->nombre_bodega; ?></option>
-                                                        <?php
+                                                            <?php
                                                             }
                                                         }
                                                     } else {
@@ -201,10 +196,7 @@ include("asstes/js/compras/pos_funciones.php");
                                                         <option value="">No hay Bodega</option>
                                                     <?php
                                                     }
-
-
                                                     ?>
-
                                                 </select>
                                             </div>
                                         </div>
@@ -268,8 +260,7 @@ include("asstes/js/compras/pos_funciones.php");
                                             <div class="form-group has-success">
                                                 <label><i class="fa fa-user sz"></i> Empleado :</label>
                                                 <input type="hidden" class="form-control" name="empleado" id="recibe_nombre" />
-                                                <input type="text" required class="form-control" name="empleado2" id="firma_llegada" />
-
+                                                <input type="text" required class="form-control" autocomplete="off" name="empleado2" id="firma_llegada" />
                                             </div>
                                         </div>
 

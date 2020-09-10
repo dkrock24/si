@@ -5,11 +5,12 @@ class Sucursal_model extends CI_Model {
     const pos_bodega    = 'pos_bodega';
 	const pos_empresa   = 'pos_empresa';
     const sys_usuario   = 'sys_usuario';
+    const sys_empleado      = 'sys_empleado';
+    const pos_orden_estado  = 'pos_orden_estado';
     const sys_empleado_sucursal = 'sys_empleado_sucursal';
-    const sys_empleado = 'sys_empleado';
-    const pos_orden_estado = 'pos_orden_estado';
 	
 	function getSucursal(){
+
 		$this->db->select('DISTINCT(s.id_sucursal) , s.*');
         $this->db->from(self::pos_sucursal.' as s');
         $this->db->join(self::pos_bodega.' as b', ' On s.id_sucursal = b.Sucursal', 'right');
@@ -42,6 +43,7 @@ class Sucursal_model extends CI_Model {
     }
 
     function getAllSucursalEmpresa( ){
+
         $this->db->select('*');
         $this->db->from(self::pos_sucursal.' as b');
         $this->db->where('b.Empresa_Suc', $this->session->empresa[0]->id_empresa );
@@ -55,6 +57,7 @@ class Sucursal_model extends CI_Model {
     }
 
     function getSucursalEmpresa( $empresa_id ){
+
         $this->db->select('*');
         $this->db->from(self::pos_sucursal.' as b');
         $this->db->where('b.Empresa_Suc', $empresa_id );
@@ -68,6 +71,7 @@ class Sucursal_model extends CI_Model {
     }
 
 	function getSucursalId( $empresa_id ){
+
 		$this->db->select('*');
         $this->db->from(self::pos_sucursal.' as b');
         $this->db->where('b.id_sucursal', $empresa_id );
@@ -82,6 +86,7 @@ class Sucursal_model extends CI_Model {
 	}
 
     function getAllSucursal( $limit, $id , $filters){
+
         $this->db->select('s.*,es.*,e.nombre_comercial, e.id_empresa');
         $this->db->from(self::pos_sucursal.' as s');
         $this->db->join(self::pos_empresa.' as e', ' on s.Empresa_Suc = e.id_empresa');
@@ -102,6 +107,7 @@ class Sucursal_model extends CI_Model {
     }
 
     function getSucursalByEmployee($empleado){
+
         $this->db->select('s.*');
         $this->db->from(self::pos_sucursal.' as s');
         $this->db->join(self::sys_empleado.' as em', ' on s.id_sucursal = em.Sucursal');
@@ -116,9 +122,11 @@ class Sucursal_model extends CI_Model {
     }
 
     function record_count($filter){
+
         $this->db->where('Empresa_Suc',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::pos_sucursal);
         $result = $this->db->count_all_results();
+
         return $result;
     }
 
@@ -130,7 +138,7 @@ class Sucursal_model extends CI_Model {
             'encargado_sucursal'=> $datos['encargado'],
             'tel'               => $datos['tel'],
             'cel'               => $datos['cel'],
-            'sucursal_estado'            => $datos['estado'],
+            'sucursal_estado'   => $datos['estado'],
             'Ciudad_Suc'        => $datos['Ciudad_Suc'],            
             'Empresa_Suc'       => $datos['Empresa_Suc']
         );
@@ -168,14 +176,14 @@ class Sucursal_model extends CI_Model {
     function actualizar( $datos ){
         
         $data = array(
-            'nombre_sucursal' => $datos['nombre_sucursal'],
-            'direct'        => $datos['direct'],
-            'encargado_sucursal'     => $datos['encargado_sucursal'],
-            'tel'           => $datos['tel'],
-            'cel'           => $datos['cel'],
-            'sucursal_estado'        => $datos['estado'],
-            'Ciudad_Suc'    => $datos['Ciudad_Suc'],            
-            'Empresa_Suc'   => $datos['Empresa_Suc']
+            'tel'               => $datos['tel'],
+            'cel'               => $datos['cel'],
+            'direct'            => $datos['direct'],
+            'sucursal_estado'   => $datos['estado'],
+            'Ciudad_Suc'        => $datos['Ciudad_Suc'],
+            'Empresa_Suc'       => $datos['Empresa_Suc'],
+            'nombre_sucursal'   => $datos['nombre_sucursal'],
+            'encargado_sucursal'=> $datos['encargado_sucursal'],
         );
 
         $this->db->where('id_sucursal', $datos['id_sucursal']);

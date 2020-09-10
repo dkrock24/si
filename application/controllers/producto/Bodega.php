@@ -66,7 +66,7 @@ class Bodega extends MY_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['sucursal'] = $this->Sucursal_model->getSucursal();
+		$data['sucursal'] = $this->Sucursal_model->getAllSucursalEmpresa();
 		$data['home'] = 'producto/bodega/bodega_nuevo';
 		$data['title'] = "Nueva Bodega";
 
@@ -94,7 +94,7 @@ class Bodega extends MY_Controller {
 		$data['menu'] = $this->session->menu;
 		//$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['bodega'] = $this->Bodega_model->getBodegaById($bodega_id);
-		$data['sucursal'] = $this->Sucursal_model->getSucursal();
+		$data['sucursal'] = $this->Sucursal_model->getAllSucursalEmpresa();
 		$data['home'] = 'producto/bodega/bodega_editar';
 		$data['title'] = "Editar Bodega";
 

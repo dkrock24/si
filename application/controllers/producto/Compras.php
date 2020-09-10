@@ -58,7 +58,7 @@ class Compras extends MY_Controller {
 		$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
 		$data['vista_doc']		= $this->Vistas_model->get_vista_documento($this->vista_id);
 		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
-		$data['empleado'] 		= $this->Usuario_model->get_empleado( $id_usuario );			
+		$data['empleado'] 		= $this->Usuario_model->get_empleado_oren( $id_usuario );			
 		$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 		$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 		$data['cliente'] 		= $this->Cliente_model->get_cliente();
