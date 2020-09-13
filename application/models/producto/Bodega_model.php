@@ -1,13 +1,13 @@
 <?php
 class Bodega_model extends CI_Model {
 
-	const pos_bodega = 'pos_bodega';
-	const pos_sucursal = 'pos_sucursal';
-	const pos_empresa = 'pos_empresa';	
+    const producto      = 'producto';
+	const pos_bodega    = 'pos_bodega';
+	const pos_empresa   = 'pos_empresa';	
+	const pos_sucursal  = 'pos_sucursal';
+    const pos_orden_estado      = 'pos_orden_estado';
+    const pos_producto_bodega   = 'pos_producto_bodega';
 	const sys_empleado_sucursal = 'sys_empleado_sucursal';	
-    const pos_producto_bodega = 'pos_producto_bodega';
-    const producto = 'producto';
-    const pos_orden_estado = 'pos_orden_estado';
 	
 	function getBodegas(  $limit, $id , $filters){
 		$this->db->select('b.*,s.*,es.*,e.id_empresa,e.nombre_comercial');
@@ -172,8 +172,8 @@ class Bodega_model extends CI_Model {
         $this->db->join(self::pos_sucursal.' as s', 'on b.Sucursal = s.id_sucursal');
         $this->db->join(self::pos_producto_bodega.' as pb', 'on pb.Bodega = b.id_bodega');
         $this->db->join(self::producto.' as p', 'on p.id_entidad = pb.Producto');
-
         $this->db->where('p.codigo_barras', $data['producto'] );
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

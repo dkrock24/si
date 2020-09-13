@@ -281,30 +281,36 @@
                         </thead>
                         <tbody>
                             <?php
-                            $cnt = 1;
-                            $cantidad=0.00;
-                            $descuento=0.00;
-                            $total=0.00;
-                            $gen = "";
-                            foreach ($detalle as $key => $value) {
+                            $cnt        = 1;
+                            $gen        = "";
+                            $totalVenta =0.00;
+                            $cantidad   =0.00;
+                            $descuento  =0.00;
+                            $monedaSimbolo = $moneda[0]->moneda_simbolo;
+                            foreach ($detalle as $key => $venta) {
+                                $total      = number_format($venta->total,2);
+                                $descuento  = number_format($encabezado[0]->desc_val,2);
+                                $cantidad   = number_format($venta->cantidad,1);
+                                $precioVenta= number_format($venta->precio_venta,2);
+                                $neto = number_format($total - $descuento,2);
                             ?>
                                 <tr>
                                     <td><?php echo $cnt ?></td>
-                                    <td><?php echo $value->codigo_producto ?></td>
-                                    <td><?php echo $value->name_entidad ?></td>
-                                    <td><?php echo $value->descripcion ?></td>
-                                    <td><?php echo $value->modelo ?></td>
-                                    <td><?php echo $value->nombre_bodega ?></td>
-                                    <td><?php echo $value->presentacion ?></td>
-                                    <td><?php echo $moneda[0]->moneda_simbolo . " " . number_format($value->precio_venta,2) ?></td>
-                                    <td><?php echo $value->factor ?></td>
-                                    <td><?php echo number_format($value->cantidad,1) ?></td>
-                                    <td><?php echo $moneda[0]->moneda_simbolo . " " . number_format($encabezado[0]->desc_val,2) ?></td>
-                                    <td><?php echo $moneda[0]->moneda_simbolo . " " . number_format($value->total - $encabezado[0]->desc_val,2) ?>
-                                        <?php echo substr($value->gen,0,1); ?>
+                                    <td><?php echo $venta->codigo_producto ?></td>
+                                    <td><?php echo $venta->name_entidad ?></td>
+                                    <td><?php echo $venta->descripcion ?></td>
+                                    <td><?php echo $venta->modelo ?></td>
+                                    <td><?php echo $venta->nombre_bodega ?></td>
+                                    <td><?php echo $venta->presentacion ?></td>
+                                    <td><?php echo $monedaSimbolo . " " . $precioVenta ?></td>
+                                    <td><?php echo $venta->factor ?></td>
+                                    <td><?php echo $cantidad ?></td>
+                                    <td><?php echo $monedaSimbolo . " " . $descuento ?></td>
+                                    <td><?php echo $monedaSimbolo . " " . $neto ?>
+                                        <?php echo substr($venta->gen,0,1); ?>
                                     </td>
                                     <td>
-                                        <?php if($value->incluye_iva == 0): ?>
+                                        <?php if($venta->incluye_iva == 0): ?>
                                             <?php echo "No"; ?>
                                         <?php else: ?>
                                             <?php echo "Si"; ?>
@@ -314,23 +320,22 @@
                                 </tr>
                             <?php
                                 $cnt++;
-                                $cantidad   += $value->cantidad;
-                                $descuento  += number_format($encabezado[0]->desc_val,2);
-                                $total      += number_format($value->total - $encabezado[0]->desc_val,2);
+                                $cantidad   += $venta->cantidad;
+                                $descuento  += $descuento;
+                                $totalVenta += $neto;
                             }
                             ?>
                             <?php
-                            foreach ($impuestos as $key => $impuestos) 
-                            {
+                            foreach ($impuestos as $key => $impuestos) {
                                 ?>
                                 <tr style="border-top:0px solid black;">
                                     <td colspan="10"><?php //echo $cnt ?></td>                                    
-                                    <td><b><?php echo $impuestos->ordenImpName; ?></b></td>
-                                    <td><?php echo $moneda[0]->moneda_simbolo ." ". number_format($impuestos->ordenImpTotal,2).' ('.$impuestos->ordenImpVal.')'; ?></td>
-                                    <td><?php echo $impuestos->ordenSimbolo ? $impuestos->ordenSimbolo : ""; ?></td>
+                                    <td><b> <?php echo $impuestos->ordenImpName; ?></b></td>
+                                    <td>    <?php echo $monedaSimbolo ." ". number_format($impuestos->ordenImpTotal,2).' ('.$impuestos->ordenImpVal.')'; ?></td>
+                                    <td>    <?php echo $impuestos->ordenSimbolo ? $impuestos->ordenSimbolo : ""; ?></td>
                                 </tr>
                                 <?php
-                                if($impuestos->ordenImpName != "IVA"){
+                                if ($impuestos->ordenImpName != "IVA") {
                                     $total += number_format($impuestos->ordenImpTotal,2);
                                 }
                             }
@@ -338,9 +343,9 @@
                             <tr style="border-top:2px solid grey;">
                                 <td colspan="8"><?php //echo $cnt ?></td>
                                 <td><h3>Total</h3></td>
-                                <td><h3><?php echo $cantidad; ?></h3></td>
-                                <td><h3><?php echo $moneda[0]->moneda_simbolo . " " . $descuento; ?></h3></td>
-                                <td><h3><?php echo $moneda[0]->moneda_simbolo . " " . $total; ?></h3></td>
+                                <td><h3><?php echo number_format($cantidad,2); ?></h3></td>
+                                <td><h3><?php echo $monedaSimbolo . " " . number_format($descuento,2); ?></h3></td>
+                                <td><h3><?php echo $monedaSimbolo . " " . number_format($totalVenta,2); ?></h3></td>
                                 <td></td>
                             </tr>
                         </tbody>
