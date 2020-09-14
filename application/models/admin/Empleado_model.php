@@ -256,6 +256,7 @@ class Empleado_model extends CI_Model {
         $this->db->where('em.id_empresa', $this->session->empresa[0]->id_empresa);
         $this->db->where('p.id_persona', $encargado );
         $query = $this->db->get();
+        //echo $this->db->queries[1];die;
         
         if($query->num_rows() > 0 )
         {

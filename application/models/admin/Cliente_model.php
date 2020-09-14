@@ -1,20 +1,18 @@
 <?php
 class Cliente_model extends CI_Model
 {
-
-    const cliente =  'pos_cliente';
-    const cliente_tipo = 'pos_cliente_tipo';
-    const formas_pago =  'pos_formas_pago';
-    const tipos_documentos =  'pos_tipo_documento';
-    const sys_persona =  'sys_persona';
-    const pos_tipo_documento = 'pos_tipo_documento';
-    const pos_formas_pago = 'pos_formas_pago';
-    const pos_fp_cliente = 'pos_formas_pago_cliente';
+    const cliente               = 'pos_cliente';
+    const formas_pago           = 'pos_formas_pago';
+    const sys_persona           = 'sys_persona';
+    const cliente_tipo          = 'pos_cliente_tipo';
+    const pos_fp_cliente        = 'pos_formas_pago_cliente';
+    const pos_formas_pago       = 'pos_formas_pago';
+    const tipos_documentos      = 'pos_tipo_documento';
+    const pos_orden_estado      = 'pos_orden_estado';
+    const pos_tipo_documento    = 'pos_tipo_documento';
     const pos_formas_pago_cliente = 'pos_formas_pago_cliente';
-    const pos_orden_estado = 'pos_orden_estado';
 
-    function get_cliente()
-    {
+    function get_cliente(){
         $this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,TipoDocumento');
         $this->db->from(self::cliente);
         $this->db->join(self::tipos_documentos, ' on ' . self::cliente . '.TipoDocumento=' . self::tipos_documentos . '.id_tipo_documento');
@@ -30,8 +28,7 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function get_cliente_filtro($cliente_texto)
-    {
+    function get_cliente_filtro($cliente_texto){
         $this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,TipoDocumento');
         $this->db->from(self::cliente);
         $this->db->join(self::tipos_documentos, ' on ' . self::cliente . '.TipoDocumento=' . self::tipos_documentos . '.id_tipo_documento');
@@ -39,7 +36,7 @@ class Cliente_model extends CI_Model
         $this->db->join(self::sys_persona . ' as p', ' on p.id_persona = Persona');
         $this->db->where(self::cliente . '.estado_cliente = 1');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
-        $this->db->where("(id_cliente LIKE '%$cliente_texto%' || nombre_empresa_o_compania LIKE '%$cliente_texto%' || nit_cliente LIKE '%$cliente_texto%' || dui_cli LIKE '%$cliente_texto%' || nrc_cli LIKE '%$cliente_texto%' ) ");
+        $this->db->where("(id_cliente LIKE '%$cliente_texto%' || lower(nombre_empresa_o_compania) LIKE lower('%$cliente_texto%') || nit_cliente LIKE '%$cliente_texto%' || dui_cli LIKE '%$cliente_texto%' || nrc_cli LIKE '%$cliente_texto%' ) ");
         $query = $this->db->get();
         //echo $this->db->queries[0];
 
@@ -48,8 +45,7 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function get_cliente_by_id2($id)
-    {
+    function get_cliente_by_id2($id){
         $this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,porcentage_descuentos,TipoDocumento,TipoPago');
         $this->db->from(self::cliente);
         $this->db->join(self::tipos_documentos, ' on ' . self::cliente . '.TipoDocumento=' . self::tipos_documentos . '.id_tipo_documento');
@@ -65,8 +61,7 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function get_clientes_id($cliente_id)
-    {
+    function get_clientes_id($cliente_id){
 
         $this->db->select('*');
         $this->db->from(self::cliente);
@@ -84,8 +79,7 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function getCliente()
-    {
+    function getCliente(){
         $this->db->select('*');
         $this->db->from(self::cliente . ' as c');
         $this->db->join(self::tipos_documentos.' as td', ' on c.TipoDocumento=td.id_tipo_documento');
@@ -100,8 +94,7 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function getAllClientes($limit, $id  , $filters)
-    {
+    function getAllClientes($limit, $id  , $filters){
         $this->db->select('p.primer_nombre_persona,p.primer_apellido_persona,fp.codigo_modo_pago,c.nombre_empresa_o_compania,
         c.nrc_cli,c.nit_cliente,c.clase_cli,c.estado_cliente,c.id_cliente,td.nombre,
         c.porcentage_descuentos,es.*');
@@ -123,8 +116,7 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function record_count($filter)
-    {
+    function record_count($filter){
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::cliente . ' as c');
         $this->db->join(self::sys_persona . ' as p', ' on c.Persona = p.id_persona');
@@ -132,8 +124,7 @@ class Cliente_model extends CI_Model
         return $result;
     }
 
-    function crear_cliente($datos)
-    {
+    function crear_cliente($datos){
         // Insertando Imagenes empresa
         $imagen = "";
         if($_FILES['logo_cli']['tmp_name']){
@@ -141,13 +132,12 @@ class Cliente_model extends CI_Model
             $imagen = file_get_contents($_FILES['logo_cli']['tmp_name']);
             $imageProperties = getimageSize($_FILES['logo_cli']['tmp_name']);
         }
-        
 
         $data = array(
             'website_cli'       => $datos['website_cli'],
             'nrc_cli'           => $datos['nrc_cli'],
             'nit_cliente'       => $datos['nit_cliente'],
-            'dui_cli'       => $datos['dui_cliente'],
+            'dui_cli'           => $datos['dui_cliente'],
             'clase_cli'         => $datos['clase_cli'],
             'mail_cli'          => $datos['mail_cli'],            
             'TipoPago'          => $datos['TipoPago'],
@@ -181,8 +171,7 @@ class Cliente_model extends CI_Model
         return $result;
     }
 
-    function crearFpCliente($clienteId, $formas_pago)
-    {
+    function crearFpCliente($clienteId, $formas_pago){
 
         $pagos = $this->getPagos();        
         
@@ -213,9 +202,7 @@ class Cliente_model extends CI_Model
         
     }
 
-    function updateFpCliente($clienteId, $formas_pago)
-    {
-
+    function updateFpCliente($clienteId, $formas_pago){
         $getClienteFP = $this->getPagosClientes($clienteId, 1);
 
         if($getClienteFP){
@@ -243,15 +230,11 @@ class Cliente_model extends CI_Model
                 }
             }
         }else{
-
             $this->crearFpCliente($clienteId, $formas_pago);
-           
         }
     }
 
-    function getPagosClientes($idCliente, $pago)
-    {
-
+    function getPagosClientes($idCliente, $pago){
         $this->db->select('*');
         $this->db->from(self::pos_formas_pago_cliente . ' as fpc');
         $this->db->join(self::formas_pago . ' as fp', ' on fpc.Forma_pago=fp.id_modo_pago');
@@ -264,9 +247,7 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function getPagosClientes2($idCliente)
-    {
-
+    function getPagosClientes2($idCliente){
         $this->db->select('*');
         $this->db->from(self::pos_formas_pago_cliente . ' as fpc');
         $this->db->join(self::formas_pago . ' as fp', ' on fpc.Forma_pago=fp.id_modo_pago');
@@ -278,9 +259,7 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function getPagos()
-    {
-
+    function getPagos(){
         $this->db->select('*');        
         $this->db->from(self::formas_pago);
         $query = $this->db->get();
@@ -290,9 +269,7 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function update($datos)
-    {
-
+    function update($datos){
         $data = array(
             'website_cli'       =>  $datos['website_cli'],
             'nrc_cli'           => $datos['nrc_cli'],
@@ -301,7 +278,7 @@ class Cliente_model extends CI_Model
             'clase_cli'         => $datos['clase_cli'],
             'mail_cli'          => $datos['mail_cli'],
             'TipoPago'          => $datos['TipoPago'],
-            'TipoDocumento' => $datos['TipoDocumento'],
+            'TipoDocumento'     => $datos['TipoDocumento'],
             'nombre_empresa_o_compania' => $datos['nombre_empresa_o_compania'],
             'numero_cuenta'             => $datos['numero_cuenta'],
             'aplica_impuestos'          => $datos['aplica_impuestos'],
