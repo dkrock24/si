@@ -125,7 +125,7 @@ class Roles extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Nombre','Pagina','Creacion','Actualizacion','Estado'
+			'Nombre','Pagina','Creado','Actualizado','Estado'
 		);
 		return $column;
 	}

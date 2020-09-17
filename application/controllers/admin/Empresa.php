@@ -182,7 +182,7 @@ class Empresa extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Nombre','NRC','NIT','GIRO','TEL','MONEDA','CODIGO','CREADO','ACTUA','ESTADO'
+			'NOMBRE','NRC','NIT','GIRO','TEL','MONEDA','CODIGO','CREADO','ACTUAlizado','ESTADO'
 		);
 		return $column;
 	}

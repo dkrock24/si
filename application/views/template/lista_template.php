@@ -1,5 +1,4 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
-
 <script type="text/javascript">
 
     var headers = <?php echo json_encode($fields['field']); ?>;
@@ -16,7 +15,52 @@
                 $(this).focus();
             }
         });
+
+        $(".remove").click(function(){
+            var url = $(this).attr('name');
+            var id = $(this).attr('id');
+            //alert("Desea Eliminar el registro "+id);
+            
+            var type = "warning";
+            var title = "Desea Eliminar Registro";
+            var mensaje = "";
+            var boton = "info";
+            var finalMessage = "Gracias..."
+            showNotification(type, mensaje, title, boton, finalMessage, url);
+
+        });
+
     });
+
+    function showNotification( type , mensaje , title , boton , finalMessage, url) {
+        console.log(url);
+        $('.cancel').focus();
+        $('.cancel').css("background","red");
+        swal({
+            html: true,
+            title: title,
+            text: mensaje,
+            type: type,
+            //showCancelButton: true,
+            confirmButtonText: "Eliminar",
+            //cancelButtonText: "Cancelar!",
+            closeOnConfirm: false,
+            //closeOnCancel: false,
+            //showLoaderOnConfirm: true,
+        }, function (isConfirm) {
+
+            if (isConfirm) {
+                swal("Eliminado", finalMessage);
+                //redirec("index");
+                if(url != null){
+                    
+                    window.location.href = url;
+                }
+            } else {
+                swal("Salir", "Debes Hacer Login de Nuevo", "error");
+            } 
+        });
+    }
 
         
     $(document).on("change", "#total_pagina", function() {
@@ -37,10 +81,13 @@
             return false;    //<---- Add this line
         }
     });
+    
 </script>
 
 <style>
-
+    .sa-error-container{
+        display:none;
+    }
 </style>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/css/css_general.css" />
@@ -88,7 +135,7 @@
                                         <?php
                                     }
                                     ?>                                
-                                        <?php echo $combo; ?>
+                                        <?php echo strtoupper($combo); ?>
                                     </th>
                                 <?php
                                 }
@@ -160,7 +207,7 @@
 
                                             if ($field != 'estado') {
                                         ?>
-                                    <td>
+                                        <td>
                                         <?php
                                         $c = key($field);
                                             $a = substr($table->$c, 0, 1);
@@ -267,7 +314,7 @@
                                                         }
                                                         $vista = $value->Vista;
                                                         if ($value->accion_valor == 'btn_medio' && $value->accion_nombre != 'Eliminar') {
-                                        ?>
+                                                        ?>
 
                                                         <li>
                                                             <a href="<?php echo  $url;  ?>/<?php echo $table->$id; ?>">
@@ -279,29 +326,25 @@
                                                             </a>
                                                         </li>
 
-                                                <?php
-                                                                }
-
-                                                                if ($value->accion_valor == 'btn_medio' && $value->accion_nombre == 'Eliminar') {
-                                                                    ?>
-
-                                                    <li class="divider"></li>
-                                                    <li>
-                                                        <a href="<?php echo $url;  ?>/<?php echo $table->$id; ?>">
-                                                            <span class="btn btn-danger">
-                                                                <i class="<?php echo $value->accion_btn_icon; ?>"></i>
-                                                            </span>
-                                                            <?php echo $value->accion_nombre;  ?>
-                                                        </a>
-                                                    </li>
-                                                <?php
+                                                        <?php
+                                                        }
+                                                        if ($value->accion_valor == 'btn_medio' && $value->accion_nombre == 'Eliminar') {
+                                                        ?>
+                                                        <li class="divider"></li>
+                                                        <li>
+                                                            <a href="#" name="<?php echo $url;  ?>/<?php echo $table->$id; ?>" class="remove" id="<?php echo $contador; ?>">
+                                                                <span class="btn btn-danger">
+                                                                    <i class="<?php echo $value->accion_btn_icon; ?>"></i>
+                                                                </span>
+                                                                <?php echo $value->accion_nombre;  ?>
+                                                            </a>
+                                                        </li>
+                                                    <?php
                                                         }
                                                     }
                                                 }
-
                                                 ?>
                                         <li class="divider"></li>
-
                                     </ul>
                                 </div>
                             </td>

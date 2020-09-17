@@ -1,10 +1,10 @@
 <?php
 class Cargos_model extends CI_Model {
 	
-	const sys_persona = 'sys_persona';	
-    const sys_empleado = 'sys_empleado';  
+	const sys_persona       = 'sys_persona';	
+    const sys_empleado      = 'sys_empleado';  
     const sys_cargo_laboral = 'sys_cargo_laboral';
-    const pos_orden_estado = 'pos_orden_estado';
+    const pos_orden_estado  = 'pos_orden_estado';
 	
 	function get_cargos(){
 
@@ -46,11 +46,11 @@ class Cargos_model extends CI_Model {
     function crear_cargo($datos){
 
         $data = array(
-            'cargo_laboral'    => $datos['cargo_laboral'],
-            'descripcion_cargo_laboral'=> $datos['descripcion_cargo_laboral'],
-            'salario_mensual_cargo_laboral'       => $datos['salario_mensual_cargo_laboral'],
-            'Empresa' => $this->session->empresa[0]->id_empresa,
-            'estado'            => $datos['estado'],
+            'Empresa'                   => $this->session->empresa[0]->id_empresa,
+            'cargo_estado'              => $datos['estado'],
+            'cargo_laboral'             => $datos['cargo_laboral'],
+            'descripcion_cargo_laboral' => $datos['descripcion_cargo_laboral'],
+            'salario_mensual_cargo_laboral'=> $datos['salario_mensual_cargo_laboral']
         );
         
         $insert = $this->db->insert(self::sys_cargo_laboral, $data);  

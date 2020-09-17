@@ -85,7 +85,7 @@ class Categorias extends MY_Controller {
 		$data = $this->Categorias_model->crear_categoria( $_POST );
 
 		if(!$data['code']){
-			$this->session->set_flashdata('warning', "Categoria Fue Creada");
+			$this->session->set_flashdata('success', "Categoria Fue Creada");
 		}else{
 			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Categoria No Fue Creada :". $data['message']);
