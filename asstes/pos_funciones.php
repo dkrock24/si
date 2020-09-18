@@ -491,6 +491,31 @@
             });
         }
 
+        function errorDb(mensaje){
+            $('.cancel').focus();
+            swal({
+                html: true,
+                title: "Notificatión",
+                text: mensaje,
+                type: "warning",
+                //showCancelButton: true,
+                confirmButtonText: "Salir",
+                //cancelButtonText: "Cancelar!",
+                closeOnConfirm: false,
+                //closeOnCancel: false,
+                //showLoaderOnConfirm: true,
+            }, function (isConfirm) {
+
+                if (isConfirm) {
+                  
+                    swal("Vuelva a intentarlo");
+                    //redirec("index");
+                } else {
+                    swal("Salir", "Debes Hacer Login de Nuevo", "error");
+                } 
+            });
+        }
+
         function enLinea() {
 
             $("#presentacion").val(_productos_precio.presentacion);

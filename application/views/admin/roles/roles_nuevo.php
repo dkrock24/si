@@ -52,22 +52,6 @@
                             </div>
                         </form>
                         </div>
-                        <?php
-
-                            $alternativeProperty = "";
-                            $formatIdentifiers  = ['S','O','P','A'];
-
-                            $customerDealerId = "1_400_1548725";
-
-                            $customerDealerValues = explode("_", $customerDealerId);
-
-                            foreach ($customerDealerValues as $key => $values) {
-                                
-                                $alternativeProperty .= $formatIdentifiers[$key].":".$values."|";
-                            }
-                            $alternativeProperty = substr($alternativeProperty, 0, -1);
-                            echo $alternativeProperty;
-                        ?>
                     </div>
                 </div>
             </div>

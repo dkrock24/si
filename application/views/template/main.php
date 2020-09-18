@@ -41,9 +41,7 @@
       function loading(){
           
           HoldOn.close();
-        }
-
-      
+        }      
       
     </script>
 

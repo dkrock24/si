@@ -103,7 +103,7 @@ class Correlativo extends MY_Controller {
 		$data['menu'] 		= $this->session->menu;
 		$data['home'] 		= 'producto/correlativo/c_editar';
 		$data['title'] 		= "Editar Correlativo";
-		$data['sucursal'] 	= $this->Sucursal_model->getSucursal();
+		$data['sucursal'] 	= $this->Sucursal_model->getAllSucursalEmpresa();
 		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['documento'] 	= $this->Documento_model->getAllDocumento();
 		$data['correlativo']= $this->Correlativo_model->editar( $correlatiov_id );

@@ -2008,7 +2008,7 @@
                         if (method == "guardar_compra") {
                             
                             if(compra_result.message){
-                                alert("Erro DB");
+                                errorDb(compra_result.message);
                             }else{
                                 window.location.href = "editar/" + compra_result.id;
                             }
@@ -2036,6 +2036,31 @@
             if (method != "update_orden") {
                 //cerrar_orden($("#orden_numero").val());
             }
+        }
+
+        function errorDb(mensaje){
+            $('.cancel').focus();
+            swal({
+                html: true,
+                title: "Notificatión",
+                text: mensaje,
+                type: "warning",
+                //showCancelButton: true,
+                confirmButtonText: "Salir",
+                //cancelButtonText: "Cancelar!",
+                closeOnConfirm: false,
+                //closeOnCancel: false,
+                //showLoaderOnConfirm: true,
+            }, function (isConfirm) {
+
+                if (isConfirm) {
+                  
+                    swal("Vuelva a intentarlo");
+                    //redirec("index");
+                } else {
+                    swal("Salir", "Debes Hacer Login de Nuevo", "error");
+                } 
+            });
         }
 
         function cerrar_orden(correlativo_orden) {

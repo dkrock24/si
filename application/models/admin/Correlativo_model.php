@@ -70,25 +70,35 @@ class Correlativo_model extends CI_Model {
 
     function save( $correlativos ){
 
-        $data = array(
-            'valor_inical'      => $correlativos['valor_inical'],
-            'valor_final'       => $correlativos['valor_final'],
-            'siguiente_valor'   => $correlativos['siguiente_valor'],
-            'fecha_creacion'    => date("Y-m-d H:i:s"),
-            'prefix'            => $correlativos['prefix'],
-            'Sucursal'          => $correlativos['Sucursal'],
-            'TipoDocumento'     => $correlativos['TipoDocumento'],
-            'numero_de_serire'  => $correlativos['numero_de_serire'],
-            'correlativo_estado'=> $correlativos['correlativo_estado'],
-        );
+        $registros = $this->get_correlativo_sucursal($correlativos['TipoDocumento'],$correlativos['Sucursal']);
 
-        $result = $this->db->insert(self::correlativos, $data );
+        if(!$registros){
 
-        if(!$result){
-            $result = $this->db->error();
+            $data = array(
+                'valor_inical'      => $correlativos['valor_inical'],
+                'valor_final'       => $correlativos['valor_final'],
+                'siguiente_valor'   => $correlativos['siguiente_valor'],
+                'fecha_creacion'    => date("Y-m-d H:i:s"),
+                'prefix'            => $correlativos['prefix'],
+                'Sucursal'          => $correlativos['Sucursal'],
+                'TipoDocumento'     => $correlativos['TipoDocumento'],
+                'numero_de_serire'  => $correlativos['numero_de_serire'],
+                'correlativo_estado'=> $correlativos['correlativo_estado'],
+            );
+
+            $result = $this->db->insert(self::correlativos, $data );
+
+            if(!$result){
+                $result = $this->db->error();
+            }
+
+            return $result;
+        }else{
+            return $result = [
+                'code' => 1,
+                'message' => "El registro ya existe"
+            ];
         }
-
-        return $result;
     }
 
     function editar( $correlativos_id ){
@@ -109,21 +119,31 @@ class Correlativo_model extends CI_Model {
 
     function update( $correlativos ){
 
-        $data = array(
-            'prefix'            => $correlativos['prefix'],
-            'Sucursal'          => $correlativos['Sucursal'],
-            'valor_final'       => $correlativos['valor_final'],
-            'valor_inical'      => $correlativos['valor_inical'],
-            'TipoDocumento'     => $correlativos['TipoDocumento'],
-            'siguiente_valor'   => $correlativos['siguiente_valor'],
-            'numero_de_serire'  => $correlativos['numero_de_serire'],            
-            'correlativo_estado'=> $correlativos['correlativo_estado'],
-        );
-        $this->db->where('id_correlativos', $correlativos['id_correlativos'] );
-        $result = $this->db->update(self::correlativos, $data );
+        $registros = $this->get_correlativo_sucursal($correlativos['TipoDocumento'],$correlativos['Sucursal']);
 
-        if(!$result){
-            $result = $this->db->error();
+        if(!$registros){
+
+            $data = array(
+                'prefix'            => $correlativos['prefix'],
+                'Sucursal'          => $correlativos['Sucursal'],
+                'valor_final'       => $correlativos['valor_final'],
+                'valor_inical'      => $correlativos['valor_inical'],
+                'TipoDocumento'     => $correlativos['TipoDocumento'],
+                'siguiente_valor'   => $correlativos['siguiente_valor'],
+                'numero_de_serire'  => $correlativos['numero_de_serire'],            
+                'correlativo_estado'=> $correlativos['correlativo_estado'],
+            );
+            $this->db->where('id_correlativos', $correlativos['id_correlativos'] );
+            $result = $this->db->update(self::correlativos, $data );
+
+            if(!$result){
+                $result = $this->db->error();
+            }
+        }else{
+            return $result = [
+                'code' => 1,
+                'message' => "El registro ya existe"
+            ];
         }
 
         return $result;

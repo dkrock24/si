@@ -99,40 +99,61 @@ class Compras_model extends CI_Model
 		return $query->result();
 	}
 
+	public function getCompra($referencia=null , $proveedor=null){
+		$this->db->select('*');
+		$this->db->from(self::pos_compras . ' as c');		
+		$this->db->where('documento_referencia', $referencia );
+		$this->db->where('Proveedor', $proveedor );
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}
+	}
+
 	function guardar_compra($datos , $compra){
 
-		$fecha 		= date_create();
-		$usuario_id = $this->session->usuario[0]->id_empleado;
-		$this->_orden 		= $datos;
-		
-		$data = array(
-			'Usuario' 		=> $usuario_id,
-			'Empleado' 		=> $usuario_id,
-			'Sucursal' 		=> $compra['sucursal'],
-			'Bodega' 		=> $compra['bodega'],
-			'Proveedor' 	=> $compra['proveedor'],
-			'modo_pago_id' 	=> $compra['modo_pago_id'],			
-			'numero_serie' 	=> date_timestamp_get($fecha),
-			'documento_referencia' => $compra['documento_referencia'],
-			'fecha_compra' 	=> $compra['fecha_compra'],
-			'Tipo_Documento'=> $compra['id_tipo_documento'],
-			'Empresa'		=> $this->session->empresa[0]->id_empresa,
-            'fecha_creacion'=> date("Y-m-d h:i:s"),
-			'status_open_close' => $compra['compra_estado'],
-		);
-		
-		$result = $this->db->insert(self::pos_compras, $data );
+		$registros = $this->getCompra($compra['documento_referencia'],$compra['proveedor']);
 
-		if($result){
-			$compra_id = $this->db->insert_id();
-			$this->guardar_compra_detalle($compra_id ,$datos);
-			$this->save_compra_impuestos($compra_id , 2);
-			return $compra_id;
+		if(!$registros){
+			$fecha 		= date_create();
+			$usuario_id = $this->session->usuario[0]->id_empleado;
+			$this->_orden = $datos;
+			
+			$data = array(
+				'Usuario' 		=> $usuario_id,
+				'Empleado' 		=> $usuario_id,
+				'Sucursal' 		=> $compra['sucursal'],
+				'Bodega' 		=> $compra['bodega'],
+				'Proveedor' 	=> $compra['proveedor'],
+				'modo_pago_id' 	=> $compra['modo_pago_id'],			
+				'numero_serie' 	=> date_timestamp_get($fecha),
+				'documento_referencia' => $compra['documento_referencia'],
+				'fecha_compra' 	=> $compra['fecha_compra'],
+				'Tipo_Documento'=> $compra['id_tipo_documento'],
+				'Empresa'		=> $this->session->empresa[0]->id_empresa,
+				'fecha_creacion'=> date("Y-m-d h:i:s"),
+				'status_open_close' => $compra['compra_estado'],
+			);
+			
+			$result = $this->db->insert(self::pos_compras, $data );
+	
+			if($result){
+				$compra_id = $this->db->insert_id();
+				$this->guardar_compra_detalle($compra_id ,$datos);
+				$this->save_compra_impuestos($compra_id , 2);
+				return $compra_id;
+			}else{
+				$result = $this->db->error();
+			}
+	
+			return $result;
 		}else{
-            $result = $this->db->error();
-        }
-
-		return $result;
+			return $result = [
+                'code' => 1,
+                'message' => "El registro ya existe"
+            ];
+		}		
 	}
 
 	function guardar_compra_detalle($compra_id ,$detalle){

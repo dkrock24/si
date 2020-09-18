@@ -1,10 +1,10 @@
 <?php
 class Documento_model extends CI_Model {
 
-    const documento = 'pos_tipo_documento';
-    const pos_sucursal = 'pos_sucursal';
+    const documento         = 'pos_tipo_documento';
+    const pos_sucursal      = 'pos_sucursal';
     const pos_temp_sucursal = 'pos_temp_sucursal';
-    const pos_orden_estado = 'pos_orden_estado';
+    const pos_orden_estado  = 'pos_orden_estado';
 
     function getDocumento($limit, $id , $filters){
         $this->db->select('*');
@@ -37,10 +37,13 @@ class Documento_model extends CI_Model {
         } 
     }
 
-    function getAllDocumento(){
+    function getAllDocumento($documentoNombre = null){
         $this->db->select('*');
         $this->db->from(self::documento);   
-        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);      
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa); 
+        if($documentoNombre){
+            $this->db->where('nombre', $documentoNombre); 
+        }     
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -93,24 +96,34 @@ class Documento_model extends CI_Model {
 
     function nuevo_documento( $documento ){
 
-        $data = array(
-            'nombre' => $documento['nombre'],
-            'estado' => $documento['estado'],
-            'Empresa'=> $this->session->empresa[0]->id_empresa,
-            'emitir_a' => $documento['emitir_a'],            
-            'automatico' => $documento['automatico'],
-            'efecto_en_iva' => $documento['efecto_en_iva'],
-            'efecto_en_caja' => $documento['efecto_en_caja'],
-            'efecto_inventario' => $documento['efecto_inventario'],
-            'efecto_en_cuentas' => $documento['efecto_en_cuentas'],
-            'efecto_en_report_venta' => $documento['efecto_en_report_venta'],
-        );
+        $regitros = $this->getAllDocumento($documento['nombre']);
 
-        $result = $this->db->insert(self::documento, $data );
-        if(!$result){
-            $result = $this->db->error();
+        if(!$regitros){
+
+            $data = array(
+                'nombre' => $documento['nombre'],
+                'estado' => $documento['estado'],
+                'Empresa'=> $this->session->empresa[0]->id_empresa,
+                'emitir_a' => $documento['emitir_a'],            
+                'automatico' => $documento['automatico'],
+                'efecto_en_iva' => $documento['efecto_en_iva'],
+                'efecto_en_caja' => $documento['efecto_en_caja'],
+                'efecto_inventario' => $documento['efecto_inventario'],
+                'efecto_en_cuentas' => $documento['efecto_en_cuentas'],
+                'efecto_en_report_venta' => $documento['efecto_en_report_venta'],
+            );
+
+            $result = $this->db->insert(self::documento, $data );
+            if(!$result){
+                $result = $this->db->error();
+            }
+            return $result;
+        }else{
+            return $result = [
+                'code' => 1,
+                'message' => "El registro ya existe"
+            ];
         }
-        return $result;
     }
 
     function delete_documento( $documento_id ){
