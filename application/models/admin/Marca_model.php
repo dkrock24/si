@@ -24,11 +24,12 @@ class Marca_model extends CI_Model {
         }
     }
 
-    function getAllMarca(){
+    function getAllMarca($marca = null){
 
         $this->db->select('*');
         $this->db->from(self::marca);   
-        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);      
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);  
+        $this->db->where('nombre_marca',$marca);
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -186,28 +187,38 @@ class Marca_model extends CI_Model {
 
     function nuevo_marca( $marca ){
 
-        $data = array(
-            'Empresa'=> $this->session->empresa[0]->id_empresa,
-            'nombre_marca' => $marca['nombre_marca'],
-            'estado_marca' => $marca['estado'],
-            'descripcion_marca' => $marca['descripcion_marca'],
-            'fecha_creado_marca' => date("Y-m-d h:i:s"),
-        );
-
-        $result = $this->db->insert(self::marca, $data );
-
-        $data = array(
-            'marca' => $this->db->insert_id(),
-            'categoria' => $marca['main_categoria'],
-        );
-
-        $this->save_categoria_marca( $data );
-
-        if(!$result){
-            $result = $this->db->error();
+        $registros = $this->getAllMarca($marca['nombre_marca']);
+        if(!$registros)
+        {
+            $data = array(
+                'Empresa'=> $this->session->empresa[0]->id_empresa,
+                'nombre_marca' => $marca['nombre_marca'],
+                'estado_marca' => $marca['estado'],
+                'descripcion_marca' => $marca['descripcion_marca'],
+                'fecha_creado_marca' => date("Y-m-d h:i:s"),
+            );
+    
+            $result = $this->db->insert(self::marca, $data );
+    
+            $data = array(
+                'marca' => $this->db->insert_id(),
+                'categoria' => $marca['main_categoria'],
+            );
+    
+            $this->save_categoria_marca( $data );
+    
+            if(!$result){
+                $result = $this->db->error();
+            }
+    
+            return $result;
+        }else{
+            return $result = [
+                'code' => 1,
+                'message' => "El registro ya existe"
+            ];
         }
-
-        return $result;
+        
     }
 
     function delete_marca( $role_id ){

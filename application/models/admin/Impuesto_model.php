@@ -6,7 +6,7 @@ class Impuesto_model extends CI_Model {
     const impuesto_cliente  = 'pos_impuesto_cliente';
     const impuesto_documento= 'pos_impuesto_documento';
     const impuesto_proveedor= 'pos_impuesto_proveedor';
-    const pos_orden_estado = 'pos_orden_estado';
+    const pos_orden_estado  = 'pos_orden_estado';
 
     function getImpuesto($limit, $id, $filters){
 
@@ -36,30 +36,40 @@ class Impuesto_model extends CI_Model {
 
     function nuevo_impuesto( $impuesto ){
 
-        $data = array(
-            'nombre' => $impuesto['nombre'],
-            'mensaje' => $impuesto['mensaje'],
-            'especial' => $impuesto['especial'],
-            'porcentage' => $impuesto['porcentaje'],
-            'condicion' => $impuesto['condicion'],
-            'excluyente' => $impuesto['excluyente'],
-            'imp_estado' => $impuesto['imp_estado'],
-            'imp_empresa'=> $this->session->empresa[0]->id_empresa,
-            'suma_resta_nada' => $impuesto['suma_resta_nada'],
-            'condicion_valor' => $impuesto['c_valor'],
-            'aplicar_a_cliente' => $impuesto['aplicar_a_cliente'],
-            'condicion_simbolo' => $impuesto['c_simbolo'],
-            'aplicar_a_producto' => $impuesto['aplicar_a_producto'],
-            'aplicar_a_proveedor' => $impuesto['aplicar_a_proveedor'],
-            'aplicar_a_grab_brut_exent' => $impuesto['aplicar_a_grab_brut_exent'],
-        );
+        $registros = $this->getAllImpuesto($impuesto['nombre']);
 
-        $result = $this->db->insert(self::impuesto, $data );
-        if(!$result){
-            $result = $this->db->error();
+        if(!$registros){
+
+            $data = array(
+                'nombre' => $impuesto['nombre'],
+                'mensaje' => $impuesto['mensaje'],
+                'especial' => $impuesto['especial'],
+                'porcentage' => $impuesto['porcentaje'],
+                'condicion' => $impuesto['condicion'],
+                'excluyente' => $impuesto['excluyente'],
+                'imp_estado' => $impuesto['imp_estado'],
+                'imp_empresa'=> $this->session->empresa[0]->id_empresa,
+                'suma_resta_nada' => $impuesto['suma_resta_nada'],
+                'condicion_valor' => $impuesto['c_valor'],
+                'aplicar_a_cliente' => $impuesto['aplicar_a_cliente'],
+                'condicion_simbolo' => $impuesto['c_simbolo'],
+                'aplicar_a_producto' => $impuesto['aplicar_a_producto'],
+                'aplicar_a_proveedor' => $impuesto['aplicar_a_proveedor'],
+                'aplicar_a_grab_brut_exent' => $impuesto['aplicar_a_grab_brut_exent'],
+            );
+
+            $result = $this->db->insert(self::impuesto, $data );
+            if(!$result){
+                $result = $this->db->error();
+            }
+
+            return $result;
+        }else{
+            return $result = [
+                'code' => 1,
+                'message' => "El registro ya existe"
+            ];
         }
-
-        return $result;
     }
 
     function getImpuestoById( $documento_id ){
@@ -120,13 +130,14 @@ class Impuesto_model extends CI_Model {
         return $result;
     }
 
-    function getAllImpuesto(){
+    function getAllImpuesto($impuesto = null){
 
         $this->db->select('*');
         $this->db->from(self::impuesto);
         $this->db->where('imp_empresa', $this->session->empresa[0]->id_empresa);
         $this->db->where('imp_estado', 1);
-        $query = $this->db->get();    
+        $this->db->where('nombre', $impuesto);
+        $query = $this->db->get();
                 
         if($query->num_rows() > 0 )
         {

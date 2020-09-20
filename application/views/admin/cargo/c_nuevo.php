@@ -24,7 +24,7 @@
 
                 <div id="panelDemo10" class="panel menu_title_bar">
 
-                    <div class="panel-heading menuTop">Nuevo Cargo Laboral :  </div>
+                    <div class="panel-heading menuTop"><i class="fa fa-user" style="font-size:22px;color:grey;"></i> Nuevo -Cargo Laboral :  </div>
 
                     <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="cargo" action='crear' method="post">
                     <div class="menuContent">
@@ -48,7 +48,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Descripcion</label>
+                                                <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Descripción</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control" id="descripcion_cargo_laboral" name="descripcion_cargo_laboral" placeholder="Descripcion" value="<?php //echo $onMenu[0]->url_submenu 
                                                                                                                                                                                                 ?>">

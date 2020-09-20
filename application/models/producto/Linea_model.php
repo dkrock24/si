@@ -24,10 +24,11 @@ class Linea_model extends CI_Model {
         }
 	}
 
-    function getAllLinea(  ){
+    function getAllLinea($linea = null ){
         $this->db->select('*');
         $this->db->from(self::pos_linea);
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
+        $this->db->where('tipo_producto',$linea);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -46,20 +47,30 @@ class Linea_model extends CI_Model {
 
     function save_linea( $datos ){
 
-        $data = array(
-            'Empresa'       => $this->session->empresa[0]->id_empresa,
-            'estado_linea'  => $datos['estado_linea'],
-            'tipo_producto' =>  $datos['tipo_producto'],
-            'descripcion_tipo_producto'  => $datos['descripcion_tipo_producto'],
-        );
-        
-        $result = $this->db->insert(self::pos_linea, $data);
+        $registros = $this->getAllLinea($datos['tipo_producto']);
 
-        if(!$result){
-            $result = $this->db->error();
+        if(!$registros){
+
+            $data = array(
+                'Empresa'       => $this->session->empresa[0]->id_empresa,
+                'estado_linea'  => $datos['estado_linea'],
+                'tipo_producto' =>  $datos['tipo_producto'],
+                'descripcion_tipo_producto'  => $datos['descripcion_tipo_producto'],
+            );
+            
+            $result = $this->db->insert(self::pos_linea, $data);
+
+            if(!$result){
+                $result = $this->db->error();
+            }
+
+            return $result;
+        }else{
+            return $result = [
+                'code' => 1,
+                'message' => "El registro ya existe"
+            ];
         }
-
-        return $result;
     }
 
     function getLineaId( $linea_id ){
@@ -91,6 +102,7 @@ class Linea_model extends CI_Model {
         }
 
         return $result;
+        
     }
 
     function eliminar_linea( $id ){

@@ -25,7 +25,7 @@
 
                 <div id="panelDemo10" class="panel menu_title_bar">    
                                         
-                    <div class="panel-heading menuTop"><h4><i class="fa fa-desktop"></i> Nueva Caja</h4>  <?php //echo $onMenu[0]->nombre_submenu ?> </div>
+                    <div class="panel-heading menuTop"><h4><i class="fa fa-desktop"></i> Crear Nueva Caja</h4>  <?php //echo $onMenu[0]->nombre_submenu ?> </div>
                      <div class="menuContent">        
                     
                      <div class="b">
@@ -37,7 +37,7 @@
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Nombre Caja</label>
+                                            <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Nombre</label>
                                             <div class="col-sm-9">
                                                 <input type="text" required class="form-control" id="nombre_caja" name="nombre_caja" placeholder="Nombre" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
                                                 
@@ -68,35 +68,35 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Operacion</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Operación</label>
                                             <div class="col-sm-9">
                                                 <input type="date" class="form-control" id="fecha_oper_caja" name="fecha_oper_caja" placeholder="Serie" value="<?php echo date('Y-m-d') ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Num. Resolucion</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Num. Resolución</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control" id="resol_num_caja" name="resol_num_caja" placeholder="Resolucion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Resolucion</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Resolución</label>
                                             <div class="col-sm-9">
                                                 <input type="date" class="form-control" id="resol_fecha_caja" name="resol_fecha_caja" placeholder="Ubicacion" value="<?php echo date('Y-m-d') ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Numero Ticket Resolucion</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Número Ticket Resolución</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control" id="resol_num_tiq_caja" name="resol_num_tiq_caja" placeholder="Numero Ticket Resolucion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Ticket Resolucion</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Ticket Resolución</label>
                                             <div class="col-sm-9">
                                                 <input type="date" class="form-control" id="resol_fec_tiq_caja" name="resol_fec_tiq_caja" placeholder="Cajero" value="<?php echo date('Y-m-d') ?>">
                                             </div>
@@ -149,21 +149,21 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Numero Turnos</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Número Turnos</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control" id="num_turnos" name="num_turnos" placeholder="Numero" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Caja</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Código</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control" id="pred_cod_cajr" name="pred_cod_cajr" placeholder="Codigo" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Suc</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Sucursal</label>
                                             <div class="col-sm-9">
                                                 <select name="pred_cod_sucu" class="form-control">
                                                     <?php

@@ -20,27 +20,24 @@
 
         </h3>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <div id="panelDemo10" class="panel menu_title_bar">
 
-                    <div class="panel-heading menuTop">Editar Cargo Laboral : <?php //echo $onMenu[0]->nombre_submenu 
+                    <div class="panel-heading menuTop"><i class="fa fa-user" style="font-size:22px;color:grey;"></i> Editar Cargo Laboral : <?php //echo $onMenu[0]->nombre_submenu 
                                                                                 ?> </div>
-                    <div class="panel-body menuContent">
+                    <div class="menuContent">
                         <p>
                             <form class="form-horizontal" enctype="multipart/form-data" id="../update" name="cargo" action='../update' method="post">
-                                <input type="hidden" value="<?php echo $cargo[0]->id_cargo_laboral; ?>" name="id_cargo_laboral">
-                                <div class="row">
+                                <div class="b">    
+                                    <input type="hidden" value="<?php echo $cargo[0]->id_cargo_laboral; ?>" name="id_cargo_laboral">
+                                    <div class="row">
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
 
-                                        <div class="panel b">
                                             <div class="panel-heading">
-                                                <div class="pull-right">
-                                                    <div class="label label-info">Importante</div>
-                                                </div>
-                                                <h4 class="m0">Editar Cargo</h4>
-                                                <small class="text-muted">Editar Cargo Selecionado.</small>
-                                            </div>
+                                                
+                                            
+                                            
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Nombre</label>
                                                 <div class="col-sm-9">
@@ -50,7 +47,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Descripcion</label>
+                                                <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Descripción</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control" id="descripcion_cargo_laboral" name="descripcion_cargo_laboral" placeholder="Descripcion" value="<?php echo $cargo[0]->descripcion_cargo_laboral ?>">
 
@@ -97,14 +94,13 @@
                                                 </div>
                                             </div>
 
-                                        </div>
+                                            </div>
+
 
 
                                     </div>
 
                                 </div>
-
-
                             </form>
                         </p>
                     </div>

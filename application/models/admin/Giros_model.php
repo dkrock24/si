@@ -1,12 +1,12 @@
 <?php
 class Giros_model extends CI_Model {
 	
-	const giros =  'pos_giros';
-    const plantillas = 'giro_pantilla';
-    const atributos = 'atributo';
-    const empresa = 'pos_empresa';
+	const giros             =  'pos_giros';
+    const empresa           = 'pos_empresa';
+    const atributos         = 'atributo';
+    const plantillas        = 'giro_pantilla';
+    const pos_orden_estado  = 'pos_orden_estado';
     const empresa_plantilla = 'giros_empresa';
-    const pos_orden_estado = 'pos_orden_estado';
 
 	function get_giros( $limit, $id , $filters ){;
 		$this->db->select('*');
@@ -26,12 +26,13 @@ class Giros_model extends CI_Model {
         } 
 	}
 
-    function getAllgiros(){;
+    function getAllgiros($giro = null){;
         $this->db->select('*');
         $this->db->from(self::giros);
         $this->db->where(self::giros.'.Empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->where(self::giros.'.nombre_giro', $giro);
         $query = $this->db->get(); 
-        //echo $this->db->queries[2];
+        //echo $this->db->queries[0];
         
         if($query->num_rows() > 0 )
         {
@@ -74,22 +75,33 @@ class Giros_model extends CI_Model {
 
 	function crear_giro( $nuevo_giro ){
 
-		$data = array(
-            'nombre_giro'       => $nuevo_giro['nombre_giro'],
-            'descripcion_giro'  => $nuevo_giro['descripcion_giro'],
-            'tipo_giro'         => $nuevo_giro['tipo_giro'],
-            'codigo_giro'       => $nuevo_giro['codigo_giro'],
-            'Empresa'           => $this->session->empresa[0]->id_empresa,
-            'estado_giro'       => $nuevo_giro['estado_giro'],
-            'fecha_giro_creado' => date("Y-m-d h:i:s")
-        );
-        $insert = $this->db->insert(self::giros, $data ); 
+        $registros = $this->getAllgiros($nuevo_giro['nombre_giro']);
 
-        if(!$insert){
-            $insert = $this->db->error();
+        if(!$registros){
+            $data = array(
+                'nombre_giro'       => $nuevo_giro['nombre_giro'],
+                'descripcion_giro'  => $nuevo_giro['descripcion_giro'],
+                'tipo_giro'         => $nuevo_giro['tipo_giro'],
+                'codigo_giro'       => $nuevo_giro['codigo_giro'],
+                'Empresa'           => $this->session->empresa[0]->id_empresa,
+                'estado_giro'       => $nuevo_giro['estado_giro'],
+                'fecha_giro_creado' => date("Y-m-d h:i:s")
+            );
+            $insert = $this->db->insert(self::giros, $data ); 
+    
+            if (!$insert) {
+                $insert = $this->db->error();
+            }
+            return $insert;
+        }else{
+            return $result = [
+                'code' => 1,
+                'message' => "El registro ya existe"
+            ];
         }
 
-        return $insert;
+		
+
 	}
 
 	function get_giro_id( $id_giro ){ 

@@ -6,11 +6,12 @@ class Cargos_model extends CI_Model {
     const sys_cargo_laboral = 'sys_cargo_laboral';
     const pos_orden_estado  = 'pos_orden_estado';
 	
-	function get_cargos(){
+	function get_cargos($cargo = null){
 
 		$this->db->select('*');
         $this->db->from(self::sys_cargo_laboral.' as p');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->where('p.cargo_laboral',$cargo);
         $query = $this->db->get();
         
         if($query->num_rows() > 0 )
@@ -45,20 +46,29 @@ class Cargos_model extends CI_Model {
 
     function crear_cargo($datos){
 
-        $data = array(
-            'Empresa'                   => $this->session->empresa[0]->id_empresa,
-            'cargo_estado'              => $datos['estado'],
-            'cargo_laboral'             => $datos['cargo_laboral'],
-            'descripcion_cargo_laboral' => $datos['descripcion_cargo_laboral'],
-            'salario_mensual_cargo_laboral'=> $datos['salario_mensual_cargo_laboral']
-        );
-        
-        $insert = $this->db->insert(self::sys_cargo_laboral, $data);  
-        if(!$insert){
-            $insert = $this->db->error();
-        }
+        $registros = $this->get_cargos($datos['cargo_laboral']);
 
-        return $insert;
+        if(!$registros){
+            $data = array(
+                'Empresa'                   => $this->session->empresa[0]->id_empresa,
+                'cargo_estado'              => $datos['estado'],
+                'cargo_laboral'             => $datos['cargo_laboral'],
+                'descripcion_cargo_laboral' => $datos['descripcion_cargo_laboral'],
+                'salario_mensual_cargo_laboral'=> $datos['salario_mensual_cargo_laboral']
+            );
+            
+            $insert = $this->db->insert(self::sys_cargo_laboral, $data);  
+            if(!$insert){
+                $insert = $this->db->error();
+            }
+    
+            return $insert;
+        }else{
+            return $result = [
+                'code' => 1,
+                'message' => "El registro ya existe"
+            ];
+        }
     }
 
     function get_cargo_id( $cargo_id ){;
@@ -77,10 +87,10 @@ class Cargos_model extends CI_Model {
     function update($datos){
 
         $data = array(
-            'cargo_laboral'    => $datos['cargo_laboral'],
+            'cargo_estado' => $datos['estado'],
+            'cargo_laboral' => $datos['cargo_laboral'],
             'descripcion_cargo_laboral'=> $datos['descripcion_cargo_laboral'],
-            'salario_mensual_cargo_laboral'       => $datos['salario_mensual_cargo_laboral'],
-            'cargo_estado'            => $datos['estado'],
+            'salario_mensual_cargo_laboral' => $datos['salario_mensual_cargo_laboral'],
         );
         
         $this->db->where('id_cargo_laboral', $datos['id_cargo_laboral']);  
@@ -106,7 +116,4 @@ class Cargos_model extends CI_Model {
 
         return $result;
     }
-
-
-
 }
