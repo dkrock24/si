@@ -209,7 +209,7 @@
                                     <div class="col-lg-4" style="border-left:1px solid grey;border-right:1px solid grey">
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Direccion</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Dirección</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control" id="direccion_cliente" name="direccion_cliente" placeholder="Direccion" value="<?php //echo $onMenu[0]->titulo_submenu 
                                                                                                                                                                         ?>">

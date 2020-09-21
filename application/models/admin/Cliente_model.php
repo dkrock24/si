@@ -79,13 +79,14 @@ class Cliente_model extends CI_Model
         }
     }
 
-    function getCliente(){
+    function getCliente($clienteNombre = null){
         $this->db->select('*');
         $this->db->from(self::cliente . ' as c');
         $this->db->join(self::tipos_documentos.' as td', ' on c.TipoDocumento=td.id_tipo_documento');
         $this->db->join(self::formas_pago.' as fp', ' on c.TipoPago=fp.id_modo_pago');
         $this->db->join(self::sys_persona . ' as p', ' on p.id_persona = Persona');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->where('c.nombre_empresa_o_compania', $clienteNombre);
         $query = $this->db->get();
         //echo $this->db->queries[2];
         
@@ -133,42 +134,51 @@ class Cliente_model extends CI_Model
             $imageProperties = getimageSize($_FILES['logo_cli']['tmp_name']);
         }
 
-        $data = array(
-            'website_cli'       => $datos['website_cli'],
-            'nrc_cli'           => $datos['nrc_cli'],
-            'nit_cliente'       => $datos['nit_cliente'],
-            'dui_cli'           => $datos['dui_cliente'],
-            'clase_cli'         => $datos['clase_cli'],
-            'mail_cli'          => $datos['mail_cli'],            
-            'TipoPago'          => $datos['TipoPago'],
-            'TipoDocumento'     => $datos['TipoDocumento'],
-            'nombre_empresa_o_compania' => $datos['nombre_empresa_o_compania'],
-            'numero_cuenta'     => $datos['numero_cuenta'],
-            'aplica_impuestos'  => $datos['aplica_impuestos'],
-            'direccion_cliente' => $datos['direccion_cliente'],
-            'porcentage_descuentos'=> $datos['porcentage_descuentos'],
-            'estado_cliente'    => $datos['estado'],
-            'creado'            => date("Y-m-d h:i:s"),
-            'Persona'           => $datos['Persona'],
-            'natural_juridica'  => $datos['natural_juridica'],
-            'id_cliente_tipo'   => $datos['id_cliente_tipo']
-        );
+        $registros = $this->getCliente($datos['nombre_empresa_o_compania']);
+        if(!$registros)
+        {
+            $data = array(
+                'website_cli'       => $datos['website_cli'],
+                'nrc_cli'           => $datos['nrc_cli'],
+                'nit_cliente'       => $datos['nit_cliente'],
+                'dui_cli'           => $datos['dui_cliente'],
+                'clase_cli'         => $datos['clase_cli'],
+                'mail_cli'          => $datos['mail_cli'],            
+                'TipoPago'          => $datos['TipoPago'],
+                'TipoDocumento'     => $datos['TipoDocumento'],
+                'nombre_empresa_o_compania' => $datos['nombre_empresa_o_compania'],
+                'numero_cuenta'     => $datos['numero_cuenta'],
+                'aplica_impuestos'  => $datos['aplica_impuestos'],
+                'direccion_cliente' => $datos['direccion_cliente'],
+                'porcentage_descuentos'=> $datos['porcentage_descuentos'],
+                'estado_cliente'    => $datos['estado'],
+                'creado'            => date("Y-m-d h:i:s"),
+                'Persona'           => $datos['Persona'],
+                'natural_juridica'  => $datos['natural_juridica'],
+                'id_cliente_tipo'   => $datos['id_cliente_tipo']
+            );
 
-        if( $imagen && $imageProperties){
+            if( $imagen && $imageProperties){
 
-            $data['logo_cli']  = $imagen;
-            $data['logo_type']  = $imageProperties['mime'];
+                $data['logo_cli']  = $imagen;
+                $data['logo_type']  = $imageProperties['mime'];
 
+            }
+
+            $result = $this->db->insert(self::cliente, $data);
+
+            if(!$result){
+                $result = $this->db->error();
+            }
+            $this->crearFpCliente($this->db->insert_id(),  $datos);
+
+            return $result;
+        }else{
+            return $result = [
+                'code' => 1,
+                'message' => "El registro ya existe"
+            ];
         }
-
-        $result = $this->db->insert(self::cliente, $data);
-
-        if(!$result){
-            $result = $this->db->error();
-        }
-        $this->crearFpCliente($this->db->insert_id(),  $datos);
-
-        return $result;
     }
 
     function crearFpCliente($clienteId, $formas_pago){

@@ -231,7 +231,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Direccion</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Dirección</label>
                                             <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="direccion_cliente" name="direccion_cliente" placeholder="Direccion" value="<?php echo $cliente[0]->direccion_cliente ?>">
 
