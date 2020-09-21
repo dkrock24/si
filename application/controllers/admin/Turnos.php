@@ -68,7 +68,7 @@ class Turnos extends MY_Controller {
 	public function nuevo(){
 
 		$data['menu'] = $this->session->menu;
-		$data['home'] = 'admin/pagos/p_nuevo';
+		$data['home'] = 'admin/turnos/nuevo';
 		$data['title'] = "Crear Nuevo Pago";
 
 		$this->parser->parse('template', $data);
@@ -77,28 +77,28 @@ class Turnos extends MY_Controller {
 	public function save(){
 
 		if(isset($_POST)){
-			$data = $this->Pagos_model->save( $_POST );
+			$data = $this->Turnos_model->save( $_POST );
 
 			if($data){
-				$this->session->set_flashdata('success', "Tipo Pago Fue Creado");
+				$this->session->set_flashdata('success', "Turno Fue Creado");
 			}else{
-				$this->session->set_flashdata('danger', "Tipo Pago No Fue Creado");
+				$this->session->set_flashdata('danger', "Turno No Fue Creado");
 			}
 		}
 
-		redirect(base_url()."admin/pagos/index");
+		redirect(base_url()."admin/turnos/index");
 	}
 
-	public function editar( $pago_id ){
+	public function editar( $turno_id ){
 
-		$id_rol = $this->session->roles;
+		$id_rol   = $this->session->roles;
 		$vista_id = 8; // Vista Orden Lista
 
 		$data['menu'] 		= $this->session->menu;
-		$data['pagos'] 		= $this->Pagos_model->getPagoId($pago_id);
+		$data['turnos'] 		= $this->Turnos_model->getTurnoId($turno_id);
 		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['home'] 		= 'admin/pagos/p_editar';
-		$data['title'] 		= "Editar Forma Pago";
+		$data['home'] 		= 'admin/turnos/editar';
+		$data['title'] 		= "Editar Turno";
 
 		$this->parser->parse('template', $data);
 	}
@@ -106,28 +106,28 @@ class Turnos extends MY_Controller {
 	public function update(){
 
 		if(isset($_POST)){
-			$data = $this->Pagos_model->update( $_POST );
+			$data = $this->Turnos_model->update( $_POST );
 
 			if($data){
-				$this->session->set_flashdata('info', "Tipo Pago Fue Actualizado");
+				$this->session->set_flashdata('info', "Turno Fue Actualizado");
 			}else{
-				$this->session->set_flashdata('danger', "Tipo Pago No Fue Actualizado");
+				$this->session->set_flashdata('danger', "Turno No Fue Actualizado");
 			}
 		}
 
-		redirect(base_url()."admin/pagos/index");
+		redirect(base_url()."admin/turnos/index");
 	}
 
 	public function eliminar($id){
 
-		$data = $this->Pagos_model->eliminar( $id );
+		$data = $this->Turnos_model->eliminar( $id );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Tipo Pago Fue Eliminado");
+			$this->session->set_flashdata('warning', "Turno Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Tipo Pago No Fue Eliminado");
+			$this->session->set_flashdata('danger', "Turno No Fue Eliminado");
 		}
-		redirect(base_url()."admin/pagos/index");
+		redirect(base_url()."admin/turnos/index");
 	}
 
 	public function column(){
