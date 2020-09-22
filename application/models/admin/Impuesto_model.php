@@ -136,7 +136,9 @@ class Impuesto_model extends CI_Model {
         $this->db->from(self::impuesto);
         $this->db->where('imp_empresa', $this->session->empresa[0]->id_empresa);
         $this->db->where('imp_estado', 1);
-        $this->db->where('nombre', $impuesto);
+        if($impuesto){
+            $this->db->where('nombre', $impuesto);
+        }
         $query = $this->db->get();
                 
         if($query->num_rows() > 0 )

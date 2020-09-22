@@ -114,8 +114,8 @@
             }
         });
 
-        $(document).on('change', '#Empresa', function() {
-            var id_empresa = $(this).val();
+        $(document).ready(function() {
+            var id_empresa = $("#Empresa").val();
             $.ajax({
                 url: "get_sucursal/" + id_empresa,
                 datatype: 'json',
@@ -286,7 +286,6 @@
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empresa</label>
                                             <div class="col-sm-9">
                                                 <select id="Empresa" required name="Empresa" class="form-control">
-                                                    <option>Selecione Empresa</option>
                                                     <?php
                                                     foreach ($empresa as $key => $p) {
                                                         ?>

@@ -6,12 +6,14 @@ class Cargos_model extends CI_Model {
     const sys_cargo_laboral = 'sys_cargo_laboral';
     const pos_orden_estado  = 'pos_orden_estado';
 	
-	function get_cargos($cargo = null){
+	function get_cargos($cargo = NULL){
 
 		$this->db->select('*');
         $this->db->from(self::sys_cargo_laboral.' as p');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
-        $this->db->where('p.cargo_laboral',$cargo);
+        if($cargo){
+            $this->db->where('p.cargo_laboral',$cargo);
+        }
         $query = $this->db->get();
         
         if($query->num_rows() > 0 )

@@ -30,7 +30,9 @@ class Giros_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::giros);
         $this->db->where(self::giros.'.Empresa', $this->session->empresa[0]->id_empresa);
-        $this->db->where(self::giros.'.nombre_giro', $giro);
+        if($giro){
+            $this->db->where(self::giros.'.nombre_giro', $giro);
+        }
         $query = $this->db->get(); 
         //echo $this->db->queries[0];
         

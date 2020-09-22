@@ -28,8 +28,10 @@ class Marca_model extends CI_Model {
 
         $this->db->select('*');
         $this->db->from(self::marca);   
-        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);  
-        $this->db->where('nombre_marca',$marca);
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
+        if($marca){
+            $this->db->where('nombre_marca',$marca);            
+        }
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )

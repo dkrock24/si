@@ -28,7 +28,9 @@ class Linea_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::pos_linea);
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
-        $this->db->where('tipo_producto',$linea);
+        if($linea){
+            $this->db->where('tipo_producto',$linea);
+        }
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

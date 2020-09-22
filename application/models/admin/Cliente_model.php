@@ -86,7 +86,9 @@ class Cliente_model extends CI_Model
         $this->db->join(self::formas_pago.' as fp', ' on c.TipoPago=fp.id_modo_pago');
         $this->db->join(self::sys_persona . ' as p', ' on p.id_persona = Persona');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
-        $this->db->where('c.nombre_empresa_o_compania', $clienteNombre);
+        if($clienteNombre){
+            $this->db->where('c.nombre_empresa_o_compania', $clienteNombre);
+        }
         $query = $this->db->get();
         //echo $this->db->queries[2];
         
