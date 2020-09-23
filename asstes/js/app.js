@@ -50,12 +50,13 @@
 
   $( "input[type=text]" ).focus(function() {
       if(this.name != '[producto_buscar]'){
-          $( this ).before( '<i class="fa fa-check lineas_formulario" style="color:#68af93"></i>' );
+          //$( this ).before( '<i class="fa fa-check lineas_formulario" style="color:#68af93"></i>' );
           $(this).css('border','1px solid #4974a7');
       }
   });
   $( "input[type=text]" ).blur(function() {
       $(".lineas_formulario").remove();
+      $(this).css('border','1px solid #dde6e9');
   });
 
   $(function(){
