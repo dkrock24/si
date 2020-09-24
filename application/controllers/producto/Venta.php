@@ -198,6 +198,7 @@ class Venta extends MY_Controller {
 
 		$order_id = $id;
 		$data['orden'] 			= $this->Venta_model->getVentaId($order_id);
+		//var_dump($data['orden'][0]);die;
 		$data['detalle'] 		= $this->Venta_model->getVentaDetalleId($order_id);		
 		$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
 		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );

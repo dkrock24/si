@@ -362,10 +362,13 @@
                                 <th scope="row"><?php echo $contador; ?></th>
                                 <?php
                                         foreach ($fields['field'] as $key => $field) {
-
+                                            
                                             if ($field != 'estado') {
+                                                $keyy = array_keys($field);
+                                                $name = $keyy[0];
                                                 ?>
-                                        <td><?php echo $table->$field; ?></td>
+                                                
+                                        <td><?php echo $table->$name; ?></td>
                                     <?php
                                                 }
                                                 if ($field == 'estado') {

@@ -898,7 +898,7 @@ class Venta_model extends CI_Model {
 			left join pos_orden_estado as oe  on oe.id_orden_estado= ventas.orden_estado
 			where ventas.id=".$id_venta);
 
-		    //echo $this->db->queries[1];
+		    //echo $this->db->queries[1];die;
 		    return $query->result();
 		}
 

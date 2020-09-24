@@ -55,7 +55,7 @@ class Giros extends MY_Controller {
 		$data['total_records'] 	= $pag['total_records'];
 		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']  );
 		$data['registros'] 		= $this->Giros_model->get_giros( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
-		$data['home'] 			= 'template/lista_template';
+		$data['home'] 			= 'admin/giros/giros_lista';
 		$data['title'] 			= 'Lista Giros';
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];

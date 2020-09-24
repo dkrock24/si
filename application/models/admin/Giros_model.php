@@ -366,16 +366,15 @@ class Giros_model extends CI_Model {
         $empresa = $giro_empresa['empresa'];
 
         foreach ($giro_empresa as $key => $value) {
-
+            
             if(is_numeric((int)$key)){
-
+                
                 if(is_numeric($key)){
-
                     $data = array(
                         'Giro' => $key,
                         'Empresa' => $empresa 
                     );
-                    $this->db->delete(self::empresa_plantilla, $data ); 
+                    $result = $this->db->delete(self::empresa_plantilla, $data ); 
                     $contador_insertados+=1;
                 }else{
                     //echo "No";
