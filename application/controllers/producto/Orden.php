@@ -192,11 +192,38 @@ class Orden extends MY_Controller {
 		}
 	}
 
-	public function get_correlativo_documento( $documento , $sucursal ){
+	public function get_correlativo_documento( $documento , $sucursal , $totalProductos){
 		
 		$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal( $documento , $sucursal );
+
+		$template = $this->Template_model->get_template_sucursal_documento( $sucursal, $documento);
+
+		$totalDocumentos = $this->totalDocumentos($template, $totalProductos);
+
+		$correlativos = [];
+		if($totalDocumentos > 1){
+			$numCorrelativos = $data['correlativo'][0]->siguiente_valor;
+			
+			for ($int = 1; $int <= $totalDocumentos; $int++) {
+				$correlativos[] = $numCorrelativos++;
+			}
+		}
+
+		var_dump($correlativos);die;
 		
 		echo json_encode($data);
+	}
+
+	private function totalDocumentos($template , $totalProductos){
+		if ($totalProductos > 0) {
+			$productosEnDocumento = ((int) ($totalProductos / $template[0]->factura_lineas) +1);
+			
+			return $productosEnDocumento;
+		}
+	}
+
+	private function getCorrelativos($documento ,$sucursal , $cantidad){
+
 	}
 
 	public function update_orden(){

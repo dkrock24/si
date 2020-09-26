@@ -14,6 +14,7 @@
         var input_devolucion_dui    = "";
         var input_devolucion_nit    = "";
         var error                   = false;
+        var total_elementos         = 0;
         
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
@@ -1691,6 +1692,10 @@
             correlativo_documento(cli_form_pago, tipo_documento, sucursal_id);
         });
 
+        function getTotalElementos(){
+            return this.total_elementos;
+        }
+
         /*
         * PROCESO ANULAR
         */
@@ -1760,8 +1765,9 @@
         }
 
         function correlativo_documento(cli_form_pago, tipo_documento, sucursal_id) {
+            var total_articulos = getTotalElementos();
             $.ajax({
-                url: path + "get_correlativo_documento/" + tipo_documento + "/" + sucursal_id,
+                url: path + "get_correlativo_documento/" + tipo_documento + "/" + sucursal_id + "/"+total_articulos,
                 datatype: 'json',
                 cache: false,
 
@@ -2472,6 +2478,7 @@
             $(".cantidad_tabla").val(4);
             $(".sub_total_tabla").val(4);
             $(".total_items").text(total_items);
+            this.total_elementos = total_items;
 
             calculo_totales();
             $("#cantidad").val(1);

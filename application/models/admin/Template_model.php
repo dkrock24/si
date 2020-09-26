@@ -2,19 +2,19 @@
 class Template_model extends CI_Model {
 
 	const cliente =  'pos_cliente';
-    const formas_pago =  'pos_formas_pago';
-    const tipos_documentos =  'pos_tipo_documento';
-    const sys_persona =  'sys_persona';
-    const pos_tipo_documento= 'pos_tipo_documento';
-    const pos_formas_pago = 'pos_formas_pago';
-    const pos_doc_temp = 'pos_doc_temp';
-    const pos_sucursal = 'pos_sucursal';
-    const pos_temp_sucursal = 'pos_temp_sucursal';
-    const pos_empresa = 'pos_empresa';
+    const sucursal = 'pos_sucursal';
     const pos_orden = 'pos_ordenes';
     const pos_ventas = 'pos_ventas';
-    const sucursal = 'pos_sucursal';
+    const formas_pago =  'pos_formas_pago';
+    const sys_persona =  'sys_persona';
+    const pos_empresa = 'pos_empresa';
+    const pos_doc_temp = 'pos_doc_temp';
+    const pos_sucursal = 'pos_sucursal';
+    const pos_formas_pago = 'pos_formas_pago';
+    const tipos_documentos =  'pos_tipo_documento';
     const pos_orden_estado = 'pos_orden_estado';
+    const pos_temp_sucursal = 'pos_temp_sucursal';
+    const pos_tipo_documento= 'pos_tipo_documento';
 
 	function get_cliente(){
 		$this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,TipoDocumento');
@@ -315,6 +315,20 @@ class Template_model extends CI_Model {
         $this->db->where('id_factura', $formato_id );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function get_template_sucursal_documento( $sucursal , $documento  ){
+        $this->db->select('*');
+        $this->db->from(self::pos_temp_sucursal. ' as ts');
+        $this->db->join(self::pos_doc_temp.' as t ', 'ON t.id_factura = ts.Template');
+        $this->db->where('ts.Sucursal', $sucursal );
+        $this->db->where('ts.Documento', $documento );
+        $query = $this->db->get();
         
         if($query->num_rows() > 0 )
         {

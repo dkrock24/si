@@ -7,7 +7,7 @@ class Correlativo_model extends CI_Model {
     const correlativos  =  'pos_correlativos';  
     const pos_orden_estado = 'pos_orden_estado';  
 
-	function get_correlativo_sucursal($documento  , $sucursal ){
+	public function get_correlativo_sucursal($documento  , $sucursal ){
 
         $this->db->select('*');
         $this->db->from(self::correlativos.' as c');
@@ -23,7 +23,7 @@ class Correlativo_model extends CI_Model {
         }
     }    
 
-    function get_by_id( $sucursal ){
+    public function get_by_id( $sucursal ){
 
         $this->db->select('*');
         $this->db->from(self::correlativos.' as c');
@@ -36,7 +36,7 @@ class Correlativo_model extends CI_Model {
         }
     }
 
-    function getCorrelativos( $limit, $id , $filters ){
+    public function getCorrelativos( $limit, $id , $filters ){
 
         $this->db->select('*');
         $this->db->from(self::correlativos.' as c');
@@ -59,7 +59,7 @@ class Correlativo_model extends CI_Model {
         }
     }
 
-    function record_count($filter){
+    public function record_count($filter){
         //return $this->db->count_all(self::correlativos);
         $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::correlativos.' as c');
@@ -68,7 +68,7 @@ class Correlativo_model extends CI_Model {
         return $result;
     }
 
-    function save( $correlativos ){
+    public function save( $correlativos ){
 
         $registros = $this->get_correlativo_sucursal($correlativos['TipoDocumento'],$correlativos['Sucursal']);
 
@@ -101,7 +101,7 @@ class Correlativo_model extends CI_Model {
         }
     }
 
-    function editar( $correlativos_id ){
+    public function editar( $correlativos_id ){
 
         $this->db->select('*');
         $this->db->from(self::correlativos.' as c');
@@ -117,7 +117,7 @@ class Correlativo_model extends CI_Model {
         }
     }
 
-    function update( $correlativos ){
+    public function update( $correlativos ){
 
         $registros = $this->get_correlativo_sucursal($correlativos['TipoDocumento'],$correlativos['Sucursal']);
 
@@ -149,7 +149,7 @@ class Correlativo_model extends CI_Model {
         return $result;
     }
 
-    function delete( $id_correlativos ){
+    public function delete( $id_correlativos ){
 
         $data = array(
             'id_correlativos' =>  $id_correlativos
