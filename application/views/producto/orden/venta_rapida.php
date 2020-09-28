@@ -503,7 +503,7 @@ include("asstes/pos_orden.php");
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <label> <span class="fa fa-edit"></span> [ Shift + q ] Tipo Documento <?php //echo $terminal[0]->pred_id_tpdoc; ?></label>
-                                            <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
+                                            <select class="form-control id_tipo_documento_main" name="id_tipo_documento" id="id_tipo_documento">
                                                 <?php
                                                 foreach ($tipoDocumento as $d) {
                                                     $doc = strtoupper($d->nombre);
@@ -875,15 +875,15 @@ include("asstes/pos_orden.php");
 
                             <div class="col-lg-2 col-md-2"><br>
                                 Documento
-                                <select class="form-control" name="id_tipo_documento" id="id_tipo_documento" class="id_tipo_documento">
+                                <select class="form-control id_tipo_documento" name="id_tipo_documento" id="id_tipo_documento" >
                                     <?php
 
                                     foreach ($tipoDocumento as $documento) {
-                                        if ($orden[0]->id_tipod != $documento->id_tipo_documento) {
+                                        //if ($orden[0]->id_tipod != $documento->id_tipo_documento) {
                                     ?>
                                             <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
                                     <?php
-                                        }
+                                        //}
                                     }
                                     ?>
                                 </select>

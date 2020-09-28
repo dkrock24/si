@@ -209,7 +209,7 @@ class Orden extends MY_Controller {
 			}
 		}
 
-		var_dump($correlativos);die;
+		$data['numeros_correlativos'] = $correlativos;
 		
 		echo json_encode($data);
 	}

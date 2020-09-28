@@ -1683,11 +1683,28 @@
 
         $(document).on('change', '#id_tipo_documento', function() {
 
+            
+            $('.id_tipo_documento_main option[value='+$(this).val()+']').prop('selected', true);
+
+
             var cli_form_pago   = $("#cliente_codigo").val();
             var tipo_documento  = parseInt($(this).val());
             var sucursal_id     = $("#sucursal_id2").val();
             
             documento_inventario = tipo_documento;
+
+            correlativo_documento(cli_form_pago, tipo_documento, sucursal_id);
+        });
+
+        $(document).on('change', '.id_tipo_documento_main', function() {
+            valor = $('.id_tipo_documento_main option:selected').val();
+            
+            $('.id_tipo_documento option[value='+valor+']').prop('selected', true);
+
+            var cli_form_pago   = $("#cliente_codigo").val();
+            var tipo_documento  = parseInt($(this).val());
+            var sucursal_id     = $("#sucursal_id2").val();
+            documento_inventario= tipo_documento;
 
             correlativo_documento(cli_form_pago, tipo_documento, sucursal_id);
         });
