@@ -509,7 +509,7 @@ include("asstes/pos_orden.php");
                                                     $doc = strtoupper($d->nombre);
                                                     if ($d->id_tipo_documento == $terminal[0]->pred_id_tpdoc) {
                                                         //if (strpos($doc, 'ORDEN') === false) {
-                                                ?>
+                                                        ?>
                                                             <option value="<?php echo $d->id_tipo_documento; ?>"><?php echo $d->nombre . ' - ' . $d->factura_nombre; ?></option>
                                                         <?php
                                                         //}
@@ -909,7 +909,6 @@ include("asstes/pos_orden.php");
                                 <select name="orden_estado" id="orden_estado" class="form-control">
                                     <?php
                                     foreach($estados as $e){
-                                        
                                         ?>
                                         <option value="<?php echo $e->id_orden_estado ?>"><?php echo $e->orden_estado_nombre ?></option>
                                         <?php
@@ -917,8 +916,15 @@ include("asstes/pos_orden.php");
                                     ?>
                                 </select>
 
-                            </div>                            
+                            </div>
 
+                            <input type="text" name="abc" value="999">
+
+                        </div>
+
+                        <div class="row correlativos_documentos">
+                            <div class="correlativos_documentos"></div>
+                            
                         </div>
 
                         <div class="row" id="metodos_pagos" style="background:#f7f7f7;">

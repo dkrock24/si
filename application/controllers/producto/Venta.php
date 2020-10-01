@@ -58,7 +58,8 @@ class Venta extends MY_Controller {
 	}
 
 	public function guardar_venta(){
-		
+		var_dump($_POST['correlativos_extra']);
+		die;
 		$form 		= array();
 		$id_usuario = $this->session->usuario[0]->id_usuario;
 

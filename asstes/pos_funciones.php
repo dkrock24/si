@@ -15,6 +15,7 @@
         var input_devolucion_nit    = "";
         var error                   = false;
         var total_elementos         = 0;
+        var contadorCorrelativos    = 0;
         
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
@@ -23,7 +24,7 @@
         $('#vendedores_modal').appendTo("body");
         $('#presentacion_modal').appendTo("body");
         $("#autorizacion_descuento").appendTo("body");
-        $("#devolucion").appendTo("body");        
+        $("#devolucion").appendTo("body");
         $('#imprimir').appendTo("body");
         $('#anulado').appendTo("body");        
         $('#en_proceso').appendTo("body");
@@ -43,6 +44,7 @@
 
         var bodega = 0;
         var pagos_array = [];
+        var correlativos_array = [];
         var interno_bodega = 0;
         var pagos_mostrados = [];
         var _productos_precio2;
@@ -1789,11 +1791,20 @@
                 cache: false,
 
                 success: function(data) {
-
                     var datos           = JSON.parse(data);
                     var correlativo     = datos["correlativo"];
                     documento_inventario= correlativo[0].efecto_inventario;
                     $("#correlativo_documento").val(correlativo[0].siguiente_valor);
+                    var inputs = "<hr>";
+                    var increment = 1;
+                    $.each(datos['numeros_correlativos'], function(i, item) {
+                        inputs += "<div class='col-lg-3 col-md-3'><input type='text' class='form-control correlativo"+item+"' name='correlativo"+increment+"' value='"+item+"' /></div>";
+                        $(".correlativo"+item).appendTo("body");
+                        increment++;
+                        contadorCorrelativos++;
+                    });
+
+                    $(".correlativos_documentos").html(inputs);
                     depurar_producto();
                 },
                 error: function() {}
@@ -1893,7 +1904,14 @@
             var leng    = leng;
             var count   = 1;
             pagos_array = [];
+            correlativos_array = [];
 
+            while (count <= contadorCorrelativos) {
+                correlativos_array[count-1] = $(":input[name=correlativo" + count + "]").val();
+                count++;
+            }
+
+            count = 0;
             while (count <= leng) {
 
                 types = $(":input[name=pagoInput" + count + "]").attr('id');
@@ -2176,6 +2194,7 @@
                         documento_tipo      : tipo_documento,
                         sucursal_origen     : sucursal_origen,
                         correlativo_documento: correlativo_documento,
+                        correlativos_extra: correlativos_array,
                     },
                     url: path + method,
 
