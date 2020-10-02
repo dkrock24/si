@@ -1797,6 +1797,8 @@
                     $("#correlativo_documento").val(correlativo[0].siguiente_valor);
                     var inputs = "<hr>";
                     var increment = 1;
+                    cantidad_por_documento = datos['cantidad_por_documento'];
+                    
                     $.each(datos['numeros_correlativos'], function(i, item) {
                         inputs += "<div class='col-lg-3 col-md-3'><input type='text' class='form-control correlativo"+item+"' name='correlativo"+increment+"' value='"+item+"' /></div>";
                         $(".correlativo"+item).appendTo("body");

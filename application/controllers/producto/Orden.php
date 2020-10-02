@@ -210,6 +210,7 @@ class Orden extends MY_Controller {
 		}
 
 		$data['numeros_correlativos'] = $correlativos;
+		$data['cantidad_por_documento'] = $template[0]->factura_lineas;
 		
 		echo json_encode($data);
 	}

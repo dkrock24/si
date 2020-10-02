@@ -58,18 +58,21 @@ class Venta extends MY_Controller {
 	}
 
 	public function guardar_venta(){
-		var_dump($_POST['correlativos_extra']);
-		die;
 		$form 		= array();
 		$id_usuario = $this->session->usuario[0]->id_usuario;
 
 		foreach ($_POST['encabezado'] as $key => $value) {
 			$form[$value['name']] = $value['value'];
 		}
+
 		$correlativo_documento 	= $_POST['correlativo_documento'];		
 		$documento_tipo 		= $this->Documento_model->getDocumentoById($_POST['documento_tipo']);
 		$cliente 				= $this->get_clientes_id($_POST['cliente']);
 		$check_devol_param 		= $form['check_devolucion'] === 'true'? true: false;
+
+		$template = $this->Template_model->get_template_sucursal_documento( $_POST['sucursal_origen'], $_POST['documento_tipo']);
+
+		$totalDocumentos = $this->totalDocumentos($template, count($_POST['orden']));
 
 		$id = $this->Venta_model->guardar_venta( 
 			$_POST,
@@ -78,7 +81,9 @@ class Venta extends MY_Controller {
 			$form,
 			$documento_tipo,
 			$_POST['sucursal_origen'],
-			$correlativo_documento
+			$correlativo_documento,
+			$totalDocumentos,
+			$template[0]->factura_lineas
 		);
 
 		if($id['code']){
@@ -103,6 +108,14 @@ class Venta extends MY_Controller {
 		}
 
 		echo json_encode($data);
+	}
+
+	private function totalDocumentos($template , $totalProductos){
+		if ($totalProductos > 0) {
+			$productosEnDocumento = ((int) ($totalProductos / $template[0]->factura_lineas) +1);
+			
+			return $productosEnDocumento;
+		}
 	}
 
 	function get_clientes_id( $cliente_id ){

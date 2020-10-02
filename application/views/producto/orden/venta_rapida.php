@@ -21,6 +21,7 @@
     var combo_descuento = 0.00;
     var _conf = [];
     var _impuestos = [];
+    var cantidad_por_documento  = 0;
 
     window.onload = function(event) {
 

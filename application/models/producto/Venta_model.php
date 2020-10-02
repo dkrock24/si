@@ -34,6 +34,7 @@ class Venta_model extends CI_Model {
 		const pos_combo				 = 'pos_combo';
 		const sys_conf				 = 'sys_conf';		
 		const pos_tipo_documento 	 = 'pos_tipo_documento';
+		const pos_doc_temp			 = 'pos_doc_temp';
 
 		// Ordenes
 
@@ -220,8 +221,8 @@ class Venta_model extends CI_Model {
 			1 - guardar_venta
 		*/
 
-		function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal , $correlativo_documento){
-
+		function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal , $correlativo_documento, $totalDocumentos, $templateLineas){
+			$correlativos_extra = $orden['correlativos_extra'];
 			$total_orden 		= $orden['orden'][0]['total'];
 			$total_orden 		= $total_orden;
 			$efecto_inventario 	= $documento[0]->efecto_inventario;
@@ -241,79 +242,82 @@ class Venta_model extends CI_Model {
 				}
 
 				$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $numero );
-				
-				$data = array(
-					'id_caja' 				=> $form['caja_id'], //terminal_id
-					'id_cajero'				=> $this->session->db[0]->id_usuario,
-					'num_caja' 				=> $form['caja_numero'], //terminal_numero
-					'd_inc_imp0' 			=> $form['impuesto'], //impuesto
-					'id_sucursal' 			=> $form['sucursal_destino'], //sucursal_destino
-					'id_tipod' 				=> $documento[0]->id_tipo_documento, //modo_pago_id
-					'num_correlativo'		=> $correlativo_final,
-					'comentarios' 			=> "",
-					'id_usuario' 			=> $id_usuario,
-					'fecha' 				=> date("Y-m-d h:i:s"),	            
-					'digi_total' 			=> $total_orden,
-					'total_doc' 			=> $total_orden,
-					//'impSuma'				=> $orden['orden'][0]['impSuma'],
-					'iva'					=> $orden['orden'][0]['iva'],
-					'desc_porc' 			=> $orden['orden'][0]['descuento_limite'],
-					'id_bodega' 			=> $orden['orden'][0]['id_bodega'],
-					'desc_val' 				=> $orden['orden'][0]['descuento_calculado'],
-					'nombre' 				=> $form['cliente_nombre'], //cliente_nombre
-					'id_cliente' 			=> $form['cliente_codigo'], //cliente_codigo
-					'id_sucursal_origin' 	=> $form['sucursal_origin'], //sucursal_origin	
-					'direccion' 			=> $form['cliente_direccion'], //cliente_direccion
-					'id_condpago' 			=> $form['modo_pago_id'], //modo_pago_id
-					'id_vendedor' 			=> $form['vendedor'], //vendedor
-					'id_venta_orden'		=> (isset($form['orden_numero'])) ? $form['orden_numero'] : 0 ,
-					'devolucion_nombre' 	=> $form['devolucion_nombre'],
-					'devolucion_documento' 	=> $form['devolucion_documento'],
-					'devolucion_dui' 		=> $form['devolucion_dui'],
-					'devolucion_nit' 		=> $form['devolucion_nit'],
-					'venta_vista_id'		=> $form['vista_id'],
-					'fh_inicio' 			=> date("Y-m-d h:i:s"),
-					'fh_final' 				=> date("Y-m-d h:i:s"),
-					'creado_el' 			=> date("Y-m-d h:i:s"),
-					'fecha_inglab' 			=> date("Y-m-d h:i:s"),
-					'modi_el' 				=> date("Y-m-d h:i:s"),
-					'orden_estado'			=> $orden['estado'], // Facturada
-					'facturado_el' 			=> 0, // Actualizara al procesar la venta
-					'anulado' 				=> 0, // Actualizara al procesar alguna accion
-					//'anulado_el' 			=> "", // Actualizara al procesar alguna accion
-					//'anulado_conc'		=> "", // Actualizara al procesar alguna accion
-					//'cod_estado'			=> "0",
-					//'estado_el' 			=> "0",
-					//'reserv_producs' 		=> "0",
-					//'reserv_conc' 		=> "0",
-					//'fecha_entreg' 		=> date("Y-m-d h:i:s"),
-					//'tiempoproc' 			=> "0",
-					//'modi_el' 			=> "0",
-					
-				);
 
-				/* GUARDAR ENCABEZADO DE LA VENTA */
-				$result 	= $this->db->insert(self::pos_ventas, $data );
-				if(!$result){
-					$result = $this->db->error();
-					return $result;
-				}
-
-				$this->_orden_id = $this->db->insert_id();
+				for ($int = 1; $int <= $totalDocumentos; $int++) {
 				
-				if($result){
-					/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
-					$this->guardar_venta_detalle( $efecto_inventario );	
+					$data = array(
+						'id_caja' 				=> $form['caja_id'], //terminal_id
+						'id_cajero'				=> $this->session->db[0]->id_usuario,
+						'num_caja' 				=> $form['caja_numero'], //terminal_numero
+						'd_inc_imp0' 			=> $form['impuesto'], //impuesto
+						'id_sucursal' 			=> $form['sucursal_destino'], //sucursal_destino
+						'id_tipod' 				=> $documento[0]->id_tipo_documento, //modo_pago_id
+						'num_correlativo'		=> $correlativo_final,
+						'comentarios' 			=> "",
+						'id_usuario' 			=> $id_usuario,
+						'fecha' 				=> date("Y-m-d h:i:s"),	            
+						'digi_total' 			=> $total_orden,
+						'total_doc' 			=> $total_orden,
+						//'impSuma'				=> $orden['orden'][0]['impSuma'],
+						'iva'					=> $orden['orden'][0]['iva'],
+						'desc_porc' 			=> $orden['orden'][0]['descuento_limite'],
+						'id_bodega' 			=> $orden['orden'][0]['id_bodega'],
+						'desc_val' 				=> $orden['orden'][0]['descuento_calculado'],
+						'nombre' 				=> $form['cliente_nombre'], //cliente_nombre
+						'id_cliente' 			=> $form['cliente_codigo'], //cliente_codigo
+						'id_sucursal_origin' 	=> $form['sucursal_origin'], //sucursal_origin	
+						'direccion' 			=> $form['cliente_direccion'], //cliente_direccion
+						'id_condpago' 			=> $form['modo_pago_id'], //modo_pago_id
+						'id_vendedor' 			=> $form['vendedor'], //vendedor
+						'id_venta_orden'		=> (isset($form['orden_numero'])) ? $form['orden_numero'] : 0 ,
+						'devolucion_nombre' 	=> $form['devolucion_nombre'],
+						'devolucion_documento' 	=> $form['devolucion_documento'],
+						'devolucion_dui' 		=> $form['devolucion_dui'],
+						'devolucion_nit' 		=> $form['devolucion_nit'],
+						'venta_vista_id'		=> $form['vista_id'],
+						'fh_inicio' 			=> date("Y-m-d h:i:s"),
+						'fh_final' 				=> date("Y-m-d h:i:s"),
+						'creado_el' 			=> date("Y-m-d h:i:s"),
+						'fecha_inglab' 			=> date("Y-m-d h:i:s"),
+						'modi_el' 				=> date("Y-m-d h:i:s"),
+						'orden_estado'			=> $orden['estado'], // Facturada
+						'facturado_el' 			=> 0, // Actualizara al procesar la venta
+						'anulado' 				=> 0, // Actualizara al procesar alguna accion
+						//'anulado_el' 			=> "", // Actualizara al procesar alguna accion
+						//'anulado_conc'		=> "", // Actualizara al procesar alguna accion
+						//'cod_estado'			=> "0",
+						//'estado_el' 			=> "0",
+						//'reserv_producs' 		=> "0",
+						//'reserv_conc' 		=> "0",
+						//'fecha_entreg' 		=> date("Y-m-d h:i:s"),
+						//'tiempoproc' 			=> "0",
+						//'modi_el' 			=> "0",
+						
+					);
+
+					/* GUARDAR ENCABEZADO DE LA VENTA */
+					$result 	= $this->db->insert(self::pos_ventas, $data );
+					if(!$result){
+						$result = $this->db->error();
+						return $result;
+					}
+
+					$this->_orden_id = $this->db->insert_id();
 					
-					/* GUARDAR FORMATOS DE PAGO */
-					$this->save_forma_pago( $this->_orden['pagos']);
-					
-					/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
-					$this->save_venta_impuestos( 2);	
-					
-					/* INCREMENTO CORRELATIVOS AUTOMATICOS */
-					if($correlativo_documento == $siguiente_correlativo[0]->siguiente_valor){
-						$this->incremento_correlativo( $siguiente_correlativo[0]->siguiente_valor, $sucursal , $documento[0]->id_tipo_documento);
+					if($result){
+						/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
+						$total_monto =  $this->guardar_venta_detalle( $efecto_inventario , $templateLineas);	
+						
+						/* GUARDAR FORMATOS DE PAGO */
+						$this->save_forma_pago( $this->_orden['pagos'], $total_monto);
+						
+						/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
+						$this->save_venta_impuestos( 2);	
+						
+						/* INCREMENTO CORRELATIVOS AUTOMATICOS */
+						if($correlativo_documento == $siguiente_correlativo[0]->siguiente_valor){
+							$this->incremento_correlativo( $siguiente_correlativo[0]->siguiente_valor, $sucursal , $documento[0]->id_tipo_documento);
+						}
 					}
 				}
 
@@ -324,6 +328,11 @@ class Venta_model extends CI_Model {
 			}
 
 			return $this->_orden_id;
+		}
+
+		private function getTemplate()
+		{
+
 		}
 
 		function getTerminal($id_caja){
@@ -361,7 +370,7 @@ class Venta_model extends CI_Model {
 			}		
 		}
 
-		function save_forma_pago($formas_pago ){
+		function save_forma_pago($formas_pago, $total_monto ){
 
 			foreach ($formas_pago as $key => $value) {
 						
@@ -369,7 +378,7 @@ class Venta_model extends CI_Model {
 					'venta_pagos' 		=> $this->_orden_id , 
 					'id_forma_pago' 	=> $value['id'],
 					'nombre_metodo_pago'=> $value['type'],
-					'valor_metodo_pago' => $value['amount'],
+					'valor_metodo_pago' => $total_monto,
 					'banco_metodo_pago' => $value['banco'],
 					'numero_metodo_pago'=> $value['valor'],
 					'series_metodo_pago'=> $value['serie'],
@@ -380,56 +389,65 @@ class Venta_model extends CI_Model {
 			}
 		}
 
-		function guardar_venta_detalle( $efecto_inventario ){
-
+		function guardar_venta_detalle( $efecto_inventario, $templateLineas){
+			$contador = 1;
+			$total_monto = 0.00;
 			foreach ($this->_orden['orden'] as $key => $orden) {
 
-				if($orden['descuento']){
-					$descuento_porcentaje = $orden['descuento'];
-				}else{
-					$descuento_porcentaje = 0.00;
-				}
-				
-				$data = array(
-		            'id_venta' 		=> $this->_orden_id,
-		            'producto' 		=> $orden['producto'],
-		            'producto_id' 	=> $orden['producto_id'],
-		            'producto2' 	=> $orden['producto2'],
-		            'inventario_id' => $orden['inventario_id'],
-					'id_bodega' 	=> $orden['id_bodega'],
-					'categoria'		=> $orden['categoria'],
-		            'bodega' 		=> $orden['bodega'],
-		            'combo' 		=> $orden['combo'],
-		            'combo_total'	=> $orden['combo_total'],
-		            'invisible' 	=> $orden['invisible'],
-		            'descripcion' 	=> $orden['descripcion'],
-		            'presenta_ppal' => $orden['presentacion'],
-		            'cantidad' 		=> $orden['cantidad'],
-		            'presentacion' 	=> $orden['presentacion'],
-		            'tipoprec' 		=> $orden['presentacion'],
-		            'precioUnidad' 	=> ($efecto_inventario == 1) ?  ($orden['precioUnidad']* 1): $orden['precioUnidad'],
-		            'factor' 		=> $orden['presentacionFactor'],
-					'total' 		=> ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'] ,
-					'impSuma'		=> $orden['impSuma'],
-		            'gen' 			=> $orden['gen'],
-		            'descuento' 	=> $orden['descuento'] ,
-		            'por_desc' 		=> $descuento_porcentaje,
-		            'descuento_limite' 		=> $orden['descuento_limite'],
-		            'descuento_calculado' 	=> $orden['descuento_calculado'],
-		            'presentacionFactor' 	=> $orden['presentacionFactor'],
-		            'id_producto_combo' 	=>$orden['id_producto_combo'],
-		            'id_producto_detalle' 	=> $orden['id_producto_detalle'],
-		            'comenta' 		=> $orden['descripcion'],
-		            'creado_el' 	=> date("Y-m-d h:i:s"),
-		            'modi_el' 		=> date("Y-m-d h:i:s"),
-		            //'id_bomba' 		=> $orden[''],
-		            //'id_kit' 		=> $orden[''],
-		            //'tp_c' 			=> $orden[''],
-		           	'p_inc_imp0' 	=> $orden['iva'],		            
-	        	);
+				if ($contador <= $templateLineas) {
 
-	        	$this->db->insert(self::pos_venta_detalle, $data ); 
+					if($orden['descuento']){
+						$descuento_porcentaje = $orden['descuento'];
+					}else{
+						$descuento_porcentaje = 0.00;
+					}
+					
+					$data = array(
+						'id_venta' 		=> $this->_orden_id,
+						'producto' 		=> $orden['producto'],
+						'producto_id' 	=> $orden['producto_id'],
+						'producto2' 	=> $orden['producto2'],
+						'inventario_id' => $orden['inventario_id'],
+						'id_bodega' 	=> $orden['id_bodega'],
+						'categoria'		=> $orden['categoria'],
+						'bodega' 		=> $orden['bodega'],
+						'combo' 		=> $orden['combo'],
+						'combo_total'	=> $orden['combo_total'],
+						'invisible' 	=> $orden['invisible'],
+						'descripcion' 	=> $orden['descripcion'],
+						'presenta_ppal' => $orden['presentacion'],
+						'cantidad' 		=> $orden['cantidad'],
+						'presentacion' 	=> $orden['presentacion'],
+						'tipoprec' 		=> $orden['presentacion'],
+						'precioUnidad' 	=> ($efecto_inventario == 1) ?  ($orden['precioUnidad']* 1): $orden['precioUnidad'],
+						'factor' 		=> $orden['presentacionFactor'],
+						'total' 		=> ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'] ,
+						'impSuma'		=> $orden['impSuma'],
+						'gen' 			=> $orden['gen'],
+						'descuento' 	=> $orden['descuento'] ,
+						'por_desc' 		=> $descuento_porcentaje,
+						'descuento_limite' 		=> $orden['descuento_limite'],
+						'descuento_calculado' 	=> $orden['descuento_calculado'],
+						'presentacionFactor' 	=> $orden['presentacionFactor'],
+						'id_producto_combo' 	=>$orden['id_producto_combo'],
+						'id_producto_detalle' 	=> $orden['id_producto_detalle'],
+						'comenta' 		=> $orden['descripcion'],
+						'creado_el' 	=> date("Y-m-d h:i:s"),
+						'modi_el' 		=> date("Y-m-d h:i:s"),
+						//'id_bomba' 		=> $orden[''],
+						//'id_kit' 		=> $orden[''],
+						//'tp_c' 			=> $orden[''],
+						'p_inc_imp0' 	=> $orden['iva'],		            
+					);
+					
+					$total_monto += ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'];
+
+					$this->db->insert(self::pos_venta_detalle, $data );
+					unset($this->_orden[$key]);
+					$contador++;
+				}
 			}
+			return $total_monto;
 		}
 
 		function regreso_a_bodega( $orden ){
@@ -540,7 +558,77 @@ class Venta_model extends CI_Model {
         	$this->db->update(self::pos_ordenes, $data );
 
         	$this->delete_orden_detalle( $orden_id );		
-        	$this->guardar_orden_detalle( $orden_id , $orden );		
+        	$this->guardar_orden_detalle( $orden_id , $orden );	
+		}
+
+		function get_orden( $order_id ){
+
+			$this->db->select('*');
+	        $this->db->from(self::pos_ordenes.' as o');
+	        $this->db->join(self::sucursal.' as s', 'on s.id_sucursal = o.id_sucursal');
+	        $this->db->join(self::sys_empleado.' as e', 'on e.id_empleado = o.id_cajero', 'left');
+	        $this->db->join(self::pos_empresa.' as em', 'on em.id_empresa = s.Empresa_Suc', 'left');
+	        $this->db->join(self::empresa_giro.' as eg', 'on eg.Empresa = em.id_empresa', 'left');
+	        $this->db->join(self::pos_giros.' as pg', 'on pg.id_giro = eg.Giro', 'left');
+	        $this->db->where('o.id', $order_id );
+	        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[0];
+
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function guardar_orden_detalle($id_orden, $datos)
+		{
+
+		foreach ($datos['orden'] as $key => $orden) {
+			if ($orden['descuento']) {
+				$descuento_porcentaje = $orden['descuento'];
+				} else {
+					$descuento_porcentaje = 0.00;
+				}
+				$data = array(
+					'id_orden' 		=> $id_orden,
+					'producto' 		=> $orden['producto'],
+					'producto_id' 	=> $orden['producto_id'],
+					'producto2' 	=> $orden['producto2'],
+					//'inventario_id' => $orden['inventario_id'],
+					'id_bodega' 	=> $orden['id_bodega'],
+					'bodega' 		=> $orden['bodega'],
+					'combo' 		=> $orden['combo'],
+					//'combo_total'	=> $orden['combo_total'],
+					'id_producto_combo' => $orden['id_producto_combo'],
+					'id_producto_detalle' => $orden['id_producto_detalle'],
+					'invisible' 	=> $orden['invisible'],
+					'descripcion' 	=> $orden['descripcion'],
+					'presenta_ppal' => $orden['presentacion'],
+					'cantidad' 	=> $orden['cantidad'],
+					'presentacion' 	=> $orden['presentacion'],
+					'presentacionFactor' => $orden['presentacionFactor'],
+					'tipoprec' 		=> $orden['presentacion'],
+					'precioUnidad' 	=> $orden['precioUnidad'],
+					'factor' 		=> $orden['presentacionFactor'],
+					'total' 		=> $orden['total'],
+					'gen' 			=> $orden['gen'],				
+					'descuento' 		=> $orden['descuento'],
+					'por_desc' 		=> $descuento_porcentaje,
+					'descuento_limite' 	=> $orden['descuento_limite'],
+					'descuento_calculado' => $orden['descuento_calculado'],
+					'comenta' 		=> $orden['descripcion'],
+					'iva' 			=> $orden['iva'],
+					'categoria' 	=> $orden['categoria'],
+					'creado_el' 	=> date("Y-m-d h:i:s"),
+					//'id_bomba' 		=> $orden[''],
+					//'id_kit' 		=> $orden[''],
+					//'tp_c' 			=> $orden[''],
+					//'p_inc_imp0' 	=> $orden['orden'][0][''],				
+					//'modi_el' 		=> date("Y-m-d h:i:s"),
+				);
+				$this->db->insert(self::pos_ordenes_detalle, $data);
+			}
 		}
 
 		function delete_orden_detalle( $ordern_id ){
@@ -559,6 +647,20 @@ class Venta_model extends CI_Model {
 			$this->db->where('TipoDocumento',$documento[0]->id_tipo_documento);
 	        $query = $this->db->get(); 
 	        
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		function get_orden_detalle( $order_id ){
+
+			$this->db->select('*');
+	        $this->db->from(self::pos_ordenes_detalle.' as do');
+	        $this->db->where('do.id_orden', $order_id );	        
+	        $query = $this->db->get(); 
+	        //echo $this->db->queries[0];
+
 	        if($query->num_rows() > 0 )
 	        {
 	            return $query->result();
@@ -584,7 +686,7 @@ class Venta_model extends CI_Model {
 		// Fin ordenes
 
 		function producto_precios( $id_producto, $producto ){
-			
+			$costo = 0.00;
 			foreach ($producto as $key => $value) {
 	            $costo;
 	            $similar_key = 'presentacion';
