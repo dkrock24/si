@@ -20,6 +20,10 @@ class Venta_model extends CI_Model {
 		const sucursal				 = 'pos_sucursal';
 		const producto_detalle		 = 'prouducto_detalle';
 		const impuestos				 = 'pos_tipos_impuestos';
+		const impuestos_cliente		 = 'pos_impuesto_cliente';
+		const impuestos_documento	 = 'pos_impuesto_documento';
+		const impuestos_categoria	 = 'pos_impuesto_categoria';
+		const impuestos_proveedor	 = 'pos_impuesto_proveedor';
 		const producto_img			 = 'pos_producto_img';
 		const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
 		const producto_bodega		 = 'pos_producto_bodega';
@@ -42,7 +46,7 @@ class Venta_model extends CI_Model {
 
 		private $_orden;
 
-		function getVentas($limit, $id , $filters ){
+		public function getVentas($limit, $id , $filters ){
 
 			if($filters){
 				$filters = " and ".$filters;
@@ -71,7 +75,7 @@ class Venta_model extends CI_Model {
 		    return $query->result();
 		}
 
-		function record_count(){
+		public function record_count(){
 
 	        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->id_empresa);
 			$this->db->from(self::pos_ventas.' as v');
@@ -80,7 +84,7 @@ class Venta_model extends CI_Model {
         	return $result;
 	    }
 
-		function get_tipo_documentos(){
+		public function get_tipo_documentos(){
 			$this->db->select('*');
 	        $this->db->from(self::pos_tipo_documento);
 	        $query = $this->db->get(); 
@@ -92,7 +96,7 @@ class Venta_model extends CI_Model {
 	        }
 		}
 
-		function get_productos_valor($sucursal ,$bodega, $texto){
+		public function get_productos_valor($sucursal ,$bodega, $texto){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`id_categoria`, `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as cod_barra, b.nombre_bodega
@@ -117,7 +121,7 @@ class Venta_model extends CI_Model {
 		        return $query->result();
 		}
 
-		function get_productos_existencias($texto){
+		public function get_productos_existencias($texto){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as cod_barra, b.nombre_bodega
@@ -141,7 +145,7 @@ class Venta_model extends CI_Model {
 		        return $query->result();
 		}
 
-		function get_producto_completo($producto_id , $id_bodega ){
+		public function get_producto_completo($producto_id , $id_bodega ){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor,b.id_bodega, b.nombre_bodega, pinv.id_inventario
@@ -171,7 +175,7 @@ class Venta_model extends CI_Model {
 
 		}
 
-		function get_producto_precios($producto_id){
+		public function get_producto_precios($producto_id){
 	        
 	        $query = $this->db->query("SELECT * from prouducto_detalle as pd
 				WHERE pd.Producto = ". $producto_id);
@@ -181,7 +185,7 @@ class Venta_model extends CI_Model {
 
 		}
 
-		function get_bodega($usuario){
+		public function get_bodega($usuario){
 
 			$query = $this->db->query("
 				SELECT b.* FROM sys_empleado_sucursal es 
@@ -193,7 +197,7 @@ class Venta_model extends CI_Model {
 		        return $query->result();
 		}
 
-		function get_bodega_sucursal($Sucursal){
+		public function get_bodega_sucursal($Sucursal){
 
 			$query = $this->db->query("
 				SELECT b.* FROM sys_empleado_sucursal es 
@@ -205,7 +209,7 @@ class Venta_model extends CI_Model {
 		        return $query->result();
 		}
 
-		function correlativo_final($correlativo , $ingresado){
+		public function correlativo_final($correlativo , $ingresado){
 			
 			$valor = 0;
 			if($correlativo==$ingresado){
@@ -221,7 +225,7 @@ class Venta_model extends CI_Model {
 			1 - guardar_venta
 		*/
 
-		function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal , $correlativo_documento, $totalDocumentos, $templateLineas){
+		public function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal , $correlativo_documento, $totalDocumentos, $templateLineas){
 			$correlativos_extra = $orden['correlativos_extra'];
 			$total_orden 		= $orden['orden'][0]['total'];
 			$total_orden 		= $total_orden;
@@ -234,7 +238,7 @@ class Venta_model extends CI_Model {
 
 			$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal , $documento );
 
-			if($siguiente_correlativo[0]){
+			if ($siguiente_correlativo[0]) {
 
 				$numero = 0;
 				if( isset( $correlativo_documento ) ){
@@ -330,19 +334,7 @@ class Venta_model extends CI_Model {
 			return $this->_orden_id;
 		}
 
-		private function getTemplate()
-		{
-
-		}
-
-		function getTerminal($id_caja){
-
-			$this->load->model('admin/Terminal_model', 'temrinal');
-			$result = $this->terminal->get_terminal_by_caja($id_caja);
-			return $result;
-		}
-
-		function save_venta_impuestos($impTipo){
+		public function save_venta_impuestos($impTipo){
 			/* 
 				Insertando los impuestos generados en la vista de Ventas rapidas.
 				$impTipo = 1 -> Orden
@@ -370,7 +362,7 @@ class Venta_model extends CI_Model {
 			}		
 		}
 
-		function save_forma_pago($formas_pago, $total_monto ){
+		public function save_forma_pago($formas_pago, $total_monto ){
 
 			foreach ($formas_pago as $key => $value) {
 						
@@ -389,9 +381,10 @@ class Venta_model extends CI_Model {
 			}
 		}
 
-		function guardar_venta_detalle( $efecto_inventario, $templateLineas){
-			$contador = 1;
+		public function guardar_venta_detalle( $efecto_inventario, $templateLineas){
+			$contador    = 1;
 			$total_monto = 0.00;
+
 			foreach ($this->_orden['orden'] as $key => $orden) {
 
 				if ($contador <= $templateLineas) {
@@ -450,7 +443,70 @@ class Venta_model extends CI_Model {
 			return $total_monto;
 		}
 
-		function regreso_a_bodega( $orden ){
+		/** INICIAR CON LA DIVISION DE PRODUCTOS POR DOCUMENTOS Y SUS CALCULOS */
+
+		private function getImpuesto(){
+			$this->db->select('*');
+	        $this->db->from(self::impuestos);
+	        $this->db->where('imp_empresa', $this->session->empresa[0]->id_empresa );
+	        $query = $this->db->get(); 
+
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		private function getClienteImpuesto($cliente){
+			$this->db->select('*');
+	        $this->db->from(self::impuestos_cliente);
+	        $this->db->where('Cliente', $cliente );
+	        $query = $this->db->get(); 
+
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		private function getDocumentoImpuesto($documento){
+			$this->db->select('*');
+	        $this->db->from(self::impuestos_documento);
+	        $this->db->where('Documento', $documento );
+	        $query = $this->db->get(); 
+
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		private function getCategoriaImpuesto($categoria){
+			$this->db->select('*');
+	        $this->db->from(self::impuestos_categoria);
+	        $this->db->where('Categoria', $categoria );
+	        $query = $this->db->get(); 
+
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		private function getProveedorImpuesto($proveedor){
+			$this->db->select('*');
+	        $this->db->from(self::impuestos_proveedor);
+	        $this->db->where('Proveedor', $proveedor );
+	        $query = $this->db->get(); 
+
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+		/** FIN DIVISION DE PRODUCTOS POR DOCUMENTOS */
+
+		public function regreso_a_bodega( $orden ){
 
 			$cantidad = 0;
 			foreach ($orden['orden'] as $key => $productos) {
@@ -470,7 +526,7 @@ class Venta_model extends CI_Model {
 			}
 		}
 
-		function get_cantidad_bodega( $id_producto , $id_bodega ){
+		public function get_cantidad_bodega( $id_producto , $id_bodega ){
 
 			$this->db->select('*');
 	        $this->db->from(self::producto_bodega);
@@ -485,7 +541,7 @@ class Venta_model extends CI_Model {
 
 		}
 
-		function update($orden , $id_usuario , $cliente){
+		public function update($orden , $id_usuario , $cliente){
 
 			$total_orden = $orden['orden'][0]['total'];
 
@@ -561,7 +617,7 @@ class Venta_model extends CI_Model {
         	$this->guardar_orden_detalle( $orden_id , $orden );	
 		}
 
-		function get_orden( $order_id ){
+		public function get_orden( $order_id ){
 
 			$this->db->select('*');
 	        $this->db->from(self::pos_ordenes.' as o');
@@ -581,7 +637,7 @@ class Venta_model extends CI_Model {
 	        }
 		}
 
-		function guardar_orden_detalle($id_orden, $datos)
+		public function guardar_orden_detalle($id_orden, $datos)
 		{
 
 		foreach ($datos['orden'] as $key => $orden) {
@@ -631,7 +687,7 @@ class Venta_model extends CI_Model {
 			}
 		}
 
-		function delete_orden_detalle( $ordern_id ){
+		public function delete_orden_detalle( $ordern_id ){
 			$data = array(
 	            'id_orden' => $ordern_id,
 	        );
@@ -640,7 +696,7 @@ class Venta_model extends CI_Model {
 
 		}
 
-		function get_siguiente_correlativo($sucursal , $documento){
+		public function get_siguiente_correlativo($sucursal , $documento){
 			$this->db->select('*');
 	        $this->db->from(self::pos_correlativos);
 			$this->db->where('Sucursal',$sucursal);
@@ -653,7 +709,7 @@ class Venta_model extends CI_Model {
 	        }
 		}
 
-		function get_orden_detalle( $order_id ){
+		public function get_orden_detalle( $order_id ){
 
 			$this->db->select('*');
 	        $this->db->from(self::pos_ordenes_detalle.' as do');
@@ -667,7 +723,7 @@ class Venta_model extends CI_Model {
 	        }
 		}
 
-		function incremento_correlativo($numero,  $sucursal , $documento ){
+		public function incremento_correlativo($numero,  $sucursal , $documento ){
 			
 			//Aunmentar la Secuencia del tipo de documento en la sucursal.
 	        
@@ -685,7 +741,7 @@ class Venta_model extends CI_Model {
 
 		// Fin ordenes
 
-		function producto_precios( $id_producto, $producto ){
+		public function producto_precios( $id_producto, $producto ){
 			$costo = 0.00;
 			foreach ($producto as $key => $value) {
 	            $costo;
@@ -728,32 +784,7 @@ class Venta_model extends CI_Model {
 	        }
 		}
 
-		function producto_atributo_valor( $id_producto_atributo , $atributo_valor ){
-			// Insertando todos los valores de los campos de los atributos del producto
-			$data = array(
-                'id_prod_atributo' => $id_producto_atributo,
-                'valor' => $atributo_valor
-            );
-            $this->db->insert(self::producto_valor, $data ); 
-		}
-
-		function producto_images( $id_producto  , $imagen_producto ){
-			// Insertando Imagenes Productos
-			$imagen="";
-			$imagen = file_get_contents($_FILES['11']['tmp_name']);
-			$imageProperties = getimageSize($_FILES['11']['tmp_name']);
-
-			$data = array(
-                'id_producto' => $id_producto,
-                'producto_img_blob' => $imagen,
-                'imageType' => $imageProperties['mime'],
-                'estado_producto_img' => 1,
-                'creado_producto_img' => date("Y-m-d h:i:s")
-            );
-            $this->db->insert(self::producto_img, $data ); 
-		}
-
-		function sub_categoria( $id_categoria ){
+		public function sub_categoria( $id_categoria ){
 			$this->db->select('*');
 	        $this->db->from(self::categoria);
 	        $this->db->where('id_categoria_padre = '. $id_categoria);
@@ -766,7 +797,7 @@ class Venta_model extends CI_Model {
 	        }
 		}
 
-		function get_producto( $id_producto ){
+		public function get_producto( $id_producto ){
 
 			$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', sub_c.id_categoria as 'id_sub_categoria', c.id_categoria as 'id_categoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca, img.producto_img_blob,img.imageType,cli.nombre_empresa_o_compania,cli.id_cliente 
 				FROM `producto` as `P`
@@ -786,23 +817,7 @@ class Venta_model extends CI_Model {
 		        return $query->result();
 		}
 
-		function get_precios( $id_producto ){
-			$query = $this->db->query("SELECT *
-				FROM `prouducto_detalle` as `P` where P.Producto=".$id_producto );
-		        return $query->result();
-		}
-
-		function get_producto_proveedor( $producto ){
-			$query = $this->db->query("SELECT *
-				FROM `producto` as `P`
-				LEFT JOIN `pos_proveedor_has_producto` as `pp` ON `pp`.`producto_id_producto` = `P`.`id_entidad`
-				LEFT JOIN `pos_proveedor` as `proveedor` ON `proveedor`.`id_proveedor` = `PP`.`proveedor_id_proveedor`
-				where P.id_entidad=".$producto );
-		         //echo $this->db->queries[0];
-		        return $query->result();
-		}
-
-		function actualizar_producto( $producto ){
+		public function actualizar_producto( $producto ){
 
 			$data = array(
 	            'name_entidad' => $producto['name_entidad'],
@@ -837,7 +852,7 @@ class Venta_model extends CI_Model {
 		}
 
 		// Actualizar producto
-		function actualizar_categoria_producto($id_sub_categoria , $id_producto ){
+		public function actualizar_categoria_producto($id_sub_categoria , $id_producto ){
 			$data = array(
 	            'id_categoria' => $id_sub_categoria,	            
 	        );
@@ -847,7 +862,7 @@ class Venta_model extends CI_Model {
 		}
 
 		// Actualizar producto
-		function actualizar_proveedor_producto($id_proveedor , $id_producto ){
+		public function actualizar_proveedor_producto($id_proveedor , $id_producto ){
 			$data = array(
 	            'proveedor_id_proveedor' => $id_proveedor,
 	        );
@@ -857,7 +872,7 @@ class Venta_model extends CI_Model {
 			$this->db->update(self::pos_proveedor_has_producto, $data );
 		}
 
-		function actualizar_proveedor_producto2($id_proveedor , $id_producto ){
+		public function actualizar_proveedor_producto2($id_proveedor , $id_producto ){
 			$data = array(
 	            'proveedor_id_proveedor' => $id_proveedor,
 	        );
@@ -868,7 +883,7 @@ class Venta_model extends CI_Model {
 		}
 
 		// Actualizar Atributos
-		function producto_atributo_actualizacion( $id_producto , $producto ){
+		public function producto_atributo_actualizacion( $id_producto , $producto ){
 			
 			$this->db->select('*');
 	        $this->db->from(self::producto_atributo);
@@ -891,7 +906,7 @@ class Venta_model extends CI_Model {
 		}
 
 		// Actualizar Precios del producto
-		function producto_precios_actualizacion( $id_producto , $producto ){
+		public function producto_precios_actualizacion( $id_producto , $producto ){
 
 			$data = array(
 	            'Producto' => $id_producto,
@@ -903,7 +918,7 @@ class Venta_model extends CI_Model {
 		}
 
 		// Actualizar producto valor
-		function actualizar_producto_valor( $id_prod_atrri, $producto_valor ){
+		public function actualizar_producto_valor( $id_prod_atrri, $producto_valor ){
 			$data = array(
 	            'valor' => $producto_valor,
 	        );
@@ -913,7 +928,7 @@ class Venta_model extends CI_Model {
 		}
 
 		// Actualizar Imagen del producto
-		function producto_imagen_actualizar( $producto_id , $imagen ){
+		public function producto_imagen_actualizar( $producto_id , $imagen ){
 
 			$imagen = file_get_contents($_FILES['11']['tmp_name']);
 			$imageProperties = getimageSize($_FILES['11']['tmp_name']);
@@ -929,22 +944,7 @@ class Venta_model extends CI_Model {
 			$this->db->update(self::producto_img, $data );
 		}
 
-		function producto_combo( $producto_id ){
-
-			// Validar si Producto es combo para llevar todos los productos relacionados.
-
-			$this->db->select('*');
-	        $this->db->from(self::pos_combo.' as c');
-	        $this->db->where('c.Producto_Combo', $producto_id );
-	        $query = $this->db->get();
-	        
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
-		}
-
-		function getConfg($componente_conf){
+		public function getConfg($componente_conf){
 
 			$this->db->select('*');
 	        $this->db->from(self::sys_conf.' as c');
@@ -958,7 +958,7 @@ class Venta_model extends CI_Model {
 	        }
 		}
 
-		function getConfgImpuesto($impuesto_conf){
+		public function getConfgImpuesto($impuesto_conf){
 
 			$this->db->select('*');
 	        $this->db->from(self::sys_conf.' as c');
@@ -973,7 +973,7 @@ class Venta_model extends CI_Model {
 		}
 		// Venta
 
-		function getVentaId($id_venta){
+		public function getVentaId($id_venta){
 
 			$query = $this->db->query("select ventas.id,ventas.id_cajero,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,id_tipod,id_condpago,
 			ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
@@ -1004,7 +1004,7 @@ class Venta_model extends CI_Model {
 		    return $query->result();
 		}
 
-		function getVentaDetalleId($id_venta){
+		public function getVentaDetalleId($id_venta){
 			$query = $this->db->query("select *
 				from pos_venta_detalle as vd
 				left join producto as p ON p.id_entidad = vd.producto_id	
@@ -1015,7 +1015,7 @@ class Venta_model extends CI_Model {
 		    return $query->result();
 		}
 
-		function getVentaPagosId( $id_venta ){
+		public function getVentaPagosId( $id_venta ){
 			$query = $this->db->query("select *
 
 			from pos_venta_pagos where venta_pagos =".$id_venta);
@@ -1024,7 +1024,7 @@ class Venta_model extends CI_Model {
 		    return $query->result();
 		}
 
-		function get_venta($venta){
+		public function get_venta($venta){
 
 			$valores =  explode(",", $venta);
 		
@@ -1041,7 +1041,7 @@ class Venta_model extends CI_Model {
 			}
 		}
 
-		function get_venta_by_id($venta){
+		public function get_venta_by_id($venta){
 
 			$this->db->select('*');
 			$this->db->from(self::pos_ventas . ' as v');
@@ -1056,7 +1056,7 @@ class Venta_model extends CI_Model {
 			}
 		}
 
-		function setVentaToAnulada($venta_data){
+		public function setVentaToAnulada($venta_data){
 			$data = array(
 				'anulado'		=> 1,
 				'anulado_el'	=> date("Y-m-d h:i:s"),	
