@@ -46,6 +46,12 @@ class Venta_model extends CI_Model {
 
 		private $_orden;
 
+		private $_totalDocumento;
+
+		private $_templateLineas;
+
+		private $_orden_concetrada = [];
+
 		public function getVentas($limit, $id , $filters ){
 
 			if($filters){
@@ -231,6 +237,12 @@ class Venta_model extends CI_Model {
 			$total_orden 		= $total_orden;
 			$efecto_inventario 	= $documento[0]->efecto_inventario;
 			$this->_orden 		= $orden;
+			$this->_totalDocumento = $totalDocumentos;
+			$this->_templateLineas = $templateLineas;
+
+			/** Divir la orden por cantidad de lineas que el documento permite */
+			$this->splitOrder();
+			print_r($this->_orden_concetrada);die;
 
 			if($efecto_inventario == 1){ // Si suma en inventario la venta, es devolucion
 				//$total_orden = $total_orden* -1;
@@ -247,7 +259,7 @@ class Venta_model extends CI_Model {
 
 				$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $numero );
 
-				for ($int = 1; $int <= $totalDocumentos; $int++) {
+				foreach ($this->_orden_concetrada as $items) {
 				
 					$data = array(
 						'id_caja' 				=> $form['caja_id'], //terminal_id
@@ -300,26 +312,26 @@ class Venta_model extends CI_Model {
 					);
 
 					/* GUARDAR ENCABEZADO DE LA VENTA */
-					$result 	= $this->db->insert(self::pos_ventas, $data );
-					if(!$result){
+					$result = $this->db->insert(self::pos_ventas, $data );
+					if (!$result) {
 						$result = $this->db->error();
 						return $result;
 					}
 
 					$this->_orden_id = $this->db->insert_id();
 					
-					if($result){
+					if ($result) {
+
 						/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
-						$total_monto =  $this->guardar_venta_detalle( $efecto_inventario , $templateLineas);	
+						$total_monto =  $this->guardar_venta_detalle( $efecto_inventario , $items);	
 						
 						/* GUARDAR FORMATOS DE PAGO */
 						$this->save_forma_pago( $this->_orden['pagos'], $total_monto);
-						
 						/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
 						$this->save_venta_impuestos( 2);	
 						
 						/* INCREMENTO CORRELATIVOS AUTOMATICOS */
-						if($correlativo_documento == $siguiente_correlativo[0]->siguiente_valor){
+						if ($correlativo_documento == $siguiente_correlativo[0]->siguiente_valor) {
 							$this->incremento_correlativo( $siguiente_correlativo[0]->siguiente_valor, $sucursal , $documento[0]->id_tipo_documento);
 						}
 					}
@@ -356,10 +368,35 @@ class Venta_model extends CI_Model {
 							'vent_imp_estado' => 1
 						);
 
-						$this->db->insert(self::pos_ventas_impuestos, $data ); 
+						$this->db->insert(self::pos_ventas_impuestos, $data );
 					}
 				}	
 			}		
+		}
+
+		public function sumVentaImpuesto($producto)
+		{
+			$impuestoData = $this->evaluarProductoImpuesto($producto);
+
+			if($impuestoData)
+			{
+				$data = array(
+					'id_venta' 		=> $this->_orden_id, 
+					'ordenEspecial' => $impuestoData['ordenEspecial'],
+					'ordenImpName' 	=> $impuestoData['ordenImpName'],
+					'ordenImpTotal' => $impuestoData['ordenImpTotal'],
+					'ordenImpVal' 	=> $impuestoData['ordenImpVal'],
+					'ordenSimbolo' 	=> $impuestoData['ordenSimbolo'],
+					'vent_imp_tipo' => 2 ,
+					'vent_imp_estado' => 1
+				);
+				$this->db->insert(self::pos_ventas_impuestos, $data );
+			}
+		}
+
+		public function evaluarProductoImpuesto($producto)
+		{
+
 		}
 
 		public function save_forma_pago($formas_pago, $total_monto ){
@@ -381,69 +418,89 @@ class Venta_model extends CI_Model {
 			}
 		}
 
-		public function guardar_venta_detalle( $efecto_inventario, $templateLineas){
+		/**
+		 * @param $efecto_inventario
+		 * @param $templateLineas
+		 */
+		public function guardar_venta_detalle( $efecto_inventario, $items){
 			$contador    = 1;
 			$total_monto = 0.00;
 
-			foreach ($this->_orden['orden'] as $key => $orden) {
+			foreach ($items as $orden) {
 
-				if ($contador <= $templateLineas) {
-
-					if($orden['descuento']){
-						$descuento_porcentaje = $orden['descuento'];
-					}else{
-						$descuento_porcentaje = 0.00;
-					}
-					
-					$data = array(
-						'id_venta' 		=> $this->_orden_id,
-						'producto' 		=> $orden['producto'],
-						'producto_id' 	=> $orden['producto_id'],
-						'producto2' 	=> $orden['producto2'],
-						'inventario_id' => $orden['inventario_id'],
-						'id_bodega' 	=> $orden['id_bodega'],
-						'categoria'		=> $orden['categoria'],
-						'bodega' 		=> $orden['bodega'],
-						'combo' 		=> $orden['combo'],
-						'combo_total'	=> $orden['combo_total'],
-						'invisible' 	=> $orden['invisible'],
-						'descripcion' 	=> $orden['descripcion'],
-						'presenta_ppal' => $orden['presentacion'],
-						'cantidad' 		=> $orden['cantidad'],
-						'presentacion' 	=> $orden['presentacion'],
-						'tipoprec' 		=> $orden['presentacion'],
-						'precioUnidad' 	=> ($efecto_inventario == 1) ?  ($orden['precioUnidad']* 1): $orden['precioUnidad'],
-						'factor' 		=> $orden['presentacionFactor'],
-						'total' 		=> ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'] ,
-						'impSuma'		=> $orden['impSuma'],
-						'gen' 			=> $orden['gen'],
-						'descuento' 	=> $orden['descuento'] ,
-						'por_desc' 		=> $descuento_porcentaje,
-						'descuento_limite' 		=> $orden['descuento_limite'],
-						'descuento_calculado' 	=> $orden['descuento_calculado'],
-						'presentacionFactor' 	=> $orden['presentacionFactor'],
-						'id_producto_combo' 	=>$orden['id_producto_combo'],
-						'id_producto_detalle' 	=> $orden['id_producto_detalle'],
-						'comenta' 		=> $orden['descripcion'],
-						'creado_el' 	=> date("Y-m-d h:i:s"),
-						'modi_el' 		=> date("Y-m-d h:i:s"),
-						//'id_bomba' 		=> $orden[''],
-						//'id_kit' 		=> $orden[''],
-						//'tp_c' 			=> $orden[''],
-						'p_inc_imp0' 	=> $orden['iva'],		            
-					);
-					
-					$total_monto += ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'];
-
-					$this->db->insert(self::pos_venta_detalle, $data );
-					unset($this->_orden[$key]);
-					$contador++;
+				if($orden['descuento']){
+					$descuento_porcentaje = $orden['descuento'];
+				}else{
+					$descuento_porcentaje = 0.00;
 				}
+				
+				$data = array(
+					'id_venta' 		=> $this->_orden_id,
+					'producto' 		=> $orden['producto'],
+					'producto_id' 	=> $orden['producto_id'],
+					'producto2' 	=> $orden['producto2'],
+					'inventario_id' => $orden['inventario_id'],
+					'id_bodega' 	=> $orden['id_bodega'],
+					'categoria'		=> $orden['categoria'],
+					'bodega' 		=> $orden['bodega'],
+					'combo' 		=> $orden['combo'],
+					'combo_total'	=> $orden['combo_total'],
+					'invisible' 	=> $orden['invisible'],
+					'descripcion' 	=> $orden['descripcion'],
+					'presenta_ppal' => $orden['presentacion'],
+					'cantidad' 		=> $orden['cantidad'],
+					'presentacion' 	=> $orden['presentacion'],
+					'tipoprec' 		=> $orden['presentacion'],
+					'precioUnidad' 	=> ($efecto_inventario == 1) ?  ($orden['precioUnidad']* 1): $orden['precioUnidad'],
+					'factor' 		=> $orden['presentacionFactor'],
+					'total' 		=> ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'] ,
+					'impSuma'		=> $orden['impSuma'],
+					'gen' 			=> $orden['gen'],
+					'descuento' 	=> $orden['descuento'] ,
+					'por_desc' 		=> $descuento_porcentaje,
+					'descuento_limite' 		=> $orden['descuento_limite'],
+					'descuento_calculado' 	=> $orden['descuento_calculado'],
+					'presentacionFactor' 	=> $orden['presentacionFactor'],
+					'id_producto_combo' 	=>$orden['id_producto_combo'],
+					'id_producto_detalle' 	=> $orden['id_producto_detalle'],
+					'comenta' 		=> $orden['descripcion'],
+					'creado_el' 	=> date("Y-m-d h:i:s"),
+					'modi_el' 		=> date("Y-m-d h:i:s"),
+					//'id_bomba' 		=> $orden[''],
+					//'id_kit' 		=> $orden[''],
+					//'tp_c' 			=> $orden[''],
+					'p_inc_imp0' 	=> $orden['iva'],		            
+				);
+				
+				$total_monto += ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'];
+
+				$this->db->insert(self::pos_venta_detalle, $data );
+				$contador++;
+				
 			}
 			return $total_monto;
 		}
 
 		/** INICIAR CON LA DIVISION DE PRODUCTOS POR DOCUMENTOS Y SUS CALCULOS */
+
+		private function splitOrder(){
+
+			$contadorLinea = 1;
+			$contadorDocumento = 1;
+			foreach ($this->_orden['orden'] as $key => $ordenItem) {
+				
+				if ($contadorLinea <= (int) $this->_templateLineas) {
+
+					$this->_orden_concetrada[$contadorDocumento][] = $ordenItem;
+
+					if($contadorLinea == $this->_templateLineas){
+						$contadorDocumento++;
+						$contadorLinea=1;
+					}
+					$contadorLinea++;
+				}
+			}
+		}
 
 		private function getImpuesto(){
 			$this->db->select('*');
