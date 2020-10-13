@@ -42,6 +42,8 @@ class Venta_model extends CI_Model {
 
 		// Ordenes
 
+		
+
 		private $_orden_id;
 
 		private $_orden;
@@ -51,6 +53,26 @@ class Venta_model extends CI_Model {
 		private $_templateLineas;
 
 		private $_orden_concetrada = [];
+
+		private $impuestoCategoria = [];
+
+		private $impuestoProveedor = [];
+
+		private $impuestoCliente   = [];
+
+		private $impuestoDocumento = [];
+
+		private $impDocumento = [];
+		private $impCliente   = [];
+		private $impCategoria = [];
+
+		public function __construct()
+		{
+			$this->impuestoCategoria = $this->getCategoriaImpuesto();
+			$this->impuestoProveedor = $this->getProveedorImpuesto();
+			$this->impuestoCliente   = $this->getClienteImpuesto();
+			$this->impuestoDocumento = $this->getDocumentoImpuesto();
+		}
 
 		public function getVentas($limit, $id , $filters ){
 
@@ -232,7 +254,10 @@ class Venta_model extends CI_Model {
 		*/
 
 		public function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal , $correlativo_documento, $totalDocumentos, $templateLineas){
-			$correlativos_extra = $orden['correlativos_extra'];
+			$correlativos_extra = 0;
+			if (isset($orden['correlativos_extra'])) {
+				$correlativos_extra = $orden['correlativos_extra'];
+			}
 			$total_orden 		= $orden['orden'][0]['total'];
 			$total_orden 		= $total_orden;
 			$efecto_inventario 	= $documento[0]->efecto_inventario;
@@ -240,9 +265,17 @@ class Venta_model extends CI_Model {
 			$this->_totalDocumento = $totalDocumentos;
 			$this->_templateLineas = $templateLineas;
 
+			/** Obtener Impuestos para cada entidad */
+			$this->impDocumento = $this->evaluarDocumentoImpuesto($documento);
+			$this->impCliente   = $this->evaluarClienteImpuesto($cliente[0]->id_cliente);
+			
 			/** Divir la orden por cantidad de lineas que el documento permite */
 			$this->splitOrder();
-			print_r($this->_orden_concetrada);die;
+
+
+			
+			print_r(1);
+			die;
 
 			if($efecto_inventario == 1){ // Si suma en inventario la venta, es devolucion
 				//$total_orden = $total_orden* -1;
@@ -394,9 +427,94 @@ class Venta_model extends CI_Model {
 			}
 		}
 
-		public function evaluarProductoImpuesto($producto)
+		public function procesarCalculoImpuesto($categoriasImpuestos)
 		{
+			/** Evalauar impuesto de cada categoria con impDocumento, impCliente */
+			$aplicaDocumento = false;
+			$aplicaCliente   = false;
+			$aplicaProveedor = false;
+			$dataResult		 = [];
+			// Existe impuesto en Documento
+			foreach ($categoriasImpuestos as $uno => $categoria) {
 
+				foreach ($this->impDocumento as $dos => $documento) {
+					if ($documento->nombre == $categoria->nombre) {
+						$aplicaDocumento = true;
+						$dataResult[$uno][$categoria->nombre] = $categoria;
+					}
+				}
+
+				foreach ($this->impCliente as $tres => $cliente) {
+					if ($cliente->nombre == $categoria->nombre) {
+						$aplicaCliente = true;
+						$dataResult[$uno][$cliente->nombre] = $cliente;
+					}
+				}
+
+				if (!$aplicaDocumento || !$aplicaCliente) {
+					unset($dataResult[$uno]);
+				}
+				$aplicaDocumento = false;
+				$aplicaCliente = false;
+			}
+			return $dataResult;
+		}
+
+		public function evaluarDocumentoImpuesto($documento)
+		{
+			$flag = false;
+			$documentoId = $documento[0]->id_tipo_documento;
+			$data = array_filter(
+				$this->impuestoDocumento,
+				function($impuesto,$valor) use ($documentoId){
+					if($impuesto->Documento == $documentoId && $impuesto->estado !=0){
+						return $impuesto;
+					}
+				}, ARRAY_FILTER_USE_BOTH
+			);
+			return $data;
+		}
+
+		public function evaluarCategoriaImpuesto($categoria)
+		{
+			//var_dump("Viene con ->", $categoria['categoria']);
+			$data = array_filter(
+				$this->impuestoCategoria,
+				function($impuesto,$valor) use ($categoria){
+					if ($impuesto->Categoria == $categoria['categoria'] && $impuesto->estado !=0) {
+						
+						return $impuesto;
+					}
+				}, ARRAY_FILTER_USE_BOTH
+			);
+			//var_dump("Retorno ->", $data);
+			return $data;
+		}
+
+		public function evaluarProveedorImpuesto($proveedor)
+		{
+			$data = array_filter(
+				$this->impuestoProveedor,
+				function($impuesto,$valor) use ($proveedor){
+					if($impuesto->Proveedor == $proveedor['proveedor'] && $impuesto->estado !=0){
+						return $impuesto->Proveedor;
+					}
+				}, ARRAY_FILTER_USE_BOTH
+			);
+			return $data;
+		}
+
+		public function evaluarClienteImpuesto($cliente)
+		{
+			$data = array_filter(
+				$this->impuestoCliente,
+				function($impuesto,$valor) use ($cliente){
+					if($impuesto->Cliente == $cliente && $impuesto->estado !=0){
+						return $impuesto;
+					}
+				}, ARRAY_FILTER_USE_BOTH
+			);
+			return $data;
 		}
 
 		public function save_forma_pago($formas_pago, $total_monto ){
@@ -492,6 +610,11 @@ class Venta_model extends CI_Model {
 				if ($contadorLinea <= (int) $this->_templateLineas) {
 
 					$this->_orden_concetrada[$contadorDocumento][] = $ordenItem;
+					
+					/** Obtener impuestos para entidad Categoria */
+					$impCategoria = $this->evaluarCategoriaImpuesto($ordenItem);
+					//var_dump($impCategoria);
+					$esAplicable = $this->procesarCalculoImpuesto($impCategoria);
 
 					if($contadorLinea == $this->_templateLineas){
 						$contadorDocumento++;
@@ -514,10 +637,11 @@ class Venta_model extends CI_Model {
 	        }
 		}
 
-		private function getClienteImpuesto($cliente){
+		private function getClienteImpuesto(){
 			$this->db->select('*');
-	        $this->db->from(self::impuestos_cliente);
-	        $this->db->where('Cliente', $cliente );
+			$this->db->from(self::impuestos_cliente);
+			$this->db->join('pos_tipos_impuestos', 'pos_tipos_impuestos.id_tipos_impuestos = '.self::impuestos_cliente.'.Impuesto');
+	        $this->db->where('EmpresaCliente', $this->session->empresa[0]->id_empresa );
 	        $query = $this->db->get(); 
 
 	        if($query->num_rows() > 0 )
@@ -526,10 +650,24 @@ class Venta_model extends CI_Model {
 	        }
 		}
 
-		private function getDocumentoImpuesto($documento){
+		private function getDocumentoImpuesto(){
 			$this->db->select('*');
-	        $this->db->from(self::impuestos_documento);
-	        $this->db->where('Documento', $documento );
+			$this->db->from(self::impuestos_documento);
+			$this->db->join('pos_tipos_impuestos', 'pos_tipos_impuestos.id_tipos_impuestos = '.self::impuestos_documento.'.Impuesto');
+	        $this->db->where('EmpresaDocumento', $this->session->empresa[0]->id_empresa );
+			$query = $this->db->get(); 
+
+	        if($query->num_rows() > 0 )
+	        {
+	            return $query->result();
+	        }
+		}
+
+		private function getCategoriaImpuesto(){
+			$this->db->select('*');
+			$this->db->from(self::impuestos_categoria);
+			$this->db->join('pos_tipos_impuestos', 'pos_tipos_impuestos.id_tipos_impuestos = '.self::impuestos_categoria.'.Impuesto');
+	        $this->db->where('EmpresaCategoria', $this->session->empresa[0]->id_empresa );
 	        $query = $this->db->get(); 
 
 	        if($query->num_rows() > 0 )
@@ -538,22 +676,10 @@ class Venta_model extends CI_Model {
 	        }
 		}
 
-		private function getCategoriaImpuesto($categoria){
-			$this->db->select('*');
-	        $this->db->from(self::impuestos_categoria);
-	        $this->db->where('Categoria', $categoria );
-	        $query = $this->db->get(); 
-
-	        if($query->num_rows() > 0 )
-	        {
-	            return $query->result();
-	        }
-		}
-
-		private function getProveedorImpuesto($proveedor){
+		private function getProveedorImpuesto(){
 			$this->db->select('*');
 	        $this->db->from(self::impuestos_proveedor);
-	        $this->db->where('Proveedor', $proveedor );
+	        $this->db->where('EmpresaProveedor', $this->session->empresa[0]->id_empresa );
 	        $query = $this->db->get(); 
 
 	        if($query->num_rows() > 0 )
