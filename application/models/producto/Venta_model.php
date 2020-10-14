@@ -62,6 +62,8 @@ class Venta_model extends CI_Model {
 
 		private $impuestoDocumento = [];
 
+		private $impuestosLista    = [];
+
 		private $impDocumento = [];
 		private $impCliente   = [];
 		private $impCategoria = [];
@@ -268,15 +270,10 @@ class Venta_model extends CI_Model {
 			/** Obtener Impuestos para cada entidad */
 			$this->impDocumento = $this->evaluarDocumentoImpuesto($documento);
 			$this->impCliente   = $this->evaluarClienteImpuesto($cliente[0]->id_cliente);
-			
+
 			/** Divir la orden por cantidad de lineas que el documento permite */
 			$this->splitOrder();
-
-
 			
-			print_r(1);
-			die;
-
 			if($efecto_inventario == 1){ // Si suma en inventario la venta, es devolucion
 				//$total_orden = $total_orden* -1;
 			}			
@@ -352,16 +349,18 @@ class Venta_model extends CI_Model {
 					}
 
 					$this->_orden_id = $this->db->insert_id();
-					
+
 					if ($result) {
 
 						/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
-						$total_monto =  $this->guardar_venta_detalle( $efecto_inventario , $items);	
-						
+						$total_monto =  $this->guardar_venta_detalle( $efecto_inventario , $items);
+						//var_dump($this->impuestosLista);	
+						die;
 						/* GUARDAR FORMATOS DE PAGO */
 						$this->save_forma_pago( $this->_orden['pagos'], $total_monto);
 						/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
-						$this->save_venta_impuestos( 2);	
+						$this->save_venta_impuestos( 2);
+						
 						
 						/* INCREMENTO CORRELATIVOS AUTOMATICOS */
 						if ($correlativo_documento == $siguiente_correlativo[0]->siguiente_valor) {
@@ -434,25 +433,28 @@ class Venta_model extends CI_Model {
 			$aplicaCliente   = false;
 			$aplicaProveedor = false;
 			$dataResult		 = [];
+			$contador = 0;
 			// Existe impuesto en Documento
 			foreach ($categoriasImpuestos as $uno => $categoria) {
 
 				foreach ($this->impDocumento as $dos => $documento) {
 					if ($documento->nombre == $categoria->nombre) {
 						$aplicaDocumento = true;
-						$dataResult[$uno][$categoria->nombre] = $categoria;
+						$dataResult[$contador] = $categoria;
 					}
 				}
 
 				foreach ($this->impCliente as $tres => $cliente) {
 					if ($cliente->nombre == $categoria->nombre) {
 						$aplicaCliente = true;
-						$dataResult[$uno][$cliente->nombre] = $cliente;
+						$dataResult[$contador] = $cliente;
 					}
 				}
 
 				if (!$aplicaDocumento || !$aplicaCliente) {
 					unset($dataResult[$uno]);
+				}else{
+					$contador++;
 				}
 				$aplicaDocumento = false;
 				$aplicaCliente = false;
@@ -546,11 +548,16 @@ class Venta_model extends CI_Model {
 
 			foreach ($items as $orden) {
 
-				if($orden['descuento']){
-					$descuento_porcentaje = $orden['descuento'];
-				}else{
-					$descuento_porcentaje = 0.00;
-				}
+				/** Obtener impuestos para entidad Categoria */
+				$impCategoria = $this->evaluarCategoriaImpuesto($orden);
+				
+				/** Verificar si impuesto aplica */
+				$impuestos = $this->procesarCalculoImpuesto($impCategoria);
+				
+				/** Calcular Impuesto IVA */
+				$this->calculoImpuestoIva($orden, $impuestos);
+
+				$descuento_porcentaje = $orden['descuento'] ? $orden['descuento'] : 0.00;
 				
 				$data = array(
 					'id_venta' 		=> $this->_orden_id,
@@ -594,28 +601,58 @@ class Venta_model extends CI_Model {
 
 				$this->db->insert(self::pos_venta_detalle, $data );
 				$contador++;
-				
 			}
+			
+			if (isset($this->impuestosLista['IVA'])) {
+				$this->db->insert(self::pos_ventas_impuestos, $this->impuestosLista['IVA'] );				
+				unset($this->impuestosLista['IVA']);
+			}
+			
 			return $total_monto;
+		}
+
+		private function calculoImpuestoIva($item,$impuestos)
+		{
+			$count = count($this->impuestosLista);
+			$data = array();
+			
+			foreach ($impuestos as $key => $impuesto) {		
+				$Total = 0;
+				if ($impuesto->nombre == "IVA") {
+					$Total = ($impuesto->porcentage * $item['total']) / ($impuesto->porcentage + 1);
+
+					$data = array(
+						'id_venta' 		=> $this->_orden_id, 
+						'ordenEspecial' => 0,
+						'ordenImpName' 	=> $impuesto->nombre,
+						'ordenImpTotal' => $Total,
+						'ordenImpVal' 	=> $impuesto->porcentage,
+						'ordenSimbolo' 	=> substr($item['gen'],0,1),
+						'vent_imp_tipo' => 2 ,
+						'vent_imp_estado' => 1
+					);
+
+					if (!isset($this->impuestosLista[$impuesto->nombre])) {
+						$this->impuestosLista[$impuesto->nombre] = $data;	
+					}else{
+						$this->impuestosLista[$impuesto->nombre]['ordenImpTotal'] += $Total;
+					}
+				}
+			}			
 		}
 
 		/** INICIAR CON LA DIVISION DE PRODUCTOS POR DOCUMENTOS Y SUS CALCULOS */
 
 		private function splitOrder(){
-
 			$contadorLinea = 1;
 			$contadorDocumento = 1;
+
 			foreach ($this->_orden['orden'] as $key => $ordenItem) {
 				
 				if ($contadorLinea <= (int) $this->_templateLineas) {
 
 					$this->_orden_concetrada[$contadorDocumento][] = $ordenItem;
 					
-					/** Obtener impuestos para entidad Categoria */
-					$impCategoria = $this->evaluarCategoriaImpuesto($ordenItem);
-					//var_dump($impCategoria);
-					$esAplicable = $this->procesarCalculoImpuesto($impCategoria);
-
 					if($contadorLinea == $this->_templateLineas){
 						$contadorDocumento++;
 						$contadorLinea=1;
@@ -623,6 +660,11 @@ class Venta_model extends CI_Model {
 					$contadorLinea++;
 				}
 			}
+		}
+
+		private function calcularImpuestoItem($dataImpuestos)
+		{
+
 		}
 
 		private function getImpuesto(){
