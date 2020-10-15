@@ -354,10 +354,10 @@ class Venta_model extends CI_Model {
 
 						/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
 						$total_monto =  $this->guardar_venta_detalle( $efecto_inventario , $items);
-						//var_dump($this->impuestosLista);	
-						die;
+						$this->impuestosLista = [];
 						/* GUARDAR FORMATOS DE PAGO */
 						$this->save_forma_pago( $this->_orden['pagos'], $total_monto);
+
 						/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
 						$this->save_venta_impuestos( 2);
 						
@@ -374,7 +374,7 @@ class Venta_model extends CI_Model {
 			}else{
 				echo "No hay correlativo";
 			}
-
+			die;
 			return $this->_orden_id;
 		}
 
@@ -385,7 +385,7 @@ class Venta_model extends CI_Model {
 				$impTipo = 2 -> Venta Rapida
 			*/
 
-			if(isset($this->_orden['impuestos'])){
+			/*if(isset($this->_orden['impuestos'])){
 				foreach ($this->_orden['impuestos'] as $impuestos_datos) {
 					foreach ($impuestos_datos as $key => $value) {
 						
@@ -403,12 +403,12 @@ class Venta_model extends CI_Model {
 						$this->db->insert(self::pos_ventas_impuestos, $data );
 					}
 				}	
-			}		
+			}		*/
 		}
 
 		public function sumVentaImpuesto($producto)
 		{
-			$impuestoData = $this->evaluarProductoImpuesto($producto);
+			/*$impuestoData = $this->evaluarProductoImpuesto($producto);
 
 			if($impuestoData)
 			{
@@ -423,7 +423,7 @@ class Venta_model extends CI_Model {
 					'vent_imp_estado' => 1
 				);
 				$this->db->insert(self::pos_ventas_impuestos, $data );
-			}
+			}*/
 		}
 
 		public function procesarCalculoImpuesto($categoriasImpuestos)
@@ -545,7 +545,7 @@ class Venta_model extends CI_Model {
 		public function guardar_venta_detalle( $efecto_inventario, $items){
 			$contador    = 1;
 			$total_monto = 0.00;
-
+			$this->impuestosLista = [];
 			foreach ($items as $orden) {
 
 				$total_monto += ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'];
@@ -603,14 +603,11 @@ class Venta_model extends CI_Model {
 				$contador++;
 			}
 
-			
-
+			//var_dump($this->_orden_id, $this->impuestosLista);
 			foreach ($this->impuestosLista as $lista) 
 			{
-					$this->db->insert(self::pos_ventas_impuestos, $lista );				
-					//unset($this->impuestosLista['IVA']);
-			}		
-			die;	
+				$this->db->insert(self::pos_ventas_impuestos, $lista );
+			}
 			
 			return $total_monto;
 		}
@@ -630,7 +627,7 @@ class Venta_model extends CI_Model {
 			$impuesto_iva = $_iva[0];
 			
 			$Total = 0;
-			if ($_iva[0]->nombre == "IVA") {
+			if ($_iva[0]->nombre == "IVA" && $item['tipo'] !='E') {
 				$Total = ($impuesto_iva->porcentage * $item['total']) / ($impuesto_iva->porcentage + 1);
 
 				$data = array(
@@ -650,6 +647,8 @@ class Venta_model extends CI_Model {
 					$this->impuestosLista[$impuesto_iva->nombre]['ordenImpTotal'] += $Total;
 				}
 			}
+			//var_dump($this->impuestosLista);
+			//echo "Item :". $item['descripcion'] . " -- Venta :". $this->_orden_id. "<br>";
 
 			$_impuesto = array_filter(
 				$impuestos,
@@ -669,7 +668,9 @@ class Venta_model extends CI_Model {
 						if ( $total_monto >= $impuesto->condicion_valor) {
 							$Total = $impuesto->porcentage * $total_monto;
 						}
+
 					}else if($impuesto->condicion_simbolo == "<="){
+
 						if ( $total_monto <= $impuesto->condicion_valor) {
 							$Total = $impuesto->porcentage * $total_monto;
 						}
@@ -689,10 +690,17 @@ class Venta_model extends CI_Model {
 					'vent_imp_estado' => 1
 				);
 
-				if (!isset($this->impuestosLista[$impuesto->nombre])) {
-					$this->impuestosLista[$impuesto->nombre] = $data;
-				}else{
-					$this->impuestosLista[$impuesto->nombre]['ordenImpTotal'] += $Total;
+				if (!isset($this->impuestosLista[$impuesto->nombre])) 
+				{
+					if ( $Total > 0 ) {
+						$this->impuestosLista[$impuesto->nombre] = $data;
+					}
+				}
+				else
+				{
+					if ( $Total > 0 ) {
+						$this->impuestosLista[$impuesto->nombre]['ordenImpTotal'] += $Total;
+					}
 				}
 			}
 		}
