@@ -548,6 +548,8 @@ class Venta_model extends CI_Model {
 
 			foreach ($items as $orden) {
 
+				$total_monto += ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'];
+
 				/** Obtener impuestos para entidad Categoria */
 				$impCategoria = $this->evaluarCategoriaImpuesto($orden);
 				
@@ -555,7 +557,7 @@ class Venta_model extends CI_Model {
 				$impuestos = $this->procesarCalculoImpuesto($impCategoria);
 				
 				/** Calcular Impuesto IVA */
-				$this->calculoImpuestoIva($orden, $impuestos);
+				$this->calculoImpuestoIva($orden, $impuestos, $total_monto);
 
 				$descuento_porcentaje = $orden['descuento'] ? $orden['descuento'] : 0.00;
 				
@@ -596,49 +598,103 @@ class Venta_model extends CI_Model {
 					//'tp_c' 			=> $orden[''],
 					'p_inc_imp0' 	=> $orden['iva'],		            
 				);
-				
-				$total_monto += ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'];
 
 				$this->db->insert(self::pos_venta_detalle, $data );
 				$contador++;
 			}
+
 			
-			if (isset($this->impuestosLista['IVA'])) {
-				$this->db->insert(self::pos_ventas_impuestos, $this->impuestosLista['IVA'] );				
-				unset($this->impuestosLista['IVA']);
-			}
+
+			foreach ($this->impuestosLista as $lista) 
+			{
+					$this->db->insert(self::pos_ventas_impuestos, $lista );				
+					//unset($this->impuestosLista['IVA']);
+			}		
+			die;	
 			
 			return $total_monto;
 		}
 
-		private function calculoImpuestoIva($item,$impuestos)
+		private function calculoImpuestoIva($item,$impuestos,$total_monto)
 		{
-			$count = count($this->impuestosLista);
 			$data = array();
-			
-			foreach ($impuestos as $key => $impuesto) {		
-				$Total = 0;
-				if ($impuesto->nombre == "IVA") {
-					$Total = ($impuesto->porcentage * $item['total']) / ($impuesto->porcentage + 1);
 
-					$data = array(
-						'id_venta' 		=> $this->_orden_id, 
-						'ordenEspecial' => 0,
-						'ordenImpName' 	=> $impuesto->nombre,
-						'ordenImpTotal' => $Total,
-						'ordenImpVal' 	=> $impuesto->porcentage,
-						'ordenSimbolo' 	=> substr($item['gen'],0,1),
-						'vent_imp_tipo' => 2 ,
-						'vent_imp_estado' => 1
-					);
-
-					if (!isset($this->impuestosLista[$impuesto->nombre])) {
-						$this->impuestosLista[$impuesto->nombre] = $data;	
-					}else{
-						$this->impuestosLista[$impuesto->nombre]['ordenImpTotal'] += $Total;
+			$_iva = array_filter(
+				$impuestos,
+				function($impuesto,$valor){
+					if($impuesto->nombre == "IVA"){
+						return $impuesto;
 					}
+				}, ARRAY_FILTER_USE_BOTH
+			);
+			$impuesto_iva = $_iva[0];
+			
+			$Total = 0;
+			if ($_iva[0]->nombre == "IVA") {
+				$Total = ($impuesto_iva->porcentage * $item['total']) / ($impuesto_iva->porcentage + 1);
+
+				$data = array(
+					'id_venta' 		=> $this->_orden_id, 
+					'ordenEspecial' => 0,
+					'ordenImpName' 	=> $impuesto_iva->nombre,
+					'ordenImpTotal' => $Total,
+					'ordenImpVal' 	=> $impuesto_iva->porcentage,
+					'ordenSimbolo' 	=> substr($item['gen'],0,1),
+					'vent_imp_tipo' => 2 ,
+					'vent_imp_estado' => 1
+				);
+
+				if (!isset($this->impuestosLista[$impuesto_iva->nombre])) {
+					$this->impuestosLista[$impuesto_iva->nombre] = $data;	
+				}else{
+					$this->impuestosLista[$impuesto_iva->nombre]['ordenImpTotal'] += $Total;
 				}
-			}			
+			}
+
+			$_impuesto = array_filter(
+				$impuestos,
+				function($impuesto,$valor){
+					if($impuesto->nombre != "IVA"){
+						return $impuesto;
+					}
+				}, ARRAY_FILTER_USE_BOTH
+			);
+
+			foreach ($_impuesto as $key => $impuesto) {
+				$Total = 0.00;
+				if ( $impuesto->condicion == 1) {
+
+					if ( $impuesto->condicion_simbolo == ">=") {
+
+						if ( $total_monto >= $impuesto->condicion_valor) {
+							$Total = $impuesto->porcentage * $total_monto;
+						}
+					}else if($impuesto->condicion_simbolo == "<="){
+						if ( $total_monto <= $impuesto->condicion_valor) {
+							$Total = $impuesto->porcentage * $total_monto;
+						}
+					}
+				}else{
+					$Total = $impuesto->porcentage * $item['total'];
+				}
+
+				$data = array(
+					'id_venta' 		=> $this->_orden_id, 
+					'ordenEspecial' => 0,
+					'ordenImpName' 	=> $impuesto->nombre,
+					'ordenImpTotal' => $Total,
+					'ordenImpVal' 	=> $impuesto->porcentage,
+					'ordenSimbolo' 	=> substr($item['gen'],0,1),
+					'vent_imp_tipo' => 2 ,
+					'vent_imp_estado' => 1
+				);
+
+				if (!isset($this->impuestosLista[$impuesto->nombre])) {
+					$this->impuestosLista[$impuesto->nombre] = $data;
+				}else{
+					$this->impuestosLista[$impuesto->nombre]['ordenImpTotal'] += $Total;
+				}
+			}
 		}
 
 		/** INICIAR CON LA DIVISION DE PRODUCTOS POR DOCUMENTOS Y SUS CALCULOS */
