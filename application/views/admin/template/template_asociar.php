@@ -335,7 +335,7 @@
                                                                                                                       
                                                            <td class="text-center">
                                                             <?php 
-                                                                if($value->estado == 1){
+                                                                if($value->sucursal_estado == 1){
                                                                 ?>
                                                                 <div class="label label-success">Activo</div>
                                                             <?php
@@ -352,7 +352,7 @@
                                                                     <?php
 
                                                                     $check="";
-                                                                    if($value->estado == 1){
+                                                                    if($value->sucursal_estado == 1){
                                                                         $check = "unchecked";
                                                                     }else{
                                                                         $check="unchecked";

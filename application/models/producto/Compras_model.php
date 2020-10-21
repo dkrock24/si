@@ -75,26 +75,26 @@ class Compras_model extends CI_Model
 	function get_producto_completo($producto_id)
 	{
 		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria',
-					`sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, 
-					e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca,
-					pinv.id_inventario, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, 
-					impuestos.porcentage ,`sub_c`.`id_categoria` as 'categoria',pde.presentacion,
-					pde.factor,pde.precio,pde.unidad,pde.cod_barra,pde.id_producto_detalle
+			`sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, 
+			e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca,
+			pinv.id_inventario, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, 
+			impuestos.porcentage ,`sub_c`.`id_categoria` as 'categoria',pde.presentacion,
+			pde.factor,pde.precio,pde.unidad,pde.cod_barra,pde.id_producto_detalle
 
-					FROM `producto` as `P`
-					LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
-					LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
-					LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
-					LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
-					LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
-					LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-					LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
-					LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
-					LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
-					LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
-					LEFT JOIN prouducto_detalle AS pde ON pde.Producto = P.id_entidad
+			FROM `producto` as `P`
+			LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
+			LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
+			LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
+			LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
+			LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
+			LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
+			LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
+			LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
+			LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
+			LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
+			LEFT JOIN prouducto_detalle AS pde ON pde.Producto = P.id_entidad
 
-					WHERE pde.id_producto_detalle = " . $producto_id);
+			WHERE pde.id_producto_detalle = " . $producto_id);
 			//echo $this->db->queries[0];
 		return $query->result();
 	}

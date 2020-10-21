@@ -209,7 +209,7 @@
                         <tr style="border-top:2px solid black;">
                             <td><?php //echo $cnt ?></td>
                             <td>TOTAL</td>
-                            <td><?php echo $moneda[0]->moneda_simbolo .' '.$total_pago ?></td>
+                            <td><?php echo $moneda[0]->moneda_simbolo .' '. number_format($total_pago,2) ?></td>
                             <td colspan="4"></td>
                         </tr>
                     </tbody>
@@ -289,10 +289,10 @@
                             $monedaSimbolo = $moneda[0]->moneda_simbolo;
                             foreach ($detalle as $key => $venta) {
                                 $total      = number_format($venta->total,2);
-                                $descuento  = number_format($encabezado[0]->desc_val,2);
-                                $cantidad   = number_format($venta->cantidad,1);
+                                $descuento  += number_format($encabezado[0]->desc_val,2);
+                                $cantidad   += number_format($venta->cantidad,1);
                                 $precioVenta= number_format($venta->precio_venta,2);
-                                $neto = number_format($total - $descuento,2);
+                                $neto = number_format($total,2);
                             ?>
                                 <tr>
                                     <td><?php echo $cnt ?></td>
@@ -305,7 +305,7 @@
                                     <td><?php echo $monedaSimbolo . " " . $precioVenta ?></td>
                                     <td><?php echo $venta->factor ?></td>
                                     <td><?php echo $cantidad ?></td>
-                                    <td><?php echo $monedaSimbolo . " " . $descuento ?></td>
+                                    <td><?php echo $monedaSimbolo . " " . number_format($descuento,2) ?></td>
                                     <td><?php echo $monedaSimbolo . " " . $neto ?>
                                         <?php echo substr($venta->gen,0,1); ?>
                                     </td>
@@ -320,8 +320,8 @@
                                 </tr>
                             <?php
                                 $cnt++;
-                                $cantidad   += $venta->cantidad;
-                                $descuento  += $descuento;
+                                //$cantidad   += $venta->cantidad;
+                                //$descuento  += $descuento;
                                 $totalVenta += $neto;
                             }
                             ?>

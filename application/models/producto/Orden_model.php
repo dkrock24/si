@@ -149,7 +149,7 @@ class Orden_model extends CI_Model
 	{
 
 		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-	        		, b.id_bodega, b.nombre_bodega, pinv.id_inventario
+	        		, b.id_bodega, b.nombre_bodega, pbodega.id_pro_bod AS id_inventario
 	        		, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, impuestos.porcentage ,
 	        		 `sub_c`.`id_categoria` as 'categoria',pde.presentacion,pde.factor,pde.precio,pde.unidad
 
@@ -166,13 +166,14 @@ class Orden_model extends CI_Model
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				-- LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
-				LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
+				-- LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
+				LEFT JOIN pos_producto_bodega AS pbodega ON (pbodega.Producto = P.id_entidad && pbodega.Bodega = $id_bodega)
 				LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
 				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
 				LEFT JOIN prouducto_detalle AS pde ON pde.Producto = P.id_entidad
 
 				WHERE pde.id_producto_detalle = " . $producto_id . " and b.id_bodega =" . $id_bodega);
-		//echo $this->db->queries[0];
+		//echo $this->db->queries[3];die;
 		return $query->result();
 	}
 
@@ -182,7 +183,7 @@ class Orden_model extends CI_Model
 		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', 
 					`sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa,
 					g.id_giro, g.nombre_giro, m.nombre_marca
-	        		,b.id_bodega, b.nombre_bodega, pinv.id_inventario
+	        		,b.id_bodega, b.nombre_bodega, pbodega.id_pro_bod AS id_inventario
 	        		, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, impuestos.porcentage ,
 	        		 `sub_c`.`id_categoria` as 'categoria',pde.presentacion,pde.factor,pde.precio,pde.unidad
 
@@ -195,8 +196,9 @@ class Orden_model extends CI_Model
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
 				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
-				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`				
-				LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
+				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
+				-- LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
+				LEFT JOIN pos_producto_bodega AS pbodega ON (pbodega.Producto = P.id_entidad && pbodega.Bodega = $id_bodega)
 				LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
 				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
 				LEFT JOIN prouducto_detalle AS pde ON pde.Producto = P.id_entidad
@@ -375,7 +377,6 @@ class Orden_model extends CI_Model
 
 	function guardar_orden_detalle($id_orden, $datos)
 	{
-
 		foreach ($datos['orden'] as $key => $orden) {
 
 			if ($orden['descuento']) {
@@ -405,7 +406,7 @@ class Orden_model extends CI_Model
 				'tipoprec' 		=> $orden['presentacion'],
 				'precioUnidad' 	=> $orden['precioUnidad'],
 				'factor' 		=> $orden['presentacionFactor'],
-				'total' 		=> $orden['total'],
+				'total' 		=> (int) $orden['total'] - (int) $orden['descuento_calculado'],
 				'total_anterior'=> $orden['total_anterior'],
 				'impSuma'		=> $orden['impSuma'],
 				'gen' 			=> $orden['gen'],

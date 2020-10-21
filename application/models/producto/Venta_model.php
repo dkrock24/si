@@ -178,7 +178,7 @@ class Venta_model extends CI_Model {
 		public function get_producto_completo($producto_id , $id_bodega ){
 	        
 	        $query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor,b.id_bodega, b.nombre_bodega, pinv.id_inventario
+	        		, A.nam_atributo, A.id_prod_atributo , pv2.valor as valor,b.id_bodega, b.nombre_bodega, pbodega.id_pro_bod AS id_inventario
 	        		, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, impuestos.porcentage ,
 	        		 `sub_c`.`id_categoria` as 'categoria'
 
@@ -195,7 +195,8 @@ class Venta_model extends CI_Model {
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
-				LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
+				-- LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
+				LEFT JOIN pos_producto_bodega AS pbodega ON (pbodega.Producto = P.id_entidad && pbodega.Bodega = $id_bodega)
 				LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
 				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
 
@@ -242,10 +243,10 @@ class Venta_model extends CI_Model {
 		public function correlativo_final($correlativo , $ingresado){
 			
 			$valor = 0;
-			if($correlativo==$ingresado){
+			if ($correlativo == $ingresado) {
 				$valor = $correlativo;
 			}else{
-				$valor = $ingresado;
+				$valor = $correlativo;
 			}
 			return $valor;
 		}
@@ -287,10 +288,11 @@ class Venta_model extends CI_Model {
 					$numero = $correlativo_documento ;
 				}
 
-				$correlativo_final = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $numero );
-
-				foreach ($this->_orden_concetrada as $items) {
 				
+				foreach ($this->_orden_concetrada as $items) {
+					$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal , $documento );
+					$correlativo_final     = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $numero );
+
 					$data = array(
 						'id_caja' 				=> $form['caja_id'], //terminal_id
 						'id_cajero'				=> $this->session->db[0]->id_usuario,
@@ -355,17 +357,15 @@ class Venta_model extends CI_Model {
 						/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
 						$total_monto =  $this->guardar_venta_detalle( $efecto_inventario , $items);
 						$this->impuestosLista = [];
-						/* GUARDAR FORMATOS DE PAGO */
-						$this->save_forma_pago( $this->_orden['pagos'], $total_monto);
 
 						/* GUARDAR IMPUESTOS GENERADOS EN LA VENTA */
 						$this->save_venta_impuestos( 2);
 						
 						
 						/* INCREMENTO CORRELATIVOS AUTOMATICOS */
-						if ($correlativo_documento == $siguiente_correlativo[0]->siguiente_valor) {
+						//if ($correlativo_documento == $siguiente_correlativo[0]->siguiente_valor) {
 							$this->incremento_correlativo( $siguiente_correlativo[0]->siguiente_valor, $sucursal , $documento[0]->id_tipo_documento);
-						}
+						//}
 					}
 				}
 
@@ -519,22 +519,27 @@ class Venta_model extends CI_Model {
 			return $data;
 		}
 
-		public function save_forma_pago($formas_pago, $total_monto ){
+		public function save_forma_pago($total_monto ){
 
-			foreach ($formas_pago as $key => $value) {
+			foreach ($this->_orden['pagos'] as $key => $metodoPago) {
 						
 				$data = array(
 					'venta_pagos' 		=> $this->_orden_id , 
-					'id_forma_pago' 	=> $value['id'],
-					'nombre_metodo_pago'=> $value['type'],
+					'id_forma_pago' 	=> $metodoPago['id'],
+					'nombre_metodo_pago'=> $metodoPago['type'],
 					'valor_metodo_pago' => $total_monto,
-					'banco_metodo_pago' => $value['banco'],
-					'numero_metodo_pago'=> $value['valor'],
-					'series_metodo_pago'=> $value['serie'],
+					'banco_metodo_pago' => $metodoPago['banco'],
+					'numero_metodo_pago'=> $metodoPago['valor'],
+					'series_metodo_pago'=> $metodoPago['serie'],
 					'estado_venta_pago' => 1
 				);
 
-				$this->db->insert(self::pos_venta_pagos, $data ); 
+				$this->db->insert(self::pos_venta_pagos, $data );
+
+				if (count($this->_orden_concetrada) > 1) {
+					unset($this->_orden['pagos'][$key]);
+					break;
+				}
 			}
 		}
 
@@ -548,7 +553,10 @@ class Venta_model extends CI_Model {
 			$this->impuestosLista = [];
 			foreach ($items as $orden) {
 
-				$total_monto += ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'];
+				$_total =  (int) $orden['total'] - (int) $orden['descuento_calculado'];
+				$orden['total'] = $_total;
+
+				$total_monto += ($efecto_inventario == 1) ? ( $_total * 1 ) : $_total;
 
 				/** Obtener impuestos para entidad Categoria */
 				$impCategoria = $this->evaluarCategoriaImpuesto($orden);
@@ -559,7 +567,7 @@ class Venta_model extends CI_Model {
 				/** Calcular Impuesto IVA */
 				$this->calculoImpuestoIva($orden, $impuestos, $total_monto);
 
-				$descuento_porcentaje = $orden['descuento'] ? $orden['descuento'] : 0.00;
+				$descuento_porcentaje = $orden['descuento'] ? $orden['descuento'] : 0.00;				
 				
 				$data = array(
 					'id_venta' 		=> $this->_orden_id,
@@ -580,7 +588,7 @@ class Venta_model extends CI_Model {
 					'tipoprec' 		=> $orden['presentacion'],
 					'precioUnidad' 	=> ($efecto_inventario == 1) ?  ($orden['precioUnidad']* 1): $orden['precioUnidad'],
 					'factor' 		=> $orden['presentacionFactor'],
-					'total' 		=> ($efecto_inventario == 1) ? ( $orden['total'] * 1 ) : $orden['total'] ,
+					'total' 		=> ($efecto_inventario == 1) ? ( $_total * 1 ) : $_total ,
 					'impSuma'		=> $orden['impSuma'],
 					'gen' 			=> $orden['gen'],
 					'descuento' 	=> $orden['descuento'] ,
@@ -608,6 +616,9 @@ class Venta_model extends CI_Model {
 			{
 				$this->db->insert(self::pos_ventas_impuestos, $lista );
 			}
+
+			/* GUARDAR FORMATOS DE PAGO */
+			$this->save_forma_pago( $total_monto);
 			
 			return $total_monto;
 		}
@@ -627,8 +638,15 @@ class Venta_model extends CI_Model {
 			$impuesto_iva = $_iva[0];
 			
 			$Total = 0;
-			if ($_iva[0]->nombre == "IVA" && $item['tipo'] !='E') {
+			if ($_iva[0]->nombre == "IVA") {
+				
 				$Total = ($impuesto_iva->porcentage * $item['total']) / ($impuesto_iva->porcentage + 1);
+
+				if($item['tipo'] =='E'){
+					$Total = $item['total'];
+				}
+
+				$impSimbolo = substr($item['gen'],0,1);
 
 				$data = array(
 					'id_venta' 		=> $this->_orden_id, 
@@ -636,15 +654,15 @@ class Venta_model extends CI_Model {
 					'ordenImpName' 	=> $impuesto_iva->nombre,
 					'ordenImpTotal' => $Total,
 					'ordenImpVal' 	=> $impuesto_iva->porcentage,
-					'ordenSimbolo' 	=> substr($item['gen'],0,1),
+					'ordenSimbolo' 	=> $impSimbolo,
 					'vent_imp_tipo' => 2 ,
 					'vent_imp_estado' => 1
 				);
 
-				if (!isset($this->impuestosLista[$impuesto_iva->nombre])) {
-					$this->impuestosLista[$impuesto_iva->nombre] = $data;	
+				if (!isset($this->impuestosLista[$impuesto_iva->nombre.$impSimbolo])) {
+					$this->impuestosLista[$impuesto_iva->nombre.$impSimbolo] = $data;	
 				}else{
-					$this->impuestosLista[$impuesto_iva->nombre]['ordenImpTotal'] += $Total;
+					$this->impuestosLista[$impuesto_iva->nombre.$impSimbolo]['ordenImpTotal'] += $Total;
 				}
 			}
 			//var_dump($this->impuestosLista);
@@ -659,6 +677,7 @@ class Venta_model extends CI_Model {
 				}, ARRAY_FILTER_USE_BOTH
 			);
 
+			$flag = false;
 			foreach ($_impuesto as $key => $impuesto) {
 				$Total = 0.00;
 				if ( $impuesto->condicion == 1) {
@@ -667,12 +686,14 @@ class Venta_model extends CI_Model {
 
 						if ( $total_monto >= $impuesto->condicion_valor) {
 							$Total = $impuesto->porcentage * $total_monto;
+							$flag = true;
 						}
 
 					}else if($impuesto->condicion_simbolo == "<="){
 
 						if ( $total_monto <= $impuesto->condicion_valor) {
 							$Total = $impuesto->porcentage * $total_monto;
+							$flag = true;
 						}
 					}
 				}else{
@@ -690,16 +711,23 @@ class Venta_model extends CI_Model {
 					'vent_imp_estado' => 1
 				);
 
-				if (!isset($this->impuestosLista[$impuesto->nombre])) 
+				if($impuesto->nombre != "IVA")
 				{
-					if ( $Total > 0 ) {
-						$this->impuestosLista[$impuesto->nombre] = $data;
+					if (!isset($this->impuestosLista[$impuesto->nombre])) 
+					{
+						if ( $Total > 0 ) {
+							$this->impuestosLista[$impuesto->nombre] = $data;
+						}
 					}
-				}
-				else
-				{
-					if ( $Total > 0 ) {
-						$this->impuestosLista[$impuesto->nombre]['ordenImpTotal'] += $Total;
+					else
+					{
+						if ( $Total > 0 ) {
+							if($flag){
+								$this->impuestosLista[$impuesto->nombre]['ordenImpTotal'] = $Total;
+							}else{
+								$this->impuestosLista[$impuesto->nombre]['ordenImpTotal'] += $Total;
+							}
+						}
 					}
 				}
 			}
@@ -720,15 +748,11 @@ class Venta_model extends CI_Model {
 					if($contadorLinea == $this->_templateLineas){
 						$contadorDocumento++;
 						$contadorLinea=1;
+					}else{
+						$contadorLinea++;
 					}
-					$contadorLinea++;
 				}
 			}
-		}
-
-		private function calcularImpuestoItem($dataImpuestos)
-		{
-
 		}
 
 		private function getImpuesto(){

@@ -218,7 +218,6 @@ class Traslado extends MY_Controller {
 		}
 
 		echo json_encode($data['productos']);
-		
 	}
 
 	function get_producto_completo2( $producto_id, $id_bodega ){
