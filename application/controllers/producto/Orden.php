@@ -200,6 +200,7 @@ class Orden extends MY_Controller {
 
 		$totalDocumentos = $this->totalDocumentos($template, $totalProductos);
 
+
 		$correlativos = [];
 		if($totalDocumentos > 1){
 			$numCorrelativos = $data['correlativo'][0]->siguiente_valor;
@@ -217,8 +218,15 @@ class Orden extends MY_Controller {
 
 	private function totalDocumentos($template , $totalProductos){
 		if ($totalProductos > 0) {
-			$productosEnDocumento = ((int) ($totalProductos / $template[0]->factura_lineas) +1);
 			
+			$productosEnDocumento = ((int) ($totalProductos / $template[0]->factura_lineas));
+			
+			$isEntero = (int) ($totalProductos % $template[0]->factura_lineas);
+			
+			if ($isEntero != 0) {
+				$productosEnDocumento += 1;
+			}
+
 			return $productosEnDocumento;
 		}
 	}

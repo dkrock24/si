@@ -257,10 +257,12 @@ class Venta_model extends CI_Model {
 		*/
 
 		public function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal , $correlativo_documento, $totalDocumentos, $templateLineas){
+
 			$correlativos_extra = 0;
 			if (isset($orden['correlativos_extra'])) {
-				$correlativos_extra = $orden['correlativos_extra'];
+				$correlativosLista = $orden['correlativos_extra'];
 			}
+
 			$total_orden 		= $orden['orden'][0]['total'];
 			$total_orden 		= $total_orden;
 			$efecto_inventario 	= $documento[0]->efecto_inventario;
@@ -287,9 +289,8 @@ class Venta_model extends CI_Model {
 				if( isset( $correlativo_documento ) ){
 					$numero = $correlativo_documento ;
 				}
-
 				
-				foreach ($this->_orden_concetrada as $items) {
+				foreach ($this->_orden_concetrada as $key => $items) {
 					$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal , $documento );
 					$correlativo_final     = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $numero );
 
@@ -300,7 +301,7 @@ class Venta_model extends CI_Model {
 						'd_inc_imp0' 			=> $form['impuesto'], //impuesto
 						'id_sucursal' 			=> $form['sucursal_destino'], //sucursal_destino
 						'id_tipod' 				=> $documento[0]->id_tipo_documento, //modo_pago_id
-						'num_correlativo'		=> $correlativo_final,
+						'num_correlativo'		=> $correlativosLista ? $correlativosLista[$key] : $correlativo_final,
 						'comentarios' 			=> "",
 						'id_usuario' 			=> $id_usuario,
 						'fecha' 				=> date("Y-m-d h:i:s"),	            

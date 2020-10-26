@@ -1785,6 +1785,7 @@
 
         function correlativo_documento(cli_form_pago, tipo_documento, sucursal_id) {
             var total_articulos = getTotalElementos();
+            contadorCorrelativos = 0;
             $.ajax({
                 url: path + "get_correlativo_documento/" + tipo_documento + "/" + sucursal_id + "/"+total_articulos,
                 datatype: 'json',
@@ -1912,7 +1913,6 @@
                 correlativos_array[count-1] = $(":input[name=correlativo" + count + "]").val();
                 count++;
             }
-
             count = 0;
             while (count <= leng) {
 
@@ -2429,7 +2429,7 @@
             
             if (event.which == 13) {
                 
-                var prod_id_input  = $(this).attr('id');
+                var prod_id_input  = $(this).attr('name');
                 var prod_val_input = $(this).val();
                 
                 var x = _orden.find(x => x.producto == prod_id_input);
@@ -2498,7 +2498,7 @@
                     tr_html += "<td class=''><input type='text' autocomplete='off' name='cntProducto' cd='"+element.id_producto_detalle+"' class='form-control cntProducto' size='3' id='" + element.producto + "' value='" + element.cantidad + "' style='border:1px solid orange;width:90px;'></input></td>";
                     tr_html += "<td class=''>" + element.presentacion + "</td>";
                     tr_html += "<td class=''>" + element.presentacionFactor + "</td>";
-                    tr_html += "<td class=''><input type='text' class='form-control preProducto' size='4' id='" + element.producto + "' value='" + precio_tag.toFixed(2) + "' style='border:1px solid blue;'></input></td>";
+                    tr_html += "<td class=''><input type='text' class='form-control preProducto' size='4' name='" + element.producto + "' value='" + precio_tag.toFixed(2) + "' style='border:1px solid blue;'></input></td>";
                     tr_html += "<td class=''><input type='text' class='form-control cntProducto' size='4' id='d" + element.producto + "' value='" + desc_tag.toFixed(2) + "' style='border:1px solid green;width:100px;'></input></td>";
                     tr_html += "<td class=' total'>" + total_tag.toFixed(2) +" "+ gravado_exento + "</td>";
                     tr_html += "<td class=' '>" + element.bodega + "</td>";
