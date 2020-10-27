@@ -86,9 +86,9 @@ class Venta extends MY_Controller {
 			$template[0]->factura_lineas
 		);
 
-		if($id['code']){
+		if (isset($id['code'])) {
 			$data['code'] = $id['code'];
-		}else{
+		} else {
 
 			if($check_devol_param == false){
 
@@ -103,8 +103,10 @@ class Venta extends MY_Controller {
 			}
 
 			$data['msj_title'] = "Venta grabada Correctamente ";
-			$data['msj_orden'] = "Número Transacción : ". $id;
-			$data['id'] = $id;
+			$data['msj_orden'] = "Número Transacción : ". $id[0];
+			$data['id'] = $id[0];
+
+			$_SESSION['ids'] = $id;
 		}
 
 		echo json_encode($data);
@@ -208,9 +210,18 @@ class Venta extends MY_Controller {
 		$terminal_acceso 	= FALSE;
 		$id_usuario 		= $this->session->usuario[0]->id_usuario;
 		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
-		//$data['menu'] 		= $this->session->menu;
+		//$data['menu'] 		= $this->session->menu;		
 
-		$order_id = $id;
+		if (isset($_SESSION['ids'])) {
+			
+			$existeId = array_search($id, $_SESSION['ids']);
+
+			if ( !$existeId ) {
+				$order_id = $id;
+				unset($_SESSION['ids'][$existeId]);
+			}
+		}
+
 		$data['orden'] 			= $this->Venta_model->getVentaId($order_id);
 		//var_dump($data['orden'][0]);die;
 		$data['detalle'] 		= $this->Venta_model->getVentaDetalleId($order_id);		
@@ -236,6 +247,7 @@ class Venta extends MY_Controller {
 		$data['file'] 			= $name;
 		$data['msj_title'] = "Su venta ha sido grabada satisfactoriamente";
 		$data['msj_orden'] = "Su número de transacción es: # ". $data['orden'][0]->num_correlativo;
+		$data['ids_ventas']= $_SESSION['ids'];
 		
 		$this->generarDocumento( $name , $data['temp'][0]->factura_template );
 		$this->parser->parse('template', $data);

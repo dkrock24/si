@@ -196,7 +196,7 @@ echo base_url();
                               <a href="#" class="list-group-item">
                                  <div class="media-box">
                                     <div class="pull-left">
-                                       <img src="img/user/02.jpg" alt="Image" class="media-box-object img-circle thumb32">
+                                       <img src="#" alt="Image" class="media-box-object img-circle thumb32">
                                     </div>
                                     <div class="media-box-body clearfix">
                                        <small class="pull-right">2h</small>
@@ -213,7 +213,7 @@ echo base_url();
                               <a href="#" class="list-group-item">
                                  <div class="media-box">
                                     <div class="pull-left">
-                                       <img src="img/user/03.jpg" alt="Image" class="media-box-object img-circle thumb32">
+                                       <img src="#" alt="Image" class="media-box-object img-circle thumb32">
                                     </div>
                                     <div class="media-box-body clearfix">
                                        <small class="pull-right">3h</small>
@@ -230,7 +230,7 @@ echo base_url();
                               <a href="#" class="list-group-item">
                                  <div class="media-box">
                                     <div class="pull-left">
-                                       <img src="img/user/09.jpg" alt="Image" class="media-box-object img-circle thumb32">
+                                       <img src="#" alt="Image" class="media-box-object img-circle thumb32">
                                     </div>
                                     <div class="media-box-body clearfix">
                                        <small class="pull-right">4h</small>
@@ -247,7 +247,7 @@ echo base_url();
                               <a href="#" class="list-group-item">
                                  <div class="media-box">
                                     <div class="pull-left">
-                                       <img src="img/user/12.jpg" alt="Image" class="media-box-object img-circle thumb32">
+                                       <img src="#" alt="Image" class="media-box-object img-circle thumb32">
                                     </div>
                                     <div class="media-box-body clearfix">
                                        <small class="pull-right">1d</small>
@@ -264,7 +264,7 @@ echo base_url();
                               <a href="#" class="list-group-item">
                                  <div class="media-box">
                                     <div class="pull-left">
-                                       <img src="img/user/10.jpg" alt="Image" class="media-box-object img-circle thumb32">
+                                       <img src="#" alt="Image" class="media-box-object img-circle thumb32">
                                     </div>
                                     <div class="media-box-body clearfix">
                                        <small class="pull-right">2d</small>

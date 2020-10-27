@@ -259,16 +259,13 @@ class Venta_model extends CI_Model {
 		public function guardar_venta( $orden , $id_usuario , $cliente , $form , $documento , $sucursal , $correlativo_documento, $totalDocumentos, $templateLineas){
 
 			$correlativos_extra = 0;
-			if (isset($orden['correlativos_extra'])) {
-				$correlativosLista = $orden['correlativos_extra'];
-			}
-
 			$total_orden 		= $orden['orden'][0]['total'];
 			$total_orden 		= $total_orden;
 			$efecto_inventario 	= $documento[0]->efecto_inventario;
 			$this->_orden 		= $orden;
 			$this->_totalDocumento = $totalDocumentos;
 			$this->_templateLineas = $templateLineas;
+			$idsVentas = array();
 
 			/** Obtener Impuestos para cada entidad */
 			$this->impDocumento = $this->evaluarDocumentoImpuesto($documento);
@@ -294,6 +291,11 @@ class Venta_model extends CI_Model {
 					$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal , $documento );
 					$correlativo_final     = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $numero );
 
+					if (isset($orden['correlativos_extra'])) {
+						$correlativosLista = $orden['correlativos_extra'];
+						$correlativo_final = $correlativosLista[$key-1];
+					}
+
 					$data = array(
 						'id_caja' 				=> $form['caja_id'], //terminal_id
 						'id_cajero'				=> $this->session->db[0]->id_usuario,
@@ -301,7 +303,7 @@ class Venta_model extends CI_Model {
 						'd_inc_imp0' 			=> $form['impuesto'], //impuesto
 						'id_sucursal' 			=> $form['sucursal_destino'], //sucursal_destino
 						'id_tipod' 				=> $documento[0]->id_tipo_documento, //modo_pago_id
-						'num_correlativo'		=> $correlativosLista ? $correlativosLista[$key] : $correlativo_final,
+						'num_correlativo'		=> $correlativo_final,
 						'comentarios' 			=> "",
 						'id_usuario' 			=> $id_usuario,
 						'fecha' 				=> date("Y-m-d h:i:s"),	            
@@ -353,6 +355,8 @@ class Venta_model extends CI_Model {
 
 					$this->_orden_id = $this->db->insert_id();
 
+					$idsVentas[] = $this->_orden_id;
+
 					if ($result) {
 
 						/* GUARDAR DETALLE DE LA VENTA - PRODUCTOS */
@@ -375,8 +379,8 @@ class Venta_model extends CI_Model {
 			}else{
 				echo "No hay correlativo";
 			}
-			die;
-			return $this->_orden_id;
+
+			return $idsVentas;
 		}
 
 		public function save_venta_impuestos($impTipo){

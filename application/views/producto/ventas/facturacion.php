@@ -150,6 +150,16 @@ include("asstes/pos_orden.php");
 
                             </div>
                         </div>
+                        <div class="row">
+                            <hr>
+                            <?php
+                            foreach ($ids_ventas as $key => $id) {
+                                ?>
+                                <a href="<?php echo $id; ?>" class="btn btn-dfult">ID</a>
+                                <?php
+                            }
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>
