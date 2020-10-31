@@ -295,6 +295,13 @@
                                             <div class="col-sm-9">
                                                 <select id="Sucursal" name="Sucursal" class="form-control">
                                                     <option value="<?php echo $empleado[0]->Sucursal; ?>"> <?php echo $empleado[0]->nombre_sucursal; ?></option>
+                                                    <?php
+                                                    foreach($sucursal as $ss){
+                                                        ?>
+                                                        <option value="<?php echo $ss->id_sucursal; ?>"> <?php echo $ss->nombre_sucursal; ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>

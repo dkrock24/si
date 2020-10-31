@@ -61,6 +61,7 @@ class Sucursal_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::pos_sucursal.' as b');
         $this->db->where('b.Empresa_Suc', $empresa_id );
+        $this->db->order_by('b.nombre_sucursal','asc');
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

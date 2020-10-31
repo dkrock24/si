@@ -99,7 +99,8 @@ class Venta_model extends CI_Model {
 			left join sys_usuario as usuario on usuario.id_usuario = ventas.id_usuario
 			left join pos_formas_pago as pago on pago.id_modo_pago = ventas.id_condpago 
 			left join pos_orden_estado as oe  on oe.id_orden_estado= ventas.orden_estado
-			where sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa  . $filters." Order By ventas.creado_el DESC Limit ". $id.','.$limit);
+			where ventas.id_sucursal = ". $this->session->usuario[0]->id_sucursal ."
+			and sucursal.Empresa_Suc=".$this->session->empresa[0]->id_empresa  . $filters." Order By ventas.creado_el DESC Limit ". $id.','.$limit);
 
 		    //echo $this->db->queries[1];
 		    return $query->result();
@@ -107,7 +108,8 @@ class Venta_model extends CI_Model {
 
 		public function record_count(){
 
-	        $this->db->where('s.Empresa_Suc',$this->session->empresa[0]->id_empresa);
+			$this->db->where('s.Empresa_Suc',$this->session->empresa[0]->id_empresa);
+			$this->db->where('v.id_sucursal',$this->session->usuario[0]->id_sucursal);
 			$this->db->from(self::pos_ventas.' as v');
 			$this->db->join(self::sucursal.' as s',' on v.id_sucursal = s.id_sucursal');
 			$result = $this->db->count_all_results();

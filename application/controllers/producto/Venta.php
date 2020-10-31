@@ -216,9 +216,9 @@ class Venta extends MY_Controller {
 			
 			$existeId = array_search($id, $_SESSION['ids']);
 
+			$order_id = $id;
 			if ( !$existeId ) {
-				$order_id = $id;
-				unset($_SESSION['ids'][$existeId]);
+				//unset($_SESSION['ids'][$existeId]);
 			}
 		}
 

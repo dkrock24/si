@@ -31,6 +31,7 @@ class Terminal_model extends CI_Model {
         $this->db->from( self::pos_terminal.' as terminal');
         $this->db->join( self::sucursal.' as sucursal',
                                     ' on terminal.Sucursal=sucursal.id_sucursal' );
+        $this->db->join(self::caja . ' as caja',' on  caja.id_caja = terminal.Caja');
         $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = terminal.estado_terminal');
         $this->db->where('sucursal.Empresa_Suc', $this->session->empresa[0]->id_empresa);
         if($filters!=""){

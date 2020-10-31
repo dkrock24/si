@@ -45,6 +45,7 @@ class Orden_model extends CI_Model
 
 	function getOrdenes($limit, $id , $filters )
 	{
+		//echo $this->session->user[0]->id_usuario;
 		if($filters){
 			$filters = " and ".$filters;
 		}
@@ -60,7 +61,10 @@ class Orden_model extends CI_Model
 			left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
 			left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago 
 			left join pos_orden_estado as oe  on oe.id_orden_estado= orden.orden_estado
-			where oe.id_orden_estado in (1,2,5,3,4,6,7) and sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. " Order By orden.fecha DESC Limit " . $id . ',' . $limit);
+			where oe.id_orden_estado in (1,2,5,3,4,6,7) 
+			and orden.id_sucursal = ". $this->session->usuario[0]->id_sucursal ." 
+			and sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. 
+			" Order By orden.fecha DESC Limit " . $id . ',' . $limit);
 
 		//echo $this->db->queries[1];
 		return $query->result();
@@ -70,6 +74,7 @@ class Orden_model extends CI_Model
 	{
 
 		$this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa. ' '. $filter);
+		$this->db->where('o.id_sucursal',$this->session->usuario[0]->id_sucursal);
 		$this->db->from(self::pos_ordenes . ' as o');
 		$this->db->join(self::sucursal . ' as s', ' on o.id_sucursal = s.id_sucursal');
 		$this->db->where('o.orden_estado in (1,2,5,3,4,6,7)');

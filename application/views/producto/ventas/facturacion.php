@@ -21,6 +21,25 @@
     var combo_descuento = 0.00;
     var _conf = [];
     var _impuestos = [];
+
+    jQuery(document).ready(function() {
+
+        const segments = new URL(window.location.href).pathname.split('/');
+        const last = segments.pop();
+
+        $("#" + last).css("background", "#2c71b5");
+        $("#" + last).css("color", "#fff");
+
+        $(document).keypress(function(e) {
+            identificador = e.key;
+
+            var venta = $(":input[name=" + identificador + "]").val();
+
+            if (venta) {
+                window.location.href = venta;
+            }
+        });
+    });
 </script>
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
@@ -28,6 +47,11 @@
 include("asstes/pos_funciones.php");
 include("asstes/pos_orden.php");
 ?>
+<script>
+
+
+
+</script>
 <script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
@@ -46,17 +70,17 @@ include("asstes/pos_orden.php");
 
         });
 
-        $("#prin").click(function(){
+        $("#prin").click(function() {
             var id = $(this).attr('name');
             var strWindowFeatures = "location=yes,height=670,width=820,scrollbars=yes,status=yes";
-            var URL = "../print_venta/"+id;
+            var URL = "../print_venta/" + id;
             var win = window.open(URL, "_blank", strWindowFeatures);
             //window.open('http://localhost:8080/index.php/producto/traslado/print_traslado/11');
         });
 
         $("#persona_modal").appendTo("body");
 
-        $("#printer").click(function(){
+        $("#printer").click(function() {
 
             var printContents = document.getElementById('formato').innerHTML;
             var originalContents = document.body.innerHTML;
@@ -68,18 +92,17 @@ include("asstes/pos_orden.php");
 
         jQuery(document).ready(function(e) {
             document.onkeydown = function(e) {
-                if(e.keyCode == 97){
+                if (e.keyCode == 13) {
                     $("#nuevo")[0].click();
                 }
-                if(e.keyCode == 98){
+                if (e.key == 'F2') {
                     $("#prin")[0].click();
                 }
             }
         });
     });
-    
+
     // facturacion vista. Accesos para nueva order,imprimir.
-    
 </script>
 
 <style>
@@ -127,39 +150,61 @@ include("asstes/pos_orden.php");
                                 </h1>
                             </div>
                         </div>
+
                         <div class="row">
                             <hr style="border-bottom:1px dashed black">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                            <?php
+                                <h1>
+                                    Opciones
+                                </h1>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                <?php
                                 $vista_id  = $orden[0]->venta_vista_id;
                                 $vista_url = "../../orden/venta_rapida";
 
-                                if($vista_id == 13 ){
+                                if ($vista_id == 13) {
                                     $vista_url = "../../orden/nuevo";
-                                }else if($vista_id == 38){
+                                } else if ($vista_id == 38) {
                                     $vista_url = "../../orden/venta_rapida";
                                 }
-                            ?>
+                                ?>
 
                                 <a href="<?php echo $vista_url; ?>" class="btn btn-default printer" id="nuevo">
-                                    <h3> <i class="icon-plus"></i> Nueva [ 1 ]</h3>
+                                    <h3> <i class="icon-plus"></i> Nueva <i class="icon-arrow-left"></i>Intro<i class="icon-arrow-right"></i></h3>
                                 </a>
                                 <a href="#" id="prin" name="<?php echo $orden[0]->id ?>" class="btn btn-info" style="color:black">
-                                    <h3> <i class="icon-printer"></i> Imprimir [ 2 ]</h3>
+                                    <h3> <i class="icon-printer"></i> Imprimir <i class="icon-arrow-left"></i>F2<i class="icon-arrow-right"></i></h3>
                                 </a>
 
                             </div>
                         </div>
-                        <div class="row">
-                            <hr>
-                            <?php
-                            foreach ($ids_ventas as $key => $id) {
-                                ?>
-                                <a href="<?php echo $id; ?>" class="btn btn-dfult">ID</a>
+                        <?php if (count($ids_ventas) > 1) : ?>
+                            <div class="row" style="border-bottom: 1px dashed black;">
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                    <h1>
+                                        Documentos
+                                    </h1>
+                                </div>
                                 <?php
-                            }
-                            ?>
-                        </div>
+                                $contador = 1;
+                                foreach ($ids_ventas as $key => $id) {
+                                ?>
+                                    <input type="hidden" name="<?php echo $contador; ?>" value="<?php echo $id; ?>">
+                                    <a href="<?php echo $id; ?>" class="btn btn-default printer <?php echo $contador; ?>" id="<?php echo $id; ?>" style="background:#f1f1f1;border-radius: 10px 10px 10px 10px;">
+                                        <h3><i class="icon-arrow-left"></i><?php echo $contador; ?><i class="icon-arrow-right"></i> # <?php echo $id; ?></h3>
+                                    </a><br>
+                                <?php
+                                    $contador++;
+                                }
+                                ?>
+                            </div>
+                        <?php endif ?>
                     </div>
                 </div>
             </div>

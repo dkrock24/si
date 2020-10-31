@@ -53,7 +53,7 @@ class Caja extends MY_Controller {
 
 		$data['menu'] = $this->session->menu;	
 		$data['doc'] = $this->Documento_model->getDocTemplate();
-		$data['suc'] = $this->Sucursal_model->getSucursal();
+		$data['suc'] = $this->Sucursal_model->getSucursalEmpresa($this->session->empresa[0]->id_empresa);
 		$data['title'] = "Nueva Caja";
 		$data['home'] = 'admin/caja/c_nuevo';
 
