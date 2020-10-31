@@ -8,6 +8,9 @@ class Sucursal_model extends CI_Model {
     const sys_empleado      = 'sys_empleado';
     const pos_orden_estado  = 'pos_orden_estado';
     const sys_empleado_sucursal = 'sys_empleado_sucursal';
+    const sys_ciudad = 'sys_ciudad';
+    const sys_departamento = 'sys_departamento';
+    const sys_pais = 'sys_pais';
 	
 	function getSucursal(){
 
@@ -88,12 +91,18 @@ class Sucursal_model extends CI_Model {
 
     function getAllSucursal( $limit, $id , $filters){
 
-        $this->db->select('s.*,es.*,e.nombre_comercial, e.id_empresa');
+        $this->db->select('s.*,es.*,e.nombre_comercial, e.id_empresa,c.*,d.*,p.*');
         $this->db->from(self::pos_sucursal.' as s');
         $this->db->join(self::pos_empresa.' as e', ' on s.Empresa_Suc = e.id_empresa');
+        $this->db->join(self::sys_ciudad.' as c', ' on s.Ciudad_Suc = c.id_ciudad');
+        $this->db->join(self::sys_departamento.' as d', ' on d.id_departamento = c.departamento');
+        $this->db->join(self::sys_pais.' as p', ' on p.id_pais = d.pais');
         $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = s.sucursal_estado');
         //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa );
+        $this->db->order_by('p.id_pais','asc');
+        $this->db->order_by('e.id_empresa','asc');
+        $this->db->order_by('s.nombre_sucursal','asc');
         if($filters!=""){
             $this->db->where($filters);
         }

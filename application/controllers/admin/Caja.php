@@ -82,7 +82,7 @@ class Caja extends MY_Controller {
 
 		$data['menu'] = $this->session->menu;
 		$data['doc'] = $this->Documento_model->getDocTemplate();
-		$data['suc'] = $this->Sucursal_model->getSucursal();
+		$data['suc'] = $this->Sucursal_model->getAllSucursalEmpresa();
 		$data['caja'] = $this->Caja_model->get_caja( $caja_id );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] = 'admin/caja/c_editar';

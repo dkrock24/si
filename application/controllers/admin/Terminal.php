@@ -187,7 +187,7 @@ class Terminal extends MY_Controller {
 
 	public function column(){
 		$column = array(
-			'Sucursal','Nombre','Caja','Número','Ubicación','Modelo','Serie','Marca','Estado'
+			'Sucursal','Nombre','Caja','Numero','Ubicacion','Modelo','Serie','Marca','Estado'
 		);
 		return $column;
 	}

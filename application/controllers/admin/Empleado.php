@@ -203,23 +203,23 @@ class Empleado extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Apellido','Nombre','Horas','Turno','Alias','Seccion', 'Puesto', 'Encargado','Sucursal','Cargo', 'Estado'
+			'Sucursal','Apellido','Nombre','Cargo','Horas','Turno','Alias','Seccion', 'Puesto','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
+			['nombre_sucursal' => 'Sucursal'],
 			['primer_apellido_persona' => 'Apellido'],
 			['primer_nombre_persona' => 'Nombre'],
+			['cargo_laboral' => 'Cargo'],
 			['horas_laborales_mensuales_empleado' => 'Horas'],
 			['turno' => 'Turno'],
 			['alias' => 'Alias'],
 			['seccion' => 'Seccion'],
 			['puesto' => 'Puesto'],
-			['encargado' => 'Encargado'],
-			['nombre_sucursal' => 'Sucursal'],
-			['cargo_laboral' => 'Cargo'],
+			//['encargado' => 'Encargado'],
 			['orden_estado_nombre' => 'Estado']
 		);
 

@@ -84,7 +84,11 @@ class Persona extends MY_Controller {
 			$this->session->set_flashdata('danger', "Persona No Fue Creado : ". $data['message']);
 		}
 
+		if( $_POST['is_proveedor'] == 1 ){
+			redirect(base_url()."admin/proveedor/nuevo");
+		}
 		redirect(base_url()."admin/empleado/nuevo");
+
 	}
 
 	public function editar( $persona_id ){
@@ -167,24 +171,24 @@ class Persona extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'P.Nombre','S.Nombre','P.Apellido','S.Apellido','DUI','NIT','Direccion','Tel', 'Whatsapp' ,'Sexo','Ciudad', 'Estado'
+			'Ciudad','DUI','NIT','Nombre','Nombre','Apellido','Apellido','Tel','Direccion', 'Whatsapp' ,'Sexo', 'Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
-			['primer_nombre_persona' => 'P.Nombre'],
-			['segundo_nombre_persona' => 'S.Nombre'],
-			['primer_apellido_persona' => 'P.Apellido'],
-			['segundo_apellido_persona' => 'S.Apellido'],
+			['nombre_ciudad' => 'Ciudad'],
 			['dui' => 'DUI'],
 			['nit' => 'NIT'],
-			['direccion_residencia_persona1' => 'Direccion'],
+			['primer_nombre_persona' => 'Nombre'],
+			['segundo_nombre_persona' => 'Nombre'],
+			['primer_apellido_persona' => 'Apellido'],
+			['segundo_apellido_persona' => 'Apellido'],
 			['tel' => 'Tel'],
+			['direccion_residencia_persona1' => 'Direccion'],
 			['whatsapp' => 'Whatsapp'],
 			['sexo' => 'Sexo'],
-			['nombre_ciudad' => 'Ciudad'],
 			['orden_estado_nombre' =>  'Estado']
 		);
 

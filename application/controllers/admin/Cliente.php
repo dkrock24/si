@@ -193,7 +193,7 @@ class Cliente extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Nombre','Apellido','NRC','NIT','Clase','T. Pago','T. Documento', 'Descuento', 'Estado'
+			'Empresa','Nombre','Apellido','NRC','NIT','Clase','T. Pago','T. Documento', 'Descuento', 'Estado'
 		);
 		return $column;
 	}
@@ -206,6 +206,7 @@ class Cliente extends MY_Controller {
 			['nrc_cli'=> 'NRC'],
 			['nrc_cli'=> 'NIT'],
 			['clase_cli' => 'Clase'],
+			['codigo_modo_pago' => 'Tipo Pago'],
 			['nombre'=> 'T. Documento'],
 			['porcentage_descuentos'=> 'Descuento'],
 			['orden_estado_nombre' => 'Estado']

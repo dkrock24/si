@@ -91,7 +91,7 @@
         var password2 = $("#password2").val();
 
         if( (password == password2) && (password!='' && password2!='') ){
-            $('form#crear').submit();
+            //$('form#crear').submit();
         }else{
             $(".notificacion_texto").text("Password Diferente.");
             $('#error').modal('show');
@@ -232,7 +232,7 @@
                                     <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empleado</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control persona_codigo" id="nombre_persona" name="nombre_persona" placeholder="Nombre Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                            <input type="text" class="form-control persona_codigo" required id="nombre_persona" name="nombre_persona" placeholder="Nombre Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                             <input type="hidden" class="form-control persona_codigo" id="persona" name="persona" placeholder="Persona" value="">
                                             
                                         </div>
@@ -307,7 +307,7 @@
                                         <?php
                                     if($roles){
                                         ?>
-                                        <button type="button" id="btn_save" class="btn btn-info">Guardar</button>
+                                        <input type="submit" id="btn_save" class="btn btn-info" value="Guardar">
                                         <?php
                                     }else{
                                         ?>

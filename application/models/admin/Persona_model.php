@@ -30,13 +30,16 @@ class Persona_model extends CI_Model {
         }
 	}
 
-    function getAllPersona(){
+    function getAllPersona($is_proveedor=null){
 
         $this->db->select('*');
         $this->db->from(self::sys_persona.' as p');
         $this->db->join(self::sys_ciudad.' as c', 'on p.Ciudad = c.id_ciudad');
         $this->db->join(self::sys_sexo.' as s', 'on p.Sexo = s.id_sexo');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
+        if($is_proveedor!=null){
+            $this->db->where('p.is_proveedor', $is_proveedor);
+        }
         $query = $this->db->get();
         //echo $this->db->queries[1];
         
@@ -90,6 +93,7 @@ class Persona_model extends CI_Model {
             'Sexo'                      => $datos['Sexo'],
             'Ciudad'                    => $datos['ciudad'],
             'comentarios'               => $datos['comentarios'],
+            'is_proveedor'              => $datos['is_proveedor'],
             'persona_estado'            => $datos['persona_estado'],
             'Ciudad'                    => $datos['ciudad'],
             'Empresa'                   => $this->session->empresa[0]->id_empresa
@@ -122,6 +126,7 @@ class Persona_model extends CI_Model {
             'Sexo'                      => $datos['Sexo'],
             'Ciudad'                    => $datos['Ciudad'],
             'comentarios'               => $datos['comentarios'],
+            'is_proveedor'              => $datos['is_proveedor'],
             'persona_estado'            => $datos['persona_estado']
         );
         $this->db->where('id_persona', $datos['id_persona']);

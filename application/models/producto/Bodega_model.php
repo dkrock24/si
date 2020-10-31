@@ -16,11 +16,12 @@ class Bodega_model extends CI_Model {
         $this->db->join(self::pos_empresa.' as e', 'on s.Empresa_Suc = e.id_empresa');
         $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = b.bodega_estado');
         $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->order_by('s.nombre_sucursal','asc');
         if($filters!=""){
             $this->db->where($filters);
         }
-        $this->db->order_by('b.id_bodega','asc');
         $this->db->limit($limit, $id);
+        $this->db->order_by('b.id_bodega','asc');
         $this->db->order_by('s.id_sucursal');
         $this->db->group_by('b.id_bodega');
         $query = $this->db->get(); 
@@ -85,7 +86,7 @@ class Bodega_model extends CI_Model {
         if($filters!=""){
             $this->db->where($filters);
         }
-        $this->db->group_by('b.id_bodega');
+        //$this->db->group_by('b.id_bodega');
         $query = $this->db->get();
         //echo $this->db->queries[0];
         

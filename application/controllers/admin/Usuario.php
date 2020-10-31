@@ -161,21 +161,21 @@ class Usuario extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Usuario','Password','Hora Inicio','Hora fin','Encargado', 'Rol','Id' ,'Empleado', 'Estado'
+			'Sucursal','Empleado','Id' ,'Usuario','Encargado','Rol','Hora Inicio','Hora fin',  'Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
+			['nombre_sucursal' => 'Sucursal'],
+			['alias' => 'Empleado'],
+			['Empleado' => 'Id'],
 			['nombre_usuario' => 'Usuario'],
-			['contrasena_usuario' => 'Password'],
-			['hora_inicio' => 'Hora Inicio'],
-			['hora_salida' => 'Hora fin'],
 			['usuario_encargado' => 'Encargado'],
 			['role' => 'Rol'],
-			['Empleado' => 'Id'],
-			['alias' => 'Empleado'],
+			['hora_inicio' => 'Hora Inicio'],
+			['hora_salida' => 'Hora fin'],
 			['orden_estado_nombre' => 'Estado'],
 		);
 
@@ -188,7 +188,7 @@ class Usuario extends MY_Controller {
 		
 		$fields['id'] 		= array('id_usuario');
 		$fields['estado'] 	= array('orden_estado_nombre');
-		$fields['titulo'] 	= "Usuario Lista";
+		$fields['titulo'] 	= "Usuarios Lista";
 
 		return $fields;
 	}

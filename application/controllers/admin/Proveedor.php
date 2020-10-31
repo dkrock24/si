@@ -69,7 +69,7 @@ class Proveedor extends MY_Controller {
 
 		$data['menu'] 		= $this->session->menu;		
 		$data['linea'] 		= $this->Linea_model->getAllLinea();
-		$data['persona'] 	= $this->Persona_model->getAllPersona();
+		$data['persona'] 	= $this->Persona_model->getAllPersona($is_proveedor=1);
 		$data['title'] 		= "Nuevo Proveedor";
 		$data['home'] 		= 'admin/proveedor/proveedor_nuevo';
 
@@ -96,7 +96,7 @@ class Proveedor extends MY_Controller {
 		$data['menu'] 		= $this->session->menu;		
 		$data['proveedor'] 	= $this->Proveedor_model->get_proveedor_id( $proveedor_id );
 		$data['linea'] 		= $this->Linea_model->getAllLinea();
-		$data['persona'] 	= $this->Persona_model->getAllPersona();
+		$data['persona'] 	= $this->Persona_model->getAllPersona($is_proveedor=1);
 		$data['title'] 		= "Editar Proveedor";
 		$data['home'] 		= 'admin/proveedor/proveedor_editar';
 

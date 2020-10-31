@@ -182,7 +182,7 @@ class Empresa extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'NOMBRE','NRC','NIT','GIRO','TEL','MONEDA','CODIGO','CREADO','ACTUAlizado','ESTADO'
+			'NOMBRE','NRC','NIT','GIRO','TEL','MONEDA','CODIGO','CREADO','ESTADO'
 		);
 		return $column;
 	}
@@ -198,7 +198,7 @@ class Empresa extends MY_Controller {
 			['moneda_nombre' => 'MONEDA'],
 			['codigo' => 'CODIGO'],
 			['empresa_creado' => 'CREADO'],
-			['empresa_actualizado' =>'ACTUA'],
+			//['empresa_actualizado' =>'ACTUA'],
 			['orden_estado_nombre' =>'ESTADO']
 		);
 

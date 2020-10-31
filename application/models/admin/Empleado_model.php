@@ -64,6 +64,7 @@ class Empleado_model extends CI_Model {
         $this->db->join(self::sys_cargo_laboral.' as c', 'on c.id_cargo_laboral = e.Cargo_Laboral_E');
         $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = e.estado');
         $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
+        $this->db->order_by('s.id_sucursal','asc');
         if($filters!=""){
             $this->db->where($filters);
         }

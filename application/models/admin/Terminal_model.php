@@ -51,6 +51,7 @@ class Terminal_model extends CI_Model {
         $this->db->from( self::pos_terminal.' as terminal');
         $this->db->join( self::sucursal.' as sucursal',
                                     ' on terminal.Sucursal=sucursal.id_sucursal' );
+        $this->db->join(self::caja . ' as caja',' on  caja.id_caja = terminal.Caja');
         $result = $this->db->count_all_results();
         return $result;
     }

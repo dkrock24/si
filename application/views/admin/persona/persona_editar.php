@@ -228,7 +228,18 @@
                                     </div>
                                 </div>
 
-
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Es Proveedor</label>
+                                    <div class="col-sm-9">
+                                        <select id="is_proveedor" name="is_proveedor" class="form-control">
+                                            <?php  if($persona[0]->is_proveedor == 0) :  ?>
+                                                <option value="0">No</option>
+                                            <?php else: ?>
+                                                <option value="1">Si</option>
+                                            <?php endif ?>
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">

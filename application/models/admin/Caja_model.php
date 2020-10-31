@@ -21,6 +21,8 @@ class Caja_model extends CI_Model {
         $this->db->join( self::doc_template .' as dt', ' on dt.id_factura = ds.Template ' );
         $this->db->join( self::pos_orden_estado .' as es', ' on es.id_orden_estado = c.estado_caja ' );
         $this->db->where('c.Empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->order_by('s.nombre_sucursal',' asc');
+        $this->db->order_by('c.id_caja',' asc');
         if($filters!=""){
             $this->db->where($filters);
         }
