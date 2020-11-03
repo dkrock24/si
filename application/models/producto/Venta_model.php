@@ -560,7 +560,7 @@ class Venta_model extends CI_Model {
 			$this->impuestosLista = [];
 			foreach ($items as $orden) {
 
-				$_total =  (int) $orden['total'] - (int) $orden['descuento_calculado'];
+				$_total =  (double) $orden['total'] - (double) $orden['descuento_calculado'];
 				$orden['total'] = $_total;
 
 				$total_monto += ($efecto_inventario == 1) ? ( $_total * 1 ) : $_total;

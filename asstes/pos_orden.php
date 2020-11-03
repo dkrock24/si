@@ -1,5 +1,15 @@
 <script>
     $(document).ready(function() {
+
+        // Check if modal is opened
+        cnt = 0;
+        $(document).on('keypress', '#devolucion', function(e) {
+            
+            dataInputs = ['check_devolucion','nota_devolucion','check_anulacion','nota_anulacion',
+                'input_devolucion','input_devolucion_nombre','input_devolucion_dui','input_devolucion_nit'];
+        });
+        
+
         // OBTENER ORDENES PARA CONVERTIRLAS A VENTA
         
         $( "input[type=text]" ).focus(function() {
@@ -130,7 +140,8 @@
                     venta.forEach(function(element) {
                         if(this.convetirToNegativo == true || this.convetirToAnulado == true){
                             venta[venta.indexOf(element)].precioUnidad = element.precioUnidad * -1;
-                            venta[venta.indexOf(element)].total = element.total * -1;                            
+                            venta[venta.indexOf(element)].total = element.total * -1;
+                            console.log("##################");
                         }
                         contador_ingreso++;
                     });

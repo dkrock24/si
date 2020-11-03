@@ -470,21 +470,25 @@ function aplicar_imp_especial(prod){
 		console.log("----------->", yes);
 
 			if( item.condicion == 1 && yes == true){
-				
 				if(item.condicion_simbolo == '>='){
-					if(total_orden < 0){
-						total_orden = total_orden * (-1);
+					if(total_orden < 0 ){
+						totalPositivo = total_orden * (-1);
+						if(totalPositivo >= item.condicion_valor){
 
-						_impuestos_orden_condicion[_impuestos_orden_condicion.length] = {
-							ordenImpName : item.nombre,
-							ordenSimbolo : 0,
-							ordenImpVal  : item.porcentage,
-							ordenImpTotal: (total_orden * item.porcentage) * -1,
-							ordenEspecial 	 : item.especial
-						};
-						contador++;	
-
-						total_orden = total_orden * (-1);
+							console.log("D :" , input_devolucion, item.condicion_simbolo, total_orden);
+							total_orden = total_orden * (-1);
+							
+							_impuestos_orden_condicion[_impuestos_orden_condicion.length] = {
+								ordenImpName : item.nombre,
+								ordenSimbolo : 0,
+								ordenImpVal  : item.porcentage,
+								ordenImpTotal: (total_orden * item.porcentage) * -1,
+								ordenEspecial 	 : item.especial
+							};
+							contador++;	
+							
+							total_orden = total_orden * (-1);
+						}
 					}
 					if(eval(total_orden >= item.condicion_valor) ){
 
