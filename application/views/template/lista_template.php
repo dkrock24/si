@@ -359,11 +359,13 @@
             </div>
 
             <div class="text-right  panel-footer bg-gray-light">
-                <ul class="nav nav-pills" style="display:inline-block; color:black;">
+                <ul class="nav nav-pills" style="display:inline-block; color:black; float:left;">
                     <li class="nav-item">
-                        <a class="nav-link active" style="color:black;">[ <?= $total_pagina; ?>  ] <?= $x_total; ?> / <?= $total_records; ?></a>
+                        <a class="nav-link active" style="color:black;">
+                         <?php echo $x_total //$total_pagina; ?>   / 
+                        <?php echo $total_records; ?></a>
                     </li>
-                </ul>
+                </ul><?php // $x_total; ?>
                 <ul class="pagination pagination-md">
                     <?php foreach ($links as $link) {
                         echo "<li class='page-item '>" . $link . "</li>";

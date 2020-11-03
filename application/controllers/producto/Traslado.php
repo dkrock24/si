@@ -19,6 +19,7 @@ class Traslado extends MY_Controller {
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');	
 		$this->load->model('producto/Estados_model');
+
 	}
 
 	public function index()
@@ -157,6 +158,8 @@ class Traslado extends MY_Controller {
 
 		$data['home'] = 'producto/traslado/traslado_detalle';
 		$this->parser->parse('template', $data);
+
+		
 	}
 
 	public function aceptar(){

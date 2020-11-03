@@ -166,7 +166,7 @@
                         error = true;
                         var type = "info";
                         var title = "Orden No Valida ";
-                        var mensaje = "Orden Estado No Valida : get_orden";
+                        var mensaje = "Estado orden  podria ser no valida : get_orden";
                         var boton = "info";
                         var  finalMessage = "Gracias..."
                         var url = "";

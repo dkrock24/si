@@ -318,15 +318,15 @@ include("asstes/js/compras/pos_funciones.php");
                 <!-- END panel-->
 
                 <!-- START table-responsive-->
-                <div class="row" style="padding:20px;">
+                <div class="row" style="padding:0px;">
                     <div class="col-md-10">
                         <table class="table table-sm table-hover" style="margin-bottom: 0px;">
 
-                            <div class="row">
+                        <div class="row" style="background:#2D3B48;padding-top: 25px;">
 
                                 <div class="col-md-4">
                                     <div class="input-group m-b" id="headerInputs" style="margin-left:10px;">
-                                        <input type="text" placeholder="<- Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
+                                        <input type="text" placeholder="Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
                                     </div>
 
                                     <select multiple="" class="form-control dataSelect" id="dataSelect">
@@ -355,7 +355,7 @@ include("asstes/js/compras/pos_funciones.php");
                                     }
                                     ?>
                                   
-                                    <span>
+                                    <span style="color:white;">
                                     Can [ = ]<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;">
                                         <!--Des.<input type="text" class="form-control border-input" id="descuento" name="descuento" size="2px" style="width: 80px;display:inline-block;">-->
                                     </span>
@@ -394,8 +394,8 @@ include("asstes/js/compras/pos_funciones.php");
 
                     </div>
 
-                    <div class="col-md-2"><br><br>
-                        <div class="row">
+                    <div class="col-md-2">
+                        <div class="row" style="background:#2D3B48;padding-top: 7px;">
                             <div class="col-md-12" style="width: 100%; background: #2D3B48/*#0f4871*/;text-align: center;color: white;">
 
                                 <span style="font-size: 40px;">

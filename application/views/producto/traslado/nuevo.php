@@ -374,7 +374,7 @@ include("asstes/traslados_funciones.php");
 
                                 <div class="col-md-4">
                                     <div class="input-group m-b" id="headerInputs" style="margin-left:10px;">
-                                        <input type="text" placeholder="<- Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
+                                        <input type="text" placeholder="Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
                                     </div>
 
                                     <select multiple="" class="form-control dataSelect" id="dataSelect">

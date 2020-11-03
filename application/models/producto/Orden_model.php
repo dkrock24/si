@@ -64,7 +64,7 @@ class Orden_model extends CI_Model
 			where oe.id_orden_estado in (1,2,5,3,4,6,7) 
 			and orden.id_sucursal = ". $this->session->usuario[0]->id_sucursal ." 
 			and sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. 
-			" Order By orden.fecha DESC Limit " . $id . ',' . $limit);
+			" Order By oe.id_orden_estado ASC , orden.fecha ASC Limit " . $id . ',' . $limit);
 
 		//echo $this->db->queries[1];
 		return $query->result();
@@ -920,7 +920,7 @@ class Orden_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from(self::pos_ordenes . ' as o');
 		$this->db->join(self::pos_ordenes_detalle . ' as do',' on o.id = do.id_orden');
-		$this->db->where('o.orden_estado != 4');
+		$this->db->where('o.orden_estado = 1');
 		$this->db->where_in('o.num_correlativo', $valores );
 		$query = $this->db->get();
 		//echo $this->db->queries[0];

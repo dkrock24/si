@@ -73,7 +73,7 @@ class Traslado_model extends CI_Model
 				where  t.Empresa =" 
 				. $this->session->empresa[0]->id_empresa . $filters. " ORDER BY id_tras desc Limit " . $id . ',' . $limit);
 
-		//echo $this->db->queries[1];
+		//echo $this->db->queries[5];
 		return $query->result();
 	}
 
@@ -514,7 +514,4 @@ class Traslado_model extends CI_Model
 		}		
 
 	}
-
-
-
 }
