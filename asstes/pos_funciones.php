@@ -2167,6 +2167,9 @@
             formulario[formulario.length] = { name : 'devolucion_nombre'    , value :  $("#input_devolucion_nombre").val()};
             formulario[formulario.length] = { name : 'devolucion_documento' , value :  $("#input_devolucion").val()};
             formulario[formulario.length] = { name : 'check_devolucion'     , value :  this.convetirToNegativo };
+
+            formulario[formulario.length] = { name : 'doc_cli_nombre'     , value :  $("#doc_cli_nombre").val() };
+            formulario[formulario.length] = { name : 'doc_cli_identificacion', value :  $("#doc_cli_identificacion").val() };
             
             if ($("#orden_estado_venta").val()) {
                 orden_estado = $("#orden_estado_venta").val();

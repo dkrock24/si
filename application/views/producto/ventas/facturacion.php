@@ -119,6 +119,14 @@ include("asstes/pos_orden.php");
         border-radius: 5;
     }
 
+    .border-total-0{
+        border:0px dashed black;
+    }
+
+    .border-total-1{
+        border:1px dashed black;
+    }
+
     .border-top{
         border-top:1px dashed black;
     }

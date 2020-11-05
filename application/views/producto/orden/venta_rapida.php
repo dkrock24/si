@@ -891,12 +891,12 @@ include("asstes/pos_orden.php");
 
                             <div class="col-lg-2 col-md-2"><br>
                                 <spam style="">Nombre Cliente</spam>
-                                <input type="text" class="form-control has-success" name="cliente" placeholder="">
+                                <input type="text" class="form-control has-success" name="cliente_nombre" id="doc_cli_nombre" placeholder="">
                             </div>
 
                             <div class="col-lg-2 col-md-2"><br>
                                 D. Identificacion
-                                <input type="text" class="form-control has-success" name="correlativo_documento" id="" placeholder="">
+                                <input type="text" class="form-control has-success" name="cliente_identificacion" id="doc_cli_identificacion" placeholder="">
                             </div>
 
                             <div class="col-lg-2 col-md-2"><br>

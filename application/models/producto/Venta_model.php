@@ -323,6 +323,8 @@ class Venta_model extends CI_Model {
 						'id_condpago' 			=> $form['modo_pago_id'], //modo_pago_id
 						'id_vendedor' 			=> $form['vendedor'], //vendedor
 						'id_venta_orden'		=> (isset($form['orden_numero'])) ? $form['orden_numero'] : 0 ,
+						'doc_cliente_nombre'	=> $form['doc_cli_nombre'],
+						'doc_cliente_identificacion' => $form['doc_cli_identificacion'],
 						'devolucion_nombre' 	=> $form['devolucion_nombre'],
 						'devolucion_documento' 	=> $form['devolucion_documento'],
 						'devolucion_dui' 		=> $form['devolucion_dui'],
@@ -1308,10 +1310,12 @@ class Venta_model extends CI_Model {
 		public function getVentaId($id_venta){
 
 			$query = $this->db->query("select ventas.id,ventas.id_cajero,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,id_tipod,id_condpago,
-			ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
-			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre, empresa.nombre_comercial, empresa.direccion,empresa.nrc,empresa.nit,giro.nombre_giro
-			, giro.nombre_giro as giro, emp.alias, t.nombre as terminal ,ventas.id_cliente , ventas.total_doc ,cliente.nit_cliente, cliente.nrc_cli,venta_vista_id,ventas.devolucion_documento
-			, ventas.devolucion_nombre, ventas.devolucion_dui, ventas.devolucion_nit, ventas.desc_val, anulado,anulado_el, anulado_conc,modi_el,
+			ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania ,cliente.direccion_cliente, 
+			sucursal.nombre_sucursal,orden_estado ,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, 
+			oe.orden_estado_nombre, empresa.nombre_comercial, empresa.direccion,empresa.nrc,empresa.nit,giro.nombre_giro, giro.nombre_giro as
+			giro, emp.alias, t.nombre as terminal ,ventas.id_cliente , ventas.total_doc ,cliente.nit_cliente, cliente.nrc_cli,
+			venta_vista_id,ventas.devolucion_documento,ventas.doc_cliente_nombre,doc_cliente_identificacion,ventas.devolucion_nombre,
+			ventas.devolucion_dui, ventas.devolucion_nit, ventas.desc_val, anulado,anulado_el, anulado_conc,modi_el,caja.*,
 			(select pe.primer_nombre_persona as anulado_nombre from sys_usuario as us left join sys_empleado as em on us.Empleado = em.id_empleado 
 			left join sys_persona as pe on pe.id_persona = em.Persona_E WHERE us.id_usuario = anulado_por ) as anulado_nombre
 
