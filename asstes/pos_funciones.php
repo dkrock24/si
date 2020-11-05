@@ -51,6 +51,7 @@
         var flag_autenticacion = false;
         var producto_cantidad_linea = 1;
         var input_autorizacion_descuento = 0;
+        var mondeda_global = '';
 
         getImpuestosLista();
 
@@ -286,7 +287,7 @@
 
                     var datos = JSON.parse(data);
                     var productos = datos["productos"];
-
+                    mondeda_global = datos['moneda'][0];
                     if (productos != "") {
 
                         var producto_id = 0;
@@ -294,14 +295,15 @@
 
                         showProducts(_productos_lista);
                     } else {
-
+                        input_producto_buscar.val("");
                         var type = "info";
                         var title = "Verifique Sucursal y Bodega ";
-                        var mensaje = "Error en Parametros : search_texto 1";
+                        var mensaje = "<b>Mensaje :</b> No se encontro ningun resultado";
                         var boton = "info";
-                        var finalMessage = "Gracias..."
+                        var finalMessage = "Intentelo de nuevo!"
                         var url = null;
-                        generalAlert(type, mensaje, title, boton, finalMessage,url);
+                        var focusBoton = input_producto_buscar;
+                        generalAlert(type, mensaje, title, boton, finalMessage,url,focusBoton);
 
                     }
                 },
@@ -325,7 +327,8 @@
                     var boton = "info";
                     var finalMessage = "Gracias..."
                     var url = null;
-                    generalAlert(type, mensaje, title, boton, finalMessage,url);
+                    var focusBoton = input_producto_buscar;
+                    generalAlert(type, mensaje, title, boton, finalMessage,url, focusBoton);
 
                     return;
                 }
@@ -338,7 +341,7 @@
                 var prod_escala_next    = 0;
                 var prod_escala_cont    = 0;
                 var prod_temp_id        = 0;
-
+                //console.log("---------------------- ", mondeda_global[0].moneda_simbolo);
                 $.each(_productos_lista, function(i, item) {
 
                     if (item.precio_venta != 0) {
@@ -349,7 +352,7 @@
                             prod_temp_id    = item.id_producto_detalle;
                             producto_id     = item.id_entidad;
                             precio          = parseFloat(item.precio);
-                            table_tr        += '<option value="' + item.id_producto_detalle + '">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + ' - ' + precio.toFixed(2) + '</option>';
+                            table_tr        += '<option value="' + item.id_producto_detalle + '" style="font-family: monospace;">' + item.nombre_marca + ' ' +item.modelo + ' '+ item.name_entidad + ' - ' + item.presentacion + ' - ' + mondeda_global.moneda_simbolo + " " + precio.toFixed(2) + '</option>';
                             contador_precios++;
                             prod_escala_cont++;
                         }
@@ -365,8 +368,9 @@
 
                     $('.dataSelect').show();
                     $(".dataSelect").html(table_tr);
-                    document.getElementById('dataSelect').selectedIndex = 0;
+                    selected = document.getElementById('dataSelect').selectedIndex = 0;
                     document.getElementById('dataSelect').focus();
+                    //selected.style.color = '#efed95';
 
                 }
             }
@@ -2407,12 +2411,14 @@
                 var prod_id_input  = $(this).attr('id');
                 var prod_val_input = $(this).val();
 
-                var x = _orden.find(x => x.producto == prod_id_input);
-
-                var unidad_factor = _orden[_orden.indexOf(x)].precioUnidad * _orden[_orden.indexOf(x)].presentacionFactor;
-                _orden[_orden.indexOf(x)].cantidad  = prod_val_input;
-                _orden[_orden.indexOf(x)].total     = calcularTotalProducto(unidad_factor, prod_val_input);
-                depurar_producto();
+                if( prod_val_input > 0 ){
+                    var x = _orden.find(x => x.producto == prod_id_input);
+                    
+                    var unidad_factor = _orden[_orden.indexOf(x)].precioUnidad * _orden[_orden.indexOf(x)].presentacionFactor;
+                    _orden[_orden.indexOf(x)].cantidad  = prod_val_input;
+                    _orden[_orden.indexOf(x)].total     = calcularTotalProducto(unidad_factor, prod_val_input);
+                    depurar_producto();
+                }
             }
         });
 

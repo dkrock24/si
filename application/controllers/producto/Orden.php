@@ -307,6 +307,8 @@ class Orden extends MY_Controller {
 		$bodega = $_POST['bodega'];
 		$texto = $_POST['texto'];
 		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal ,$bodega, $texto );
+		$data['moneda'] = $this->Moneda_model->get_modena_by_user();
+		unset($data['moneda'][0]->logo_empresa);
 		
 		echo json_encode( $data );
 	}

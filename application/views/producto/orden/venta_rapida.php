@@ -131,6 +131,9 @@ include("asstes/pos_orden.php");
         color: white;
     }
 
+    #dataSelect, .dataSelect{
+        font-family: monospace;
+    }
 
     #documentoModel {
         margin-top: -20px;
@@ -229,10 +232,10 @@ include("asstes/pos_orden.php");
                                 <div class="col-lg-4">
                                     <div class="input-group m-b" id="headerInputs">
                                         <span class="input-group-addon bg-green">[ <i class="fa fa-arrow-left"></i> ] <i class="fa fa-search"></i></span>
-                                        <input type="text" placeholder="Buscar Producto" autocomplete="off" name="[producto_buscar]" class="form-control producto_buscar">
+                                        <input type="text" placeholder="Buscar Producto" autocomplete="off" name="[producto_buscar]" class="form-control producto_buscar" style="font-size:18px;">
                                     </div>
 
-                                    <select multiple="" class="form-control dataSelect form-control note-editor" id="dataSelect" style="height: 200px;">
+                                    <select multiple="" class="form-control dataSelect form-control " id="dataSelect" style="height: 400px; width:1200px; font-size:22px;font-family: monospace;">
 
                                     </select>
 

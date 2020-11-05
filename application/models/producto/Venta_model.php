@@ -800,6 +800,18 @@ class Venta_model extends CI_Model {
 	        }
 		}
 
+		public function get_impuestos_venta( $venta_id )
+		{
+			$this->db->select('*');
+			$this->db->from(self::pos_ventas_impuestos);
+			$this->db->where('id_venta', $venta_id);
+			$query = $this->db->get();
+			
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}
+		}
+
 		private function getCategoriaImpuesto(){
 			$this->db->select('*');
 			$this->db->from(self::impuestos_categoria);

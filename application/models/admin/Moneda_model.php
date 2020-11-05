@@ -40,10 +40,10 @@ class Moneda_model extends CI_Model {
     function get_modena_by_user(){
         $this->db->select('*');
         $this->db->from(self::sys_moneda.' as m');
-        $this->db->from(self::pos_empresa.' as e','on e.Moneda = m.id_moneda');
+        $this->db->join(self::pos_empresa.' as e','on e.Moneda = m.id_moneda');
         $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];
+        //echo $this->db->queries[5];
         
         if($query->num_rows() > 0 )
         {

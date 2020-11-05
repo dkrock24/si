@@ -123,7 +123,7 @@ class Orden_model extends CI_Model
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN prouducto_detalle AS `pde` ON pde.Producto = P.id_entidad
 				
-				WHERE b.id_bodega='" . $bodega . "' and b.Sucursal='" . $sucursal . "' and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%' || P.descripcion_producto LIKE '%$texto%') ");
+				WHERE b.id_bodega='" . $bodega . "' and b.Sucursal='" . $sucursal . "' and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%' || P.descripcion_producto LIKE '%$texto%' ) ");
 
 		//echo $this->db->queries[0];
 		return $query->result();
@@ -140,7 +140,7 @@ class Orden_model extends CI_Model
 				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
 				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
+				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`	
 				-- LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				-- LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				

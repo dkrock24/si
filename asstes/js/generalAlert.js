@@ -1,6 +1,6 @@
 
 
-function generalAlert( type , mensaje , title , boton , finalMessage, url) {
+function generalAlert( type , mensaje , title , boton , finalMessage, url, focusBoton) {
     swal({
 
         html: true,
@@ -8,7 +8,7 @@ function generalAlert( type , mensaje , title , boton , finalMessage, url) {
         text: mensaje,
         type: type,
         showCancelButton: false,
-        confirmButtonColor: boton,
+        //confirmButtonColor: boton,
         confirmButtonText: "Ok",
         cancelButtonColor: "danger",
         cancelButtonText: "No, cancelar!",
@@ -21,13 +21,16 @@ function generalAlert( type , mensaje , title , boton , finalMessage, url) {
             $('.confirm').focus();
             $("#m_orden_creada").hide();
         });
-
+        if(focusBoton){
+            $(focusBoton).focus();
+        }
         if (isConfirm) {
             swal("Ok ", finalMessage);
             //redirec("index");
             if(url != null){
                 window.location.href = url;
             }
+            
         } else {
             swal("Cancelado", "Debes Hacer Login de Nuevo", "error");
         } 

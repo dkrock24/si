@@ -118,6 +118,28 @@ include("asstes/pos_orden.php");
         min-height: 100%;
         border-radius: 5;
     }
+
+    .border-top{
+        border-top:1px dashed black;
+    }
+    .border-bottom{
+        border-bottom:1px dashed black;
+    }
+    .border-left{
+        border-left:1px dashed black;
+    }
+    .border-right{
+        border-right:1px dashed black;
+    }
+    .text-center{
+        text-align:center;
+    }
+    .text-left{
+        text-align:left;
+    }
+    .text-right{
+        text-align:right;
+    }
 </style>
 
 <div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip">
