@@ -438,35 +438,38 @@ class Venta_model extends CI_Model {
 		public function procesarCalculoImpuesto($categoriasImpuestos)
 		{
 			/** Evalauar impuesto de cada categoria con impDocumento, impCliente */
-			$aplicaDocumento = false;
-			$aplicaCliente   = false;
-			$aplicaProveedor = false;
-			$dataResult		 = [];
-			$contador = 0;
-			// Existe impuesto en Documento
+			$dataResult	= [];
+			$contador 	= 0;
 			foreach ($categoriasImpuestos as $uno => $categoria) {
 
-				foreach ($this->impDocumento as $dos => $documento) {
-					if ($documento->nombre == $categoria->nombre) {
-						$aplicaDocumento = true;
-						$dataResult[$contador] = $categoria;
-					}
-				}
+				$result1 = array_filter(
+					$this->impDocumento,
+					function($documento,$valor) use ($categoria){
+						if($documento->nombre == $categoria->nombre){
+							return $categoria;
+						}
+					}, ARRAY_FILTER_USE_BOTH
+				);
 
-				foreach ($this->impCliente as $tres => $cliente) {
-					if ($cliente->nombre == $categoria->nombre) {
-						$aplicaCliente = true;
-						$dataResult[$contador] = $cliente;
-					}
-				}
+				$result2 = array_filter(
+					$this->impCliente,
+					function($cliente,$valor) use ($categoria){
+						if($cliente->nombre == $categoria->nombre){
+							return $categoria;
+						}
+					}, ARRAY_FILTER_USE_BOTH
+				);
 
-				if (!$aplicaDocumento || !$aplicaCliente) {
-					unset($dataResult[$uno]);
+				//var_dump($result1);echo "<hr>";
+				//var_dump($this->impCliente);echo "<hr>";
+				if (!$result1 || !$result2) {
+					unset($dataResult[$contador]);
 				}else{
+					$dataResult[$contador] = $categoria;
 					$contador++;
 				}
-				$aplicaDocumento = false;
-				$aplicaCliente = false;
+				$result1 = null;
+				$result2 = null;
 			}
 			return $dataResult;
 		}
@@ -475,6 +478,7 @@ class Venta_model extends CI_Model {
 		{
 			$flag = false;
 			$documentoId = $documento[0]->id_tipo_documento;
+			//var_dump($this->impuestoDocumento);die;
 			$data = array_filter(
 				$this->impuestoDocumento,
 				function($impuesto,$valor) use ($documentoId){
@@ -517,6 +521,7 @@ class Venta_model extends CI_Model {
 
 		public function evaluarClienteImpuesto($cliente)
 		{
+
 			$data = array_filter(
 				$this->impuestoCliente,
 				function($impuesto,$valor) use ($cliente){
@@ -525,6 +530,7 @@ class Venta_model extends CI_Model {
 					}
 				}, ARRAY_FILTER_USE_BOTH
 			);
+
 			return $data;
 		}
 
@@ -620,7 +626,6 @@ class Venta_model extends CI_Model {
 				$contador++;
 			}
 
-			//var_dump($this->_orden_id, $this->impuestosLista);
 			foreach ($this->impuestosLista as $lista) 
 			{
 				$this->db->insert(self::pos_ventas_impuestos, $lista );
@@ -634,8 +639,8 @@ class Venta_model extends CI_Model {
 
 		private function calculoImpuestoIva($item,$impuestos,$total_monto)
 		{
+			//var_dump($impuestos);die;
 			$data = array();
-
 			$_iva = array_filter(
 				$impuestos,
 				function($impuesto,$valor){
@@ -644,7 +649,11 @@ class Venta_model extends CI_Model {
 					}
 				}, ARRAY_FILTER_USE_BOTH
 			);
-			$impuesto_iva = $_iva[0];
+			
+			if(isset($_iva[0])){
+				$impuesto_iva = $_iva[0];
+			}
+			//var_dump($impuestos);die;
 			
 			$Total = 0;
 			if ($_iva[0]->nombre == "IVA") {
@@ -674,8 +683,6 @@ class Venta_model extends CI_Model {
 					$this->impuestosLista[$impuesto_iva->nombre.$impSimbolo]['ordenImpTotal'] += $Total;
 				}
 			}
-			//var_dump($this->impuestosLista);
-			//echo "Item :". $item['descripcion'] . " -- Venta :". $this->_orden_id. "<br>";
 
 			$_impuesto = array_filter(
 				$impuestos,
@@ -706,7 +713,12 @@ class Venta_model extends CI_Model {
 						}
 					}
 				}else{
-					$Total = $impuesto->porcentage * $item['total'];
+					
+					if($impuesto->especial == 1){
+						$Total = $item['cantidad'] * $impuesto->porcentage;
+					}else{
+						$Total = $impuesto->porcentage * $item['total'];
+					}
 				}
 
 				$data = array(
@@ -740,6 +752,29 @@ class Venta_model extends CI_Model {
 					}
 				}
 			}
+
+			/**
+			 * Recarcular IVA para Combustibles
+			 */
+			$impCombustibles = (array) array_filter(
+				$impuestos,
+				function($impuesto,$valor){
+					if($impuesto->es_combustible == 1){
+						return $impuesto;
+					}
+				}, ARRAY_FILTER_USE_BOTH
+			);
+
+			if ($impCombustibles) {
+				$impSimbolo = substr($item['gen'],0,1);
+				$totalImpCombustible = array_sum(array_column($impCombustibles, 'porcentage'));
+				$totalImpCombustible = $totalImpCombustible * $item['cantidad'];
+				$totalIvaCombustible = $total_monto - $totalImpCombustible;
+				$totalIvaCombustible = $totalIvaCombustible * $impuesto_iva->porcentage / ($impuesto_iva->porcentage + 1);
+
+				$this->impuestosLista[$impuesto_iva->nombre.$impSimbolo]['ordenImpTotal'] = $totalIvaCombustible;
+			}
+			//var_dump($this->impuestosLista);die;
 		}
 
 		/** INICIAR CON LA DIVISION DE PRODUCTOS POR DOCUMENTOS Y SUS CALCULOS */
@@ -777,11 +812,16 @@ class Venta_model extends CI_Model {
 		}
 
 		private function getClienteImpuesto(){
-			$this->db->select('*');
-			$this->db->from(self::impuestos_cliente);
-			$this->db->join('pos_tipos_impuestos', 'pos_tipos_impuestos.id_tipos_impuestos = '.self::impuestos_cliente.'.Impuesto');
-	        $this->db->where('EmpresaCliente', $this->session->empresa[0]->id_empresa );
-	        $query = $this->db->get(); 
+			$this->db->select('impuesto.*,tipo_impuesto.*,cliente.id_cliente,emp.id_empresa');
+			$this->db->from(self::impuestos_cliente.' as impuesto');
+			$this->db->join('pos_tipos_impuestos as tipo_impuesto', 'tipo_impuesto.id_tipos_impuestos = impuesto.Impuesto');
+			$this->db->join('pos_cliente as cliente', 'cliente.id_cliente = impuesto.Cliente');
+			//$this->db->join('pos_empresa as empresa', 'empresa.id_empresa = cliente.id_cliente');
+			$this->db->join('sys_persona as persona', 'persona.id_persona = cliente.Persona');
+			$this->db->join('pos_empresa as emp', 'emp.id_empresa = persona.Empresa');
+	        $this->db->where('emp.id_empresa', $this->session->empresa[0]->id_empresa );
+			$query = $this->db->get();
+			//echo $this->db->queries[2];die;
 
 	        if($query->num_rows() > 0 )
 	        {
@@ -790,11 +830,13 @@ class Venta_model extends CI_Model {
 		}
 
 		private function getDocumentoImpuesto(){
-			$this->db->select('*');
-			$this->db->from(self::impuestos_documento);
-			$this->db->join('pos_tipos_impuestos', 'pos_tipos_impuestos.id_tipos_impuestos = '.self::impuestos_documento.'.Impuesto');
-	        $this->db->where('EmpresaDocumento', $this->session->empresa[0]->id_empresa );
-			$query = $this->db->get(); 
+			$this->db->select('impuestos.*,tipo_impuesto.*,tipoDocumento.id_tipo_documento,empresa.id_empresa');
+			$this->db->from(self::impuestos_documento.' as impuestos');
+			$this->db->join('pos_tipos_impuestos as tipo_impuesto', 'tipo_impuesto.id_tipos_impuestos = impuestos.Impuesto');
+			$this->db->join('pos_tipo_documento as tipoDocumento', 'tipoDocumento.id_tipo_documento = impuestos.Documento');
+			$this->db->join('pos_empresa as empresa', 'empresa.id_empresa = tipoDocumento.Empresa');
+	        $this->db->where('empresa.id_empresa', $this->session->empresa[0]->id_empresa );
+			$query = $this->db->get();
 
 	        if($query->num_rows() > 0 )
 	        {
@@ -815,10 +857,12 @@ class Venta_model extends CI_Model {
 		}
 
 		private function getCategoriaImpuesto(){
-			$this->db->select('*');
-			$this->db->from(self::impuestos_categoria);
-			$this->db->join('pos_tipos_impuestos', 'pos_tipos_impuestos.id_tipos_impuestos = '.self::impuestos_categoria.'.Impuesto');
-	        $this->db->where('EmpresaCategoria', $this->session->empresa[0]->id_empresa );
+			$this->db->select('categoria.*,impuesto.*,c.*,empresa.id_empresa');
+			$this->db->from(self::impuestos_categoria.' as categoria');
+			$this->db->join('pos_tipos_impuestos as impuesto', 'impuesto.id_tipos_impuestos = categoria.Impuesto');
+	        $this->db->join('categoria as c', 'c.id_categoria = categoria.Categoria');
+			$this->db->join('pos_empresa as empresa', 'empresa.id_empresa = c.Empresa');
+	        $this->db->where('empresa.id_empresa', $this->session->empresa[0]->id_empresa );
 	        $query = $this->db->get(); 
 
 	        if($query->num_rows() > 0 )

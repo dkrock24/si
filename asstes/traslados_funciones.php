@@ -133,12 +133,11 @@
         function get_existencia(texto) {
             /** Load existencias - Producto filtrados */
 
-            sucursal = input_sucursal;
+            sucursal =  $("#sucursal_id").val();
             var bodega = input_bodega_select.val();
 
             interno_sucursal = sucursal;
             interno_bodega = bodega;
-
             $.ajax({
                 type: "POST",
                 url: path + "get_productos_lista",
@@ -302,11 +301,10 @@
         function search_texto(texto) {
             /* 2 - Filtrado del texto a buscar en productos */
 
-            sucursal = input_sucursal;
+            sucursal =  $("#sucursal_id").val();
             var bodega = input_bodega_select.val();
 
             interno_sucursal = sucursal;
-
 
             interno_bodega = bodega;
             $.ajax({
