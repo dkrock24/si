@@ -92,20 +92,6 @@ class Marca_model extends CI_Model {
         return $result;
     }
 
-    function get_marcas( ){
-
-        $this->db->select('*');
-        $this->db->from(self::categoria.' as c');
-        $this->db->where('c.id_categoria_padre', null);
-        $this->db->where('c.Empresa', $this->session->empresa[0]->id_empresa);
-        $query = $this->db->get();    
-                
-        if($query->num_rows() > 0 )
-        {
-            return $query->result();
-        } 
-    }
-
     function eliminar_marca($id){
 
         $data = array(

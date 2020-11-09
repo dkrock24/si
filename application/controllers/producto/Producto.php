@@ -56,10 +56,6 @@ class Producto extends MY_Controller {
 		$this->parser->parse('template', $data);
 	}
 
-	public function show( $id_producto ){
-
-	}
-
 	public function crear(){
 		
 		$producto_id = $this->Producto_model->nuevo_producto( $_POST , $this->session->usuario );

@@ -3,7 +3,7 @@
 <script>
     $(document).ready(function() {
 
-        $(".vincular").click(function(){
+        $(".vincular").click(function() {
             var vista = $(this).attr('id');
             var documento = $("#id_tipo_documento").val();
             methodo = "asociar";
@@ -11,7 +11,7 @@
             asociar(vista, documento, methodo);
         });
 
-        $(".remover").click(function(){
+        $(".remover").click(function() {
             var vista = $(this).attr('id');
             var documento = $("#id_tipo_documento").val();
             methodo = "remover";
@@ -19,12 +19,10 @@
             asociar(vista, documento, methodo);
         });
 
-        
-
-        function asociar(vista, documento ,methodo) {            
+        function asociar(vista, documento, methodo) {
             $.ajax({
                 type: "POST",
-                url: "../"+methodo+"/"+documento+"/"+vista,
+                url: "../" + methodo + "/" + documento + "/" + vista,
                 datatype: 'json',
                 cache: false,
 
@@ -51,7 +49,7 @@
 
                 <div id="panelDemo10" class="panel menu_title_bar">
 
-                    <div class="panel-heading menuTop">Editar Tipo Documento : </div>
+                    <div class="panel-heading menuTop">Editar Documento : </div>
                     <div class="panel-body menuContent">
 
                         <form class="form-horizontal" name="documento" action='../update' method="post">
@@ -146,8 +144,9 @@
 
                                 </div>
 
-                                <div class="col-lg-6">                                
-                                    <div class="content" style="border:1px solid black;height:500px;width:390px;overflow:scroll;display:inline-block;">
+                                <div class="col-lg-6">
+                                    <div class="content" style="border:0px solid black;height:500px;width:390px;overflow:scroll;display:inline-block;">
+                                        <i class="fa fa-info-circle"></i> Seleciona las vistas en donde quieras mostrar el documento.<br><br>
                                         <table class="table">
                                             <?php
                                             $cnt = 0;
@@ -162,7 +161,7 @@
                                                     </td>
                                                     <td>
                                                         <span class="">
-                                                            <a href="#" id="<?= $value->id_vista ?>"  class="btn btn-info vincular">Vincular</a>
+                                                            <a href="#" id="<?= $value->id_vista ?>" class="btn btn-info vincular">Vincular</a>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -171,13 +170,14 @@
                                             ?>
                                         </table>
                                     </div>
-                                    <div class="content" style="border:1px solid black;height:500px;width:390px;overflow:scroll;display:inline-block;">
+                                    <div class="content" style="border:0px solid black;height:500px;width:390px;overflow:scroll;display:inline-block;">
+                                        <i class="fa fa-info-circle"></i> Remover documento de la vista.<br><br>
                                         <table class="table">
                                             <?php
                                             if ($vistas_doc) {
                                                 $cnt = 0;
                                                 foreach ($vistas_doc as $key => $value) {
-                                                ?>
+                                            ?>
                                                     <tr>
                                                         <td><?= $cnt += 1; ?></td>
                                                         <td>
@@ -191,7 +191,7 @@
                                                             </span>
                                                         </td>
                                                     </tr>
-                                                <?php
+                                            <?php
                                                 }
                                             }
                                             ?>

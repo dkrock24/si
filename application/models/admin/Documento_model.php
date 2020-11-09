@@ -41,6 +41,7 @@ class Documento_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::documento);   
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa); 
+        $this->db->order_by('nombre','asc');
         if($documentoNombre){
             $this->db->where('nombre', $documentoNombre); 
         }     

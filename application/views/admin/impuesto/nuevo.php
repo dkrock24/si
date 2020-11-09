@@ -147,6 +147,16 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label class="col-sm-offset-1 col-sm-3"><i class="fa fa-info-circle"></i> Marcalo si el impuesto es para combustible</label>
+                                        <div class="col-sm-7 col-sm-off-1">
+                                            <select class="form-control" name="es_combustible">
+                                                <option value="1">Si</option>
+                                                <option value="0">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <div class="col-sm-offset-4 col-sm-8">
                                             <label>
                                                 <select name="imp_estado" class="form-control">

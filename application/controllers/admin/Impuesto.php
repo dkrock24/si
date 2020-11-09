@@ -144,7 +144,7 @@ class Impuesto extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Nombre','Porcentaje','SRN','A_producto','A_cliente','A_proveedor','A_G_B_E','Es','Ex','Co','Valor','Estado'
+			'Nombre','Porcentaje','SRN','A_producto','A_cliente','A_proveedor','A_G_B_E','Especial','Exento','Condicion','Valor','Combustible','Estado'
 		);
 		return $column;
 	}
@@ -163,6 +163,7 @@ class Impuesto extends MY_Controller {
 			['excluyente' => 'Ex'],
 			['condicion' => 'Co'],
 			['condicion_valor' => 'Valor'],
+			['es_combustible' => 'Combustible'],
 			['orden_estado_nombre'  => 'Estado']
 		);
 		

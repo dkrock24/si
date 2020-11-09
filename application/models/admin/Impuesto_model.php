@@ -37,7 +37,7 @@ class Impuesto_model extends CI_Model {
     function nuevo_impuesto( $impuesto ){
 
         $registros = $this->getAllImpuesto($impuesto['nombre']);
-
+        var_dump($impuesto);die;
         if(!$registros){
 
             $data = array(
@@ -55,6 +55,7 @@ class Impuesto_model extends CI_Model {
                 'condicion_simbolo' => $impuesto['c_simbolo'],
                 'aplicar_a_producto' => $impuesto['aplicar_a_producto'],
                 'aplicar_a_proveedor' => $impuesto['aplicar_a_proveedor'],
+                'es_combustible' => $impuesto['es_combustible'],
                 'aplicar_a_grab_brut_exent' => $impuesto['aplicar_a_grab_brut_exent'],
             );
 

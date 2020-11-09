@@ -63,7 +63,7 @@ class Correlativo extends MY_Controller {
 	public function nuevo(){
 
 		// Seguridad :: Validar URL usuario	
-		$menu_session = $this->session->menu;	
+		$menu_session = $this->session->menu;
 
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista

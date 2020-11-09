@@ -104,7 +104,7 @@ class Marca extends MY_Controller {
 		$data['title'] 		= "Nueva Marca";	
 		$data['home'] 		= 'admin/marca/m_nuevo';
 		$data['menu'] 		= $this->session->menu;
-		$data['categoria'] 	= $this->Marca_model->get_marcas();
+		$data['categoria'] 	= $this->Categorias_model->get_all_categorias();
 		$data['marca'] 		= $this->Marca_model->getAllMarca();
 		$data['marca_categoria'] = $this->Marca_model->marca_categoria();
 
