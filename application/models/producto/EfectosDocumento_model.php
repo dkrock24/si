@@ -12,7 +12,7 @@ class EfectosDocumento_model extends CI_Model {
         $this->reporte($orden , $documento);
     }
 
-    function inventario( $orden , $documento){
+    public function inventario( $orden , $documento){
 
         $cantidad = 0;
         $result   = 0;
@@ -22,19 +22,19 @@ class EfectosDocumento_model extends CI_Model {
             $prod_id = !is_object($productos) ? $productos['producto_id'] : $productos->producto_id;
             $prod_bodega = !is_object($productos) ? $productos['id_bodega'] : $productos->id_bodega;
             $prod_cantidad = !is_object($productos) ? $productos['cantidad'] : $productos->cantidad;
-
+            //var_dump($prod_bodega);die;
             $cantidad = $this->get_cantidad_bodega($prod_id, $prod_bodega);
             
-            if($documento[0]->efecto_inventario ==1){
+            if ($documento[0]->efecto_inventario == 1) {
 
                 $cantidad_nueva = ($cantidad[0]->Cantidad + $prod_cantidad);
 
-            }else if($documento[0]->efecto_inventario ==2){
+            } else if ($documento[0]->efecto_inventario == 2){
                 
                 $cantidad_nueva = ($cantidad[0]->Cantidad - $prod_cantidad);
             }
 
-            if(isset($cantidad_nueva)){
+            if (isset($cantidad_nueva)) {
 
                 $data = array(
                     'Cantidad'	=>  $cantidad_nueva
@@ -51,7 +51,7 @@ class EfectosDocumento_model extends CI_Model {
         return $result;
     }
 
-    function devolucionNuevoDocumento( $orden , $documento){
+    public function devolucionNuevoDocumento( $orden , $documento){
 
         foreach ($orden['orden'] as $key => $productos) {
 
@@ -68,7 +68,7 @@ class EfectosDocumento_model extends CI_Model {
         }
     }
 
-    function anulacionCompra( $producto, $bodega , $cantidad_resta){
+    public function anulacionCompra( $producto, $bodega , $cantidad_resta){
 
         $cantidad       = $this->get_cantidad_bodega($producto, $bodega);
         $cantidad_nueva = ($cantidad[0]->Cantidad - $cantidad_resta);
@@ -99,7 +99,7 @@ class EfectosDocumento_model extends CI_Model {
 
     }
 
-    function get_cantidad_bodega( $id_producto , $id_bodega ){
+    public function get_cantidad_bodega( $id_producto , $id_bodega ){
 
         $this->db->select('*');
         $this->db->from(self::producto_bodega);
@@ -113,6 +113,4 @@ class EfectosDocumento_model extends CI_Model {
         }
 
     }
-
-
 }

@@ -141,7 +141,7 @@
                     precioUnidad = _productos_precio.unidad;
 
                     set_calculo_precio(precioUnidad, producto_cantidad_linea);
-                    console.log("datos -", datos['producto'][0]);
+                    //console.log("datos -", datos['producto'][0]);
                     _productos.producto_id = datos['producto'][0].id_entidad;
                     _productos.combo = datos['producto'][0].combo;
                     _productos.inventario_id = datos['producto'][0].id_inventario;
@@ -281,7 +281,7 @@
 
                 producto_id = item.id_entidad;
                 precio = parseInt(item.precio_venta);
-                table_tr += '<option value="' + item.id_producto_detalle + '">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + ' - ' + precio.toFixed(2) + '</option>';
+                table_tr += '<option value="' + item.id_entidad + '">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + ' - ' + precio.toFixed(2) + '</option>';
                 contador_precios++;
 
                 $('.1dataSelect').show();
@@ -330,21 +330,21 @@
              */
 
             $.ajax({
-                url: "../existencias/get_producto_completo/" + producto_id,
+                url: path+"../existencias/get_producto_completo/" + producto_id,
                 datatype: 'json',
                 cache: false,
 
                 success: function(data) {
+                    var html = '';
                     var datos = JSON.parse(data);
                     var contador = 1;
                     var existencias_total = 0;
-                    var html = '';
 
                     $.each(datos['producto'], function(i, item) {
 
                         existencias_total += parseInt(item.Cantidad);
                         if ($('#sucursal_id2').val() == item.id_sucursal) {
-                            html += '<tr style="background:#2D3B48;color:white;">';
+                            html += '<tr style="background:#none;color:black;">';
                         } else {
                             html += '<tr>';
                         }
@@ -352,19 +352,19 @@
                         html += '<td>' + item.nombre_sucursal + '</td>';
                         html += '<td>' + item.nombre_bodega + '</td>';
                         html += '<td>' + item.Cantidad + '</td>';
-                        html += '<td>' + item.moneda_simbolo + " " + item.precio_venta + '</td>';
+                        html += '<td>' + item.moneda_simbolo + " " + Number(item.precio).toFixed(2) + '</td>';
                         html += '<td>' + 0.00 + '</td>';
-                        html += '<td>' + item.moneda_simbolo + " " + item.Utilidad + '</td>';
+                        html += '<td>' + item.moneda_simbolo + " " + Number(item.Utilidad).toFixed(2) + '</td>';
                         html += '<td>' + item.cod_barra + '</td>';
                         html += '</tr>';
                         contador++;
                     });
-                    html += '<tr><td colspan="3"></td><td>' + existencias_total + '</td><td colspan="4"></td></tr>'
+                    html += '<tr style="background:#0f4871;color:white;"><td colspan="3">TOTAL</td><td>' + existencias_total + '</td><td colspan="4"></td></tr>'
                     $('.dos').html(html);
 
                 },
                 error: function() {
-                    alert("Error Conexion");
+                    alert("Error Conexion1");
                 }
             });
         }
@@ -2001,7 +2001,7 @@
                     },
                     url: path + method,
                     success: function(data) {
-                        console.log(data);
+
                         var compra_result   = JSON.parse(data);
                         var id_compra       = formulario[0].value;
 

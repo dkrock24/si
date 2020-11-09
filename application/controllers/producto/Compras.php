@@ -217,7 +217,7 @@ class Compras extends MY_Controller {
 		$combo_conf 		= "combo";
 		$impuesto_conf 		= "impuestos";
 		$descuento_conf		= "descuentos";
-		
+
 		$data['producto'] 	= $this->Compras_model->get_producto_completo($id_producto_detalle);		
 		$producto_id 		= $data['producto'][0]->id_entidad;
 		$contador			= 0;

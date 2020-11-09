@@ -404,7 +404,7 @@ include("asstes/js/compras/pos_funciones.php");
 
                                     <div class="col-md-4">
                                         <div class="input-group m-b" id="headerInputs" style="margin-left:10px;">
-                                            <input type="text" placeholder="<- Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
+                                            <input type="text" placeholder="Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
                                         </div>
 
                                         <select multiple="" class="form-control dataSelect" id="dataSelect">
@@ -603,13 +603,13 @@ include("asstes/js/compras/pos_funciones.php");
                     <thead>
                         <tr style="color: black;">
                             <th style="color: black;">#</th>
-                            <th style="color: black;">Sucursal</th>
-                            <th style="color: black;">Bodega</th>
-                            <th style="color: black;">Existencia</th>
-                            <th style="color: black;">Costo</th>
-                            <th style="color: black;">Costo Anterior</th>
-                            <th style="color: black;">Costo utilidad</th>
-                            <th style="color: black;">Cod ubicacion</th>
+                            <th style="color: black;">SUCURSAL</th>
+                            <th style="color: black;">BODEGA</th>
+                            <th style="color: black;">EXISTENCIAS</th>
+                            <th style="color: black;">PRECIO</th>
+                            <th style="color: black;">COSTO ANTERIOR</th>
+                            <th style="color: black;">UTILIDAD</th>
+                            <th style="color: black;">CODIGO UBICACION</th>
                         </tr>
                     </thead>
                     <tbody class="dos" style="border-bottom: 3px solid grey">

@@ -90,6 +90,21 @@ include("asstes/js/compras/pos_funciones.php");
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 
+<style>
+    .modal-dialog {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding-left: 10%;
+    }
+
+    .modal-content {
+        height: auto;
+        min-height: 100%;
+        border-radius: 5;
+    }
+</style>
+
 <!-- Main section-->
 <section>
     <!-- Page content-->
@@ -354,6 +369,7 @@ include("asstes/js/compras/pos_funciones.php");
                                     <?php
                                     }
                                     ?>
+                                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 18px;" data-target='#existencias'><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ F8 ]</span></span>
                                   
                                     <span style="color:white;">
                                     Can [ = ]<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display:inline-block;">
@@ -550,13 +566,13 @@ include("asstes/js/compras/pos_funciones.php");
                     <thead>
                         <tr style="color: black;">
                             <th style="color: black;">#</th>
-                            <th style="color: black;">Sucursal</th>
-                            <th style="color: black;">Bodega</th>
-                            <th style="color: black;">Existencia</th>
-                            <th style="color: black;">Costo</th>
-                            <th style="color: black;">Costo Anterior</th>
-                            <th style="color: black;">Costo utilidad</th>
-                            <th style="color: black;">Cod ubicacion</th>
+                            <th style="color: black;">SUCURSAL</th>
+                            <th style="color: black;">BODEGA</th>
+                            <th style="color: black;">EXISTENCIAS</th>
+                            <th style="color: black;">PRECIO</th>
+                            <th style="color: black;">COSTO ANTERIOR</th>
+                            <th style="color: black;">UTILIDAD</th>
+                            <th style="color: black;">CODIGO UBICACION</th>
                         </tr>
                     </thead>
                     <tbody class="dos" style="border-bottom: 3px solid grey">
