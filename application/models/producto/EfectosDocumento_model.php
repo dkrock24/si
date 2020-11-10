@@ -22,7 +22,7 @@ class EfectosDocumento_model extends CI_Model {
             $prod_id = !is_object($productos) ? $productos['producto_id'] : $productos->producto_id;
             $prod_bodega = !is_object($productos) ? $productos['id_bodega'] : $productos->id_bodega;
             $prod_cantidad = !is_object($productos) ? $productos['cantidad'] : $productos->cantidad;
-            //var_dump($prod_bodega);die;
+            //var_dump($prod_bodega);
             $cantidad = $this->get_cantidad_bodega($prod_id, $prod_bodega);
             
             if ($documento[0]->efecto_inventario == 1) {
@@ -48,6 +48,7 @@ class EfectosDocumento_model extends CI_Model {
                 }
             }
         }
+
         return $result;
     }
 

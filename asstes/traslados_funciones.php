@@ -27,7 +27,7 @@
         var height = 39;
 
         input_producto_buscar.focus();
-        bodega = input_bodega_select.val();
+        bodega = $("#bodega_select").val();
 
         var pagos_mostrados = [];
         var pagos_array = [];
@@ -134,7 +134,7 @@
             /** Load existencias - Producto filtrados */
 
             sucursal =  $("#sucursal_id").val();
-            var bodega = input_bodega_select.val();
+            var bodega = $("#bodega_select").val();
 
             interno_sucursal = sucursal;
             interno_bodega = bodega;
@@ -302,7 +302,7 @@
             /* 2 - Filtrado del texto a buscar en productos */
 
             sucursal =  $("#sucursal_id").val();
-            var bodega = input_bodega_select.val();
+            var bodega = $("#bodega_select").val();
 
             interno_sucursal = sucursal;
 
@@ -520,7 +520,7 @@
             $("#grabar").attr('disabled');
             var codigo, presentacion, tipo, precioUnidad, descuento, total
 
-            interno_bodega = input_bodega_select.val();
+            interno_bodega = $("#bodega_select").val();
 
             if (!interno_bodega) {
 
@@ -1575,7 +1575,7 @@
 
         function correlativos_sucursales(sucursal) {
             // Cambiar Bodega
-            input_bodega_select.empty();
+            $("#bodega_select").empty();
             var select_option = "";
             
             $.ajax({
@@ -1592,7 +1592,7 @@
                         select_option += '<option value="' + item.id_bodega + '">' + item.nombre_bodega + '</option>';
                     });
 
-                    input_bodega_select.html(select_option);
+                    $("#bodega_select").html(select_option);
                     
                 },
                 error: function() {}

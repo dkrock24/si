@@ -78,11 +78,12 @@ class Traslado extends MY_Controller {
 		foreach ($encabezado as $key => $value) {
 			$registros[$value['name']] = $encabezado[$key]['value'];
 		}
-
 		$data = $this->Traslado_model->save_traslado($_POST['productos'] , $_POST['encabezado']);
-
+		
 		$documento 	= $this->Documento_model->getDocumentoById($registros['documento']);
-
+		
+		$_POST['productos'][0]['id_bodega'] = $registros['bodega_origen'];
+		
 		$traslado['orden']  = $_POST['productos'];
 
 		$this->EfectosDocumento_model->accion($traslado , $documento );
@@ -107,12 +108,6 @@ class Traslado extends MY_Controller {
 		$data['temp'] 		= $this->Traslado_model->printer( $data['traslado'] );
 		$name 				= $data['traslado'][0]->sucursal_origin.$data['traslado'][0]->Empresa;
 		$data['file'] 		= $name;
-
-		//$mpdf = new \Mpdf\Mpdf();
-		//$html = file_get_contents("asstes/temp/".$name.".php");
-
-		//$mpdf->WriteHTML($html);
-		//$mpdf->Output();
 
 		$data['msj_title'] = "Traslado Creado Correctamente";
 		$data['msj_orden'] = "Transación: # ". $data['traslado'][0]->correlativo_tras ;

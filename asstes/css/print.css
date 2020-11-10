@@ -1,0 +1,48 @@
+@page {
+    margin-top: 2cm;
+    margin-bottom: 2cm;
+    margin-left: 2cm;
+    margin-right: 2cm;
+}
+@media screen {
+
+    body {
+        background:red;
+        font: 12pt Georgia, "Times New Roman", Times, serif;
+        line-height: 1.3;
+        }
+
+
+    .border-total-0{
+        border:0px dashed black;
+    }
+
+    .border-total-1{
+        border:1px dashed black;
+    }
+
+    .border-top{
+        border-top:1px dashed black;
+    }
+    .border-bottom{
+        border-bottom:1px dashed black;
+    }
+    .border-left{
+        border-left:1px dashed black;
+    }
+    .border-right{
+        border-right:1px dashed black;
+    }
+    .text-center{
+        text-align:center;
+    }
+    .text-left{
+        text-align:left;
+    }
+    .text-right{
+        text-align:right;
+    }
+    .font-family{
+        font-family: monospace;
+    }
+}

@@ -113,6 +113,10 @@ include("asstes/traslados_funciones.php");
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 
+<link rel="stylesheet"
+      src="<?php echo base_url(); ?>../asstes/css/print.css"
+      type="text/css" />
+
 <script language="JavaScript">
     //window.print();
 </script>
@@ -154,6 +158,7 @@ include("asstes/traslados_funciones.php");
         min-height: 100%;
         border-radius: 5;
     }
+
 </style>
 <!-- Main section-->
 <section>

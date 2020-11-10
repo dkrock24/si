@@ -56,14 +56,14 @@ class Traslado_model extends CI_Model
 				DATE_FORMAT(t.fecha_salida, '%m/%d/%Y') as fecha_salida,
 				DATE_FORMAT(t.fecha_llegada, '%m/%d/%Y') as fecha_llegada,
 				DATE_FORMAT(t.creado_tras, '%m/%d/%Y') as creado_tras,
-				(select cantidad_product_recibido from sys_traslados_detalle as td where td.traslado = t.id_tras) as total_productos_tras,
+				(select sum(cantidad_product_recibido) from sys_traslados_detalle as td where td.traslado = t.id_tras) as total_productos_tras,
 				(select CONCAT(s.nombre_sucursal,' | ',b.nombre_bodega) from pos_sucursal as s
 					join pos_bodega as b ON b.Sucursal = s.id_sucursal
 					 where s.id_sucursal = t.sucursal_origin and b.id_bodega = t.bodega_origen) as origen,
 				
 				(select CONCAT(s.nombre_sucursal,' | ',b.nombre_bodega) from pos_sucursal as s
 					join pos_bodega as b ON b.Sucursal = s.id_sucursal
-					 where s.id_sucursal = t.sucursal_destino and b.id_bodega = t.bodega_destino) as destino
+					 where s.id_sucursal = t.sucursal_destino and b.id_bodega = t.bodega_destino limit 1) as destino
 					 
 				from sys_traslados as t
 				left join sys_persona as p On p.id_persona = t.firma_llegada 
@@ -323,17 +323,20 @@ class Traslado_model extends CI_Model
 
 	function editar_traslado($traslado_id)
 	{
-		$query = $this->db->query("select e.nombre_razon_social,s.*, t.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
-									CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2,
-									s2.nombre_sucursal as nombre_sucursal_destino , s2.id_sucursal as sucursal_destino
-									from sys_traslados as t
-									left join sys_persona as p On p.id_persona = t.firma_llegada 
-									left join sys_persona as p2 On p2.id_persona = t.firma_salida
-									left join pos_sucursal as s on s.id_sucursal = t.sucursal_origin
-									left join pos_sucursal as s2 on s2.id_sucursal = t.sucursal_destino
-									left join pos_empresa as e on e.id_empresa = s.Empresa_Suc									
-									where  t.Empresa =" 
-									. $this->session->empresa[0]->id_empresa . ' and t.id_tras = ' . $traslado_id );
+		$query = $this->db->query("select e.nombre_razon_social,e.nombre_comercial,s.*, t.*, CONCAT(p.primer_nombre_persona, ' ', p.primer_apellido_persona) as recibe ,
+			CONCAT(p2.primer_nombre_persona, ' ', p2.primer_apellido_persona) as envia , p.id_persona as id1, p2.id_persona as id2,
+			s2.nombre_sucursal as nombre_sucursal_destino , s2.id_sucursal as sucursal_destino,
+			(SELECT b1.nombre_bodega FROM  pos_bodega AS b1 WHERE b1.id_bodega= t.bodega_origen LIMIT 1) AS bodega_origen,
+			(SELECT b2.nombre_bodega FROM  pos_bodega AS b2 WHERE b2.id_bodega= t.bodega_destino LIMIT 1) AS bodega_destino
+
+			from sys_traslados as t
+			left join sys_persona as p On p.id_persona = t.firma_llegada 
+			left join sys_persona as p2 On p2.id_persona = t.firma_salida
+			left join pos_sucursal as s on s.id_sucursal = t.sucursal_origin
+			left join pos_sucursal as s2 on s2.id_sucursal = t.sucursal_destino
+			left join pos_empresa as e on e.id_empresa = s.Empresa_Suc									
+			where  t.Empresa =" 
+			. $this->session->empresa[0]->id_empresa . ' and t.id_tras = ' . $traslado_id );
 
 		//echo $this->db->queries[1];
 		return $query->result();
@@ -341,19 +344,19 @@ class Traslado_model extends CI_Model
 
 	function get_traslado_detalle( $id ){
 
-		$valores =   $id;
-		
-		$this->db->select('t.*,d.*,p.*,b.*,pd.*,,b2.nombre_bodega AS bodega_destino_val');
+		$this->db->select('t.*,d.*,p.*,b.*,pd.*,m.*,b2.nombre_bodega AS bodega_destino_val');
 		$this->db->from(self::sys_traslados . ' as t');
 		$this->db->join(self::sys_traslados_detalle . ' as d',' on t.id_tras = d.traslado');
 		$this->db->join(self::producto. ' as p', ' on p.id_entidad = d.id_producto_tras');
 		$this->db->join(self::pos_bodega. ' as b', ' on b.id_bodega = d.bodega_origen');
 		$this->db->join(self::pos_bodega. ' as b2', ' on b2.id_bodega = t.bodega_destino');
 		$this->db->join(self::producto_detalle. ' as pd', ' on pd.Producto = d.id_producto_tras');
+		$this->db->join(self::marcas. ' as m', ' on m.id_marca = p.Marca');
 		
 		$this->db->where('t.id_tras', $id );
+		$this->db->group_by('pd.Producto');
 		$query = $this->db->get();
-		//echo $this->db->queries[1];
+		//echo $this->db->queries[5];
 
 		if ($query->num_rows() > 0) {
 			return $query->result();

@@ -55,6 +55,9 @@ include("asstes/pos_orden.php");
 <script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
+<link rel="stylesheet"
+      src="<?php echo base_url(); ?>../asstes/css/print.css"
+      type="text/css" />
 
 <script>
     $(document).ready(function() {
@@ -148,6 +151,10 @@ include("asstes/pos_orden.php");
     .text-right{
         text-align:right;
     }
+    .font-family{
+        font-family: monospace;
+    }
+
 </style>
 
 <div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip">
