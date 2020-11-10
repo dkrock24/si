@@ -64,7 +64,7 @@ class Orden_model extends CI_Model
 			where oe.id_orden_estado in (1,2,5,3,4,6,7) 
 			and orden.id_sucursal = ". $this->session->usuario[0]->id_sucursal ." 
 			and sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. 
-			" Order By oe.id_orden_estado ASC , orden.fecha ASC Limit " . $id . ',' . $limit);
+			" Order By oe.id_orden_estado ASC , orden.fecha DESC Limit " . $id . ',' . $limit);
 
 		//echo $this->db->queries[1];
 		return $query->result();
@@ -113,9 +113,9 @@ class Orden_model extends CI_Model
 
 	function get_productos_valor($sucursal, $bodega, $texto)
 	{
-		
+
 		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*,  m.nombre_marca,	b.nombre_bodega
-	        		, pde.presentacion , pde.cod_barra as pres_cod_bar , pde.id_producto_detalle, pde.precio, pb.Cantidad
+	        		, pde.presentacion , pde.cod_barra as pres_cod_bar , pde.id_producto_detalle, pde.precio, pb.Cantidad, pde.Cliente as productoCliente, pde.Sucursal as productoSucursal
 				FROM `producto` as `P`
 				
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca				
@@ -123,7 +123,9 @@ class Orden_model extends CI_Model
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN prouducto_detalle AS `pde` ON pde.Producto = P.id_entidad
 				
-				WHERE b.id_bodega='" . $bodega . "' and b.Sucursal='" . $sucursal . "' and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%' || P.descripcion_producto LIKE '%$texto%' ) ");
+				WHERE b.id_bodega='" . $bodega . "' and b.Sucursal='" . $sucursal . "'
+				 and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%' ||
+				  P.descripcion_producto LIKE '%$texto%' ) ");
 
 		//echo $this->db->queries[4];
 		return $query->result();

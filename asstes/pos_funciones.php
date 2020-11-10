@@ -112,7 +112,7 @@
                 data: {
                     sucursal: sucursal,
                     bodega: bodega,
-                    texto: texto
+                    texto: texto,
                 },
                 cache: false,
 
@@ -269,7 +269,7 @@
             sucursal    = input_sucursal;
             var bodega  = input_bodega_select.val();
 
-            interno_sucursal = sucursal;
+            interno_sucursal = sucursal;            
 
             interno_bodega = bodega;
             $.ajax({
@@ -318,6 +318,8 @@
             interno_bodega = bodega;
             var table_tr = "";
             $(".dataSelect").html(table_tr);
+            cliente_producto= $("#cliente_codigo").val();
+            sucursal_producto= $("#sucursal_id").val();
 
             if (_productos_lista.length == 1) {
                 if(_productos_lista[0].Cantidad == 0){
@@ -344,7 +346,10 @@
                 //console.log("---------------------- ", mondeda_global[0].moneda_simbolo);
                 $.each(_productos_lista, function(i, item) {
 
-                    if (item.precio_venta != 0) {
+                    if (item.precio_venta != 0 
+                        && (item.productoCliente == cliente_producto || item.productoCliente==null ||item.productoCliente==0)
+                        && (item.productoSucursal == sucursal_producto || item.productoSucursal==null ||item.productoSucursal==0)
+                        ) {
                         prod_escala_prev = item.id_entidad;
 
                         if (prod_escala_prev != prod_escala_next || item.Escala == 0) {
@@ -549,7 +554,8 @@
 
                 if (c == pf) {
 
-                    total_precio_escala             = item.unidad;
+                    total_precio_escala             = parseFloat(item.unidad);
+                    _productos.precioUnidad          = parseFloat(item.unidad);
                     _productos.presentacion         = item.presentacion;
                     _productos.presentacionFactor   = item.factor;
                     _productos.id_producto_detalle  = item.id_producto_detalle;
@@ -559,7 +565,8 @@
                 } else {
 
                     if (c >= pf) {
-                        total_precio_escala             = item.unidad;
+                        total_precio_escala             = parseFloat(item.unidad);
+                        _productos.precioUnidad          = parseFloat(item.unidad);
                         _productos.presentacionFactor   = item.factor;
                         _productos.presentacion         = item.presentacion;
                         _productos.id_producto_detalle  = item.id_producto_detalle;
@@ -569,7 +576,7 @@
                 }
 
             });
-            return total_precio_escala;
+            return _productos;
         }
 
         $(document).on('keypress', '.dataSelect2', function() {
@@ -1138,7 +1145,7 @@
 
                                 _orden[cnt].presentacion = _productos.presentacion;
                                 _orden[cnt].presentacionFactor = _productos.presentacionFactor;
-                                _orden[cnt].precioUnidad = c;
+                                _orden[cnt].precioUnidad = c.precioUnidad;
 
                                 var total_temp = calcularTotalProducto(c, cantidad);
                                 $(".total" + _orden[cnt]['producto2']).text(total_temp);
@@ -1497,9 +1504,9 @@
 
                 if (producto_escala == 1) {
                     var escala_precio = validar_escalas(cantidad);
-                    calcularTotalProducto(escala_precio, cantidad)
-                    $("#precioUnidad").val(escala_precio);
-                    _productos.precioUnidad = escala_precio;
+                    calcularTotalProducto(escala_precio.precioUnidad, cantidad)
+                    $("#precioUnidad").val(escala_precio.precioUnidad);
+                    _productos.precioUnidad = escala_precio.precioUnidad;
 
                 } else {
                     calcularTotalProducto(_productos.presentacionPrecio, cantidad)
@@ -2416,7 +2423,12 @@
 
                 if( prod_val_input > 0 ){
                     var x = _orden.find(x => x.producto == prod_id_input);
+                    productTemp = validar_escalas(prod_val_input);
                     
+                    _orden[_orden.indexOf(x)].precioUnidad = productTemp.precioUnidad;
+                    _orden[_orden.indexOf(x)].presentacion = productTemp.presentacion;
+                    _orden[_orden.indexOf(x)].presentacionFactor = productTemp.presentacionFactor;
+
                     var unidad_factor = _orden[_orden.indexOf(x)].precioUnidad * _orden[_orden.indexOf(x)].presentacionFactor;
                     _orden[_orden.indexOf(x)].cantidad  = prod_val_input;
                     _orden[_orden.indexOf(x)].total     = calcularTotalProducto(unidad_factor, prod_val_input);

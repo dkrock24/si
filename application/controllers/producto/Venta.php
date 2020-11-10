@@ -232,6 +232,7 @@ class Venta extends MY_Controller {
 		$data['terminal'] 		= $terminal_acceso;
 		$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 		$data['impuestos'] 		= $this->Venta_model->get_impuestos_venta( $order_id );
+
 		$data['moneda'] 		= $this->return_modena();
 		$data['title'] 			= "Venta";
 		$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
@@ -268,7 +269,7 @@ class Venta extends MY_Controller {
 		$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['orden'][0]->id_cajero );
 		$data['terminal'] 		= $terminal_acceso;
 		$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
-		$data['impuestos'] 		= $this->Orden_model->get_impuestos( $data['orden'][0]->id );
+		$data['impuestos'] 		= $this->Venta_model->get_impuestos_venta( $id );
 		$data['moneda'] 		= $this->return_modena();
 		$data['title'] 			= "Venta";
 		$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
@@ -287,7 +288,7 @@ class Venta extends MY_Controller {
 		$data['msj_orden'] = "Su número de transacción es: # ". $data['orden'][0]->num_correlativo;
 		
 		$this->generarDocumento( $name , $data['temp'][0]->factura_template );
-		$this->load->view('producto/print/print', $data);	
+		$this->load->view('producto/print/print', $data);
 	}
 
 	function validar_usuario_terminal( $usuario_id  ){

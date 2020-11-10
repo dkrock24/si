@@ -1,9 +1,13 @@
+
+<link rel="stylesheet" media="print" href="<?php echo base_url(); ?>../asstes/css/print.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/print.css">
 <?php
 
 include("asstes/temp/" . $file . ".php");
 
 ?>
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+
 
 <script type="text/javascript">
 
