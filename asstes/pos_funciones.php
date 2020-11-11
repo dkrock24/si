@@ -488,6 +488,7 @@
                     _productos.descripcion  = datos['producto'][0].name_entidad + " " + datos['producto'][0].nombre_marca;
                     _productos.total        = _productos_precio.precio;
                     _productos.categoria    = datos['producto'][0].categoria;
+                    _productos.escala       = producto_escala;
 
                     grabar();
                     //_config_impuestos();
@@ -547,7 +548,7 @@
             /* Valida las escalas de los productos cuando se aunmenta la cantidad */
 
             var total_precio_escala = 0;
-
+            var newValor;
             $.each(_productos_precio2, function(i, item) {
 
                 pf = parseInt(item.factor);
@@ -1143,11 +1144,11 @@
 
                                 var c = validar_escalas(cantidad);
 
-                                _orden[cnt].presentacion = _productos.presentacion;
-                                _orden[cnt].presentacionFactor = _productos.presentacionFactor;
+                                _orden[cnt].presentacion = c.presentacion;
+                                _orden[cnt].presentacionFactor = c.presentacionFactor;
                                 _orden[cnt].precioUnidad = c.precioUnidad;
 
-                                var total_temp = calcularTotalProducto(c, cantidad);
+                                var total_temp = calcularTotalProducto(c.precioUnidad, cantidad);
                                 $(".total" + _orden[cnt]['producto2']).text(total_temp);
                                 _orden[cnt]['total'] = total_temp;
                             } else {
@@ -2429,9 +2430,10 @@
                     _orden[_orden.indexOf(x)].presentacion = productTemp.presentacion;
                     _orden[_orden.indexOf(x)].presentacionFactor = productTemp.presentacionFactor;
 
-                    var unidad_factor = _orden[_orden.indexOf(x)].precioUnidad * _orden[_orden.indexOf(x)].presentacionFactor;
+                    var unidad_factor = _orden[_orden.indexOf(x)].precioUnidad;
                     _orden[_orden.indexOf(x)].cantidad  = prod_val_input;
-                    _orden[_orden.indexOf(x)].total     = calcularTotalProducto(unidad_factor, prod_val_input);
+                    _orden[_orden.indexOf(x)].total     = calcularTotalProducto(productTemp.precioUnidad, prod_val_input);
+                    console.log("---------------->" , productTemp.precioUnidad,  prod_val_input);
                     depurar_producto();
                 }
             }

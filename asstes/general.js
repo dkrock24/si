@@ -243,6 +243,12 @@ function aplicar_imp( prod){
 				{	
 					aplicable  = true;
 					var calcu  = (parseFloat(element.precioUnidad) * parseFloat( element.presentacionFactor) * (element.cantidad));
+					if(element.escala == "1"){
+						/**
+						 * Cuando el producto es escala, solo se multiplica el precio Unidad * Cantidad
+						 */
+						calcu  = (parseFloat(element.precioUnidad) * (element.cantidad));
+					}
 					var calcu2 = (calcu / (parseFloat (item.porcentage) + 1 ));
 					var calcu3 = (calcu2  * item.porcentage);
 
