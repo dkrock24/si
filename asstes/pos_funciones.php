@@ -2419,21 +2419,31 @@
 
         $(document).on('keypress', '.cntProducto', function() {
             if (event.which == 13) {
-                var prod_id_input  = $(this).attr('id');
+                var prod_id_input  = $(this).attr('cd');
                 var prod_val_input = $(this).val();
 
                 if( prod_val_input > 0 ){
-                    var x = _orden.find(x => x.producto == prod_id_input);
-                    productTemp = validar_escalas(prod_val_input);
-                    
-                    _orden[_orden.indexOf(x)].precioUnidad = productTemp.precioUnidad;
-                    _orden[_orden.indexOf(x)].presentacion = productTemp.presentacion;
-                    _orden[_orden.indexOf(x)].presentacionFactor = productTemp.presentacionFactor;
+                    var x = _orden.find(x => x.producto2 == prod_id_input);
 
-                    var unidad_factor = _orden[_orden.indexOf(x)].precioUnidad;
-                    _orden[_orden.indexOf(x)].cantidad  = prod_val_input;
-                    _orden[_orden.indexOf(x)].total     = calcularTotalProducto(productTemp.precioUnidad, prod_val_input);
-                    console.log("---------------->" , productTemp.precioUnidad,  prod_val_input);
+                    if (x.escala == 1) {
+                        productTemp = validar_escalas(prod_val_input);
+
+                        _orden[_orden.indexOf(x)].precioUnidad = productTemp.precioUnidad;
+                        _orden[_orden.indexOf(x)].presentacion = productTemp.presentacion;
+                        _orden[_orden.indexOf(x)].presentacionFactor = productTemp.presentacionFactor;
+
+                        var unidad_factor = _orden[_orden.indexOf(x)].precioUnidad;
+                        _orden[_orden.indexOf(x)].cantidad  = prod_val_input;
+                        _orden[_orden.indexOf(x)].total     = calcularTotalProducto(productTemp.precioUnidad, prod_val_input);
+
+                    }else{
+                        var unidad_factor = _orden[_orden.indexOf(x)].precioUnidad * _orden[_orden.indexOf(x)].presentacionFactor;
+                        _orden[_orden.indexOf(x)].cantidad  = prod_val_input;
+                        _orden[_orden.indexOf(x)].total     = calcularTotalProducto(unidad_factor, prod_val_input);
+                    }
+                    $(".total_items").text(total_items);
+                    //this.total_elementos = _orden.
+
                     depurar_producto();
                 }
             }

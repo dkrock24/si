@@ -771,7 +771,7 @@ function ivaTotal(){
 				sub_total_ += parseFloat(item.total_anterior ) + parseFloat( tmp );
 				console.log("Anterior = ", item.total_anterior , " iva = ",tmp );
 			}else{
-				sub_total_ += parseFloat(item.total_anterior ) - parseFloat( tmp );
+				//sub_total_ += parseFloat(item.total_anterior ) - parseFloat( tmp );
 			}
 		}else{
 			exento_iva_suma += (parseFloat(item.total_anterior )) ;

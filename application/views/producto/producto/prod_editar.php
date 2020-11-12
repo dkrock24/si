@@ -563,7 +563,7 @@
         <h3 style="height: 50px; font-size: 13px;">
             <a href="../index" style="top: -12px;position: relative; text-decoration: none">
                 <button type="button" class="mb-sm btn btn-success"> Producto</button> </a>
-            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Nuevo</button>
+            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
         </h3>
         <div class="row">
             <div class="col-lg-12">
@@ -616,7 +616,7 @@
                             <hr>
                             <br>
                             <div class="col-sm-12">
-                                <p style="text-align: center">Imagen Actual</p>
+                                <p style="text-align: center">Producto Imagen</p>
                                 <?php
 
                                 if ($producto[0]->producto_img_blob) {

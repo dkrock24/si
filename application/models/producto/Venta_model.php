@@ -1353,7 +1353,7 @@ class Venta_model extends CI_Model {
 
 		public function getVentaId($id_venta){
 
-			$query = $this->db->query("select ventas.id,ventas.id_cajero,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,id_tipod,id_condpago,
+			$query = $this->db->query("select correlativo.*,ventas.id,ventas.id_cajero,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,id_tipod,id_condpago,
 			ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania ,cliente.direccion_cliente, 
 			sucursal.nombre_sucursal,orden_estado ,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, 
 			oe.orden_estado_nombre, empresa.nombre_comercial, empresa.direccion,empresa.nrc,empresa.nit,giro.nombre_giro, giro.nombre_giro as
@@ -1378,7 +1378,8 @@ class Venta_model extends CI_Model {
 			left join sys_usuario as usuario on usuario.id_usuario = ventas.id_usuario
 			left join pos_formas_pago as pago on pago.id_modo_pago = ventas.id_condpago
 			left join pos_orden_estado as oe  on oe.id_orden_estado= ventas.orden_estado
-			where ventas.id=".$id_venta);
+			LEFT JOIN pos_correlativos AS correlativo ON correlativo.TipoDocumento = ventas.id_tipod
+			where correlativo.Sucursal = ventas.id_sucursal AND ventas.id=".$id_venta);
 
 		    //echo $this->db->queries[1];die;
 		    return $query->result();
