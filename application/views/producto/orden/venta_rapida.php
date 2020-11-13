@@ -250,8 +250,14 @@ include("asstes/pos_orden.php");
                                     -->
                                     <!--<span class='btn bg-green guardar' name="1" id="../venta/guardar_venta" style="font-size: 25px;" data-toggle="tooltip" data-placement="bottom" title="Procesar"><i class='fa fa-money'></i> <span style="font-size:18;">[ F4 ]</span></span>-->
 
-                                    <span class="btn bg-green" id="btn_existencias" data-toggle="tooltip" data-placement="bottom" title="Existencias" style="font-size: 25px;"><i class="fa fa-dropbox"></i> <span style="font-size:18;">[ 6 ]</span> </span>
-                                    <span class="btn bg-green" id="btn_discount" style="font-size: 25px;"><i class="fa fa-percent" aria-hidden="true"></i> <span style="font-size:18;">[ 7 ]</span></span>
+                                    <span class="btn bg-green" id="btn_existencias" data-toggle="tooltip" data-placement="bottom" title="Existencias" style="font-size: 25px;"><i class="fa fa-dropbox"></i> 
+                                        <span class="badge badge-success" style="background:#2b957a;font-size: 16px;"> # 6</span>
+                                        
+                                    </span>
+                                    <span class="btn bg-green" id="btn_discount" style="font-size: 25px;">
+                                        <i class="fa fa-percent" aria-hidden="true"></i> 
+                                        <span class="badge badge-success" style="background:#2b957a;font-size: 16px;"> # 7</span>
+                                    </span>
 
                                     <div class="btn-group">
                                         <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 25px;"></i></button>
@@ -270,7 +276,8 @@ include("asstes/pos_orden.php");
                                         </ul>
                                     </div>
 
-                                    [C ?]<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display: inline-block;">
+                                    <span class="badge badge-success" style="background:#2b957a;font-size: 16px;"> # ?</span>
+                                    <input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;display: inline-block;">
                                     <input type="text" class="form-control border-input" placeholder="Des. *" id="descuento" name="descuento" size="2px" style="width: 80px;display: inline-block;">
                                     <input type="text" name="orden_numero" id="orden_numero" placeholder="Orden -" value="" class="form-control" style="width:100px; display: inline-block;" />
                                     <!-- <input type="text" name="venta_numero" id="venta_numero" placeholder="Venta" value="" class="form-control" style="width:120px; display: inline-block;" />-->
@@ -851,7 +858,8 @@ include("asstes/pos_orden.php");
                         <div class="row" style="background:#f7f7f7;">
 
                             <div class="col-lg-2 col-md-2"><br>
-                                <spam style="">TIPO PAGO</spam> [N°8]
+                                <span class="badge badge-success" style="background:#2D3B48;font-size: 16px;"> # 8</span>
+                                <span>TIPO PAGO</span> 
                                 <select class="form-control" name="extraMetodoPago" id="extraMetodoPago" class="extraMetodoPago">
                                     <?php
                                     foreach ($modo_pago as $mp) {
@@ -866,7 +874,8 @@ include("asstes/pos_orden.php");
                             <div class="col-lg-1 col-md-1"><br><br>
                                 <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
                             </div>
-
+                        </div>    
+                        <div class="row" style="background:#f7f7f7;">
 
                             <div class="col-lg-2 col-md-2"><br>
                                 Documento

@@ -222,37 +222,37 @@
                                                     
                                                     if($table->$c == 'Devolucion'){
                                                         $estado = $fields['estado'][0];
-                                                        echo "<h5><span class='label label-danger'>".$table->$estado."</span></h5>";
+                                                        echo "<h4><span class='label label-danger'>".$table->$estado."</span></h4>";
                                                     }
                                                     else if($table->$c == 'En proceso'){
                                                         $estado = $fields['estado'][0];
-                                                        echo "<h5><span class='label label-primary'>".$table->$estado."</span></h5>";
+                                                        echo "<h4><span class='label label-primary'>".$table->$estado."</span></h4>";
                                                     }
                                                     else if($table->$c == 'Facturada'){
                                                         $estado = $fields['estado'][0];
-                                                        echo "<h5><span class='label label-success'>".$table->$estado."</span></h5>";
+                                                        echo "<h4><span class='label label-success'>".$table->$estado."</span></h4>";
                                                     }
                                                     else if($table->$c == 'Anulada'){
                                                         $estado = $fields['estado'][0];
-                                                        echo "<h5><span class='label label-warning'>".$table->$estado."</span></h5>";
+                                                        echo "<h4><span class='label label-warning'>".$table->$estado."</span></h4>";
                                                     }
                                                     else if($table->$c == 'Procesada'){
                                                         $estado = $fields['estado'][0];
-                                                        echo "<h5><span class='label label-info'>".$table->$estado."</span></h5>";
+                                                        echo "<h4><span class='label label-info'>".$table->$estado."</span></h4>";
                                                     }
                                                     else if($table->$c == 'Creado'){
                                                         $estado = $fields['estado'][0];
-                                                        echo "<h5><span class='label label-success'>".$table->$estado."</span></h5>";
+                                                        echo "<h4><span class='label label-success'>".$table->$estado."</span></h4>";
                                                     }
                                                     else if($table->$c == 'Enviado'){
                                                         $estado = $fields['estado'][0];
-                                                        echo "<h5><span class='label label-danger'>".$table->$estado."</span></h5>";
+                                                        echo "<h4><span class='label label-danger'>".$table->$estado."</span></h4>";
                                                     }else if($table->$c == 'Inactivo'){
                                                         $estado = $fields['estado'][0];
-                                                        echo "<h5><span class='label label-warning'>".$table->$estado."</span></h5>";
+                                                        echo "<h4><span class='label label-warning'>".$table->$estado."</span></h4>";
                                                     }else{
                                                         $estado = $fields['estado'][0];
-                                                        echo "<h5><span class='label label-info'>".$table->$estado."</span></h5>";
+                                                        echo "<h4><span class='label label-info'>".$table->$estado."</span></h4>";
                                                     }
                                                 }
                                             }
@@ -362,8 +362,9 @@
                 <ul class="nav nav-pills" style="display:inline-block; color:black; float:left;">
                     <li class="nav-item">
                         <a class="nav-link active" style="color:black;">
-                         <?php echo $x_total //$total_pagina; ?>   / 
-                        <?php echo $total_records; ?></a>
+                        <span class="badge badge-success" style="background:#2b957a;font-size: 16px;">  <?php echo $x_total //$total_pagina; ?></span>
+                           / 
+                        <span class="badge badge-success" style="background:#2b957a;font-size: 16px;">  <?php echo $total_records //$total_pagina; ?></span></a>
                     </li>
                 </ul><?php // $x_total; ?>
                 <ul class="pagination pagination-md">

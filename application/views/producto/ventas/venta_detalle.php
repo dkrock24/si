@@ -337,8 +337,10 @@
                                 <?php
                                 if ($impuestos->ordenImpName != "IVA") {
                                     $total += number_format($impuestos->ordenImpTotal,2);
+                                    $totalVenta += number_format($impuestos->ordenImpTotal,2);
                                 }
                             }
+
                             ?>
                             <tr style="border-top:2px solid grey;">
                                 <td colspan="8"><?php //echo $cnt ?></td>

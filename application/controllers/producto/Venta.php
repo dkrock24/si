@@ -234,6 +234,7 @@ class Venta extends MY_Controller {
 		$data['impuestos'] 		= $this->Venta_model->get_impuestos_venta( $order_id );
 
 		$data['moneda'] 		= $this->return_modena();
+		$data['pagos']			= $this->Venta_model->getVentaPagosId($order_id);
 		$data['title'] 			= "Venta";
 		$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
 		$data['temp'] 			= $this->Template_model->printer_venta
@@ -271,6 +272,7 @@ class Venta extends MY_Controller {
 		$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 		$data['impuestos'] 		= $this->Venta_model->get_impuestos_venta( $id );
 		$data['moneda'] 		= $this->return_modena();
+		$data['pagos']			= $this->Venta_model->getVentaPagosId($order_id);
 		$data['title'] 			= "Venta";
 		$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
 		$data['temp'] 			= $this->Template_model->printer_venta

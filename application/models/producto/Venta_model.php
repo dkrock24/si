@@ -311,7 +311,8 @@ class Venta_model extends CI_Model {
 						'fecha' 				=> date("Y-m-d h:i:s"),	            
 						'digi_total' 			=> $total_orden,
 						'total_doc' 			=> $total_orden,
-						//'impSuma'				=> $orden['orden'][0]['impSuma'],
+						'dinero_cobrado'		=> $orden['orden'][0]['total_dinero'],
+						'dinero_cambio'			=> $orden['orden'][0]['total_cambio'],
 						'iva'					=> $orden['orden'][0]['iva'],
 						'desc_porc' 			=> $orden['orden'][0]['descuento_limite'],
 						'id_bodega' 			=> $orden['orden'][0]['id_bodega'],
@@ -537,24 +538,27 @@ class Venta_model extends CI_Model {
 		public function save_forma_pago($total_monto ){
 
 			foreach ($this->_orden['pagos'] as $key => $metodoPago) {
+
+				if($metodoPago['amount'] != "") {
 						
-				$data = array(
-					'venta_pagos' 		=> $this->_orden_id , 
-					'id_forma_pago' 	=> $metodoPago['id'],
-					'nombre_metodo_pago'=> $metodoPago['type'],
-					'valor_metodo_pago' => $total_monto,
-					'banco_metodo_pago' => $metodoPago['banco'],
-					'numero_metodo_pago'=> $metodoPago['valor'],
-					'series_metodo_pago'=> $metodoPago['serie'],
-					'estado_venta_pago' => 1
-				);
+					$data = array(
+						'venta_pagos' 		=> $this->_orden_id , 
+						'id_forma_pago' 	=> $metodoPago['id'],
+						'nombre_metodo_pago'=> $metodoPago['type'],
+						'valor_metodo_pago' => $metodoPago['amount'],
+						'banco_metodo_pago' => $metodoPago['banco'],
+						'numero_metodo_pago'=> $metodoPago['valor'],
+						'series_metodo_pago'=> $metodoPago['serie'],
+						'estado_venta_pago' => 1
+					);
 
-				$this->db->insert(self::pos_venta_pagos, $data );
+					$this->db->insert(self::pos_venta_pagos, $data );
 
-				if (count($this->_orden_concetrada) > 1) {
-					unset($this->_orden['pagos'][$key]);
-					break;
 				}
+					if (count($this->_orden_concetrada) > 1) {
+						unset($this->_orden['pagos'][$key]);
+						break;
+					}
 			}
 		}
 
@@ -641,6 +645,7 @@ class Venta_model extends CI_Model {
 		{
 			//var_dump($impuestos);die;
 			$data = array();
+			$total_positivo = 0;
 			$_iva = array_filter(
 				$impuestos,
 				function($impuesto,$valor){
@@ -657,7 +662,7 @@ class Venta_model extends CI_Model {
 			
 			$Total = 0;
 			if ($_iva[0]->nombre == "IVA") {
-				
+				//$total_positivo =  ( $item['total'] * (-1) );
 				$Total = ($impuesto_iva->porcentage * $item['total']) / ($impuesto_iva->porcentage + 1);
 
 				if($item['tipo'] =='E'){
@@ -699,8 +704,8 @@ class Venta_model extends CI_Model {
 				if ( $impuesto->condicion == 1) {
 
 					if ( $impuesto->condicion_simbolo == ">=") {
-
-						if ( $total_monto >= $impuesto->condicion_valor) {
+						$total_positivo = $total_monto * (-1);
+						if ( $total_positivo >= $impuesto->condicion_valor) {
 							$Total = $impuesto->porcentage * $total_monto;
 							$flag = true;
 						}
@@ -736,13 +741,13 @@ class Venta_model extends CI_Model {
 				{
 					if (!isset($this->impuestosLista[$impuesto->nombre])) 
 					{
-						if ( $Total > 0 ) {
+						if ( $Total > 0 || $total_positivo > 0) {
 							$this->impuestosLista[$impuesto->nombre] = $data;
 						}
 					}
 					else
 					{
-						if ( $Total > 0 ) {
+						if ( $Total > 0 || $total_positivo > 0) {
 							if($flag){
 								$this->impuestosLista[$impuesto->nombre]['ordenImpTotal'] = $Total;
 							}else{
@@ -1359,7 +1364,7 @@ class Venta_model extends CI_Model {
 			oe.orden_estado_nombre, empresa.nombre_comercial, empresa.direccion,empresa.nrc,empresa.nit,giro.nombre_giro, giro.nombre_giro as
 			giro, emp.alias, t.nombre as terminal ,ventas.id_cliente , ventas.total_doc ,cliente.nit_cliente, cliente.nrc_cli,
 			venta_vista_id,ventas.devolucion_documento,ventas.doc_cliente_nombre,doc_cliente_identificacion,ventas.devolucion_nombre,
-			ventas.devolucion_dui, ventas.devolucion_nit, ventas.desc_val, anulado,anulado_el, anulado_conc,modi_el,caja.*,
+			ventas.devolucion_dui, ventas.devolucion_nit, ventas.desc_val, ventas.dinero_cobrado,ventas.dinero_cambio, anulado,anulado_el, anulado_conc,modi_el,caja.*,
 			(select pe.primer_nombre_persona as anulado_nombre from sys_usuario as us left join sys_empleado as em on us.Empleado = em.id_empleado 
 			left join sys_persona as pe on pe.id_persona = em.Persona_E WHERE us.id_usuario = anulado_por ) as anulado_nombre
 

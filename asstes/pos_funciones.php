@@ -16,6 +16,8 @@
         var error                   = false;
         var total_elementos         = 0;
         var contadorCorrelativos    = 0;
+        var total_venta             = 0.00;
+        var total_cambio            = 0.00;
         
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
@@ -652,6 +654,8 @@
                         currCell = 0;
                         moveCursorToEnd(input_producto_buscar);
                         break;
+                    case 'Enter': $("#procesar_btn").focus();
+                        break
                     case 'ArrowUp':
                         break;
                     case '?': // /;
@@ -742,7 +746,9 @@
                             contadorPagoIndice = contadorPagoIndice -1;
                         }
                         console.log("Subiendo -->", contadorPagoIndice);
-                        $("input[name=pagoInput" + contadorPagoIndice + "]:first").focus();                   
+                        $("input[name=pagoInput" + contadorPagoIndice + "]:first").focus();
+
+
                     }                    
                 
                 } else if (e.keyCode == 40) {
@@ -889,6 +895,16 @@
             function f7_foco_efectivo() {
                 $("#extraMetodoPago").focus();
             }
+
+            $(document).on('change', '#extraMetodoPago', function() {
+                $(".addMetodoPago").focus();
+                $(".addMetodoPago").removeClass("bg-green");
+                $(".addMetodoPago").css("background-color","#1e983b");
+                $(".addMetodoPago").css("color","#fff");
+                //add_metodo_pago($("#extraMetodoPago").val());
+            });
+
+            // Selecionando otro meotodo de pago para agregarlo al modal de pago
 
             function f8_table_pagos() {
                 //$("input[name=pagoInput1]").focus();
@@ -1846,7 +1862,7 @@
 
                     _html += '<table class="table formas_pagos_valores">';
 
-                    _html += '<thead style="background:rgb(236, 236, 236);"><tr><td>N°9</td><td>Monto</td><td>Numero</td><td>Banco</td><td>Serie</td></tr></thead>';
+                    _html += '<thead style="background:rgb(236, 236, 236);"><tr><td><span class="badge badge-success" style="background:#2D3B48;font-size: 16px;"> # 9</span></td><td>Monto</td><td>Numero</td><td>Banco</td><td>Serie</td></tr></thead>';
 
                     pagos_mostrados.forEach(element => {
 
@@ -1894,12 +1910,20 @@
 
         $(document).on('click', '.addMetodoPago', function() {
             var metodo_add = parseInt($("#extraMetodoPago").val());
+            add_metodo_pago(metodo_add);
+        });
+
+        function add_metodo_pago(metodo_add){
+
+            $(".addMetodoPago").css("background-color","#2D3B48");
+            $(".addMetodoPago").css("color","#fff");
+            
             pagos_mostrados[pagos_mostrados.length] = metodo_add;
 
             var cli_form_pago = $("#cliente_codigo").val();
             var tipo_documento = parseInt($("#id_tipo_documento").val());
             guardarX(cli_form_pago, tipo_documento);
-        });
+        }
 
         $(document).on('keyup', '.metodo_pago_input', function() {
             pagos_proceso($(this).attr('count'));
@@ -1965,14 +1989,16 @@
                 $("#cambio_venta").text(0.00);
                 $("#restante_venta").text(0.00);
                 $('#procesar_btn').show();
-                $('#procesar_btn').focus();
+                //$('#procesar_btn').focus();
             } else if (cambio >= 0.01) {
                 $("#cambio_venta").text(cambio.toFixed(2));
                 $('#procesar_btn').show();
-                $('#procesar_btn').focus();
+                //$('#procesar_btn').focus();
             } else if (cambio <= 0) {
                 $("#restante_venta").text(cambio.toFixed(2));
             }
+            total_venta = total_msg;
+            total_cambio = cambio;
         }
 
         $(document).on('click', '#procesar_btn', function() {
@@ -2196,6 +2222,9 @@
                 'imp_iva'       : _impuestos_orden_iva,
                 'exento_iva'    : _impuestos_orden_exento
             }
+
+            _orden[0]['total_dinero'] = total_venta;
+            _orden[0]['total_cambio'] = total_cambio;
 
             if (_orden.length != 0) {
                 $.ajax({
