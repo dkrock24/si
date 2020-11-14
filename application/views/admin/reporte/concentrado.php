@@ -47,14 +47,15 @@
         float: right;
     }
     .header_report{
-        background: #707b73; 
+        background: #2D3B48; 
     }
     .filters_report{
         background: #fff;
     }
 
     .btn-color{
-        background: #129cd6;
+        background: #4974a7;
+        color:white;
     }
     .table > thead > tr > th {
         color:black;
@@ -78,10 +79,10 @@
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <br>
-                                    <a href="#" class="btn btn-info btn-color" onclick="exportPdf()">
+                                    <a href="#" class="btn btn-danger btn-color" onclick="exportPdf()">
                                         <i class="fa fa-file-pdf-o sz"></i> PDF
                                     </a>
-                                    <a href="export2" class="btn btn-info btn-color">
+                                    <a href="export2" class="btn btn-danger btn-color">
                                         <i class="fa fa-file-excel-o h sz"></i> XLS
                                     </a>
                                 </div>
@@ -221,7 +222,7 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <br>
-                                                    <button type="submit" class="btn btn-info btn-color">
+                                                    <button type="submit" class="btn btn-primary btn-color">
                                                         <i class="fa fa-search sz icon-white"></i> FILTRAR
                                                     </button>
                                                 </div>
@@ -268,7 +269,7 @@
 
                                                 foreach ($registros as $key => $value) {
                                                 ?>
-                                                    <tr>
+                                                    <tr <tr class="" style="font-size:14px;font-family: monospace;">>
                                                         <th><?= $cnt++; ?></th>                                                            
                                                         <td><?= $value->nombre ?></td>
                                                         <td><?= $value->inicio ?></td>
@@ -296,7 +297,7 @@
                                                 }
                                                 ?>
                                                 <thead class="header_report">
-                                                    <tr class="">
+                                                    <tr class="" style="">
                                                         <th style="color:#fff"></th>                                                        
                                                         <th style="color:#fff">TOTALES</th>
                                                         <th style="color:#fff"></th>

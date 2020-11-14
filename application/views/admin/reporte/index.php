@@ -48,7 +48,7 @@
         float: right;
     }
     .header_report{
-        background: #707b73;
+        background: #2D3B48;
     }
     .filters_report{
         background: #fff;
@@ -72,10 +72,10 @@
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <br>
-                                    <a href="#" class="btn btn-info" onclick="exportPdf()">
+                                    <a href="#" class="btn btn-primary" onclick="exportPdf()">
                                         <i class="fa fa-file-pdf-o sz"></i> PDF
                                     </a>
-                                    <a href="export" class="btn btn-info">
+                                    <a href="export" class="btn btn-primary">
                                         <i class="fa fa-file-excel-o h sz"></i> XLS
                                     </a>
                                 </div>
@@ -202,7 +202,7 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <br>
-                                                    <button type="submit" class="btn btn-info">
+                                                    <button type="submit" class="btn btn-primary">
                                                         <i class="fa fa-search sz icon-white"></i> Filtrar
                                                     </button>
                                                 </div>
@@ -217,7 +217,7 @@
                                         ?>
                                             <table id="tablePreview" class="table table-striped table-hover table-sm table-borderless">
                                                 <thead class="header_report">
-                                                    <tr>
+                                                    <tr >
                                                         <th style="color:#fff">#</th>
                                                         <th style="color:#fff">Id</th>
                                                         <th style="color:#fff">Sucursal</th>
@@ -246,7 +246,7 @@
                                                     $exento  = !$value->p_inc_imp0 ? ($value->exento  + $value->impuesto) : $value->exento;
                                                 ?>
                                                 <tbody>
-                                                    <tr>
+                                                    <tr class="" style="font-size:14px;font-family: monospace;">
                                                         <th><?php echo $cnt++; ?></th>
                                                         <td><?php echo $value->id ?></td>
                                                         <td><?php echo $value->nombre_sucursal ?></td>
@@ -262,8 +262,8 @@
                                                         <td><?php echo $value->orden_estado_nombre ?></td>
                                                         <td>
                                                             <a href="../../producto/venta/ver/<?php echo  $value->id ?>" target="_blank">
-                                                                <span class="btn btn-success btn-sm" style="background:#5d9cec">
-                                                                    <i class="fa fa-arrow-right"></i> Detalle
+                                                                <span class="btn btn-success btn-sm" style="background:#2b957a;color:white;">
+                                                                    Detalle
                                                                 </span>
                                                             </a>
                                                         </td>

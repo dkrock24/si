@@ -77,7 +77,7 @@ class Caja_model extends CI_Model {
         $this->db->from( self::caja.' as c');
         $this->db->join( self::pos_terminal.' as t',' on t.Caja = c.id_caja' );
         $this->db->where('t.Sucursal', $sucursal );
-        $query = $this->db->get(); 
+        $query = $this->db->get();
         
         if($query->num_rows() > 0 )
         {

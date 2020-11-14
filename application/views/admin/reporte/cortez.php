@@ -95,14 +95,15 @@
         float: right;
     }
     .header_report{
-        background: #707b73; 
+        background: #2D3B48; 
     }
     .filters_report{
         background: #fff;
     }
 
     .btn-color{
-        background: #129cd6;
+        background: #4974a7;
+        color:white;
     }
     .table > thead > tr > th {
         color:black;
@@ -257,7 +258,7 @@
                                                     <?php
                                                     if ($registros == 1) {
                                                         ?>
-                                                         <button type="submit" class="btn btn-info btn-color">
+                                                         <button type="submit" class="btn btn-color">
                                                             <i class="fa fa-search sz icon-white"></i> FILTRAR
                                                         </button>
                                                         <?php
@@ -310,7 +311,7 @@
                                                     $total_documento = ($value->gravado + $value->exento + $value->gravado_impuesto );
                                                     
                                                 ?>
-                                                    <tr>
+                                                    <tr class="" style="font-size:14px;font-family: monospace;">
                                                         <th><?php echo $cnt++; ?></th>                                                            
                                                         <td><?php echo $value->nombre ?></td>
                                                         <td><?php echo $value->cantidad_documentos ?></td>

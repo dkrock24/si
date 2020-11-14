@@ -163,7 +163,12 @@ class Reporte_model extends CI_Model {
         $this->db->select('v.id , v.num_correlativo, v.fh_inicio, v.id_cliente , v.total_doc , d.nombre ,
         MIN(v.num_correlativo ) AS inicio , 
         MAX(v.num_correlativo )AS fin , 
-        COUNT(v.id) as cantidad_documentos,
+
+        ( select COUNT(total_venta.id) FROM pos_ventas AS total_venta 
+            WHERE DATE(total_venta.creado_el) >= "'.$f_inicio.'" AND DATE(total_venta.creado_el) <= "'.$f_fin.'"
+            AND d.id_tipo_documento = total_venta.id_tipod
+            GROUP BY total_venta.id_tipod
+             ) AS cantidad_documentos,
 
         (SELECT SUM(vd.total)
             FROM pos_venta_detalle AS vd join pos_ventas AS v_1 ON v_1.id = vd.id_venta
@@ -342,8 +347,13 @@ class Reporte_model extends CI_Model {
         $this->db->select('v.id , v.num_correlativo, v.fh_inicio, v.id_cliente , v.total_doc , d.nombre ,
             MIN(v.num_correlativo ) AS inicio , 
             MAX(v.num_correlativo )AS fin , 
-            COUNT(v.id) as cantidad_documentos,
             SUM(vd.impSuma) as impSuma,
+
+            ( select COUNT(total_venta.id) FROM pos_ventas AS total_venta 
+            WHERE DATE(total_venta.creado_el) >= "'.$f_inicio.'" AND DATE(total_venta.creado_el) <= "'.$f_fin.'"
+            AND d.id_tipo_documento = total_venta.id_tipod
+            GROUP BY total_venta.id_tipod
+             ) AS cantidad_documentos,
 
             (SELECT COUNT(v2.id) 
                 FROM pos_ventas AS v2 
@@ -427,7 +437,7 @@ class Reporte_model extends CI_Model {
         }
         $this->db->group_by('d.id_tipo_documento', 'ASC' );              
         $query = $this->db->get();
-        //echo $this->db->queries[7];
+        //echo $this->db->queries[8];
         //die;
 
         $data = $query->result();

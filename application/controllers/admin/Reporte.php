@@ -183,6 +183,7 @@ class Reporte extends My_Controller {
 			if($data['registros'])
 			{
 				$corte = $this->Reporte_model->concentrado_corte( $filters, $cortar );
+
 				unset($corte->logo_empresa);
 				unset($corte->img);
 				unset($corte->img_empleado);
