@@ -62,13 +62,13 @@ class Reporte extends My_Controller {
 			$info 			= $this->Reporte_model->filtrar_venta($filters);
 			$data['registros']  = $info;
 
-			if($info){
+			if ($info) {
 				$this->session->set_flashdata('reporte', "Reporte Generado");
-			}else{
+			} else {
 				$this->session->set_flashdata('reporte', "Reporte Sin Registros : ");
 			}
 
-        }else{
+        } else {
 			$data['registros'] 	= 1;
 			$data['filters'] 	= array(
 				'fh_inicio' => date('Y-m-d'),
@@ -78,7 +78,7 @@ class Reporte extends My_Controller {
 				'cajero'    => 0,
 				'caja'		=> 0,
 			);
-		}		
+		}
 
 		$data['fields']	= $this->fields();
 		$data['column']	= $this->column();

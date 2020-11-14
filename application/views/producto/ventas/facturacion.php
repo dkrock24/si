@@ -232,10 +232,18 @@ include("asstes/pos_orden.php");
                                 $contador = 1;
                                 foreach ($ids_ventas as $key => $id) {
                                 ?>
-                                    <input type="hidden" name="<?php echo $contador; ?>" value="<?php echo $id; ?>">
-                                    <a href="<?php echo $id; ?>" class="btn btn-default printer <?php echo $contador; ?>" id="<?php echo $id; ?>" style="background:#f1f1f1;border-radius: 10px 10px 10px 10px;">
-                                        <h3><i class="icon-arrow-left"></i><?php echo $contador; ?><i class="icon-arrow-right"></i> # <?php echo $id; ?></h3>
-                                    </a><br>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4">
+                                            <input type="hidden" name="<?php echo $contador; ?>" value="<?php echo $id; ?>">
+                                            <a href="<?php echo $id; ?>" class="btn btn-default printer <?php echo $contador; ?>" id="<?php echo $id; ?>" style="background:#f1f1f1;border-radius: 10px 10px 10px 10px;">
+                                                <h3><i class="icon-arrow-left"></i><?php echo $contador; ?><i class="icon-arrow-right"></i> # <?php echo $id; ?></h3>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8">
+                                            <input type="text" class="form-control" name="correlativo" value="" />
+                                        </div>
+                                    </div>
+                                    
                                 <?php
                                     $contador++;
                                 }

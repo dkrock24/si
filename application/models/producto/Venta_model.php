@@ -248,7 +248,7 @@ class Venta_model extends CI_Model {
 			if ($correlativo == $ingresado) {
 				$valor = $correlativo;
 			}else{
-				$valor = $correlativo;
+				$valor = $ingresado;
 			}
 			return $valor;
 		}
@@ -701,10 +701,10 @@ class Venta_model extends CI_Model {
 			$flag = false;
 			foreach ($_impuesto as $key => $impuesto) {
 				$Total = 0.00;
+				$total_positivo = abs($total_monto);
 				if ( $impuesto->condicion == 1) {
 
 					if ( $impuesto->condicion_simbolo == ">=") {
-						$total_positivo = $total_monto * (-1);
 						if ( $total_positivo >= $impuesto->condicion_valor) {
 							$Total = $impuesto->porcentage * $total_monto;
 							$flag = true;

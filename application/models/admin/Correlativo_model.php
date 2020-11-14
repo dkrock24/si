@@ -119,9 +119,9 @@ class Correlativo_model extends CI_Model {
 
     public function update( $correlativos ){
 
-        $registros = $this->get_correlativo_sucursal($correlativos['TipoDocumento'],$correlativos['Sucursal']);
+        //$registros = $this->get_correlativo_sucursal($correlativos['TipoDocumento'],$correlativos['Sucursal']);
 
-        if(!$registros){
+        //if(!$registros){
 
             $data = array(
                 'prefix'            => $correlativos['prefix'],
@@ -139,12 +139,7 @@ class Correlativo_model extends CI_Model {
             if(!$result){
                 $result = $this->db->error();
             }
-        }else{
-            return $result = [
-                'code' => 1,
-                'message' => "El registro ya existe"
-            ];
-        }
+
 
         return $result;
     }

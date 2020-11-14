@@ -214,6 +214,10 @@ include("asstes/pos_orden.php");
     .myTableFormat>tbody>tr>td {
         border-top: 0px solid #eee;
     }
+
+    #procesar_venta , .modal-content {
+        height: 1200px;
+    }
 </style>
 
 
@@ -503,8 +507,11 @@ include("asstes/pos_orden.php");
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
-                                            <label> <span class="fa fa-edit"></span> [ Shift + q ] Tipo Documento <?php //echo $terminal[0]->pred_id_tpdoc; 
-                                                                                                                    ?></label>
+                                            <label> 
+                                                <span class="fa fa-edit"></span> 
+                                                 Tipo Documento 
+                                            </label>
+                                            <span class="badge badge-success" style="background:#2b957a;font-size: 16px;float:right;"> Shift + q</span>
                                             <select class="form-control id_tipo_documento_main" name="id_tipo_documento" id="id_tipo_documento">
                                                 <?php
                                                 foreach ($tipoDocumento as $d) {
@@ -538,8 +545,12 @@ include("asstes/pos_orden.php");
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
-                                            <span class="fa fa-user"></span> <label>[ Shift + w ] Cliente Codigo</label>
-
+                                            <span class="fa fa-user"></span>
+                                            <label>
+                                                
+                                                Cliente Codigo
+                                            </label>
+                                            <span class="badge badge-success" style="background:#2b957a;font-size: 16px;float:right;"> Shift + w</span>
                                             <input type="text" name="cliente_codigo" class="form-control cliente_codigo" id="cliente_codigo" value="<?php echo $cliente[0]->id_cliente ?>">
 
                                             <select multiple="" class="form-control cliente_codigo2" id="cliente_codigo2" name="abc"></select>
@@ -551,20 +562,10 @@ include("asstes/pos_orden.php");
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
-                                            <span class="fa fa-money"></span> <label>[ Shift + e ] Forma Pago</label>
-                                            <select class="form-control" id="modo_pago_id" name="modo_pago_id">
-                                                <?php
-                                                foreach ($modo_pago as $value) {
-                                                ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group has-success">
                                             <span class="fa fa-user"></span>
-                                            <label>[ Shift + r ] Cliente Nombre</label>
+                                            <label>
+                                                Cliente Nombre</label>
+                                                <span class="badge badge-success" style="background:#2b957a;font-size: 16px;float:right"> Shift + r</span>
                                             <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania ?>">
                                             <input type="hidden" name="cliente_direccion" class="form-control direccion_cliente" id="direccion_cliente" value="<?php echo $cliente[0]->direccion_cliente ?>">
                                         </div>
@@ -574,8 +575,28 @@ include("asstes/pos_orden.php");
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
+                                            <span class="fa fa-money"></span>
+                                            <label>
+                                                Forma Pago
+                                            </label>
+                                            <span class="badge badge-success" style="background:#2b957a;font-size: 16px;float:right"> Shift + e</span>
+                                            <select class="form-control" id="modo_pago_id" name="modo_pago_id">
+                                                <?php
+                                                foreach ($modo_pago as $value) {
+                                                ?><option value="<?php echo $value->id_modo_pago; ?>"><?php echo $value->nombre_modo_pago; ?></option><?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group has-success">
                                             <span class="fa fa-home"></span>
-                                            <label>[ Shift + t ] Sucursal Destino</label>
+                                            <label>
+                                                Sucursal Destino
+                                            </label>
+                                            <span class="badge badge-success" style="background:#2b957a;font-size: 16px;float:right"> Shift + t</span>
                                             <select class="form-control" name="sucursal_destino" id="sucursal_id">
                                                 <?php
                                                 $id_sucursal = $empleado[0]->id_sucursal;
@@ -601,7 +622,9 @@ include("asstes/pos_orden.php");
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-building"></span>
-                                            <label>[ Shift + y ] Bodega</label>
+                                            <label>
+                                                Bodega</label>
+                                                <span class="badge badge-success" style="background:#2b957a;font-size: 16px;float:right"> Shift + y</span>
                                             <select class="form-control" name="bodega" id="bodega_select">
                                                 <?php
                                                 foreach ($bodega as $b) {
@@ -621,7 +644,9 @@ include("asstes/pos_orden.php");
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-home"></span>
-                                            <label>[ Shift + u ] Sucursal Origin</label>
+                                            <label>
+                                                Sucursal Origin</label>
+                                                <span class="badge badge-success" style="background:#2b957a;font-size: 16px;float:right"> Shift + u</span>
                                             <select class="form-control" name="sucursal_origin" id="sucursal_id2">
                                                 <?php
                                                 $id_sucursal = 0;
@@ -651,7 +676,9 @@ include("asstes/pos_orden.php");
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group has-success">
                                             <span class="fa fa-clock-o"></span>
-                                            <label>[ Shift + i ] Fecha</label>
+                                            <label>
+                                                Fecha</label>
+                                                <span class="badge badge-success" style="background:#2b957a;font-size: 16px;float:right"> Shift + i</span>
                                             <input type="date" name="fecha" id="fecha_factura" value="<?php echo date("Y-m-d"); ?>" class="form-control">
                                         </div>
                                     </div>
@@ -842,7 +869,7 @@ include("asstes/pos_orden.php");
 
 <!-- METODO DE PAGOS MODAL-->
 <div id="procesar_venta" tabindex="-1" role="dialog" aria-labelledby="procesar_venta" class="modal flip fade-scale">
-    <div class="modal-dialog modal-lg" style="width: 80%;">
+    <div class="modal-dialog modal-lg" style="width: 85%;">
         <div class="modal-content">
             <div class="modal-header" style="background: #2D3B48; color:white;">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
@@ -997,11 +1024,6 @@ include("asstes/pos_orden.php");
                                 </div>
                             </div>
 
-                            <div class="col-lg-12 col-md-12" style="text-align:center">
-                                <a href="#" class="printer">
-                                    <h1><i class="fa fa-print"></i></h1>
-                                </a>
-                            </div>
                         </div>
                     </div>
 
