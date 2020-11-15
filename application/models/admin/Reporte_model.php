@@ -104,6 +104,7 @@ class Reporte_model extends CI_Model {
         
         $this->db->where('DATE(v.fh_inicio)'  . ' >= ' , $f_inicio );
         $this->db->where('DATE(v.fh_final) <=' , $f_fin );
+        $this->db->where('v.cortado IS NULL');
         $this->db->group_by('vd.id_venta');
 
         if( $time != "" ){
@@ -166,23 +167,22 @@ class Reporte_model extends CI_Model {
 
         ( select COUNT(total_venta.id) FROM pos_ventas AS total_venta 
             WHERE DATE(total_venta.creado_el) >= "'.$f_inicio.'" AND DATE(total_venta.creado_el) <= "'.$f_fin.'"
-            AND d.id_tipo_documento = total_venta.id_tipod
+            AND d.id_tipo_documento = total_venta.id_tipod AND total_venta.cortado IS NULL
             GROUP BY total_venta.id_tipod
              ) AS cantidad_documentos,
 
         (SELECT SUM(vd.total)
             FROM pos_venta_detalle AS vd join pos_ventas AS v_1 ON v_1.id = vd.id_venta
             WHERE vd.gen="Grava" and DATE(vd.creado_el) >= "'.$f_inicio.'" AND DATE(vd.creado_el) <= "'.$f_fin.'" 
-            AND v_1.cortado IS NULL
-            AND v_1.id_sucursal = '.$sucursal_subquery.'
+            AND v_1.cortado IS NULL AND d.id_tipo_documento = v_1.id_tipod
+            AND v_1.id_sucursal = '.$sucursal_subquery.' 
             ) AS gravado,
         
         (SELECT SUM(vi.ordenImpTotal)
             FROM pos_ventas_impuestos AS vi 
-            join pos_venta_detalle vd on vd.id_venta = vi.id_venta
-            join pos_ventas AS v_1 ON v_1.id = vd.id_venta
-            WHERE vi.ordenSimbolo IN("0") AND DATE(vd.creado_el) >= "'.$f_inicio.'" AND DATE(vd.creado_el) <= "'.$f_fin.'" 
-            AND v_1.cortado IS NULL 
+            join pos_ventas AS v_1 ON v_1.id = vi.id_venta
+            WHERE  (vi.ordenImpName != "IVA" )  AND DATE(v_1.creado_el) >= "'.$f_inicio.'" AND DATE(v_1.creado_el) <= "'.$f_fin.'" 
+            AND v_1.cortado IS NULL  AND d.id_tipo_documento = v_1.id_tipod 
             AND v_1.id_sucursal = '.$sucursal_subquery.'
             ) AS gravado_impuesto,
         
@@ -191,7 +191,7 @@ class Reporte_model extends CI_Model {
             join pos_ventas as ve on ve.id = vd.id_venta
             join pos_ventas AS v_1 ON v_1.id = vd.id_venta
             WHERE vd.gen="Exent" and DATE(ve.fh_inicio) >= "'.$f_inicio.'" AND DATE(ve.fh_final) <= "'.$f_fin.'" 
-            AND v_1.cortado IS NULL
+            AND v_1.cortado IS NULL AND d.id_tipo_documento = v_1.id_tipod
             AND v_1.id_sucursal = '.$sucursal_subquery.'
             ) AS exento,
 
@@ -317,6 +317,7 @@ class Reporte_model extends CI_Model {
         $f_fin      = $filters['fh_fin'].$mask;
         $sucursal   = $filters['sucursal'];
         $caja       = $filters['caja'];
+        $sucursal_subquery = $sucursal;
 
         if( $filters['turno'] != 0 )
         {
@@ -351,9 +352,34 @@ class Reporte_model extends CI_Model {
 
             ( select COUNT(total_venta.id) FROM pos_ventas AS total_venta 
             WHERE DATE(total_venta.creado_el) >= "'.$f_inicio.'" AND DATE(total_venta.creado_el) <= "'.$f_fin.'"
-            AND d.id_tipo_documento = total_venta.id_tipod
+            AND d.id_tipo_documento = total_venta.id_tipod AND total_venta.cortado IS NULL
             GROUP BY total_venta.id_tipod
              ) AS cantidad_documentos,
+
+             (SELECT SUM(vd.total)
+             FROM pos_venta_detalle AS vd join pos_ventas AS v_1 ON v_1.id = vd.id_venta
+             WHERE vd.gen="Grava" and DATE(vd.creado_el) >= "'.$f_inicio.'" AND DATE(vd.creado_el) <= "'.$f_fin.'" 
+             AND v_1.cortado IS NULL AND d.id_tipo_documento = v_1.id_tipod
+             AND v_1.id_sucursal = '.$sucursal_subquery.' 
+             ) AS gravado,
+         
+         (SELECT SUM(vi.ordenImpTotal)
+             FROM pos_ventas_impuestos AS vi 
+             join pos_ventas AS v_1 ON v_1.id = vi.id_venta
+             WHERE  (vi.ordenImpName != "IVA" )  AND DATE(v_1.creado_el) >= "'.$f_inicio.'" AND DATE(v_1.creado_el) <= "'.$f_fin.'" 
+             AND v_1.cortado IS NULL  AND d.id_tipo_documento = v_1.id_tipod 
+             AND v_1.id_sucursal = '.$sucursal_subquery.'
+             ) AS gravado_impuesto,
+         
+         (SELECT SUM(vd.total)
+             FROM pos_venta_detalle AS vd 
+             join pos_ventas as ve on ve.id = vd.id_venta
+             join pos_ventas AS v_1 ON v_1.id = vd.id_venta
+             WHERE vd.gen="Exent" and DATE(ve.fh_inicio) >= "'.$f_inicio.'" AND DATE(ve.fh_final) <= "'.$f_fin.'" 
+             AND v_1.cortado IS NULL AND d.id_tipo_documento = v_1.id_tipod
+             AND v_1.id_sucursal = '.$sucursal_subquery.'
+             ) AS exento,
+ 
 
             (SELECT COUNT(v2.id) 
                 FROM pos_ventas AS v2 
@@ -552,13 +578,15 @@ class Reporte_model extends CI_Model {
     private function update_venta_cortada($data , $id_venta_corte)
     {
         $total_venta = $data->efectivo + $data->tcredito + $data->cheque+ $data->credito;
-        
+        $exento = number_format($data->exento,2);
+        $gravado = number_format($data->gravado,2);
+
         $data_corte = array(
             'id_venta'          => $id_venta_corte,
             'iva_corte'         => ($total_venta * 0.13) / 1.13,
             'total_corte'       => $total_venta,
-            'monto_grabado'     => $total_venta,
-            'monto_excento'     => 0.00,
+            'monto_grabado'     => $gravado,
+            'monto_excento'     => $exento,
             'correlativo_fin'   => $data->fin,
             'documento_nombre'  => $data->nombre,
             'total_documentos'  => $data->cantidad_documentos,

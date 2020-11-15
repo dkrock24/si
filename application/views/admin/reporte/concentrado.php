@@ -79,10 +79,10 @@
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <br>
-                                    <a href="#" class="btn btn-danger btn-color" onclick="exportPdf()">
+                                    <a href="#" class="btn btn-danger btn-color sz" onclick="exportPdf()">
                                         <i class="fa fa-file-pdf-o sz"></i> PDF
                                     </a>
-                                    <a href="export2" class="btn btn-danger btn-color">
+                                    <a href="export2" class="btn btn-danger btn-color sz">
                                         <i class="fa fa-file-excel-o h sz"></i> XLS
                                     </a>
                                 </div>
@@ -222,7 +222,7 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <br>
-                                                    <button type="submit" class="btn btn-primary btn-color">
+                                                    <button type="submit" class="btn btn-primary btn-color sz">
                                                         <i class="fa fa-search sz icon-white"></i> FILTRAR
                                                     </button>
                                                 </div>
@@ -269,7 +269,7 @@
 
                                                 foreach ($registros as $key => $value) {
                                                 ?>
-                                                    <tr <tr class="" style="font-size:14px;font-family: monospace;">>
+                                                    <tr class="" style="font-size:14px;font-family: monospace;">
                                                         <th><?= $cnt++; ?></th>                                                            
                                                         <td><?= $value->nombre ?></td>
                                                         <td><?= $value->inicio ?></td>
@@ -293,7 +293,7 @@
                                                 $suma_efectivo          += $value->efectivo;
                                                 $suma_tcredito          += number_format($value->tcredito,2);
                                                 $suma_cheque            += number_format($value->cheque,2);
-                                                $suma_credito           += number_format($value->cheque,2);
+                                                $suma_credito           += number_format($value->credito,2);
                                                 }
                                                 ?>
                                                 <thead class="header_report">

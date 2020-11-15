@@ -127,11 +127,14 @@
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <br>
-                                    <a href="#" class="btn btn-info btn-color" onclick="exportPdf()">
+                                    <a href="#" class="btn btn-info btn-color sz" onclick="exportPdf()">
                                         <i class="fa fa-file-pdf-o sz"></i> PDF
                                     </a>
-                                    <a href="export2" class="btn btn-info btn-color">
+                                    <a href="export2" class="btn btn-info btn-color sz">
                                         <i class="fa fa-file-excel-o h sz"></i> XLS
+                                    </a>
+                                    <a href="#" class="btn btn-info btn-color sz" id="ticketModal">
+                                        <i class="fa fa-file sz"></i> Ticket
                                     </a>
                                 </div>
                             </div>
@@ -265,10 +268,9 @@
                                                     }else{
                                                         ?>
                                                         <input type="hidden" name="corteValido" value="<?php echo $corteUnico; ?>"/>
-                                                        <button type="submit" class="btn btn-success">
-                                                            <i class="fa fa-arrow-right sz icon-white"></i> CORTAR
+                                                        <button type="submit" class="btn btn-success sz">
+                                                            CORTAR
                                                         </button>
-                                                        <a href="#" class="btn btn-default" id="ticketModal">Ticket</a>
                                                         <?php
                                                     }
                                                     ?>

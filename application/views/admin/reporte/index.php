@@ -72,10 +72,10 @@
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <br>
-                                    <a href="#" class="btn btn-primary" onclick="exportPdf()">
+                                    <a href="#" class="btn btn-primary sz" onclick="exportPdf()">
                                         <i class="fa fa-file-pdf-o sz"></i> PDF
                                     </a>
-                                    <a href="export" class="btn btn-primary">
+                                    <a href="export" class="btn btn-primary sz">
                                         <i class="fa fa-file-excel-o h sz"></i> XLS
                                     </a>
                                 </div>
@@ -202,7 +202,7 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <br>
-                                                    <button type="submit" class="btn btn-primary">
+                                                    <button type="submit" class="btn btn-primary sz">
                                                         <i class="fa fa-search sz icon-white"></i> Filtrar
                                                     </button>
                                                 </div>
