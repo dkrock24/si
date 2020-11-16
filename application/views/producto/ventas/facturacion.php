@@ -171,6 +171,12 @@ include("asstes/pos_orden.php");
 
                 <div class="row">
                     <div class="col-lg-8 col-md-8">
+                        <?php
+                            $linea = "";
+                            if($temp[0]->imprimir_lineas_documento){
+                                $linea = "border-bottom";
+                            }
+                        ?>
                         <?php include("asstes/temp/" . $file . ".php"); ?>
                     </div>
                     <div class="col-lg-4 col-md-4" style="border-left:1px dashed black;height:900px;position: relative;float:right;margin:0px;">

@@ -11,38 +11,12 @@
 }
 @media print { 
 
-    .border-total-0{
-        border:0px dashed black;
+    table {        
+        border-collapse: collapse;
     }
 
-    .border-total-1{
-        border:1px dashed black;
-    }
+    #space { height: 750px; }
 
-    tr .border-top{
-        border-top:1px dashed black;
-    }
-    .border-bottom{
-        border-bottom:1px dashed black;
-    }
-    .border-left{
-        border-left:1px dashed black;
-    }
-    .border-right{
-        border-right:1px dashed black;
-    }
-    .text-center{
-        text-align:center;
-    }
-    .text-left{
-        text-align:left;
-    }
-    .text-right{
-        text-align:right;
-    }
-    .font-family{
-        font-family: monospace;
-    }
 }
 
 .border-total-0{
@@ -57,7 +31,9 @@
     border-top:1px dashed black;
 }
 .border-bottom{
-    border-bottom:1px dashed black;
+    border-top:1px solid black;
+    padding: 5px;
+    margin: 10px;
 }
 .border-left{
     border-left:1px dashed black;
@@ -77,3 +53,5 @@
 .font-family{
     font-family: monospace;
 }
+
+

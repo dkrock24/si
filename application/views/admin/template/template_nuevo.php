@@ -575,6 +575,20 @@
 																<div class="row">
 																	<div class="col-md-6"><b>Nombre</b> <input type="text" name="factura_nombre" value="" class="form-control"></div>
 																	<div class="col-md-6"><b>Descripcion</b> <input type="text" name="factura_descripcion" value="" class="form-control"><br></div>
+																	
+																	<div class="col-md-6"><b>Imprimir Lineas En Formato</b> 
+																		<select class="form-control" name="imprimir_lineas_documento" >
+																			<option value="1">Si</option>
+																			<option value="0">No</option>
+																		</select>
+																	</div>
+																	<div class="col-md-6"><b>Imprimir Lineas En Copias </b> 
+																		<select class="form-control" name="imprimir_lineas_copia" >
+																			<option value="1">Si</option>
+																			<option value="0">No</option>
+																		</select>
+																	<br></div>
+																	
 																	<div class="col-md-6"><b>Lineas</b> <input type="text" name="factura_lineas" value="" class="form-control"></div>
 																	<div class="col-md-6"><b>Estado</b> <input type="text" name="factura_estatus" value="1" class="form-control"></div>
 																</div>

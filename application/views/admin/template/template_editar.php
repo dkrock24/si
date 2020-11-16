@@ -329,90 +329,90 @@
 
 					<!-- START panel-->
 					<form action="../update" method="post">
-					<div class="panel" style="background:#dadada">
-						<div class="panel-heading" id="giro_nombre2"></div>
-						<!-- START table-responsive-->
+						<div class="panel" style="background:#dadada">
+							<div class="panel-heading" id="giro_nombre2"></div>
+							<!-- START table-responsive-->
 
-						<div class="row">
+							<div class="row">
 
-							<div class="container-fluid main-container" style="background:#dadada">
-								<div class="col-md-2 ">
-									<ul class="nav nav-pills nav-stacked collapse navbar-collapse navbar-ex1-collapse">
-										<li style="padding:10px;">
-											<div class="btn-group btn-left">
-												<button data-toggle="dropdown" class="btn btn-info btn-left">HTML <b class="caret"></b>
-												</button>
-												<ul role="menu" class="dropdown-menu animated bounceIn">
-													<li><a href="#" id="div" name="html" class="control">Div</a></li>
-													<li><a href="#" id="p" name="html" class="control">P</a></li>
-													<li><a href="#" id="label" name="html" class="control">Label</a></li>
-												</ul>
-											</div>
-										</li>
-										<li style="padding:10px;">
-											<div class="btn-group btn-left">
-												<button data-toggle="dropdown" class="btn btn-info btn-left">TABLE <b class="caret"></b>
-												</button>
-												<ul role="menu" class="dropdown-menu animated bounceIn">
-													<li><a href="#" id="table2" name="table" class="control"> Super Table</a></li>
-													<li><a href="#" id="<table></table>" name="table" class="control"> Table</a></li>
-													<li><a href="#" id="<tr></tr>" name="table" class="control"> Tr</a></li>
-													<li><a href="#" id="<td></td>" name="table" class="control"> Td</a></li>
-													<li><a href="#" id="colspan=" name="table" class="control"> Colspan</a></li>
-													<li><a href="#" id="celspan=" name="table"> Celspan</a></li>
-													<li><a href="#" id="border=" name="table" class="control"> Border</a></li>
-												</ul>
-											</div>
-										</li>
-										<li style="padding:10px;">
+								<div class="container-fluid main-container" style="background:#dadada">
+									<div class="col-md-2 ">
+										<ul class="nav nav-pills nav-stacked collapse navbar-collapse navbar-ex1-collapse">
+											<li style="padding:10px;">
+												<div class="btn-group btn-left">
+													<button data-toggle="dropdown" class="btn btn-info btn-left">HTML <b class="caret"></b>
+													</button>
+													<ul role="menu" class="dropdown-menu animated bounceIn">
+														<li><a href="#" id="div" name="html" class="control">Div</a></li>
+														<li><a href="#" id="p" name="html" class="control">P</a></li>
+														<li><a href="#" id="label" name="html" class="control">Label</a></li>
+													</ul>
+												</div>
+											</li>
+											<li style="padding:10px;">
+												<div class="btn-group btn-left">
+													<button data-toggle="dropdown" class="btn btn-info btn-left">TABLE <b class="caret"></b>
+													</button>
+													<ul role="menu" class="dropdown-menu animated bounceIn">
+														<li><a href="#" id="table2" name="table" class="control"> Super Table</a></li>
+														<li><a href="#" id="<table></table>" name="table" class="control"> Table</a></li>
+														<li><a href="#" id="<tr></tr>" name="table" class="control"> Tr</a></li>
+														<li><a href="#" id="<td></td>" name="table" class="control"> Td</a></li>
+														<li><a href="#" id="colspan=" name="table" class="control"> Colspan</a></li>
+														<li><a href="#" id="celspan=" name="table"> Celspan</a></li>
+														<li><a href="#" id="border=" name="table" class="control"> Border</a></li>
+													</ul>
+												</div>
+											</li>
+											<li style="padding:10px;">
 
-											<div class="btn-group btn-left">
-												<button data-toggle="dropdown" class="btn btn-info btn-left">STYLE <b class="caret"></b>
-												</button>
-												<ul role="menu" class="dropdown-menu animated bounceIn">
-													<li><a href="#" id="color" name="style" class="control"> Color</a></li>
-													<li><a href="#" id="style" name="style" class="control"> Style</a></li>
-													<li><a href="#" id="height" name="style" class="control"> Height</a></li>
-													<li><a href="#" id="width" name="style" class="control"> Width</a></li>
-													<li><a href="#" id="padding" name="style" class="control"> Padding</a></li>
-													<li><a href="#" id="margin" name="style" class="control"> Margin</a></li>
-													<li><a href="#" id="bgcolor" name="style" class="control"> Bgcolor</a></li>
-													<li><a href="#" id="background" name="style" class="control"> Background</a></li>
-												</ul>
-											</div>
-										</li>
-										<li style="padding:10px;">
+												<div class="btn-group btn-left">
+													<button data-toggle="dropdown" class="btn btn-info btn-left">STYLE <b class="caret"></b>
+													</button>
+													<ul role="menu" class="dropdown-menu animated bounceIn">
+														<li><a href="#" id="color" name="style" class="control"> Color</a></li>
+														<li><a href="#" id="style" name="style" class="control"> Style</a></li>
+														<li><a href="#" id="height" name="style" class="control"> Height</a></li>
+														<li><a href="#" id="width" name="style" class="control"> Width</a></li>
+														<li><a href="#" id="padding" name="style" class="control"> Padding</a></li>
+														<li><a href="#" id="margin" name="style" class="control"> Margin</a></li>
+														<li><a href="#" id="bgcolor" name="style" class="control"> Bgcolor</a></li>
+														<li><a href="#" id="background" name="style" class="control"> Background</a></li>
+													</ul>
+												</div>
+											</li>
+											<li style="padding:10px;">
 
-											<div class="btn-group btn-left">
-												<button data-toggle="dropdown" class="btn btn-info btn-left">PHP <b class="caret"></b>
-												</button>
-												<ul role="menu" class="dropdown-menu animated bounceIn">
-													<li><a href="#" id="date" name="php" class="control"> Date</a></li>
-													<li><a href="#" id="subtotal" name="php" class="control"> Sub Total</a></li>
-													<li><a href="#" id="total" name="php" class="control"> Total</a></li>
-													<li><a href="#" id="foreach" name="php" class="control"> Foreach</a></li>
-												</ul>
-											</div>
-										</li>
-										<li id="delete" class="control" style="padding:10px;">
+												<div class="btn-group btn-left">
+													<button data-toggle="dropdown" class="btn btn-info btn-left">PHP <b class="caret"></b>
+													</button>
+													<ul role="menu" class="dropdown-menu animated bounceIn">
+														<li><a href="#" id="date" name="php" class="control"> Date</a></li>
+														<li><a href="#" id="subtotal" name="php" class="control"> Sub Total</a></li>
+														<li><a href="#" id="total" name="php" class="control"> Total</a></li>
+														<li><a href="#" id="foreach" name="php" class="control"> Foreach</a></li>
+													</ul>
+												</div>
+											</li>
+											<li id="delete" class="control" style="padding:10px;">
 
-											<div class="btn-group btn-left">
-												<button data-toggle="dropdown" class="btn btn-info btn-left">Delete <b class="caret"></b>
-												</button>
-												<ul role="menu" class="dropdown-menu animated bounceIn">
-													<a href="#"> Delete</a>
-												</ul>
-											</div>
-										</li>
-										<li style="padding:10px;">
-											<button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
-										</li>
-									</ul>
-								</div>
+												<div class="btn-group btn-left">
+													<button data-toggle="dropdown" class="btn btn-info btn-left">Delete <b class="caret"></b>
+													</button>
+													<ul role="menu" class="dropdown-menu animated bounceIn">
+														<a href="#"> Delete</a>
+													</ul>
+												</div>
+											</li>
+											<li style="padding:10px;">
+												<button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+											</li>
+										</ul>
+									</div>
 
-								<div class="col-md-10 content" style="height: 100%">
-									<div class="panel " style="background:#dadada">
-										
+									<div class="col-md-10 content" style="height: 100%">
+										<div class="panel " style="background:#dadada">
+
 											<input type="hidden" name="id_factura" value="<?php echo $formato[0]->id_factura ?>">
 											<div class="panel-body">
 
@@ -573,98 +573,122 @@
 
 
 											</div>
-										
-									</div>
 
-
-								</div>
-
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-12 ">
-								<div class="container-fluid main-container" style="background:#dadada">
-
-									<div class="col-md-6 content">
-										<div class="panel panel-info" style="padding:10px;">
-
-											<div class="panel-heading" style="background: ##4d555d;color: white;">
-												EDITOR <span>
-													<input type="submit" class="btn btn-info" name="enviar" value="Guardar" style="float: right;" />
-													<a href="#" class="btn btn-default" id="button">Copiar</a>
-												</span>
-											</div>
-											<div class="panel-body">
-
-												<textarea name="template_html" id="template_html" cols="30" rows="25" class="form-control" value=""></textarea>
-
-
-											</div>
 										</div>
-									</div>
-									<div class="col-md-6 content">
-										<div class="panel panel-info" style="border: 1px dashed #0f4871;padding:10px;overflow-x: scroll;">
-											<div class="panel-heading" style="background: ##4d555d;color: white;">
-												VISTA PREVIA
-											</div>
-											<div class="panel-body">
-												<span class="html" style="width:100%; height:100px; "></span>
-											</div>
-										</div>
+
+
 									</div>
 
 								</div>
 							</div>
-						</div>
 
-						<div class="row">
-							<div class="col-md-12 ">
-								<div class="container-fluid main-container" style="background:#dadada">
+							<div class="row">
+								<div class="col-md-12 ">
+									<div class="container-fluid main-container" style="background:#dadada">
 
-									<div class="col-md-6 content">
-										<div class="panel panel-info" style="border: 1px dashed #0f4871;padding:10px;">
-											<div class="panel-heading" style="background: ##4d555d;color: white;">
-												CODIGO FUENTE
-											</div>
-											<div class="panel-body">
-												<span class="template_php" name="template_php" id="template_php" style="width:100%; height:100px; "></span>
-											</div>
-										</div>
-									</div>
+										<div class="col-md-6 content">
+											<div class="panel panel-info" style="padding:10px;">
 
-									<div class="col-md-6 content">
-										<div class="panel panel-info" style="border: 1px dashed #0f4871;padding:10px;">
-											<div class="panel-heading" style="background: #4d555d;color: white;">
-												PARAMETROS
-											</div>
-											<div class="panel-body">
-												<div class="row">
-													<div class="col-md-6"><b>Nombre</b> <input type="text" name="factura_nombre" value="<?php echo $formato[0]->factura_nombre ?>" class="form-control"></div>
-													<div class="col-md-6"><b>Descripcion</b> <input type="text" name="factura_descripcion" value="<?php echo $formato[0]->factura_descripcion ?>" class="form-control"><br></div>
-													<div class="col-md-6"><b>Lineas</b> <input type="text" name="factura_lineas" value="<?php echo $formato[0]->factura_lineas ?>" class="form-control"></div>
-													<div class="col-md-6"><b>Estado</b> <input type="text" name="factura_estatus" value="<?php echo $formato[0]->factura_estatus ?>" class="form-control"></div>
+												<div class="panel-heading" style="background: ##4d555d;color: white;">
+													EDITOR <span>
+														<input type="submit" class="btn btn-info" name="enviar" value="Guardar" style="float: right;" />
+														<a href="#" class="btn btn-default" id="button">Copiar</a>
+													</span>
 												</div>
+												<div class="panel-body">
 
+													<textarea name="template_html" id="template_html" cols="30" rows="25" class="form-control" value=""></textarea>
+
+
+												</div>
 											</div>
 										</div>
+										<div class="col-md-6 content">
+											<div class="panel panel-info" style="border: 1px dashed #0f4871;padding:10px;overflow-x: scroll;">
+												<div class="panel-heading" style="background: ##4d555d;color: white;">
+													VISTA PREVIA
+												</div>
+												<div class="panel-body">
+													<span class="html" style="width:100%; height:100px; "></span>
+												</div>
+											</div>
+										</div>
+
 									</div>
-
-
 								</div>
 							</div>
-						</div>						
 
-						<div class="row">
-							<div class="col-md-12 content">
-								<xmp id="myData"> <?php echo $formato[0]->factura_template; ?> </xmp>
+							<div class="row">
+								<div class="col-md-12 ">
+									<div class="container-fluid main-container" style="background:#dadada">
+
+										<div class="col-md-6 content">
+											<div class="panel panel-info" style="border: 1px dashed #0f4871;padding:10px;">
+												<div class="panel-heading" style="background: ##4d555d;color: white;">
+													CODIGO FUENTE
+												</div>
+												<div class="panel-body">
+													<span class="template_php" name="template_php" id="template_php" style="width:100%; height:100px; "></span>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-6 content">
+											<div class="panel panel-info" style="border: 1px dashed #0f4871;padding:10px;">
+												<div class="panel-heading" style="background: #4d555d;color: white;">
+													PARAMETROS
+												</div>
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-md-6"><b>Nombre</b> <input type="text" name="factura_nombre" value="<?php echo $formato[0]->factura_nombre ?>" class="form-control"></div>
+														<div class="col-md-6"><b>Descripcion</b> <input type="text" name="factura_descripcion" value="<?php echo $formato[0]->factura_descripcion ?>" class="form-control"><br></div>
+
+														<div class="col-md-6"><b>Imprimir Lineas En Formato</b>
+															<select class="form-control" name="imprimir_lineas_documento">
+																<?php if($formato[0]->imprimir_lineas_documento) : ?>
+																<option value="1">Si</option>
+																<option value="0">No</option>
+																<?php else: ?>
+																	<option value="0">No</option>
+																<option value="1">Si</option>
+																<?php endif ?>
+															</select>
+														</div>
+														<div class="col-md-6"><b>Imprimir Lineas En Copias </b>
+															<select class="form-control" name="imprimir_lineas_copia">
+																<?php if($formato[0]->imprimir_lineas_copia) : ?>
+																	<option value="1">Si</option>
+																	<option value="0">No</option>
+																	<?php else: ?>
+																		<option value="0">No</option>
+																	<option value="1">Si</option>
+																	<?php endif ?>
+																</select>
+															<br></div>
+
+														<div class="col-md-6"><b>Lineas</b> <input type="text" name="factura_lineas" value="<?php echo $formato[0]->factura_lineas ?>" class="form-control"></div>
+														<div class="col-md-6"><b>Estado</b> <input type="text" name="factura_estatus" value="<?php echo $formato[0]->factura_estatus ?>" class="form-control"></div>
+													</div>
+
+												</div>
+											</div>
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-12 content">
+									<xmp id="myData"> <?php echo $formato[0]->factura_template; ?> </xmp>
+								</div>
+							</div>
+
+							<!-- END table-responsive-->
+							<div class="panel-footer" style="background:#dadada">
 							</div>
 						</div>
-
-						<!-- END table-responsive-->
-						<div class="panel-footer" style="background:#dadada">
-						</div>
-					</div>
 					</form>
 					<!-- END panel-->
 

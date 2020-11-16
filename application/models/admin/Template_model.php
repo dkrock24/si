@@ -16,7 +16,7 @@ class Template_model extends CI_Model {
     const pos_temp_sucursal = 'pos_temp_sucursal';
     const pos_tipo_documento= 'pos_tipo_documento';
 
-	function get_cliente(){
+	public function get_cliente(){
 		$this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,TipoDocumento');
         $this->db->from(self::cliente);
         $this->db->join(self::tipos_documentos,' on '.self::cliente.'.TipoDocumento='.self::tipos_documentos.'.id_tipo_documento');
@@ -31,7 +31,7 @@ class Template_model extends CI_Model {
         }
 	}
 
-    function get_cliente_by_id2($id){
+    public function get_cliente_by_id2($id){
         $this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,porcentage_descuentos,TipoDocumento,TipoPago');
         $this->db->from(self::cliente);
         $this->db->join(self::tipos_documentos,' on '.self::cliente.'.TipoDocumento='.self::tipos_documentos.'.id_tipo_documento');
@@ -48,7 +48,7 @@ class Template_model extends CI_Model {
         }
     }
 
-    function get_clientes_id( $cliente_id ){
+    public function get_clientes_id( $cliente_id ){
 
         $this->db->select('*');
         $this->db->from(self::cliente);
@@ -66,7 +66,7 @@ class Template_model extends CI_Model {
         }
     }
 
-    function getAllTemplate( $limit, $id , $filters){ 
+    public function getAllTemplate( $limit, $id , $filters){ 
         $this->db->select('*');
         $this->db->from(self::pos_doc_temp.' as td');
         $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = td.factura_estatus');
@@ -91,7 +91,7 @@ class Template_model extends CI_Model {
         }
     }
 
-    function get_template(){ 
+    public function get_template(){ 
 
         $this->db->select('*');
         $this->db->from(self::pos_doc_temp.' as td');
@@ -105,7 +105,7 @@ class Template_model extends CI_Model {
         }
     }
 
-    function getTemplateBySucursal( $template , $documento ){
+    public function getTemplateBySucursal( $template , $documento ){
         //$this->db->select('td.id_factura,td.factura_nombre,td.factura_descripcion , dt.nombre, s.nombre_sucursal,ts.id_temp_suc,ts.estado_suc_tem');
         $this->db->select('*');
         $this->db->from(self::pos_doc_temp.' as td');
@@ -124,7 +124,7 @@ class Template_model extends CI_Model {
         }
     }
 
-    function get_sucursales(){
+    public function get_sucursales(){
         $this->db->select('*');        
         $this->db->from(self::sucursal);
         $this->db->where('sucursal_estado = 1');
@@ -138,7 +138,7 @@ class Template_model extends CI_Model {
         }
     }
 
-    function update_pago( $id_tabla , $id_pago ){
+    public function update_pago( $id_tabla , $id_pago ){
         
         $data = array('Pago' => $id_pago );
 
@@ -147,7 +147,7 @@ class Template_model extends CI_Model {
         //$this->db->update(self::pos_temp_sucursal, $data);
     }
 
-    function eliminar( $id_template ){
+    public function eliminar( $id_template ){
 
         // Delete Template Sucursal
         $this->db->where('id_factura' , $id_template );
@@ -169,7 +169,7 @@ class Template_model extends CI_Model {
         
     }
 
-    function associar_sucursal( $data ){
+    public function associar_sucursal( $data ){
         $d = $data['documento_id'];
         $f = $data['factura_id'];
         foreach ($data as $key => $b) 
@@ -211,7 +211,7 @@ class Template_model extends CI_Model {
         }
     }
 
-    function get_template_sucursal( $sucursal , $documento , $factura ){
+    public function get_template_sucursal( $sucursal , $documento , $factura ){
         $this->db->select('*');
         $this->db->from(self::pos_temp_sucursal);
         $this->db->where('Sucursal', $sucursal );
@@ -225,7 +225,7 @@ class Template_model extends CI_Model {
         }
     }
 
-    function activacion_sucursal( $datos ){
+    public function activacion_sucursal( $datos ){
         // Activar o Desactivar Template de la socursal
         
         $d = $datos['documento_id'];
@@ -258,7 +258,7 @@ class Template_model extends CI_Model {
         }  
     }
 
-    function get_template_activacion(  $documento , $factura ){
+    public function get_template_activacion(  $documento , $factura ){
     
         $this->db->select('*');
         $this->db->from(self::pos_temp_sucursal);
@@ -272,7 +272,7 @@ class Template_model extends CI_Model {
         }
     }
 
-    function getTipoPago(){
+    public function getTipoPago(){
         $this->db->select('*');
         $this->db->from(self::pos_formas_pago);
         $query = $this->db->get(); 
@@ -284,14 +284,14 @@ class Template_model extends CI_Model {
         }
     }
 
-    function record_count($filter){
+    public function record_count($filter){
         $this->db->where('Empresa',$this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from(self::pos_doc_temp);
         $result = $this->db->count_all_results();
         return $result;
     }
 
-    function crear_template($datos){
+    public function crear_template($datos){
 
         $html = addslashes($datos['template_html']);
         
@@ -302,13 +302,15 @@ class Template_model extends CI_Model {
             'factura_lineas'        => $datos['factura_lineas'],
             'factura_estatus'       => $datos['factura_estatus'],
             'factura_creado'        => date("Y-m-d h:i:s"),
+            'imprimir_lineas_documento' => $datos['imprimir_lineas_documento'],
+            'imprimir_lineas_copia' => $datos['imprimir_lineas_copia'],
             'Empresa'               => $this->session->empresa[0]->id_empresa
         );
         
         $this->db->insert(self::pos_doc_temp, $data);  
     }
 
-    function getFormatoId($formato_id){
+    public function getFormatoId($formato_id){
 
         $this->db->select('*');
         $this->db->from(self::pos_doc_temp);
@@ -322,7 +324,7 @@ class Template_model extends CI_Model {
         }
     }
 
-    function get_template_sucursal_documento( $sucursal , $documento  ){
+    public function get_template_sucursal_documento( $sucursal , $documento  ){
         $this->db->select('*');
         $this->db->from(self::pos_temp_sucursal. ' as ts');
         $this->db->join(self::pos_doc_temp.' as t ', 'ON t.id_factura = ts.Template');
@@ -336,7 +338,7 @@ class Template_model extends CI_Model {
         }
     }
 
-    function update($datos){
+    public function update($datos){
 
         $html = addslashes($datos['template_html']);
         
@@ -346,6 +348,8 @@ class Template_model extends CI_Model {
             'factura_template'      => $datos['template_html'],
             'factura_lineas'        => $datos['factura_lineas'],
             'factura_estatus'       => $datos['factura_estatus'],
+            'imprimir_lineas_documento' => $datos['imprimir_lineas_documento'],
+            'imprimir_lineas_copia' => $datos['imprimir_lineas_copia'],
             'factura_update'        => date("Y-m-d h:i:s")
         ); 
 
@@ -354,7 +358,7 @@ class Template_model extends CI_Model {
     }
 
     //Test Printer
-    function printer( $orden , $sucursal_id , $documento_id , $pago){
+    public function printer( $orden , $sucursal_id , $documento_id , $pago){
         
         $this->db->select('td.*,ts.*,s.*,e.nombre_comercial,o.*,c.nombre_empresa_o_compania, d.nombre as documento_nombre');
         $this->db->from(self::pos_doc_temp.' as td');
@@ -382,7 +386,7 @@ class Template_model extends CI_Model {
     }
 
     //Test Printer Venta
-    function printer_venta( $orden , $sucursal_id , $documento_id , $pago){
+    public function printer_venta( $orden , $sucursal_id , $documento_id , $pago){
         
         $this->db->select('td.*,ts.*,s.*,e.nombre_comercial,o.*,c.nombre_empresa_o_compania, d.nombre as documento_nombre');
         $this->db->from(self::pos_doc_temp.' as td');
