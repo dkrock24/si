@@ -901,6 +901,9 @@ include("asstes/pos_orden.php");
                             <div class="col-lg-1 col-md-1"><br><br>
                                 <a href="#" class="btn bg-green addMetodoPago"><i class="fa fa-plus-circle"></i> Agregar</a>
                             </div>
+                            <div class="col-lg-9 col-md-9" style="text-align:right;color:#2b957a;">
+                                <h4><span class="mensajes_varios"></span></h4>
+                            </div>
                         </div>    
                         <div class="row" style="background:#f7f7f7;">
 

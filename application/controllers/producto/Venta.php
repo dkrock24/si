@@ -112,6 +112,21 @@ class Venta extends MY_Controller {
 		echo json_encode($data);
 	}
 
+
+	/**
+	 * Verificar correlativo si esta disponible para ser usado
+	 *
+	 * @param array $correlativos
+	 * @return void
+	 */
+	public function check_correlativo(){
+
+		if(isset($_POST)){
+			$result = $this->Venta_model->check_correlativo($_POST);
+			echo json_encode($result);
+		}
+	}
+
 	private function totalDocumentos($template , $totalProductos){
 		if ($totalProductos > 0) {
 			$productosEnDocumento = ((int) ($totalProductos / $template[0]->factura_lineas) +1);
@@ -163,15 +178,26 @@ class Venta extends MY_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	/**
+	 * Cargar venta para ser anulada o devuelta, 
+	 * hay dos parametros importantes, tipo documento, serie+correlativo = documento_numero 
+	 *
+	 * @return void
+	 */
 	public function autoload_venta(){
 
-		$componente_conf = "combo";		
+		$componente_conf = "combo";
 		$impuesto_conf 	 = "impuestos";
 
-		$data['orden_detalle'] 	= $this->Venta_model->get_venta($_POST['id']);
-		$data['conf'] 			= $this->Orden_model->getConfg($componente_conf);
-		$data['impuesto'] 		= $this->Orden_model->getConfgImpuesto($impuesto_conf);
-		
+		$venta = $this->Venta_model->check_venta($_POST);
+
+		if ($venta) {
+
+			$data['conf'] 			= $this->Orden_model->getConfg($componente_conf);
+			$data['impuesto'] 		= $this->Orden_model->getConfgImpuesto($impuesto_conf);
+			$data['orden_detalle'] 	= $this->Venta_model->get_venta($venta[0]->id);
+		}
+			
 		echo json_encode($data);
 	}
 

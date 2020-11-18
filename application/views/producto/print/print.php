@@ -5,8 +5,10 @@
 <?php
 
     $linea = "";
+    $border = "";
     if($temp[0]->imprimir_lineas_documento){
         $linea = "border-bottom";
+        $border = "border='1'";
     }
 
 include("asstes/temp/" . $file . ".php");

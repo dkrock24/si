@@ -289,13 +289,23 @@ class Venta_model extends CI_Model {
 					$numero = $correlativo_documento ;
 				}
 				
+				$correlativo_incremental = 0;
 				foreach ($this->_orden_concetrada as $key => $items) {
 					$siguiente_correlativo = $this->get_siguiente_correlativo( $sucursal , $documento );
 					$correlativo_final     = $this->correlativo_final($siguiente_correlativo[0]->siguiente_valor , $numero );
 
+					
+					/**
+					 *  Lista de correlativos cuando  es mas de  un documento
+					 */
 					if (isset($orden['correlativos_extra'])) {
-						$correlativosLista = $orden['correlativos_extra'];
-						$correlativo_final = $correlativosLista[$key-1];
+
+						if (!$correlativo_incremental) {
+							$correlativosLista = $orden['correlativos_extra'];
+							$correlativo_final = $correlativosLista[$key-1];
+						}else{
+							$correlativo_final++;
+						}
 					}
 
 					$data = array(
@@ -306,6 +316,8 @@ class Venta_model extends CI_Model {
 						'id_sucursal' 			=> $form['sucursal_destino'], //sucursal_destino
 						'id_tipod' 				=> $documento[0]->id_tipo_documento, //modo_pago_id
 						'num_correlativo'		=> $correlativo_final,
+						'serie_correlativo'		=> $siguiente_correlativo[0]->numero_de_serire,
+						'documento_numero'		=> $siguiente_correlativo[0]->numero_de_serire.$correlativo_final,
 						'comentarios' 			=> "",
 						'id_usuario' 			=> $id_usuario,
 						'fecha' 				=> date("Y-m-d h:i:s"),	            
@@ -1363,7 +1375,7 @@ class Venta_model extends CI_Model {
 			sucursal.nombre_sucursal,orden_estado ,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, 
 			oe.orden_estado_nombre, empresa.nombre_comercial, empresa.direccion,empresa.nrc,empresa.nit,giro.nombre_giro, giro.nombre_giro as
 			giro, emp.alias, t.nombre as terminal ,ventas.id_cliente , ventas.total_doc ,cliente.nit_cliente, cliente.nrc_cli,
-			venta_vista_id,ventas.devolucion_documento,ventas.doc_cliente_nombre,doc_cliente_identificacion,ventas.devolucion_nombre,
+			venta_vista_id,ventas.devolucion_documento,ventas.doc_cliente_nombre,doc_cliente_identificacion,ventas.devolucion_nombre,ventas.serie_correlativo,
 			ventas.devolucion_dui, ventas.devolucion_nit, ventas.desc_val, ventas.dinero_cobrado,ventas.dinero_cambio, anulado,anulado_el, anulado_conc,modi_el,caja.*,
 			(select pe.primer_nombre_persona as anulado_nombre from sys_usuario as us left join sys_empleado as em on us.Empleado = em.id_empleado 
 			left join sys_persona as pe on pe.id_persona = em.Persona_E WHERE us.id_usuario = anulado_por ) as anulado_nombre
@@ -1412,13 +1424,13 @@ class Venta_model extends CI_Model {
 
 		public function get_venta($venta){
 
-			$valores =  explode(",", $venta);
+			//$valores =  explode(",", $venta);
 		
 			$this->db->select('*');
 			$this->db->from(self::pos_ventas . ' as v');
 			$this->db->join(self::pos_venta_detalle . ' as vd',' on v.id = vd.id_venta');
 			//$this->db->where('o.orden_estado != 4');
-			$this->db->where_in('v.num_correlativo', $valores );
+			$this->db->where_in('v.id', $venta );
 			$query = $this->db->get();
 			//echo $this->db->queries[0];
 
@@ -1460,5 +1472,49 @@ class Venta_model extends CI_Model {
 				return $result;
 			}
 			return $result;
+		}
+
+		/**
+		 * Verificar si correlativo no se ha utilizado en ventas previas
+		 *
+		 * @param array $params
+		 * @return void
+		 */
+		public function check_correlativo(array $params) {
+
+			$this->db->select('v.*,td.nombre');
+			$this->db->from(self::pos_ventas. ' as v');
+			$this->db->join(self::pos_correlativos. ' as c', ' on c.Sucursal = v.id_sucursal');
+			$this->db->join(self::pos_tipo_documento. ' as td', ' on td.id_tipo_documento = v.id_tipod');
+			$this->db->where('v.id_sucursal', 		$params['input_sucursal']);
+			$this->db->where('v.id_tipod',			$params['documento'] );
+			$this->db->where('v.num_correlativo', 	$params['correlativo'] );
+			$this->db->where('c.numero_de_serire = v.serie_correlativo');
+			$query = $this->db->get();
+			//echo $this->db->queries[4];
+
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}
+		}
+
+		/**
+		 * Verificar si correlativo no se ha utilizado en ventas previas
+		 *
+		 * @param array $params
+		 * @return void
+		 */
+		public function check_venta(array $params) {
+
+			$this->db->select('v.id');
+			$this->db->from(self::pos_ventas. ' as v');
+			$this->db->where('v.documento_numero', 	$params['id'] );
+			$this->db->where('v.id_tipod', $params['documento_id'] );
+			$query = $this->db->get();
+			//echo $this->db->queries[4];
+
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}
 		}
     }

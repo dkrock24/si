@@ -26,12 +26,18 @@ class EfectosDocumento_model extends CI_Model {
             $cantidad = $this->get_cantidad_bodega($prod_id, $prod_bodega);
             
             if ($documento[0]->efecto_inventario == 1) {
+                // Suma a inventario
+                $cantidad_nueva = ($cantidad[0]->Cantidad + ($prod_cantidad * -1));
 
-                $cantidad_nueva = ($cantidad[0]->Cantidad + $prod_cantidad);
-
-            } else if ($documento[0]->efecto_inventario == 2){
+            } else if ($documento[0]->efecto_inventario == 2) {
                 
-                $cantidad_nueva = ($cantidad[0]->Cantidad - $prod_cantidad);
+                if ($prod_cantidad <= 0) {
+                    // Suma a inventario
+                    $cantidad_nueva = ($cantidad[0]->Cantidad + ($prod_cantidad * -1) );
+                } else {
+                    // Resta a inventario
+                    $cantidad_nueva = ($cantidad[0]->Cantidad - $prod_cantidad);
+                }
             }
 
             if (isset($cantidad_nueva)) {
@@ -57,7 +63,7 @@ class EfectosDocumento_model extends CI_Model {
         foreach ($orden['orden'] as $key => $productos) {
 
             $cantidad       = $this->get_cantidad_bodega($productos['producto_id'], $productos['id_bodega']);            
-            $cantidad_nueva = ($cantidad[0]->Cantidad + $productos['cantidad']);
+            $cantidad_nueva = ($cantidad[0]->Cantidad + ($productos['cantidad'] * -1) );
             
             $data = array(
                 'Cantidad'	=>  $cantidad_nueva

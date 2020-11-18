@@ -18,6 +18,8 @@
         var contadorCorrelativos    = 0;
         var total_venta             = 0.00;
         var total_cambio            = 0.00;
+        var _correlativos_lista     = [];
+        var correlativo_disponible  = false;
         
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
@@ -1829,14 +1831,48 @@
                     cantidad_por_documento = datos['cantidad_por_documento'];
                     
                     $.each(datos['numeros_correlativos'], function(i, item) {
-                        inputs += "<div class='col-lg-3 col-md-3'><input type='text' class='form-control correlativo"+item+"' name='correlativo"+increment+"' value='"+item+"' /></div>";
+                        inputs += "<div class='col-lg-3 col-md-3'><input type='text' class='form-control correlativo"+item+" lista_correlativos' name='"+item+"' value='"+item+"' id='correlativo"+item+"' /></div>";
                         $(".correlativo"+item).appendTo("body");
+                        _correlativos_lista[_correlativos_lista.length] = item;
                         increment++;
                         contadorCorrelativos++;
                     });
 
                     $(".correlativos_documentos").html(inputs);
                     depurar_producto();
+                },
+                error: function() {}
+            });
+        }
+
+        $(document).on('change','.lista_correlativos', function(){
+            var correlativo_documento   = $("#id_tipo_documento").val();
+            correlativo_id              = $(this).attr('id');
+            var correlativo_numero      = $(this).val();            
+
+            verificar_correlativo(correlativo_documento, correlativo_numero);
+        });
+
+        function verificar_correlativo(documento , correlativo){
+            data = { documento,correlativo,input_sucursal };
+            $.ajax({
+                type: 'POST',
+                url: path + "../venta/check_correlativo",
+                data : data,
+                cache: false,
+                datatype: 'json',
+
+                success: function(data) {
+                    var venta = JSON.parse(data);
+                    venta = venta ? venta[0] : venta;
+                    console.log(venta);
+                    if (venta != null) {
+                        correlativo_disponible = true;
+                        $(".mensajes_varios").text(venta.nombre + venta.serie_correlativo + venta.num_correlativo +" no disponible");
+                    }else{
+                        correlativo_disponible = false;
+                        $(".mensajes_varios").text("");
+                    }
                 },
                 error: function() {}
             });
@@ -1985,7 +2021,7 @@
 
             $("#cambio_venta").text(cambio);
 
-            if (cambio == 0) {
+            if (cambio == 0 && !correlativo_disponible) {
                 $("#cambio_venta").text(0.00);
                 $("#restante_venta").text(0.00);
                 $('#procesar_btn').show();
@@ -2182,7 +2218,9 @@
                 $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
             });
         });
-
+/**
+ * PROCESAR VENTA
+ */
         function procesar_venta(method) {
 
             var tipo_documento  = $("#id_tipo_documento").val();

@@ -8,7 +8,6 @@
             dataInputs = ['check_devolucion','nota_devolucion','check_anulacion','nota_anulacion',
                 'input_devolucion','input_devolucion_nombre','input_devolucion_dui','input_devolucion_nit'];
         });
-        
 
         // OBTENER ORDENES PARA CONVERTIRLAS A VENTA
         
@@ -64,6 +63,9 @@
             }
         });
 
+        /**
+         *  Obtener venta apartir de su documento
+         */
         $(document).on('keypress', '.input_devolucion_btn', function(e) {
             // Cargar Venta en pantalla
             if (e.keyCode == 13) {                
@@ -116,7 +118,8 @@
                 url: "../venta/autoload_venta",
                 datatype: 'json',
                 data: {
-                    id: venta_id
+                    id: venta_id,
+                    documento_id: $("#id_tipo_documento").val()
                 },
                 cache: false,
 
@@ -141,7 +144,7 @@
                         if(this.convetirToNegativo == true || this.convetirToAnulado == true){
                             venta[venta.indexOf(element)].precioUnidad = element.precioUnidad * -1;
                             venta[venta.indexOf(element)].total = element.total * -1;
-                            console.log("##################");
+                            venta[venta.indexOf(element)].cantidad = element.cantidad * -1;
                         }
                         contador_ingreso++;
                     });
