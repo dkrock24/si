@@ -54,7 +54,7 @@
                     <p>
                         <h3>
                             <i class="fa fa-cart-arrow-down sz2"></i>
-                            Venta Información : <span class="label label-default" style="color:black"># <strong><?php echo $encabezado[0]->num_correlativo; ?></strong></span>
+                            Venta Información : <span class="label label-default" style="color:black"># <strong><?php echo $encabezado[0]->serie_correlativo ."-". $encabezado[0]->num_correlativo; ?></strong></span>
                             <?php $date = date_create($encabezado[0]->fecha);  ?>
                             <span class="label label-default 2x-lg mover_right" style="color:black"><?php echo date_format($date, "m/d/Y"). " |"; ?> <span class="label label-success 2x-lg mover_right"> <?php echo date_format($date, "H:i a"); ?></span></span>
                         </h3>

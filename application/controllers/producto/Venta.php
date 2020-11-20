@@ -335,20 +335,21 @@ class Venta extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Correlativo','Sucursal','Terminal','Cliente','Cajero','C Pago','Tipo Doc','Descuento','Total','Creado','Estado'
+			'Documento','Serie','Correlativo','Sucursal','Terminal','Cliente','Cajero','C Pago','Descuento','Total','Creado','Estado'
 		);
 		return $column;
 	}
 
 	public function fields(){
 		$fields['field'] = array(
+			['tipo_documento' => 'Tipo Doc'],
+			['documento_numero' => 'Serie'],
 			['num_correlativo' => 'Correlativo'],
 			['nombre_sucursal' => 'Sucursal'],
 			['num_caja' => 'Terminal'],
 			['nombre_empresa_o_compania' => 'Cliente'],
 			['nombre_usuario' => 'Cajero'],
 			['nombre_modo_pago' => 'C Pago'],
-			['tipo_documento' => 'Tipo Doc'],
 			['desc_val' => 'Descuento'],
 			['total_doc' => 'Total'],
 			['fecha' => 'Creado'],

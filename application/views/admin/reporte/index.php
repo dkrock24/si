@@ -219,7 +219,6 @@
                                                 <thead class="header_report">
                                                     <tr >
                                                         <th style="color:#fff">#</th>
-                                                        <th style="color:#fff">Id</th>
                                                         <th style="color:#fff">Sucursal</th>
                                                         <th style="color:#fff">Documento</th>
                                                         <th style="color:#fff">Número</th>
@@ -244,21 +243,21 @@
                                                     $grabado = 0;
                                                     $grabado = $value->grabado + $value->impuesto;
                                                     $exento  = !$value->p_inc_imp0 ? ($value->exento  + $value->impuesto) : $value->exento;
+                                                    $fecha=date_create($value->fh_inicio);
                                                 ?>
                                                 <tbody>
                                                     <tr class="" style="font-size:14px;font-family: monospace;">
                                                         <th><?php echo $cnt++; ?></th>
-                                                        <td><?php echo $value->id ?></td>
                                                         <td><?php echo $value->nombre_sucursal ?></td>
                                                         <td><?php echo $value->nombre ?></td>
-                                                        <td><?php echo $value->num_correlativo ?></td>
-                                                        <td><?php echo $value->fh_inicio ?></td>
-                                                        <td><?php echo  $value->id_cliente." ".$value->nombre_empresa_o_compania ?></td>
+                                                        <td><?php echo $value->documento_numero ?></td>
+                                                        <td><?php echo date_format($fecha, 'd/M/Y H:i') ?></td>
+                                                        <td><?php echo  $value->id_cliente."-".$value->nombre_empresa_o_compania ?></td>
                                                         <td><?php echo $value->nombre_metodo_pago ?></td>
-                                                        <td><?php echo $value->producto_total ?></td>
-                                                        <td><?php echo $moneda . number_format($grabado, 2) ?></td>
-                                                        <td><?php echo $moneda . number_format($exento, 2) ?></td>
-                                                        <td><?php echo $moneda . number_format($grabado+$exento, 2) ?></td>
+                                                        <td style="text-align:right"><?php echo $value->producto_total ?></td>
+                                                        <td style="text-align:right"><?php echo $moneda . number_format($grabado, 2) ?></td>
+                                                        <td style="text-align:right"><?php echo $moneda . number_format($exento, 2) ?></td>
+                                                        <td style="text-align:right"><?php echo $moneda . number_format($grabado+$exento, 2) ?></td>
                                                         <td><?php echo $value->orden_estado_nombre ?></td>
                                                         <td>
                                                             <a href="../../producto/venta/ver/<?php echo  $value->id ?>" target="_blank">

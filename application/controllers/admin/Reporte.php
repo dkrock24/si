@@ -130,14 +130,14 @@ class Reporte extends My_Controller {
 			);
 		}
 
-		$data['fields'] 	= $this->fields();
-		$data['menu'] = $this->session->menu;
+		$data['fields']	= $this->fields();
+		$data['menu'] 	= $this->session->menu;
 		$data['moneda'] = $this->session->empresa[0]->moneda_simbolo;
-        $data['title'] = 'Reportes';
-		$data['home'] = 'admin/reporte/concentrado';
+        $data['title'] 	= 'Reportes';
+		$data['home'] 	= 'admin/reporte/concentrado';
 		
-		$_SESSION['registros']  = $data['registros'];
-		$_SESSION['Vista']  = $data['title'];
+		$_SESSION['Vista']     = $data['title'];
+		$_SESSION['registros'] = $data['registros'];
 
 		$this->parser->parse('template', $data);
 	}

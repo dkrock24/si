@@ -257,23 +257,9 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <br>
-                                                   
-                                                    <?php
-                                                    if ($registros == 1) {
-                                                        ?>
-                                                         <button type="submit" class="btn btn-color">
+                                                    <button type="submit" class="btn btn-color">
                                                             <i class="fa fa-search sz icon-white"></i> FILTRAR
-                                                        </button>
-                                                        <?php
-                                                    }else{
-                                                        ?>
-                                                        <input type="hidden" name="corteValido" value="<?php echo $corteUnico; ?>"/>
-                                                        <button type="submit" class="btn btn-success sz">
-                                                            CORTAR
-                                                        </button>
-                                                        <?php
-                                                    }
-                                                    ?>
+                                                    </button>
                                                 </div>
                                             </div>
 
@@ -352,6 +338,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <?php
+                            if ($registros != 1) {
+                                ?>                                                       
+                                <input type="hidden" name="corteValido" value="<?php echo $corteUnico; ?>"/>
+                                <button type="submit" class="btn btn-success sz" style="float:right">
+                                    CORTAR
+                                </button>
+                            <?php
+                            }
+                            ?>
                         </form>
                     </div>
                 </div>

@@ -85,7 +85,7 @@ class Venta_model extends CI_Model {
 			$query = $this->db->query("select ventas.id,ventas.id_sucursal,ventas.id_vendedor,ventas.id_condpago,ventas.num_caja,
 			ventas.num_correlativo,DATE_FORMAT(ventas.fecha, '%m/%d/%y | %H:%i') as fecha,ventas.anulado,ventas.modi_el, 
 			cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
-			,tdoc.nombre as tipo_documento,
+			,tdoc.nombre as tipo_documento,ventas.serie_correlativo,ventas.documento_numero,
 			FORMAT((SELECT SUM(vp.valor_metodo_pago) FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = ventas.id),2) as total_doc,
 			usuario.nombre_usuario, 
 			(SELECT GROUP_CONCAT(vp.nombre_metodo_pago SEPARATOR '/') FROM pos_venta_pagos AS vp WHERE vp.venta_pagos = ventas.id ) as nombre_modo_pago,

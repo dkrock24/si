@@ -80,7 +80,7 @@ class Reporte_model extends CI_Model {
         }
 
         $this->db->select('v.id , v.num_correlativo, v.fh_inicio, v.id_cliente , v.total_doc , d.nombre ,
-        su.nombre_sucursal,
+        su.nombre_sucursal,v.documento_numero,
         (select sum(v_d.total) FROM pos_venta_detalle AS v_d WHERE v_d.id_venta = v.id AND v_d.gen = "Grava" ) AS grabado,
   
         (select sum(v_i.ordenImpTotal) FROM pos_ventas_impuestos AS v_i WHERE v_i.id_venta = v.id AND v_i.ordenSimbolo = "G" ) AS impuesto_g,
@@ -167,14 +167,14 @@ class Reporte_model extends CI_Model {
 
         ( select COUNT(total_venta.id) FROM pos_ventas AS total_venta 
             WHERE DATE(total_venta.creado_el) >= "'.$f_inicio.'" AND DATE(total_venta.creado_el) <= "'.$f_fin.'"
-            AND d.id_tipo_documento = total_venta.id_tipod AND total_venta.cortado IS NULL
+            AND d.id_tipo_documento = total_venta.id_tipod 
             GROUP BY total_venta.id_tipod
              ) AS cantidad_documentos,
 
         (SELECT SUM(vd.total)
             FROM pos_venta_detalle AS vd join pos_ventas AS v_1 ON v_1.id = vd.id_venta
             WHERE vd.gen="Grava" and DATE(vd.creado_el) >= "'.$f_inicio.'" AND DATE(vd.creado_el) <= "'.$f_fin.'" 
-            AND v_1.cortado IS NULL AND d.id_tipo_documento = v_1.id_tipod
+            AND d.id_tipo_documento = v_1.id_tipod
             AND v_1.id_sucursal = '.$sucursal_subquery.' 
             ) AS gravado,
         
@@ -182,7 +182,7 @@ class Reporte_model extends CI_Model {
             FROM pos_ventas_impuestos AS vi 
             join pos_ventas AS v_1 ON v_1.id = vi.id_venta
             WHERE  (vi.ordenImpName != "IVA" )  AND DATE(v_1.creado_el) >= "'.$f_inicio.'" AND DATE(v_1.creado_el) <= "'.$f_fin.'" 
-            AND v_1.cortado IS NULL  AND d.id_tipo_documento = v_1.id_tipod 
+            AND d.id_tipo_documento = v_1.id_tipod 
             AND v_1.id_sucursal = '.$sucursal_subquery.'
             ) AS gravado_impuesto,
         
@@ -191,7 +191,7 @@ class Reporte_model extends CI_Model {
             join pos_ventas as ve on ve.id = vd.id_venta
             join pos_ventas AS v_1 ON v_1.id = vd.id_venta
             WHERE vd.gen="Exent" and DATE(ve.fh_inicio) >= "'.$f_inicio.'" AND DATE(ve.fh_final) <= "'.$f_fin.'" 
-            AND v_1.cortado IS NULL AND d.id_tipo_documento = v_1.id_tipod
+            AND d.id_tipo_documento = v_1.id_tipod
             AND v_1.id_sucursal = '.$sucursal_subquery.'
             ) AS exento,
 
@@ -199,7 +199,6 @@ class Reporte_model extends CI_Model {
             FROM pos_ventas AS v2 
             WHERE v2.id_tipod = d.id_tipo_documento && v2.orden_estado = 10
             AND DATE(v2.fh_inicio) >= "'.$f_inicio.'" AND DATE(v2.fh_final) <= "'.$f_fin.'"
-            AND v2.cortado IS NULL
             AND v2.id_sucursal = '.$sucursal_subquery.'
             ) AS total_devolucion,
 
@@ -208,14 +207,27 @@ class Reporte_model extends CI_Model {
             JOIN pos_venta_pagos AS vp ON vp.venta_pagos = dev.id
             WHERE dev.id_tipod = d.id_tipo_documento && dev.orden_estado=10
             AND DATE(dev.fh_inicio) >= "'.$f_inicio.'" AND DATE(dev.fh_final) <= "'.$f_fin.'"
-            AND dev.cortado IS NULL
             AND dev.id_sucursal = '.$sucursal_subquery.'
             ) AS sum_devolucion,
+
+        (SELECT COUNT(v7.id) 
+            FROM pos_ventas AS v7
+            WHERE v7.id_tipod = d.id_tipo_documento && v7.orden_estado = 7
+            AND DATE(v7.fh_inicio) >= "'.$f_inicio.'" AND DATE(v7.fh_final) <= "'.$f_fin.'"
+            AND v7.id_sucursal = '.$sucursal_subquery.'
+            ) AS total_anulado,
+
+        (SELECT SUM(vp.valor_metodo_pago)
+            FROM pos_ventas AS anulado
+            JOIN pos_venta_pagos AS vp ON vp.venta_pagos = anulado.id
+            WHERE anulado.id_tipod = d.id_tipo_documento && anulado.orden_estado=7
+            AND DATE(anulado.fh_inicio) >= "'.$f_inicio.'" AND DATE(anulado.fh_final) <= "'.$f_fin.'"
+            AND anulado.id_sucursal = '.$sucursal_subquery.'
+            ) AS sum_anulado,
 
         (SELECT SUM(venta.desc_val )
             FROM pos_ventas AS venta WHERE
             DATE(venta.fh_inicio) >= "'.$f_inicio.'" AND DATE(venta.fh_final) <= "'.$f_fin.'"
-            AND venta.cortado IS NULL
             AND venta.id_sucursal = '.$sucursal_subquery.'
             )AS descuento,
         
@@ -224,7 +236,7 @@ class Reporte_model extends CI_Model {
             JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v3.id
             WHERE v3.id_tipod = d.id_tipo_documento && vp.id_forma_pago=1 
             AND DATE(v3.fh_inicio) >= "'.$f_inicio.'" AND DATE(v3.fh_final) <= "'.$f_fin.'"
-            AND v3.cortado IS NULL
+            
             AND v3.id_sucursal = '.$sucursal_subquery.'
             ) AS efectivo,
 
@@ -233,7 +245,6 @@ class Reporte_model extends CI_Model {
             JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v4.id
             WHERE v4.id_tipod = d.id_tipo_documento && vp.id_forma_pago=2 
             AND DATE(v4.fh_inicio) >= "'.$f_inicio.'" AND DATE(v4.fh_final) <= "'.$f_fin.'"
-            AND v4.cortado IS NULL
             AND v4.id_sucursal = '.$sucursal_subquery.'
             ) AS tcredito,
         
@@ -242,7 +253,6 @@ class Reporte_model extends CI_Model {
             JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v5.id
             WHERE v5.id_tipod = d.id_tipo_documento && vp.id_forma_pago=3 
             AND DATE(v5.fh_inicio) >= "'.$f_inicio.'" AND DATE(v5.fh_final) <= "'.$f_fin.'"
-            AND v5.cortado IS NULL
             AND v5.id_sucursal = '.$sucursal_subquery.'
             ) AS cheque,
         
@@ -251,7 +261,6 @@ class Reporte_model extends CI_Model {
             JOIN pos_venta_pagos AS vp ON vp.venta_pagos = v6.id
             WHERE v6.id_tipod = d.id_tipo_documento && vp.id_forma_pago=4 
             AND DATE(v6.fh_inicio) >= "'.$f_inicio.'" AND DATE(v6.fh_final) <= "'.$f_fin.'"
-            AND v6.cortado IS NULL
             AND v6.id_sucursal = '.$sucursal_subquery.'
             ) AS credito,
 
@@ -266,7 +275,7 @@ class Reporte_model extends CI_Model {
 
         $this->db->where('DATE(v.fh_inicio)'  . ' >= ' , $f_inicio );
         $this->db->where('DATE(v.fh_final) <=' , $f_fin );
-        $this->db->where('v.cortado' , NULL );
+        //$this->db->where('v.cortado' , NULL );
 
         if( $time != "" ){
             $this->db->where( $time );   
