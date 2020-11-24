@@ -234,10 +234,11 @@
                     <tbody>
                     <?php if($encabezado[0]->devolucion_nombre!=""): ?>
                         <tr>
-                            <td>
+                            <td><a href="<?php echo $encabezado[0]->id ?>">
                                     <?php if($encabezado[0]->devolucion_documento){ ?>
                                     <span><strong># <?php echo $encabezado[0]->devolucion_documento; ?></strong></span>
                                     <?php } ?>
+                                </a>
                             </td>
                             <td><?php echo $encabezado[0]->devolucion_nombre ?>  </td>
                             <td><?php echo $encabezado[0]->devolucion_dui ?>     </td>

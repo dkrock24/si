@@ -339,6 +339,7 @@ class Venta_model extends CI_Model {
 						'doc_cliente_nombre'	=> $form['doc_cli_nombre'],
 						'doc_cliente_identificacion' => $form['doc_cli_identificacion'],
 						'devolucion_nombre' 	=> $form['devolucion_nombre'],
+						'input_devolucion_id'   => $form['input_devolucion_id'],
 						'devolucion_documento' 	=> $form['devolucion_documento'],
 						'devolucion_dui' 		=> $form['devolucion_dui'],
 						'devolucion_nit' 		=> $form['devolucion_nit'],

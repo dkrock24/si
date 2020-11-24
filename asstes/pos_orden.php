@@ -141,6 +141,7 @@
                     _conf.impuesto      = parseInt(datos['impuesto'][0].valor_conf);                    
                     
                     venta.forEach(function(element) {
+                        this.input_devolucion_id = venta.id;
                         if(this.convetirToNegativo == true || this.convetirToAnulado == true){
                             venta[venta.indexOf(element)].precioUnidad = element.precioUnidad * -1;
                             venta[venta.indexOf(element)].total = element.total * -1;
@@ -201,7 +202,7 @@
                     if (_conf.impuesto == 1) {
                         
                         _config_impuestos();
-                        depurar_producto();                        
+                        depurar_producto();
                     }
                 },
                 error: function() {}
