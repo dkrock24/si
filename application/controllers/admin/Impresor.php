@@ -35,6 +35,9 @@ class Impresor extends MY_Controller {
 		$this->load->model('accion/Accion_model');	
 		$this->load->model('admin/Menu_model');
 		$this->load->model('admin/Impresor_model');
+
+		$this->load->model('admin/Terminal_model');
+		$this->load->model('admin/Documento_model');
 	}
 
 	public function index(){
@@ -76,7 +79,11 @@ class Impresor extends MY_Controller {
 	public function save(){
 
 		if (isset($_POST)) {
-			$data = $this->Impresor_model->save( $_POST );
+			$documentos = $this->Documento_model->getAllDocumento();
+
+			$terminales = $this->Terminal_model->get_terminal_lista();
+
+			$data = $this->Impresor_model->save( $_POST , $documentos, $terminales );
 
 			if($data){
 				$this->session->set_flashdata('success', "Impresor Fue Creado");

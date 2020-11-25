@@ -37,6 +37,7 @@ class Terminal extends MY_Controller {
 		$this->load->model('admin/Caja_model');
 		$this->load->model('admin/Sucursal_model');
 		$this->load->model('admin/Usuario_model');
+		$this->load->model('admin/Impresor_model');
 	}
 
 // Start  **********************************************************************************
@@ -170,6 +171,7 @@ class Terminal extends MY_Controller {
 		$data['menu'] 		= $this->session->menu;
 		$data['terminal'] 	= $this->Terminal_model->get_terminal( $id_terminal );
 		$data['terminal_usuario'] = $this->Terminal_model->get_terminal_users( $id_terminal );
+		$data['impresores']	= $this->Impresor_model->get_impresor_terminal();
 		$data['usuario'] 	= $this->Terminal_model->get_users( );		
 		$data['title'] 		= "Terminal Usuarios";
 		$data['home'] 		= 'admin/terminal/t_asociar';
@@ -179,6 +181,11 @@ class Terminal extends MY_Controller {
 
 	public function agregar(){
 		$data = $this->Terminal_model->agregar_usuario( $_POST );
+	}
+
+	public function impresor_estado() {
+		$data = $this->Impresor_model->impresor_estado( $_POST );
+		echo $data;
 	}
 
 	public function inactivar(){		

@@ -10,7 +10,7 @@ class Terminal_model extends CI_Model {
     const persona = 'sys_persona';
     const pos_orden_estado = 'pos_orden_estado';
 
-	function validar_usuario_terminal( $usuario_id , $terminal_nombe ){
+	public function validar_usuario_terminal( $usuario_id , $terminal_nombe ){
 		$this->db->select('*');
         $this->db->from(self::pos_terminal.' as terminal');
         $this->db->join(self::pos_terminal_cajero.' as cajero ',' on cajero.Terminal = terminal.id_terminal ');
@@ -26,7 +26,7 @@ class Terminal_model extends CI_Model {
         }
 	}
 
-    function get_all_terminal( $limit, $id , $filters){;
+    public function get_all_terminal( $limit, $id , $filters){;
         $this->db->select('*');
         $this->db->from( self::pos_terminal.' as terminal');
         $this->db->join( self::sucursal.' as sucursal',
@@ -46,6 +46,20 @@ class Terminal_model extends CI_Model {
         } 
     }
 
+    public function get_terminal_lista(){
+        $this->db->select('*');
+        $this->db->from( self::pos_terminal.' as terminal');
+        $this->db->join( self::sucursal.' as sucursal',' on terminal.Sucursal=sucursal.id_sucursal' );
+        $this->db->where('sucursal.Empresa_Suc', $this->session->empresa[0]->id_empresa);
+
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
     function record_count($filter){
         $this->db->where('sucursal.Empresa_Suc', $this->session->empresa[0]->id_empresa. ' '. $filter);
         $this->db->from( self::pos_terminal.' as terminal');
@@ -56,7 +70,7 @@ class Terminal_model extends CI_Model {
         return $result;
     }
 
-    function crear( $data ){
+    public function crear( $data ){
         $insert = $this->db->insert( self::pos_terminal , $data );
         if(!$insert){
             $insert = $this->db->error();
@@ -64,14 +78,14 @@ class Terminal_model extends CI_Model {
         return $insert;
     }
 
-    function get_terminal( $terminal_id ){
+    public function get_terminal( $terminal_id ){
         $this->db->where('t.id_terminal', $terminal_id );
         $this->db->from( self::pos_terminal.' as t');
         $query = $this->db->get();
         return $query->result();
     }
 
-    function update( $data ){
+    public function update( $data ){
         $this->db->where('id_terminal' , $data['id_terminal']);
         $insert = $this->db->update( self::pos_terminal , $data );
 
@@ -82,7 +96,7 @@ class Terminal_model extends CI_Model {
         
     }
 
-    function eliminar( $id ) {
+    public function eliminar( $id ) {
         $this->db->where('id_terminal' , $id );
         $insert = $this->db->delete( self::pos_terminal );   
 
@@ -92,14 +106,14 @@ class Terminal_model extends CI_Model {
         return $insert;
     }
 
-    function get_terminal_by_caja($id_caja){
+    public function get_terminal_by_caja($id_caja){
         $this->db->where('Caja', $id_caja );
         $this->db->from( self::pos_terminal);
         $query = $this->db->get();
         return $query->result();
     }
 
-    function get_terminal_users( $id_terminal ){
+    public function get_terminal_users( $id_terminal ){
 
         $this->db->select('*');
         $this->db->from(self::usuario.' as u');        
@@ -121,7 +135,7 @@ class Terminal_model extends CI_Model {
 
     }
 
-    function get_users(){
+    public function get_users(){
 
         $this->db->select('*');
         $this->db->from(self::usuario.' as u');        
@@ -141,7 +155,7 @@ class Terminal_model extends CI_Model {
 
     }
 
-    function get_user_terminal( $data ){
+    public function get_user_terminal( $data ){
 
         $this->db->select('*');
         $this->db->from(self::pos_terminal_cajero);
@@ -157,7 +171,7 @@ class Terminal_model extends CI_Model {
         }
     }
 
-    function agregar_usuario($data){
+    public function agregar_usuario($data){
         
         $existe = $this->get_user_terminal($data);
         $flag = false;
@@ -177,7 +191,7 @@ class Terminal_model extends CI_Model {
         return $flag;
     }
 
-    function unload($terminal , $estado){
+    public function unload($terminal , $estado){
 
         $usuario = $this->session->userdata['usuario'][0]->id_usuario;
 
@@ -195,7 +209,7 @@ class Terminal_model extends CI_Model {
 
     }
 
-    function eliminar_usuario( $data ){
+    public function eliminar_usuario( $data ){
 
         $existe = $this->get_user_terminal($data);
         $valor = 1;
