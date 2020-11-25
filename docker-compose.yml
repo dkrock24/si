@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     image: phpapp:si
     ports:
-      - "8080:80"
+      - "8081:80"
     volumes:
       - "./:/var/www/html"
     container_name: my-php-app

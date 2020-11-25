@@ -2243,7 +2243,8 @@
             
             formulario[formulario.length] = { name : 'doc_cli_nombre'     , value :  $("#doc_cli_nombre").val() };
             formulario[formulario.length] = { name : 'doc_cli_identificacion', value :  $("#doc_cli_identificacion").val() };
-            formulario[formulario.length] = { name : 'input_devolucion_id'  , value : this.input_devolucion_id };
+            formulario[formulario.length] = { name : 'input_devolucion_id'  , value : this.input_devolucion_id ?? 0 };
+            console.log("------",this.input_devolucion_id);
             
             if ($("#orden_estado_venta").val()) {
                 orden_estado = $("#orden_estado_venta").val();
