@@ -79,11 +79,14 @@ class Impresor extends MY_Controller {
 	public function save(){
 
 		if (isset($_POST)) {
+			
+			$data = $this->Impresor_model->save( $_POST );
+
 			$documentos = $this->Documento_model->getAllDocumento();
-
 			$terminales = $this->Terminal_model->get_terminal_lista();
+			$impresores = $this->Impresor_model->get_all_impresor();
 
-			$data = $this->Impresor_model->save( $_POST , $documentos, $terminales );
+			$this->Impresor_model->procesar_impresor_terminal_documento($impresores, $documentos , $terminales);
 
 			if($data){
 				$this->session->set_flashdata('success', "Impresor Fue Creado");
@@ -156,6 +159,12 @@ class Impresor extends MY_Controller {
 	public function eliminar($id){
 
 		$data = $this->Impresor_model->eliminar( $id );
+
+		$params = array(
+			'impresor_id' => $id,
+		);
+
+		$this->Impresor_model->eliminar_impresor_terminar( $params );
 
 		if($data){
 			$this->session->set_flashdata('warning', "Impresor Fue Eliminado");

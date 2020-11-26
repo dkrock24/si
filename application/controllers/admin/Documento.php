@@ -19,6 +19,9 @@ class Documento extends MY_Controller {
 		$this->load->model('admin/Menu_model');	
 		$this->load->model('accion/Accion_model');
 		$this->load->model('admin/Documento_model');
+		$this->load->model('admin/Impresor_model');
+		$this->load->model('admin/Terminal_model');	
+
 	}
 
 	public function index()
@@ -126,6 +129,12 @@ class Documento extends MY_Controller {
 	public function save(){
 		$data = $this->Documento_model->nuevo_documento( $_POST );
 
+		$documentos = $this->Documento_model->getAllDocumento();
+		$terminales = $this->Terminal_model->get_terminal_lista();
+		$impresores = $this->Impresor_model->get_all_impresor();
+
+		$this->Impresor_model->procesar_impresor_terminal_documento($impresores, $documentos , $terminales);
+
 		if(!$data['code']){
 			$this->session->set_flashdata('success', "Documento Fue Creado");
 		}else{
@@ -137,6 +146,12 @@ class Documento extends MY_Controller {
 
 	public function eliminar( $id ){
 		$data = $this->Documento_model->delete_documento( $id );
+
+		$params = array(
+			'documento_id' => $id,
+		);
+
+		$this->Impresor_model->eliminar_impresor_terminar( $params );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Documento Fue Eliminado");

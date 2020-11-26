@@ -115,6 +115,13 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Copias</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" class="form-control" required id="copias" name="copias" placeholder="Numero de Copias" value="<?php echo $documento[0]->copias ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <label>
                                                 <select name="estado" class="form-control">

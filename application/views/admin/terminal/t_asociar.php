@@ -112,6 +112,7 @@
     .inactive {
         background: #ffc107 !important;
     }
+
 </style>
 <section>
     <!-- Page content-->
@@ -154,9 +155,8 @@
                 </tr>
             </table>
 
-
             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link active" id="terminal" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">TERMINALES</a>
                 </li>
                 <li class="nav-item">
@@ -164,7 +164,7 @@
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane" id="home" role="tabpanel" aria-labelledby="terminal">
+                <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="terminal">
                     <div class="row">
 
                         <div class="col-lg-6">
@@ -311,7 +311,7 @@
 
                     </div>
                 </div>
-                <div class="tab-pane active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <div class="row">
 
                         <div class="col-lg-12">

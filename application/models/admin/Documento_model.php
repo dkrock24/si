@@ -78,6 +78,7 @@ class Documento_model extends CI_Model {
         $data = array(
             'estado' => $documento['estado'],
             'nombre' => $documento['nombre'],
+            'copias' => $documento['copias'],
             'emitir_a' => $documento['emitir_a'],            
             'automatico' => $documento['automatico'],
             'efecto_en_iva' => $documento['efecto_en_iva'],
@@ -104,6 +105,7 @@ class Documento_model extends CI_Model {
             $data = array(
                 'nombre' => $documento['nombre'],
                 'estado' => $documento['estado'],
+                'copias' => $documento['copias'],
                 'Empresa'=> $this->session->empresa[0]->id_empresa,
                 'emitir_a' => $documento['emitir_a'],            
                 'automatico' => $documento['automatico'],

@@ -8,10 +8,10 @@
       $('#modulo_modal').appendTo("body");
       $('#edit_modulo_modal').appendTo("body");
 
-      $(".save_params").on('click',function(){
+      $(".save_params1").on('click',function(){
 
          var clas = $(this).attr('name');
-         
+
          var form = $("."+clas).serializeArray();
          var method = '../'+ $(this).attr('id');
          
@@ -334,8 +334,8 @@
 
             </div>
             <div class="modal-footer">
-               <button type="button" style="float: left;" data-dismiss="modal" class="btn btn-danger save_params" id="delete_params" name="update_params" delete="">Eliminar</button>
-               <button type="button" data-dismiss="modal" class="btn btn-info save_params" id="update_params" name="update_params">Guardar</button>
+               <button type="button" style="float: left;" data-dismiss="modal" class="btn btn-danger save_params1" id="delete_params" name="update_params" delete="">Eliminar</button>
+               <button type="button" data-dismiss="modal" class="btn btn-info save_params1" id="update_params" name="update_params">Guardar</button>
                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
             </div>
          </div>
@@ -400,7 +400,7 @@
 
             </div>
             <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-info save_params" id="save_params" name="save_params">Guardar</button>
+               <button type="button" data-dismiss="modal" class="btn btn-info save_params1" id="save_params" name="save_params">Guardar</button>
                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
             </div>
          </div>
@@ -457,7 +457,7 @@
 
             </div>
             <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-info save_params" id="save_modulo" name="save_modulo">Guardar</button>
+               <button type="button" data-dismiss="modal" class="btn btn-info save_params1" id="save_modulo" name="save_modulo">Guardar</button>
                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
             </div>
          </div>
@@ -512,7 +512,7 @@
 
             </div>
             <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-info save_params" id="update_modulo" name="update_modulo">Guardar</button>
+               <button type="button" data-dismiss="modal" class="btn btn-info save_params1" id="update_modulo" name="update_modulo">Guardar</button>
                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
             </div>
          </div>

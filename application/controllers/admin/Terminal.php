@@ -83,6 +83,12 @@ class Terminal extends MY_Controller {
 		// Insert Nuevo Usuario
 		$data = $this->Terminal_model->crear( $_POST );
 
+		$documentos = $this->Documento_model->getAllDocumento();
+		$terminales = $this->Terminal_model->get_terminal_lista();
+		$impresores = $this->Impresor_model->get_all_impresor();
+
+		$this->Impresor_model->procesar_impresor_terminal_documento($impresores, $documentos , $terminales);
+
 		if(!$data['code']){
 			$this->session->set_flashdata('success', "Terminal Fue Creado");
 		}else{
@@ -155,6 +161,12 @@ class Terminal extends MY_Controller {
 	public function eliminar($id){
 		
 		$data = $this->Terminal_model->eliminar( $id );
+
+		$params = array(
+			'terminal_id' => $id,
+		);
+
+		$this->Impresor_model->eliminar_impresor_terminar( $params );
 
 		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Terminal Fue Eliminado");

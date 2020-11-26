@@ -75,7 +75,7 @@ class Impresor_model extends CI_Model {
         return $this->db->count_all(self::pos_impresor);
     }
 
-    public function save($impresor , $documentos, $terminales){
+    public function save($impresor){
 
         $data = $impresor;
         $data['impresor_empresa'] = $this->session->empresa[0]->id_empresa;
@@ -87,35 +87,43 @@ class Impresor_model extends CI_Model {
             return $result;
         }
 
-        $id_impresor = $this->db->insert_id();
-
-        $this->procesar_impresor_terminal_documento($id_impresor, $documentos, $terminales);
-
         return $result;
     }
 
-    function procesar_impresor_terminal_documento($id_impresor, $documentos, $terminales) {
+    /**
+     * Asociar impresor a terminal y documento
+     *
+     * @param array $impresores
+     * @param array $documentos
+     * @param array $terminales
+     * @return void
+     */
+    function procesar_impresor_terminal_documento($impresores, $documentos, $terminales) {
 
         foreach ($terminales as $terminal) {
             
             foreach ($documentos as $documento) {
 
-                $_terminal  = $terminal->id_terminal;
-                $_documento = $documento->id_tipo_documento;
-
-                $record = $this->check_impresor_terminal_exist($id_impresor, $_terminal, $_documento);
-
-                if( !$record ) {
+                foreach ($impresores as $impresor) {
                     
-                    $data = array(
-                        'impresor_id'       => $id_impresor,
-                        'terminal_id'       => $_terminal,
-                        'documento_id'      => $_documento,
-                        'impresor_terminal_estado'   => 0,
-                        'impresor_principal'=> 1,
-                    );
+                    $_terminal  = $terminal->id_terminal;
+                    $_impresor  = $impresor->id_impresor;
+                    $_documento = $documento->id_tipo_documento;
                     
-                    $this->db->insert(self::impresor_terminal, $data);
+                    $record = $this->check_impresor_terminal_exist($_impresor, $_terminal, $_documento);
+                    
+                    if( !$record ) {
+                        
+                        $data = array(
+                            'impresor_id'       => $_impresor,
+                            'terminal_id'       => $_terminal,
+                            'documento_id'      => $_documento,
+                            'impresor_principal'=> 0,
+                            'impresor_terminal_estado'=> 1,
+                        );
+                        
+                        $this->db->insert(self::impresor_terminal, $data);
+                    }
                 }
             }
         }
@@ -203,6 +211,30 @@ class Impresor_model extends CI_Model {
 
         $this->db->where('id_impresor', $id);
         $result =  $this->db->delete(self::pos_impresor, $data );
+
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Eliminar asociacion en impresor, documento, terminal
+     *
+     * @param array $params
+     * @return void
+     */
+    public function eliminar_impresor_terminar( array $params ){
+        
+        $key = array_keys($params);
+
+        $data = array(
+            $key[0] => $params[$key[0]]
+        );
+
+        $this->db->where($data);
+        $result =  $this->db->delete(self::impresor_terminal);
 
         if(!$result){
             $result = $this->db->error();
