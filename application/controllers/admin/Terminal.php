@@ -200,6 +200,11 @@ class Terminal extends MY_Controller {
 		echo $data;
 	}
 
+	public function impresor_principal() {
+		$data = $this->Impresor_model->impresor_principal( $_POST );
+		echo $data;
+	}
+
 	public function inactivar(){		
 		$data = $this->Terminal_model->eliminar_usuario( $_POST );
 	}

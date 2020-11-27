@@ -46,7 +46,7 @@ class Impresor_model extends CI_Model {
         $this->db->from(self::pos_impresor.' as i');
         $this->db->join(self::pos_empresa.' as e','on e.id_empresa = i.impresor_empresa');
         $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
-        $query = $this->db->get(); 
+        $query = $this->db->get();
         
         if($query->num_rows() > 0 )
         {
@@ -63,8 +63,39 @@ class Impresor_model extends CI_Model {
         $this->db->join(self::pos_tipo_documento.' as d','on d.id_tipo_documento = it.documento_id');
         $this->db->join(self::pos_empresa.' as e','on e.id_empresa = i.impresor_empresa');
         $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
-        $query = $this->db->get(); 
+        $query = $this->db->get();
         
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    /**
+     * obtener impresoras para documento,terminal
+     *
+     * @param array $params
+     * @return void
+     */
+    public function get_impresor_sucursal(array $params){
+
+        $this->db->select('i.*,it.*,t.nombre as terminal_nombre, t.codigo as terminal_codigo, d.nombre as documento_nombre');
+        $this->db->from(self::pos_impresor.' as i');
+        $this->db->join(self::impresor_terminal.' as it','on it.impresor_id = i.id_impresor');
+        $this->db->join(self::pos_terminal.' as t','on t.id_terminal = it.terminal_id');
+        $this->db->join(self::pos_tipo_documento.' as d','on d.id_tipo_documento = it.documento_id');
+        $this->db->join(self::pos_empresa.' as e','on e.id_empresa = i.impresor_empresa');
+        $this->db->join(self::sucursal.' as s','on s.id_sucursal = t.Sucursal');
+        $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
+        if($params) {
+            $this->db->where('t.id_terminal', $params['terminal']);
+            $this->db->where('d.id_tipo_documento', $params['documento']);
+            $this->db->where('i.impresor_estado',1);
+            $this->db->where('it.impresor_terminal_estado',1);
+        }
+        $this->db->order_by('it.impresor_principal','desc');
+        $query = $this->db->get();
+        //echo $this->db->queries[5];die;
         if($query->num_rows() > 0 )
         {
             return $query->result();
@@ -146,6 +177,36 @@ class Impresor_model extends CI_Model {
         $result = $this->db->update(self::impresor_terminal, $data);
 
         return $estado;
+    }
+
+    public function impresor_principal($id) {
+        
+        $id    = $id['impresor'];
+        $valor = $this->check_impresor_principal($id);
+        $valor = $valor[0]->impresor_principal;
+        $estado= $valor == 0 ? 1 : 0;
+
+        $data = array(
+            'impresor_principal'   => $estado,
+        );
+
+        $this->db->where('id_impresor_terminal', $id);
+        $result = $this->db->update(self::impresor_terminal, $data);
+
+        return $estado;
+    }
+
+    private function check_impresor_principal($id) {
+        
+        $this->db->select('impresor_principal');
+        $this->db->from(self::impresor_terminal);
+        $this->db->where('id_impresor_terminal',  $id);
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
     }
 
     private function check_impresor_estado($id) {

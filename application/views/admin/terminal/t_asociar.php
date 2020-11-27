@@ -74,14 +74,14 @@
 
                 success: function(data) {
                     if (data == 1) {
-                        console.log(data);
+
                         $(".estado" + params.impresor).removeClass("inactive");
                         $(".estado" + params.impresor).addClass("activo");
 
                         $(".estado" + params.impresor).text("Activo");
 
                     } else {
-                        console.log(data);
+
                         $(".estado" + params.impresor).removeClass("activo");
                         $(".estado" + params.impresor).addClass("inactive");
                         $(".estado" + params.impresor).text("Inactivo");
@@ -92,14 +92,50 @@
             });
         }
 
+        // Activar principal
+        $(".activar_principal").on('click', function() {
+
+            var impresor = $(this).attr('name');
+
+            var params = {
+                impresor: impresor,
+                method: 'impresor_principal'
+            };
+
+            impresor_principal(params);
+        });
+
+        function impresor_principal(params) {
+
+            $.ajax({
+                url: "../" + params.method,
+                datatype: 'json',
+                cache: false,
+                type: 'POST',
+                data: params,
+
+                success: function(data) {
+                    if (data == 1) {
+                        $(".principal" + params.impresor).removeClass("btn-default");
+                        $(".principal" + params.impresor).addClass("btn-info");
+
+                    } else {
+                        $(".principal" + params.impresor).removeClass("btn-info");
+                        $(".principal" + params.impresor).addClass("btn-default");
+                    }
+
+                },
+                error: function() {}
+            });
+        }
+        
+
         $("#buscar").on("keyup", function() {
             var value = $(this).val().toLowerCase();
-            $("#datatable1 tr").filter(function() {
+            $("#dataImpresores tr").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
-
-
 
     });
 </script>
@@ -120,7 +156,7 @@
 
         <h3 style="height: 50px; ">
             <a href="../index" style="top: -12px;position: relative; text-decoration: none">
-                <button type="button" class="mb-sm btn btn-pill-right btn-primary btn-outline"> Terminales</button>
+                <button type="button" class="mb-sm btn btn-pill-right btn-info btn-outline" style="color:white;"> Terminales</button>
             </a>
 
             <?php $this->load->view('notificaciones/success'); ?>
@@ -329,15 +365,18 @@
                                     <tr>
                                         <th style="color: black;">#</th>
                                         <th style="color: black;">TERMINAL</th>
+                                        <th style="color: black;">CODIGO</th>
                                         <th style="color: black;">DOCUMENTO</th>
                                         <th style="color: black;">IMPRESOR</th>
+                                        <th style="color: black;">MARCA</th>
                                         <th style="color: black;">MODELO</th>
+                                        <th style="color: black;">COLOR</th>
                                         <th style="color: black;">URL</th>
                                         <th style="color: black;">Estado</th>
-                                        <th></th>
+
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="dataImpresores">
                                     <?php
                                     $contado = 1;
                                     if ($impresores) {
@@ -345,35 +384,39 @@
                                             $id_impresor = $impresor->id_impresor_terminal;
                                     ?>
                                             <tr>
-                                                <th scope="row"><?php echo $contado; ?></th>
-
-
-                                                <td><?php echo $impresor->terminal_nombre . " " . $impresor->terminal_codigo; ?></td>
-                                                <td><?php echo $impresor->documento_nombre; ?></td>
-                                                <td><?php echo $impresor->impresor_nombre . " " . $impresor->impresor_marca; ?></td>
-                                                <td><?php echo $impresor->impresor_modelo . " " . $impresor->impresor_color; ?></td>
+                                                <td scope="row"><?php echo $contado; ?></td>
+                                                <td><?php echo $impresor->terminal_nombre; ?></td>
+                                                <td><?php echo $impresor->terminal_codigo; ?></td>
+                                                <td class="d_nombre"><?php echo $impresor->documento_nombre; ?></td>
+                                                <td><?php echo $impresor->impresor_nombre; ?></td>
+                                                <td><?php echo $impresor->impresor_marca; ?></td>
+                                                <td><?php echo $impresor->impresor_modelo; ?></td>
+                                                <td><?php echo $impresor->impresor_color; ?></td>
                                                 <td><?php echo $impresor->impresor_url; ?></td>
 
                                                 <td>
                                                     <?php
                                                     if ($impresor->impresor_terminal_estado == 1) {
                                                     ?>
-                                                        <span class="label label-success <?php echo 'estado' . $id_impresor; ?>" style="background: #39b2d6">Activo</span>
+                                                        <span class="label label-success <?php echo 'estado' . $id_impresor; ?>" style="background: #27c24c;">ACTIVO</span>
                                                     <?php
                                                     } else {
                                                     ?>
-                                                        <span class="label label-warning <?php echo 'estado' . $id_impresor; ?>" style="background: #d26464">Inactivo</span>
+                                                        <span class="label label-warning <?php echo 'estado' . $id_impresor; ?>" style="background: #d26464">INACTIVO</span>
                                                     <?php
                                                     }
                                                     ?>
+                                                    <span style="float:right">
+                                                    <i class="btn btn-default btn-sm activar_ipresor" style="background:#a74973;color:white;" rel="" name="<?php echo $id_impresor; ?>" id="<?php //echo $id_empresor; ?>"><i class="fa fa-pencil" style="font-size:18px;"></i></i>
+                                                    <?php if($impresor->impresor_principal == 1): ?>
+                                                        <i class="btn btn-info btn-sm activar_principal <?php echo 'principal' . $id_impresor; ?>" rel="" name="<?php echo $id_impresor; ?>" id="<?php //echo $id_empresor; ?>"><i class="fa fa-check-circle" style="font-size:18px"></i></i>
+                                                    <?php else: ?>
+                                                        <i class="btn btn-default btn-sm activar_principal <?php echo 'principal' . $id_impresor; ?>" rel="" name="<?php echo $id_impresor; ?>" id="<?php //echo $id_empresor; ?>"><i class="fa fa-check-circle" style="font-size:18px"></i></i>
+                                                    <?php endif ?>
+                                                    </span>
                                                 </td>
 
-                                                <td>
-
-                                                    <i class="btn btn-primary btn-sm activar_ipresor" rel="" name="<?php echo $id_impresor; ?>" id="<?php //echo $id_empresor; 
-                                                                                                                                                    ?>"><i class="fa fa-plus-circle" style="font-size:18px"></i></i>
-
-                                                </td>
+      
                                             </tr>
                                     <?php
                                             $contado += 1;

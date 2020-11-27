@@ -113,7 +113,7 @@ include("asstes/pos_orden.php");
         width: 100%;
         height: 100%;
         margin: 0;
-        padding-left: 10%;
+        /*padding-left: 10%;*/
     }
 
     .modal-content {
@@ -195,16 +195,20 @@ include("asstes/pos_orden.php");
     .padding-top-8 { padding-top: 8px;}
     .padding-top-9 { padding-top: 9px;}
 
+    #formato{
+        float:right;
+    }
+
 </style>
 
 <div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip">
     <div class="modal-dialog modal-md">
-        <div class="modal-content" style="background:#f1f1f1;">
-            <div class="modal-header" style="background: #2c71b5;color: white;">
+        <div class="modal-content" style="background:#e6e7e8;">
+            <div class="modal-header" style="background: #9c9c9c;color: white;">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <span style="font-size: 20px; ">Documento : <?= $temp[0]->documento_nombre ?> | Formato : <?= $temp[0]->factura_nombre ?> </span>
+                <span style="font-size: 20px; ">Documento : <?= $temp[0]->documento_nombre ?> || Formato : <?= $temp[0]->factura_nombre ?> </span>
 
             </div>
             <div class="modal-body">
@@ -221,28 +225,25 @@ include("asstes/pos_orden.php");
                         ?>
                         <?php include("asstes/temp/" . $file . ".php"); ?>
                     </div>
-                    <div class="col-lg-4 col-md-4" style="border-left:1px dashed black;height:900px;position: relative;float:right;margin:0px;">
+                    <div class="col-lg-4 col-md-4" style="border-left:1px black;height:900px;position: relative;float:right;margin:0px;    background: white;
+    margin-top: -15px;">
 
                         <div class="row">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                <?php echo $msj_title ?>
+                                <?php //echo $msj_title ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                 <h1>
-                                    <?php echo $msj_orden ?>
+                                    Número de Transacción : # <br>
+                                    <?php echo $orden[0]->documento_numero ?>
                                 </h1>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <hr style="border-bottom:1px dashed black">
-                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                <h1>
-                                    Opciones
-                                </h1>
-                            </div>
+                        <div class="row" style="position:fixed;bottom:0px;">
+
 
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                 <?php
@@ -266,7 +267,7 @@ include("asstes/pos_orden.php");
                             </div>
                         </div>
                         <?php if (count($ids_ventas) > 1) : ?>
-                            <div class="row" style="border-bottom: 1px dashed black;">
+                            <div class="row" style="border-bottom: 1px black;">
 
 
                             </div>
@@ -298,6 +299,20 @@ include("asstes/pos_orden.php");
                                 ?>
                             </div>
                         <?php endif ?>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12" style="border-top:1px black;position: relative;float:right;margin-top:20px;">
+                                <?php if($configuracion[0]->valor_conf == 1): ?>
+
+                                    <?php
+                                        $data = array(
+                                            $impresion,
+                                            $orden
+                                        );
+                                        $this->view('impresion/services.php',$data);
+                                    ?>
+                                <?php endif ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

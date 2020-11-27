@@ -26,6 +26,8 @@ class Venta extends MY_Controller {
 		$this->load->model('producto/EfectosDocumento_model');
 		$this->load->model('admin/Template_model');
 		$this->load->model('admin/Terminal_model');
+		$this->load->model('admin/Param_model');
+		$this->load->model('admin/Impresor_model');		
 	}
 
 	public function index()
@@ -252,6 +254,14 @@ class Venta extends MY_Controller {
 		//var_dump($data['orden'][0]);die;
 		$data['detalle'] 		= $this->Venta_model->getVentaDetalleId($order_id);		
 		$data['tipoDocumento'] 	= $this->Orden_model->get_tipo_documentos();
+
+		$paramsImpresion = array(
+			'terminal'  => $terminal_acceso[0]->id_terminal,
+			'documento' => $data['orden'][0]->id_tipod
+		);
+		$data['impresion']		= $this->Impresor_model->get_impresor_sucursal($paramsImpresion);
+
+//		var_dump($data['impresion']);die;
 		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 		$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente($data['orden'][0]->id_cliente);
 		$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['orden'][0]->id_cajero );
@@ -263,6 +273,7 @@ class Venta extends MY_Controller {
 		$data['pagos']			= $this->Venta_model->getVentaPagosId($order_id);
 		$data['title'] 			= "Venta";
 		$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
+		$data['configuracion']  = $this->Param_model->get_config_code(100); // 100 es codigo de impresion
 		$data['temp'] 			= $this->Template_model->printer_venta
 									(
 										$data['detalle'] ,
@@ -274,7 +285,7 @@ class Venta extends MY_Controller {
 		$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
 		$data['file'] 			= $name;
 		$data['msj_title'] = "Su venta ha sido grabada satisfactoriamente";
-		$data['msj_orden'] = "Su número de transacción es: # ". $data['orden'][0]->num_correlativo;
+		//$data['msj_orden'] = $data['orden'][0]->num_correlativo;
 		$data['ids_ventas']= $_SESSION['ids'];
 		
 		$this->generarDocumento( $name , $data['temp'][0]->factura_template );

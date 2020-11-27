@@ -1375,7 +1375,7 @@ class Venta_model extends CI_Model {
 			ventas.num_correlativo,ventas.fecha,ventas.anulado,ventas.modi_el, cliente.nombre_empresa_o_compania ,cliente.direccion_cliente, 
 			sucursal.nombre_sucursal,orden_estado ,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, 
 			oe.orden_estado_nombre, empresa.nombre_comercial, empresa.direccion,empresa.nrc,empresa.nit,giro.nombre_giro, giro.nombre_giro as
-			giro, emp.alias, t.nombre as terminal ,ventas.id_cliente , ventas.total_doc ,cliente.nit_cliente, cliente.nrc_cli,
+			giro, emp.alias, t.nombre as terminal ,ventas.id_cliente , ventas.total_doc ,cliente.nit_cliente, cliente.nrc_cli,ventas.documento_numero,
 			venta_vista_id,ventas.devolucion_documento,ventas.doc_cliente_nombre,doc_cliente_identificacion,ventas.devolucion_nombre,ventas.serie_correlativo,
 			ventas.devolucion_dui, ventas.devolucion_nit, ventas.desc_val, ventas.dinero_cobrado,ventas.dinero_cambio, anulado,anulado_el, anulado_conc,modi_el,caja.*,
 			(select pe.primer_nombre_persona as anulado_nombre from sys_usuario as us left join sys_empleado as em on us.Empleado = em.id_empleado 
