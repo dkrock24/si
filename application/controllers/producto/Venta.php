@@ -12,6 +12,7 @@ class Venta extends MY_Controller {
 		@$this->load->library('session');
 		$this->load->library('pagination');
 		$this->load->library('../controllers/general');
+		$this->load->library('pdf');
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');
@@ -328,6 +329,10 @@ class Venta extends MY_Controller {
 		
 		$this->generarDocumento( $name , $data['temp'][0]->factura_template );
 		$this->load->view('producto/print/print', $data);
+
+		
+		
+
 	}
 
 	function validar_usuario_terminal( $usuario_id  ){
@@ -401,7 +406,27 @@ class Venta extends MY_Controller {
 	}
 
 	public function format_status(){
-		return 1;
+		$this->load->library('html2pdf');
+
+		$this->html2pdf->folder('./asstes/temp/');
+
+		$this->html2pdf->filename('Hello.pdf');
+
+		 //Set the paper defaults
+		 $this->html2pdf->paper('a4', 'portrait');
+	    
+		 $data = array(
+			 'title' => 'PDF Created',
+			 'message' => 'Hello World!'
+		 );
+		 
+		 //Load html view
+		 $this->html2pdf->html($this->load->view('welcome_message', $data, true));
+		 
+		 if($this->html2pdf->create('save')) {
+			 //PDF was successfully saved or downloaded
+			 echo 'PDF saved';
+		 }
 	}
 
 }

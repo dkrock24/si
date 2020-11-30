@@ -208,13 +208,16 @@ include("asstes/pos_orden.php");
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <span style="font-size: 20px; ">Documento : <?= $temp[0]->documento_nombre ?> || Formato : <?= $temp[0]->factura_nombre ?> </span>
+                <span style="font-size: 20px; ">COMPROBANTE DE PAGO : 
+                    <span style="float:right;"><i class="icon-arrow-left"></i> Documento <?= $temp[0]->documento_nombre ?><i class="icon-arrow-right"></i>
+                    <i class="icon-arrow-left"></i> Formato <?= $temp[0]->factura_nombre ?> <i class="icon-arrow-right"></i> </span>
+                </span>
 
             </div>
             <div class="modal-body">
 
                 <div class="row">
-                    <div class="col-lg-8 col-md-8">
+                    <div class="col-md-8 col-lg-8 abcd">
                         <?php
                             $linea = "border-bottom";
                             $border = "border='1'";
@@ -222,10 +225,11 @@ include("asstes/pos_orden.php");
                                 $linea = "border-bottom";
                                 $border = "border='1'";
                             }
-                        ?>
+                        
+                            ?>
                         <?php include("asstes/temp/" . $file . ".php"); ?>
                     </div>
-                    <div class="col-lg-4 col-md-4" style="border-left:1px black;height:900px;position: relative;float:right;margin:0px;    background: white;
+                    <div class="col-md-4 col-lg-4" style="border-left:1px black;height:900px;position: relative;float:right;margin:0px;    background: white;
     margin-top: -15px;">
 
                         <div class="row">
@@ -242,10 +246,9 @@ include("asstes/pos_orden.php");
                             </div>
                         </div>
 
-                        <div class="row" style="position:fixed;bottom:0px;">
+                        <div class="row" style="bottom:0px;padding:0px;">
 
-
-                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                            <div class="col-lg-6 col-md-6" style="font-size:24px;background:#5d9cec;">
                                 <?php
                                 $vista_id  = $orden[0]->venta_vista_id;
                                 $vista_url = "../../orden/venta_rapida";
@@ -257,14 +260,17 @@ include("asstes/pos_orden.php");
                                 }
                                 ?>
 
-                                <a href="<?php echo $vista_url; ?>" class="btn btn-default printer" id="nuevo">
+                                <a href="<?php echo $vista_url; ?>" class="btn btn-primary printer" id="nuevo" style="margin-top:0px;background:#5d9cec">
                                     <h3> <i class="icon-plus"></i> Nueva <i class="icon-arrow-left"></i> $ <i class="icon-arrow-right"></i></h3>
-                                </a>
-                                <a href="#" id="prin" name="<?php echo $orden[0]->id ?>" class="btn btn-info" style="color:black">
-                                    <h3> <i class="icon-printer"></i> Imprimir <i class="icon-arrow-left"></i>F2<i class="icon-arrow-right"></i></h3>
                                 </a>
 
                             </div>
+                            <div class="col-lg-6 col-md-6" style="font-size:24px;background:#2b957a;">
+                                <a href="#" id="prin" name="<?php echo $orden[0]->id ?>" class="btn btn-info" style="background:#2b957a;color:black;margin-top:0px;color:white;">
+                                    <h3> <i class="icon-printer"></i> Imprimir <i class="icon-arrow-left"></i>F2<i class="icon-arrow-right"></i></h3>
+                                </a>
+                            </div>
+                            <span id="cmd">Convertir</span>
                         </div>
                         <?php if (count($ids_ventas) > 1) : ?>
                             <div class="row" style="border-bottom: 1px black;">
