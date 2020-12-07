@@ -107,3 +107,8 @@ a{
 	float:right;
 	display: inline;
 }
+
+@font-face {
+	font-family: ticket1; /*a name to be used later*/
+	src: url('../asstes/system-fonts/Ticketing.ttf'); /*URL to font*/
+}

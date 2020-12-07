@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Welcome extends CI_Controller
+{
 
 	/**
 	 * Index Page for this controller.
@@ -18,8 +19,22 @@ class Welcome extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index()
+	public function index($name)
 	{
+
+		/*$filepath = "./asstes/printer_files/".$name;
+		// EDIT: I added some permission/file checking.
+		if (!file_exists($filepath)) {
+			throw new Exception("File $filepath does not exist");
+		}
+		if (!is_readable($filepath)) {
+			throw new Exception("File $filepath is not readable");
+		}
+		http_response_code(200);
+		header('Content-Length: ' . filesize($filepath));
+		//header("Content-Type: application/txt");
+		//header('Content-Disposition: attachment;"'); // feel free to change the suggested filename
+		readfile($filepath);*/
 		$this->load->view('welcome_message');
 	}
 }

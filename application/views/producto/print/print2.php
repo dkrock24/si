@@ -1,10 +1,13 @@
 
 <link rel="stylesheet" media="print" href="<?php echo base_url(); ?>../asstes/css/print.css">
-<link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/print.css">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
+
 <link rel="stylesheet"
       src="<?php echo base_url(); ?>../asstes/css/print.css"
       type="text/css" />
+
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
+
 <style>
 
 
@@ -83,6 +86,18 @@
 .padding-top-7 { padding-top: 7px;}
 .padding-top-8 { padding-top: 8px;}
 .padding-top-9 { padding-top: 9px;}
+
+body{
+    background:white;
+}
+
+#formato{
+        font-family: 'Roboto Mono', monospace;
+        color: #bfbaba;
+        font-weight: 100;
+        font-size: 12px;
+        padding:20px;
+    }
 
 </style>
 <?php

@@ -1,4 +1,7 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+
+
+
 <script type="text/javascript">
     var path = "../";
 
@@ -197,7 +200,14 @@ include("asstes/pos_orden.php");
 
     #formato{
         float:right;
+        font-family: 'Roboto Mono', monospace;
+        color: grey;
+        font-weight: 100;
+        font-size: 12px;
+        padding:20px;
     }
+
+
 
 </style>
 
@@ -208,11 +218,10 @@ include("asstes/pos_orden.php");
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <span style="font-size: 20px; ">COMPROBANTE DE PAGO : 
+                <span style="font-size: 20px; font-family: ticket; ">COMPROBANTE DE PAGO : 
                     <span style="float:right;"><i class="icon-arrow-left"></i> Documento <?= $temp[0]->documento_nombre ?><i class="icon-arrow-right"></i>
                     <i class="icon-arrow-left"></i> Formato <?= $temp[0]->factura_nombre ?> <i class="icon-arrow-right"></i> </span>
                 </span>
-
             </div>
             <div class="modal-body">
 
@@ -228,6 +237,9 @@ include("asstes/pos_orden.php");
                         
                             ?>
                         <?php include("asstes/temp/" . $file . ".php"); ?>
+                        <?php
+
+                        ?>
                     </div>
                     <div class="col-md-4 col-lg-4" style="border-left:1px black;height:900px;position: relative;float:right;margin:0px;    background: white;
     margin-top: -15px;">

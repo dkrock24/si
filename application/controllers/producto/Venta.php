@@ -429,4 +429,19 @@ class Venta extends MY_Controller {
 		 }
 	}
 
+	public function photo_upload(){
+
+		$data = $_POST['photo'];
+		list($type, $data) = explode(';', $data);
+		list(, $data)      = explode(',', $data);
+		$data = base64_decode(explode(",", $_POST['photo'])[1]);
+
+		//mkdir($_SERVER['DOCUMENT_ROOT'] . "/photos");
+
+		file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/documentos/".'hola.png', $data);
+		//$filePath = $_SERVER['DOCUMENT_ROOT'] . "/photos/".'hola.png';
+
+		die;
+	}
+
 }

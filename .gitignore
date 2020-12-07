@@ -2,6 +2,8 @@
 
 application/cache/*
 application/config/*
+asstes/printer_files/*
+documentos/*
 !application/cache/index.html
 
 application/logs/*

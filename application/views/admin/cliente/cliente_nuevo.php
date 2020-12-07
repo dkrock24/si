@@ -90,6 +90,8 @@
         });
     });
 </script>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
 <!-- Main section-->
 <section>
     <!-- Page content-->
@@ -107,7 +109,7 @@
 
                 <div id="panelDemo10" class="panel menu_title_bar">
 
-                    <div class="panel-heading menuTop">Nuevo Cliente : <?php //echo $onMenu[0]->nombre_submenu 
+                    <div class="panel-heading menuTop" style="font-family: 'Roboto Mono', monospace;">Nuevo Cliente : <?php //echo $onMenu[0]->nombre_submenu 
                                                                         ?> </div>
                     <div class="menuContent">
                         <div class="b">    
