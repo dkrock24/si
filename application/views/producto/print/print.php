@@ -1,3 +1,4 @@
+<?php header("Access-Control-Allow-Origin: *"); ?>
 <link rel="stylesheet" media="print" href="<?php echo base_url(); ?>../asstes/css/print.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/print.css">
 <!--
@@ -229,7 +230,7 @@
         color: grey;
         font-weight: 100;
         font-size: 12px;
-        padding:20px;
+        padding:10px;
         background:white;
     }
 
@@ -247,7 +248,11 @@ if ($temp[0]->imprimir_lineas_documento) {
 
 include("asstes/temp/" . $file . ".php");
 
-//$this->load->library('html2pdf');
+if(!$_SERVER['DOCUMENT_ROOT']."/asstes/printer_files/documentos/" .$this->session->empresa[0]->codigo) {
+    //mkdir($_SERVER['DOCUMENT_ROOT']."/asstes/printer_files/documentos/" .$this->session->empresa[0]->codigo);
+} else {
+    file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/documentos/" .$this->session->empresa[0]->codigo. "/". $documento, $data);
+}
 
 $CI = &get_instance();
 $CI->load->library('html2pdf');
@@ -274,10 +279,16 @@ if ($CI->html2pdf->create('save')) {
         var_dump($covidJsonResponse);*/
 
     // kvstore API url
-    $url = 'http://localhost:8080/restApi/api/printer?name=HP_Color_LaserJet_MFP_M477fnw_4564C7_@NPI4564C7.local&path=/Desktop/demo/si/asstes/printer_files/&file=DSA000178.pdf&copies=3';
+    
 }
 
 ?>
+<?php
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Credentials: true");
+        header("Access-Control-Allow-Methods: GET");
+        //header("Content-Type: text/plain; charset=utf-8");
+        ?>
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
 <script type="text/javascript">
@@ -286,7 +297,7 @@ if ($CI->html2pdf->create('save')) {
         var printContents       = document.getElementById('formato').innerHTML;
         var originalContents    = document.body.innerHTML;
         document.body.innerHTML = printContents;
-        window.print();
+        //window.print();
         document.body.innerHTML = originalContents;
 
         // Printing HTML to Image
@@ -300,16 +311,54 @@ if ($CI->html2pdf->create('save')) {
                 var img = canvas.toDataURL("image/png");
                 //$("#previewImage").append(img);
                 //getCanvas = canvas;
-
+                var file_name = "demo";//"<?php echo $orden[0]->documento_numero; ?>";
+                var copias    = "<?php echo $_GET['c']; ?>";
+                var printer   = "<?php echo $_GET['i']; ?>";
+                var url_printer="<?php echo $_GET['l']; ?>";
                 $.ajax({
-                method: 'POST',
-                url: '../photo_upload',
-                data: 
-                    {photo:img}
+                    method: 'POST',
+                    url: '../photo_upload',
+                    data:
+                    {
+                        photo   : img,
+                        file    : file_name,
+                        copias  : copias,
+                        printer : url_printer
+                    },
+                    cache: false,
+                    success: function(result){
+                        
+                        if(result){
+                            //console.log(copias);
+                            request_imprimir(url_printer+"?printer="+printer+"&path="+result+"&file="+file_name+".txt&copies="+copias);
+                        }
+                    },
+                    error: function() {
+                        alert("no");
+                    }
                 });
             }  ,   
             background: '#fff'       
-        });        
+        });    
+        
+        
+        
+        function request_imprimir(url){
+
+            var printer_services = url;
+            
+            jQuery.ajax({
+                headers: { "Accept": "application/json"},
+                type: 'GET',
+                url: printer_services,
+                headers: {"Content-Type":"text/plain; charset=utf-8", "Accept": "*", "Accept-Language":"es-ES,es;q=0.8"},
+                dataType: 'jsonp',
+                success: function(data, textStatus, request){
+                    console.log(data);
+                }
+            });
+            
+        }
 
         $("#btn-Convert-Html2Image").on('click', function() {
             //var imgageData = getCanvas.toDataURL("image/png");
@@ -324,8 +373,10 @@ if ($CI->html2pdf->create('save')) {
                 method: 'POST',
                 url: '../photo_upload',
                 data: 
-                    {photo:photo}
-                
+                    {
+                        photo:photo,
+                        file: <?php echo $orden[0]->documento_numero; ?>
+                    }                
             });
         });
     });

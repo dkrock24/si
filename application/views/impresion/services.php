@@ -18,22 +18,23 @@
 <form action="" method="post" id="impresor_parametros">
     <table class="table impresion_parametros">
         <tr>
-            <td>Copias</td>
-            <td><input type="number" value="<?php echo $orden[0]->copias; ?>" name="copias" class="form-control"></td>
+            <td>COPIAS</td>
+            <td><input type="number" value="<?php echo $orden[0]->copias; ?>" id="copias" name="copias" class="form-control"></td>
         </tr>
         <tr>
-            <td>Impresora</td>
+            <td>IMPRESORA</td>
             <td>
-                <select class="form-control">
+                <select class="form-control" name="impresor" id="impresor">
                     <?php foreach($impresion as $i): ?>
-                        <option value="<?php echo $i->impresor_nombre ?>"><?php echo $i->impresor_nombre ." ". $i->impresor_marca ?></option>
+                        <option value="<?php echo $i->impresor_nombre ?>"><?php echo $i->impresor_nombre ." - ". $i->impresor_marca ?></option>
                     <?php endforeach ?>
                 </select>
             </td>
         </tr>
         <tr>
-            <td>Location</td>
+            <td>URL</td>
             <td>
+                <input type="hidden" name="url" id="url" value="<?php echo $i->impresor_url; ?>" />
                 <?php
                     echo $i->impresor_url;
                 ?>

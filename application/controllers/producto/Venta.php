@@ -432,16 +432,24 @@ class Venta extends MY_Controller {
 	public function photo_upload(){
 
 		$data = $_POST['photo'];
-		list($type, $data) = explode(';', $data);
-		list(, $data)      = explode(',', $data);
+		//list($type, $data) = explode(';', $data);
+		//list(, $data)      = explode(',', $data);
 		$data = base64_decode(explode(",", $_POST['photo'])[1]);
+		$documento = $_POST['file'].".png";
+		$status = 0;
+		$path = "/home/rafael/Documents/";
+		
+		if(!file_exists($_SERVER['DOCUMENT_ROOT'] . "/documentos/" .$this->session->empresa[0]->codigo)) {
+			mkdir($_SERVER['DOCUMENT_ROOT'] . "/documentos/" .$this->session->empresa[0]->codigo);
+			if(file_exists($_SERVER['DOCUMENT_ROOT'] . "/documentos/" .$this->session->empresa[0]->codigo)) {
+				file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/documentos/" .$this->session->empresa[0]->codigo. "/". $documento, $data);
+			}
+		} else {
+			file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/documentos/" .$this->session->empresa[0]->codigo. "/". $documento, $data);
+			$status = 1;
+		}
 
-		//mkdir($_SERVER['DOCUMENT_ROOT'] . "/photos");
-
-		file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/documentos/".'hola.png', $data);
-		//$filePath = $_SERVER['DOCUMENT_ROOT'] . "/photos/".'hola.png';
-
-		die;
+		echo "//192.168.0.6/documentos/" .$this->session->empresa[0]->codigo;
 	}
 
 }

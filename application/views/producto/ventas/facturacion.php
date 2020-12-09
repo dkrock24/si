@@ -77,9 +77,13 @@ include("asstes/pos_orden.php");
         });
 
         $("#prin").click(function() {
-            var id = $(this).attr('name');
+            var id       = $(this).attr('name');
+            var copias   = $("#copias").val();
+            console.log("Copias" + copias);
+            var impresor = $("#impresor").val();
+            var location = $("#url").val();
             var strWindowFeatures = "location=yes,height=670,width=820,scrollbars=yes,status=yes";
-            var URL = "../print_venta/" + id;
+            var URL = "../print_venta/" + id + "?c=" + copias + "&&i=" + impresor + "&&l=" + location;
             var win = window.open(URL, "_blank", strWindowFeatures);
             //window.open('http://localhost:8080/index.php/producto/traslado/print_traslado/11');
         });
@@ -241,8 +245,14 @@ include("asstes/pos_orden.php");
 
                         ?>
                     </div>
-                    <div class="col-md-4 col-lg-4" style="border-left:1px black;height:900px;position: relative;float:right;margin:0px;    background: white;
-    margin-top: -15px;">
+                    <div class="col-md-4 col-lg-4" 
+                        style="border-left:1px black;
+                        height:900px;
+                        position: relative;
+                        float:right;
+                        margin:0px;
+                        background: white;
+                        margin-top: -15px;">
 
                         <div class="row">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
