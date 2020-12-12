@@ -16,6 +16,7 @@ class Venta extends MY_Controller {
 		$this->load->helper('url');
 		$this->load->helper('seguridad/url_helper');
 		$this->load->helper('paginacion/paginacion_helper');
+		$this->load->library('ReceiptPrint');
 
 		$this->load->model('accion/Accion_model');
 		$this->load->model('admin/Menu_model');
@@ -29,6 +30,15 @@ class Venta extends MY_Controller {
 		$this->load->model('admin/Terminal_model');
 		$this->load->model('admin/Param_model');
 		$this->load->model('admin/Impresor_model');		
+	}
+
+	public function demo(){
+
+		
+		$this->receiptprint->connect('192.168.0.6', 9100);
+  		$this->receiptprint->print_test_receipt("demo");
+	
+		//echo json_encode(['id' => 1]);die;
 	}
 
 	public function index()
