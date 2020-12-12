@@ -5,9 +5,6 @@
       src="<?php echo base_url(); ?>../asstes/css/print.css"
       type="text/css" />
 
-      <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
-
 <style>
 
 
@@ -92,11 +89,15 @@ body{
 }
 
 #formato{
-        font-family: 'Roboto Mono', monospace;
-        color: #bfbaba;
-        font-weight: 100;
-        font-size: 12px;
-        padding:20px;
+        /*font-family: 'Roboto Mono', monospace !important;*/
+        
+        font-size: 16px;
+        line-height:1;
+        /*font-family: Consolas,monaco,monospace !important;*/
+        font-family:'Times New Roman', Times, serif !important;
+        /*font-weight: 200;*/
+        /*color:#000;*/
+        /*font-weight: bold;*/
     }
 
 </style>

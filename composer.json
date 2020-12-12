@@ -14,7 +14,8 @@
 		"php": ">=5.3.7",
 		"mpdf/mpdf": "^8.0",
 		"dompdf/dompdf": "^0.8.6",
-		"spipu/html2pdf": "^5.2"
+		"spipu/html2pdf": "^5.2",
+		"mike42/escpos-php": "^3.0"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

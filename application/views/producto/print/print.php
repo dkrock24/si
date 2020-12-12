@@ -12,13 +12,13 @@
 
 <style>
     @page {
-        margin-top: 2cm;
+        /*margin-top: 2cm;
         margin-bottom: 2cm;
         margin-left: 2cm;
-        margin-right: 2cm;
+        margin-right: 2cm;*/
 
         background: red;
-        font: 12pt Georgia, "Times New Roman", Times, serif;
+        font-family: 'Roboto Mono', monospace !important;
         line-height: 1.3;
     }
 
@@ -226,8 +226,8 @@
     }
 
     #formato{
-        font-family: 'Roboto Mono', monospace;
-        color: grey;
+        font-family: sans-serif !important;
+        color: #000;
         font-weight: 100;
         font-size: 12px;
         padding:10px;
@@ -266,7 +266,7 @@ $CI->html2pdf->paper('a4', 'portrait');
 $CI->html2pdf->html($this->load->view("producto/print/print2", $file, true));
 
 if ($CI->html2pdf->create('save')) {
-    //echo 'PDF saved';
+    echo 'PDF saved';
     //$response = file_get_contents('http://localhost:8080/restApi/api/printer?name=HP_Color_LaserJet_MFP_M477fnw_4564C7_@NPI4564C7.local&path=/Desktop/demo/si/asstes/printer_files/&file=DSA000178.pdf&copies=3');
 
 
@@ -311,10 +311,11 @@ if ($CI->html2pdf->create('save')) {
                 var img = canvas.toDataURL("image/png");
                 //$("#previewImage").append(img);
                 //getCanvas = canvas;
-                var file_name = "demo";//"<?php echo $orden[0]->documento_numero; ?>";
+                var file_name = "<?php echo $orden[0]->documento_numero; ?>";
                 var copias    = "<?php echo $_GET['c']; ?>";
                 var printer   = "<?php echo $_GET['i']; ?>";
                 var url_printer="<?php echo $_GET['l']; ?>";
+                console.log("------->"+ url_printer);
                 $.ajax({
                     method: 'POST',
                     url: '../photo_upload',
@@ -330,7 +331,7 @@ if ($CI->html2pdf->create('save')) {
                         
                         if(result){
                             //console.log(copias);
-                            request_imprimir(url_printer+"?printer="+printer+"&path="+result+"&file="+file_name+".txt&copies="+copias);
+                            request_imprimir(url_printer+"?printer="+printer+"&path="+result+"&file="+file_name+".png&copies="+copias);
                         }
                     },
                     error: function() {

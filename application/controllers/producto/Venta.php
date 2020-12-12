@@ -449,7 +449,8 @@ class Venta extends MY_Controller {
 			$status = 1;
 		}
 
-		echo "//192.168.0.6/documentos/" .$this->session->empresa[0]->codigo;
+		//echo "\\192.168.0.6\documentos\\" .$this->session->empresa[0]->codigo;
+		echo "/home/rafael/Desktop/demo/si/documentos/" .$this->session->empresa[0]->codigo;
 	}
 
 }

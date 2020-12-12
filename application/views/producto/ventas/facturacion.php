@@ -204,8 +204,8 @@ include("asstes/pos_orden.php");
 
     #formato{
         float:right;
-        font-family: 'Roboto Mono', monospace;
-        color: grey;
+        font-family: sans-serif !important;
+        color: black;
         font-weight: 100;
         font-size: 12px;
         padding:20px;
