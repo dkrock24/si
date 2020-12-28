@@ -1,6 +1,14 @@
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
+<?php
+require __DIR__ . '../../../../../vendor/autoload.php';
 
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\PrintConnectors\CupsPrintConnector;
+use Mike42\Escpos\Printer;
+?>
 
 <script type="text/javascript">
     var path = "../";
@@ -238,6 +246,27 @@ include("asstes/pos_orden.php");
                                 $linea = "border-bottom";
                                 $border = "border='1'";
                             }
+
+                          /*  try {
+                            $connector = new WindowsPrintConnector("POSS-80");
+
+                            $printer = new Printer($connector);
+
+                            if (!$connector or !$printer or !is_a($printer, 'Mike42\Escpos\Printer')) {
+                                throw new Exception("Tried to create receipt without being connected to a printer.");
+                            }
+
+                            
+    $printer->setJustification(Printer::JUSTIFY_CENTER);
+    $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+    $printer -> text($orden[0]->nit ."\n");
+    $printer->cut(Printer::CUT_PARTIAL);
+    $printer->close();
+
+                        } catch (Exception $e) {
+                            echo "Couldn't print to this printer: " . $e -> getMessage() . "\n";
+                        }*/
+                            
                         
                             ?>
                         <?php include("asstes/temp/" . $file . ".php"); ?>

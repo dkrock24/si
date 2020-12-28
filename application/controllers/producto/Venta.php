@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\PrintConnectors\CupsPrintConnector;
+use Mike42\Escpos\Printer;
+
 class Venta extends MY_Controller {
 
 	function __construct()
@@ -35,8 +41,8 @@ class Venta extends MY_Controller {
 	public function demo(){
 
 		
-		$this->receiptprint->connect('192.168.0.6', 9100);
-  		$this->receiptprint->print_test_receipt("demo");
+		//$this->receiptprint->connect('192.168.0.4', 9100);
+  		//$this->receiptprint->print_test_receipt("demo");
 	
 		//echo json_encode(['id' => 1]);die;
 	}
@@ -272,7 +278,6 @@ class Venta extends MY_Controller {
 		);
 		$data['impresion']		= $this->Impresor_model->get_impresor_sucursal($paramsImpresion);
 
-//		var_dump($data['impresion']);die;
 		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 		$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente($data['orden'][0]->id_cliente);
 		$data['empleado'] 		= $this->Usuario_model->get_empleado( $data['orden'][0]->id_cajero );
@@ -336,6 +341,8 @@ class Venta extends MY_Controller {
 		$data['file'] 			= $name;
 		$data['msj_title'] = "Su venta ha sido grabada satisfactoriamente";
 		$data['msj_orden'] = "Su número de transacción es: # ". $data['orden'][0]->num_correlativo;
+
+		$this->recibo($data);
 		
 		$this->generarDocumento( $name , $data['temp'][0]->factura_template );
 		$this->load->view('producto/print/print', $data);
@@ -461,6 +468,12 @@ class Venta extends MY_Controller {
 
 		//echo "\\192.168.0.6\documentos\\" .$this->session->empresa[0]->codigo;
 		echo "/home/rafael/Desktop/demo/si/documentos/" .$this->session->empresa[0]->codigo;
+	}
+
+	public function recibo($data) {
+		//var_dump($data['detalle']);
+		$this->receiptprint->connect('192.168.0.4', 9100);
+		$this->receiptprint->ticket($data);
 	}
 
 }
