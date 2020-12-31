@@ -26,12 +26,13 @@ class Giros_model extends CI_Model {
         } 
 	}
 
-    function getAllgiros($giro = null){;
+    function getAllgiros($giro = null, $codigo_giro = null){;
         $this->db->select('*');
         $this->db->from(self::giros);
         $this->db->where(self::giros.'.Empresa', $this->session->empresa[0]->id_empresa);
         if($giro){
             $this->db->where(self::giros.'.nombre_giro', $giro);
+            $this->db->where(self::giros.'.codigo_giro', $codigo_giro);
         }
         $query = $this->db->get(); 
         //echo $this->db->queries[0];
@@ -77,7 +78,7 @@ class Giros_model extends CI_Model {
 
 	function crear_giro( $nuevo_giro ){
 
-        $registros = $this->getAllgiros($nuevo_giro['nombre_giro']);
+        $registros = $this->getAllgiros($nuevo_giro['nombre_giro'], $nuevo_giro['codigo_giro']);
 
         if(!$registros){
             $data = array(
@@ -101,9 +102,6 @@ class Giros_model extends CI_Model {
                 'message' => "El registro ya existe"
             ];
         }
-
-		
-
 	}
 
 	function get_giro_id( $id_giro ){ 

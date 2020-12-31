@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div id="panelDemo10" class="panel menu_title_bar">
-                    <div class="panel-heading menuTop">Nueva Empresa : </div>
+                    <div class="panel-heading menuTop">Editar Empresa : </div>
                     <div class="menuContent">
                     <div class="b">
                         <div class="panel-heading"></div>

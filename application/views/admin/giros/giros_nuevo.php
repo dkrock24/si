@@ -43,7 +43,7 @@
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Codigo</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="codigo_giro" name="codigo_giro" placeholder="Codigo" value="">
+                                                <input type="text" required class="form-control" id="codigo_giro" name="codigo_giro" placeholder="Codigo" value="">
                                             </div>
                                         </div>                                       
 
