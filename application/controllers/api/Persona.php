@@ -1,7 +1,7 @@
 <?php
 require APPPATH . 'libraries/REST_Controller.php';
 
-class Empresa extends REST_Controller
+class Persona extends REST_Controller
 {
 
     const pos_empresa   = 'pos_empresa';
