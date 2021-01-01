@@ -4,7 +4,7 @@ require APPPATH . 'libraries/REST_Controller.php';
 class CargoLaboral extends REST_Controller
 {
 
-    const pos_empresa   = 'pos_empresa';
+    const cargos   = 'sys_cargo_laboral';
 
     public function __construct()
     {
@@ -17,35 +17,16 @@ class CargoLaboral extends REST_Controller
      *
      * @return Response
     */
-	public function index_get($id = 0)
+	public function index_get($empresa, $id = 0)
 	{
-        if(!empty($id)){
-            $data = $this->db->get_where("pos_giros", ['id' => $id])->row_array();
-        }else{
-            $data = $this->db->get("pos_giros")->result();
+        if (!empty($empresa)) {
+            if (!empty($id)) {
+                $data = $this->db->get_where(self::cargos, ['Empresa' => $empresa,'id_cargo_laboral' => $id])->row_array();
+            } else {
+                $data = $this->db->get_where(self::cargos,['Empresa' => $empresa])->result();
+            }
         }
      
         $this->response($data, REST_Controller::HTTP_OK);
-    }
-    
-    /**
-     * Get All Data from this method.
-     *
-     * @return Response
-    */
-    public function empresa_get($id){
-        //$data =  $this->db->get_where('pos_empresa', ['id_empresa', $id])->row_array(); 
-        //var_dump($data);die;
-
-        $this->db->select('e.id_empresa');
-        $this->db->from(self::pos_empresa.' e');
-        //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
-        $this->db->where('id_empresa', $id);
-        
-        $data = $query = $this->db->get();
-        
-
-        $this->response($data->row_array(), REST_Controller::HTTP_OK);
-        
     }
 }

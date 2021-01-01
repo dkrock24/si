@@ -3,8 +3,9 @@ require APPPATH . 'libraries/REST_Controller.php';
 
 class Pais extends REST_Controller
 {
-
-    const pos_empresa   = 'pos_empresa';
+    const pais   = 'sys_pais';
+    const municipio = 'sys_ciudad';
+    const departamneto = 'sys_departamento';
 
     public function __construct()
     {
@@ -20,9 +21,9 @@ class Pais extends REST_Controller
 	public function index_get($id = 0)
 	{
         if(!empty($id)){
-            $data = $this->db->get_where("pos_giros", ['id' => $id])->row_array();
-        }else{
-            $data = $this->db->get("pos_giros")->result();
+            $data = $this->db->get_where(self::pais, ['id_pais' => $id])->row_array();
+        } else {
+            $data = $this->db->get(self::pais)->result();
         }
      
         $this->response($data, REST_Controller::HTTP_OK);
@@ -33,19 +34,37 @@ class Pais extends REST_Controller
      *
      * @return Response
     */
-    public function empresa_get($id){
-        //$data =  $this->db->get_where('pos_empresa', ['id_empresa', $id])->row_array(); 
-        //var_dump($data);die;
+    public function pais_dep_get($id = 0){
 
-        $this->db->select('e.id_empresa');
-        $this->db->from(self::pos_empresa.' e');
-        //$this->db->where('e.codigo', $this->session->empresa[0]->codigo);
-        $this->db->where('id_empresa', $id);
-        
-        $data = $query = $this->db->get();
-        
+        $this->db->select('*');
+        $this->db->from(self::pais.' p');
+        $this->db->join(self::departamneto.' d', ' on p.id_pais = d.pais');
 
-        $this->response($data->row_array(), REST_Controller::HTTP_OK);
-        
+        if(!empty($id)){
+            $this->db->where('d.id_departamento', $id);
+        }
+        $data =$this->db->get()->result();
+
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
+    /**
+     * Get All Data from this method.
+     *
+     * @return Response
+    */
+    public function pais_dep_ciu_get($id = 0){
+
+        $this->db->select('*');
+        $this->db->from(self::pais.' p');
+        $this->db->join(self::departamneto.' d', ' on p.id_pais = d.pais');
+        $this->db->join(self::municipio.' m', ' on m.departamento = d.id_departamento');
+
+        if(!empty($id)){
+            $this->db->where('d.id_departamento', $id);
+        }
+        $data =$this->db->get()->result();
+
+        $this->response($data, REST_Controller::HTTP_OK);
     }
 }
