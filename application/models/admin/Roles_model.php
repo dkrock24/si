@@ -7,6 +7,7 @@ class Roles_model extends CI_Model {
     const empresa   = 'sys_empresa';
     const usuarios  = 'sr_usuarios';    
     const roles     = 'sys_role';
+    const roles2     = 'sys_role2';
     const cargos    = 'sr_cargos';
     const pos_orden_estado = 'pos_orden_estado';
     const sys_vistas_acceso = 'sys_vistas_acceso';
@@ -204,6 +205,17 @@ class Roles_model extends CI_Model {
         {
             return $query->result();
         }
+    }
+    
+    function insert_api($roles)
+    {
+        $this->db->truncate(self::roles2);
+
+        $data = [];
+        foreach ($roles as $key => $rol) {
+            $data[] = $rol;
+        }
+        $this->db->insert_batch(self::roles2, $data);
     }
 }
 

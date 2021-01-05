@@ -4,7 +4,8 @@ require APPPATH . 'libraries/REST_Controller.php';
 class Correlativo extends REST_Controller
 {
 
-    const correlativo   = 'pos_correlativos';
+    const correlativo = 'pos_correlativos';
+    const sucursal = 'pos_sucursal';
 
     public function __construct()
     {
@@ -17,14 +18,15 @@ class Correlativo extends REST_Controller
      *
      * @return Response
      */
-    public function index_get($sucursal, $id = 0)
+    public function index_get($empresa)
     {
-        if (!empty($sucursal)) {
-            if (!empty($id)) {
-                $data = $this->db->get_where(self::correlativo, ['Sucursal' => $sucursal, 'id_correlativos' => $id])->row_array();
-            } else {
-                $data = $this->db->get_where(self::correlativo, ['Sucursal' => $sucursal])->result();
-            }
+        if (!empty($empresa)) {
+            $this->db->select('c.*');
+            $this->db->from(self::correlativo.' c');
+            $this->db->join(self::sucursal . ' s', ' on c.Sucursal = s.id_sucursal');
+            $this->db->where('s.Empresa_Suc', $empresa);
+            
+            $data = $this->db->get()->result();
         }
 
         $this->response($data, REST_Controller::HTTP_OK);

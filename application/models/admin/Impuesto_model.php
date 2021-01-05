@@ -2,6 +2,7 @@
 class Impuesto_model extends CI_Model {
 
     const impuesto          = 'pos_tipos_impuestos';
+    const impuesto2         = 'pos_tipos_impuestos2';
     const impuesto_categoria= 'pos_impuesto_categoria';
     const impuesto_cliente  = 'pos_impuesto_cliente';
     const impuesto_documento= 'pos_impuesto_documento';
@@ -319,5 +320,16 @@ class Impuesto_model extends CI_Model {
 
         return 1;
     }
+
+    function insert_api($impuestos)
+    {
+        $this->db->truncate(self::impuesto2);
+
+        $data = [];
+        foreach ($impuestos as $key => $impuesto) {
+            $data[] = $impuesto;
+        }
+        $this->db->insert_batch(self::impuesto2, $data);
+    }
+    
 }
-?>

@@ -4,6 +4,7 @@ class Cargos_model extends CI_Model {
 	const sys_persona       = 'sys_persona';	
     const sys_empleado      = 'sys_empleado';  
     const sys_cargo_laboral = 'sys_cargo_laboral';
+    const sys_cargo_laboral2 = 'sys_cargo_laboral2';
     const pos_orden_estado  = 'pos_orden_estado';
 	
 	function get_cargos($cargo = NULL){
@@ -117,5 +118,16 @@ class Cargos_model extends CI_Model {
         }
 
         return $result;
+    }
+
+    function insert_api($cargos)
+    {
+        $this->db->truncate(self::sys_cargo_laboral2);
+
+        $data = [];
+        foreach ($cargos as $key => $cargo) {
+            $data[] = $cargo;
+        }
+        $this->db->insert_batch(self::sys_cargo_laboral2, $data);
     }
 }

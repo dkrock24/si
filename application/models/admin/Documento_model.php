@@ -2,6 +2,7 @@
 class Documento_model extends CI_Model {
 
     const documento         = 'pos_tipo_documento';
+    const documento2         = 'pos_tipo_documento2';
     const pos_sucursal      = 'pos_sucursal';
     const pos_temp_sucursal = 'pos_temp_sucursal';
     const pos_orden_estado  = 'pos_orden_estado';
@@ -142,5 +143,16 @@ class Documento_model extends CI_Model {
         }
 
         return $result;
+    }
+
+    function insert_api($documentos)
+    {
+        $this->db->truncate(self::documento2);
+
+        $data = [];
+        foreach ($documentos as $key => $documento) {
+            $data[] = $documento;
+        }
+        $this->db->insert_batch(self::documento2, $data);
     }
 }

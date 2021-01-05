@@ -1,7 +1,8 @@
 <?php
 class Giros_model extends CI_Model {
 	
-	const giros             =  'pos_giros';
+    const giros             =  'pos_giros';
+    const giros2             =  'pos_giros2';
     const empresa           = 'pos_empresa';
     const atributos         = 'atributo';
     const plantillas        = 'giro_pantilla';
@@ -400,5 +401,16 @@ class Giros_model extends CI_Model {
         {
             return $query->result();
         }
+    }
+
+    function insert_api($giros)
+    {
+        $this->db->truncate(self::giros2);
+
+        $data = [];
+        foreach ($giros as $key => $giro) {
+            $data[] = $giro;
+        }
+        $this->db->insert_batch(self::giros2, $data);
     }
 }

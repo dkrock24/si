@@ -3,7 +3,7 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 class Acceso_model extends CI_Model
 {
     const libreria  = 'sys_librerias';
-    const configuracion = 'sys_config';
+    const configuracion2 = 'sys_conf2';
     const menu      = 'sys_menu';
     const empresa   = 'sys_empresa';
     const usuarios  = 'sys_usuarios';
@@ -244,7 +244,7 @@ class Acceso_model extends CI_Model
         $this->db->where('m.id_menu', $menu);
         $query = $this->db->get();
         //echo $this->db->queries[13];
-        
+
         if ($query->num_rows() > 0) {
             return $query->result();
         }
@@ -364,7 +364,7 @@ class Acceso_model extends CI_Model
 
         $roles = $this->getRoles();
 
-        $vista_compo = $this->vistas_components();    
+        $vista_compo = $this->vistas_components();
 
         foreach ($roles as $key => $r) {
 
@@ -377,14 +377,14 @@ class Acceso_model extends CI_Model
                     $registros = array(
                         'id_role' => $r->id_rol,
                         'id_vista_componente' => $vc->id,
-                        'vista_acceso_creado'=> date('Y-m-d H:i:s'),
+                        'vista_acceso_creado' => date('Y-m-d H:i:s'),
                         'vista_acceso_estado' => 0
                     );
 
                     $result[$cnt] = $registros;
 
                     $this->db->insert(self::sys_vistas_acceso, $registros);
-                    
+
                     $cnt++;
                 }
             }
@@ -407,32 +407,29 @@ class Acceso_model extends CI_Model
                     );
 
                     $this->db->insert(self::submenu_acceso, $registros);
-
                 }
-
             }
-
         }
-        
     }
 
-    public function get_rol_acceso( $rol , $menu ){
+    public function get_rol_acceso($rol, $menu)
+    {
 
         $this->db->select('*');
         $this->db->from(self::submenu_acceso);
 
-        $this->db->where('id_submenu', $menu );
-        $this->db->where('id_role', $rol );
+        $this->db->where('id_submenu', $menu);
+        $this->db->where('id_role', $rol);
 
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             return $query->result();
         }
-
     }
 
-    public function sys_menu_submenu(){
+    public function sys_menu_submenu()
+    {
 
         $this->db->select('*');
         $this->db->from(self::sys_menu_submenu);
@@ -443,8 +440,15 @@ class Acceso_model extends CI_Model
         }
     }
 
-    
+    function insert_api($configs)
+    {
+        $this->db->truncate(self::configuracion2);
+
+        $data = [];
+        foreach ($configs as $key => $config) {
+            $data[] = $config;
+        }
+        //var_dump($data);die;
+        $this->db->insert_batch(self::configuracion2, $data);
+    }
 }
-/*
- * end of application/models/consultas_model.php
- */

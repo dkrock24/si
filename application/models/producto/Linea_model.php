@@ -2,6 +2,7 @@
 class Linea_model extends CI_Model {
 
     const pos_linea = 'pos_linea';
+    const linea2 = 'pos_linea2';
     const pos_orden_estado = 'pos_orden_estado';
 	
 	function getLinea( $limit, $id , $filters ){
@@ -120,5 +121,16 @@ class Linea_model extends CI_Model {
         }
 
         return $result;
+    }
+
+    function insert_api($lineas)
+    {
+        $this->db->truncate(self::linea2);
+
+        $data = [];
+        foreach ($lineas as $key => $linea) {
+            $data[] = $linea;
+        }
+        $this->db->insert_batch(self::linea2, $data);
     }
 }

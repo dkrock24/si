@@ -1,7 +1,8 @@
 <?php
 class Categorias_model extends CI_Model {
 	
-	const categorias =  'categoria';
+    const categorias =  'categoria';
+    const categorias2 =  'categoria2';
 
 	function get_categorias($limit, $id  , $filters ){
 
@@ -206,5 +207,16 @@ class Categorias_model extends CI_Model {
         {
             return $query->result();
         } 
+    }
+
+    function insert_api($categorias)
+    {
+        $this->db->truncate(self::categorias2);
+
+        $data = [];
+        foreach ($categorias as $key => $categoria) {
+            $data[] = $categoria;
+        }
+        $this->db->insert_batch(self::categorias2, $data);
     }
 }

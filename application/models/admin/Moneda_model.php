@@ -7,6 +7,7 @@ class Moneda_model extends CI_Model {
     const empleado_sucursal = 'sys_empleado_sucursal';
     const pos_empresa = 'pos_empresa';
     const sys_moneda = 'sys_moneda';
+    const moneda2 = 'sys_moneda2';
     const pos_orden_estado = 'pos_orden_estado';
 
     function getMoneda(  $limit, $id , $filters){
@@ -117,6 +118,17 @@ class Moneda_model extends CI_Model {
         }
 
         return $result;
+    }
+
+    function insert_api($monedas)
+    {
+        $this->db->truncate(self::moneda2);
+
+        $data = [];
+        foreach ($monedas as $key => $moneda) {
+            $data[] = $moneda;
+        }
+        $this->db->insert_batch(self::moneda2, $data);
     }
 
 }

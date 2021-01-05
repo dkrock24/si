@@ -4,6 +4,7 @@ class Caja_model extends CI_Model {
 	const pos_terminal = 'pos_terminal';
     const sucursal = "pos_sucursal";
     const caja = "pos_caja";
+    const caja2 = "pos_caja2";
     const empresa = "pos_empresa";
     const pos_terminal_cajero = 'pos_terminal_cajero';
     const documento = 'pos_tipo_documento';
@@ -102,6 +103,17 @@ class Caja_model extends CI_Model {
         $this->db->from( self::caja.' as terminal');
         $result = $this->db->count_all_results();
         return $result;
+    }
+
+    function insert_api($cajas)
+    {
+        $this->db->truncate(self::caja2);
+
+        $data = [];
+        foreach ($cajas as $key => $cajas) {
+            $data[] = $cajas;
+        }
+        $this->db->insert_batch(self::caja2, $data);
     }
 
 }
