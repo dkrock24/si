@@ -40,6 +40,11 @@ class Table extends MY_Controller
         $this->load->model('admin/Giros_model');
         $this->load->model('admin/Impuesto_model');
         $this->load->model('admin/Caja_model');
+        $this->load->model('admin/Cliente_model');
+        $this->load->model('admin/Empleado_model');
+        $this->load->model('admin/Proveedor_model');
+        $this->load->model('admin/Terminal_model');
+        $this->load->model('producto/Orden_model');
         
     }
 
@@ -119,6 +124,48 @@ class Table extends MY_Controller
     {
         $items = $this->callAPI($_GET['params']);
         $this->Caja_model->insert_api($items);
+    }
+
+    public function cliente_tipo()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Cliente_model->insert_api($items);
+    }
+
+    public function cliente()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Cliente_model->insert_api2($items);
+    }
+
+    public function empleado()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Empleado_model->insert_api($items);
+    }
+
+    public function usuario()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Usuario_model->insert_api($items);
+    }
+
+    public function proveedor()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Proveedor_model->insert_api($items);
+    }
+
+    public function terminal()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Terminal_model->insert_api($items);
+    }
+
+    public function orden_estado()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Orden_model->insert_api($items);
     }
 
     private function callAPI($param)

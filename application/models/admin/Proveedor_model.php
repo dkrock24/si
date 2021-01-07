@@ -3,6 +3,7 @@ class Proveedor_model extends CI_Model {
 
     const sys_persona =  'sys_persona';
     const pos_proveedor = 'pos_proveedor';
+    const pos_proveedor2 = 'pos_proveedor2';
     const pos_linea = 'pos_linea';
     const cliente =  'pos_cliente';
     const cliente_tipo = 'pos_cliente_tipo';
@@ -179,5 +180,17 @@ class Proveedor_model extends CI_Model {
         }
 
         return $result;
+    }
+
+    function insert_api($proveedores)
+    {
+        $this->db->truncate(self::pos_proveedor2);
+
+        $data = [];
+        foreach ($proveedores as $key => $proveedor) {
+            $proveedor->logo = base64_decode($proveedor->logo);
+            $data[] = $proveedor;
+        }
+        $this->db->insert_batch(self::pos_proveedor2, $data);
     }
 }

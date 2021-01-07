@@ -3,6 +3,7 @@ class Empleado_model extends CI_Model {
 	
 	const sys_persona = 'sys_persona';	
     const sys_empleado = 'sys_empleado';  
+    const sys_empleado2 = 'sys_empleado2'; 
     const sys_ciudad = 'sys_ciudad';
     const sys_sexo = 'sys_sexo';
     const pos_sucursal = 'pos_sucursal';
@@ -263,6 +264,17 @@ class Empleado_model extends CI_Model {
         {
             return $query->result();
         }
+    }
+
+    function insert_api($empleados)
+    {
+        $this->db->truncate(self::sys_empleado2);
+
+        $data = [];
+        foreach ($empleados as $key => $empleado) {
+            $data[] = $empleado;
+        }
+        $this->db->insert_batch(self::sys_empleado2, $data);
     }
 
 }

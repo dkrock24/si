@@ -39,6 +39,8 @@ class Orden_model extends CI_Model
 	const sys_empleado_sucursal	 = 'sys_empleado_sucursal';	
 	const producto_proveedor	 = 'pos_proveedor_has_producto';
 	const pos_proveedor_has_producto	 = 'pos_proveedor_has_producto';
+	const pos_orden_estado = 'pos_orden_estado';
+	const pos_orden_estado2 = 'pos_orden_estado2';
 
 	// Ordenes
 	const pos_tipo_documento = 'pos_tipo_documento';
@@ -982,4 +984,15 @@ class Orden_model extends CI_Model
 			return $query->result();
 		}
 	}
+
+	function insert_api($orden_estados)
+    {
+        $this->db->truncate(self::pos_orden_estado2);
+		
+        $data = [];
+        foreach ($orden_estados as $key => $orden_estado) {
+            $data[] = $orden_estado;
+		}
+		$data = $this->db->insert_batch(self::pos_orden_estado2, $data);
+    }
 }

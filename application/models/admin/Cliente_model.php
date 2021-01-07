@@ -2,9 +2,11 @@
 class Cliente_model extends CI_Model
 {
     const cliente               = 'pos_cliente';
+    const cliente2              = 'pos_cliente2';
     const formas_pago           = 'pos_formas_pago';
     const sys_persona           = 'sys_persona';
     const cliente_tipo          = 'pos_cliente_tipo';
+    const cliente_tipo2         = 'pos_cliente_tipo2';
     const pos_fp_cliente        = 'pos_formas_pago_cliente';
     const pos_formas_pago       = 'pos_formas_pago';
     const tipos_documentos      = 'pos_tipo_documento';
@@ -342,5 +344,28 @@ class Cliente_model extends CI_Model
 
         return 1;
 
+    }
+
+    function insert_api($clienteTipos)
+    {
+        $this->db->truncate(self::cliente_tipo2);
+
+        $data = [];
+        foreach ($clienteTipos as $key => $clienteTipo) {
+            $data[] = $clienteTipo;
+        }
+        $this->db->insert_batch(self::cliente_tipo2, $data);
+    }
+
+    function insert_api2($clientes)
+    {
+        $this->db->truncate(self::cliente2);
+
+        $data = [];
+        foreach ($clientes as $key => $cliente) {
+            $cliente->logo_cli = base64_decode($cliente->logo_cli);
+            $data[] = $cliente;
+        }
+        $this->db->insert_batch(self::cliente2, $data);
     }
 }

@@ -5,6 +5,7 @@ class Usuario_model extends CI_Model {
     const persona               = 'sys_persona';
     const pos_empresa           = 'pos_empresa';
     const sys_usuario           = 'sys_usuario';
+    const sys_usuario2          = 'sys_usuario2';
 	const empleado              = 'sys_empleado';
     const sucursal              = 'pos_sucursal';
     const pos_orden_estado      = 'pos_orden_estado';
@@ -359,5 +360,17 @@ class Usuario_model extends CI_Model {
         {
             return $query->result();
         }
+    }
+
+    function insert_api($usuarios)
+    {
+        $this->db->truncate(self::sys_usuario2);
+
+        $data = [];
+        foreach ($usuarios as $key => $usuario) {
+            $usuario->img = base64_decode($usuario->img);
+            $data[] = $usuario;
+        }
+        $this->db->insert_batch(self::sys_usuario2, $data);
     }
 }

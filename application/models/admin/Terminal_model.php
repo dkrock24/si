@@ -1,7 +1,8 @@
 <?php
 class Terminal_model extends CI_Model {
 
-	const pos_terminal = 'pos_terminal';
+    const pos_terminal = 'pos_terminal';
+    const pos_terminal2 = 'pos_terminal2';
 	const pos_terminal_cajero = 'pos_terminal_cajero';
     const sucursal = "pos_sucursal";
     const caja = 'pos_caja';
@@ -238,5 +239,16 @@ class Terminal_model extends CI_Model {
             $insert = $this->db->error();
         }
 
+    }
+
+    function insert_api($terminales)
+    {
+        $this->db->truncate(self::pos_terminal2);
+
+        $data = [];
+        foreach ($terminales as $key => $terminal) {
+            $data[] = $terminal;
+        }
+        $this->db->insert_batch(self::pos_terminal2, $data);
     }
 }
