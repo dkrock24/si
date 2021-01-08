@@ -4,9 +4,13 @@ class Impuesto_model extends CI_Model {
     const impuesto          = 'pos_tipos_impuestos';
     const impuesto2         = 'pos_tipos_impuestos2';
     const impuesto_categoria= 'pos_impuesto_categoria';
+    const impuesto_categoria2= 'pos_impuesto_categoria2';
     const impuesto_cliente  = 'pos_impuesto_cliente';
+    const impuesto_cliente2  = 'pos_impuesto_cliente2';
     const impuesto_documento= 'pos_impuesto_documento';
+    const impuesto_documento2= 'pos_impuesto_documento2';
     const impuesto_proveedor= 'pos_impuesto_proveedor';
+    const impuesto_proveedor2= 'pos_impuesto_proveedor2';
     const pos_orden_estado  = 'pos_orden_estado';
 
     function getImpuesto($limit, $id, $filters){
@@ -331,5 +335,49 @@ class Impuesto_model extends CI_Model {
         }
         $this->db->insert_batch(self::impuesto2, $data);
     }
-    
+
+
+    function insert_id_api($impuesto_documentos)
+    {
+        $this->db->truncate(self::impuesto_documento2);
+
+        $data = [];
+        foreach ($impuesto_documentos as $key => $id) {
+            $data[] = $id;
+        }
+        $this->db->insert_batch(self::impuesto_documento2, $data);
+    }
+
+    function insert_ic_api($impuesto_categoria)
+    {
+        $this->db->truncate(self::impuesto_categoria2);
+
+        $data = [];
+        foreach ($impuesto_categoria as $key => $ic) {
+            $data[] = $ic;
+        }
+        $this->db->insert_batch(self::impuesto_categoria2, $data);
+    }
+
+    function insert_icli_api($impuesto_clientes)
+    {
+        $this->db->truncate(self::impuesto_cliente2);
+
+        $data = [];
+        foreach ($impuesto_clientes as $key => $icliente) {
+            $data[] = $icliente;
+        }
+        $this->db->insert_batch(self::impuesto_cliente2, $data);
+    }
+
+    function insert_ip_api($impuesto_proveedor)
+    {
+        $this->db->truncate(self::impuesto_proveedor2);
+
+        $data = [];
+        foreach ($impuesto_proveedor as $key => $proveedor) {
+            $data[] = $proveedor;
+        }
+        $this->db->insert_batch(self::impuesto_proveedor2, $data);
+    }
 }

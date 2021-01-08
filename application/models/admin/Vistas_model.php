@@ -11,6 +11,7 @@ class Vistas_model extends CI_Model {
     const pos_tipo_documento        = 'pos_tipo_documento';
     const sys_estados_vistas        = 'sys_estados_vistas';
     const sys_vistas_documento      = 'sys_vistas_documento';
+    const sys_vistas_documento2      = 'sys_vistas_documento2';
     const sys_vistas_componentes    = 'sys_vistas_componentes';
 
 	function get_vistas( $limit, $id ,$filters){
@@ -550,6 +551,17 @@ class Vistas_model extends CI_Model {
         {
             return $query->result();
         }
+    }
+
+    function insert_relacion_api($documento_vistas)
+    {
+        $this->db->truncate(self::sys_vistas_documento2);
+
+        $data = [];
+        foreach ($documento_vistas as $key => $dv) {
+            $data[] = $dv;
+        }
+        $this->db->insert_batch(self::sys_vistas_documento2, $data);
     }
 
 }

@@ -45,6 +45,8 @@ class Table extends MY_Controller
         $this->load->model('admin/Proveedor_model');
         $this->load->model('admin/Terminal_model');
         $this->load->model('producto/Orden_model');
+        $this->load->model('admin/Vistas_model');
+        $this->load->model('producto/Producto_model');
         
     }
 
@@ -52,6 +54,11 @@ class Table extends MY_Controller
     {
         $items = $this->callAPI($_GET['params']);
         $this->Marca_model->insert_api($items);
+    }
+    public function marca_categoria()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Marca_model->insert_relacion_api($items);
     }
 
     public function linea()
@@ -70,6 +77,12 @@ class Table extends MY_Controller
     {
         $items = $this->callAPI($_GET['params']);
         $this->Documento_model->insert_api($items);
+    }
+
+    public function documento_vista()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Vistas_model->insert_relacion_api($items);
     }
 
     public function moneda()
@@ -120,6 +133,30 @@ class Table extends MY_Controller
         $this->Impuesto_model->insert_api($items);
     }
 
+    public function impuesto_documento()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Impuesto_model->insert_id_api($items);
+    }
+
+    public function impuesto_categoria()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Impuesto_model->insert_ic_api($items);
+    }
+
+    public function impuesto_cliente()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Impuesto_model->insert_icli_api($items);
+    }
+
+    public function impuesto_proveedor()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Impuesto_model->insert_ip_api($items);
+    }
+
     public function caja()
     {
         $items = $this->callAPI($_GET['params']);
@@ -168,17 +205,70 @@ class Table extends MY_Controller
         $this->Orden_model->insert_api($items);
     }
 
+    public function producto_categoria()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Producto_model->insert_pc_api($items);
+    }
+
+    public function producto_detalle()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Producto_model->insert_pd_api($items);
+    }
+
+    public function producto_bodega()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Producto_model->insert_pb_api($items);
+    }
+
+    public function producto_imagen()
+    {
+        $this->Producto_model->truncate_product_image();
+
+        $valor = 0;
+        $limite = $_GET['limite'];
+        $origen = $_GET['cantidad'];
+        $cont = 0;
+        do {
+            
+            if ( $cont == 0 ) {
+                $origen = 0;
+            }
+            $url = $_GET['params']."/".$limite."/".$origen;
+
+            $items = $this->callAPI($url);
+
+            if ( $items ) {
+                $this->Producto_model->insert_pi_api($items);
+                $valor = 1;
+            } else {
+                $valor = 0;
+            }
+
+            if ($cont == 0 ) {
+                $origen = 20;
+            } else {
+                $origen = $origen + $_GET['cantidad'];
+            }
+
+            $cont++;
+        } while ($valor != 0);
+
+    }
+
     private function callAPI($param)
     {
         $headers = array('Content-Type: application/json',);
         // the url of the API you are contacting to 'consume' 
-        $this->url .= $param;
+        $finalUrl = $this->url.$param;
 
         // Open connection
         $ch = curl_init();
 
         // Set the url, number of GET vars, GET data
-        curl_setopt($ch, CURLOPT_URL, $this->url);
+        curl_setopt($ch, CURLOPT_URL, $finalUrl);
         curl_setopt($ch, CURLOPT_POST, false);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -187,6 +277,7 @@ class Table extends MY_Controller
 
         // Execute request
         $result = curl_exec($ch);
+        //var_dump($result);
 
         // Close connection
         curl_close($ch);

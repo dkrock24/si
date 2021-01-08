@@ -154,5 +154,5 @@ class Documento_model extends CI_Model {
             $data[] = $documento;
         }
         $this->db->insert_batch(self::documento2, $data);
-    }
+    }    
 }

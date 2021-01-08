@@ -6,6 +6,7 @@ class Marca_model extends CI_Model
     const marca2 = 'pos_marca2';
     const categoria = 'categoria';
     const marca_categoria = 'pos_marca_categoria';
+    const marca_categoria2 = 'pos_marca_categoria2';
     const pos_orden_estado = 'pos_orden_estado';
 
     function getMarca($limit, $id, $filters)
@@ -244,5 +245,16 @@ class Marca_model extends CI_Model
             $data[] = $marca;
         }
         $this->db->insert_batch(self::marca2, $data);
+    }
+
+    function insert_relacion_api($marcas_categoria)
+    {
+        $this->db->truncate(self::marca_categoria2);
+
+        $data = [];
+        foreach ($marcas_categoria as $key => $mc) {
+            $data[] = $mc;
+        }
+        $this->db->insert_batch(self::marca_categoria2, $data);
     }
 }
