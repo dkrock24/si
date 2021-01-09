@@ -5,14 +5,17 @@ class Sucursal_model extends CI_Model
     const pos_sucursal  = 'pos_sucursal';
     const sucursal2     = 'pos_sucursal2';
     const pos_bodega    = 'pos_bodega';
+    const pos_bodega2    = 'pos_bodega2';
     const pos_empresa   = 'pos_empresa';
     const sys_usuario   = 'sys_usuario';
     const sys_empleado      = 'sys_empleado';
     const pos_orden_estado  = 'pos_orden_estado';
     const sys_empleado_sucursal = 'sys_empleado_sucursal';
+    const sys_empleado_sucursal2 = 'sys_empleado_sucursal2';
     const sys_ciudad = 'sys_ciudad';
     const sys_departamento = 'sys_departamento';
     const sys_pais = 'sys_pais';
+    const pos_temp_sucursal2 = 'pos_temp_sucursal2';
 
     function getSucursal()
     {
@@ -243,5 +246,40 @@ class Sucursal_model extends CI_Model
             $data[] = $sucursal;
         }
         $this->db->insert_batch(self::sucursal2, $data);
+    }
+
+    function insert_st_api($sucursales_template)
+    {
+        $this->db->truncate(self::pos_temp_sucursal2);
+
+        $data = [];
+        foreach ($sucursales_template as $key => $template) {
+            $data[] = $template;
+        }
+        $this->db->insert_batch(self::pos_temp_sucursal2, $data);
+    }
+
+    function insert_em_api($sucursales_empleado)
+    {
+        $this->db->truncate(self::sys_empleado_sucursal2);
+
+        $data = [];
+        foreach ($sucursales_empleado as $key => $template) {
+            $data[] = $template;
+        }
+        $this->db->insert_batch(self::sys_empleado_sucursal2, $data);
+        //var_dump($this->db->error());
+    }
+
+    function insert_sb_api($sucursales_bodega)
+    {
+        $this->db->truncate(self::pos_bodega2);
+
+        $data = [];
+        foreach ($sucursales_bodega as $key => $bodega) {
+            $data[] = $bodega;
+        }
+        $this->db->insert_batch(self::pos_bodega2, $data);
+
     }
 }

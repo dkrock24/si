@@ -1,9 +1,12 @@
 <?php
 class Pais_model extends CI_Model {
 	
-	const pais =  'sys_pais';
-	const pais_d =  'sys_departamento';
-	const pais_d_c =  'sys_ciudad';
+    const pais =  'sys_pais';
+    const pais2 =  'sys_pais2';
+    const pais_d =  'sys_departamento';
+    const pais_d2 =  'sys_departamento2';
+    const pais_d_c =  'sys_ciudad';
+    const pais_d_c2 =  'sys_ciudad2';
 	const sys_moneda = 'sys_moneda';
 	const sys_departamento = 'sys_departamento';
     const pos_orden_estado = 'pos_orden_estado';
@@ -270,6 +273,42 @@ class Pais_model extends CI_Model {
 	        {
 	            return $query->result();
 	        } 
-	}
+    }
+    
+    function insert_pais_api($paises)
+    {
+        $this->db->truncate(self::pais2);
+        $data = [];
+        foreach ($paises as $key => $pais) {
+            $data[] = $pais;
+        }
 
-}?>
+        $this->db->insert_batch(self::pais2, $data);
+        //var_dump($this->db->error());
+    }
+
+    function insert_departamento_api($departamentos)
+    {
+        $this->db->truncate(self::pais_d2);
+        $data = [];
+        foreach ($departamentos as $key => $departamento) {
+            $data[] = $departamento;
+        }
+
+        $this->db->insert_batch(self::pais_d2, $data);
+        //var_dump($this->db->error());
+    }
+
+    function insert_municipio_api($municipios)
+    {
+        $this->db->truncate(self::pais_d_c2);
+        $data = [];
+        foreach ($municipios as $key => $municipio) {
+            $data[] = $municipio;
+        }
+
+        $this->db->insert_batch(self::pais_d_c2, $data);
+        //var_dump($this->db->error());
+    }
+
+}

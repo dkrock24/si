@@ -36,7 +36,7 @@ class Pais extends REST_Controller
     */
     public function pais_dep_get($id = 0){
 
-        $this->db->select('*');
+        $this->db->select('d.*');
         $this->db->from(self::pais.' p');
         $this->db->join(self::departamneto.' d', ' on p.id_pais = d.pais');
 
@@ -55,7 +55,7 @@ class Pais extends REST_Controller
     */
     public function pais_dep_ciu_get($id = 0){
 
-        $this->db->select('*');
+        $this->db->select('m.*');
         $this->db->from(self::pais.' p');
         $this->db->join(self::departamneto.' d', ' on p.id_pais = d.pais');
         $this->db->join(self::municipio.' m', ' on m.departamento = d.id_departamento');

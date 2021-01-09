@@ -8,7 +8,9 @@ class Cliente_model extends CI_Model
     const cliente_tipo          = 'pos_cliente_tipo';
     const cliente_tipo2         = 'pos_cliente_tipo2';
     const pos_fp_cliente        = 'pos_formas_pago_cliente';
+    const pos_formas_pago_cliente2        = 'pos_formas_pago_cliente2';
     const pos_formas_pago       = 'pos_formas_pago';
+    const pos_formas_pago2       = 'pos_formas_pago2';
     const tipos_documentos      = 'pos_tipo_documento';
     const pos_orden_estado      = 'pos_orden_estado';
     const pos_tipo_documento    = 'pos_tipo_documento';
@@ -355,6 +357,7 @@ class Cliente_model extends CI_Model
             $data[] = $clienteTipo;
         }
         $this->db->insert_batch(self::cliente_tipo2, $data);
+        //var_dump($this->db->error());
     }
 
     function insert_api2($clientes)
@@ -367,5 +370,16 @@ class Cliente_model extends CI_Model
             $data[] = $cliente;
         }
         $this->db->insert_batch(self::cliente2, $data);
+    }
+
+    function insert_cp_api($clientePago)
+    {
+        $this->db->truncate(self::pos_formas_pago_cliente2);
+
+        $data = [];
+        foreach ($clientePago as $key => $pago) {
+            $data[] = $pago;
+        }
+        $this->db->insert_batch(self::pos_formas_pago_cliente2, $data);
     }
 }

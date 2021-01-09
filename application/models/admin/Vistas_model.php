@@ -8,6 +8,7 @@ class Vistas_model extends CI_Model {
     const menus                     = 'sys_menu_submenu';
     const pos_temp_sucursal         = 'pos_temp_sucursal';
     const sys_vistas_acceso         = 'sys_vistas_acceso';
+    const sys_vistas_acceso2        = 'sys_vistas_acceso2';
     const pos_tipo_documento        = 'pos_tipo_documento';
     const sys_estados_vistas        = 'sys_estados_vistas';
     const sys_vistas_documento      = 'sys_vistas_documento';
@@ -562,6 +563,17 @@ class Vistas_model extends CI_Model {
             $data[] = $dv;
         }
         $this->db->insert_batch(self::sys_vistas_documento2, $data);
+    }
+
+    function insert_va_api($vista_acceso)
+    {
+        $this->db->truncate(self::sys_vistas_acceso2);
+
+        $data = [];
+        foreach ($vista_acceso as $key => $va) {
+            $data[] = $va;
+        }
+        $this->db->insert_batch(self::sys_vistas_acceso2, $data);
     }
 
 }

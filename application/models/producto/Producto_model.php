@@ -3,6 +3,7 @@ class Producto_model extends CI_Model
 {
 
 	const producto			 = 'producto';
+	const producto2 		 = 'producto2';
 	const atributo			 = 'atributo';
 	const atributo_opcion	 = 'atributos_opciones';
 	const categoria			 = 'categoria';
@@ -24,11 +25,13 @@ class Producto_model extends CI_Model
 	const producto_img		 = 'pos_producto_img';
 	const producto_img2		 = 'pos_producto_img2';
 	const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
+	const pos_proveedor_has_producto2 = 'pos_proveedor_has_producto2';
 	const pos_bodega		 = 'pos_bodega';
 	const pos_producto_bodega = 'pos_producto_bodega';
 	const pos_producto_bodega2 = 'pos_producto_bodega2';
 	const correlativos		 = 'pos_correlativos';
 	const persona			 = 'sys_persona';
+	const combo2			 = 'pos_combo2';
 
 
 	function getProd($limit, $id, $filters)
@@ -955,6 +958,17 @@ class Producto_model extends CI_Model
 	{
 	}
 
+	function insert_api($productos)
+	{
+		$this->db->truncate(self::producto2);
+
+		$data = [];
+		foreach ($productos as $key => $p) {
+			$data[] = $p;
+		}
+		$this->db->insert_batch(self::producto2, $data);
+	}
+
 	function insert_pc_api($categoria_producto)
 	{
 		$this->db->truncate(self::categoria_producto2);
@@ -964,6 +978,29 @@ class Producto_model extends CI_Model
 			$data[] = $cp;
 		}
 		$this->db->insert_batch(self::categoria_producto2, $data);
+	}
+
+	function insert_combo_api($producto_combos)
+	{
+		$this->db->truncate(self::combo2);
+
+		$data = [];
+		foreach ($producto_combos as $key => $c) {
+			$data[] = $c;
+		}
+		$this->db->insert_batch(self::combo2, $data);
+	}
+
+
+	function insert_proveedor_api($producto_proveedor)
+	{
+		$this->db->truncate(self::pos_proveedor_has_producto2);
+
+		$data = [];
+		foreach ($producto_proveedor as $key => $proveedor) {
+			$data[] = $proveedor;
+		}
+		$this->db->insert_batch(self::pos_proveedor_has_producto2, $data);
 	}
 
 	function insert_pd_api($producto_detalle)
@@ -984,6 +1021,7 @@ class Producto_model extends CI_Model
 			$data[] = $bodega;
 		}
 		$this->db->insert_batch(self::pos_producto_bodega2, $data);
+		var_dump($this->db->error());
 	}
 
 	function insert_pi_api($producto_img)
@@ -996,7 +1034,7 @@ class Producto_model extends CI_Model
 		}
 		//var_dump($data);
 		$this->db->insert_batch(self::producto_img2, $data);
-		var_dump($this->db->error());
+		
 	}
 
 	function truncate_product_image(){

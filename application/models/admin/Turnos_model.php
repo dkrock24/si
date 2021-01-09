@@ -2,6 +2,7 @@
 class Turnos_model extends CI_Model {
 
     const turno      = 'pos_turnos';
+    const turno2     = 'pos_turnos2';
     const pos_orden_estado =  'pos_orden_estado';
 
     public function getTurno($limit, $id, $filters ){
@@ -92,4 +93,16 @@ class Turnos_model extends CI_Model {
 
         return $result;
     }
+
+    function insert_turno_api($turnos)
+    {
+        $this->db->truncate(self::turno2);
+
+        $data = [];
+        foreach ($turnos as $key => $turno) {
+            $data[] = $turno;
+        }
+        $this->db->insert_batch(self::turno2, $data);
+    }
+
 }

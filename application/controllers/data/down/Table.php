@@ -47,6 +47,9 @@ class Table extends MY_Controller
         $this->load->model('producto/Orden_model');
         $this->load->model('admin/Vistas_model');
         $this->load->model('producto/Producto_model');
+        $this->load->model('admin/Pais_model');
+        $this->load->model('admin/Turnos_model');
+        $this->load->model('admin/Impresor_model');        
         
     }
 
@@ -175,6 +178,12 @@ class Table extends MY_Controller
         $this->Cliente_model->insert_api2($items);
     }
 
+    public function cliente_pago()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Cliente_model->insert_cp_api($items);
+    }
+
     public function empleado()
     {
         $items = $this->callAPI($_GET['params']);
@@ -205,10 +214,28 @@ class Table extends MY_Controller
         $this->Orden_model->insert_api($items);
     }
 
+    public function producto()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Producto_model->insert_api($items);
+    }
+
     public function producto_categoria()
     {
         $items = $this->callAPI($_GET['params']);
         $this->Producto_model->insert_pc_api($items);
+    }
+
+    public function producto_combo()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Producto_model->insert_combo_api($items);
+    }
+
+    public function producto_proveedor()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Producto_model->insert_proveedor_api($items);
     }
 
     public function producto_detalle()
@@ -256,6 +283,66 @@ class Table extends MY_Controller
             $cont++;
         } while ($valor != 0);
 
+    }
+
+    public function sucursal_template()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Sucursal_model->insert_st_api($items);
+    }
+
+    public function sucursal_empleado()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Sucursal_model->insert_em_api($items);
+    }
+
+    public function sucursal_bodega()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Sucursal_model->insert_sb_api($items);
+    }
+
+    public function pais()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Pais_model->insert_pais_api($items);
+    }
+
+    public function departamento()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Pais_model->insert_departamento_api($items);
+    }
+
+    public function municipio()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Pais_model->insert_municipio_api($items);
+    }
+
+    public function vista_acceso()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Vistas_model->insert_va_api($items);
+    }
+
+    public function turno()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Turnos_model->insert_turno_api($items);
+    }
+
+    public function impresor()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Impresor_model->insert_api($items);
+    }
+
+    public function impresor_terminal()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Impresor_model->insert_it_api($items);
     }
 
     private function callAPI($param)

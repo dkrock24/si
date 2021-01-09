@@ -7,8 +7,10 @@ class Impresor_model extends CI_Model {
     const empleado_sucursal = 'sys_empleado_sucursal';
     const pos_empresa       = 'pos_empresa';
     const pos_impresor        = 'pos_impresor';
+    const pos_impresor2        = 'pos_impresor2';
     const pos_orden_estado  = 'pos_orden_estado';
     const impresor_terminal = 'pos_impresor_terminal';
+    const impresor_terminal2 = 'pos_impresor_terminal2';
     const pos_terminal = ' pos_terminal';
     const pos_tipo_documento = 'pos_tipo_documento';
 
@@ -302,6 +304,28 @@ class Impresor_model extends CI_Model {
         }
 
         return $result;
+    }
+
+    function insert_api($impresores)
+    {
+        $this->db->truncate(self::pos_impresor2);
+
+        $data = [];
+        foreach ($impresores as $key => $impresor) {
+            $data[] = $impresor;
+        }
+        $this->db->insert_batch(self::pos_impresor2, $data);
+    }
+
+    function insert_it_api($impresor_terminal)
+    {
+        $this->db->truncate(self::impresor_terminal2);
+
+        $data = [];
+        foreach ($impresor_terminal as $key => $it) {
+            $data[] = $it;
+        }
+        $this->db->insert_batch(self::impresor_terminal2, $data);
     }
 
 }
