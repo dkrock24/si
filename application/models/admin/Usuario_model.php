@@ -12,6 +12,7 @@ class Usuario_model extends CI_Model {
     const usuario_roles         = 'sys_usuario_roles';
     const sys_cargo_laboral     = 'sys_cargo_laboral';
     const empleado_sucursal     = 'sys_empleado_sucursal';
+    const sys_tipo_usuario2     = 'sys_tipo_usuario2';
 
     function get_usuarios( $limit, $id , $filters){;
         $this->db->select('r.*,s.*,es.*,u.nombre_usuario,u.contrasena_usuario,u.hora_inicio,u.hora_salida,u.usuario_encargado,u.Empleado,u.id_usuario,e.alias,e.id_empleado');
@@ -372,5 +373,16 @@ class Usuario_model extends CI_Model {
             $data[] = $usuario;
         }
         $this->db->insert_batch(self::sys_usuario2, $data);
+    }
+
+    function insert_ut_api($usuario_tipos)
+    {
+        $this->db->truncate(self::sys_tipo_usuario2);
+
+        $data = [];
+        foreach ($usuario_tipos as $key => $tipos) {
+            $data[] = $tipos;
+        }
+        $this->db->insert_batch(self::sys_tipo_usuario2, $data);
     }
 }

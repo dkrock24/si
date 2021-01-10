@@ -49,7 +49,10 @@ class Table extends MY_Controller
         $this->load->model('producto/Producto_model');
         $this->load->model('admin/Pais_model');
         $this->load->model('admin/Turnos_model');
-        $this->load->model('admin/Impresor_model');        
+        $this->load->model('admin/Impresor_model');
+        $this->load->model('admin/Empresa_model');
+
+        
         
     }
 
@@ -196,6 +199,18 @@ class Table extends MY_Controller
         $this->Usuario_model->insert_api($items);
     }
 
+    public function usuario_tipo()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Usuario_model->insert_ut_api($items);
+    }
+
+    public function vista_componente()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Vistas_model->insert_vc_api($items);
+    }
+
     public function proveedor()
     {
         $items = $this->callAPI($_GET['params']);
@@ -236,6 +251,30 @@ class Table extends MY_Controller
     {
         $items = $this->callAPI($_GET['params']);
         $this->Producto_model->insert_proveedor_api($items);
+    }
+
+    public function atributo()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Atributos_model->insert_api($items);
+    }
+
+    public function atributo_opcion()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Atributos_model->insert_ao_api($items);
+    }
+
+    public function producto_attributo()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Producto_model->insert_attributo_api($items);
+    }
+
+    public function producto_attributo_valor()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Producto_model->insert_attributo_valor_api($items);
     }
 
     public function producto_detalle()
@@ -321,6 +360,18 @@ class Table extends MY_Controller
         $this->Pais_model->insert_municipio_api($items);
     }
 
+    public function vista()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Vistas_model->insert_api($items);
+    }
+
+    public function vista_estado()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Vistas_model->insert_vs_api($items);
+    }
+
     public function vista_acceso()
     {
         $items = $this->callAPI($_GET['params']);
@@ -343,6 +394,18 @@ class Table extends MY_Controller
     {
         $items = $this->callAPI($_GET['params']);
         $this->Impresor_model->insert_it_api($items);
+    }
+
+    public function empresa()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Empresa_model->insert_api($items);
+    }
+
+    public function persona()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Persona_model->insert_api($items);
     }
 
     private function callAPI($param)

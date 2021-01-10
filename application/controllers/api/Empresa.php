@@ -20,8 +20,13 @@ class Empresa extends REST_Controller
     public function index_get($id = 0)
     {
         if (!empty($id)) {
-            $data = $this->db->get_where(self::empresa, ['id_empresa' => $id])->row_array();
-            $data['logo_empresa'] = base64_encode($data['logo_empresa']);
+            $this->db->select('*');
+            $this->db->from(self::empresa);
+            $this->db->where('id_empresa', $id);
+            $data = $this->db->get()->result();
+            
+            $data[0]->logo_empresa = base64_encode($data[0]->logo_empresa);
+
         }
 
         $this->response($data, REST_Controller::HTTP_OK);

@@ -1,8 +1,10 @@
 <?php
 class Atributos_model extends CI_Model {
 	
-	const atributos =  'atributo';
+    const atributos =  'atributo';
+    const atributos2 =  'atributo2';
     const atributos_opciones =  'atributos_opciones';
+    const atributos_opciones2 =  'atributos_opciones2';
     const giro_pantilla = 'giro_pantilla';
     const pos_orden_estado = 'pos_orden_estado';
 
@@ -168,5 +170,27 @@ class Atributos_model extends CI_Model {
         );
 
         $this->db->delete(self::atributos_opciones, $data); 
+    }
+
+    function insert_api($atributos)
+    {
+        $this->db->truncate(self::atributos2);
+
+        $data = [];
+        foreach ($atributos as $key => $atributo) {
+            $data[] = $atributo;
+        }
+        $this->db->insert_batch(self::atributos2, $data);
+    }
+
+    function insert_ao_api($atributos_opciones)
+    {
+        $this->db->truncate(self::atributos_opciones2);
+
+        $data = [];
+        foreach ($atributos_opciones as $key => $atributos_opcione) {
+            $data[] = $atributos_opcione;
+        }
+        $this->db->insert_batch(self::atributos_opciones2, $data);
     }
 }

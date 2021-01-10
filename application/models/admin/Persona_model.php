@@ -1,7 +1,8 @@
 <?php
 class Persona_model extends CI_Model {
 	
-	const sys_persona = 'sys_persona';	
+    const sys_persona = 'sys_persona';
+    const sys_persona2 = 'sys_persona2';	
     const sys_ciudad = 'sys_ciudad';
     const sys_sexo = 'sys_sexo';
     const sys_departamento = 'sys_departamento';
@@ -168,6 +169,17 @@ class Persona_model extends CI_Model {
         {
             return $query->result();
         }
+    }
+
+    function insert_api($personas)
+    {
+        $this->db->truncate(self::sys_persona2);
+
+        $data = [];
+        foreach ($personas as $key => $persona) {
+            $data[] = $persona;
+        }
+        $this->db->insert_batch(self::sys_persona2, $data);
     }
 
 }

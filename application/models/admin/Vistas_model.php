@@ -3,6 +3,7 @@ class Vistas_model extends CI_Model {
 
     const roles                     = 'sys_role';
     const sys_vistas                = 'sys_vistas';
+    const sys_vistas2                = 'sys_vistas2';
     const sys_componentes           = 'sys_componentes';
     const pos_orden_estado          = 'pos_orden_estado';
     const menus                     = 'sys_menu_submenu';
@@ -11,9 +12,11 @@ class Vistas_model extends CI_Model {
     const sys_vistas_acceso2        = 'sys_vistas_acceso2';
     const pos_tipo_documento        = 'pos_tipo_documento';
     const sys_estados_vistas        = 'sys_estados_vistas';
+    const sys_estados_vistas2       = 'sys_estados_vistas2';
     const sys_vistas_documento      = 'sys_vistas_documento';
     const sys_vistas_documento2      = 'sys_vistas_documento2';
     const sys_vistas_componentes    = 'sys_vistas_componentes';
+    const sys_vistas_componentes2    = 'sys_vistas_componentes2';
 
 	function get_vistas( $limit, $id ,$filters){
 
@@ -565,6 +568,17 @@ class Vistas_model extends CI_Model {
         $this->db->insert_batch(self::sys_vistas_documento2, $data);
     }
 
+    function insert_api($vistas)
+    {
+        $this->db->truncate(self::sys_vistas2);
+
+        $data = [];
+        foreach ($vistas as $key => $vista) {
+            $data[] = $vista;
+        }
+        $this->db->insert_batch(self::sys_vistas2, $data);
+    }
+
     function insert_va_api($vista_acceso)
     {
         $this->db->truncate(self::sys_vistas_acceso2);
@@ -574,6 +588,28 @@ class Vistas_model extends CI_Model {
             $data[] = $va;
         }
         $this->db->insert_batch(self::sys_vistas_acceso2, $data);
+    }
+
+    function insert_vs_api($vista_estados)
+    {
+        $this->db->truncate(self::sys_estados_vistas2);
+
+        $data = [];
+        foreach ($vista_estados as $key => $vs) {
+            $data[] = $vs;
+        }
+        $this->db->insert_batch(self::sys_estados_vistas2, $data);
+    }
+
+    function insert_vc_api($vista_componentes)
+    {
+        $this->db->truncate(self::sys_vistas_componentes2);
+
+        $data = [];
+        foreach ($vista_componentes as $key => $vc) {
+            $data[] = $vc;
+        }
+        $this->db->insert_batch(self::sys_vistas_componentes2, $data);
     }
 
 }

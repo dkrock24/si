@@ -8,6 +8,7 @@ class Producto_model extends CI_Model
 	const atributo_opcion	 = 'atributos_opciones';
 	const categoria			 = 'categoria';
 	const producto_valor	 = 'producto_valor';
+	const producto_valor2	 = 'producto_valor2';
 	const categoria_producto = 'categoria_producto';
 	const categoria_producto2 = 'categoria_producto2';
 	const producto_atributo	 = 'producto_atributo';
@@ -32,6 +33,7 @@ class Producto_model extends CI_Model
 	const correlativos		 = 'pos_correlativos';
 	const persona			 = 'sys_persona';
 	const combo2			 = 'pos_combo2';
+	const producto_atributo2  = 'producto_atributo2';
 
 
 	function getProd($limit, $id, $filters)
@@ -1001,6 +1003,28 @@ class Producto_model extends CI_Model
 			$data[] = $proveedor;
 		}
 		$this->db->insert_batch(self::pos_proveedor_has_producto2, $data);
+	}
+
+	function insert_attributo_api($attributos)
+	{
+		$this->db->truncate(self::producto_atributo2);
+
+		$data = [];
+		foreach ($attributos as $key => $attributo) {
+			$data[] = $attributo;
+		}
+		$this->db->insert_batch(self::producto_atributo2, $data);
+	}
+
+	function insert_attributo_valor_api($valores)
+	{
+		$this->db->truncate(self::producto_valor2);
+
+		$data = [];
+		foreach ($valores as $key => $valor) {
+			$data[] = $valor;
+		}
+		$this->db->insert_batch(self::producto_valor2, $data);
 	}
 
 	function insert_pd_api($producto_detalle)

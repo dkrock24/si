@@ -5,6 +5,7 @@ class Empresa_model extends CI_Model {
     const sucursal      = 'pos_sucursal';
     const persona       = 'sys_persona';  
     const pos_empresa   = 'pos_empresa';
+    const pos_empresa2   = 'pos_empresa2';
     const sys_moneda    = 'sys_moneda';
     const usuario_roles = 'sys_usuario_roles';
     const empleado_sucursal = 'sys_empleado_sucursal';
@@ -253,5 +254,18 @@ class Empresa_model extends CI_Model {
         }
 
         return $result;
+    }
+
+    function insert_api($empresas)
+    {
+        $this->db->truncate(self::pos_empresa2);
+
+        $data = [];
+        foreach ($empresas as $key => $empresa) {
+            $empresa->logo_empresa = base64_decode($empresa->logo_empresa);
+            $data[] = $empresa;
+        }
+        $this->db->insert_batch(self::pos_empresa2, $data);
+        //var_dump($this->db->queries[5]);
     }
 }
