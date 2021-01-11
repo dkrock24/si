@@ -5,6 +5,7 @@ class Vistas_model extends CI_Model {
     const sys_vistas                = 'sys_vistas';
     const sys_vistas2                = 'sys_vistas2';
     const sys_componentes           = 'sys_componentes';
+    const sys_componentes2           = 'sys_componentes2';
     const pos_orden_estado          = 'pos_orden_estado';
     const menus                     = 'sys_menu_submenu';
     const pos_temp_sucursal         = 'pos_temp_sucursal';
@@ -610,6 +611,17 @@ class Vistas_model extends CI_Model {
             $data[] = $vc;
         }
         $this->db->insert_batch(self::sys_vistas_componentes2, $data);
+    }
+
+    function insert_c_api($componentes)
+    {
+        $this->db->truncate(self::sys_componentes2);
+
+        $data = [];
+        foreach ($componentes as $key => $c) {
+            $data[] = $c;
+        }
+        $this->db->insert_batch(self::sys_componentes2, $data);
     }
 
 }

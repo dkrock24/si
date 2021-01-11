@@ -6,8 +6,10 @@ class Giros_model extends CI_Model {
     const empresa           = 'pos_empresa';
     const atributos         = 'atributo';
     const plantillas        = 'giro_pantilla';
+    const plantillas2        = 'giro_pantilla2';
     const pos_orden_estado  = 'pos_orden_estado';
     const empresa_plantilla = 'giros_empresa';
+    const empresa_plantilla2 = 'giros_empresa2';
 
 	function get_giros( $limit, $id , $filters ){;
 		$this->db->select('*');
@@ -412,5 +414,27 @@ class Giros_model extends CI_Model {
             $data[] = $giro;
         }
         $this->db->insert_batch(self::giros2, $data);
+    }
+
+    function insert_empresa_api($giros_empresa)
+    {
+        $this->db->truncate(self::empresa_plantilla2);
+
+        $data = [];
+        foreach ($giros_empresa as $key => $giros_empresa) {
+            $data[] = $giros_empresa;
+        }
+        $this->db->insert_batch(self::empresa_plantilla2, $data);
+    }
+
+    function insert_plantilla_api($giros_plantillas)
+    {
+        $this->db->truncate(self::plantillas2);
+
+        $data = [];
+        foreach ($giros_plantillas as $key => $giro_plantilla) {
+            $data[] = $giro_plantilla;
+        }
+        $this->db->insert_batch(self::plantillas2, $data);
     }
 }

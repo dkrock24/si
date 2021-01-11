@@ -51,6 +51,7 @@ class Table extends MY_Controller
         $this->load->model('admin/Turnos_model');
         $this->load->model('admin/Impresor_model');
         $this->load->model('admin/Empresa_model');
+        $this->load->model('admin/Pagos_model');
 
     }
 
@@ -89,6 +90,12 @@ class Table extends MY_Controller
         $this->Vistas_model->insert_relacion_api($items);
     }
 
+    public function documento_template()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Documento_model->insert_template_api($items);
+    }
+
     public function moneda()
     {
         $items = $this->callAPI($_GET['params']);
@@ -99,6 +106,12 @@ class Table extends MY_Controller
     {
         $items = $this->callAPI($_GET['params']);
         $this->Sucursal_model->insert_api($items);
+    }
+
+    public function corte_config()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Sucursal_model->insert_sc_api($items);
     }
 
     public function cargo_laboral()
@@ -129,6 +142,18 @@ class Table extends MY_Controller
     {
         $items = $this->callAPI($_GET['params']);
         $this->Giros_model->insert_api($items);
+    }
+
+    public function giro_empresa()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Giros_model->insert_empresa_api($items);
+    }
+
+    public function giro_plantilla()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Giros_model->insert_plantilla_api($items);
     }
 
     public function impuesto()
@@ -179,6 +204,12 @@ class Table extends MY_Controller
         $this->Cliente_model->insert_api2($items);
     }
 
+    public function pago()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Pagos_model->insert_api($items);
+    }
+
     public function cliente_pago()
     {
         $items = $this->callAPI($_GET['params']);
@@ -209,6 +240,12 @@ class Table extends MY_Controller
         $this->Usuario_model->insert_ut_api($items);
     }
 
+    public function componente()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Vistas_model->insert_c_api($items);
+    }
+
     public function vista_componente()
     {
         $items = $this->callAPI($_GET['params']);
@@ -225,6 +262,12 @@ class Table extends MY_Controller
     {
         $items = $this->callAPI($_GET['params']);
         $this->Terminal_model->insert_api($items);
+    }
+
+    public function terminal_cajero()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Terminal_model->insert_cajero_api($items);
     }
 
     public function orden_estado()

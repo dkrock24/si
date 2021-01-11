@@ -4,6 +4,7 @@ class Pagos_model extends CI_Model {
 	const cliente =  'pos_cliente';
     const sys_persona =  'sys_persona';
     const formas_pago =  'pos_formas_pago';
+    const formas_pago2 =  'pos_formas_pago2';
     const tipos_documentos =  'pos_tipo_documento';
     const pos_orden_estado = 'pos_orden_estado';
     const pos_tipo_documento= 'pos_tipo_documento';
@@ -227,6 +228,17 @@ class Pagos_model extends CI_Model {
 
         return $result;
 
+    }
+
+    function insert_api($pagos)
+    {
+        $this->db->truncate(self::formas_pago2);
+
+        $data = [];
+        foreach ($pagos as $key => $pago) {
+            $data[] = $pago;
+        }
+        $this->db->insert_batch(self::formas_pago2, $data);
     }
 
 }

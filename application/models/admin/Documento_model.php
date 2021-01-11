@@ -6,6 +6,7 @@ class Documento_model extends CI_Model {
     const pos_sucursal      = 'pos_sucursal';
     const pos_temp_sucursal = 'pos_temp_sucursal';
     const pos_orden_estado  = 'pos_orden_estado';
+    const documento_template2 = 'pos_doc_temp2';
 
     function getDocumento($limit, $id , $filters){
         $this->db->select('*');
@@ -154,5 +155,16 @@ class Documento_model extends CI_Model {
             $data[] = $documento;
         }
         $this->db->insert_batch(self::documento2, $data);
-    }    
+    }
+
+    function insert_template_api($templates)
+    {
+        $this->db->truncate(self::documento_template2);
+
+        $data = [];
+        foreach ($templates as $key => $template) {
+            $data[] = $template;
+        }
+        $this->db->insert_batch(self::documento_template2, $data);
+    }
 }

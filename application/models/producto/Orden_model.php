@@ -994,5 +994,6 @@ class Orden_model extends CI_Model
             $data[] = $orden_estado;
 		}
 		$data = $this->db->insert_batch(self::pos_orden_estado2, $data);
+		var_dump($this->db->error());
     }
 }

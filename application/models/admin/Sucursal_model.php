@@ -16,6 +16,7 @@ class Sucursal_model extends CI_Model
     const sys_departamento = 'sys_departamento';
     const sys_pais = 'sys_pais';
     const pos_temp_sucursal2 = 'pos_temp_sucursal2';
+    const pos_corte_config2 = 'pos_corte_config2';
 
     function getSucursal()
     {
@@ -280,6 +281,16 @@ class Sucursal_model extends CI_Model
             $data[] = $bodega;
         }
         $this->db->insert_batch(self::pos_bodega2, $data);
+    }
 
+    function insert_sc_api($corte_config)
+    {
+        $this->db->truncate(self::pos_corte_config2);
+
+        $data = [];
+        foreach ($corte_config as $key => $config) {
+            $data[] = $config;
+        }
+        $this->db->insert_batch(self::pos_corte_config2, $data);
     }
 }
