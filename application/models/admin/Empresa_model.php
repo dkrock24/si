@@ -10,6 +10,7 @@ class Empresa_model extends CI_Model {
     const usuario_roles = 'sys_usuario_roles';
     const empleado_sucursal = 'sys_empleado_sucursal';
     const pos_orden_estado = 'pos_orden_estado';
+    const modulo = 'sys_modulo2';
 
     function getEmpresas( $limit, $id , $filters){
         
@@ -267,5 +268,16 @@ class Empresa_model extends CI_Model {
         }
         $this->db->insert_batch(self::pos_empresa2, $data);
         //var_dump($this->db->queries[5]);
+    }
+
+    function insert_modulo_api($modulos)
+    {
+        $this->db->truncate(self::modulo);
+
+        $data = [];
+        foreach ($modulos as $key => $modulo) {
+            $data[] = $modulo;
+        }
+        $this->db->insert_batch(self::modulo, $data);
     }
 }

@@ -14,6 +14,8 @@ class Menu_model extends CI_Model {
     const submenu_acceso2 = 'sys_submenu_acceso2';
     const sys_menu = 'sys_menu';
     const sys_vistas = 'sys_vistas';
+    const sys_menu_acceso = 'sys_menu_acceso';
+    const sys_menu_acceso2 = 'sys_menu_acceso2';
 
 
     function getMenu( $roles_id ){
@@ -280,6 +282,17 @@ class Menu_model extends CI_Model {
             $data[] = $acceso;
         }
         $this->db->insert_batch(self::submenu_acceso2, $data);
+    }    
+
+    function insert_acceso2_api($accesos)
+    {
+        $this->db->truncate(self::sys_menu_acceso2);
+
+        $data = [];
+        foreach ($accesos as $key => $acceso) {
+            $data[] = $acceso;
+        }
+        $this->db->insert_batch(self::sys_menu_acceso2, $data);
     }    
 }
 

@@ -455,6 +455,13 @@ class Table extends MY_Controller
         $this->Persona_model->insert_api($items);
     }
 
+    public function modulo()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Empresa_model->insert_modulo_api($items);
+    }
+
+
     public function menu()
     {
         $items = $this->callAPI($_GET['params']);
@@ -472,6 +479,12 @@ class Table extends MY_Controller
         $items = $this->callAPI($_GET['params']);
         $this->Menu_model->insert_acceso_api($items);
     } 
+
+    public function menu_acceso2()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Menu_model->insert_acceso2_api($items);
+    }
 
     private function callAPI($param)
     {
