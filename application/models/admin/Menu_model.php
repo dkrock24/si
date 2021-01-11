@@ -2,13 +2,16 @@
 class Menu_model extends CI_Model {
 
     const menu      = 'sys_menu';
+    const menu2      = 'sys_menu2';
     const submenu   = 'sys_menu_submenu';
+    const submenu2  = 'sys_menu_submenu2';
     const empresa   = 'sys_empresa';
     const usuarios  = 'sr_usuarios';    
     const roles     = 'sys_roles';
     const cargos    = 'sr_cargos';
     const sys_menu_submenu = 'sys_menu_submenu';
     const submenu_acceso = 'sys_submenu_acceso';
+    const submenu_acceso2 = 'sys_submenu_acceso2';
     const sys_menu = 'sys_menu';
     const sys_vistas = 'sys_vistas';
 
@@ -246,7 +249,38 @@ class Menu_model extends CI_Model {
         return 1;
     }
 
-    
+    function insert_api($menus)
+    {
+        $this->db->truncate(self::menu2);
+
+        $data = [];
+        foreach ($menus as $key => $menu) {
+            $data[] = $menu;
+        }
+        $this->db->insert_batch(self::menu2, $data);
+    }
+
+    function insert_submenu_api($sub_menus)
+    {
+        $this->db->truncate(self::submenu2);
+
+        $data = [];
+        foreach ($sub_menus as $key => $submenu) {
+            $data[] = $submenu;
+        }
+        $this->db->insert_batch(self::submenu2, $data);
+    }
+
+    function insert_acceso_api($accesos)
+    {
+        $this->db->truncate(self::submenu_acceso2);
+
+        $data = [];
+        foreach ($accesos as $key => $acceso) {
+            $data[] = $acceso;
+        }
+        $this->db->insert_batch(self::submenu_acceso2, $data);
+    }    
 }
 
 ?>

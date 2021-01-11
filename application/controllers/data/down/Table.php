@@ -52,8 +52,6 @@ class Table extends MY_Controller
         $this->load->model('admin/Impresor_model');
         $this->load->model('admin/Empresa_model');
 
-        
-        
     }
 
     public function marca()
@@ -197,6 +195,12 @@ class Table extends MY_Controller
     {
         $items = $this->callAPI($_GET['params']);
         $this->Usuario_model->insert_api($items);
+    }
+
+    public function usuario_rol()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Usuario_model->insert_rol_api($items);
     }
 
     public function usuario_tipo()
@@ -407,6 +411,24 @@ class Table extends MY_Controller
         $items = $this->callAPI($_GET['params']);
         $this->Persona_model->insert_api($items);
     }
+
+    public function menu()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Menu_model->insert_api($items);
+    }
+
+    public function submenu()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Menu_model->insert_submenu_api($items);
+    }
+
+    public function menu_acceso()
+    {
+        $items = $this->callAPI($_GET['params']);
+        $this->Menu_model->insert_acceso_api($items);
+    } 
 
     private function callAPI($param)
     {

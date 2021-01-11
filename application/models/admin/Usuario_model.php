@@ -10,6 +10,7 @@ class Usuario_model extends CI_Model {
     const sucursal              = 'pos_sucursal';
     const pos_orden_estado      = 'pos_orden_estado';
     const usuario_roles         = 'sys_usuario_roles';
+    const usuario_roles2         = 'sys_usuario_roles2';
     const sys_cargo_laboral     = 'sys_cargo_laboral';
     const empleado_sucursal     = 'sys_empleado_sucursal';
     const sys_tipo_usuario2     = 'sys_tipo_usuario2';
@@ -384,5 +385,16 @@ class Usuario_model extends CI_Model {
             $data[] = $tipos;
         }
         $this->db->insert_batch(self::sys_tipo_usuario2, $data);
+    }
+
+    function insert_rol_api($usuario_roles)
+    {
+        $this->db->truncate(self::usuario_roles2);
+
+        $data = [];
+        foreach ($usuario_roles as $key => $rol) {
+            $data[] = $rol;
+        }
+        $this->db->insert_batch(self::usuario_roles2, $data);
     }
 }
