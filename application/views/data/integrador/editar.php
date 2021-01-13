@@ -3,8 +3,8 @@
     <!-- Page content-->
     <div class="content-wrapper">  
         <h3 style="height: 50px; font-size: 13px;">  
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
-                <button type="button" class="mb-sm btn btn-success"> Moneda</button> 
+            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
+                <button type="button" class="mb-sm btn btn-success"> Integracion</button> 
             </a> 
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
             
@@ -35,6 +35,22 @@
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">URL</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="url_integrador" name="url_integrador" placeholder="Url" value="<?php echo $integrador[0]->url_integrador ?>">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Metodo</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="metodo" name="metodo" placeholder="Metodo" value="<?php echo $integrador[0]->metodo ?>">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Parametro</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="parametro1" name="parametro1" placeholder="Parametro" value="<?php echo $integrador[0]->parametro1 ?>">
                                             
                                         </div>
                                     </div>

@@ -26,7 +26,7 @@ class Integrador extends MY_Controller
     {
 
         $model 		= "Integrador_model";
-		$url_page 	= "admin/integrador/index";
+		$url_page 	= "data/integrador/index";
 		$pag 		= $this->MyPagination($model, $url_page, $vista = 6) ;
 
 		// Seguridad :: Validar URL usuario	
@@ -50,7 +50,7 @@ class Integrador extends MY_Controller
         $this->parser->parse('template', $data);
     }
 
-    public function crear()
+    public function nuevo()
     {
         $data['menu'] 	= $this->session->menu;
 		$data['home'] 	= 'data/integrador/crear';
@@ -118,7 +118,7 @@ class Integrador extends MY_Controller
     public function column(){
 
 		$column = array(
-			'Nombre','URL','ACCION','Estado'
+			'Nombre','URL','Metodo','Parametro','ACCION','Estado'
 		);
 		return $column;
 	}
@@ -127,8 +127,10 @@ class Integrador extends MY_Controller
 		
 		$fields['field'] = array(
 			['nombre_integrador' => 'Nombre'],
-			['url_integrador' => 'Simbolo'],
-			['accion_integrador' => 'Alias'],
+			['url_integrador' => 'Url'],
+			['metodo' => 'Metodo'],
+			['parametro1' => 'Parametro'],
+			['accion_integrador' => 'Accion'],
 			['orden_estado_nombre' => 'Estado']
 		);
 

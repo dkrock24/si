@@ -132,5 +132,10 @@ class Linea_model extends CI_Model {
             $data[] = $linea;
         }
         $this->db->insert_batch(self::linea2, $data);
+
+        if($this->db->error()){
+            var_dump($this->db->error());
+            return $this->db->error();
+        }
     }
 }

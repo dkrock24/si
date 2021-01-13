@@ -21,9 +21,10 @@ class Integrador_model extends CI_Model {
         }
     }
 
-    function getAllMoneda(){
+    function get_all_integracion(){
         $this->db->select('*');
         $this->db->from(self::integrador);
+        $this->db->where('estado_integrador',1);
         $query = $this->db->get(); 
         
         if($query->num_rows() > 0 )

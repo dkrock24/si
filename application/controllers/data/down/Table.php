@@ -5,6 +5,10 @@ class Table extends MY_Controller
 {
     protected $url = "http://192.168.0.6:8081/index.php/api/";
 
+    protected $parametro = "";
+
+    protected $items = null;
+
 
     public function __construct()
     {
@@ -53,287 +57,245 @@ class Table extends MY_Controller
         $this->load->model('admin/Empresa_model');
         $this->load->model('admin/Pagos_model');
 
+        $this->load->model('admin/Integrador_model');
+
+        if (isset($_GET['params'])) {
+            $this->parametro = $_GET['params'];
+        }
     }
 
     public function marca()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Marca_model->insert_api($items);
+        $this->Marca_model->insert_api($this->items);
     }
     public function marca_categoria()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Marca_model->insert_relacion_api($items);
+        $this->Marca_model->insert_relacion_api($this->items);
     }
 
     public function linea()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Linea_model->insert_api($items);
+        return $this->Linea_model->insert_api($this->items);
     }
 
     public function correlativo()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Correlativo_model->insert_api($items);
+        $this->Correlativo_model->insert_api($this->items);
     }
 
     public function documento()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Documento_model->insert_api($items);
+        $this->Documento_model->insert_api($this->items);
     }
 
     public function documento_vista()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Vistas_model->insert_relacion_api($items);
+        $this->Vistas_model->insert_relacion_api($this->items);
     }
 
     public function documento_template()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Documento_model->insert_template_api($items);
+        $this->Documento_model->insert_template_api($this->items);
     }
 
     public function moneda()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Moneda_model->insert_api($items);
+        $this->Moneda_model->insert_api($this->items);
     }
 
     public function sucursal()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Sucursal_model->insert_api($items);
+        $this->Sucursal_model->insert_api($this->items);
     }
 
     public function corte_config()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Sucursal_model->insert_sc_api($items);
+        $this->Sucursal_model->insert_sc_api($this->items);
     }
 
     public function cargo_laboral()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Cargos_model->insert_api($items);
+        $this->Cargos_model->insert_api($this->items);
     }
 
     public function configuracion()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Acceso_model->insert_api($items);
+        $this->Acceso_model->insert_api($this->items);
     }
 
     public function rol()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Roles_model->insert_api($items);
+        $this->Roles_model->insert_api($this->items);
     }
 
     public function categoria()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Categorias_model->insert_api($items);
+        $this->Categorias_model->insert_api($this->items);
     }
 
     public function giro()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Giros_model->insert_api($items);
+        $this->Giros_model->insert_api($this->items);
     }
 
     public function giro_empresa()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Giros_model->insert_empresa_api($items);
+        $this->Giros_model->insert_empresa_api($this->items);
     }
 
     public function giro_plantilla()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Giros_model->insert_plantilla_api($items);
+        $this->Giros_model->insert_plantilla_api($this->items);
     }
 
     public function impuesto()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Impuesto_model->insert_api($items);
+        $this->Impuesto_model->insert_api($this->items);
     }
 
     public function impuesto_documento()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Impuesto_model->insert_id_api($items);
+        $this->Impuesto_model->insert_id_api($this->items);
     }
 
     public function impuesto_categoria()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Impuesto_model->insert_ic_api($items);
+        $this->Impuesto_model->insert_ic_api($this->items);
     }
 
     public function impuesto_cliente()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Impuesto_model->insert_icli_api($items);
+        $this->Impuesto_model->insert_icli_api($this->items);
     }
 
     public function impuesto_proveedor()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Impuesto_model->insert_ip_api($items);
+        $this->Impuesto_model->insert_ip_api($this->items);
     }
 
     public function caja()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Caja_model->insert_api($items);
+        $this->Caja_model->insert_api($this->items);
     }
 
     public function cliente_tipo()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Cliente_model->insert_api($items);
+        $this->Cliente_model->insert_api($this->items);
     }
 
     public function cliente()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Cliente_model->insert_api2($items);
+        $this->Cliente_model->insert_api2($this->items);
     }
 
     public function pago()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Pagos_model->insert_api($items);
+        $this->Pagos_model->insert_api($this->items);
     }
 
     public function cliente_pago()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Cliente_model->insert_cp_api($items);
+        $this->Cliente_model->insert_cp_api($this->items);
     }
 
     public function empleado()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Empleado_model->insert_api($items);
+        $this->Empleado_model->insert_api($this->items);
     }
 
     public function usuario()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Usuario_model->insert_api($items);
+        $this->Usuario_model->insert_api($this->items);
     }
 
     public function usuario_rol()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Usuario_model->insert_rol_api($items);
+        $this->Usuario_model->insert_rol_api($this->items);
     }
 
     public function usuario_tipo()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Usuario_model->insert_ut_api($items);
+        $this->Usuario_model->insert_ut_api($this->items);
     }
 
     public function componente()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Vistas_model->insert_c_api($items);
+        $this->Vistas_model->insert_c_api($this->items);
     }
 
     public function vista_componente()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Vistas_model->insert_vc_api($items);
+        $this->Vistas_model->insert_vc_api($this->items);
     }
 
     public function proveedor()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Proveedor_model->insert_api($items);
+        $this->Proveedor_model->insert_api($this->items);
     }
 
     public function terminal()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Terminal_model->insert_api($items);
+        $this->Terminal_model->insert_api($this->items);
     }
 
     public function terminal_cajero()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Terminal_model->insert_cajero_api($items);
+        $this->Terminal_model->insert_cajero_api($this->items);
     }
 
     public function orden_estado()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Orden_model->insert_api($items);
+        $this->Orden_model->insert_api($this->items);
     }
 
     public function producto()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Producto_model->insert_api($items);
+        $this->Producto_model->insert_api($this->items);
     }
 
     public function producto_categoria()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Producto_model->insert_pc_api($items);
+        $this->Producto_model->insert_pc_api($this->items);
     }
 
     public function producto_combo()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Producto_model->insert_combo_api($items);
+        $this->Producto_model->insert_combo_api($this->items);
     }
 
     public function producto_proveedor()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Producto_model->insert_proveedor_api($items);
+        $this->Producto_model->insert_proveedor_api($this->items);
     }
 
     public function atributo()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Atributos_model->insert_api($items);
+        $this->Atributos_model->insert_api($this->items);
     }
 
     public function atributo_opcion()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Atributos_model->insert_ao_api($items);
+        $this->Atributos_model->insert_ao_api($this->items);
     }
 
     public function producto_attributo()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Producto_model->insert_attributo_api($items);
+        $this->Producto_model->insert_attributo_api($this->items);
     }
 
     public function producto_attributo_valor()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Producto_model->insert_attributo_valor_api($items);
+        $this->Producto_model->insert_attributo_valor_api($this->items);
     }
 
     public function producto_detalle()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Producto_model->insert_pd_api($items);
+        $this->Producto_model->insert_pd_api($this->items);
     }
 
     public function producto_bodega()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Producto_model->insert_pb_api($items);
+        $this->Producto_model->insert_pb_api($this->items);
     }
 
     public function producto_imagen()
@@ -354,7 +316,7 @@ class Table extends MY_Controller
             $items = $this->callAPI($url);
 
             if ( $items ) {
-                $this->Producto_model->insert_pi_api($items);
+                $this->Producto_model->insert_pi_api($this->items);
                 $valor = 1;
             } else {
                 $valor = 0;
@@ -373,117 +335,98 @@ class Table extends MY_Controller
 
     public function sucursal_template()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Sucursal_model->insert_st_api($items);
+        $this->Sucursal_model->insert_st_api($this->items);
     }
 
     public function sucursal_empleado()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Sucursal_model->insert_em_api($items);
+        $this->Sucursal_model->insert_em_api($this->items);
     }
 
     public function sucursal_bodega()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Sucursal_model->insert_sb_api($items);
+        $this->Sucursal_model->insert_sb_api($this->items);
     }
 
     public function pais()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Pais_model->insert_pais_api($items);
+        $this->Pais_model->insert_pais_api($this->items);
     }
 
     public function departamento()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Pais_model->insert_departamento_api($items);
+        $this->Pais_model->insert_departamento_api($this->items);
     }
 
     public function municipio()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Pais_model->insert_municipio_api($items);
+        $this->Pais_model->insert_municipio_api($this->items);
     }
 
     public function vista()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Vistas_model->insert_api($items);
+        $this->Vistas_model->insert_api($this->items);
     }
 
     public function vista_estado()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Vistas_model->insert_vs_api($items);
+        $this->Vistas_model->insert_vs_api($this->items);
     }
 
     public function vista_acceso()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Vistas_model->insert_va_api($items);
+        $this->Vistas_model->insert_va_api($this->items);
     }
 
     public function turno()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Turnos_model->insert_turno_api($items);
+        $this->Turnos_model->insert_turno_api($this->items);
     }
 
     public function impresor()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Impresor_model->insert_api($items);
+        $this->Impresor_model->insert_api($this->items);
     }
 
     public function impresor_terminal()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Impresor_model->insert_it_api($items);
+        $this->Impresor_model->insert_it_api($this->items);
     }
 
     public function empresa()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Empresa_model->insert_api($items);
+        $this->Empresa_model->insert_api($this->items);
     }
 
     public function persona()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Persona_model->insert_api($items);
+        $this->Persona_model->insert_api($this->items);
     }
 
     public function modulo()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Empresa_model->insert_modulo_api($items);
+        $this->Empresa_model->insert_modulo_api($this->items);
     }
 
 
     public function menu()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Menu_model->insert_api($items);
+        $this->Menu_model->insert_api($this->items);
     }
 
     public function submenu()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Menu_model->insert_submenu_api($items);
+        $this->Menu_model->insert_submenu_api($this->items);
     }
 
     public function menu_acceso()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Menu_model->insert_acceso_api($items);
+        $this->Menu_model->insert_acceso_api($this->items);
     } 
 
     public function menu_acceso2()
     {
-        $items = $this->callAPI($_GET['params']);
-        $this->Menu_model->insert_acceso2_api($items);
+        $this->Menu_model->insert_acceso2_api($this->items);
     }
 
     private function callAPI($param)
@@ -513,4 +456,31 @@ class Table extends MY_Controller
         // get the result and parse to JSON
         return json_decode($result);
     }
+
+    private function api()
+    {
+        $this->items = $this->callAPI($this->parametro);
+    }
+
+    public function integrador($integracion = 0)
+	{
+		$integraciones = $this->Integrador_model->get_all_integracion();
+
+		
+		foreach ($integraciones as $key => $integracion) {
+         
+            if ($integracion->main_parametro == 0) {
+                $this->parametro = $integracion->parametro1."/1";
+            } else {
+                $this->parametro = $integracion->parametro1;
+            }
+            
+            $this->api();
+
+            if ($integracion->metodo) {
+                $metodo = $integracion->metodo;
+                $this->$metodo();
+            }
+		}
+	}
 }

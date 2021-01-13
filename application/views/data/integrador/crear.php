@@ -39,9 +39,25 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Metodo</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="metodo" name="metodo" placeholder="Metodo" value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Parametro1</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="parametro1" name="parametro1" placeholder="Parametro" value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">ACCION</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="accion_integrador" name="accion_integrador" placeholder="Accion" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                            <input type="text" class="form-control" id="accion_integrador" name="accion_integrador" placeholder="Accion" value="0<?php //echo $onMenu[0]->icon_submenu ?>">
                                         </div>
                                     </div>
 
