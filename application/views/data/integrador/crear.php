@@ -55,6 +55,14 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Sucursal</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="sucursal" name="sucursal" placeholder="Sucursal" value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">ACCION</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="accion_integrador" name="accion_integrador" placeholder="Accion" value="0<?php //echo $onMenu[0]->icon_submenu ?>">

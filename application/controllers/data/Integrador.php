@@ -118,7 +118,7 @@ class Integrador extends MY_Controller
     public function column(){
 
 		$column = array(
-			'Nombre','URL','Metodo','Parametro','ACCION','Estado'
+			'Nombre','URL','Metodo','Parametro','Sucursal','ACCION','Estado'
 		);
 		return $column;
 	}
@@ -130,6 +130,7 @@ class Integrador extends MY_Controller
 			['url_integrador' => 'Url'],
 			['metodo' => 'Metodo'],
 			['parametro1' => 'Parametro'],
+			['sucursal' => 'Sucursal'],
 			['accion_integrador' => 'Accion'],
 			['orden_estado_nombre' => 'Estado']
 		);

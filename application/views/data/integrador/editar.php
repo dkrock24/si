@@ -56,6 +56,14 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Sucursal</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="sucursal" name="sucursal" placeholder="Sucursal" value="<?php echo $integrador[0]->sucursal ?>">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">ACCION</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="accion_integrador" name="accion_integrador" placeholder="Accion" value="<?php echo $integrador[0]->accion_integrador ?>">

@@ -62,6 +62,11 @@ class Table extends MY_Controller
         if (isset($_GET['params'])) {
             $this->parametro = $_GET['params'];
         }
+
+        if (isset($_GET['unico'])) {
+            $this->parametro = $_GET['unico'];
+            $this->items = $this->callAPI($this->parametro);
+        }
     }
 
     public function marca()
@@ -429,11 +434,20 @@ class Table extends MY_Controller
         $this->Menu_model->insert_acceso2_api($this->items);
     }
 
-    private function callAPI($param)
+    public function integrador_data()
+    {
+        //http://localhost:8081/index.php/data/down/table/integrador_data?unico=integrador
+        $this->Integrador_model->insert_api($this->items);
+    }
+
+    private function callAPI($param ="")
     {
         $headers = array('Content-Type: application/json',);
         // the url of the API you are contacting to 'consume' 
-        $finalUrl = $this->url.$param;
+        $finalUrl = $this->url;
+        if ($param!="") {
+            $finalUrl = $this->url.$param;
+        }
 
         // Open connection
         $ch = curl_init();
@@ -464,13 +478,23 @@ class Table extends MY_Controller
 
     public function integrador($integracion = 0)
 	{
-		$integraciones = $this->Integrador_model->get_all_integracion();
+        $integraciones = $this->Integrador_model->get_all_integracion();
+        
+        $integracion_config = $this->Integrador_model->integrador_config();
 
+        $empresa = $integracion_config[0]->valor_config;
+        $sucursal = $integracion_config[1]->valor_config;
 		
 		foreach ($integraciones as $key => $integracion) {
-         
+            
             if ($integracion->main_parametro == 0) {
-                $this->parametro = $integracion->parametro1."/1";
+                
+                $this->parametro = $integracion->parametro1."/".$empresa;
+
+                if ($integracion->sucursal == 1 ) {
+                    $this->parametro = $integracion->parametro1."/".$empresa."/".$sucursal;
+                }
+
             } else {
                 $this->parametro = $integracion->parametro1;
             }

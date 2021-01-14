@@ -18,7 +18,7 @@ class Correlativo extends REST_Controller
      *
      * @return Response
      */
-    public function index_get($empresa)
+    public function index_get($empresa, $sucursal=0)
     {
         if (!empty($empresa)) {
             $this->db->select('c.*');
@@ -26,6 +26,10 @@ class Correlativo extends REST_Controller
             $this->db->join(self::sucursal . ' s', ' on c.Sucursal = s.id_sucursal');
             $this->db->where('s.Empresa_Suc', $empresa);
             
+            if ($sucursal != 0) {
+                $this->db->where('c.Sucursal', $sucursal);
+            }
+
             $data = $this->db->get()->result();
         }
 

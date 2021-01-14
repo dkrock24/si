@@ -2,7 +2,9 @@
 class Integrador_model extends CI_Model {
     
     const integrador =  'sys_integrador';
+    const integrador2 =  'sys_integrador2';
     const pos_orden_estado = 'pos_orden_estado';
+    const sys_integrador_config = 'sys_integrador_config';
 
     function getIntegrador(  $limit, $id , $filters){
     	$this->db->select('*');
@@ -91,4 +93,30 @@ class Integrador_model extends CI_Model {
         return $result;
     }
 
+    function integrador_config(){
+
+        $this->db->select('*');
+        $this->db->from(self::sys_integrador_config);
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function insert_api($integracion_data)
+    {
+        $this->db->truncate(self::integrador2);
+
+        $data = [];
+        foreach ($integracion_data as $key => $integrador) {
+            $data[] = $integrador;
+        }
+        $this->db->insert_batch(self::integrador2, $data);
+
+        if($this->db->error()){
+            return $this->db->error();
+        }
+    }
 }
