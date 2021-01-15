@@ -4,11 +4,14 @@ require APPPATH . 'libraries/REST_Controller.php';
 class Linea extends REST_Controller
 {
     const lineas   = 'pos_linea';
+    const lineas2   = 'pos_linea2';
 
     public function __construct()
     {
         parent::__construct();
         $this->load->database();
+
+        $this->load->helper(array('form', 'url'));
     }
 
     /**
@@ -28,4 +31,20 @@ class Linea extends REST_Controller
 
         $this->response($data, REST_Controller::HTTP_OK);
     }
+
+    /**
+     * Get All Data from this method.
+     *
+     * @return Response
+    */
+    public function index_post()
+    {
+        $this->load->helper(array('form', 'url'));
+
+        $input = $this->post();
+        $this->db->insert(self::lineas2,$input);
+        //var_dump($input);
+
+        $this->response(['Item created successfully.'], REST_Controller::HTTP_OK);
+    } 
 }

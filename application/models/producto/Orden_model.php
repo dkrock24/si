@@ -41,6 +41,7 @@ class Orden_model extends CI_Model
 	const pos_proveedor_has_producto	 = 'pos_proveedor_has_producto';
 	const pos_orden_estado = 'pos_orden_estado';
 	const pos_orden_estado2 = 'pos_orden_estado2';
+	const pos_ordenes_integracion = 'pos_ordenes_integracion';
 
 	// Ordenes
 	const pos_tipo_documento = 'pos_tipo_documento';
@@ -995,5 +996,19 @@ class Orden_model extends CI_Model
 		}
 		$data = $this->db->insert_batch(self::pos_orden_estado2, $data);
 		var_dump($this->db->error());
-    }
+	}
+	
+	public function ordenesIntegracion()
+	{
+		/* obtener ordenes que no se han integrado au */
+		$this->db->select('o.*');
+		$this->db->from(self::pos_ordenes.' as o');
+		$this->db->join(self::pos_ordenes_integracion.' as i', ' ON o.id = i.id_orden_local', 'left');
+		$this->db->where('i.id_orden_local is null');
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}
+	}
 }
