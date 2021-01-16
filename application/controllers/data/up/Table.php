@@ -5,7 +5,8 @@ require APPPATH . 'libraries/REST_Controller.php';
 
 class Table extends CI_Controller
 {
-    protected $url = "http://192.168.0.6:8081/index.php/api/";
+    protected $url = "http://192.168.1.11:8081/index.php/api/";
+    protected $urlBase = "";
 
     protected $parametro = "";
 
@@ -65,29 +66,43 @@ class Table extends CI_Controller
 
     public function orden_sync()
     {
+        /** Ordenes Activas para ser procesadas */
         $ordenes = $this->Orden_model->ordenesIntegracion();
 
-        $data = null;
-        foreach ($ordenes as $key => $orden) {
-            $data[] = $orden;
-        }
-
-        $this->items = json_encode($data);
+        $this->items = json_encode($ordenes);
         $this->setUrl('orden');
-        $result = $this->callAPI();
+        $ordenesIntegradas = $this->callAPI();
 
-        var_dump($result);
+        if ($ordenesIntegradas) {
+            /** Registrar en local cada orden que se proceso a produccion */
+            $ordenIds = $this->Orden_model->ordenesRegistro($ordenesIntegradas);
+            if($ordenIds){
+                /** obtener ordenes detalle de las que se procesaron */
+                $ordenDetalle = $this->Orden_model->get_ordenes_in($ordenIds);
+
+                /** Integrar Orden Detalle a Produccion */
+                $this->items = json_encode($ordenDetalle);
+                $this->setUrl('orden/detalle');
+                $this->callAPI();
+
+                /** Integrar Orden Impuesto a Produccion */
+                $ordenImpuesto = $this->Orden_model->get_ordenes_impuestos($ordenIds);
+                $this->items = json_encode($ordenImpuesto);
+                $this->setUrl('orden/impuesto');
+                $this->callAPI();
+            }
+        }
         
     }
 
     private function setUrl($endPoint)
     {
-        $this->url = $this->url.$endPoint;
+        $this->urlBase = $this->url.$endPoint;
     }
 
     private function callAPI()
     {
-       $curl = curl_init($this->url);
+       $curl = curl_init($this->urlBase);
   
        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
@@ -97,9 +112,9 @@ class Table extends CI_Controller
        curl_setopt($curl, CURLOPT_HEADER, false); 
            
        $result = curl_exec($curl);
-            
+
        curl_close($curl);
 
-       return $result;
+       return json_decode($result);
     }
 }

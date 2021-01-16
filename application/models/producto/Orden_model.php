@@ -42,6 +42,7 @@ class Orden_model extends CI_Model
 	const pos_orden_estado = 'pos_orden_estado';
 	const pos_orden_estado2 = 'pos_orden_estado2';
 	const pos_ordenes_integracion = 'pos_ordenes_integracion';
+	const sys_integrador_config = 'sys_integrador_config';
 
 	// Ordenes
 	const pos_tipo_documento = 'pos_tipo_documento';
@@ -1005,6 +1006,64 @@ class Orden_model extends CI_Model
 		$this->db->from(self::pos_ordenes.' as o');
 		$this->db->join(self::pos_ordenes_integracion.' as i', ' ON o.id = i.id_orden_local', 'left');
 		$this->db->where('i.id_orden_local is null');
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}
+	}
+
+	public function ordenesRegistro($ordenesIntegradas)
+	{
+		/**
+		 * Aqui se ingresan todas las ordenes que fueron procesadas por el endPoint the ordenes a produccion
+		 */
+		$config = $this->config_integrador_empresa();
+		$ordenIds = [];
+		foreach ($ordenesIntegradas as $key => $value) {
+			$ordenesIntegradas[$key]->id_empresa = $config[0]->valor_config;
+			$ordenesIntegradas[$key]->creado = date("Y-m-d H:i:s");
+			$this->db->trans_begin();
+			if ($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+			} else {
+				$ordenIds[] = $ordenesIntegradas[$key]->id_orden_local;
+				$this->db->insert(self::pos_ordenes_integracion,$value);
+				$this->db->trans_commit();
+			}
+
+		}
+		return $ordenIds;
+	}
+
+	public function config_integrador_empresa()
+	{
+		$this->db->select('*');
+		$this->db->from(self::sys_integrador_config);
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}
+	}
+
+	public function get_ordenes_in($ordenIds)
+	{
+		$this->db->select('*');
+		$this->db->from(self::pos_ordenes_detalle);
+		$this->db->where_in('id_orden', $ordenIds);
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}
+	}
+
+	public function get_ordenes_impuestos($ordenIds)
+	{
+		$this->db->select('*');
+		$this->db->from(self::pos_orden_impuestos);
+		$this->db->where_in('id_orden', $ordenIds);
 		$query = $this->db->get();
 
 		if ($query->num_rows() > 0) {
