@@ -161,3 +161,12 @@ body{
 .btn-info{
     background:#68af93
 }
+/**
+* Responsive Code for orders
+*/
+
+@media only screen and (max-width: 768px) {
+    .total_msg {
+      background: red;
+    }
+  }

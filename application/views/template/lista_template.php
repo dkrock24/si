@@ -361,7 +361,7 @@
             <div class="text-right  panel-footer bg-gray-light">
                 <ul class="nav nav-pills" style="display:inline-block; color:black; float:left;">
                     <li class="nav-item">
-                        <a class="nav-link active" style="color:black;">
+                        <a class="nav-link active" style="color:black; padding: 0px 0px;">
                         <span class="badge badge-success" style="background:#2b957a;font-size: 16px;">  <?php echo $x_total //$total_pagina; ?></span>
                            / 
                         <span class="badge badge-success" style="background:#2b957a;font-size: 16px;">  <?php echo $total_records //$total_pagina; ?></span></a>

@@ -159,14 +159,14 @@
 
                   if(isset($sucursales) && isset($terminal)){
                      ?>
-                     <span style="text-align: left; font-size: 30px;overflow: hidden;margin-left:20px;">
-                           [ <?php echo $sucursales[0]->nombre_razon_social . " : "; ?>
-                            <?php echo @$empleado[0]->nombre_sucursal . " ] [ "; ?>
+                     <span style="text-align: left; font-size: 18px;overflow: hidden;margin-left:20px;">
+                           <?php echo $sucursales[0]->nombre_razon_social . " : "; ?>
+                            <?php echo @$empleado[0]->nombre_sucursal . "     |      "; ?>
                             <?php echo $this->session->usuario[0]->role . " : "; ?>
-                            <?php echo $this->session->usuario[0]->nombre_usuario . " ] [ "; ?>
+                            <?php echo $this->session->usuario[0]->nombre_usuario . "  |  "; ?>
                             <?php echo $terminal[0]->nombre_caja . " "; ?>
-                            <?php echo $terminal[0]->nombre . " ] "; ?>
-                            [<label id="time-part" style="position:relative"></label>]
+                            <?php echo $terminal[0]->nombre . " |  "; ?>
+                            <label id="time-part" style="position:relative"></label>
                         </span>
                      <?php
                   }
@@ -253,7 +253,7 @@
                                  </div>
                               </a>
                               <!-- list item-->
-                              <a href="#" class="list-group-item">
+                              <!--<a href="#" class="list-group-item">
                                  <div class="media-box">
                                     <div class="pull-left">
                                        <em class="fa fa-user fa-2x text-warning"></em>
@@ -267,7 +267,7 @@
                                  </div>
                               </a>
                               <!-- list item-->
-                              <a href="#" class="list-group-item">
+                              <!--<a href="#" class="list-group-item">
                                  <div class="media-box">
                                     <div class="pull-left">
                                        <em class="fa fa-cog fa-2x text-success"></em>
@@ -279,7 +279,7 @@
                                        </p>
                                     </div>
                                  </div>
-                              </a>
+                              </a> -->
                               <!-- last list item-->
                               <a href="#" class="list-group-item">
                                  <small>Notificación</small>

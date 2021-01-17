@@ -3,22 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
 	public function __construct()
 	{
 		parent::__construct();    
@@ -90,11 +74,22 @@ class Home extends CI_Controller {
 
 	function dashboard(){
 
+		$total_ordenes_mes = $this->Dashboard_model->ordenes_mes();
+		$orden_total = "";
+		$orden_suma = 0;
+		foreach ($total_ordenes_mes as $key => $orden) {
+			$orden_total = $orden_total.= ",".$orden->total;
+			$orden_suma += $orden->total; 
+		}
+
 		$resultados = array(
 			'ordenes' 	=> $this->Dashboard_model->total_ordenes(),
 			'ventas' 	=> $this->Dashboard_model->total_ventas(),
 			'cajas' 	=> $this->Dashboard_model->terminal_caja(),
 			'terminales'=> $this->Dashboard_model->total_ordenes(),
+			'usuario_actividad' => $this->Dashboard_model->usuarios_actividad(),
+			'ordenes_mes' => $orden_total,
+			'ordenes_suma' => $orden_suma
 		);
 
 		$data['data'] = $resultados;

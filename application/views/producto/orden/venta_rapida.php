@@ -31,7 +31,7 @@
 
     };
 
-    /*window.onbeforeunload = function(event) {
+    window.onbeforeunload = function(event) {
 
         var message = '';
         var terminal = $("#terminal_id").val();
@@ -39,7 +39,7 @@
         setAction(terminal, 0);
 
         return message;
-    };*/
+    };
 
     function setAction(terminal, action) {
 
@@ -805,8 +805,8 @@ include("asstes/pos_orden.php");
                             <th style="color: black;">Bodega</th>
                             <th style="color: black;">Existencia</th>
                             <th style="color: black;">Precio</th>
-                            <th style="color: black;">Presentacion</th>
-                            <th style="color: black;">Codigo Barras</th>
+                            <th style="color: black;">Presentación</th>
+                            <th style="color: black;">Codigo</th>
                         </tr>
                     </thead>
                     <tbody class="dos" style="border-bottom: 3px solid grey">

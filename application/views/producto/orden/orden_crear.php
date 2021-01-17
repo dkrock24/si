@@ -390,38 +390,37 @@ include("asstes/pos_orden.php");
                     <div class="col-md-10">
                         <table class="table table-sm table-hover" style="margin-bottom: 0px;">
 
-                            <div class="row" style="background:#2D3B48;padding-top: 25px;">
-                                <div class="col-md-4">
-                                    <div class="input-group m-b" id="headerInputs" style="margin-left:10px;">
-                                        <input type="text" placeholder="Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
+                            <div class="row" style="background:#2D3B48;">
+                                <div class="col-md-5">
+                                    <div class="" id="" style="margin-left:10px;">
+                                        <input type="text" placeholder="Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:100%;border:0px white;font-size:20px;">
                                     </div>
 
-                                    <select multiple="" class="form-control dataSelect" id="dataSelect" style="height: 400px; width: 1200px; font-size: 22px; font-family: monospace; display: block;"></select>
+                                    <select multiple="" class="form-control dataSelect" id="dataSelect" style="height: 300px; width: 800px; font-size: 22px; font-family: monospace; display: block;"></select>
 
                                     <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="display: inline-block;"></select>
 
                                 </div>
-                                <div class="col-md-8" id="headerInputs">
-                                    <?php
+                                <div class="col-md-7">
+                                <?php
                                     if (isset($tipoDocumento) && isset($sucursales) && isset($bodega) && isset($cliente)) {
                                     ?>
-                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 33px;" name="guardar_orden" id="guardar_orden"><i class='fa fa-save' style="color:white;"></i> </button>
+                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 20px;" name="guardar_orden" id="guardar_orden"><i class='fa fa-save' style="color:white;"></i> </button>
                                     <?php
                                     } else {
                                     ?>
-                                        <button type="button" class="btn btn-labeled" style="font-size: 25px;" name="" id=""><i class='fa fa-save' style="color:white;"></i></button>
+                                        <button type="button" class="btn btn-labeled" style="font-size: 20px;" name="" id=""><i class='fa fa-save' style="color:white;"></i></button>
                                     <?php
                                     }
                                     ?>
 
-                                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 25px;" data-target='#existencias'><i class="fa fa-dropbox" style="color:white;"></i> <span style="font-size:18;">[ 6 ]</span></span>
-                                    <span class="btn bg-green" id="btn_discount" style="font-size: 25px;"><i class="fa fa-percent" aria-hidden="true" style="color:white;"></i> <span style="font-size:18;color:white;">[ 7 ]</span></span>
+                                    <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 20px;" data-target='#existencias'><i class="fa fa-dropbox" style="color:white;"></i> <span style="font-size:18;">[ 6 ]</span></span>
+                                    <span class="btn bg-green" id="btn_discount" style="font-size: 20px;"><i class="fa fa-percent" aria-hidden="true" style="color:white;"></i> <span style="font-size:18;color:white;">[ 7 ]</span></span>
                                     <span>
-                                        Can [ ? ] <input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;height:50px;display:inline-block;">
+                                        ?<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;height:50px;display:inline-block;">
                                         <input type="text" class="form-control border-input" placeholder="Des. *" id="descuento" name="descuento" size="2px" style="width: 80px;height:50px;display:inline-block;">
                                         <input type="text" class="form-control border-input" placeholder="Orden -" id="buscar_orden" name="buscar_orden" style="width: 100px;height:50px;display:inline-block;">
-                                    </span>                                   
-
+                                    </span>
                                 </div>
                             </div>                         
                         </table>
@@ -439,7 +438,9 @@ include("asstes/pos_orden.php");
                                         <th style="color: black;">Descuento</th>
                                         <th style="color: black;">Total</th>
                                         <th style="color: black;">Bodega</th>
-                                        <th style="color: black;"></th>
+                                        <th style="color: black;">
+                                            <span style="background:black;" class="badge badge-success cantidad_tabla"></span>
+                                        </th>
                                     </tr>
                                 </thead>                        
                                 <tbody class="producto_agregados" style="border-top:  0px solid black" id="prod_list">
@@ -449,17 +450,15 @@ include("asstes/pos_orden.php");
                     </div>
 
                     <div class="col-md-2">
-                        <div class="row" style="background:#2D3B48;padding-top: 7px;">
-                            <div class="col-md-12" style="width: 100%; background: #2D3B48/*#0f4871*/;text-align: center;color: white;">
-                                <span style="font-size: 40px;">
-                                    <?php echo $moneda[0]->moneda_simbolo; ?> <span class="total_msg">0.00</span>
-                                </span>
+                        <div class="row" style="background:#2D3B48;">
+                            <div class="col-md-12" style="width: 100%; background: #2D3B48/*#0f4871*/;text-align: left;color: white;">
+                                <span style="font-size: 30px;"><?php echo $moneda[0]->moneda_simbolo; ?> <span class="total_msg">0.00</span></span>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12" style="width: 100%; background: white;">
-                                <table class="table table-sm table-hover myTableFormat" style="font-size: 22px;">
+                            
+                                <table class="table table-sm table-hover myTableFormat" style="font-size: 16px;">
                                     <tr>
                                         <td style="color:#0f4871;"><b>Gravado</b></td>
                                         <td><?php echo $moneda[0]->moneda_simbolo; ?> <span class="sub_total_tabla"></span></td>
@@ -493,7 +492,9 @@ include("asstes/pos_orden.php");
                                                 <i class="icon-grid" style="color:white;"></i>
                                             </span>
                                         </td>
-                                        <td>
+                                    </tr>
+                                    <tr>
+                                    <td>
                                             <span class="btn btn-info" 
                                                   style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 3
                                                 <i class="icon-trash" style="color:white;"></i>
@@ -506,25 +507,24 @@ include("asstes/pos_orden.php");
                                                 <i class="fa fa-credit-card" style="color:white;"></i>
                                             </span>
                                         </td>
-                                        <td>
+                                        
+                                    </tr>
+                                    <tr>
+                                    <td>
                                             <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">5
                                                 <i class="fa fa-refresh" style="color:white;"></i>
                                             </span>
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
+                            
 
                         </div>
                     </div>
                 </div>
 
                 <div class="row" style="border-top: 1px dashed grey;">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="row" style="font-size: 22px">
-                            <div class="col-lg-2 col-md-2" style="color:#0f4871;"><span style="float: left;">Cant </span> <span class="cantidad_tabla"></span></div>
-                        </div>
-                    </div>
+
                 </div>
 
                 <div class="col-lg-12 col-md-12 paper_cut1">
@@ -607,8 +607,8 @@ include("asstes/pos_orden.php");
             </div>
             <div class="modal-body">
                 <table class="table table-sm table-hover">
-                    <thead>
-                        <tr style="color: black;">
+                    <thead class="linea_superior">
+                        <tr class="linea_superior">
                             <th style="color: black;">#</th>
                             <th style="color: black;">Sucursal</th>
                             <th style="color: black;">Bodega</th>

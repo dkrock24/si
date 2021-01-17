@@ -3,8 +3,8 @@
          <!-- START panel-->
          <div class="text-center mb-xl">
             <div class="text-lg mb-lg">404</div>
-            <p class="lead m0">No pudimos encontrar la pagina</p>
-            <p>La pagina que estas buscando no existe.</p>
+            <p class="lead m0">No pudimos encontrar la página</p>
+            <p>La página que estas buscando no existe.</p>
          </div>
          <form action="<?php echo base_url() ?>admin/home/buscar" method="post" role="search">
          <div class="input-group mb-xl">            
@@ -28,7 +28,7 @@
          </ul>
          <div class="p-lg text-center">
             <span>&copy;</span>
-            <span>2020</span>
+            <span>2021</span>
             <span>-</span>
             <span>IBS</span>
             <br>
