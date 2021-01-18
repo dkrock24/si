@@ -27,7 +27,7 @@ class Orden_model extends CI_Model
 	const producto_img			 = 'pos_producto_img';
 	const pos_correlativos		 = 'pos_correlativos';
 	const producto_atributo		 =  'producto_atributo';
-	const producto_detalle		 = 'prouducto_detalle';
+	const producto_detalle		 = 'producto_detalle';
 	const pos_ordenes_detalle	 = 'pos_orden_detalle';
 	const pos_temp_suc			 = 'pos_temp_sucursal';
 	const categoria_producto	 =  'categoria_producto';
@@ -125,7 +125,7 @@ class Orden_model extends CI_Model
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca				
 				LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
-				LEFT JOIN prouducto_detalle AS `pde` ON pde.Producto = P.id_entidad
+				LEFT JOIN producto_detalle AS `pde` ON pde.Producto = P.id_entidad
 				
 				WHERE b.id_bodega='" . $bodega . "' and b.Sucursal='" . $sucursal . "'
 				 and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%' ||
@@ -181,7 +181,7 @@ class Orden_model extends CI_Model
 				LEFT JOIN pos_producto_bodega AS pbodega ON (pbodega.Producto = P.id_entidad && pbodega.Bodega = $id_bodega)
 				LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
 				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
-				LEFT JOIN prouducto_detalle AS pde ON pde.Producto = P.id_entidad
+				LEFT JOIN producto_detalle AS pde ON pde.Producto = P.id_entidad
 
 				WHERE pde.id_producto_detalle = " . $producto_id . " and b.id_bodega =" . $id_bodega);
 		//echo $this->db->queries[3];die;
@@ -212,7 +212,7 @@ class Orden_model extends CI_Model
 				LEFT JOIN pos_producto_bodega AS pbodega ON (pbodega.Producto = P.id_entidad && pbodega.Bodega = $id_bodega)
 				LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
 				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
-				LEFT JOIN prouducto_detalle AS pde ON pde.Producto = P.id_entidad
+				LEFT JOIN producto_detalle AS pde ON pde.Producto = P.id_entidad
 
 				WHERE P.id_entidad = " . $producto_id . " and b.id_bodega =" . $id_bodega);
 		//echo $this->db->queries[1];
@@ -222,7 +222,7 @@ class Orden_model extends CI_Model
 	function get_producto_precios($producto_id)
 	{
 
-		$query = $this->db->query("SELECT * from prouducto_detalle as pd
+		$query = $this->db->query("SELECT * from producto_detalle as pd
 				WHERE pd.Producto = " . $producto_id);
 
 		//echo $this->db->queries[1];
@@ -869,7 +869,7 @@ class Orden_model extends CI_Model
 	function get_precios($id_producto)
 	{
 		$query = $this->db->query("SELECT *
-				FROM `prouducto_detalle` as `P` where P.Producto=" . $id_producto);
+				FROM `producto_detalle` as `P` where P.Producto=" . $id_producto);
 		return $query->result();
 	}
 

@@ -19,7 +19,7 @@ class Traslado_model extends CI_Model
 	const marcas = 'pos_marca';
 	const cliente = 'pos_cliente';
 	const sucursal = 'pos_sucursal';
-	const producto_detalle = 'prouducto_detalle';
+	const producto_detalle = 'producto_detalle';
 	const impuestos = 'pos_tipos_impuestos';
 	const producto_img = 'pos_producto_img';
 	const pos_proveedor_has_producto = 'pos_proveedor_has_producto';
@@ -179,7 +179,7 @@ class Traslado_model extends CI_Model
 				LEFT JOIN pos_producto_bodega AS pbodega ON (pbodega.Producto = P.id_entidad && pbodega.Bodega = $id_bodega)
 				LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
 				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
-				LEFT JOIN prouducto_detalle AS pde ON pde.Producto = P.id_entidad
+				LEFT JOIN producto_detalle AS pde ON pde.Producto = P.id_entidad
 
 				WHERE pde.id_producto_detalle = " . $producto_id . " and b.id_bodega =" . $id_bodega);
 		//echo $this->db->queries[0];
@@ -211,7 +211,7 @@ class Traslado_model extends CI_Model
 				LEFT JOIN pos_producto_bodega AS pbodega ON (pbodega.Producto = P.id_entidad && pbodega.Bodega = $id_bodega)
 				LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
 				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
-				LEFT JOIN prouducto_detalle AS pde ON pde.Producto = P.id_entidad
+				LEFT JOIN producto_detalle AS pde ON pde.Producto = P.id_entidad
 
 				WHERE P.id_entidad = " . $producto_id . " and b.id_bodega =" . $id_bodega);
 		//echo $this->db->queries[0];
@@ -221,7 +221,7 @@ class Traslado_model extends CI_Model
 	function get_producto_precios($producto_id)
 	{
 
-		$query = $this->db->query("SELECT * from prouducto_detalle as pd
+		$query = $this->db->query("SELECT * from producto_detalle as pd
 				WHERE pd.Producto = " . $producto_id);
 
 		//echo $this->db->queries[1];

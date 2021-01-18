@@ -20,8 +20,8 @@ class Producto_model extends CI_Model
 	const marcas			 = 'pos_marca';
 	const cliente			 = 'pos_cliente';
 	const sucursal			 = 'pos_sucursal';
-	const producto_detalle	 = 'prouducto_detalle';
-	const producto_detalle2 = 'prouducto_detalle2';
+	const producto_detalle	 = 'producto_detalle';
+	const producto_detalle2 = 'producto_detalle2';
 	const impuestos			 = 'pos_tipos_impuestos';
 	const producto_img		 = 'pos_producto_img';
 	const producto_img2		 = 'pos_producto_img2';
@@ -455,7 +455,7 @@ class Producto_model extends CI_Model
 	function get_precios($id_producto)
 	{
 		$query = $this->db->query("SELECT *
-				FROM `prouducto_detalle` as `P` where P.Producto=" . $id_producto);
+				FROM `producto_detalle` as `P` where P.Producto=" . $id_producto);
 		return $query->result();
 	}
 

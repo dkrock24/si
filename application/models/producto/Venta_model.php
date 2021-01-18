@@ -18,7 +18,7 @@ class Venta_model extends CI_Model {
 		const marcas				 = 'pos_marca';
 		const cliente				 = 'pos_cliente';
 		const sucursal				 = 'pos_sucursal';
-		const producto_detalle		 = 'prouducto_detalle';
+		const producto_detalle		 = 'producto_detalle';
 		const impuestos				 = 'pos_tipos_impuestos';
 		const impuestos_cliente		 = 'pos_impuesto_cliente';
 		const impuestos_documento	 = 'pos_impuesto_documento';
@@ -210,7 +210,7 @@ class Venta_model extends CI_Model {
 
 		public function get_producto_precios($producto_id){
 	        
-	        $query = $this->db->query("SELECT * from prouducto_detalle as pd
+	        $query = $this->db->query("SELECT * from producto_detalle as pd
 				WHERE pd.Producto = ". $producto_id);
 
 		        //echo $this->db->queries[1];

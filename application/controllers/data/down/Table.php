@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Table extends MY_Controller
 {
-    protected $url = "http://192.168.0.6:8081/index.php/api/";
+    protected $url = "http://192.168.43.8:8081/index.php/api/";
 
     protected $parametro = "";
 

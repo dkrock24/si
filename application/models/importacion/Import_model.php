@@ -5,7 +5,7 @@ class Import_model extends CI_Model {
     const producto = 'producto';
     const producto_atrib = 'producto_atributo';
     const producto_valor = 'producto_valor';
-    const prouducto_detalle = 'prouducto_detalle';
+    const producto_detalle = 'producto_detalle';
     const pos_producto_bodega = 'pos_producto_bodega';
     const pos_sucursal = 'pos_sucursal';
     const pos_bodega = 'pos_bodega';
@@ -60,7 +60,7 @@ class Import_model extends CI_Model {
     }
 
     function insertarPresentacion($detalle){
-        $this->db->insert(self::prouducto_detalle, $detalle );
+        $this->db->insert(self::producto_detalle, $detalle );
     }
 
     function insertProductoBodega($newProduct){
@@ -112,7 +112,7 @@ class Import_model extends CI_Model {
             'estado_producto_detalle' => 1,
             'fecha_creacion_producto_detalle' => date('Y-m-d H:i:s')
         );
-        $this->db->insert(self::prouducto_detalle, $detalle );
+        $this->db->insert(self::producto_detalle, $detalle );
 
         $sucursal = array(
             1,2,3,53

@@ -9,7 +9,7 @@ class Compras_model extends CI_Model
 	const pos_doc_temp		 = 'pos_doc_temp';
 	const pos_temp_suc		 = 'pos_temp_sucursal';
 	const sys_traslados		 = "sys_traslados";
-	const producto_detalle	 = 'prouducto_detalle';
+	const producto_detalle	 = 'producto_detalle';
 	const pos_tipo_documento = 'pos_tipo_documento';
 	const pos_compras_detalle	= "pos_compras_detalle";
 	const sys_traslados_detalle	= "sys_traslados_detalle";
@@ -59,7 +59,7 @@ class Compras_model extends CI_Model
 		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*,  m.nombre_marca, pde.presentacion , pde.cod_barra as pres_cod_bar , pde.id_producto_detalle, pde.precio
 				FROM `producto` as `P`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN prouducto_detalle AS `pde` ON pde.Producto = P.id_entidad				
+				LEFT JOIN producto_detalle AS `pde` ON pde.Producto = P.id_entidad				
 				WHERE P.Empresa = ". $this->session->empresa[0]->id_empresa ." and 
 				    (
 					P.name_entidad LIKE '%$texto%'||
@@ -94,7 +94,7 @@ class Compras_model extends CI_Model
             LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
             LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
             LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
-			LEFT JOIN prouducto_detalle AS pde ON pde.Producto = P.id_entidad
+			LEFT JOIN producto_detalle AS pde ON pde.Producto = P.id_entidad
 			WHERE pde.id_producto_detalle = ". $producto_id);
 
 			//echo $this->db->queries[4];

@@ -5,7 +5,7 @@ class ProductoDetalle extends REST_Controller
 {
 
     const producto = 'producto';
-    const producto_detalle = 'prouducto_detalle';
+    const producto_detalle = 'producto_detalle';
 
     public function __construct()
     {

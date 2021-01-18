@@ -5,7 +5,7 @@ require APPPATH . 'libraries/REST_Controller.php';
 
 class Table extends CI_Controller
 {
-    protected $url = "http://192.168.1.11:8081/index.php/api/";
+    protected $url = "http://192.168.43.8:8081/index.php/api/";
     protected $urlBase = "";
 
     protected $parametro = "";
