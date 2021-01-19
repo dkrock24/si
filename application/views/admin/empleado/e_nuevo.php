@@ -160,7 +160,7 @@
 </style>
 <section>
     <!-- Page content-->
-    <div class="content-wrapper">
+    <div class="content-wrapper">>
         <h3 style="height: 50px; font-size: 13px;">
             <a href="index" style="top: -12px;position: relative; text-decoration: none">
                 <button type="button" class="mb-sm btn btn-success"> Empleado</button>
@@ -174,7 +174,7 @@
 
                     <div id="panelDemo10" class="panel menu_title_bar">
 
-                        <div class="panel-heading menuTop">Nuevo Empleado </div>
+                        <div class="panel-heading menuTop"><i class="fa fa-user-circle fa-lg"></i> Nuevo Empleado </div>
                         
                         <div class="menuContent">
 

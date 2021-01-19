@@ -82,7 +82,9 @@ class Terminal_model extends CI_Model {
 
     public function get_terminal( $terminal_id ){
         $this->db->where('t.id_terminal', $terminal_id );
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa );
         $this->db->from( self::pos_terminal.' as t');
+        $this->db->join(self::sucursal. ' as s', ' on s.id_sucursal = t.Sucursal');
         $query = $this->db->get();
         return $query->result();
     }

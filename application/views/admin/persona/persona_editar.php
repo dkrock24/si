@@ -45,7 +45,7 @@
 
                 <div id="panelDemo10" class="panel menu_title_bar">    
                                         
-                    <div class="panel-heading menuTop"><i class="fa fa-pencil"></i> Editar Persona : <?php //echo $persona[0]->nombre_submenu ?> </div>
+                    <div class="panel-heading menuTop"><i class="fa fa-user-circle fa-lg"></i> Editar Persona : <?php //echo $persona[0]->nombre_submenu ?> </div>
                         <div class="panel-body menuContent">        
                     <p> 
                     <form class="form-horizontal" name="persona" action='../update' method="post">

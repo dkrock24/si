@@ -109,6 +109,7 @@ class Empleado extends MY_Controller {
 		$sucursales = array();
 
 		$data['empleado'] = $this->Empleado_model->getEmpleadoId( $empleado_id );
+		$this->general->editar_valido($data['empleado'], "admin/empleado/index");
 		$data['encargado'] = $this->Empleado_model->getEncargado( $data['empleado'][0]->encargado );
 
 		$data['menu'] = $this->session->menu;

@@ -246,6 +246,7 @@ class Usuario_model extends CI_Model {
         $this->db->join(self::empleado.' as e',' on u.Empleado = e.id_empleado ');
         $this->db->join(self::persona.' as p',' on p.id_persona = e.Persona_E ');
         $this->db->where('u.id_usuario',$usuario_id);
+        $this->db->where('p.Empresa',$this->session->empresa[0]->id_empresa);
         
         $query = $this->db->get(); 
 

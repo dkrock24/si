@@ -95,13 +95,13 @@ class Persona extends MY_Controller {
 		// Seguridad :: Validar URL usuario	
 		$data['menu'] 		= $this->session->menu;		
 		$data['persona']	= $this->Persona_model->getPersonaId( $persona_id );
+		$this->general->editar_valido($data['persona'], "admin/persona/index");
 		$data['sexo'] 		= $this->Sexo_model->getSexo();
 		$data['ciudad'] 	= $this->Ciudad_model->getCiudad();
 		$data['ciudad2'] 	= $this->Ciudad_model->getCiudadId( $data['persona'][0]->id_departamento );
 		$data['title'] 		= 'Editar Personas';
 		$data['home'] 		= 'admin/persona/persona_editar';
 
-		$this->general->editar_valido($data['persona'], "admin/persona/index");
 
 		$this->parser->parse('template', $data);
 	}

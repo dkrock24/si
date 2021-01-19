@@ -52,6 +52,7 @@ class Caja_model extends CI_Model {
         $this->db->join( self::empresa.' as e',
                                     ' on c.Empresa=e.id_empresa' );
         $this->db->where('c.id_caja', $caja_id );
+        $this->db->where('c.Empresa', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get(); 
         
         if($query->num_rows() > 0 )

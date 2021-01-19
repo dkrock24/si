@@ -168,7 +168,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div id="panelDemo10" class="panel menu_title_bar">
-                        <div class="panel-heading menuTop">Editar Empleado : <?php //echo $empleado[0]->nombre_submenu 
+                        <div class="panel-heading menuTop"><i class="fa fa-user-circle fa-lg"></i> Editar Empleado : <?php //echo $empleado[0]->nombre_submenu 
                                                                                 ?> </div>
                         <div class=" menuContent">
                             <input type="hidden" value="<?php echo $empleado[0]->id_empleado; ?>" name="id_empleado">
@@ -182,7 +182,7 @@
                                     <i class="fa fa-info-circle text-purple"></i> Información Básica.
                                         <br><br>
                                         <div class="form-group">
-                                            <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Contratacion</label>
+                                            <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Contratación</label>
                                             <div class="col-sm-9">
                                                 <input type="date" class="form-control" id="fecha_contratacion_empleado" name="fecha_contratacion_empleado" placeholder="Empresa" value="<?php echo $empleado[0]->fecha_contratacion_empleado ?>">
 
@@ -228,19 +228,19 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Seccion</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="seccion" name="seccion" placeholder="Seccion" value="<?php echo $empleado[0]->seccion ?>">
-
-                                            </div>
-                                        </div>
-
                                     </div>
 
                                     <div class="col-lg-4" style="border-left:1px solid grey;border-right:1px solid grey">
                                     <i class="fa fa-info-circle text-purple"></i> Información Básica.
                                         <br><br>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Sección</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="seccion" name="seccion" placeholder="Seccion" value="<?php echo $empleado[0]->seccion ?>">
+
+                                            </div>
+                                        </div>
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Cargo</label>
@@ -307,7 +307,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fotografia</label>
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fotografía</label>
                                             <div class="col-sm-9">
                                                 <input type="file" class="form-control Imagen" id="img" name="img_empleado" placeholder="Foto" value="<?php //echo $onMenu[0]->titulo_submenu 
                                                                                                                                                         ?>">
@@ -318,7 +318,11 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
                                             <div class="col-sm-9">
+                                                <?php if(isset($encargado[0]->segundo_apellido_persona)) : ?>
                                                 <input type="text" class="form-control seleccionar_encargado" required id="encargado_nombre" name="" placeholder="Persona" value="<?php echo $encargado[0]->primer_nombre_persona." ".$encargado[0]->segundo_nombre_persona." ".$encargado[0]->primer_apellido_persona." ".$encargado[0]->segundo_apellido_persona ?>">
+                                                <?php else: ?>
+                                                <input type="text" class="form-control seleccionar_encargado" required id="encargado_nombre" name="" placeholder="Persona" value="<?php echo $encargado[0]['primer_nombre_persona']." ".$encargado[0]['segundo_nombre_persona']." ".$encargado[0]['primer_apellido_persona']." ".$encargado[0]['segundo_apellido_persona'] ?>">
+                                                <?php endif ?>
                                                 <input type="hidden" class="form-control seleccionar_encargado" id="encargado" name="encargado" placeholder="Persona" value="<?php echo $empleado[0]->encargado ?>">
                                             </div>
                                         </div>

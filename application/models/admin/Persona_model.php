@@ -145,6 +145,7 @@ class Persona_model extends CI_Model {
             'id_persona'     =>  $id
         );
         $this->db->where('id_persona', $id);
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
         $result = $this->db->delete(self::sys_persona, $data);
         if(!$result){
             $result = $this->db->error();
@@ -161,7 +162,7 @@ class Persona_model extends CI_Model {
         $this->db->join(self::sys_departamento.' as d', 'on d.id_departamento = c.departamento');
         $this->db->join(self::sys_sexo.' as s', 'on p.Sexo = s.id_sexo');
         $this->db->where('p.id_persona', $persona_id );
-        //$this->db->where('p.nrc', $this->session->empresa[0]->nrc);
+        $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get();
         //echo $this->db->queries[1];
         

@@ -43,8 +43,8 @@
             <div class="col-lg-12">
                 <div id="panelDemo10" class="panel menu_title_bar">   
                                                 
-                    <div class="panel-heading menuTop"><i class="fa fa-plus-circle"></i> Crear Persona</div>
-                    <div class="panel-body menuContent">        
+                    <div class="panel-heading menuTop"><i class="fa fa-user-circle fa-lg"></i> Crear Persona</div>
+                    <div class="panel-body menuContent">
                     
                         <form class="form-horizontal" name="persona" action='crear' method="post">
                             <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
@@ -54,7 +54,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Primer Nombre</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="primer_nombre_persona" name="primer_nombre_persona" placeholder="Primer Nombre" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
+                                            <input type="text" required class="form-control" id="primer_nombre_persona" name="primer_nombre_persona" placeholder="Primer Nombre" value="<?php //echo $onMenu[0]->nombre_submenu ?>">
                                             
                                         </div>
                                     </div>
@@ -70,7 +70,7 @@
                                     <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Primer Apellido</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="primer_apellido_persona" name="primer_apellido_persona" placeholder="Primer Apellido" value="<?php //echo $onMenu[0]->icon_submenu ?>">
+                                            <input type="text" required class="form-control" id="primer_apellido_persona" name="primer_apellido_persona" placeholder="Primer Apellido" value="<?php //echo $onMenu[0]->icon_submenu ?>">
                                         </div>
                                     </div>
 
@@ -85,7 +85,7 @@
                                     <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Fecha Nacimiento</label>
                                         <div class="col-sm-9">
-                                            <input type="date" class="form-control" id="fecha_cumpleaños_persona" name="fecha_cumpleaños_persona" placeholder="Fecha Nacimiento" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                            <input type="date" required class="form-control" id="fecha_cumpleaños_persona" name="fecha_cumpleaños_persona" placeholder="Fecha Nacimiento" value="<?php echo date("Y-m-d"); ?>">
                                             
                                         </div>
                                     </div>
@@ -123,7 +123,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Direccion 1</label>
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Dirección 1</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="direccion_residencia_persona1" name="direccion_residencia_persona1" placeholder="Direccion 1" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                             
@@ -131,7 +131,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Direccion 2</label>
+                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Dirección 2</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" id="direccion_residencia_persona2" name="direccion_residencia_persona2" placeholder="Direccion 2" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
                                             
@@ -177,7 +177,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Departmento</label>
+                                        <label for="inputPassword3" required class="col-sm-3 control-label no-padding-right">Departmento</label>
                                         <div class="col-sm-9">
                                             <select id="departamento" name="departamento" class="form-control">
                                                 <option value="0">Selecionar Departamento</option>
@@ -195,7 +195,7 @@
                                     <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Ciudad</label>
                                         <div class="col-sm-9">
-                                            <select id="ciudad" name="ciudad" class="form-control">
+                                            <select id="ciudad" required name="ciudad" class="form-control">
                                                 
                                             </select>
                                         </div>

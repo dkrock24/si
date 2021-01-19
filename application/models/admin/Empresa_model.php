@@ -189,6 +189,7 @@ class Empresa_model extends CI_Model {
         $this->db->join( self::sys_moneda.' m', 'on e.Moneda = m.id_moneda' );
         //$this->db->where('e.id_empresa', $this->session->empresa[0]->Empresa_Suc);
         $this->db->where( 'e.id_empresa', $empresa_id );
+        $this->db->where( 'e.id_empresa', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
