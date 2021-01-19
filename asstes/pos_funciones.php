@@ -402,8 +402,8 @@
             if (event.which == 13) {
                 filtrar_presentaciones(this.value);
                 event.preventDefault();
-                $('#dataSelect').hide();
-                $('#dataSelect').empty();
+                //$('#dataSelect').hide();
+                //$('#dataSelect').empty();
                 input_producto_buscar.val("");
             }
 
@@ -454,9 +454,18 @@
                 get_producto_completo(this.value);
                 event.preventDefault();
                 $('#dataSelect').hide();
-                $('#dataSelect').empty();
+                //$('#dataSelect').empty();
                 input_producto_buscar.val("");
             }
+
+            if (event.which == 49) {
+                $('#dataSelect').show();
+                selected = document.getElementById('dataSelect').selectedIndex = 0;
+                document.getElementById('dataSelect').focus();
+                $('#dataSelect2').hide();
+                //$('#dataSelect2').empty();
+            }
+            
 
         });
 
@@ -2468,6 +2477,7 @@
             $(".vendedores_lista1").text($(this).attr('name'));
             $("#vendedor1").val($(this).attr('id'));
             $('#vendedores_modal').modal('hide');
+            $('#vendedor_modal').modal('hide');
         });
 
         function get_empleados_lista(sucursal) {
@@ -2496,7 +2506,7 @@
                             cliente_id = item.id_empleado;
                             var precio = 0;
 
-                            table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.id_empleado + '</td><td>' + item.primer_nombre_persona + '</td><td>' + item.segundo_nombre_persona + '</td><td>' + item.primer_apellido_persona + '</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_empleado" id="' + item.id_empleado + '" name="' + item.primer_nombre_persona + ' ' + item.primer_apellido_persona + '">Agregar</a></td></tr>';
+                            table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.codigo_empleado + '</td><td>' + item.primer_nombre_persona + '</td><td>' + item.segundo_nombre_persona + '</td><td>' + item.primer_apellido_persona + '</td><td><a href="#" class="btn btn-primary btn-ms seleccionar_empleado" id="' + item.id_empleado + '" name="' + item.primer_nombre_persona + ' ' + item.primer_apellido_persona + '">Agregar</a></td></tr>';
                             contador_precios++;
                         }
 

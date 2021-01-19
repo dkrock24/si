@@ -398,7 +398,7 @@ include("asstes/pos_orden.php");
 
                                     <select multiple="" class="form-control dataSelect" id="dataSelect" style="height: 300px; width: 800px; font-size: 22px; font-family: monospace; display: block;"></select>
 
-                                    <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="display: inline-block;"></select>
+                                    <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="height: 300px; width: 800px; font-size: 22px; font-family: monospace; display: block;border:3px solid #badae;"></select>
 
                                 </div>
                                 <div class="col-md-7">
@@ -544,7 +544,7 @@ include("asstes/pos_orden.php");
 </section>
 
 <!-- Modal Large CLIENTES MODAL-->
-<div id="vendedor_modal" tabindex="-1" role="dialog" aria-labelledby="vendedor_modal" class="modal fade fade-scale">
+<div id="vendedor_modal" tabindex="-1" role="dialog" aria-labelledby="vendedor_modal" class="modal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="panel-header" style="background: #535D67; color: white;">
