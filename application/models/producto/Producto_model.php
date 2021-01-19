@@ -280,7 +280,6 @@ class Producto_model extends CI_Model
 
 	function producto_precios($id_producto, $producto)
 	{
-
 		foreach ($producto as $key => $value) {
 			$costo;
 			$similar_key = 'presentacion';
@@ -306,6 +305,23 @@ class Producto_model extends CI_Model
 					'fecha_creacion_producto_detalle' => date("Y-m-d h:i:s")
 				);
 				$this->db->insert(self::producto_detalle, $data);
+			}
+			if (!isset($producto['presentacion1'])){
+				$data = array(
+					'Producto' => $id_producto,
+					'presentacion' 	=> 'Unidad',
+					'factor' 		=> '1',
+					'precio' 		=> '0',
+					'unidad' 		=> '0',
+					'Cliente' 		=> null,
+					'Sucursal' 		=> null,
+					'Utilidad' 		=> '0',
+					'cod_barra' 	=> null,
+					'estado_producto_detalle' => 1,
+					'fecha_creacion_producto_detalle' => date("Y-m-d h:i:s")
+				);
+				$this->db->insert(self::producto_detalle, $data);
+				break;
 			}
 		}
 	}

@@ -129,7 +129,7 @@ class Orden_model extends CI_Model
 				
 				WHERE b.id_bodega='" . $bodega . "' and b.Sucursal='" . $sucursal . "'
 				 and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%' ||
-				  P.descripcion_producto LIKE '%$texto%' ) ");
+				  P.descripcion_producto LIKE '%$texto%' )");
 
 		//echo $this->db->queries[4];
 		return $query->result();

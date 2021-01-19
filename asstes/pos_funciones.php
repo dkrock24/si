@@ -337,7 +337,7 @@
                     var focusBoton = input_producto_buscar;
                     generalAlert(type, mensaje, title, boton, finalMessage,url, focusBoton);
 
-                    return;
+                    //return;
                 }
                 get_producto_completo(_productos_lista[0].id_producto_detalle);
                 input_producto_buscar.val("");
@@ -348,33 +348,35 @@
                 var prod_escala_next    = 0;
                 var prod_escala_cont    = 0;
                 var prod_temp_id        = 0;
+                var id_producto_presentacion = 0;
                 //console.log("---------------------- ", mondeda_global[0].moneda_simbolo);
                 $.each(_productos_lista, function(i, item) {
 
-                    if (item.precio_venta != 0 
+                    if (id_producto_presentacion != item.id_entidad
                         && (item.productoCliente == cliente_producto || item.productoCliente==null ||item.productoCliente==0)
                         && (item.productoSucursal == sucursal_producto || item.productoSucursal==null ||item.productoSucursal==0)
                         ) {
                         prod_escala_prev = item.id_entidad;
+                        id_producto_presentacion = item.id_entidad;
 
                         if (prod_escala_prev != prod_escala_next || item.Escala == 0) {
                             prod_escala_next= item.id_entidad;
                             prod_temp_id    = item.id_producto_detalle;
                             producto_id     = item.id_entidad;
                             precio          = parseFloat(item.precio);
-                            table_tr        += '<option value="' + item.id_producto_detalle + '" style="font-family: monospace;">' + item.nombre_marca + ' ' +item.modelo + ' '+ item.name_entidad + ' - ' + item.presentacion + ' - ' + mondeda_global.moneda_simbolo + " " + precio.toFixed(2) + '</option>';
+                            table_tr        += '<option value="' + item.id_entidad + '" style="font-family: monospace;">' + item.nombre_marca + ' ' +item.modelo + ' '+ item.name_entidad + ' - ' + item.presentacion + ' - ' + mondeda_global.moneda_simbolo + " " + precio.toFixed(2) + '</option>';
                             contador_precios++;
                             prod_escala_cont++;
                         }
                     }
-                });
+                });console.log(_productos_lista);
 
-                if (prod_escala_cont <= 1) {
+                /*if (prod_escala_cont <= 1) {
 
                     get_producto_completo(prod_temp_id);
                     input_producto_buscar.val("");
 
-                } else {
+                } else {*/
 
                     $('.dataSelect').show();
                     $(".dataSelect").html(table_tr);
@@ -382,7 +384,7 @@
                     document.getElementById('dataSelect').focus();
                     //selected.style.color = '#efed95';
 
-                }
+                //}
             }
         }
 
@@ -394,8 +396,59 @@
             }
         });
 
-        /* 3 - Selecionado Producto de la lista y precionando ENTER */
+        /* 3 -Traer Presentaciones */
         $(document).on('keypress', '.dataSelect', function() {
+
+            if (event.which == 13) {
+                filtrar_presentaciones(this.value);
+                event.preventDefault();
+                $('#dataSelect').hide();
+                $('#dataSelect').empty();
+                input_producto_buscar.val("");
+            }
+
+        });
+
+        function filtrar_presentaciones(producto)
+        {
+            var table_tr = "";
+            var contador_precios = 1;
+            $(".dataSelect2").html(table_tr);
+            var prod_escala_prev    = 0;
+            var prod_escala_next    = 0;
+            var prod_escala_cont    = 0;
+            var prod_temp_id        = 0;
+            $.each(_productos_lista, function(i, item) {
+
+                if (producto == item.id_entidad ){
+                    prod_escala_prev = item.id_entidad;
+
+                    if (prod_escala_prev != prod_escala_next || item.Escala == 0) {
+                        prod_escala_next= item.id_entidad;
+                        prod_temp_id    = item.id_producto_detalle;
+                        producto_id     = item.id_entidad;
+                        precio          = parseFloat(item.precio);
+                        table_tr        += '<option value="' + item.id_producto_detalle + '" style="font-family: monospace;">' + item.nombre_marca + ' ' +item.modelo + ' '+ item.name_entidad + ' - ' + item.presentacion + ' - ' + mondeda_global.moneda_simbolo + " " + precio.toFixed(2) + '</option>';
+                        contador_precios++;
+                        prod_escala_cont++;
+                    }
+                }
+            });
+            if (prod_escala_cont <= 1) {
+
+                get_producto_completo(prod_temp_id);
+                input_producto_buscar.val("");
+
+            } else {
+                $('.dataSelect2').show();
+                $(".dataSelect2").html(table_tr);
+                selected = document.getElementById('dataSelect2').selectedIndex = 0;
+                document.getElementById('dataSelect2').focus();
+            }
+        }
+
+        /* Buscar Producto Real */
+        $(document).on('keypress', '.dataSelect2', function() {
 
             if (event.which == 13) {
                 get_producto_completo(this.value);
@@ -2598,11 +2651,16 @@
                     tr_html += "<td class='border-table-left'>" + contador_tabla + "</td>";
                     tr_html += "<td class=''>" + element.producto + "</td>";
                     tr_html += "<td class=''>" + element.descripcion + "</td>";
-                    tr_html += "<td class=''><input type='text' autocomplete='off' name='cntProducto' cd='"+element.id_producto_detalle+"' class='form-control cntProducto' size='3' id='" + element.producto + "' value='" + element.cantidad + "' style='border:1px solid orange;width:90px;'></input></td>";
+                    tr_html += "<td class=''><input type='text' autocomplete='off' name='cntProducto' cd='"+element.id_producto_detalle+"' class='form-control cntProducto' size='3' id='" + element.producto + "' value='" + element.cantidad + "' style='border:1px solid grey;width:90px;'></input></td>";
                     tr_html += "<td class=''>" + element.presentacion + "</td>";
                     tr_html += "<td class=''>" + element.presentacionFactor + "</td>";
-                    tr_html += "<td class=''><input type='text' class='form-control preProducto' size='4' name='" + element.producto + "' value='" + precio_tag.toFixed(2) + "' style='border:1px solid blue;'></input></td>";
-                    tr_html += "<td class=''><input type='text' class='form-control cntProducto' size='4' id='d" + element.producto + "' value='" + desc_tag.toFixed(2) + "' style='border:1px solid green;width:100px;'></input></td>";
+                    if(precio_tag==0){
+                        tr_html += "<td class=''><input type='text' class='form-control preProducto' size='4' name='" + element.producto + "' value='" + precio_tag.toFixed(2) + "' style='border:1px solid red;'></input></td>";
+                    } else {
+                        tr_html += "<td class=''><input type='text' class='form-control preProducto' size='4' name='" + element.producto + "' value='" + precio_tag.toFixed(2) + "' style='border:1px solid grey;'></input></td>";
+                    }
+
+                    tr_html += "<td class=''><input type='text' class='form-control cntProducto' size='4' id='d" + element.producto + "' value='" + desc_tag.toFixed(2) + "' style='border:1px solid grey;width:100px;'></input></td>";
                     tr_html += "<td class=' total'>" + total_tag.toFixed(2) +" "+ gravado_exento + "</td>";
                     tr_html += "<td class=' '>" + element.bodega + "</td>";
                     if (element.combo == 1 || !element.id_producto_combo || element.invisible == 0) {
