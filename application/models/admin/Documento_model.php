@@ -66,7 +66,7 @@ class Documento_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::documento);   
         $this->db->where('id_tipo_documento', $documento_id ); 
-        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);      
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -137,6 +137,7 @@ class Documento_model extends CI_Model {
             'id_tipo_documento' => $documento_id
         );
 
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
         $result = $this->db->delete(self::documento, $data);
 
         if(!$result){

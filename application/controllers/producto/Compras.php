@@ -279,6 +279,7 @@ class Compras extends MY_Controller {
 
 		$data['compra'] 	= $this->Compras_model->editar_compra($compra_id);
 		$data['detalle'] 	= $this->Compras_model->get_compra_detalle($compra_id);
+		$this->general->editar_valido($data['compra'], "producto/compras/index");
 		$bodega 			= $data['compra'][0]->Bodega;
 		$orden['orden'] 	= (object) $data['detalle'];
 		$flag = false;

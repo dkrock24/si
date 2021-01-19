@@ -47,7 +47,6 @@ class Login extends CI_Controller {
 
 			// Autenticamos al usuario respecto a su negocio
 			$user = $this->Login_model->autenticacion( $usuario , $passwd );	
-
 			if($user != 0){	
 				$_SESSION['db'] = $user;
 				

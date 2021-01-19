@@ -127,6 +127,7 @@ class Impuesto_model extends CI_Model {
         );
 
         $this->db->where('id_tipos_impuestos', $id);
+        $this->db->where('imp_empresa', $this->session->empresa[0]->id_empresa);
         $result = $this->db->delete(self::impuesto, $data);
 
         if(!$result){

@@ -81,6 +81,7 @@ class Linea_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::pos_linea);
         $this->db->where('id_linea',  $linea_id );
+        $this->db->where('Empresa',  $this->session->empresa[0]->id_empresa );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -115,6 +116,7 @@ class Linea_model extends CI_Model {
         );
         
         $this->db->where('id_linea', $id);
+        $this->db->where('Empresa',  $this->session->empresa[0]->id_empresa );
         $result = $this->db->delete(self::pos_linea, $data);
         if(!$result){
             $result = $this->db->error();

@@ -113,6 +113,8 @@ class Combo extends MY_Controller {
 		$data['title'] = "Editar Combo";
 		$data['home'] = 'producto/combo/combo_editar';
 
+		$this->general->editar_valido($data['combo'], "producto/combo/index");
+
 		$this->parser->parse('template', $data);
 	}
 

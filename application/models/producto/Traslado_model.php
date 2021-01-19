@@ -513,7 +513,6 @@ class Traslado_model extends CI_Model
 			);
 	
 			$this->db->insert(self::sys_traslados_detalle, $data);
-			
 		}		
 
 	}

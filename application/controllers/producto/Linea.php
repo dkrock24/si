@@ -93,6 +93,7 @@ class Linea extends MY_Controller {
 		$data['home'] 	= 'producto/linea/linea_editar';
 		$data['lineas'] = $this->Linea_model->getLineaId( $linea_id );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
+		$this->general->editar_valido($data['lineas'], "producto/linea/index");
 
 		$this->parser->parse('template', $data);
 	}

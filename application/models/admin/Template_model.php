@@ -315,6 +315,7 @@ class Template_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::pos_doc_temp);
         $this->db->where('id_factura', $formato_id );
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         

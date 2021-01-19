@@ -112,6 +112,7 @@ class Giros_model extends CI_Model {
 		$this->db->select('*');
         $this->db->from(self::giros);
         $this->db->where('id_giro ='. $id_giro );
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
         
@@ -147,7 +148,8 @@ class Giros_model extends CI_Model {
         );
 
         $this->db->where('id_giro', $id);
-        $result = $this->db->delete(self::giros, $data);  
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
+        $result = $this->db->delete(self::giros, $data);
 
         if(!$result){
             $result = $this->db->error();

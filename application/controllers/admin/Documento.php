@@ -151,7 +151,9 @@ class Documento extends MY_Controller {
 			'documento_id' => $id,
 		);
 
-		$this->Impresor_model->eliminar_impresor_terminar( $params );
+		if ($data) {
+			$this->Impresor_model->eliminar_impresor_terminar( $params );
+		}
 
 		if(!$data['code']){
 			$this->session->set_flashdata('warning', "Documento Fue Eliminado");

@@ -123,7 +123,7 @@ class Categorias_model extends CI_Model {
          $data = array(
             'id_categoria' => $id,
         );
-
+        $this->db->where('Empresa',$this->session->empresa[0]->id_empresa);
         $insert = $this->db->delete(self::categorias, $data); 
         if(!$insert){
             $insert = $this->db->error();

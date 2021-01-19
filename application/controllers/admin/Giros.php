@@ -95,6 +95,8 @@ class Giros extends MY_Controller {
 		$data['home'] 	= 'admin/giros/giros_editar';
 		$data['title'] 	= 'Editar Giros';
 
+		$this->general->editar_valido($data['giros'], "admin/giros/index");
+
 		$this->parser->parse('template', $data);
 	}
 

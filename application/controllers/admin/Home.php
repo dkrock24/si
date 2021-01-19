@@ -127,7 +127,7 @@ class Home extends CI_Controller {
 		}else{
 			$data['home'] = 'selecionar_empresa';
 		}
-		
+
 		$data['menu'] = $this->session->menu;		
 
 		$this->parser->parse('template', $data);

@@ -313,6 +313,7 @@ class Compras_model extends CI_Model
 		
 		if($result){
 			$data 	= array('id_compras' => $compra_id);
+			$this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
 			$result = $this->db->delete(self::pos_compras, $data);
 		}		
 

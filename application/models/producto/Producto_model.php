@@ -463,7 +463,8 @@ class Producto_model extends CI_Model
 				LEFT JOIN `pos_marca` as `m` ON `m`.`id_marca` = `P`.`Marca`
 				LEFT JOIN `pos_producto_img` as `img` ON `img`.`id_producto` = `P`.`id_entidad`
 				LEFT JOIN `pos_cliente` as `cli` ON `cli`.`id_cliente` = `img`.`id_producto`
-				where P.id_entidad=" . $id_producto);
+				where P.id_entidad=" . $id_producto .
+				" and P.Empresa = ". $this->session->empresa[0]->id_empresa);
 		//echo $this->db->queries[0];
 		return $query->result();
 	}
@@ -763,8 +764,10 @@ class Producto_model extends CI_Model
 	{
 
 		$this->db->select('*');
-		$this->db->from(self::producto_atributo);
+		$this->db->from(self::producto_atributo.' pa');
+		$this->db->join(self::producto.' as p',' on pa.Producto = p.id_entidad');
 		$this->db->where('Producto', $producto_id);
+		$this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
 		$query = $this->db->get();
 
 		$prod = $query->result();
@@ -783,7 +786,12 @@ class Producto_model extends CI_Model
 		}
 
 		$this->db->where('id_entidad', $producto_id);
-		$this->db->delete(self::producto);
+		$this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
+		$result = $this->db->delete(self::producto);
+		if ($this->db->error()) {
+			return $this->db->error();
+		}
+		return $result;
 	}
 
 	// Aqui se activa o desactiva producto en bodega
