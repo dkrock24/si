@@ -27,7 +27,7 @@ class Home extends CI_Controller {
 
 		$roles = $this->Usuario_model->get_usuario_roles( $usuario_id );
 		$empleado_id = $this->session->usuario[0]->id_empleado;
-		
+
 		$roles_id = array();
 		if(isset($roles)){
 	        foreach ($roles as $rol) {
@@ -43,13 +43,11 @@ class Home extends CI_Controller {
 
 		// Obtener toda la informacion de la empresa en session.
 		$empresa_id = $this->Usuario_model->permiso_empresa( $empleado_id );		
-
 		$empresa_session = $this->session->empresa_id;
 				
 		if(isset($empresa_id)){
 			if(isset($empresa_session)){
 				//$_SESSION['empresa'] = $this->Usuario_model->permiso_empresa( $empresa_session );
-				//get_empresa_by_id
 				$_SESSION['empresa'] = $this->Empresa_model->getEmpresaId( $empresa_session );		
 			}else{
 				$_SESSION['empresa'] = $this->Empresa_model->getEmpresaId( $empresa_id[0]->id_empresa );				
@@ -73,6 +71,12 @@ class Home extends CI_Controller {
 	}
 
 	function dashboard(){
+
+		//var_dump($this->session->userdata['db'][0]->nombre_sucursal);
+
+		if(!isset($this->session->empresa[0]->id_empresa)){
+			redirect(base_url()."login/index");
+		}
 
 		$total_ordenes_mes = $this->Dashboard_model->ordenes_mes();
 		$orden_total = "";
@@ -107,7 +111,7 @@ class Home extends CI_Controller {
 		$empleado_id = $this->session->usuario[0]->id_empleado;
 
 		$roles = $this->Usuario_model->get_usuario_roles( $usuario_id );
-		
+
 		$roles_id = array();
 		if(isset($roles)){
 			foreach ($roles as $rol) {
@@ -135,6 +139,7 @@ class Home extends CI_Controller {
 
 	function set_empresa($empresa_id){
 		$empresa = false;
+
 		if(isset($empresa_id) and $empresa_id != 0){
 			$_SESSION['empresa_id'] = $empresa_id;
 			$empresa = true;

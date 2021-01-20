@@ -40,7 +40,7 @@ class Cliente_model extends CI_Model
         $this->db->join(self::sys_persona . ' as p', ' on p.id_persona = Persona');
         $this->db->where(self::cliente . '.estado_cliente = 1');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
-        $this->db->where("(id_cliente LIKE '%$cliente_texto%' || lower(nombre_empresa_o_compania) LIKE lower('%$cliente_texto%') || nit_cliente LIKE '%$cliente_texto%' || dui_cli LIKE '%$cliente_texto%' || nrc_cli LIKE '%$cliente_texto%' ) ");
+        $this->db->where("(id_cliente LIKE '%$cliente_texto%' || lower(nombre_empresa_o_compania) LIKE lower('%$cliente_texto%') || nit_cliente LIKE '%$cliente_texto%' || dui_cli LIKE '%$cliente_texto%' || nrc_cli LIKE '%$cliente_texto%' || codigo_cliente LIKE '%$cliente_texto%' ) ");
         $query = $this->db->get();
         //echo $this->db->queries[0];
 

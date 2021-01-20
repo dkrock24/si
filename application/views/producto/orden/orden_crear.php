@@ -485,6 +485,7 @@ include("asstes/pos_orden.php");
                                     </tr>
                                 </table>
                                 <table class="table myTableFormat">
+                                    Acceso de Teclado
                                     <tr>
                                         <td>
                                             <span class="btn btn-info" 
@@ -495,27 +496,26 @@ include("asstes/pos_orden.php");
                                     </tr>
                                     <tr>
                                     <td>
-                                            <span class="btn btn-info" 
-                                                  style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 3
-                                                <i class="icon-trash" style="color:white;"></i>
-                                            </span>
+                                        <span class="btn btn-info" 
+                                                style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;"> 3
+                                            <i class="icon-trash" style="color:white;"></i>
+                                        </span>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <!--<tr>
                                         <td>
                                             <span class="btn btn-info guardar" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">4
                                                 <i class="fa fa-credit-card" style="color:white;"></i>
                                             </span>
                                         </td>
-                                        
                                     </tr>
                                     <tr>
                                     <td>
-                                            <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">5
-                                                <i class="fa fa-refresh" style="color:white;"></i>
-                                            </span>
-                                        </td>
-                                    </tr>
+                                        <span class="btn btn-info devolucion" data-toggle="modal" data-target="#devolucion" id="../venta/guardar_venta" style="background: #2D3B48; font-size: 30px;margin-top: 2px;margin-left: 4px;">5
+                                            <i class="fa fa-refresh" style="color:white;"></i>
+                                        </span>
+                                    </td>
+                                    </tr>-->
                                 </table>
                             
 
@@ -558,7 +558,7 @@ include("asstes/pos_orden.php");
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                <button type="button" data-dismiss="modal" class="btn btn-info">Cerrar</button>
             </div>
         </div>
     </div>

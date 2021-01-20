@@ -349,12 +349,12 @@
                 var prod_escala_cont    = 0;
                 var prod_temp_id        = 0;
                 var id_producto_presentacion = 0;
-                //console.log("---------------------- ", mondeda_global[0].moneda_simbolo);
+
                 $.each(_productos_lista, function(i, item) {
 
-                    if (id_producto_presentacion != item.id_entidad
-                        && (item.productoCliente == cliente_producto || item.productoCliente==null ||item.productoCliente==0)
-                        && (item.productoSucursal == sucursal_producto || item.productoSucursal==null ||item.productoSucursal==0)
+                    if ((id_producto_presentacion != item.id_entidad)
+                        //&& (item.productoCliente == cliente_producto || item.productoCliente==null ||item.productoCliente==0)
+                        //&& (item.productoSucursal == sucursal_producto || item.productoSucursal==null ||item.productoSucursal==0)
                         ) {
                         prod_escala_prev = item.id_entidad;
                         id_producto_presentacion = item.id_entidad;
@@ -369,22 +369,13 @@
                             prod_escala_cont++;
                         }
                     }
-                });console.log(_productos_lista);
+                });
 
-                /*if (prod_escala_cont <= 1) {
-
-                    get_producto_completo(prod_temp_id);
-                    input_producto_buscar.val("");
-
-                } else {*/
-
-                    $('.dataSelect').show();
-                    $(".dataSelect").html(table_tr);
-                    selected = document.getElementById('dataSelect').selectedIndex = 0;
-                    document.getElementById('dataSelect').focus();
-                    //selected.style.color = '#efed95';
-
-                //}
+                $('.dataSelect').show();
+                $(".dataSelect").html(table_tr);
+                selected = document.getElementById('dataSelect').selectedIndex = 0;
+                document.getElementById('dataSelect').focus();
+                //selected.style.color = '#efed95';
             }
         }
 
@@ -402,7 +393,7 @@
             if (event.which == 13) {
                 filtrar_presentaciones(this.value);
                 event.preventDefault();
-                //$('#dataSelect').hide();
+                $('#dataSelect').hide();
                 //$('#dataSelect').empty();
                 input_producto_buscar.val("");
             }
@@ -2244,29 +2235,35 @@
                     var datos = JSON.parse(data);
                     var clientes = datos["clientes"];
                     var cliente_id = 0;
+
                     clientes_lista = clientes;
                     if(clientes){
-                        var client = clientes.find(x => x.id_cliente !== cliente_id);
-
-                        if (client) {
+                        var client = clientes;
+                        console.log(client);
+                        if (client.length == 1) {
                             cliente_id = client.id_cliente;
 
-                            table_tr += '<option value="' + client.id_cliente + '" name="' + 
-                            client.nombre_empresa_o_compania + '" rel="' + 
-                            client.direccion_cliente + '" impuesto="' + 
-                            client.aplica_impuestos + '">' + 
-                            client.nombre_empresa_o_compania + ' ' + client.nrc_cli + ' - ' + client.nit_cliente + '</option>';
+                            $.each(client, function(i, item) {
+                                buscar_cliente_proceso(item.id_cliente,item.nombre_empresa_o_compania,item.direccion_cliente);
+                            });
 
+                        }else{
+                            $.each(client, function(i, item) {
+                                table_tr += '<option value="' + item.id_cliente + '" name="' + 
+                                item.nombre_empresa_o_compania + '" rel="' + 
+                                item.direccion_cliente + '" impuesto="' + 
+                                item.aplica_impuestos + '">' + 
+                                item.nombre_empresa_o_compania + ' ' + item.nrc_cli + ' - ' + item.nit_cliente + '</option>';
+                            });
+
+                            $('.cliente_codigo2').show();
+                            $(".cliente_codigo2").html(table_tr);
+                            document.getElementById('cliente_codigo2').selectedIndex = 0;
+                            document.getElementById('cliente_codigo2').focus();
                         }
                     }
 
-                    $('.cliente_codigo2').show();
-                    $(".cliente_codigo2").html(table_tr);
-                    document.getElementById('cliente_codigo2').selectedIndex = 0;
-                    document.getElementById('cliente_codigo2').focus();
-
                     $(".buscar_cliente").focus();
-
                 },
                 error: function() {}
             });
@@ -2414,7 +2411,11 @@
             var cliente_nombre = $(this).find('option:selected').attr("name");
             var cliente_direccion = $(this).find('option:selected').attr("rel");
 
+            buscar_cliente_proceso(id,cliente_nombre,cliente_direccion);
+        });
 
+        function buscar_cliente_proceso(id,cliente_nombre,cliente_direccion)
+        {
             $("#cliente_codigo").val(id);
             $("#cliente_nombre").val(cliente_nombre);
             $("#direccion_cliente").val(cliente_direccion);
@@ -2439,15 +2440,9 @@
                     // Set de documento a cliente
                     var documentoSelecionado = tipo_documento.find(x => x.id_tipo_documento == clienteWithDocumento[0].TipoDocumento);
 
-                    if (documentoSelecionado != null) {
-                        // Opcion predefinado de documento para el cliente
-                        //$("#id_tipo_documento").html("<option value='" + documentoSelecionado.id_tipo_documento + "'>" + documentoSelecionado.nombre + "</option>");
-                    }
-
                     $.each(tipo_documento, function(i, item) {
                         var n = item.nombre;
                         if (n.includes('Orden')) {
-                            //if (item.id_tipo_documento != clienteWithDocumento[0].TipoDocumento) {
                             $("#id_tipo_documento").append("<option value='" + item.id_tipo_documento + "'>" + item.nombre + "</option>");
                         }
                     });
@@ -2470,7 +2465,7 @@
 
             $(".cliente_codigo2").hide();
             $(".cliente_codigo").focus();
-        });
+        }
 
         $(document).on('click', '.seleccionar_empleado', function() {
 
@@ -2527,18 +2522,9 @@
         });
 
         $(document).on('keypress', '.cliente_codigo', function() {
-
             if (event.which == 13) {
                 get_clientes_lista($(this).val());
             }
-
-        });
-
-        $(document).on('keyup', '.cliente_codigo', function() {
-
-            setTimeout(function() {
-                //$(".buscar_cliente").focus();
-            }, 1000);
         });
 
         $(document).on('click', '.vendedores_lista1', function() {

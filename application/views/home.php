@@ -99,7 +99,6 @@ echo base_url();
             <!-- END widget-->
          </div>
          <aside class="col-lg-4">
-
             <!-- START messages and activity-->
             <div class="panel widget">
                <div class="panel-heading">

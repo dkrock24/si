@@ -184,13 +184,14 @@ class Empresa_model extends CI_Model {
     }
 
     function getEmpresaId( $empresa_id ){
+
         $this->db->select('*');
         $this->db->from( self::pos_empresa.' e' );
         $this->db->join( self::sys_moneda.' m', 'on e.Moneda = m.id_moneda' );
         //$this->db->where('e.id_empresa', $this->session->empresa[0]->Empresa_Suc);
         $this->db->where( 'e.id_empresa', $empresa_id );
         if (isset($this->session->empresa)) {
-            $this->db->where( 'e.id_empresa', $this->session->empresa[0]->id_empresa );
+            //$this->db->where( 'e.id_empresa', $this->session->empresa[0]->id_empresa );
         }
 
         $query = $this->db->get(); 
