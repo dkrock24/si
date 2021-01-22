@@ -178,10 +178,10 @@
                <ul class="nav navbar-nav navbar-right">
                   <!-- Search icon-->
                   <li>
-                     <span data-search-open="" id="time-part" style="font-size: 30px; color: white;">
+                     <span data-search-open="" id="time-part" style="font-size: 30px; color: grey;">
                      </span>
-                     <span id="format-date" style="top: -10px; position: relative; color: white;"> </span>
-                     <span style="font-size: 30px; color: white;"> | </span>
+                     <span id="format-date" style="top: -10px; position: relative; color: grey;"> </span>
+                     <span style="font-size: 30px; color: grey;"> | </span>
                   </li>
                   <li>
                     <a href="#" data-search-open="">

@@ -138,6 +138,20 @@ class Caja extends MY_Controller {
 		redirect(base_url()."admin/caja/index");
 	}
 
+	public function eliminar($id){
+		
+		$data = $this->Caja_model->eliminar( $id );
+
+		if(!$data['code']){
+			$this->session->set_flashdata('warning', "Caja Fue Eliminado");
+		}else{
+			$data = $this->db_error_format($data);
+			$this->session->set_flashdata('danger', "Caja No Fue Eliminada : ". $data['message']);
+		}
+
+		redirect(base_url()."admin/caja/index");
+	}
+
 	public function column(){
 
 		$column = array(

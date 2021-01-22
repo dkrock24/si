@@ -98,6 +98,17 @@ class Caja_model extends CI_Model {
         return $result;
     }
 
+    function eliminar($id)
+    {
+        $this->db->where('id_caja', $id);  
+        $result = $this->db->delete(self::caja);  
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
+    }
+
 
 	function record_count($filter){
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa. ' '. $filter);
