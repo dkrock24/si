@@ -1,7 +1,5 @@
-.DS_Store
-
 application/cache/*
-!application/config/config.php
+application/config/database.php
 asstes/printer_files/*
 documentos/*
 !application/cache/index.html
