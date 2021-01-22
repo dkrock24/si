@@ -9,7 +9,7 @@
   <script src="<?php echo base_url(); ?>../asstes/vendor/slimScroll/jquery.slimscroll.min.js"></script>
 
   <script src="<?php echo base_url(); ?>../asstes/vendor/screenfull/dist/screenfull.js"></script>
-  
+
 
 
   <script src="<?php echo base_url(); ?>../asstes/vendor/sparkline/index.js"></script>
@@ -67,126 +67,122 @@
 
 
   <script type="text/javascript">
-    $(document).ready(function() {
-      var interval = setInterval(function() {
-        var momentNow = moment();
-//        $('#time-part').html(momentNow.format('MMMM DD'));
-        $('#format-date').html(momentNow.format('hh:mm A'));
-      }, 100);
+  	$(document).ready(function() {
+  		var interval = setInterval(function() {
+  			var momentNow = moment();
+  			//        $('#time-part').html(momentNow.format('MMMM DD'));
+  			$('#format-date').html(momentNow.format('hh:mm A'));
+  		}, 100);
 
-      var momentNow = moment();
+  		var momentNow = moment();
 
-      var months = {
+  		var months = {
 
-        January: {
-          Name : "January",
-          Translate : "Enero"
-        },
+  			January: {
+  				Name: "January",
+  				Translate: "Enero"
+  			},
 
-        February: {
-          Name : "February",
-          Translate : "Febrero"
-        }, 
+  			February: {
+  				Name: "February",
+  				Translate: "Febrero"
+  			},
 
-        March: {
-          Name : "March",
-          Translate : "Marzo"
-        }, 
+  			March: {
+  				Name: "March",
+  				Translate: "Marzo"
+  			},
 
-        April: {
-          Name : "April",
-          Translate : "Abril"
-        }, 
+  			April: {
+  				Name: "April",
+  				Translate: "Abril"
+  			},
 
-        May: {
-          Name : "May",
-          Translate : "Mayo"
-        }, 
+  			May: {
+  				Name: "May",
+  				Translate: "Mayo"
+  			},
 
-        June: {
-          Name : "June",
-          Translate : "Junio"
-        }, 
+  			June: {
+  				Name: "June",
+  				Translate: "Junio"
+  			},
 
-        July: {
-          Name : "July",
-          Translate : "julio"
-        }, 
+  			July: {
+  				Name: "July",
+  				Translate: "julio"
+  			},
 
-        August: {
-          Name : "August",
-          Translate : "Agosto"
-        },
+  			August: {
+  				Name: "August",
+  				Translate: "Agosto"
+  			},
 
-        September: {
-          Name : "September",
-          Translate : "Septiembre"
-        },
+  			September: {
+  				Name: "September",
+  				Translate: "Septiembre"
+  			},
 
-        October: {
-          Name : "October",
-          Translate : "Octubre"
-        },
+  			October: {
+  				Name: "October",
+  				Translate: "Octubre"
+  			},
 
-        November: {
-          Name : "November",
-          Translate : "Noviembre"
-        },
+  			November: {
+  				Name: "November",
+  				Translate: "Noviembre"
+  			},
 
-        December: {
-          Name : "December",
-          Translate : "Diciembre"
-        },
+  			December: {
+  				Name: "December",
+  				Translate: "Diciembre"
+  			},
 
-      };
+  		};
 
-      for(var i in months){
-        if(i ==  momentNow.format('MMMM') ){
-          console.log(months[i].Translate);
-          $('#time-part').html(months[i].Translate +" "+ momentNow.format('DD') + " / "+ momentNow.format('Y'));
-          $('.time-part').html(months[i].Translate +" "+ momentNow.format('DD') + " / "+ momentNow.format('Y'));
-        }
-      }
+  		for (var i in months) {
+  			if (i == momentNow.format('MMMM')) {
+  				console.log(months[i].Translate);
+  				$('#time-part').html(months[i].Translate + " " + momentNow.format('DD') + " / " + momentNow.format('Y'));
+  				$('.time-part').html(months[i].Translate + " " + momentNow.format('DD') + " / " + momentNow.format('Y'));
+  			}
+  		}
 
-    });
+  	});
   </script>
 
 
   <div class="modal fade" id="opciones" role="dialog">
-    <div class="modal-dialog">
+  	<div class="modal-dialog">
 
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          
-          <h3 style="color:black;"><span class="fa fa-print"></span> Lista de Campos</h3>
-        </div>
-        <div class="modal-body">
-          <form role="form" id="pdfParametros" name="pdfParametros">
+  		<!-- Modal content-->
+  		<div class="modal-content">
+  			<div class="modal-header">
 
-          <?php
-            if($fields['field']){
-              foreach ($fields['field'] as $key => $item) {
-                foreach ($item as $key => $item2) {
-                ?>
-                  
-                  <input type="checkbox" checked="checked" name="<?php echo $key ?>" value="<?php echo $item2 ?>" />
-                  <label><?php echo $item2 ?></label>
-                  <br/>
-                <?php
-                }
-              }
-            }
-          ?>
-            
-            
-          </form>
-        </div>
-        <div class="modal-footer">
-        <button onclick="b()" id="pdfParametros" class="btn btn-info">Guardar</button>
-          
-          
-        </div>
-      </div>
-    </div>
+  				<h3 style="color:black;"><span class="fa fa-print"></span> Lista de Campos</h3>
+  			</div>
+  			<div class="modal-body">
+  				<form role="form" id="pdfParametros" name="pdfParametros">
+
+  					<?php
+						if (isset($fields['field'])) {
+							foreach ($fields['field'] as $key => $item) {
+								foreach ($item as $key => $item2) {
+						?>
+
+  								<input type="checkbox" checked="checked" name="<?php echo $key ?>" value="<?php echo $item2 ?>" />
+  								<label><?php echo $item2 ?></label>
+  								<br />
+  					<?php
+								}
+							}
+						}
+						?>
+  				</form>
+  			</div>
+  			<div class="modal-footer">
+  				<button onclick="b()" id="pdfParametros" class="btn btn-info">Guardar</button>
+  			</div>
+  		</div>
+  	</div>
   </div>

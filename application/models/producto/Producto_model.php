@@ -472,7 +472,7 @@ class Producto_model extends CI_Model
 	function get_precios($id_producto)
 	{
 		$query = $this->db->query("SELECT *
-				FROM `producto_detalle` as `P` where P.Producto=" . $id_producto);
+				FROM `producto_detalle` as `P` where P.Producto=" . $id_producto ." and estado_producto_detalle = 1");
 		return $query->result();
 	}
 
@@ -487,12 +487,9 @@ class Producto_model extends CI_Model
 		return $query->result();
 	}
 
-	// :::::: ACTUALIZAR
-
+	/** Actualizar, vieja funciona */
 	function actualizar_producto($producto)
 	{
-
-
 		$data = array(
 			'Empresa' => $producto['empresa'],
 			'id_producto_relacionado' => $producto['procuto_asociado'],
@@ -610,14 +607,102 @@ class Producto_model extends CI_Model
 	// Actualizar Precios del producto
 	function producto_precios_actualizacion($id_producto, $producto)
 	{
+		$cont = 1;
+		$flag = false;
 
+		/** Buscar Todos los precios del producto */
+		$producto_precio = $this->buscar_producto_precio($id_producto);
+
+		do{
+			/** Exite la presentacion que se va actualizar */
+			if (isset($producto['presentacion'.$cont])) {
+				
+				if (isset($producto['id_producto_detalle'.$cont])) {
+					
+					/** Actualizar presentaciones existentes */
+					$id_producto_detalle = $producto['id_producto_detalle'.$cont];
+				
+					/**  Filtrar para buscar presentacion */ 
+					$precioResult = array_filter(
+						(array) $producto_precio,
+						function($producto,$valor) use ($id_producto_detalle) {
+							if($producto->id_producto_detalle == $id_producto_detalle){
+								return $producto;
+							}
+						},ARRAY_FILTER_USE_BOTH
+					);
+
+					if ($precioResult) {
+						$this->update_producto_detalle($precioResult, $producto , $cont);
+					}
+					$cont++;
+
+				} else {
+					/** Insertar nuevas presentaciones */
+					$this->insert_producto_detalle($id_producto, $producto, $cont);
+					$cont++;
+				}
+			
+			} else {
+				$flag = true;
+			}
+		}while(!$flag);
+		
+	}
+
+	private function insert_producto_detalle($id_producto, $producto, $contador)
+	{
 		$data = array(
 			'Producto' => $id_producto,
+			'presentacion' 	=> $producto['presentacion' . $contador],
+			'factor' 		=> $producto['factor' . $contador],
+			'precio' 		=> $producto['precio' . $contador],
+			'unidad' 		=> $producto['unidad' . $contador],
+			'Cliente' 		=> $producto['cliente' . $contador],
+			'Sucursal' 		=> $producto['sucursal' . $contador],
+			'Utilidad' 		=> $producto['utilidad' . $contador],
+			'cod_barra' 	=> $producto['cbarra' . $contador],
+			'estado_producto_detalle' => 1,
+			'fecha_creacion_producto_detalle' => date("Y-m-d h:i:s")
 		);
+		$this->db->insert(self::producto_detalle, $data);
+	}
 
-		$this->db->delete(self::producto_detalle, $data);
+	private function update_producto_detalle($precioResult , $producto , $contador)
+	{
+		$data = array(
+			'Producto' 		=> $producto['id_producto'],
+			'presentacion' 	=> $producto['presentacion' . $contador],
+			'factor' 		=> $producto['factor' . $contador],
+			'precio' 		=> $producto['precio' . $contador],
+			'unidad' 		=> $producto['unidad' . $contador],
+			'Cliente' 		=> $producto['cliente' . $contador],
+			'Sucursal' 		=> $producto['sucursal' . $contador],
+			'Utilidad' 		=> $producto['utilidad' . $contador],
+			'cod_barra' 	=> $producto['cbarra' . $contador],
+			'estado_producto_detalle' => 1
+		);
+		$this->db->where('id_producto_detalle', $producto['id_producto_detalle'. $contador]);
+		$this->db->update(self::producto_detalle, $data);
+	}
 
-		$this->producto_precios($id_producto, $producto);
+	private function buscar_producto_precio($id_producto)
+	{
+		$data = array(
+			'estado_producto_detalle' => 0,
+		);
+		$this->db->where('Producto', $id_producto);
+		$this->db->update(self::producto_detalle, $data);
+
+		$this->db->select('*');
+		$this->db->from(self::producto_detalle);
+		$this->db->where('Producto', $id_producto);
+		$query = $this->db->get();
+		//echo $this->db->queries[4];
+
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		}
 	}
 
 	// Actualizar producto valor

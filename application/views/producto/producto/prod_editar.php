@@ -787,7 +787,7 @@
                                                     foreach ($proveedor as $value) {
                                                         if ($producto_proveedor[0]->id_proveedor != $value->id_proveedor) {
                                                             ?>
-                                                            <option value="<?php echo  $value->id_proveedor; ?>"><?php echo $value->empresa; ?>
+                                                            <option value="<?php echo  $value->id_proveedor; ?>"><?php echo $value->empresa_proveedor; ?>
                                                             </option>
                                                     <?php
                                                         }
@@ -809,7 +809,7 @@
                                                     foreach ($proveedor as $value) {
                                                         if ($producto_proveedor[0]->id_proveedor != $value->id_proveedor) {
                                                             ?>
-                                                            <option value="<?php echo  $value->id_proveedor; ?>"><?php echo $value->empresa; ?>
+                                                            <option value="<?php echo  $value->id_proveedor; ?>"><?php echo $value->empresa_proveedor; ?>
                                                             </option>
                                                     <?php
                                                         }
@@ -1125,6 +1125,7 @@
                                                             ?>
                                                             <tr id="<?php echo $cont_table ?>">
                                                                 <td><?php echo $cont_table; ?></td>
+                                                                <input type="hidden" name="id_producto_detalle<?php echo $cont_table ?>" value="<?php echo $precio->id_producto_detalle; ?>">
                                                                 <td><input type="text" size='10' class='presentacion<?php echo $cont_table ?>' name="presentacion<?php echo $cont_table ?>" value="<?php echo $precio->presentacion; ?>"></td>
                                                                 <td><input type="text" size='3' class='factor<?php echo $cont_table ?>' name="factor<?php echo $cont_table ?>" value="<?php echo $precio->factor; ?>"></td>
                                                                 <td><input type="text" size='3' class='unidad<?php echo $cont_table ?> calculoUtilidad' name="unidad<?php echo $cont_table ?>" value="<?php echo $precio->unidad; ?>" id="<?php echo $cont_table ?>"></td>

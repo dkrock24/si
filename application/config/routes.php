@@ -51,5 +51,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 $route['default_controller'] = 'login';
+$route['logs'] = "logViewer/index";
 $route['404_override'] = 'Notificacion';
 $route['translate_uri_dashes'] = FALSE;

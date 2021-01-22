@@ -55,13 +55,13 @@
                                         <select class="form-control" id="Empresa" name="Empresa" >
                                             <option value="<?php echo $categorias[0]->Empresa ?>"><?php echo $categorias[0]->nombre_comercial ?></option>
                                             <?php
-                                            foreach ($empresa as $key => $value) {
+                                            /*foreach ($empresa as $key => $value) {
                                                 if($categorias[0]->Empresa != $value->id_empresa){
                                                 ?>
                                                 <option value="<?php echo $value->id_empresa ?>"><?php echo $value->nombre_comercial ?></option>
                                                 <?php
                                                 }
-                                            }
+                                            }*/
                                             ?>  
                                         </select>
                                         

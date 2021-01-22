@@ -127,7 +127,7 @@ class Orden_model extends CI_Model
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_detalle AS `pde` ON pde.Producto = P.id_entidad
 				
-				WHERE b.id_bodega='" . $bodega . "' and b.Sucursal='" . $sucursal . "'
+				WHERE b.id_bodega='" . $bodega . "' and b.Sucursal='" . $sucursal . "' and pde.estado_producto_detalle=1
 				 and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%' ||
 				  P.descripcion_producto LIKE '%$texto%' )");
 
@@ -183,7 +183,7 @@ class Orden_model extends CI_Model
 				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
 				LEFT JOIN producto_detalle AS pde ON pde.Producto = P.id_entidad
 
-				WHERE pde.id_producto_detalle = " . $producto_id . " and b.id_bodega =" . $id_bodega);
+				WHERE pde.id_producto_detalle = " . $producto_id . " and pde.estado_producto_detalle =1 and b.id_bodega =" . $id_bodega);
 		//echo $this->db->queries[3];die;
 		return $query->result();
 	}
@@ -214,7 +214,7 @@ class Orden_model extends CI_Model
 				LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
 				LEFT JOIN producto_detalle AS pde ON pde.Producto = P.id_entidad
 
-				WHERE P.id_entidad = " . $producto_id . " and b.id_bodega =" . $id_bodega);
+				WHERE P.id_entidad = " . $producto_id . " and pde.estado_producto_detalle =1 and b.id_bodega =" . $id_bodega);
 		//echo $this->db->queries[1];
 		return $query->result();
 	}
@@ -223,7 +223,7 @@ class Orden_model extends CI_Model
 	{
 
 		$query = $this->db->query("SELECT * from producto_detalle as pd
-				WHERE pd.Producto = " . $producto_id);
+				WHERE pd.Producto = " . $producto_id ." and pd.estado_producto_detalle =1");
 
 		//echo $this->db->queries[1];
 		return $query->result();
@@ -869,7 +869,7 @@ class Orden_model extends CI_Model
 	function get_precios($id_producto)
 	{
 		$query = $this->db->query("SELECT *
-				FROM `producto_detalle` as `P` where P.Producto=" . $id_producto);
+				FROM `producto_detalle` as `P` where P.Producto=" . $id_producto. " and P.estado_producto_detalle =1");
 		return $query->result();
 	}
 

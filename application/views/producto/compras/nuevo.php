@@ -75,7 +75,7 @@
             $("#recibe_nombre").val(id);
             $("#firma_llegada").val(name);
 
-
+            $('#persona_modal').modal('hide');
         });
 
     });
@@ -836,7 +836,7 @@ include("asstes/js/compras/pos_funciones.php");
 
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                <button type="button" data-dismiss="modal" class="btn btn-info">Close</button>
             </div>
         </div>
     </div>

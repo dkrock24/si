@@ -169,7 +169,7 @@ class Producto extends MY_Controller {
 			$this->session->set_flashdata('danger', "Producto No Fue Actualizado");
 		}
 
-		redirect(base_url()."producto/producto/index");
+		redirect(base_url()."producto/producto/editar/".$_POST['id_producto']);
 	}
 
 	public function get_giros_empresa( $id_empresa ){

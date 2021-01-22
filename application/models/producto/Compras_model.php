@@ -60,7 +60,7 @@ class Compras_model extends CI_Model
 				FROM `producto` as `P`
 				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
 				LEFT JOIN producto_detalle AS `pde` ON pde.Producto = P.id_entidad				
-				WHERE P.Empresa = ". $this->session->empresa[0]->id_empresa ." and 
+				WHERE P.Empresa = ". $this->session->empresa[0]->id_empresa ." and pde.estado_producto_detalle=1 and 
 				    (
 					P.name_entidad LIKE '%$texto%'||
 					P.codigo_barras LIKE '%$texto%'||
@@ -75,29 +75,27 @@ class Compras_model extends CI_Model
 	function get_producto_completo($producto_id)
 	{
 		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
-                , A.nam_atributo, A.id_prod_atributo , pv2.valor as valor, b.nombre_bodega, pinv.id_inventario
-                , tipo_imp_prod.tipos_impuestos_idtipos_impuestos, impuestos.porcentage
+		, b.id_bodega, b.nombre_bodega
+		, tipo_imp_prod.tipos_impuestos_idtipos_impuestos, impuestos.porcentage ,
+		 `sub_c`.`id_categoria` as 'categoria',pde.presentacion,pde.factor,pde.precio,pde.unidad
 
-            FROM `producto` as `P`
-            LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
-            LEFT JOIN `atributo` as `A` ON `A`.`id_prod_atributo` = `PA`.`Atributo`
-            LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
-            LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
-            LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
-            LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
-            LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
-            LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-            LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
-            LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
-            LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
-            LEFT JOIN producto_valor AS pv2 on pv2.id_prod_atributo = PA.id_prod_atrri
-            LEFT JOIN pos_inventario AS pinv on pinv.Producto_inventario = P.id_entidad
-            LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
-            LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
-			LEFT JOIN producto_detalle AS pde ON pde.Producto = P.id_entidad
-			WHERE pde.id_producto_detalle = ". $producto_id);
+		FROM `producto` as `P`
+		LEFT JOIN `producto_atributo` as `PA` ON `P`.`id_entidad` = `PA`.`Producto`
+		LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
+		LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
+		LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
+		LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
+		LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
+		LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
+		LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro`
+		LEFT JOIN `pos_producto_bodega` as `pb` ON `pb`.`Producto` = `P`.`id_entidad`
+		LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
+		LEFT JOIN pos_tipos_impuestos_has_producto AS tipo_imp_prod on tipo_imp_prod.producto_id_producto = P.id_entidad
+		LEFT JOIN pos_tipos_impuestos AS impuestos on impuestos.id_tipos_impuestos = tipo_imp_prod.tipos_impuestos_idtipos_impuestos
+		LEFT JOIN producto_detalle AS pde ON pde.Producto = P.id_entidad
 
-			//echo $this->db->queries[4];
+		WHERE pde.id_producto_detalle = " . $producto_id . " and pde.estado_producto_detalle =1");
+		//echo $this->db->queries[3];die;
 		return $query->result();
 	}
 
@@ -242,7 +240,7 @@ class Compras_model extends CI_Model
 		
 		$this->db->where('c.id_compras', $id );
 		$query = $this->db->get();
-		//echo $this->db->queries[1];
+		//echo $this->db->queries[1];die;
 
 		if ($query->num_rows() > 0) {
 			return $query->result();
