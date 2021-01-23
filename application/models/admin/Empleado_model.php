@@ -117,7 +117,7 @@ class Empleado_model extends CI_Model {
 
             $data = array_merge( $data,array('img_empleado' => $imagen, 'img_type'=> $imageProperties['mime'] ));
         }else{
-            $imagen = file_get_contents("/var/www/html/asstes/img/nofotoprofile.png");
+            $imagen = file_get_contents(base_url()."../asstes/img/default-profile-pic-png-5.png");
             $imageProperties = "image/png";
             $data = array_merge( $data,array('img_empleado' => $imagen, 'img_type'=> $imageProperties ));
         }

@@ -169,9 +169,8 @@ class Usuario_model extends CI_Model {
         $this->db->join(self::pos_empresa.' as e',' on e.id_empresa = s.Empresa_Suc');
         $this->db->where('es.es_empleado',$empleado_id);
         $this->db->group_by('e.id_empresa');
-        $query = $this->db->get(); 
+        $query = $this->db->get();  
         //echo $this->db->queries[2];
-
 
         if($query->num_rows() > 0 )
         {
@@ -182,14 +181,20 @@ class Usuario_model extends CI_Model {
     function crear_usuario($datos){
 
         $imagen="";
-        $imagen = file_get_contents($_FILES['foto']['tmp_name']);
-        $imageProperties = getimageSize($_FILES['foto']['tmp_name']);
+        if (!empty($_FILES['foto']['tmp_name'])) {
+            $imagen = @file_get_contents($_FILES['foto']['tmp_name']);
+            $imageProperties = @getimageSize($_FILES['foto']['tmp_name']);
+
+        } else {
+            $imagen = file_get_contents(base_url()."../asstes/img/default-profile-pic-png-5.png");
+            $imageProperties = getimageSize(base_url()."../asstes/img/default-profile-pic-png-5.png");
+        }
 
         $data = array(
             'nombre_usuario'    => $datos['nombre_usuario'],
             'contrasena_usuario'=> sha1( $datos['contrasena_usuario']),
-            'img'               => $imagen,
-            'img_type'          => $imageProperties['mime'],
+            'img'               => @$imagen,
+            'img_type'          => @$imageProperties['mime'],
             'hora_inicio'       => $datos['hora_inicio'],
             'hora_salida'       => $datos['hora_salida'],
             'usuario_encargado'         => $datos['encargado'],

@@ -86,7 +86,7 @@ class Empleado extends MY_Controller {
 		$data['menu'] = $this->session->menu;	
 		$data['cargos']	= $this->Cargos_model->get_cargos();
 		$data['empresa']	= $this->Empresa_model->getEmpresaOnly();
-		$data['sucursal_lista']	= $this->Empresa_model->getEmpresasWithSucursal2(1);
+		$data['sucursal_lista']	= $this->Empresa_model->getEmpresasWithSucursal2(0);
 		$data['turnos'] = $this->Turnos_model->getTurnos();
 		$data['title'] = "Crear Empleado";
 		$data['home'] = 'admin/empleado/e_nuevo';

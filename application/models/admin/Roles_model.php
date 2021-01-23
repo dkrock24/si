@@ -87,11 +87,11 @@ class Roles_model extends CI_Model {
     function nuevo_rol( $nuevo_rol ){
 
         $data = array(
-           'role' => $nuevo_rol['role'],
-            'pagina' => $nuevo_rol['pagina'],
-            'fecha_actualizacion' => date('Y-m-d'),
-            'Empresa'=> $this->session->empresa[0]->id_empresa,
-            'estado_rol' => $nuevo_rol['estado_rol'],
+            'role'          => $nuevo_rol['role'],
+            'pagina'        => $nuevo_rol['pagina'],
+            'fecha_creacion'=> date('Y-m-d'),
+            'Empresa'       => $this->session->empresa[0]->id_empresa,
+            'estado_rol'    => $nuevo_rol['estado_rol'],
         );
 
         $result     = $this->db->insert(self::roles, $data );

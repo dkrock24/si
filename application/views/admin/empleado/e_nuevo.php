@@ -14,13 +14,51 @@
             readURL(this);
         });
 
-        $(document).on('click', '.seleccionar_encargado', function() {
+        $(document).on('click', '.encargado_lista', function() {
             $('#persona_modal').modal('show');
             accion = $(this).attr("id");
             get_encargado_lista();
         });
 
+        $(document).on('click', '.seleccionar_encargado', function() {
+            $('#persona_modal').modal('show');
+            accion = $(this).attr("id");
+            get_persona_lista();
+        });
+
         function get_encargado_lista() {
+
+            var table = "<table class='table table-sm table-hover'>";
+            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
+            table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
+            var table_tr = "<tbody id='list'>";
+            var contador_precios = 1;
+
+            $.ajax({
+                url: "get_persona",
+                datatype: 'json',
+                cache: false,
+
+                success: function(data) {
+                    var datos = JSON.parse(data);
+                    var persona = datos["persona"];
+
+                    $.each(persona, function(i, item) {
+
+                        table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.cel + '</td><td><a href="#" class="btn btn-primary btn-xs encargado" id="' + item.id_persona + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
+                        contador_precios++;
+                    });
+                    table += table_tr;
+                    table += "</tbody></table>";
+
+                    $(".cliente_lista_datos").html(table);
+
+                },
+                error: function() {}
+            });
+        }
+
+        function get_persona_lista() {
 
             var table = "<table class='table table-sm table-hover'>";
             table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
@@ -90,6 +128,22 @@
                 },
                 error: function() {}
             });
+        });
+
+        // Seleccionar encargado
+        $(document).on('click', '.encargado', function() {
+            var id = $(this).attr("id");
+            var name = $(this).attr("name");
+
+            if (accion == 'encargado_nombre') {
+                $("#encargado_id").val(id);
+                $("#encargado_nombre").val(name);
+            } else {
+                $("#Persona_E").val(id);
+                $("#persona_nombre").val(name);
+            }
+
+            $('#persona_modal').modal('hide');
         });
 
         $(document).on('click', '#btn_save', function() {
@@ -319,8 +373,8 @@
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
                                             <div class="col-sm-9">
 
-                                                <input type="text" required class="form-control seleccionar_encargado" required id="encargado_nombre" name="" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                <input type="hidden" class="form-control seleccionar_encargado" id="encargado_id" name="encargado" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" required class="form-control encargado_lista" required id="encargado_nombre" name="" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="hidden" class="form-control encargado_lista" id="encargado_id" name="encargado" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
 
                                             </div>
                                         </div>

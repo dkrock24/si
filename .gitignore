@@ -1,5 +1,5 @@
 application/cache/*
-application/config/database.php
+*/application/config/database.php
 asstes/printer_files/*
 documentos/*
 !application/cache/index.html
