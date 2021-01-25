@@ -197,7 +197,7 @@ class Categorias_model extends CI_Model {
     function get_all_categorias( ){
 
         $this->db->select('*');
-        $this->db->from(self::categoria.' as c');
+        $this->db->from(self::categorias.' as c');
         $this->db->where('c.id_categoria_padre', null);
         $this->db->where('c.nombre_categoria != ""');
         $this->db->where('c.Empresa', $this->session->empresa[0]->id_empresa);

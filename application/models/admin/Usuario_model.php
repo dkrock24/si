@@ -150,6 +150,24 @@ class Usuario_model extends CI_Model {
         $this->db->from(self::sys_role.' as ur');  
         $this->db->join(self::usuario_roles.' as r', ' ON r.usuario_rol_role = ur.id_rol', 'left'); 
         $this->db->where('ur.Empresa',$this->session->empresa[0]->id_empresa);
+        $this->db->where('r.usuario_rol_usuario', $usuario_id);
+        $query = $this->db->get(); 
+        $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function get_usuario_roles3( $usuario_id ){
+
+        $this->db->select(' r.*, ur.* , ur.id_rol AS rol ');
+        $this->db->from(self::sys_role.' as ur');  
+        $this->db->join(self::usuario_roles.' as r', ' ON r.usuario_rol_role = ur.id_rol', 'left'); 
+        $this->db->where('ur.Empresa',$this->session->empresa[0]->id_empresa);
+        $this->db->where('r.usuario_rol_usuario != ', $usuario_id);
+        $this->db->group_by('usuario_rol_role');
         $query = $this->db->get(); 
         $this->db->queries[1];
         

@@ -3,22 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ClienteTipo extends MY_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
 	public function __construct()
 	{
 		parent::__construct();    
@@ -162,11 +146,27 @@ class ClienteTipo extends MY_Controller {
 
 	public function fields(){
 		$fields['field'] = array(
-			'nombre_cliente_tipo','codigo_cliente_tipo','signo_cliente_tipo','porcentaje_cliente_tipo','descuento_cliente_tipo','tp_cliente_tipo','correlativo_cliente_tipo','cta_ingreso_cliente_tipo','cta_cxc_cliente_tipo','estado'
+			['nombre_cliente_tipo' =>'nombre_cliente_tipo'],
+			['codigo_cliente_tipo' => 'codigo_cliente_tipo'],
+			['signo_cliente_tipo' => 'signo_cliente_tipo'],
+			['porcentaje_cliente_tipo' => 'porcentaje_cliente_tipo'],
+			['descuento_cliente_tipo' => 'descuento_cliente_tipo'],
+			['tp_cliente_tipo' => 'tp_cliente_tipo'],
+			['correlativo_cliente_tipo' => 'correlativo_cliente_tipo'],
+			['cta_ingreso_cliente_tipo' => 'cta_ingreso_cliente_tipo'],
+			['cta_cxc_cliente_tipo' => 'cta_cxc_cliente_tipo'],
+			['orden_estado_nombre' => 'Estado']
+		);
+
+		$fields['reglas'] = array(
+			'orden_estado_nombre' => array(
+				'valor' => 1,
+				'condicion' => 1
+			),
 		);
 		
 		$fields['id'] = array('id_cliente_tipo');
-		$fields['estado'] = array('estado_cliente_tipo');
+		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Cliente Tipo Lista";
 
 		return $fields;

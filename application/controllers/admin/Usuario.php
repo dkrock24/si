@@ -110,6 +110,7 @@ class Usuario extends MY_Controller {
 		$data['home'] 			= 'admin/usuario/u_editar';
 		$data['roles']			= $this->Roles_model->getAllRoles();	
 		$data['usuario_roles']	= $this->Usuario_model->get_usuario_roles2($usuario_id);
+		$data['usuario_roles2']	= $this->Usuario_model->get_usuario_roles3($usuario_id);
 		$data['usuario'] 		= $this->Usuario_model->get_usuario_id( $usuario_id );		
 
 		$this->general->editar_valido($data['usuario'], "admin/usuario/index");

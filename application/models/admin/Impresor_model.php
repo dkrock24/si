@@ -18,6 +18,7 @@ class Impresor_model extends CI_Model {
     	$this->db->select('*');
         $this->db->from(self::pos_impresor);
         $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = pos_impresor.impresor_estado');
+        $this->db->where('impresor_empresa', $this->session->empresa[0]->id_empresa);
         if($filters!=""){
             $this->db->where($filters);
         }
@@ -133,29 +134,31 @@ class Impresor_model extends CI_Model {
      */
     function procesar_impresor_terminal_documento($impresores, $documentos, $terminales) {
 
-        foreach ($terminales as $terminal) {
-            
-            foreach ($documentos as $documento) {
+        if ($terminales) {
+            foreach ($terminales as $terminal) {
+                
+                foreach ($documentos as $documento) {
 
-                foreach ($impresores as $impresor) {
-                    
-                    $_terminal  = $terminal->id_terminal;
-                    $_impresor  = $impresor->id_impresor;
-                    $_documento = $documento->id_tipo_documento;
-                    
-                    $record = $this->check_impresor_terminal_exist($_impresor, $_terminal, $_documento);
-                    
-                    if( !$record ) {
+                    foreach ($impresores as $impresor) {
                         
-                        $data = array(
-                            'impresor_id'       => $_impresor,
-                            'terminal_id'       => $_terminal,
-                            'documento_id'      => $_documento,
-                            'impresor_principal'=> 0,
-                            'impresor_terminal_estado'=> 1,
-                        );
+                        $_terminal  = $terminal->id_terminal;
+                        $_impresor  = $impresor->id_impresor;
+                        $_documento = $documento->id_tipo_documento;
                         
-                        $this->db->insert(self::impresor_terminal, $data);
+                        $record = $this->check_impresor_terminal_exist($_impresor, $_terminal, $_documento);
+                        
+                        if( !$record ) {
+                            
+                            $data = array(
+                                'impresor_id'       => $_impresor,
+                                'terminal_id'       => $_terminal,
+                                'documento_id'      => $_documento,
+                                'impresor_principal'=> 0,
+                                'impresor_terminal_estado'=> 1,
+                            );
+                            
+                            $this->db->insert(self::impresor_terminal, $data);
+                        }
                     }
                 }
             }

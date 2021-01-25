@@ -112,7 +112,7 @@
             <div class="navbar-header">
                <a href="#/" class="navbar-brand">
                   <div class="brand-logo">
-                    <h1 style="margin-top: 0px; color: white;">
+                    <h1 style="margin-top: 0px; color: white; font-size:25px;">
                       <?php
                       if(isset($this->session->empresa)){
                         echo $this->session->empresa[0]->nombre_razon_social;

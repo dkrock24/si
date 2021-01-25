@@ -109,14 +109,16 @@ class Empresa_model extends CI_Model {
     }
 
     function getEmpresasWithSucursal2( $datos ){
-        
+
         $this->db->select('*');
         $this->db->from(self::pos_empresa.' e');
         $this->db->join(self::sucursal.' s', 'on s.Empresa_Suc = e.id_empresa','right');
-        $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
-        $this->db->where_not_in('s.id_sucursal', $datos);
-        $this->db->order_by('e.id_empresa');
-       
+        //$this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
+        if ($datos != 0) {
+            $this->db->where_not_in('s.id_sucursal', $datos);
+        }
+        $this->db->order_by('e.id_empresa');       
         $query = $this->db->get();
         //echo $this->db->queries[4];
         

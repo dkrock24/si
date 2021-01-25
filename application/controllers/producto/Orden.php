@@ -74,7 +74,7 @@ class Orden extends MY_Controller {
 		$terminal_acceso 	= FALSE;
 		$id_usuario 		= $this->session->usuario[0]->id_usuario;
 		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
-		$data['menu'] 		= $this->session->menu;		
+		$data['menu'] 		= $this->session->menu;
 
 		if($terminal_acceso){
 			$data['terminal'] 		= $terminal_acceso;

@@ -315,7 +315,11 @@
                                             </tr>
                                             <?php
                                         }
-                                        else 
+                                        $cont ++;
+                                    }
+                                    $cont =1;
+                                    foreach ($usuario_roles2 as $ur) {   
+                                        if($ur->usuario_rol_usuario != $usuario[0]->id_usuario )
                                         {
                                             ?>
                                             <tr style="width: 100%; ">

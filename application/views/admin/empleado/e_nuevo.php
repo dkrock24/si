@@ -189,6 +189,27 @@
             });
         });
 
+        $(document).change("#Empresa", function() {
+            var id_empresa = $("#Empresa").val();
+            $.ajax({
+                url: "get_sucursal/" + id_empresa,
+                datatype: 'json',
+                cache: false,
+
+                success: function(data) {
+                    var datos = JSON.parse(data);
+                    var sucursal = datos["sucursal"];
+                    var Sucursal = '';
+                    $.each(sucursal, function(i, item) {
+                        Sucursal += '<option value="' + item.id_sucursal + '">' + item.nombre_sucursal + '</option>';
+
+                    });
+                    $("#Sucursal").html(Sucursal);
+                },
+                error: function() {}
+            });
+        });
+
         $("#imagen_nueva").hide();
 
         function readURL(input) {

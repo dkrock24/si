@@ -9,6 +9,7 @@ class ClienteTipo_model extends CI_Model {
     const pos_formas_pago = 'pos_formas_pago';
     const pos_fp_cliente = 'pos_formas_pago_cliente';
     const pos_cliente_tipo = 'pos_cliente_tipo';
+    const pos_orden_estado  = 'pos_orden_estado';
 
 	function get_cliente_tipo(){
         $this->db->select('*');
@@ -24,8 +25,6 @@ class ClienteTipo_model extends CI_Model {
             return $query->result();
         }
 	}
-
-
 
     function get_clientes_tipo_id( $cliente_id ){
 
@@ -46,6 +45,7 @@ class ClienteTipo_model extends CI_Model {
     function getAllClientesTipo( $limit, $id){
         $this->db->select('*');
         $this->db->from(self::pos_cliente_tipo);
+        $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = '.self::pos_cliente_tipo.'.estado_cliente_tipo');
         $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 

@@ -30,7 +30,7 @@ class Documento_model extends CI_Model {
         $this->db->from(self::documento.' as d');   
         $this->db->join(self::pos_temp_sucursal.' as t',' on d.id_tipo_documento = t.Documento');   
         $this->db->join(self::pos_sucursal.' as s',' on s.id_sucursal = t.Sucursal');
-        $this->db->where('d.Empresa', $this->session->empresa[0]->id_empresa);      
+        $this->db->where('d.Empresa', $this->session->empresa[0]->id_empresa);
         $query = $this->db->get();    
                 
         if($query->num_rows() > 0 )
@@ -42,7 +42,8 @@ class Documento_model extends CI_Model {
     function getAllDocumento($documentoNombre = null){
         $this->db->select('*');
         $this->db->from(self::documento);   
-        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa); 
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->where('estado',1);
         $this->db->order_by('nombre','asc');
         if($documentoNombre){
             $this->db->where('nombre', $documentoNombre); 

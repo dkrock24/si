@@ -154,10 +154,10 @@ class MY_Controller extends CI_Controller
 		$id_rol 	= $this->session->roles;
         $vista_id 	= $vista;
         
-        $f = $this->fields();
+		$f = $this->fields();
 		if(!$_SESSION['filtros'])
 		{
-            $ff = array();
+			$ff = array();
             foreach ($f['field'] as $item) {
                 $ff[key($item)
 				] = "";
