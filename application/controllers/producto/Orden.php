@@ -192,6 +192,55 @@ class Orden extends MY_Controller {
 		}
 	}
 
+	public function print_orden($order_id){
+
+		if($order_id == null){
+			redirect(base_url()."producto/orden/nuevo");
+		}
+		// Seguridad :: Validar URL usuario	
+		$terminal_acceso 	= FALSE;
+		$id_usuario 		= $this->session->usuario[0]->id_usuario;
+		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
+		$data['menu'] 		= $this->session->menu;
+
+		if($terminal_acceso){
+
+			$data['orden'] 	= $this->Orden_model->get_orden($order_id);
+			if($data['orden']){
+				$data['detalle'] 		= $this->Orden_model->get_orden_detalle($order_id);
+				$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento(13); //$this->Orden_model->get_tipo_documentos();
+				$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );//$this->Producto_model->get_sucursales();
+				$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente($data['orden'][0]->id_cliente);
+				$data['empleado'] 		= $this->Usuario_model->get_empleado_oren( $data['orden'][0]->id_usuario );
+				$data['terminal'] 		= $terminal_acceso;
+				$data['estados']		= $this->Estados_model->get_estados_vistas($this->vista_id);
+				$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
+				$data['impuestos'] 		= $this->Orden_model->get_impuestos( $data['orden'][0]->id );
+				$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
+				$data['title'] 			= "Editar Orden";
+				$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
+				$data['temp'] 			= $this->Template_model->printer( $data['detalle'] , @$data['orden'][0]->id_sucursal , @$data['orden'][0]->id_tipod, @$data['orden'][0]->id_condpago);
+				$data['vista_id']		= 13;
+				$data['home'] 			= 'producto/orden/orden_impresion';
+				$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
+				$data['file'] 			= $name;
+				$data['msj_title'] = "Su orden ha sido grabada satisfactoriamente";
+				$data['msj_orden'] = "Su número de transacción es: # ". $data['orden'][0]->num_correlativo;
+				
+				$this->generarDocumento( $name , $data['temp'][0]->factura_template );
+				$this->load->view('producto/orden/orden_impresion', $data);		
+			}else{
+				$this->general->editar_valido($data['orden'], "producto/orden/nuevo");
+			}
+				
+		}else{
+
+			$data['home'] = 'producto/orden/orden_editar';
+			$data['temp'] = $this->Template_model->printer( $order_id );
+			$this->parser->parse('template', $data);
+		}
+	}
+
 	public function get_correlativo_documento( $documento , $sucursal , $totalProductos){
 		
 		$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal( $documento , $sucursal );

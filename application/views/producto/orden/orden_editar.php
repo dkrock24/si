@@ -49,6 +49,17 @@ include("asstes/pos_orden.php");
 
         });
 
+        $("#prin").click(function() {
+            var id       = $(this).attr('name');
+            var copias   = $("#copias").val();
+            var impresor = $("#impresor").val();
+            var location = $("#url").val();
+            var strWindowFeatures = "location=yes,height=670,width=820,scrollbars=yes,status=yes";
+            var URL = "../print_orden/" + id + "?c=" + copias + "&&i=" + impresor + "&&l=" + location;
+            var win = window.open(URL, "_blank", strWindowFeatures);
+            //window.open('http://localhost:8080/index.php/producto/traslado/print_traslado/11');
+        });
+
     });
 </script>
 
@@ -897,50 +908,76 @@ include("asstes/pos_orden.php");
 <!-- METODO DE PAGOS MODAL-->
 <div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip">
     <div class="modal-dialog modal-md">
-        <div class="modal-content" style="background:#f1f1f1;">
-            <div class="modal-header" style="background: #2c71b5;color: white;">
+        <div class="modal-content" style="background:#e6e7e8;">
+            <div class="modal-header" style="background: #9c9c9c;color: white;">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <span style="font-size: 20px; ">Documento : <?= $temp[0]->documento_nombre ?> | Formato : <?= $temp[0]->factura_nombre ?> </span>
-
+                <span style="font-size: 20px; font-family: ticket; ">COMPROBANTE ORDEN : 
+                    <span style="float:right;"><i class="icon-arrow-left"></i> Documento <?= $temp[0]->documento_nombre ?><i class="icon-arrow-right"></i>
+                    <i class="icon-arrow-left"></i> Formato <?= $temp[0]->factura_nombre ?> <i class="icon-arrow-right"></i> </span>
+                </span>
             </div>
             <div class="modal-body">
 
                 <div class="row">
-                    <div class="col-lg-8 col-md-8">
+                    <div class="col-md-8 col-lg-8 abcd">
+                        <?php
+                            $linea = "border-bottom";
+                            $border = "border='1'";
+                            if($temp[0]->imprimir_lineas_documento){
+                                $linea = "border-bottom";
+                                $border = "border='1'";
+                            }
+                            
+                        
+                            ?>
                         <?php include("asstes/temp/" . $file . ".php"); ?>
+                        <?php
+
+                        ?>
                     </div>
-                    <div class="col-lg-4 col-md-4" style="border-left:1px dashed black;height:900px;position: relative;float:right;margin:0px;">
+                    <div class="col-md-4 col-lg-4" 
+                        style="border-left:1px black;
+                        height:900px;
+                        position: relative;
+                        float:right;
+                        margin:0px;
+                        background: white;
+                        margin-top: -15px;">
 
                         <div class="row">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                <?php echo $msj_title ?>
+                                <?php //echo $msj_title ?>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                 <h1>
-                                    <?php echo $msj_orden ?>
+                                    Número de Transacción : # <br>
+                                    <?php echo $orden[0]->num_correlativo ?>
                                 </h1>
                             </div>
                         </div>
-                        <div class="row">
-                            <hr style="border-bottom:1px dashed black">
-                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
 
-                                <a href="../nuevo" class="btn btn-default printer">
-                                    <h3> <i class="icon-plus"></i> Nueva </h3>
+                        <div class="row" style="bottom:0px;padding:0px;">
+
+                            <div class="col-lg-6 col-md-6" style="font-size:24px;background:#5d9cec;">
+
+
+                                <a href="../nuevo" class="btn btn-primary printer" id="nuevo" style="margin-top:0px;background:#5d9cec">
+                                    <h3> <i class="icon-plus"></i> Nueva <i class="icon-arrow-left"></i> $ <i class="icon-arrow-right"></i></h3>
                                 </a>
-                                <a href="#" class="btn btn-success printer" style="color:black">
-                                    <h3> <i class="icon-printer"></i> Imprimir </h3>
-                                </a>
-                                <button type="button" data-dismiss="modal" class="btn btn-danger" style="color:black">
-                                    <h3> <i class="icon-close"></i> Cerrar </h3>
-                                </button>
 
                             </div>
+                            <div class="col-lg-6 col-md-6" style="font-size:24px;background:#2b957a;">
+                                <a href="#" id="prin" name="<?php echo $orden[0]->num_correlativo ?>" class="btn btn-info" style="background:#2b957a;color:black;margin-top:0px;color:white;">
+                                    <h3> <i class="icon-printer"></i> Imprimir <i class="icon-arrow-left"></i>F2<i class="icon-arrow-right"></i></h3>
+                                </a>
+                            </div>
+                            <span id="cmd"></span>
                         </div>
+
                     </div>
                 </div>
             </div>
