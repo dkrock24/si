@@ -36,6 +36,10 @@
             height: 750px;
         }
 
+        #formato{
+            float:left !important;
+        }
+
     }
 
     .border-total-0 {
@@ -224,15 +228,14 @@
         padding-top: 9px;
     }
 
-    #formato{
+    #formato {
         font-family: sans-serif !important;
         color: #000;
         font-weight: 100;
         font-size: 12px;
-        padding:10px;
-        background:white;
+        padding: 10px;
+        background: white;
     }
-
 </style>
 
 
@@ -247,128 +250,16 @@ if ($temp[0]->imprimir_lineas_documento) {
 
 include("asstes/temp/" . $file . ".php");
 
-if(!$_SERVER['DOCUMENT_ROOT']."/asstes/printer_files/documentos/" .$this->session->empresa[0]->codigo) {
-    //mkdir($_SERVER['DOCUMENT_ROOT']."/asstes/printer_files/documentos/" .$this->session->empresa[0]->codigo);
-} else {
-    file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/documentos/" .$this->session->empresa[0]->codigo. "/". $documento, $data);
-}
-
-
-$CI = &get_instance();
-$CI->load->library('html2pdf');
-
-$CI->html2pdf->folder('./asstes/printer_files/');
-$CI->html2pdf->filename($orden[0]->num_correlativo . '.pdf');
-//Set the paper defaults
-$CI->html2pdf->paper('a4', 'portrait');
-//Load html view
-$CI->html2pdf->html($this->load->view("producto/orden/orden_impresion2", $file, true));
-//$CI->html2pdf->create('save');
-//$CI->html2pdf->create('save');
-
 ?>
-<?php
-        header('Access-Control-Allow-Origin: *');
-        header("Access-Control-Allow-Credentials: true");
-        header("Access-Control-Allow-Methods: GET");
-        //header("Content-Type: text/plain; charset=utf-8");
-        ?>
+
 <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
-
-        var printContents       = document.getElementById('formato').innerHTML;
-        var originalContents    = document.body.innerHTML;
+        var printContents = document.getElementById('formato').innerHTML;
+        var originalContents = document.body.innerHTML;
         document.body.innerHTML = printContents;
-        //window.print();
+        window.print();
         document.body.innerHTML = originalContents;
-
-        // Printing HTML to Image
-        var element = $("#formato"); // global variable
-        var getCanvas; // global variable
-
-        html2canvas(element, {
-            backgroundColor :null,
-            onrendered: function(canvas) {
-                
-                var img = canvas.toDataURL("image/png");
-                //$("#previewImage").append(img);
-                //getCanvas = canvas;
-                var file_name = "<?php echo $orden[0]->num_correlativo; ?>";
-                var copias    = "<?php echo $_GET['c']; ?>";
-                var printer   = "<?php echo $_GET['i']; ?>";
-                var url_printer="<?php echo $_GET['l']; ?>";
-                console.log("------->"+ url_printer);
-                $.ajax({
-                    method: 'POST',
-                    url: '../photo_upload',
-                    data:
-                    {
-                        photo   : img,
-                        file    : file_name,
-                        copias  : copias,
-                        printer : url_printer
-                    },
-                    cache: false,
-                    success: function(result){
-                        
-                        if(result){
-                            //console.log(copias);
-                            request_imprimir(url_printer+"?printer="+printer+"&path="+result+"&file="+file_name+".png&copies="+copias);
-                        }
-                    },
-                    error: function() {
-                        alert("no");
-                    }
-                });
-            }  ,   
-            background: '#fff'       
-        });    
-        
-        
-        
-        function request_imprimir(url){
-
-            var printer_services = url;
-            
-            jQuery.ajax({
-                headers: { "Accept": "application/json"},
-                type: 'GET',
-                url: printer_services,
-                headers: {"Content-Type":"text/plain; charset=utf-8", "Accept": "*", "Accept-Language":"es-ES,es;q=0.8"},
-                dataType: 'jsonp',
-                success: function(data, textStatus, request){
-                    console.log(data);
-                }
-            });
-            
-        }
-
-        $("#btn-Convert-Html2Image").on('click', function() {
-            //var imgageData = getCanvas.toDataURL("image/png");
-            // Now browser starts downloading it instead of just showing it
-            //var newData = imgageData.replace(/^data:image\/jpg/, "data:application/octet-stream");
-            //$("#btn-Convert-Html2Image").attr("download", "ticket_1.jpeg").attr("href", newData);
-
-            //var newData = imgageData.replace(/^data:image\/jpg/, "data:application/octet-stream");
-            //$("#btn-Convert-Html2Image").attr("download", "ticket_1.png").attr("href", formData);
-            var photo = getCanvas.toDataURL("image/png",1.0);                
-            $.ajax({
-                method: 'POST',
-                url: '../photo_upload',
-                data: 
-                    {
-                        photo:photo,
-                        file: <?php echo $orden[0]->documento_numero; ?>
-                    }                
-            });
-        });
     });
 </script>
-
-   <!-- <input id="btn-Preview-Image" type="button" value="Preview"/>
-    <a id="btn-Convert-Html2Image" href="#">Download</a>
-    <br/>
-    <h3>Preview :</h3>
-    <div id="previewImage"> -->
