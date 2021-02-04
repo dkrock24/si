@@ -42,7 +42,7 @@ class Home extends CI_Controller {
 		}
 
 		// Obtener toda la informacion de la empresa en session.
-		$empresa_id = $this->Usuario_model->permiso_empresa( $empleado_id );		
+		$empresa_id = $this->Usuario_model->permiso_empresa( $empleado_id );
 		$empresa_session = $this->session->empresa_id;
 				
 		if(isset($empresa_id)){

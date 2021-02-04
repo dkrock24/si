@@ -140,7 +140,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">IP/MACk</label>
                                     <div class="col-sm-9">
-                                        <?php echo gethostname(); ?>
+                                        <?php echo $_SERVER['HTTP_USER_AGENT']; ?>
                                         <input type="text" required class="form-control" id="ip_o_mack" name="ip_o_mack" value="<?php echo $terminal[0]->ip_o_mack ?>">
                                         
                                     </div>

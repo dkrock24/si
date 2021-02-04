@@ -21,7 +21,7 @@ class Terminal_model extends CI_Model {
         $this->db->where('terminal.ip_o_mack = ', $terminal_nombe);
         $this->db->where('cajero.estado_terminal_cajero = ', 1);
         $query = $this->db->get(); 
-        
+
         if($query->num_rows() > 0 )
         {
             return $query->result();

@@ -179,14 +179,12 @@ class Usuario_model extends CI_Model {
 
     function permiso_empresa( $empleado_id ){
 
-       //var_dump($empleado_id);
-
-        $this->db->select('*');
+        $this->db->select('DISTINCT(e.id_empresa), e.*');
         $this->db->from(self::empleado_sucursal.' as es');  
         $this->db->join(self::sucursal.' as s',' on s.id_sucursal = es.es_sucursal');
         $this->db->join(self::pos_empresa.' as e',' on e.id_empresa = s.Empresa_Suc');
         $this->db->where('es.es_empleado',$empleado_id);
-        $this->db->group_by('e.id_empresa');
+        //$this->db->group_by('e.id_empresa');
         $query = $this->db->get();  
         //echo $this->db->queries[2];
 
