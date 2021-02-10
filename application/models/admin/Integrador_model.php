@@ -105,6 +105,19 @@ class Integrador_model extends CI_Model {
         }
     }
 
+    function config_by_name($config){
+
+        $this->db->select('valor_config');
+        $this->db->from(self::sys_integrador_config);
+        $this->db->where('nombre_config',$config);
+        $query = $this->db->get();
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function insert_api($integracion_data)
     {
         $this->db->truncate(self::integrador2);

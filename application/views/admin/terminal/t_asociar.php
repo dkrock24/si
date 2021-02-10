@@ -25,6 +25,7 @@
             var params = {
                 usuario: id_usuario,
                 terminal: id_terminal,
+                dispositivo: $("#dispositivo"+id_usuario).val(),
                 method: 'inactivar'
             };
 
@@ -128,7 +129,7 @@
                 error: function() {}
             });
         }
-        
+
 
         $("#buscar").on("keyup", function() {
             var value = $(this).val().toLowerCase();
@@ -148,7 +149,6 @@
     .inactive {
         background: #ffc107 !important;
     }
-
 </style>
 <section>
     <!-- Page content-->
@@ -203,21 +203,18 @@
                 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="terminal">
                     <div class="row">
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <h4><u>EMPRESA</u> USUARIOS </h4>
                             <table id="datatable1" class="table table-striped table-hover">
                                 <thead class="linea_superior">
                                     <tr>
                                         <th style="color: black;">#</th>
                                         <th style="color: black;">Sucursal</th>
-                                        <th style="color: black;">usuario</th>
+                                        <th style="color: black;">Usuario</th>
                                         <th style="color: black;">Apellidos</th>
                                         <th style="color: black;">Nombres</th>
                                         <th style="color: black;">Estado</th>
-
-                                        <th>
-
-                                        </th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -228,15 +225,10 @@
                                     ?>
                                             <tr>
                                                 <th scope="row"><?php echo $contado; ?></th>
-
-
                                                 <td><?php echo $ter_usu->nombre_sucursal; ?></td>
                                                 <td><?php echo $ter_usu->nombre_usuario; ?></td>
                                                 <td><?php echo $ter_usu->primer_apellido_persona . " " . $ter_usu->segundo_apellido_persona; ?></td>
                                                 <td><?php echo $ter_usu->primer_nombre_persona . " " . $ter_usu->segundo_nombre_persona; ?></td>
-
-
-
                                                 <td>
                                                     <?php
                                                     if ($ter_usu->estado == 1) {
@@ -252,9 +244,7 @@
                                                 </td>
 
                                                 <td>
-
                                                     <a href="#" class="btn btn-primary btn-sm agregar" rel="" name="<?php echo $ter_usu->id_usuario; ?>" id="<?php echo $terminal[0]->id_terminal; ?>"><i class="fa fa-plus-circle" style="font-size:18px"></i></a>
-
                                                 </td>
                                             </tr>
                                     <?php
@@ -273,7 +263,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-8">
                             <h4><u>TERMINAL</u> USUARIO </h4>
                             <table id="datatable1" class="table table-striped table-hover">
                                 <thead class="linea_superior">
@@ -282,14 +272,12 @@
                                         <th style="color: black;">Sucursal</th>
                                         <th style="color: black;">Terminal</th>
                                         <th style="color: black;">Codigo</th>
-                                        <th style="color: black;">usuario</th>
+                                        <th style="color: black;">Usuario</th>
                                         <th style="color: black;">Apellidos</th>
                                         <th style="color: black;">Nombres</th>
+                                        <th style="color: black;">Dispositivo</th>
                                         <th style="color: black;">Estado</th>
-
-                                        <th>
-
-                                        </th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -306,9 +294,7 @@
                                                 <td><?php echo $ter_usu->nombre_usuario; ?></td>
                                                 <td><?php echo $ter_usu->primer_apellido_persona . " " . $ter_usu->segundo_apellido_persona; ?></td>
                                                 <td><?php echo $ter_usu->primer_nombre_persona . " " . $ter_usu->segundo_nombre_persona; ?></td>
-
-
-
+                                                <td><input type="text" name="dispositivo" id="dispositivo<?php echo $ter_usu->id_usuario; ?>" value="<?php echo $ter_usu->dispositivo_terminal ?>" class="form-control" autocomplete="off" /></td>
                                                 <td>
                                                     <?php
                                                     if ($ter_usu->estado_terminal_cajero == 1) {
@@ -324,9 +310,7 @@
                                                 </td>
 
                                                 <td>
-
                                                     <a href="#" name="<?php echo $ter_usu->id_usuario; ?>" id="<?php echo $terminal[0]->id_terminal; ?>" class="btn btn-warning btn-sm eliminar"><i class="fa fa-refresh" style="font-size:18px"></i></a>
-
                                                 </td>
                                             </tr>
                                     <?php
@@ -357,7 +341,7 @@
                                     <h4>Buscar</h4>
                                 </div>
                                 <div class="col-lg-3">
-                                     <input type="text" name="buscar" value="" id="buscar" class="form-control" />
+                                    <input type="text" name="buscar" value="" id="buscar" class="form-control" />
                                 </div>
                             </div>
                             <table id="datatable1" class="table table-striped table-hover impresores">
@@ -407,16 +391,19 @@
                                                     }
                                                     ?>
                                                     <span style="float:right">
-                                                    <i class="btn btn-default btn-sm activar_ipresor" style="background:#a74973;color:white;" rel="" name="<?php echo $id_impresor; ?>" id="<?php //echo $id_empresor; ?>"><i class="fa fa-pencil" style="font-size:18px;"></i></i>
-                                                    <?php if($impresor->impresor_principal == 1): ?>
-                                                        <i class="btn btn-info btn-sm activar_principal <?php echo 'principal' . $id_impresor; ?>" rel="" name="<?php echo $id_impresor; ?>" id="<?php //echo $id_empresor; ?>"><i class="fa fa-check-circle" style="font-size:18px"></i></i>
-                                                    <?php else: ?>
-                                                        <i class="btn btn-default btn-sm activar_principal <?php echo 'principal' . $id_impresor; ?>" rel="" name="<?php echo $id_impresor; ?>" id="<?php //echo $id_empresor; ?>"><i class="fa fa-check-circle" style="font-size:18px"></i></i>
-                                                    <?php endif ?>
+                                                        <i class="btn btn-default btn-sm activar_ipresor" style="background:#a74973;color:white;" rel="" name="<?php echo $id_impresor; ?>" id="<?php //echo $id_empresor; 
+                                                                                                                                                                                                ?>"><i class="fa fa-pencil" style="font-size:18px;"></i></i>
+                                                        <?php if ($impresor->impresor_principal == 1) : ?>
+                                                            <i class="btn btn-info btn-sm activar_principal <?php echo 'principal' . $id_impresor; ?>" rel="" name="<?php echo $id_impresor; ?>" id="<?php //echo $id_empresor; 
+                                                                                                                                                                                                        ?>"><i class="fa fa-check-circle" style="font-size:18px"></i></i>
+                                                        <?php else : ?>
+                                                            <i class="btn btn-default btn-sm activar_principal <?php echo 'principal' . $id_impresor; ?>" rel="" name="<?php echo $id_impresor; ?>" id="<?php //echo $id_empresor; 
+                                                                                                                                                                                                        ?>"><i class="fa fa-check-circle" style="font-size:18px"></i></i>
+                                                        <?php endif ?>
                                                     </span>
                                                 </td>
 
-      
+
                                             </tr>
                                     <?php
                                             $contado += 1;

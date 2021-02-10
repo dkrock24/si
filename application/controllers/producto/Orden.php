@@ -81,14 +81,13 @@ class Orden extends MY_Controller {
 			$data['tipoDocumento'] 	= $this->Vistas_model->get_vista_documento($this->vista_id);
 			$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 			$data['empleado'] 		= $this->Usuario_model->get_empleado_oren( $id_usuario );
-			
 			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] 		= $this->Cliente_model->get_cliente();
 			$data['estados']		= $this->Estados_model->get_estados_vistas($this->vista_id);
 			$data['vista_id']		= 13;
 			
-			if($data['cliente'][0] ){
+			if ($data['cliente'][0]) {
 				$data['modo_pago'] 		= $this->ModoPago_model->get_pagos_by_cliente(current($data['cliente'][0]));
 			}
 
@@ -98,9 +97,12 @@ class Orden extends MY_Controller {
 			$this->parser->parse('template', $data);
 		}else{
 			$data['home'] = 'producto/orden/orden_denegado';
+			$data['terminal'] = "Usuario Inactivo";
+			if($terminal_acceso != false) {
+				$data['terminal'] = "Usuario no registrado !";
+			}
 			$this->parser->parse('template', $data);
 		}
-		
 	}
 
 	public function producto_combo(){
@@ -454,8 +456,12 @@ class Orden extends MY_Controller {
 		$terminal_nombe = $_SERVER['HTTP_USER_AGENT'];
 
 		$terminal_datos = $this->Terminal_model->validar_usuario_terminal($usuario_id, $terminal_nombe);
-		if($terminal_datos){
-			return $terminal_datos;
+		if ($terminal_datos) {
+			if($terminal_datos[0]->estado_terminal_cajero == 1){
+				return $terminal_datos;
+			} else {
+				return 0;
+			}
 		}
 		return false;
 	}

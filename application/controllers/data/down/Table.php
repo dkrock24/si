@@ -3,12 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Table extends MY_Controller
 {
-    protected $url = "http://192.168.43.8:8081/index.php/api/";
+    protected $url = "";
 
     protected $parametro = "";
 
     protected $items = null;
-
 
     public function __construct()
     {
@@ -33,7 +32,6 @@ class Table extends MY_Controller
         $this->load->model('admin/Persona_model');
         $this->load->model('admin/Roles_model');
         $this->load->model('admin/Usuario_model');
-        $this->load->model('producto/Linea_model');
         $this->load->model('admin/Documento_model');
         $this->load->model('admin/Moneda_model');
         $this->load->model('admin/Sucursal_model');
@@ -48,19 +46,23 @@ class Table extends MY_Controller
         $this->load->model('admin/Empleado_model');
         $this->load->model('admin/Proveedor_model');
         $this->load->model('admin/Terminal_model');
-        $this->load->model('producto/Orden_model');
         $this->load->model('admin/Vistas_model');
-        $this->load->model('producto/Producto_model');
         $this->load->model('admin/Pais_model');
         $this->load->model('admin/Turnos_model');
         $this->load->model('admin/Impresor_model');
         $this->load->model('admin/Empresa_model');
         $this->load->model('admin/Pagos_model');
-
         $this->load->model('admin/Integrador_model');
+        $this->load->model('producto/Orden_model');
+        $this->load->model('producto/Producto_model');
+        $this->load->model('producto/Linea_model');
+
+        $u = $this->Integrador_model->config_by_name('servidor');
+        $this->url = $u[0]->valor_config;
 
         if (isset($_GET['params'])) {
             $this->parametro = $_GET['params'];
+            $this->items = $this->callAPI($this->parametro);
         }
 
         if (isset($_GET['unico'])) {

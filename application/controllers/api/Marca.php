@@ -3,7 +3,6 @@ require APPPATH . 'libraries/REST_Controller.php';
 
 class Marca extends REST_Controller
 {
-
     const marca = 'pos_marca';
     const categoria = 'pos_Categoria';
     const marca_categoria = 'pos_marca_categoria';

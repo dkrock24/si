@@ -18,8 +18,8 @@ class Terminal_model extends CI_Model {
         $this->db->join(self::pos_terminal_cajero.' as cajero ',' on cajero.Terminal = terminal.id_terminal ');
         $this->db->join(self::caja.' as caja', ' on caja.id_caja = terminal.Caja');
         $this->db->where('cajero.Cajero_terminal = '. $usuario_id);
-        $this->db->where('terminal.ip_o_mack = ', $terminal_nombe);
-        $this->db->where('cajero.estado_terminal_cajero = ', 1);
+        $this->db->where('cajero.dispositivo_terminal = ', $terminal_nombe);
+        //$this->db->where('cajero.estado_terminal_cajero = ', 1);
         $query = $this->db->get(); 
 
         if($query->num_rows() > 0 )
@@ -127,7 +127,6 @@ class Terminal_model extends CI_Model {
         $this->db->join(self::empleado.' as e', ' e.id_empleado = u.Empleado ');
         $this->db->join(self::persona.' as p', ' p.id_persona = e.Persona_E ');
         $this->db->where('tc.Terminal = ', $id_terminal);             
-        
 
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
@@ -216,7 +215,7 @@ class Terminal_model extends CI_Model {
     public function eliminar_usuario( $data ){
 
         $existe = $this->get_user_terminal($data);
-        $valor = 1;
+        $valor  = 1;
 
         if($existe){
 
@@ -228,6 +227,7 @@ class Terminal_model extends CI_Model {
 
         $array = array(
             'estado_terminal_cajero' => $valor,
+            'dispositivo_terminal' => $data['dispositivo']
         );
 
         $condition = array(
