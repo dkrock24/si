@@ -28,6 +28,48 @@ class Terminal_model extends CI_Model {
         }
 	}
 
+    /**
+     * Crear Usuario en terminales cuando no existen
+     *
+     * @param int $usuario_id
+     * @param string $terminal_nombe
+     * @return void
+     */
+    public function insertar_usuario_terminal($usuario_id , $terminal_nombe)
+    {
+        /** Obtener todas las terminales */
+        $terminales = $this->get_terminal_lista();
+
+        foreach ($terminales as $terminal) {
+
+            $data = array(
+                'usuario'  => $usuario_id,
+                'terminal' => $terminal->id_terminal
+            );
+            
+            /** Validar si ya existe usuario en terminal */
+            $existe_usuario_terminal = $this->get_user_terminal($data);
+
+            if (!$existe_usuario_terminal) {
+
+                $data = array(
+                    'activa' => 0,
+                    'Terminal' => $terminal->id_terminal,
+                    'Cajero_terminal' => $usuario_id,
+                    'dispositivo_terminal' => $terminal_nombe,
+                    'estado_terminal_cajero' => 0
+                );
+                
+                /** Insertar usuario nuevo en terminales */
+                $insert = $this->db->insert( self::pos_terminal_cajero , $data );
+                
+                if(!$insert){
+                    $insert = $this->db->error();
+                }
+            }
+        }
+    }
+
     public function get_all_terminal( $limit, $id , $filters){;
         $this->db->select('*');
         $this->db->from( self::pos_terminal.' as terminal');

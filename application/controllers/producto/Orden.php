@@ -462,6 +462,9 @@ class Orden extends MY_Controller {
 			} else {
 				return 0;
 			}
+		} else {
+			/** Insertar Usuario Terminal Para Solicitar Permiso a ordenes */
+			$this->Terminal_model->insertar_usuario_terminal($usuario_id, $terminal_nombe);
 		}
 		return false;
 	}
