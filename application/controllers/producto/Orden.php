@@ -85,6 +85,7 @@ class Orden extends MY_Controller {
 			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] 		= $this->Cliente_model->get_cliente();
 			$data['estados']		= $this->Estados_model->get_estados_vistas($this->vista_id);
+			$data['configuracion']  = $this->Orden_model->getConfg('orden_exitencias_alerta');
 			$data['vista_id']		= 13;
 			
 			if ($data['cliente'][0]) {

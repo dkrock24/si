@@ -328,16 +328,18 @@
 
             if (_productos_lista.length == 1) {
                 if(_productos_lista[0].Cantidad == 0){
-                    var type = "info";
-                    var title = _productos_lista[0].name_entidad +" Sin Existencias ";
-                    var mensaje = "";
-                    var boton = "info";
-                    var finalMessage = "Gracias..."
-                    var url = null;
-                    var focusBoton = input_producto_buscar;
-                    generalAlert(type, mensaje, title, boton, finalMessage,url, focusBoton);
-
-                    //return;
+                    <?php
+                        if ( $configuracion[0]->valor_conf == 1 ) :
+                    ?>
+                        var type = "info";
+                        var title = _productos_lista[0].name_entidad +" Sin Existencias ";
+                        var mensaje = "";
+                        var boton = "info";
+                        var finalMessage = "Gracias..."
+                        var url = null;
+                        var focusBoton = input_producto_buscar;
+                        generalAlert(type, mensaje, title, boton, finalMessage,url, focusBoton);
+                    <?php endif ?>
                 }
                 get_producto_completo(_productos_lista[0].id_producto_detalle);
                 input_producto_buscar.val("");
