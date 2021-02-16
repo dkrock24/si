@@ -2246,7 +2246,7 @@
                             cliente_id = client.id_cliente;
 
                             $.each(client, function(i, item) {
-                                buscar_cliente_proceso(item.id_cliente,item.nombre_empresa_o_compania,item.direccion_cliente);
+                                buscar_cliente_proceso(item.id_cliente,item.nombre_empresa_o_compania,item.direccion_cliente,item.saldos);
                             });
 
                         }else{
@@ -2255,7 +2255,7 @@
                                 item.nombre_empresa_o_compania + '" rel="' + 
                                 item.direccion_cliente + '" impuesto="' + 
                                 item.aplica_impuestos + '">' + 
-                                item.nombre_empresa_o_compania + ' ' + item.nrc_cli + ' - ' + item.nit_cliente + '</option>';
+                                item.nombre_empresa_o_compania + ' / NRC ' + item.nrc_cli + ' / NIT ' + item.nit_cliente + ' / Saldo $ ' + item.saldos + '</option>';
                             });
 
                             $('.cliente_codigo2').show();
@@ -2416,14 +2416,15 @@
             buscar_cliente_proceso(id,cliente_nombre,cliente_direccion);
         });
 
-        function buscar_cliente_proceso(id,cliente_nombre,cliente_direccion)
+        function buscar_cliente_proceso(id,cliente_nombre,cliente_direccion,saldos)
         {
+            var saldos = saldos ? null : 0.00;
             $("#cliente_codigo").val(id);
             $("#cliente_nombre").val(cliente_nombre);
             $("#direccion_cliente").val(cliente_direccion);
             $("#impuesto").val($(this).attr('impuesto'));
             $('#cliente_codigo2').modal('hide');
-
+            $(".saldo").text("Saldo $ " + saldos +" - ");
             $.ajax({
                 url: path + "get_clientes_documento/" + id,
                 datatype: 'json',

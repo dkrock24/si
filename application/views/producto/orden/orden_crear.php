@@ -264,12 +264,17 @@ include("asstes/pos_orden.php");
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success control-style">
                                                 <label class="format-label">
-                                                    <i class="fa fa-user sz" style="font-size:20px; float:left;padding:5px;"></i>Cliente Nombre
+                                                    <i class="fa fa-user sz" style="font-size:20px; float:left;padding:5px;"></i>
+                                                    <?php 
+                                                        $saldo = $cliente[0]->saldos ? $cliente[0]->saldos : 0.00;
+                                                    ?>
+                                                    <span class="saldo"><?php echo " Saldo $ ". $saldo ." - "; ?> </span>
+                                                    Cliente Nombre
                                                 </label>
                                                 <?php
                                                 if (isset($cliente[0]->id_cliente)) {
                                                 ?>
-                                                    <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania ?>">
+                                                    <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania; ?>">
                                                 <?php
                                                 } else {
                                                     echo "No Hay Cliente";

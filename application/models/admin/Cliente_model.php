@@ -33,7 +33,7 @@ class Cliente_model extends CI_Model
     }
 
     function get_cliente_filtro($cliente_texto){
-        $this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,TipoDocumento');
+        $this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,TipoDocumento,saldos');
         $this->db->from(self::cliente);
         $this->db->join(self::tipos_documentos, ' on ' . self::cliente . '.TipoDocumento=' . self::tipos_documentos . '.id_tipo_documento');
         $this->db->join(self::formas_pago, ' on ' . self::cliente . '.TipoPago=' . self::formas_pago . '.id_modo_pago');
