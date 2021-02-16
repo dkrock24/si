@@ -175,6 +175,7 @@ class Orden extends MY_Controller {
 				$data['cliente'] 		= $this->get_clientes_id(@$data['orden'][0]->id_cliente);
 				$data['temp'] 			= $this->Template_model->printer( $data['detalle'] , @$data['orden'][0]->id_sucursal , @$data['orden'][0]->id_tipod, @$data['orden'][0]->id_condpago);
 				$data['vista_id']		= 13;
+				$data['configuracion']  = $this->Orden_model->getConfg('orden_exitencias_alerta');
 				$data['home'] 			= 'producto/orden/orden_editar';
 				$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
 				$data['file'] 			= $name;
@@ -511,6 +512,7 @@ class Orden extends MY_Controller {
 			$data['bodega'] 		= $this->Orden_model->get_bodega( $id_usuario );
 			$data['moneda'] 		= $this->Moneda_model->get_modena_by_user();
 			$data['cliente'] 		= $this->Cliente_model->get_cliente();
+			$data['configuracion']  = $this->Orden_model->getConfg('orden_exitencias_alerta');
 			$data['title']			= "Ventas Rapidas";
 			$data['vista_id']		= 38;
 		
@@ -535,7 +537,7 @@ class Orden extends MY_Controller {
 		$data['terminal'] 		= $terminal_acceso;
 		$data['sucursales'] 	= $this->Sucursal_model->getSucursalEmpleado( $id_usuario );
 		$data['temp'] 			= $this->Template_model->printer_venta( $data['venta_detalle'] , @$data['venta'][0]->id_sucursal , @$data['venta'][0]->id_tipod, @$data['venta'][0]->id_condpago);
-
+		$data['configuracion']  = $this->Orden_model->getConfg('orden_exitencias_alerta');
 		$name 					= $data['sucursales'][0]->nombre_sucursal.$data['terminal'][0]->id_terminal;
 		$data['file'] 			= $name;
 		$data['msj_title'] = "Su orden ha sido grabada satisfactoriamente";
