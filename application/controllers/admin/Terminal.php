@@ -164,15 +164,36 @@ class Terminal extends MY_Controller {
 
 	public function asociar( $id_terminal ){
 
+		$str = $_SERVER['HTTP_USER_AGENT'];
+		$caracteres = array(
+			"/"," ",",",";",".","(",")"
+		);
+
 		$data['menu'] 		= $this->session->menu;
 		$data['terminal'] 	= $this->Terminal_model->get_terminal( $id_terminal );
 		$data['terminal_usuario'] = $this->Terminal_model->get_terminal_users( $id_terminal );
 		$data['impresores']	= $this->Impresor_model->get_impresor_terminal();
-		$data['usuario'] 	= $this->Terminal_model->get_users( );		
+		$data['usuario'] 	= $this->Terminal_model->get_users( );	
+		$data['terminal_nombre'] = 	$this->limpiar_terminal_nombre($caracteres,"",$str);
 		$data['title'] 		= "Terminal Usuarios";
 		$data['home'] 		= 'admin/terminal/t_asociar';
 
 		$this->parser->parse('template', $data);
+	}
+
+	/**
+	 * Limpiar el nombre de la terminal de caracteres raros
+	 *
+	 * @return string
+	 */
+	public function limpiar_terminal_nombre($caracteres,$remplazo,$cadena){
+		
+		$str = $cadena;
+		foreach ($caracteres as $caracter) {
+			$str = str_replace($caracter, $remplazo, $str);
+		}
+
+		return $str;
 	}
 
 	public function agregar(){

@@ -454,9 +454,13 @@ class Orden extends MY_Controller {
 	function validar_usuario_terminal( $usuario_id  ){
 
 		//$terminal_nombe = $_SERVER['REMOTE_ADDR'];//gethostbyaddr($_SERVER['REMOTE_ADDR']);
-		$terminal_nombe = $_SERVER['HTTP_USER_AGENT'];
+		$str = $_SERVER['HTTP_USER_AGENT'];
+		$caracteres = array(
+			"/"," ",",",";",".","(",")"
+		);
+		$str = $this->limpiar_terminal_nombre($caracteres,"",$str);
 
-		$terminal_datos = $this->Terminal_model->validar_usuario_terminal($usuario_id, $terminal_nombe);
+		$terminal_datos = $this->Terminal_model->validar_usuario_terminal($usuario_id, $str);
 		if ($terminal_datos) {
 			if($terminal_datos[0]->estado_terminal_cajero == 1){
 				return $terminal_datos;
@@ -465,9 +469,24 @@ class Orden extends MY_Controller {
 			}
 		} else {
 			/** Insertar Usuario Terminal Para Solicitar Permiso a ordenes */
-			$this->Terminal_model->insertar_usuario_terminal($usuario_id, $terminal_nombe);
+			$this->Terminal_model->insertar_usuario_terminal($usuario_id, $str);
 		}
 		return false;
+	}
+
+	/**
+	 * Limpiar el nombre de la terminal de caracteres raros
+	 *
+	 * @return string
+	 */
+	public function limpiar_terminal_nombre($caracteres,$remplazo,$cadena){
+		
+		$str = $cadena;
+		foreach ($caracteres as $caracter) {
+			$str = str_replace($caracter, $remplazo, $str);
+		}
+
+		return $str;
 	}
 
 	/************ Venta Rapida *********/

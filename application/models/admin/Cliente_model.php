@@ -17,7 +17,7 @@ class Cliente_model extends CI_Model
     const pos_formas_pago_cliente = 'pos_formas_pago_cliente';
 
     function get_cliente(){
-        $this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,TipoDocumento');
+        $this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,TipoDocumento,saldos');
         $this->db->from(self::cliente);
         $this->db->join(self::tipos_documentos, ' on ' . self::cliente . '.TipoDocumento=' . self::tipos_documentos . '.id_tipo_documento');
         $this->db->join(self::formas_pago, ' on ' . self::cliente . '.TipoPago=' . self::formas_pago . '.id_modo_pago');
@@ -42,7 +42,7 @@ class Cliente_model extends CI_Model
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         $this->db->where("(id_cliente LIKE '%$cliente_texto%' || lower(nombre_empresa_o_compania) LIKE lower('%$cliente_texto%') || nit_cliente LIKE '%$cliente_texto%' || dui_cli LIKE '%$cliente_texto%' || nrc_cli LIKE '%$cliente_texto%' || codigo_cliente LIKE '%$cliente_texto%' ) ");
         $query = $this->db->get();
-        //echo $this->db->queries[0];
+        //echo $this->db->queries[4];
 
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -103,7 +103,7 @@ class Cliente_model extends CI_Model
 
     function getAllClientes($limit, $id  , $filters){
         $this->db->select('p.primer_nombre_persona,p.primer_apellido_persona,fp.codigo_modo_pago,c.nombre_empresa_o_compania,
-        c.nrc_cli,c.nit_cliente,c.clase_cli,c.estado_cliente,c.id_cliente,td.nombre,
+        c.nrc_cli,c.nit_cliente,c.clase_cli,c.estado_cliente,c.id_cliente,td.nombre,saldos,
         c.porcentage_descuentos,es.*');
         $this->db->from(self::cliente.' as c');
         $this->db->join(self::tipos_documentos.' as td', ' on c.TipoDocumento=td.id_tipo_documento');

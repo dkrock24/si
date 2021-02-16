@@ -265,7 +265,7 @@
 
                         <div class="col-lg-8">
                             <h4><u>TERMINAL</u> USUARIO </h4>
-                            <?php echo $terminal_nombe = $_SERVER['HTTP_USER_AGENT']; ?>
+                            <?php echo $terminal_nombre; ?>
                             <table id="datatable1" class="table table-striped table-hover">
                                 <thead class="linea_superior">
                                     <tr>
