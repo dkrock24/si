@@ -344,11 +344,11 @@ include("asstes/js/compras/pos_funciones.php");
                                         <input type="text" placeholder="Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
                                     </div>
 
-                                    <select multiple="" class="form-control dataSelect" id="dataSelect">
+                                    <select multiple="" class="form-control dataSelect form-control " id="dataSelect" style="height: 400px; width:1200px; font-size:22px;font-family: monospace;">
 
                                     </select>
 
-                                    <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="display: inline-block;">
+                                    <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="height: 300px; width: 1200px; font-size: 22px; font-family: monospace; display: block;border:3px solid #badae;">
 
                                     </select>
 

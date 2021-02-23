@@ -149,8 +149,6 @@
                         html += '<td>' + item.Cantidad + '</td>';
                         html += '<td>' + item.moneda_simbolo + " "+  item.precio + '</td>';
                         html += '<td>' + 0.00 + '</td>';
-                        html += '<td>' + item.moneda_simbolo + " "+  item.Utilidad + '</td>';
-                        html += '<td>' + item.cod_barra + '</td>';
                         html += '</tr>';
                         contador++;
                     });
@@ -245,8 +243,6 @@
                         <th>Existencia</th>
                         <th>Precio</th>
                         <th>Precio Anterior</th>
-                        <th>Utilidad</th>
-                        <th>Cod ubicacion</th>
                     </tr>
                 </thead>
                 <tbody class="uno" style="border-bottom: 3px solid grey">

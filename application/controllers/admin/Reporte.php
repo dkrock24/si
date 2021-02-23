@@ -247,50 +247,52 @@ class Reporte extends My_Controller {
 
 		$original_registros = $_SESSION['registros'];
 
-		$total_devolucion       =0;
-		$suma_devolucion        =0.00;
-		$cantidad_devolucion    =0.00;
-		$suma_descuento         =0.00;
-		$suma_efectivo          =0.00;
-		$suma_tcredito          =0.00;
 		$suma_cheque            =0.00;
 		$suma_credito           =0.00;
+		$suma_tcredito          =0.00;
+		$suma_efectivo          =0.00;
+		$suma_descuento         =0.00;
+		$suma_devolucion        =0.00;
+		$total_devolucion       =0;
+		$cantidad_devolucion    =0.00;
 
-		foreach ($_SESSION['registros'] as $key => $value) {
-			$cantidad_devolucion    += $value->total_devolucion;
-			$total_devolucion       += $value->total_devolucion;
-			$suma_devolucion        += number_format($value->sum_devolucion,2) * (-1);
-			$suma_descuento         += number_format($value->descuento,2);
-			$suma_efectivo          += $value->efectivo;
-			$suma_tcredito          += number_format($value->tcredito,2);
-			$suma_cheque            += number_format($value->cheque,2);
-			$suma_credito           += number_format($value->cheque,2);
+		if( $_SESSION['registros'] != 1 ) {
+			
+			foreach ($_SESSION['registros'] as $key => $value) {
+				$cantidad_devolucion    += $value->total_devolucion;
+				$total_devolucion       += $value->total_devolucion;
+				$suma_devolucion        += number_format($value->sum_devolucion,2) * (-1);
+				$suma_descuento         += number_format($value->descuento,2);
+				$suma_efectivo          += $value->efectivo;
+				$suma_tcredito          += number_format($value->tcredito,2);
+				$suma_cheque            += number_format($value->cheque,2);
+				$suma_credito           += number_format($value->cheque,2);
+			}
+			
+			$total_registros = array(
+				"id" 				=> "" ,
+				"num_correlativo" 	=> "",
+				"fh_inicio" 		=> "",
+				"id_cliente" 		=> "",
+				"total_doc" 		=> "",
+				"nombre" 			=> "TOTALES",
+				"inicio" 			=> "",
+				"fin" 				=> "",
+				"total_devolucion"  => $total_devolucion,
+				"sum_devolucion" 	=> $suma_devolucion,
+				"descuento" 		=> $suma_descuento,
+				"efectivo" 			=> $suma_efectivo,
+				"tcredito" 			=> $suma_tcredito,
+				"cheque" 			=> $suma_cheque,
+				"credito" 			=> $suma_credito,
+				"nombre_empresa_o_compania" => "",
+				"nombre_metodo_pago" 		=> "",
+				"orden_estado_nombre" 		=> ""
+			);
+			$original_registros[] = (object) $total_registros;
+
+			$this->xls( $original_registros , $_SESSION['Vista'] ,$column, $fields  );
 		}
-		
-		$total_registros = array(
-			"id" 				=> "" ,
-			"num_correlativo" 	=> "",
-			"fh_inicio" 		=> "",
-			"id_cliente" 		=> "",
-			"total_doc" 		=> "",
-			"nombre" 			=> "TOTALES",
-			"inicio" 			=> "",
-			"fin" 				=> "",
-			"total_devolucion"  => $total_devolucion,
-			"sum_devolucion" 	=> $suma_devolucion,
-			"descuento" 		=> $suma_descuento,
-			"efectivo" 			=> $suma_efectivo,
-			"tcredito" 			=> $suma_tcredito,
-			"cheque" 			=> $suma_cheque,
-			"credito" 			=> $suma_credito,
-			"nombre_empresa_o_compania" => "",
-			"nombre_metodo_pago" 		=> "",
-			"orden_estado_nombre" 		=> ""
-		);
-		$original_registros[] = (object) $total_registros;
-
-
-		$this->xls( $original_registros , $_SESSION['Vista'] ,$column, $fields  );
 	}
 
 	public function column(){
@@ -329,4 +331,3 @@ class Reporte extends My_Controller {
 		var_dump($_SESSION['corteUnico']);
 	}
 }
-?>

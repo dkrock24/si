@@ -40,7 +40,7 @@
                                     <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Encargado</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="encargado" name="encargado" value="<?php //echo $roles[0]->pagina ?>">
+                                            <input type="text" class="form-control" id="encargado" name="encargado_sucursal" value="<?php //echo $roles[0]->pagina ?>">
                                             
                                         </div>
                                     </div>
@@ -49,6 +49,14 @@
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Telefono</label>
                                         <div class="col-sm-10">
                                             <input type="text" required class="form-control" id="tel" name="tel" value="<?php //echo $roles[0]->pagina ?>">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Codigo</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" required class="form-control" id="tel" name="codigo_sucursal" value="<?php //echo $roles[0]->pagina ?>">
                                             
                                         </div>
                                     </div>
@@ -96,7 +104,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                                 <label>
-                                                    <select name="estado" class="form-control">
+                                                    <select name="sucursal_estado" class="form-control">
                                                         <option value="0">Inactivo</option>
                                                         <option value="1">Activo</option>
                                                     </select>

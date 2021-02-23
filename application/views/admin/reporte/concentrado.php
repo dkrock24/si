@@ -15,12 +15,12 @@
                 cache: false,
 
                 success: function(data) {
-
+                    $("#caja").empty();
                     var datos   = JSON.parse(data);
                     var caja    = datos["caja"];
                     var _htmlCaja = "";
                     $.each(caja, function(i, item) {
-                        _htmlCaja += '<option value="' + item.id_caja + '">' + item.nombre_caja + ' ' + item.cod_interno_caja + '</option>';
+                        _htmlCaja += '<option value="' + item.id_caja + '">' + item.nombre_caja + ' ' + item.codigo + '</option>';
                     });
                     _htmlCaja += '<option value=0>' + ' - ' +'</option>';
 
@@ -179,6 +179,7 @@
                                                         <option value="0"> - </option>
                                                         <?php
 
+                                                        if($cajero) {
                                                         foreach ($cajero as $key => $value) {
                                                             if ($filters['cajero'] != $value->id_empleado) {
                                                         ?>
@@ -186,6 +187,7 @@
                                                         <?php
                                                             }
                                                         }
+                                                    }
                                                         ?>
                                                     </select>
                                                 </div>

@@ -250,28 +250,29 @@ class Orden extends MY_Controller {
 		$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal( $documento , $sucursal );
 
 		$template = $this->Template_model->get_template_sucursal_documento( $sucursal, $documento);
-
-		$totalDocumentos = $this->totalDocumentos($template, $totalProductos);
-
-
 		$correlativos = [];
-		if($totalDocumentos > 1){
-			$numCorrelativos = $data['correlativo'][0]->siguiente_valor;
-			
-			for ($int = 1; $int <= $totalDocumentos; $int++) {
-				$correlativos[] = $numCorrelativos++;
-			}
-		}
+		if($template) {
+			$totalDocumentos = $this->totalDocumentos($template, $totalProductos);
 
-		$data['numeros_correlativos'] = $correlativos;
-		$data['cantidad_por_documento'] = $template[0]->factura_lineas;
+			
+			if($totalDocumentos > 1){
+				$numCorrelativos = $data['correlativo'][0]->siguiente_valor;
+				
+				for ($int = 1; $int <= $totalDocumentos; $int++) {
+					$correlativos[] = $numCorrelativos++;
+				}
+			}
+
+			$data['numeros_correlativos'] = $correlativos;
+			$data['cantidad_por_documento'] = $template[0]->factura_lineas;
+		}		
 		
 		echo json_encode($data);
 	}
 
 	private function totalDocumentos($template , $totalProductos){
 		if ($totalProductos > 0) {
-			
+
 			$productosEnDocumento = ((int) ($totalProductos / $template[0]->factura_lineas));
 			
 			$isEntero = (int) ($totalProductos % $template[0]->factura_lineas);

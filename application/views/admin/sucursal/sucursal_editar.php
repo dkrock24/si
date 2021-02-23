@@ -47,6 +47,14 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Codigo</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" required class="form-control" id="tel" name="codigo_sucursal" value="<?php echo $sucursal[0]->codigo_sucursal ?>">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Celular</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="cel" name="cel" value="<?php echo $sucursal[0]->cel ?>">
@@ -107,7 +115,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <label>
-                                                <select name="estado" class="form-control">
+                                                <select name="sucursal_estado" class="form-control">
                                                     <?php
                                                     if ($sucursal[0]->sucursal_estado == 1) {
                                                         ?>

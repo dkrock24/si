@@ -297,9 +297,11 @@
                                                     <option value="<?php echo $empleado[0]->Sucursal; ?>"> <?php echo $empleado[0]->nombre_sucursal; ?></option>
                                                     <?php
                                                     foreach($sucursal as $ss){
-                                                        ?>
-                                                        <option value="<?php echo $ss->id_sucursal; ?>"> <?php echo $ss->nombre_sucursal; ?></option>
-                                                        <?php
+                                                        if($empleado[0]->id_sucursal != $ss->id_sucursal){
+                                                            ?>
+                                                            <option value="<?php echo $ss->id_sucursal; ?>"> <?php echo $ss->nombre_sucursal; ?></option>
+                                                            <?php
+                                                        }
                                                     }
                                                     ?>
                                                 </select>

@@ -156,7 +156,7 @@ class Sucursal extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Empresa','Pais','Sucursal','Departamento','Municipio','Direccion','Telefono','Celular','Encargado',  'Estado'
+			'Empresa','Pais','Sucursal','Departamento','Municipio','Direccion','Telefono','Celular','Encargado','Codigo','Estado'
 		);
 		return $column;
 	}
@@ -172,6 +172,7 @@ class Sucursal extends MY_Controller {
 			['tel' 				=> 'Telefono'],
 			['cel' 				=> 'Celular'],
 			['encargado_sucursal' => 'Encargado'],
+			['codigo_sucursal' => 'Codigo'],
 			['orden_estado_nombre'=> 'Estado']
 		);
 

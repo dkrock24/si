@@ -1014,14 +1014,19 @@
                                 <div class="row">
 
                                     <div class="col-sm-4">
+                                    <?php $tipos = array('Gravados','Exentos','No Sujeto'); ?>
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Iva</label>
                                             <div class="col-sm-8">
                                                 <select class="form-control" name="iva" id="iva">
-                                                    <option value="<?php echo $producto[0]->iva ?>"><?php echo $producto[0]->iva ?></option>                                                
-                                                    <option value="Gravados">Gravados</option>
-                                                    <option value="Exentos">Exentos</option>
-                                                    <option value="No Sujeto">No Sujeto</option>
+                                                
+                                                    <option value="<?php echo $producto[0]->iva ?>"><?php echo $producto[0]->iva ?></option>
+                                                    <?php 
+                                                        foreach($tipos as $tipo){ 
+                                                            if($tipo != $producto[0]->iva){
+                                                        ?>
+                                                        <option value="<?php echo $tipo ?>"><?php echo $tipo ?></option>
+                                                    <?php } }?>
                                                 </select>
                                             </div>
                                             <div class="col-sm-1"></div>

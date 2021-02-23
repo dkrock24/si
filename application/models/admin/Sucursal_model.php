@@ -150,19 +150,7 @@ class Sucursal_model extends CI_Model
 
     function crear_sucursal($datos)
     {
-
-        $data = array(
-            'nombre_sucursal'   => $datos['nombre_sucursal'],
-            'direct'            => $datos['direct'],
-            'encargado_sucursal' => $datos['encargado'],
-            'tel'               => $datos['tel'],
-            'cel'               => $datos['cel'],
-            'sucursal_estado'   => $datos['estado'],
-            'Ciudad_Suc'        => $datos['Ciudad_Suc'],
-            'Empresa_Suc'       => $datos['Empresa_Suc']
-        );
-
-        $result   = $this->db->insert(self::pos_sucursal, $data);
+        $result   = $this->db->insert(self::pos_sucursal, $datos);
         $id       = $this->db->insert_id();
         $empleado = $this->session->userdata['usuario'][0]->id_empleado;
 
@@ -195,20 +183,8 @@ class Sucursal_model extends CI_Model
 
     function actualizar($datos)
     {
-
-        $data = array(
-            'tel'               => $datos['tel'],
-            'cel'               => $datos['cel'],
-            'direct'            => $datos['direct'],
-            'sucursal_estado'   => $datos['estado'],
-            'Ciudad_Suc'        => $datos['Ciudad_Suc'],
-            'Empresa_Suc'       => $datos['Empresa_Suc'],
-            'nombre_sucursal'   => $datos['nombre_sucursal'],
-            'encargado_sucursal' => $datos['encargado_sucursal'],
-        );
-
         $this->db->where('id_sucursal', $datos['id_sucursal']);
-        $result = $this->db->update(self::pos_sucursal, $data);
+        $result = $this->db->update(self::pos_sucursal, $datos);
         if (!$result) {
             $result = $this->db->error();
         }

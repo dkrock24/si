@@ -100,7 +100,7 @@ class Empresa_model extends CI_Model {
         }
         
         $query = $this->db->get();
-        //echo $this->db->queries[3];
+        //echo $this->db->queries[8];die;
         
         if($query->num_rows() > 0 )
         {

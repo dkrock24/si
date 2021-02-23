@@ -243,7 +243,7 @@ include("asstes/pos_orden.php");
 
                                     </select>
 
-                                    <select multiple="" class="form-control dataSelect2 note-editor" id="dataSelect2" style="display: inline-block;height: 200px;">
+                                    <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="height: 300px; width: 1200px; font-size: 22px; font-family: monospace; display: block;border:3px solid #badae;">
 
                                     </select>
                                 </div>
@@ -519,7 +519,7 @@ include("asstes/pos_orden.php");
                                                     if ($d->id_tipo_documento == $terminal[0]->pred_id_tpdoc) {
                                                         //if (strpos($doc, 'ORDEN') === false) {
                                                 ?>
-                                                        <option value="<?php echo $d->id_tipo_documento; ?>"><?php echo $d->nombre . ' - ' . $d->factura_nombre; ?></option>
+                                                        <option value="<?php echo $d->id_tipo_documento; ?>"><?php echo $d->nombre; ?></option>
                                                     <?php
                                                         //}
                                                     }
@@ -1089,33 +1089,33 @@ include("asstes/pos_orden.php");
     <!-- Modal Small-->
 
     <!-- METODO DE PAGOS MODAL-->
-    <div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip fade-scale">
+    <!--<div id="m_orden_creada" tabindex="-1" role="dialog" aria-labelledby="m_orden_creada" class="modal flip fade-scale">
         <div class="modal-dialog modal-md">
             <div class="modal-content" style="background:#f1f1f1;">
                 <div class="modal-header" style="background: #2c71b5;color: white;">
                     <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <span style="font-size: 20px; ">Documento : <?= $temp[0]->documento_nombre ?> | Formato : <?= $temp[0]->factura_nombre ?> </span>
+                    <span style="font-size: 20px; ">Documento : <?php //$temp[0]->documento_nombre ?> | Formato : <?php //$temp[0]->factura_nombre ?> </span>
 
                 </div>
                 <div class="modal-body">
 
                     <div class="row">
                         <div class="col-lg-8 col-md-8">
-                            <?php include("asstes/temp/" . $file . ".php"); ?>
+                            <?php //include("asstes/temp/" . $file . ".php"); ?>
                         </div>
                         <div class="col-lg-4 col-md-4" style="border-left:1px dashed black;height:900px;position: relative;float:right;margin:0px;">
 
                             <div class="row">
                                 <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                    <?php echo $msj_title ?>
+                                    <?php //echo $msj_title ?>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                     <h1>
-                                        <?php echo $msj_orden ?>
+                                        <?php //echo $msj_orden ?>
                                     </h1>
                                 </div>
                             </div>
@@ -1145,6 +1145,7 @@ include("asstes/pos_orden.php");
             </div>
         </div>
     </div>
+    -->
     <!-- Modal Small-->
 
     <!-- METODO DE PAGOS MODAL-->
