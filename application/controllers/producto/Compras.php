@@ -103,7 +103,11 @@ class Compras extends MY_Controller {
 		$data['msj_title'] = "Compra Creada Correctamente";
 		$data['msj_orden'] = "Transación: # ". $data['compra'][0]->numero_serie ;
 
-		$this->generarDocumento( $name , $data['temp'][0]->factura_template );
+		if (isset($data['temp'][0]->factura_template)) {
+			$this->generarDocumento( $name , $data['temp'][0]->factura_template );
+		} else {
+			echo "No existe formato impresion para el documento";
+		}
 		
 		$data['home'] = 'producto/compras/compra_editar';
 		$this->parser->parse('template', $data);

@@ -174,26 +174,36 @@ class Producto_model extends CI_Model
 		$this->producto_atributos($id_producto, $producto);
 
 		// Insertando los detalles de los precios
-		$this->producto_precios($id_producto, $producto);
+		$presentacion_ids = $this->producto_precios($id_producto, $producto);
+		$data_producto = array(
+			'producto_id' => $id_producto,
+			'presentaciones' => $presentacion_ids
+		);
 
 		// Asociar Producto a Sucursales
-		return $id_producto;
+		return $data_producto;
 	}
 
-	function save_producto_bodega($producto_id, $bodegas)
+	function save_producto_bodega($data_producto, $bodegas)
 	{
 		// Asociar nuevo producto a bodega
 
-		foreach ($bodegas as $key => $value) {
+		/** Recorrer Bodegas Existentes */
+		foreach ($bodegas as $key => $bodega) {
 
-			$data = array(
-				'Producto' 		=> 	$producto_id,
-				'Bodega' 		=> $value->id_bodega,
-				'Cantidad' 		=> 0,
-				'Descripcion' 	=> "",
-				'pro_bod_creado' 	=> date("Y-m-d H:i:s"),
-				'pro_bod_estado' 	=> 1
-			);
+			/** Recorrer Presentaciones Creadas para el producto */
+			foreach ($data_producto['presentaciones'] as $key => $presentacion) {
+				
+				$data = array(
+					'Producto' 		=> $data_producto['producto_id'],
+					'Presentacion'  => $presentacion,
+					'Bodega' 		=> $bodega->id_bodega,
+					'Cantidad' 		=> 0,
+					'Descripcion' 	=> "",
+					'pro_bod_creado' 	=> date("Y-m-d H:i:s"),
+					'pro_bod_estado' 	=> 1
+				);
+			}
 
 			$this->db->insert(self::pos_producto_bodega, $data);
 		}
@@ -280,6 +290,8 @@ class Producto_model extends CI_Model
 
 	function producto_precios($id_producto, $producto)
 	{
+		$producto_presentacion = array();
+
 		foreach ($producto as $key => $value) {
 			$costo;
 			$similar_key = 'presentacion';
@@ -305,6 +317,7 @@ class Producto_model extends CI_Model
 					'fecha_creacion_producto_detalle' => date("Y-m-d h:i:s")
 				);
 				$this->db->insert(self::producto_detalle, $data);
+				$producto_presentacion[] = $this->db->insert_id();
 			}
 			if (!isset($producto['presentacion1'])){
 				$data = array(
@@ -321,9 +334,11 @@ class Producto_model extends CI_Model
 					'fecha_creacion_producto_detalle' => date("Y-m-d h:i:s")
 				);
 				$this->db->insert(self::producto_detalle, $data);
+				$producto_presentacion[] = $this->db->insert_id();
 				break;
 			}
 		}
+		return $producto_presentacion;
 	}
 
 	function producto_atributo_valor($id_producto_atributo, $atributo_valor)
@@ -488,7 +503,7 @@ class Producto_model extends CI_Model
 	}
 
 	/** Actualizar, vieja funciona */
-	function actualizar_producto($producto)
+	function actualizar_producto($producto, $bodegas)
 	{
 		$data = array(
 			'Empresa' => $producto['empresa'],
@@ -535,7 +550,7 @@ class Producto_model extends CI_Model
 
 			$this->producto_atributo_actualizacion($producto['id_producto'], $producto);
 
-			$this->producto_precios_actualizacion($producto['id_producto'], $producto);
+			$this->producto_precios_actualizacion($producto['id_producto'], $producto, $bodegas);
 
 			if (isset($_FILES['11']) && $_FILES['11']['tmp_name'] != null) {
 				$this->producto_imagen_actualizar($producto['id_producto'], $_FILES['11']);
@@ -605,7 +620,7 @@ class Producto_model extends CI_Model
 	}
 
 	// Actualizar Precios del producto
-	function producto_precios_actualizacion($id_producto, $producto)
+	function producto_precios_actualizacion($id_producto, $producto, $bodegas)
 	{
 		$cont = 1;
 		$flag = false;
@@ -639,7 +654,7 @@ class Producto_model extends CI_Model
 
 				} else {
 					/** Insertar nuevas presentaciones */
-					$this->insert_producto_detalle($id_producto, $producto, $cont);
+					$this->insert_producto_detalle($id_producto, $producto, $cont, $bodegas);
 					$cont++;
 				}
 			
@@ -650,7 +665,7 @@ class Producto_model extends CI_Model
 		
 	}
 
-	private function insert_producto_detalle($id_producto, $producto, $contador)
+	private function insert_producto_detalle($id_producto, $producto, $contador, $bodegas)
 	{
 		$data = array(
 			'Producto' => $id_producto,
@@ -666,6 +681,23 @@ class Producto_model extends CI_Model
 			'fecha_creacion_producto_detalle' => date("Y-m-d h:i:s")
 		);
 		$this->db->insert(self::producto_detalle, $data);
+		$presentacion = $this->db->insert_id();
+
+		/** Recorrer Bodegas Existentes */
+		foreach ($bodegas as $key => $bodega) {
+
+			$data = array(
+				'Producto' 		=> $id_producto,
+				'Presentacion'  => $presentacion,
+				'Bodega' 		=> $bodega->id_bodega,
+				'Cantidad' 		=> 0,
+				'Descripcion' 	=> "",
+				'pro_bod_creado' 	=> date("Y-m-d H:i:s"),
+				'pro_bod_estado' 	=> 1
+			);
+
+			$this->db->insert(self::pos_producto_bodega, $data);
+		}
 	}
 
 	private function update_producto_detalle($precioResult , $producto , $contador)

@@ -402,7 +402,7 @@
 
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Almacenaje</label>
+                                                    <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Ubicación</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="almacenaje" value="" id="almacenaje" class="form-control">
                                                     </div>

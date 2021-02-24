@@ -58,27 +58,23 @@ class Producto extends MY_Controller {
 
 	public function crear(){
 		
-		$producto_id = $this->Producto_model->nuevo_producto( $_POST , $this->session->usuario );
+		$data_producto = $this->Producto_model->nuevo_producto( $_POST , $this->session->usuario );
 
-		$this->save_producto_bodega($producto_id);
+		$this->save_producto_bodega($data_producto);
 
-		if($producto_id){
+		if($data_producto){
 			$this->session->set_flashdata('success', "Producto Fue Creado");
 		}else{
 			$this->session->set_flashdata('danger', "Producto No Fue Creado");
 		}
 
 		redirect(base_url()."producto/producto/index");
-
 	}
 
-	public function save_producto_bodega( $producto_id ){
-		
-		$id_rol = $this->session->roles[0];
+	public function save_producto_bodega( $data_producto ){
+
 		$data 	= $this->Bodega_model->getBodegaProducto();
-
-		$this->Producto_model->save_producto_bodega( $producto_id , $data );
-
+		$this->Producto_model->save_producto_bodega( $data_producto , $data );
 	}
 
 	public function sub_categoria_byId($id_categoria){
@@ -161,7 +157,9 @@ class Producto extends MY_Controller {
 
 	public function actualizar(){
 
-		$data = $this->Producto_model->actualizar_producto( $_POST );
+		$bodegas = $this->Bodega_model->getBodegaProducto();
+
+		$data = $this->Producto_model->actualizar_producto( $_POST, $bodegas);
 
 		if($data){
 			$this->session->set_flashdata('info', "Producto Fue Actualizado");
