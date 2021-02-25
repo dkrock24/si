@@ -299,6 +299,7 @@ $(document).ready(function () {
         var html = "<tr id='" + contador + "'>" +
             "<td>" + contador + "</td>" +
             "<td><input type='text' size='10' name='presentacion" + contador + "' class=''/></td>" +
+            "<td><input type='file' name='img" + contador + "' /></td>"+
             "<td><input type='text' size='3' name='factor" + contador + "' class=''></td>" +
             "<td><input type='text' size='3' name='unidad" + contador + "' class='calculoUtilidad' id='" + contador + "'></td>" +
             "<td><input type='text' size='4' name='precio" + contador + "' class='precio" + contador + "' value=''></td>" +

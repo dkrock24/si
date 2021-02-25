@@ -184,7 +184,7 @@ class Orden_model extends CI_Model
 				LEFT JOIN producto_detalle AS pde ON pde.Producto = P.id_entidad
 
 				WHERE pde.id_producto_detalle = " . $producto_id . " and pde.estado_producto_detalle =1 and b.id_bodega =" . $id_bodega);
-		//echo $this->db->queries[3];die;
+		//echo $this->db->queries[4];die;
 		return $query->result();
 	}
 
@@ -221,9 +221,22 @@ class Orden_model extends CI_Model
 
 	function get_producto_precios($producto_id)
 	{
-
-		$query = $this->db->query("SELECT * from producto_detalle as pd
-				WHERE pd.Producto = " . $producto_id ." and pd.estado_producto_detalle =1");
+		$query = $this->db->query("SELECT 
+			id_producto_detalle,
+			Producto,
+			presentacion,
+			factor,
+			precio,
+			unidad,
+			Cliente,
+			Sucursal,
+			Utilidad,
+			cod_barra,
+			fecha_creacion_producto_detalle,
+			fecha_actualizacion_producto_detalle,
+			estado_producto_detalle 
+			from producto_detalle as pd
+			WHERE pd.Producto = " . $producto_id ." and pd.estado_producto_detalle =1");
 
 		//echo $this->db->queries[1];
 		return $query->result();

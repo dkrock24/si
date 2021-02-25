@@ -922,7 +922,7 @@ include("asstes/pos_orden.php");
                             </div>
 
                             <div class="col-lg-2 col-md-1">D. Identificacion
-                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento" placeholder="">
+                                <input type="text" class="form-control has-success" name="correlativo_documento" id="correlativo_documento2" placeholder="">
                             </div>
 
                             <div class="col-lg-2 col-md-2">Estado

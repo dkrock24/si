@@ -33,7 +33,6 @@
         background:#82b74b;
         color:black;
     }
-
     
 </style>
 <!-- Main section-->
@@ -48,53 +47,51 @@
                 </h3>
             <div class="row">
                 <div class="col-lg-12">
-                    
-
                         <!-- INICIO MENU IZQUIERDO -->
+                        <div class="row">
                         <div class="col-lg-3">
-                            <div id="" class="panel" style="height: 550px;margin-top: 100px;">
+                            <div id="" class="panel panel-default" style="height: 550px;margin-top: 100px;">
                                 <div class="panel-heading menuTop">Nuevo Producto :  </div>
                                 <div class="panel-body menuContent">
-                                <div class="row">
-                                <?php
-                                $contador_break=0;
-                            if($acciones){
-                                foreach ($acciones as $key => $value) {
-                                    ?>
-                                    <div class="col-sm-6 menu-cuadro " id="<?php echo $value->accion_btn_css; ?>">
-                                        <a href="<?php echo base_url().$value->accion_btn_url; ?>" class="link_btn">
-                                        <h1 class="icon-center">
-                                             <i class="<?php echo $value->accion_btn_icon; ?>"></i>
-                                        </h1>
-                                        </a>
-                                        <span class="icon-center">
-                                            <?php echo $value->accion_nombre; ?>
-                                        </span>
-                                        
-                                    </div>
+                                    <div class="row">
                                     <?php
-                                }
-                            }else{
-                                ?>                                   
-                                        
-                                    <div style="text-align:center">
-                                        <h2 >
-                                            <i class="fa fa-exclamation-triangle"></i>
+                                    $contador_break=0;
+                                    if($acciones){
+                                        foreach ($acciones as $key => $value) {
+                                            ?>
+                                            <div class="col-sm-6 menu-cuadro " id="<?php echo $value->accion_btn_css; ?>">
+                                                <a href="<?php echo base_url().$value->accion_btn_url; ?>" class="link_btn">
+                                                <h1 class="icon-center">
+                                                    <i class="<?php echo $value->accion_btn_icon; ?>"></i>
+                                                </h1>
+                                                </a>
+                                                <span class="icon-center">
+                                                    <?php echo $value->accion_nombre; ?>
+                                                </span>
+                                                
+                                            </div>
+                                            <?php
+                                        }
+                                    }else{
+                                        ?>                                   
+                                                
+                                            <div style="text-align:center">
+                                                <h2 >
+                                                    <i class="fa fa-exclamation-triangle"></i>
+                                                    
+                                                </h2>
+                                                <label>Necesita permiso para ver esta sección.</label>
+                                            </div>  
+                                                
                                             
-                                        </h2>
-                                        <label>Necesita permiso para ver esta sección.</label>
-                                    </div>  
-                                        
-                                    
-                                <?php
-                            }
-                                ?>
-                                </div></div>  
+                                        <?php
+                                    }
+                                    ?>
+                                    </div>
+                                </div>
 
                                 <div class="row">
-                                    <br>
-                                    <hr>
-                                    <br>
+
                                     <div class="col-sm-12">
                                         <img src="" name="" id="" class="preview_producto" />
                                     </div>
@@ -109,7 +106,7 @@
                         <!-- INICIO PRODUCTO ENCABEZADO -->
                         <div class="col-lg-9">
                            
-                            <div id="" class="panel producto_creacion" style="margin-top: 100px;">
+                            <div id="" class="panel panel-default producto_creacion" style="margin-top: 100px;">
                                 <div class="panel-heading menuTop">Producto General:  </div>
                                     <div class="panel-body menuContent">  
                                     
@@ -120,8 +117,7 @@
                                                 <div class="form-group">
                                                     <label for="inputEmail3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Nombre</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" class="form-control" id="name_entidad" required name="name_entidad" placeholder="Nombre Producto" value="">
-                                                        
+                                                        <input type="text" class="form-control" id="name_entidad" required name="name_entidad" placeholder="Nombre Producto" value=""> 
                                                     </div>
                                                     <div class="col-sm-1"></div>
                                                 </div> 
@@ -131,7 +127,6 @@
                                                     <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Empresa</label>
                                                     <div class="col-sm-8">
                                                         <select class="form-control" id="empresa" name="empresa" required>
-                                                            
                                                             <?php
                                                             foreach ($empresa as $value) {
                                                                 ?>
@@ -141,7 +136,6 @@
                                                             }
                                                             ?>
                                                         </select>
-                                                        
                                                     </div>
                                                     <div class="col-sm-1"></div>
                                                 </div>  
@@ -153,7 +147,6 @@
                                                         <select class="form-control" id="giro" name="giro" required>
                                                            
                                                         </select>
-                                                        
                                                     </div>
                                                     <div class="col-sm-1"></div>
                                                 </div>  
@@ -477,28 +470,14 @@
                             </div>
                           
                         </div>
+                        </div>
                         <!-- FIN PRODUCTO ENCABEZADO -->
 
-                        <!-- INICIO PRODUCTO ATRIBUTOS -->
-                        <div class="col-lg-9">
-                           
-                            <div id="" class="panel">
-                                <div class="panel-heading menuTop">Producto Atributos:  </div>
-                                <div class="panel-body menuContent">  
-                                <div class="row">
-                                    <p class="form-horizontal giro_atributos">
-                                    </p>
-                                </div>
-                                </div>
-                            </div>
-                          
-                        </div>
-                        <!-- FIN PRODUCTO ATRIBUTOS -->
-
                         <!-- INICIO PRODUCTO PRECIOS -->
-                        <div class="col-lg-9 alenado-left">
+                        <div class="row">
+                        <div class="col-lg-12 alenado-left">
                            
-                            <div id="" class="panel">
+                            <div id="" class="panel panel-default" style="margin-top: 10px !important;">
                                 <div class="panel-heading menuTop">Producto Precios :  </div>
                                 <div class="panel-body menuContent"> 
                                 <div class="row">
@@ -510,6 +489,7 @@
                                                  <tr>
                                                     <th>#</th>
                                                     <th>Presentacion</th>
+                                                    <th>Imagen</th>
                                                     <th>Factor</th>
                                                     <th>Unidad</th>
                                                     <th>Precio</th>                                                        
@@ -538,11 +518,28 @@
                             </div>
                           
                         </div>
+                        </div>
                         <!-- FIN PRODUCTO PRECIOS -->
+
+
+                        <!-- INICIO PRODUCTO ATRIBUTOS -->
+                        <div class="row">
+                        <div class="col-lg-12"> 
+                            <div id="" class="panel panel-default" style="margin-top: 10px !important;">
+                                <div class="panel-heading menuTop">Producto Atributos:  </div>
+                                <div class="panel-body menuContent">  
+                                <div class="row">
+                                    <p class="form-horizontal giro_atributos">
+                                    </p>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- FIN PRODUCTO ATRIBUTOS -->
 
                         </form>
 
-                    
                 </div>
             </div>
         </div>

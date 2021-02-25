@@ -38,7 +38,6 @@ class Producto_model extends CI_Model
 
 	function getProd($limit, $id, $filters)
 	{
-
 		$limite = " Limit " . $id . ',' . $limit;
 
 		if ($filters != null || $filters != "") {
@@ -72,17 +71,16 @@ class Producto_model extends CI_Model
 
 	function getAllProducto()
 	{
-
 		$query = $this->db->query("SELECT distinct(P.id_entidad ), `P`.*, `c`.`nombre_categoria` as 'nombre_categoria', `sub_c`.`nombre_categoria` as 'SubCategoria', e.nombre_razon_social, e.id_empresa, g.id_giro, g.nombre_giro, m.nombre_marca
 	        	
-				FROM `producto` as `P`
-				LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
-				LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
-				LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
-				LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
-				LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
-				LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
-				LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where P.producto_estado=1 and P.Empresa=" . $this->session->empresa[0]->id_empresa);
+			FROM `producto` as `P`
+			LEFT JOIN `categoria_producto` as `CP` ON `CP`.`id_producto` = `P`.`id_entidad`
+			LEFT JOIN `categoria` as `sub_c` ON `sub_c`.`id_categoria` = `CP`.`id_categoria`
+			LEFT JOIN `categoria` as `c` ON `c`.`id_categoria` = `sub_c`.`id_categoria_padre`
+			LEFT JOIN `pos_empresa` as `e` ON `e`.`id_empresa` = `P`.`Empresa`
+			LEFT JOIN `giros_empresa` as `ge` ON `ge`.`id_giro_empresa` = `P`.`Giro`
+			LEFT JOIN `pos_marca` as `m` ON `m`.id_marca = `P`.Marca
+			LEFT JOIN `pos_giros` as `g` ON `g`.`id_giro` = `ge`.`Giro` where P.producto_estado=1 and P.Empresa=" . $this->session->empresa[0]->id_empresa);
 
 		//echo $this->db->queries[1];
 		return $query->result();
@@ -90,7 +88,6 @@ class Producto_model extends CI_Model
 
 	function record_count($filter)
 	{
-
 		if ($filter != "") {
 
 			$filter = " and " . $filter;
@@ -147,7 +144,6 @@ class Producto_model extends CI_Model
 			'precio_venta' 		=> $producto['precio_venta'],
 			'iva' 				=> $producto['iva'],
 			'incluye_iva' 		=> $producto['incluye_iva']
-
 		);
 		if (isset($producto['escala'])) {
 			$data += ['Escala' => 1];
@@ -303,9 +299,14 @@ class Producto_model extends CI_Model
 
 				$contador = substr($key, -1);
 
+				$imagen = @file_get_contents($_FILES['img'.$contador]['tmp_name']);
+				$imageProperties = @getimageSize($_FILES['img'.$contador]['tmp_name']);
+
 				$data = array(
 					'Producto' => $id_producto,
 					'presentacion' 	=> $producto['presentacion' . $contador],
+					'imagen_presentacion' => $imagen,
+					'imagen_type' 	=> $imageProperties['mime'],
 					'factor' 		=> $producto['factor' . $contador],
 					'precio' 		=> $producto['precio' . $contador],
 					'unidad' 		=> $producto['unidad' . $contador],
@@ -326,8 +327,8 @@ class Producto_model extends CI_Model
 					'factor' 		=> '1',
 					'precio' 		=> '0',
 					'unidad' 		=> '0',
-					'Cliente' 		=> null,
-					'Sucursal' 		=> null,
+					'Cliente' 		=> 0,
+					'Sucursal' 		=> 0,
 					'Utilidad' 		=> '0',
 					'cod_barra' 	=> null,
 					'estado_producto_detalle' => 1,
@@ -714,6 +715,16 @@ class Producto_model extends CI_Model
 			'cod_barra' 	=> $producto['cbarra' . $contador],
 			'estado_producto_detalle' => 1
 		);
+
+		$img = @file_get_contents($_FILES['img'.$contador]['tmp_name']);
+		if (!empty($img)) {
+			$imagen = @file_get_contents($_FILES['img'.$contador]['tmp_name']);
+			$imageProperties = @getimageSize($_FILES['img'.$contador]['tmp_name']);
+
+			$data['imagen_presentacion'] = $imagen;
+			$data['imagen_type'] = $imageProperties['mime'];
+		}
+
 		$this->db->where('id_producto_detalle', $producto['id_producto_detalle'. $contador]);
 		$this->db->update(self::producto_detalle, $data);
 	}

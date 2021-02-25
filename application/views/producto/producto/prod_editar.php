@@ -78,7 +78,6 @@
 
         });
 
-
         $("#categoria").change(function() {
             $("#sub_categoria").empty();
             var id = $(this).val();
@@ -282,6 +281,7 @@
             var html = "<tr id='" + contador + "'>" +
                 "<td>" + contador + "</td>" +
                 "<td><input type='text' size='10' name='presentacion" + contador + "' class=''/></td>" +
+                "<td><input type='file' name='img" + contador + "' /></td>"+
                 "<td><input type='text' size='3' name='factor" + contador + "' class=''></td>" +
                 "<td><input type='text' size='3' name='unidad" + contador + "' class='calculoUtilidad' id='" + contador + "'></td>" +
                 "<td><input type='text' size='4' name='precio" + contador + "' class='precio" + contador + "' value=''></td>" +
@@ -573,11 +573,8 @@
                         <div class="panel-heading menuTop"><i class="fa fa-pencil right"></i> Editar Producto :</div>
                         <div class="panel-body menuContent">
                             <div class="row">
-
                                 <?php
-
                                 $contador_break = 0;
-
                                 if($acciones){
                                     foreach ($acciones as $key => $value) {
                                         ?>
@@ -603,15 +600,13 @@
                                         </h2>
                                         <label>Necesita permiso para ver esta sección.</label>
                                     </div>                                   
-                                    
                                     <?php
                                 }
                                 ?>
-
                             </div>
                         </div>
 
-                        <div class="row">
+                        <!--<div class="row">
                             <br>
                             <hr>
                             <br>
@@ -638,7 +633,7 @@
                                 <p style="text-align: center">Nueva Imagen (<a href="#" class="nueva_imagen"><i class="fa fa-trash"></i> Eliminar </a>) </p>
                                 <img src="" name="" id="" class="preview_producto" />
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>
@@ -647,7 +642,7 @@
 
                     <div class="col-lg-9">
 
-                        <div id="" class="panel" style="margin-top: 100px;">
+                        <div id="" class="panel panel-default" style="margin-top: 100px;">
                             <div class="panel-heading menuTop">Producto General : </div>
                             <div class="panel-body menuContent">
 
@@ -1068,35 +1063,17 @@
                                     </div>
 
                                 </div>
-
-
+                                <br><br>
                             </div>
                         </div>
-
                     </div>
 
-                    <div class="col-lg-9">
-
-                        <div id="" class="panel">
-                            <div class="panel-heading menuTop">Producto Atributos : </div>
-                            <div class="panel-body menuContent">
-                                <p class="form-horizontal giro_atributos">
-
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-9 alenado-left">
-
-                        <div id="" class="panel">
+                    <div class="col-lg-12 alenado-left">
+                        <div id="" class="panel panel-default" style="margin-top: 10px !important;">
                             <div class="panel-heading menuTop">Producto Precios : </div>
                             <div class="panel-body menuContent">
                                 <div class="row">
                                     <div class="col-lg-12">
-
-
 
                                         <div class="table-responsive">
                                             <table class="table table-hover" id="preciosTable">
@@ -1104,6 +1081,7 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Presentacion</th>
+                                                        <th>Imagen</th>
                                                         <th>Factor</th>
                                                         <th>Unidad</th>
                                                         <th>Precio</th>
@@ -1113,9 +1091,7 @@
                                                         <th>Utilidad</th>
                                                         <th>
                                                             <div class="btn-group">
-
                                                                 <span id="AgregarPrecios" class="btn btn-default"><i class="fa fa-plus-circle"></i></span>
-
                                                             </div>
                                                         </th>
                                                     </tr>
@@ -1131,7 +1107,13 @@
                                                             <tr id="<?php echo $cont_table ?>">
                                                                 <td><?php echo $cont_table; ?></td>
                                                                 <input type="hidden" name="id_producto_detalle<?php echo $cont_table ?>" value="<?php echo $precio->id_producto_detalle; ?>">
-                                                                <td><input type="text" size='10' class='presentacion<?php echo $cont_table ?>' name="presentacion<?php echo $cont_table ?>" value="<?php echo $precio->presentacion; ?>"></td>
+                                                                <td>
+                                                                <?php if ($precio->imagen_type) : ?>
+                                                                    <img src="data: <?php echo $precio->imagen_type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($precio->imagen_presentacion) ?>" clas="preview_producto" style="width:20%;" />
+                                                                <?php endif ?>
+                                                                    <input type="text" size='10' class='presentacion<?php echo $cont_table ?>' name="presentacion<?php echo $cont_table ?>" value="<?php echo $precio->presentacion; ?>">
+                                                                </td>
+                                                                <td><input type="file" name="img<?php echo $cont_table ?>" /></td>
                                                                 <td><input type="text" size='3' class='factor<?php echo $cont_table ?>' name="factor<?php echo $cont_table ?>" value="<?php echo $precio->factor; ?>"></td>
                                                                 <td><input type="text" size='3' class='unidad<?php echo $cont_table ?> calculoUtilidad' name="unidad<?php echo $cont_table ?>" value="<?php echo $precio->unidad; ?>" id="<?php echo $cont_table ?>"></td>
                                                                 <td><input type="text" size='4' class='precio<?php echo $cont_table ?>' name="precio<?php echo $cont_table ?>" value="<?php echo $precio->precio; ?>"></td>
@@ -1216,6 +1198,18 @@
 
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+
+                        <div id="" class="panel panel-default" style="margin-top: 10px !important;">
+                            <div class="panel-heading menuTop">Producto Atributos : </div>
+                            <div class="panel-body menuContent">
+                                <p class="form-horizontal giro_atributos">
+
+                                </p>
                             </div>
                         </div>
 
