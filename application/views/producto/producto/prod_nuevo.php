@@ -48,9 +48,9 @@
             <div class="row">
                 <div class="col-lg-12">
                         <!-- INICIO MENU IZQUIERDO -->
-                        <div class="row">
+                        
                         <div class="col-lg-3">
-                            <div id="" class="panel panel-default" style="height: 550px;margin-top: 100px;">
+                            <div id="" class="panel panel-default" style="">
                                 <div class="panel-heading menuTop">Nuevo Producto :  </div>
                                 <div class="panel-body menuContent">
                                     <div class="row">
@@ -89,13 +89,14 @@
                                     ?>
                                     </div>
                                 </div>
-
+                                    <!--
                                 <div class="row">
 
                                     <div class="col-sm-12">
                                         <img src="" name="" id="" class="preview_producto" />
                                     </div>
                                 </div>
+                                -->
 
                             </div>
                         </div>
@@ -470,11 +471,11 @@
                             </div>
                           
                         </div>
-                        </div>
+                        
                         <!-- FIN PRODUCTO ENCABEZADO -->
 
                         <!-- INICIO PRODUCTO PRECIOS -->
-                        <div class="row">
+                        
                         <div class="col-lg-12 alenado-left">
                            
                             <div id="" class="panel panel-default" style="margin-top: 10px !important;">
@@ -518,7 +519,7 @@
                             </div>
                           
                         </div>
-                        </div>
+                        
                         <!-- FIN PRODUCTO PRECIOS -->
 
 
