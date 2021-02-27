@@ -2115,8 +2115,10 @@
         });
 
         $(document).on('click', '#guardar_orden', function() {
-
-            procesar_venta($(this).attr('name'));
+            if (_orden.length != 0) {
+                $("#guardar_orden").attr("disabled","disabled");
+                procesar_venta($(this).attr('name'));
+            }
         });
 
         $(document).on('click', '#add_pago', function() {

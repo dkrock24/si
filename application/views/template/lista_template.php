@@ -13,6 +13,7 @@
             //console.log($(this).val());
             if($(this).val() != ""){
                 $(this).focus();
+                $(this).select();
             }
         });
 
@@ -125,14 +126,21 @@
                             <form action="<?php echo base_url(). '\..' . $_SERVER['PATH_INFO'] ?>" method="post" id="filtros">
                                 <?php
                                 foreach ($column as $key => $combo) {
+                                    $active_filtro = array_keys($fields['field'][$key])[0];
                                     ?>
-                                    
                                     <th style="color: black;">
                                     <?php
                                     if(isset($filtros)){
+                                        if ($combo == 'Creado') {
+                                            ?>
+                                            <input type="date" name="<?php echo key($fields['field'][$key]); ?>" autocomplete="off" value="<?php echo $filtros[$active_filtro] ?>" class="form-control filtro-input" /><br>
+                                            <?php
+
+                                        } else {
                                         ?>
-                                        <input type="text" name="<?php echo key($fields['field'][$key]); ?>" value="<?php echo @$filtros[$fields['field'][$key]] ?>" class="form-control filtro-input" /><br>
+                                        <input type="text" name="<?php echo key($fields['field'][$key]); ?>" autocomplete="off" value="<?php echo $filtros[$active_filtro] ?>" class="form-control filtro-input" /><br>
                                         <?php
+                                        }
                                     }
                                     ?>                                
                                         <?php echo strtoupper($combo); ?>

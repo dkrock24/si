@@ -59,6 +59,7 @@ class Orden extends MY_Controller {
 		$data['home'] 			= 'template/lista_template';
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
+		//var_dump($data['filtros']);die;
 
 		$this->parser->parse('template', $data);
 	}
