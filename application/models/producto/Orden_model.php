@@ -55,7 +55,7 @@ class Orden_model extends CI_Model
 		}
 		$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,
 			orden.num_correlativo,DATE_FORMAT(orden.fecha,'%m/%d/%Y') AS fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
-			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre
+			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, vendedor.nombre_usuario AS vendedor, pago.nombre_modo_pago, oe.orden_estado_nombre
 
 			from pos_ordenes as orden 
 
@@ -63,6 +63,7 @@ class Orden_model extends CI_Model
 			left join pos_sucursal as sucursal on sucursal.id_sucursal=orden.id_sucursal
 			left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = orden.id_tipod
 			left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
+			left join sys_usuario AS vendedor ON vendedor.id_usuario = orden.id_vendedor
 			left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago 
 			left join pos_orden_estado as oe  on oe.id_orden_estado= orden.orden_estado
 			where oe.id_orden_estado in (1,2,5,3,4,6,7) 
@@ -70,7 +71,7 @@ class Orden_model extends CI_Model
 			and sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. 
 			" Order By oe.id_orden_estado ASC , orden.fecha DESC Limit " . $id . ',' . $limit);
 
-		//echo $this->db->queries[1];
+		//echo $this->db->queries[5];die;
 		return $query->result();
 	}
 

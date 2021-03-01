@@ -597,7 +597,7 @@ class Orden extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Correlativo','Sucursal','Terminal','Cliente','Metodo Pago','Documento','Cajero','Creado','Estado'
+			'Correlativo','Sucursal','Cliente','Usuario','Vendedor','Metodo Pago','Documento','Creado','Estado'
 		);
 		return $column;
 	}
@@ -607,11 +607,11 @@ class Orden extends MY_Controller {
 		$fields['field'] = array(
 			['num_correlativo' => 'Correlativo'],
 			['nombre_sucursal' => 'Sucursal'],
-			['num_caja' => 'Terminal'],
 			['nombre_empresa_o_compania' => 'Cliente'],
+			['nombre_usuario' => 'Usuario'],
+			['vendedor' => 'Vendedor'],
 			['nombre_modo_pago' => 'Metodo Pago'],
 			['tipo_documento' => 'Documento'],
-			['nombre_usuario' => 'Cajero'],
 			['fecha' => 'Creado'],
 			['orden_estado_nombre' => 'Actual'],
 		);
