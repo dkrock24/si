@@ -54,9 +54,9 @@ class Orden_model extends CI_Model
 			$filters = " and ".$filters;
 		}
 		$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,
-			orden.num_correlativo,DATE_FORMAT(orden.fecha,'%m/%d/%Y') AS fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
-			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, vendedor.nombre_usuario AS vendedor, pago.nombre_modo_pago, oe.orden_estado_nombre
-
+			orden.num_correlativo,DATE_FORMAT(orden.fecha,'%m/%d/%Y - %H:%i') AS fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
+			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, vendedor.nombre_usuario AS vendedor, pago.nombre_modo_pago, oe.orden_estado_nombre,
+			(SELECT SUM(od.precioUnidad * od.factor) FROM pos_orden_detalle AS od WHERE od.id_orden = orden.id) AS monto_orden
 			from pos_ordenes as orden 
 
 			left join pos_cliente as cliente on cliente.id_cliente = orden.id_cliente
@@ -66,7 +66,7 @@ class Orden_model extends CI_Model
 			left join sys_usuario AS vendedor ON vendedor.id_usuario = orden.id_vendedor
 			left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago 
 			left join pos_orden_estado as oe  on oe.id_orden_estado= orden.orden_estado
-			where oe.id_orden_estado in (1,2,5,3,4,6,7) 
+			where oe.id_orden_estado in (1,6,2,5,3,4,6,7) 
 			and orden.id_sucursal = ". $this->session->usuario[0]->id_sucursal ." 
 			and sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. 
 			" Order By oe.id_orden_estado ASC , orden.fecha DESC Limit " . $id . ',' . $limit);
@@ -431,7 +431,7 @@ class Orden_model extends CI_Model
 				'tipoprec' 		=> $orden['presentacion'],
 				'precioUnidad' 	=> $orden['precioUnidad'],
 				'factor' 		=> $orden['presentacionFactor'],
-				'total' 		=> (int) $orden['total'] - (int) $orden['descuento_calculado'],
+				'total' 		=> (double) $orden['total'] - (double) $orden['descuento_calculado'],
 				'total_anterior'=> $orden['total_anterior'],
 				'impSuma'		=> $orden['impSuma'],
 				'gen' 			=> $orden['gen'],
@@ -940,7 +940,7 @@ class Orden_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from(self::pos_ordenes . ' as o');
 		$this->db->join(self::pos_ordenes_detalle . ' as do',' on o.id = do.id_orden');
-		$this->db->where('o.orden_estado = 1');
+		//$this->db->where('o.orden_estado = 1');
 		$this->db->where_in('o.num_correlativo', $valores );
 		$query = $this->db->get();
 		//echo $this->db->queries[0];

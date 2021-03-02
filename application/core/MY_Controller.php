@@ -59,7 +59,7 @@ class MY_Controller extends CI_Controller
 		$this->load->model('admin/Proveedor_model');
 		$this->load->model('producto/EfectosDocumento_model');
 		$this->load->model('admin/Documento_model');
-		
+		$this->load->model('producto/Estados_model');
 		
     }
 
@@ -270,5 +270,10 @@ class MY_Controller extends CI_Controller
 
 	public function return_modena(){
 		return $this->Moneda_model->get_modena_by_user();
+	}
+
+	public function get_estados()
+	{
+		return $this->Estados_model->get_estados();
 	}
 }

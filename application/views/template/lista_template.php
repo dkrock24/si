@@ -82,7 +82,15 @@
             return false;    //<---- Add this line
         }
     });
-    
+
+    $(document).on('change', '.estado_filtro', function(e) {
+
+        //if (e.which == 13) {
+            $('form#filtros').submit();
+            return false;    //<---- Add this line
+        //}
+    });
+
 </script>
 
 <style>
@@ -130,12 +138,19 @@
                                     ?>
                                     <th style="color: black;">
                                     <?php
-                                    if(isset($filtros)){
+                                    if (isset($filtros)) {
                                         if ($combo == 'Creado') {
                                             ?>
                                             <input type="date" name="<?php echo key($fields['field'][$key]); ?>" autocomplete="off" value="<?php echo $filtros[$active_filtro] ?>" class="form-control filtro-input" /><br>
                                             <?php
-
+                                        } else if ($combo == 'Estado' && isset($fields['filtro_estado'])) {
+                                            ?>
+                                            <select name="<?php echo key($fields['field'][$key]); ?>" class="estado_filtro form-control filtro-input">
+                                                <?php foreach($fields['filtro_estado'] as $estados) : ?>
+                                                <option value="<?php echo $estados->orden_estado_nombre ?>"><?php echo $estados->orden_estado_nombre ?></option>
+                                                <?php endforeach ?>
+                                            </select><br>
+                                            <?php
                                         } else {
                                         ?>
                                         <input type="text" name="<?php echo key($fields['field'][$key]); ?>" autocomplete="off" value="<?php echo $filtros[$active_filtro] ?>" class="form-control filtro-input" /><br>

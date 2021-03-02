@@ -405,8 +405,8 @@ include("asstes/pos_orden.php");
                         <table class="table table-sm table-hover" style="margin-bottom: 0px;">
                         <div class="row" style="background:#2D3B48;">
                             <div class="col-lg-4">
-                                <div class="" id="headerInputs" style="margin-left:0px;">
-                                    <input type="text" placeholder="Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:1px solid grey;font-size:20px;">
+                                <div class="" id="headerInputs" style="margin-left:0px;border:1px solid black;">
+                                    <input type="text" placeholder="Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:3px solid grey;font-size:20px;">
                                 </div>
 
                                 <select multiple="" class="form-control dataSelect" id="dataSelect">
@@ -419,9 +419,9 @@ include("asstes/pos_orden.php");
 
                             </div>
                             <div class="col-lg-8" id="">
-
+                            <?php if($orden[0]->orden_estado != 6): ?>
                                 <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="update_orden" id="guardar_orden"><i class='fa fa-save' style="color:white;"></i><span style="font-size:18;"> 5</span></button>
-
+                            <?php endif ?>
                                 <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 25px;" data-target='#existencias'><i class="fa fa-dropbox" style="color:white;"></i><span style="font-size:18;"> 6</span></span>
 
                                 <!--
