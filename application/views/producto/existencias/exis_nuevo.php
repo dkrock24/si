@@ -148,6 +148,7 @@
                         html += '<td>' + item.nombre_bodega + '</td>';
                         html += '<td>' + item.Cantidad + '</td>';
                         html += '<td>' + item.moneda_simbolo + " "+  item.precio + '</td>';
+                        html += '<td>' + item.costo + '</td>';
                         html += '<td>' + 0.00 + '</td>';
                         html += '</tr>';
                         contador++;
@@ -242,6 +243,7 @@
                         <th>Bodega</th>
                         <th>Existencia</th>
                         <th>Precio</th>
+                        <th>Costo</th>
                         <th>Precio Anterior</th>
                     </tr>
                 </thead>

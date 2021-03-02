@@ -146,6 +146,7 @@
                                         } else if ($combo == 'Estado' && isset($fields['filtro_estado'])) {
                                             ?>
                                             <select name="<?php echo key($fields['field'][$key]); ?>" class="estado_filtro form-control filtro-input">
+                                                <option value=""></option>
                                                 <?php foreach($fields['filtro_estado'] as $estados) : ?>
                                                 <option value="<?php echo $estados->orden_estado_nombre ?>"><?php echo $estados->orden_estado_nombre ?></option>
                                                 <?php endforeach ?>

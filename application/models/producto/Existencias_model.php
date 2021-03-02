@@ -3,11 +3,11 @@ class Existencias_model extends CI_Model {
 
     function get_producto_completo($producto_id){
             
-        $query = $this->db->query("select p.id_entidad,p.codigo_barras,p.name_entidad,b.nombre_bodega,s.nombre_sucursal , m.moneda_simbolo , pb.Bodega, pb.Cantidad , pd.Utilidad , pd.presentacion , pd.factor, pd.precio, pd.unidad, pd.cod_barra from producto as p
+        $query = $this->db->query("select p.id_entidad,p.codigo_barras,p.name_entidad,b.nombre_bodega,s.nombre_sucursal , m.moneda_simbolo , pb.Bodega, pb.Cantidad , pd.Utilidad , pd.presentacion , pd.factor, pd.precio, pd.unidad, pd.cod_barra, p.costo from producto as p
                             left join pos_producto_bodega as pb on pb.Producto = p.id_entidad
                             left join pos_bodega as b on b.id_bodega = pb.Bodega
                             left join pos_sucursal as s on s.id_sucursal = b.Sucursal
-                            left join producto_detalle as pd on pd.Producto = p.id_entidad
+                            left join producto_detalle as pd on pd.id_producto_detalle = pb.Presentacion
                             left join pos_empresa as e on e.id_empresa = s.Empresa_Suc
                             left join sys_moneda as m on m.id_moneda = e.Moneda
                             
