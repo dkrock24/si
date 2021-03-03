@@ -105,7 +105,7 @@
 <section>
     <!-- Page content-->
     <div class="content-wrapper">
-        <h3 style="height: 50px; "><i class="icon-arrow-right"></i> <?php echo $fields['titulo']; ?></h3>
+        <h3 style=""><i class="icon-arrow-right"></i> <?php echo $fields['titulo']; ?></h3>
         
         <div class="panel menu_title_bar">
         <?php $this->load->view('notificaciones/success'); ?>

@@ -111,8 +111,8 @@
             <!-- START navbar header-->
             <div class="navbar-header">
                <a href="#/" class="navbar-brand">
-                  <div class="brand-logo">
-                    <h1 style="margin-top: 0px; color: white; font-size:25px;">
+                  <div class="brand-logo" style="padding: 0px 0px !important;">
+                    <h1 style="margin-top: 0px; color: black; font-size:25px;">
                       <?php
                       if(isset($this->session->empresa)){
                         echo $this->session->empresa[0]->nombre_razon_social;
@@ -123,7 +123,7 @@
                      <img src="<?php echo base_url(); ?>../asstes/img/logo.png" alt="App Logo" class="img-responsive"> -->  
                   </div>
                   <div class="brand-logo-collapsed">
-                     <img src="<?php echo base_url(); ?>../asstes/img/logo-single.png" alt="App Logo" class="img-responsive">
+                     <i alt="App Logo" class="img-responsive" style="color:black;font-size:28px;margin-top:15px;">IBS</i>
                   </div>
                </a>
             </div>
