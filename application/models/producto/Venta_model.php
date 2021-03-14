@@ -39,10 +39,9 @@ class Venta_model extends CI_Model {
 		const sys_conf				 = 'sys_conf';		
 		const pos_tipo_documento 	 = 'pos_tipo_documento';
 		const pos_doc_temp			 = 'pos_doc_temp';
-
-		// Ordenes
-
-		
+		const pos_ventas_integracion = 'pos_ventas_integracion';
+		const sys_integrador_config  = 'sys_integrador_config';
+		// Ordenes		
 
 		private $_orden_id;
 
@@ -1518,4 +1517,89 @@ class Venta_model extends CI_Model {
 				return $query->result();
 			}
 		}
+
+		public function ventasIntegracion()
+		{
+			/* obtener ventas que no se han integrado aun */
+			$this->db->select('v.*');
+			$this->db->from(self::pos_ventas.' as v');
+			$this->db->join(self::pos_ventas_integracion.' as i', ' ON v.id = i.id_venta_local', 'left');
+			$this->db->where('i.id_venta_local is null');
+			$query = $this->db->get();
+
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}
+		}
+
+		public function ventasRegistro($ventasIntegradas)
+		{
+			/**
+			 * Aqui se ingresan todas las ventas que fueron procesadas por el endPoint the ordenes a produccion
+			 */
+			$config = $this->config_integrador_empresa();
+			$ventasIds = [];
+
+			foreach ($ventasIntegradas as $key => $value) {
+				$ventasIntegradas[$key]->id_empresa = $config[0]->valor_config;
+				$ventasIntegradas[$key]->creado = date("Y-m-d H:i:s");
+				
+				$this->db->trans_begin();
+				if ($this->db->trans_status() === FALSE) {
+					$this->db->trans_rollback();
+				} else {
+					$ventasIds[] = $ventasIntegradas[$key]->id_venta_local;
+					$this->db->insert(self::pos_ventas_integracion,$value);
+					$this->db->trans_commit();
+				}
+			}
+			return $ventasIds;
+		}
+
+		public function config_integrador_empresa()
+		{
+			$this->db->select('*');
+			$this->db->from(self::sys_integrador_config);
+			$query = $this->db->get();
+
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}
+		}
+
+		public function get_ventas_in($ventaIds)
+		{
+			$this->db->select('*');
+			$this->db->from(self::pos_venta_detalle);
+			$this->db->where_in('id_venta', $ventaIds);
+			$query = $this->db->get();
+
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}
+		}
+
+		public function get_ventas_impuestos($ventaIds)
+		{
+			$this->db->select('*');
+			$this->db->from(self::pos_ventas_impuestos);
+			$this->db->where_in('id_venta', $ventaIds);
+			$query = $this->db->get();
+
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}
+		}
+
+		public function get_ventas_pagos($ventaIds)
+		{
+			$this->db->select('*');
+			$this->db->from(self::pos_venta_pagos);
+			$this->db->where_in('venta_pagos', $ventaIds);
+			$query = $this->db->get();
+
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}
+		}		
     }
