@@ -19,6 +19,7 @@ class Acceso extends CI_Controller {
 
 	public function index()
 	{
+		
 		if(isset($_POST['role']) and isset($_POST['menu'])){
 
 			//$this->Acceso_model->sincronizar_componentes( $_POST['role'],  $_POST['menu']);
@@ -64,7 +65,11 @@ class Acceso extends CI_Controller {
 			}
 
 		}
+		
 
+		//$menus = $this->Acceso_model->getMenu();
+
+		//$data['menus'] = $menus;
 		$data['menu'] 	= $this->session->menu;		
 		$data['title'] 	= "Menu Accesos";	
 		$data['home'] 	= 'admin/acceso/Vacceso.php';

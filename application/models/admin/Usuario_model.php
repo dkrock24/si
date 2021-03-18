@@ -164,13 +164,13 @@ class Usuario_model extends CI_Model {
 
         $this->db->select(' r.*, ur.* , ur.id_rol AS rol ');
         $this->db->from(self::sys_role.' as ur');  
-        $this->db->join(self::usuario_roles.' as r', ' ON r.usuario_rol_role = ur.id_rol', 'left'); 
+        $this->db->join(self::usuario_roles.' as r', ' ON r.usuario_rol_role = ur.id_rol', 'right'); 
         $this->db->where('ur.Empresa',$this->session->empresa[0]->id_empresa);
         $this->db->where('r.usuario_rol_usuario != ', $usuario_id);
-        $this->db->group_by('usuario_rol_role');
+        //$this->db->group_by('usuario_rol_role');
         $query = $this->db->get(); 
-        $this->db->queries[1];
-        
+        //echo $this->db->queries[5];die;
+
         if($query->num_rows() > 0 )
         {
             return $query->result();
@@ -246,6 +246,27 @@ class Usuario_model extends CI_Model {
         }
     }
 
+    function agregar_remover_rol($data)
+    {
+        if ($data['metodo'] == 'agregar') {
+
+            $data = array(
+                'usuario_rol_usuario' => $data['usuario'],
+                'usuario_rol_role' => $data['id_rol'],
+                'usuario_rol_creado' => date("Y-m-d h:i:s"),
+                'usuario_rol_estado' => 1
+            );
+            $this->db->insert(self::usuario_roles, $data ); 
+        }
+
+        if ($data['metodo'] == 'remover') {
+    
+            $this->db->where('usuario_rol_usuario', $data['usuario'] );
+            $this->db->where('usuario_rol_role', $data['id_rol'] );
+            $this->db->delete(self::usuario_roles); 
+            return 1;
+        }
+    }
 
     function validar_usuario( $id_empleado ){
 

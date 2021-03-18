@@ -114,6 +114,38 @@
             }
         }
     });
+
+    // Asignar roles
+    $(document).on('click', '.agregar_rol', function(){
+        var id_rol = $(this).attr("id");
+        var accion = $(this).attr("name");
+        var usuario = $("#id_usuario").val();
+
+        var data = {id_rol : id_rol, usuario:usuario, metodo:accion };
+
+        $.ajax({
+            url: "../agregar_remover_rol/",
+            datatype: 'json',
+            type : 'GET',
+            data : data,
+            cache : false,                
+
+            success: function(data){
+                /*if (accion == "agregar") {
+                    $(".notificacion_texto").text("Rol agregado.");
+                } else {
+                    $(".notificacion_texto").text("Rol eliminado.");
+                }
+                $('#error').modal('show');   
+                */
+               location.reload();
+            },
+            error:function(){
+            }
+        });
+    });
+
+    
 </script>
 <!-- Main section-->
 <style type="text/css">
@@ -143,7 +175,7 @@
                     <div class="panel-heading">                                   
                                 </div>
                         
-                        <input type="hidden" value="<?php echo $usuario[0]->id_usuario; ?>" name="id_usuario">
+                        <input type="hidden" value="<?php echo $usuario[0]->id_usuario; ?>" name="id_usuario" id="id_usuario">
                         <div class="row">
 
                             <div class="col-lg-4">
@@ -280,71 +312,31 @@
 
                             <div class="col-lg-4">
                                 <i class="fa fa-info-circle"></i> Vincular Roles al Usuario.
-                                <br><br>
-
-                                <table class="table table-striped table-hover" style="height:400px;width:100%;overflow-y: scroll ;display:inline-block;">
-                                    
-                                    <thead style="width: 100%;   display: inline-grid;">
-                                        <tr>
-                                            <th scope="row">N°</th>                      
-                                            <th scope="row">Nombre Roles</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody style="width: 100%;   display: inline-grid;">
+                                <br><br> <b> <h4> Lista Roles </h4> <b>
+                                <?php
+                                foreach ($roles as $key => $rol) {
+                                    ?>
+                                    <label class="btn btn-info label-lg agregar_rol" style="margin-top:2px;" name="agregar" id="<?php echo $rol->id_rol; ?>">
+                                        <?php echo $rol->role; ?>
+                                    </label>
                                     <?php
-                                    $cont =1;
-                                    
-                                    foreach ($usuario_roles as $ur) {   
-                                        
-                                        if($ur->usuario_rol_usuario == $usuario[0]->id_usuario ){
-                                        ?>
-                                            <tr style="width: 100%; ">
-                                            <?php                                                
-                                                $check ="";
-                                                if($ur->usuario_rol_role){
-                                                    $check = "checked";
-                                                }
-                                                ?>
-                                                <td><?= $cont; ?></td>
-                                                <td>
-                                                    <input type="checkbox" <?php echo $check ?> value="<?php echo $ur->rol ?>" name="<?php echo $ur->rol ?>">
-                                                    <label><?php echo $ur->role; ?></label>
-                                                    <br>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                        }
-                                        $cont ++;
-                                    }
-                                    $cont =1;
-                                    foreach ($usuario_roles2 as $ur) {   
-                                        if($ur->usuario_rol_usuario != $usuario[0]->id_usuario )
-                                        {
-                                            ?>
-                                            <tr style="width: 100%; ">
-                                            
-                                            <?php                                        
-                                                //$cont ++;
-                                                $check ="";
-                                                ?>
-                                                <td><?= $cont; ?></td>
-                                                <td>
-                                                    <input type="checkbox" <?php echo $check ?> value="<?php echo $ur->rol ?>" name="<?php echo $ur->rol ?>">
-                                                    <label><?php echo $ur->role; ?></label>
-                                                    <br>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                        }
-                                        $cont ++;
-                                        
-                                    }
-                                     
+                                }
                                 ?>
-                                    </tbody>
-                                   
-                                </table>
+
+                                <br><br> <b> <h4>Roles Asignados</h4> </b>
+                                
+                                <?php
+                                $cont =1;                                
+                                foreach ($usuario_roles as $ur) {   
+                                    ?>
+                                    <label class="btn btn-success label-lg agregar_rol" style="margin-top:2px;" name="remover" id="<?php echo $ur->id_rol; ?>">
+                                        <?php echo $ur->role; ?>
+                                    </label>
+                                    
+                                    <?php
+                                    $cont ++;
+                                }
+                                ?>
                             </div>
                         </div>
 

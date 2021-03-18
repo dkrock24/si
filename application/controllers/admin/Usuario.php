@@ -118,6 +118,13 @@ class Usuario extends MY_Controller {
 		$this->parser->parse('template', $data);
 	}
 
+	public function agregar_remover_rol()
+	{
+		if (isset($_GET)) {
+			return $result = $this->Usuario_model->agregar_remover_rol( $_GET );
+		}
+	}
+
 	public function update(){
 		if(isset($_POST)){
 			$data = $this->Usuario_model->update( $_POST );

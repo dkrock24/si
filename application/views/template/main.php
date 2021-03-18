@@ -94,6 +94,10 @@
 .btn-info{
     background:#68af93
 }      
+
+.img-thumbnail{
+   height:none !important;
+}
     </style>
 
   </head>
@@ -115,7 +119,7 @@
                     <h1 style="margin-top: 0px; color: black; font-size:25px;">
                       <?php
                       if(isset($this->session->empresa)){
-                        echo $this->session->empresa[0]->nombre_razon_social;
+                        echo $this->session->empresa[0]->nombre_comercial;
                       }
                       ?>
                     </h1>
