@@ -4,33 +4,55 @@
    <div class="content-wrapper">
       <h3 style="height: 50px; ">Administrar Roles </h3>
 
-      <!-- START table-responsive-->
       <div class="row">
          <div class="col-lg-4">
-            <!-- START panel-->
             <div id="panelDemo10" class="panel panel-info menu_title_bar">
                <div class="panel-heading">Acceso Menu Roles</div>
                <div class="panel-body">
                   <p>
                      <form action="index" method="post">
                         <select class="form-control" name="role">
-                           <option value="0"> Seleciona Role</option>
                            <?php
+                           if (isset($this->session->r)) {
+                              foreach ($roles as $role) {
+                                 if ($role->id_rol == $this->session->r) {
+                                    ?>
+                                    <option value="<?php echo $role->id_rol; ?>"><?php echo $role->role; ?></option>
+                                    <?php
+                                 }
+                              }
+                           } 
                            foreach ($roles as $role) {
-                              ?>
-                              <option value="<?php echo $role->id_rol; ?>"><?php echo $role->role; ?></option>
-                           <?php
+                              if ($role->id_rol != $this->session->r) {
+                                 ?>
+                                 <option value="<?php echo $role->id_rol; ?>"><?php echo $role->role; ?></option>
+                                 <?php
+                              }
                            }
                            ?>
                         </select><br>
 
                         <select class="form-control" name="menu">
-                           <option value="0"> Seleciona Menu</option>
                            <?php
+                           if (isset($this->session->m)) {
+                              foreach ($menus as $menu) {
+                                 if ($menu->id_menu == $this->session->m) {
+                                 ?>
+                                 <option value="<?php echo $menu->id_menu; ?>"><?php echo $menu->nombre_menu; ?></option>
+                                 <?php
+                                 }
+                              }
+                           }
+                           if (!isset($this->session->m)) {
+                              $cero = 0;
+                           }
+
                            foreach ($menus as $menu) {
+                              if ($role->id_menu == $cero) {
                               ?>
                               <option value="<?php echo $menu->id_menu; ?>"><?php echo $menu->nombre_menu; ?></option>
-                           <?php
+                              <?php
+                              }
                            }
                            ?>
                         </select>
@@ -41,8 +63,6 @@
                </div>
                <div class="panel-footer">Administrar Menus Por Rol</div>
             </div>
-            <!-- END panel-->
-
 
             <label>Roles / Accesos </label>
             <br>
@@ -52,372 +72,327 @@
          <!-- Permitir Accesos al usuarios a menus visibles -->
          <div class="col-lg-8">
             <div id="panelDemo10" class="panel panel-info menu_title_bar">
-               <div class="panel-heading panel-heading-collapsed">Accesos Menus
-                  <a href="#" data-tool="panel-dismiss" data-toggle="tooltip" title="Close Panel" class="pull-right">
-                     <em class="fa fa-times"></em>
-                  </a>
+               <div class="panel-heading panel-heading-collapsed"><h4>Menus Principales</h4>
                   <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right">
                      <em class="fa fa-plus"></em>
                   </a>
                </div>
                <div class="panel-wrapper collapse">
-
-                  <div class="panel-body">
-                     <?php if (isset($accesos)) { ?>
-                        <!-- Main section-->
-                        <section>
-
-
-                           <!-- START panel-->
-                           <div class="panel ">
-                              <div class="panel-heading">Actualizar [Permiso : <span style="color:green"><?php echo $accesos[0]->role; ?></span> ] [ Menu : <span style="color: red"><?php echo $accesos[0]->nombre_menu; ?> </span> ]</div>
-                              <!-- START table-responsive-->
-                              <form action="acceso_guardar" method="post">
-                                 <div class="">
-                                    <table id="table-ext-1" class="table table-bordered table-hover">
-                                       <thead>
-                                          <tr>
-                                             <th>ID</th>
-                                             <th>Nombre Menu</th>
-                                             <th>Estado</th>
-                                             <th data-check-all>
-                                                <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
-                                                   <label>
-                                                      <input type="checkbox">
-                                                      <span class="fa fa-check"></span>
-                                                   </label>
-                                                </div>
-                                             </th>
-                                          </tr>
-                                       </thead>
-                                       <tbody>
-
-                                          <?php
-                                             $contador = 1;
-                                             foreach ($accesos as $value) {
-                                                ?>
-                                             <tr>
-                                                <td><?php echo $contador; ?></td>
-                                                <td class="" width="50%">
-                                                   <div class="">
-                                                      <?php echo $value->nombre_submenu; ?>
-                                                   </div>
-                                                </td>
-
-                                                <td class="text-center">
-                                                   <?php
-                                                         if ($value->estado_menu == 1) {
-                                                            ?>
-                                                      <div class="label label-success">Activo</div>
-                                                   <?php
-                                                         } else {
-                                                            ?><div class="label label-warning">Inactivo</div><?php
-                                                                                                                              }
-                                                                                                                              ?>
-
-                                                </td>
-
-                                                <td>
-                                                   <div class="checkbox c-checkbox">
-                                                      <label>
-                                                         <?php
-                                                               $check = "";
-                                                               if ($value->submenu_acceso_estado == 1) {
-                                                                  $check = "checked";
-                                                               } else {
-                                                                  $check = "unchecked";
-                                                               }
-
-                                                               ?>
-                                                         <input type="checkbox" <?php echo $check; ?> name="<?php echo $value->id_submenu_acceso; ?>">
-                                                         <span class="fa fa-check"></span>
-                                                      </label>
-                                                   </div>
-                                                </td>
-                                             </tr>
-                                          <?php
-                                                $contador += 1;
-                                             }
-                                             ?>
-
-
-                                       </tbody>
-                                    </table>
-                                 </div>
-                                 <!-- END table-responsive-->
-                                 <div class="panel-footer">
-                                    <div class="row">
-
-                                       <div class="col-lg-10"></div>
-                                       <div class="col-lg-2">
-                                          <span class=" pull-right">
-                                             <input type="hidden" name="id_role" value="<?php echo $accesos[0]->id_rol; ?>">
-                                             <input type="hidden" name="id_menu" value="<?php echo $accesos[0]->id_menu; ?>">
-                                             <button class="btn btn-sm btn-info">Guardar</button>
-                                          </span>
+                  <?php if (isset($accesos)) { ?>
+                     <form action="acceso_guardar" method="post">
+                        <div class="">
+                           <table id="table-ext-1" class="table table-bordered table-hover">
+                              <thead>
+                                 <tr style="background:#e3f3f6;">
+                                    <th>ID</th>
+                                    <th>SubMenu Principal</th>
+                                    <th>Estado</th>
+                                    <th data-check-all>
+                                       <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
+                                          <label>
+                                             <input type="checkbox">
+                                             <span class="fa fa-check"></span>
+                                          </label>
                                        </div>
-                                    </div>
-                                 </div>
-                              </form>
-                           </div>
-                           <!-- END panel-->
+                                    </th>
+                                 </tr>
+                              </thead>
+                              <tbody>
 
-                        </section>
-                     <?php } ?>
-                  </div>
+                                 <?php
+                                    $contador = 1;
+                                    foreach ($accesos as $value) {
+                                       ?>
+                                    <tr>
+                                       <td><?php echo $contador; ?></td>
+                                       <td class="" width="50%">
+                                          <div class="">
+                                             <?php echo $value->nombre_submenu; ?>
+                                          </div>
+                                       </td>
+
+                                       <td class="text-center">
+                                          <?php
+                                          if ($value->submenu_acceso_estado == 1) {
+                                          ?>
+                                             <div class="label label-success">Activo</div>
+                                          <?php
+                                          } else {
+                                          ?>
+                                             <div class="label label-warning">Inactivo</div>
+                                          <?php
+                                          }
+                                          ?>
+
+                                       </td>
+
+                                       <td>
+                                          <div class="checkbox c-checkbox">
+                                             <label>
+                                                <?php
+                                                      $check = "";
+                                                      if ($value->submenu_acceso_estado == 1) {
+                                                         $check = "checked";
+                                                      } else {
+                                                         $check = "unchecked";
+                                                      }
+
+                                                      ?>
+                                                <input type="checkbox" <?php echo $check; ?> name="<?php echo $value->id_submenu_acceso; ?>">
+                                                <span class="fa fa-check"></span>
+                                             </label>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                 <?php
+                                       $contador += 1;
+                                    }
+                                    ?>
+
+
+                              </tbody>
+                           </table>
+                        </div>
+                        <!-- END table-responsive-->
+                        <div class="panel-footer">
+                           <div class="row">
+
+                              <div class="col-lg-10"></div>
+                              <div class="col-lg-2">
+                                 <span class=" pull-right">
+                                    <input type="hidden" name="id_role" value="<?php echo $accesos[0]->id_rol; ?>">
+                                    <input type="hidden" name="id_menu" value="<?php echo $accesos[0]->id_menu; ?>">
+                                    <button class="btn btn-sm btn-info">Guardar</button>
+                                 </span>
+                              </div>
+                           </div>
+                        </div>
+                     </form>
+                  <?php } ?>
                </div>
             </div>
 
             <div id="panelDemo10" class="panel panel-info">
-               <div class="panel-heading panel-heading-collapsed">Accesos Menus Internos
-                  <a href="#" data-tool="panel-dismiss" data-toggle="tooltip" title="Close Panel" class="pull-right">
-                     <em class="fa fa-times"></em>
-                  </a>
+               <div class="panel-heading panel-heading-collapsed"><h4>Menus Internos</h4>
                   <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right">
                      <em class="fa fa-plus"></em>
                   </a>
                </div>
                <div class="panel-wrapper collapse">
 
-                  <div class="panel-body">
                      <?php if (isset($accesos_menus_internos)) { ?>
-                        <!-- Main section-->
-                        <section>
-                           <!-- START panel-->
-                           <div class="panel ">
-                              <div class="panel-heading">Actualizar [Permiso : <span style="color: green"> <?php echo $accesos_menus_internos[0]->role; ?> </span>] [ Menu : <span style="color:red"><?php echo $accesos_menus_internos[0]->nombre_menu; ?> </span>]</div>
-                              <!-- START table-responsive-->
-                              <form action="accesos_menus_internos" method="post">
-                                 <div class="">
-                                    <table id="table-ext-1" class="table table-bordered table-hover">
-                                       <thead>
-                                          <tr>
-                                             <th>ID</th>
-                                             <th>Nombre Menu</th>
-                                             <th>Estado</th>
-                                             <th data-check-all>
-                                                <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
-                                                   <label>
-                                                      <input type="checkbox">
-                                                      <span class="fa fa-check"></span>
-                                                   </label>
-                                                </div>
-                                             </th>
-                                          </tr>
-                                       </thead>
-                                       <tbody>
+                        <form action="accesos_menus_internos" method="post">
+                           <div class="">
+                              <table id="table-ext-1" class="table table-bordered table-hover">
+                                 <thead>
+                                    <tr style="background:#e3f3f6;">
+                                       <th>ID</th>
+                                       <th>Nombre Menu</th>
+                                       <th>Estado</th>
+                                       <th data-check-all>
+                                          <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
+                                             <label>
+                                                <input type="checkbox">
+                                                <span class="fa fa-check"></span>
+                                             </label>
+                                          </div>
+                                       </th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
 
-                                          <?php
-                                             $contador = 1;
-                                             foreach ($accesos_menus_internos as $value) {
-                                                ?>
-                                             <tr>
-                                                <td><?php echo $contador; ?></td>
-                                                <td class="" width="50%">
-                                                   <div class="">
-                                                      <?php echo $value->nombre_submenu; ?>
-                                                   </div>
-                                                </td>
+                                    <?php
+                                       $contador = 1;
+                                       foreach ($accesos_menus_internos as $value) {
+                                          ?>
+                                       <tr>
+                                          <td><?php echo $contador; ?></td>
+                                          <td class="" width="50%">
+                                             <div class="">
+                                                <?php echo $value->nombre_submenu; ?>
+                                             </div>
+                                          </td>
 
-                                                <td class="text-center">
+                                          <td class="text-center">
+                                             <?php
+                                                   if ($value->estado_menu == 1) {
+                                                      ?>
+                                                <div class="label label-success">Activo</div>
+                                             <?php
+                                                   } else {
+                                                      ?><div class="label label-warning">Inactivo</div><?php
+                                                                                                                     }
+                                                                                                                     ?>
+
+                                          </td>
+
+                                          <td>
+                                             <div class="checkbox c-checkbox">
+                                                <label>
                                                    <?php
-                                                         if ($value->estado_menu == 1) {
-                                                            ?>
-                                                      <div class="label label-success">Activo</div>
-                                                   <?php
+                                                         $check = "";
+                                                         if ($value->submenu_acceso_estado == 1) {
+                                                            $check = "checked";
                                                          } else {
-                                                            ?><div class="label label-warning">Inactivo</div><?php
-                                                                                                                           }
-                                                                                                                           ?>
+                                                            $check = "unchecked";
+                                                         }
 
-                                                </td>
+                                                         ?>
+                                                   <input type="checkbox" <?php echo $check; ?> name="<?php echo $value->id_submenu_acceso; ?>">
+                                                   <span class="fa fa-check"></span>
+                                                </label>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    <?php
+                                          $contador += 1;
+                                       }
+                                       ?>
 
-                                                <td>
-                                                   <div class="checkbox c-checkbox">
-                                                      <label>
-                                                         <?php
-                                                               $check = "";
-                                                               if ($value->submenu_acceso_estado == 1) {
-                                                                  $check = "checked";
-                                                               } else {
-                                                                  $check = "unchecked";
-                                                               }
-
-                                                               ?>
-                                                         <input type="checkbox" <?php echo $check; ?> name="<?php echo $value->id_submenu_acceso; ?>">
-                                                         <span class="fa fa-check"></span>
-                                                      </label>
-                                                   </div>
-                                                </td>
-                                             </tr>
-                                          <?php
-                                                $contador += 1;
-                                             }
-                                             ?>
-
-                                       </tbody>
-                                    </table>
-                                 </div>
-                                 <!-- END table-responsive-->
-                                 <div class="panel-footer">
-                                    <div class="row">
-
-                                       <div class="col-lg-10"></div>
-                                       <div class="col-lg-2">
-                                          <span class=" pull-right">
-                                             <input type="hidden" name="id_role" value="<?php echo $accesos_menus_internos[0]->id_rol; ?>">
-                                             <input type="hidden" name="id_menu" value="<?php echo $accesos_menus_internos[0]->id_menu; ?>">
-                                             <button class="btn btn-sm btn-info">Guardar</button>
-                                          </span>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </form>
+                                 </tbody>
+                              </table>
                            </div>
-                           <!-- END panel-->
-                        </section>
+                           <!-- END table-responsive-->
+                           <div class="panel-footer">
+                              <div class="row">
+
+                                 <div class="col-lg-10"></div>
+                                 <div class="col-lg-2">
+                                    <span class=" pull-right">
+                                       <input type="hidden" name="id_role" value="<?php echo $accesos_menus_internos[0]->id_rol; ?>">
+                                       <input type="hidden" name="id_menu" value="<?php echo $accesos_menus_internos[0]->id_menu; ?>">
+                                       <button class="btn btn-sm btn-info">Guardar</button>
+                                    </span>
+                                 </div>
+                              </div>
+                           </div>
+                        </form>
                      <?php
                      } else {
                         echo "No Existen Datos";
                      }
                      ?>
-                  </div>
                </div>
             </div>
 
             <div id="panelDemo10" class="panel panel-info">
-               <div class="panel-heading panel-heading-collapsed">Permisos Vistas Componentes
-                  <a href="#" data-tool="panel-dismiss" data-toggle="tooltip" title="Close Panel" class="pull-right">
-                     <em class="fa fa-times"></em>
-                  </a>
+               <div class="panel-heading panel-heading-collapsed"><h4>Menu Componentes Vista</h4>
                   <a href="#" data-tool="panel-collapse" data-toggle="tooltip" title="Collapse Panel" class="pull-right">
                      <em class="fa fa-plus"></em>
                   </a>
                </div>
                <div class="panel-wrapper collapse">
-
-                  <div class="panel-body">
-                     <?php if (isset($vista_componentes)) { ?>
-                        <!-- Main section-->
-                        <section>
-                           <!-- START panel-->
-                           <div class="panel">
-                              <div class="panel-heading">Actualizar Permiso : [ <?php echo $vista_componentes[0]->id_role; ?> ] Menu : [ <?php echo $vista_componentes[0]->nombre_menu; ?> ]</div>
-                              <!-- START table-responsive-->
-                              <form action="accesos_componenes" method="post">
-                                 <div class="">
-                                    <table id="table-ext-1" class="table table-bordered table-hover">
-                                       <thead>
-                                          <tr>
-                                             <th>ID</th>
-                                             <th>Menu</th>
-                                             <th>Vista</th>
-                                             <th>Componente</th>
-                                             <th>Permiso En</th>
-                                             <th>Estado</th>
-                                             <th data-check-all>
-                                                <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
-                                                   <label>
-                                                      <input type="checkbox">
-                                                      <span class="fa fa-check"></span>
-                                                   </label>
-                                                </div>
-                                             </th>
-                                          </tr>
-                                       </thead>
-                                       <tbody>
-
-                                          <?php
-                                             $contador = 1;
-                                             foreach ($vista_componentes as $value) {
-                                                ?>
-                                             <tr>
-                                                <td><?php echo $contador; ?></td>
-                                                <td class="" width="">
-                                                   <div class="">
-                                                      <?php echo $value->nombre_menu; ?>
-                                                   </div>
-                                                </td>
-                                                <td class="" width="">
-                                                   <div class="">
-                                                      <?php echo $value->vista_nombre; ?>
-                                                   </div>
-                                                </td>
-                                                <td class="" width="">
-                                                   <div class="">
-                                                      <?php echo $value->accion_nombre; ?>
-                                                   </div>
-                                                </td>
-                                                <td class="" width="">
-                                                   <div class="">
-                                                      <?php echo $value->accion_nombre; ?>
-                                                   </div>
-                                                </td>
-
-                                                <td class="text-center">
-                                                   <?php
-                                                         if ($value->vista_acceso_estado == 1) {
-                                                            ?>
-                                                      <div class="label label-success">Activo</div>
-                                                   <?php
-                                                         } else {
-                                                            ?><div class="label label-warning">Inactivo</div><?php
-                                                                                                                           }
-                                                                                                                           ?>
-
-                                                </td>
-
-                                                <td>
-                                                   <div class="checkbox c-checkbox">
-                                                      <label>
-                                                         <?php
-                                                               $check = "";
-                                                               if ($value->vista_acceso_estado == 1) {
-                                                                  $check = "checked";
-                                                               } else {
-                                                                  $check = "unchecked";
-                                                               }
-
-                                                               ?>
-
-                                                         <input type="checkbox" <?php echo $check; ?> name="<?php echo $value->id_vista_acceso; ?>">
-                                                         <span class="fa fa-check"></span>
-                                                      </label>
-                                                   </div>
-                                                </td>
-                                             </tr>
-                                          <?php
-                                                $contador += 1;
-                                             }
-                                             ?>
-
-                                       </tbody>
-                                    </table>
-                                 </div>
-                                 <!-- END table-responsive-->
-                                 <div class="panel-footer">
-                                    <div class="row">
-
-                                       <div class="col-lg-10"></div>
-                                       <div class="col-lg-2">
-                                          <span class=" pull-right">
-                                             <input type="hidden" name="id_role" value="<?php echo $r; ?>">
-                                             <input type="hidden" name="id_menu" value="<?php echo $m; ?>">
-                                             <button class="btn btn-sm btn-info">Guardar</button>
-                                          </span>
+                  <?php if (isset($vista_componentes)) { ?>
+                     <form action="accesos_componenes" method="post">
+                        <div class="">
+                           <table id="table-ext-1" class="table table-bordered table-hover">
+                              <thead>
+                                 <tr style="background:#e3f3f6;">
+                                    <th>ID</th>
+                                    <th>Menu</th>
+                                    <th>Vista</th>
+                                    <th>Componente</th>
+                                    <th>Permiso En</th>
+                                    <th>Estado</th>
+                                    <th data-check-all>
+                                       <div data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">
+                                          <label>
+                                             <input type="checkbox">
+                                             <span class="fa fa-check"></span>
+                                          </label>
                                        </div>
-                                    </div>
-                                 </div>
-                              </form>
+                                    </th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+
+                                 <?php
+                                    $contador = 1;
+                                    foreach ($vista_componentes as $value) {
+                                       ?>
+                                    <tr>
+                                       <td><?php echo $contador; ?></td>
+                                       <td class="" width="">
+                                          <div class="">
+                                             <?php echo $value->nombre_menu; ?>
+                                          </div>
+                                       </td>
+                                       <td class="" width="">
+                                          <div class="">
+                                             <?php echo $value->vista_nombre; ?>
+                                          </div>
+                                       </td>
+                                       <td class="" width="">
+                                          <div class="">
+                                             <?php echo $value->accion_nombre; ?>
+                                          </div>
+                                       </td>
+                                       <td class="" width="">
+                                          <div class="">
+                                             <?php echo $value->accion_nombre; ?>
+                                          </div>
+                                       </td>
+
+                                       <td class="text-center">
+                                          <?php
+                                                if ($value->vista_acceso_estado == 1) {
+                                                   ?>
+                                             <div class="label label-success">Activo</div>
+                                          <?php
+                                                } else {
+                                                   ?><div class="label label-warning">Inactivo</div><?php
+                                                                                                                  }
+                                                                                                                  ?>
+
+                                       </td>
+
+                                       <td>
+                                          <div class="checkbox c-checkbox">
+                                             <label>
+                                                <?php
+                                                      $check = "";
+                                                      if ($value->vista_acceso_estado == 1) {
+                                                         $check = "checked";
+                                                      } else {
+                                                         $check = "unchecked";
+                                                      }
+
+                                                      ?>
+
+                                                <input type="checkbox" <?php echo $check; ?> name="<?php echo $value->id_vista_acceso; ?>">
+                                                <span class="fa fa-check"></span>
+                                             </label>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                 <?php
+                                       $contador += 1;
+                                    }
+                                    ?>
+
+                              </tbody>
+                           </table>
+                        </div>
+                        <!-- END table-responsive-->
+                        <div class="panel-footer">
+                           <div class="row">
+
+                              <div class="col-lg-10"></div>
+                              <div class="col-lg-2">
+                                 <span class=" pull-right">
+                                    <input type="hidden" name="id_role" value="<?php echo $r; ?>">
+                                    <input type="hidden" name="id_menu" value="<?php echo $m; ?>">
+                                    <button class="btn btn-sm btn-info">Guardar</button>
+                                 </span>
+                              </div>
                            </div>
-                           <!-- END panel-->
-                        </section>
-                     <?php
-                     } else {
-                        echo "No Existen Datos";
-                     }
-                     ?>
-                  </div>
+                        </div>
+                     </form>
+                  <?php
+                  } else {
+                     echo "No Existen Datos";
+                  }
+                  ?>                  
                </div>
             </div>
 

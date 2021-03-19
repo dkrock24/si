@@ -42,7 +42,7 @@ class Orden extends MY_Controller {
 	{
 		$model 		= "Orden_model";
 		$url_page 	= "producto/orden/index";
-		$pag 		= $this->MyPagination($model, $url_page, $vista = 26) ;
+		$pag 		= $this->MyPagination($model, $url_page, $vista = 8) ;
 
 		$data['menu'] 			= $this->session->menu;
 		$data['links'] 			= $pag['links'];

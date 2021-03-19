@@ -5,10 +5,10 @@ class Accion_model extends CI_Model {
 	|  Este modelo contiene toda la logica de acciones para cada pantalla
 	|*/
 
-	const vistas =  'sys_vistas';
-    const sys_vistas_componentes = 'sys_vistas_componentes';
+	const vistas = 'sys_vistas';
     const vista_acceso = 'sys_vistas_acceso';
-	const sys_componentes =  'sys_componentes';    
+	const sys_componentes = 'sys_componentes';    
+    const sys_vistas_componentes = 'sys_vistas_componentes';
 
 	function get_vistas_acciones( $vista_id , $role_id ){    
         
@@ -26,7 +26,7 @@ class Accion_model extends CI_Model {
 
         $this->db->order_by('vc.order','asc');
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];     
+        //echo $this->db->queries[8];die;
         
         if($query->num_rows() > 0 )
         {

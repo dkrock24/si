@@ -253,9 +253,7 @@ class Acceso_model extends CI_Model
     // Acceso a componntes
     public function accesos_componenes($datos)
     {
-
         $accesos_rol = $this->get_vista_componentes($datos['id_role'], $datos['id_menu']);
-
 
         if ($accesos_rol) {
             foreach ($accesos_rol as $ac) {
