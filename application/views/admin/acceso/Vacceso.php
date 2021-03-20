@@ -215,14 +215,12 @@
 
                                           <td class="text-center">
                                              <?php
-                                                   if ($value->estado_menu == 1) {
+                                                   if ($value->submenu_acceso_estado == 1) {
                                                       ?>
                                                 <div class="label label-success">Activo</div>
                                              <?php
                                                    } else {
-                                                      ?><div class="label label-warning">Inactivo</div><?php
-                                                                                                                     }
-                                                                                                                     ?>
+                                                      ?><div class="label label-warning">Inactivo</div><?php } ?>
 
                                           </td>
 
