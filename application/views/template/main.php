@@ -2,7 +2,7 @@
 <html lang="en">
 <html>
   <head>
-    
+
     <!-- Font Icons CSS-->
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/fontawesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/simple-line-icons/css/simple-line-icons.css">
@@ -39,13 +39,78 @@
       });
 
       function loading(){
-          
-          HoldOn.close();
-        }      
+         HoldOn.close();
+      }
+
+      /**
+       * MENUS
+       */
+      $(document).on("click", ".holdOn_plugin", function() {
+         var url_pagina = $(this).attr('name');
+         document.cookie = "url = "+url_pagina;
+
+         $.ajax({
+            type: "post",
+            url: "<?php echo base_url(); ?>"+url_pagina,
+            success: function(result) {
+               $(".loadViews").html(result);
+            }
+         });
+    });
+
+    /**
+     * FORMULARIOS
+     */
+    $(document).on("click", ".enviar_data", function() {
+         var url_pagina = $(this).attr('name');
+
+         $.ajax({
+            type: "post",
+            data:  $('#' + $(this).attr('data') ).serialize(),
+            url: url_pagina,
+            success: function(result) {
+               $(".loadViews").html(result);
+            }
+         });
+    });
+
+    /**
+     * PAGINACION 
+     */
+   $(document).on("click", ".link_paginacion", function() {
+      var url_pagina = $(this).attr('name');
+      $.ajax({
+         type: "post",
+         url: url_pagina,
+         success: function(result) {
+            $(".loadViews").html(result);
+         }
+      });
+   });
+
+   function getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+      for(var i = 0; i <ca.length; i++) {
+         var c = ca[i];
+         while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+         }
+         if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+         }
+      }
+      return "";
+   }
       
     </script>
 
     <style type="text/css">
+
+    .link_paginacion{
+      cursor:pointer;
+    }
       .menuTop{
         background: none; color: black;
         font-family:Arial, Helvetica, sans-serif;
@@ -350,17 +415,17 @@
                                     {
                                 ?>
                                     
-                                    <li class="holdOn_plugin">
+                                    <li class="holdOn_plugin" name="<?php echo $submenu->url_submenu; ?>">
                                       <?php
                                       if($submenu->nueva_pagina ==1){
                                         ?>
-                                        <a href="<?php echo base_url(). $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>" target="_blank">
+                                        <a name="<?php echo $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>" target="_blank">
                                           <span><?php echo $submenu->nombre_submenu; ?></span>
                                        </a>
                                         <?php
                                       }else{
                                         ?>
-                                        <a href="<?php echo base_url(). $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>">
+                                        <a name="<?php echo $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>">
                                           <span><?php echo $submenu->nombre_submenu; ?></span>
                                        </a>
                                         <?php
@@ -818,4 +883,6 @@
          </nav>
          <!-- END Off Sidebar (right)-->
       </aside>
-      
+
+<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+<section class="loadViews"></<section>

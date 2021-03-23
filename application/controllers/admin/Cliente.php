@@ -39,7 +39,7 @@ class Cliente extends MY_Controller {
 		$url_page 	= "admin/cliente/index";
 		$pag 		= $this->MyPagination($model, $url_page , $vista = 21);
 
-		$data['menu'] 			= $this->session->menu;
+		//var_dump($_POST);
 		$data['links'] 			= $pag['links'];
 		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
@@ -51,11 +51,12 @@ class Cliente extends MY_Controller {
 		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
 		$data['registros'] 		= $this->Cliente_model->getAllClientes( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
 		$data['title'] 			= "Clientes";
-		$data['home'] 			= 'template/lista_template';
+		//$data['home'] 			= 'template/lista_template';
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
-
-		$this->parser->parse('template', $data);
+		//$this->parser->parse('template', $data);
+		$data = $this->load->view('template/lista_template',$data, TRUE);
+		echo $data;
 	}
 
 	public function nuevo(){

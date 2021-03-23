@@ -20,7 +20,10 @@ class Param extends CI_Controller {
 		$data['total'] 	= $this->Param_model->record_count();
 		$data['title'] 	= "Parametros";
 		$data['home'] 	= 'admin/param/vParam';
-		$this->parser->parse('template', $data);
+		//$this->parser->parse('template', $data);
+		$data = $this->load->view('admin/param/vParam',$data, TRUE);
+		echo $data;
+		
 	}
 
 	public function save_params(){

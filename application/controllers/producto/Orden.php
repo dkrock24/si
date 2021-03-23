@@ -61,7 +61,9 @@ class Orden extends MY_Controller {
 		$_SESSION['Vista']  	= $data['title'];
 		//var_dump($data['filtros']);die;
 
-		$this->parser->parse('template', $data);
+		//$this->parser->parse('template', $data);
+		$data = $this->load->view('template/lista_template',$data, TRUE);
+		echo $data;
 	}
 
 	public function get_correlativo_by_sucursal($sucursal_id){
@@ -96,14 +98,16 @@ class Orden extends MY_Controller {
 			$data['title'] 			= "Nueva Orden";
 			$data['home'] 			= 'producto/orden/orden_crear';
 
-			$this->parser->parse('template', $data);
+			$data = $this->load->view('producto/orden/orden_crear',$data, TRUE);
+			echo $data;
 		}else{
 			$data['home'] = 'producto/orden/orden_denegado';
 			$data['terminal'] = "Usuario Inactivo";
 			if($terminal_acceso != false) {
 				$data['terminal'] = "Usuario no registrado !";
 			}
-			$this->parser->parse('template', $data);
+			$data = $this->load->view('producto/orden/orden_denegado',$data, TRUE);
+			echo $data;
 		}
 	}
 

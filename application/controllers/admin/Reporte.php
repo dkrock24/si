@@ -3,22 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Reporte extends My_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
 	public function __construct()
 	{
 		parent::__construct();    
@@ -90,7 +74,8 @@ class Reporte extends My_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$this->parser->parse('template', $data);
+		$data = $this->load->view('admin/reporte/index',$data, TRUE);
+		echo $data;
 	}
 
 	public function change_caja($sucursal){
@@ -139,7 +124,8 @@ class Reporte extends My_Controller {
 		$_SESSION['Vista']     = $data['title'];
 		$_SESSION['registros'] = $data['registros'];
 
-		$this->parser->parse('template', $data);
+		$data = $this->load->view('admin/reporte/concentrado',$data, TRUE);
+		echo $data;
 	}
 	
 	public function cortez(){
@@ -225,7 +211,8 @@ class Reporte extends My_Controller {
 		$data['moneda'] = $this->session->empresa[0]->moneda_simbolo;
 		$data['title'] 	= 'Reportes';
 		$data['home'] 	= 'admin/reporte/cortez';
-		$this->parser->parse('template', $data);
+		$data = $this->load->view('admin/reporte/cortez',$data, TRUE);
+		echo $data;
 	}
 
 	public function export(){

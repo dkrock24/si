@@ -57,7 +57,8 @@ class Vistas extends MY_Controller
 		$data['title'] 			= "Vistas";
 		$data['home'] 			= 'template/lista_template';
 
-		$this->parser->parse('template', $data);
+		$data = $this->load->view('template/lista_template',$data, TRUE);
+		echo $data;
 	}
 
 	public function nuevo()

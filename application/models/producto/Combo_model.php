@@ -7,12 +7,12 @@ class Combo_model extends CI_Model {
 
     function getAllCombo( $limit, $id  ){
 
-        $this->db->select(' *, (select sum(cc.cantidad) from pos_combo as cc where cc.Producto_Combo = p.id_entidad) as total');
+        $this->db->select(' c.*,p.*, (select sum(cc.cantidad) from pos_combo as cc where cc.Producto_Combo = p.id_entidad) as total');
         $this->db->from(self::pos_combo.' as c');
         $this->db->join(self::producto.' as p', ' on c.Producto_Combo= p.id_entidad');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa );
 
-        $this->db->group_by('c.Producto_Combo');
+        //$this->db->group_by('c.id_entidad');
         $this->db->limit($limit, $id);
         $query = $this->db->get();
         //echo $this->db->queries[3];

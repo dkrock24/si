@@ -53,10 +53,13 @@ class Persona extends MY_Controller {
 		$data['home'] 			= 'template/lista_template';
 		$data['title'] 			= 'Lista Personas';
 
-		$this->parser->parse('template', $data);
+		//$this->parser->parse('template', $data);
 
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  = $data['title'];
+
+		$data = $this->load->view('template/lista_template',$data, TRUE);
+		echo $data;
 	}
 
 	public function nuevo(){

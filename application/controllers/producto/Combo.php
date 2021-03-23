@@ -51,7 +51,6 @@ class Combo extends MY_Controller {
 		$data['total_pagina'] 	= $pag['config']["per_page"];
 		$data['x_total']		= $pag['config']['x_total'];
 		$data['total_records'] 	= $pag['total_records'];
-
 		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol']);
 		$data['registros'] 		= $this->Combo_model->getAllCombo( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']);
 		$data['title'] 			= "Combos Lista";
@@ -60,7 +59,8 @@ class Combo extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$this->parser->parse('template', $data);
+		$data = $this->load->view('template/lista_template',$data, TRUE);
+		echo $data;
 	}
 
 	public function nuevo(){

@@ -61,8 +61,8 @@ class Sucursal extends MY_Controller {
 		$_SESSION['Vista']  	= $data['title'];
 		$_SESSION['registros']  = $data['registros'];
 
-		$this->parser->parse('template', $data);
-
+		$data = $this->load->view('template/lista_template',$data, TRUE);
+		echo $data;
 	}
 
 	public function nuevo(){

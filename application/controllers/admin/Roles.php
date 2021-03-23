@@ -40,10 +40,11 @@ class Roles extends MY_Controller {
 		$data['home'] 		= 'template/lista_template';
 		$data['title'] 		= 'Roles';
 
-		$this->parser->parse('template', $data);
-
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  = $data['title'];
+
+		$data = $this->load->view('template/lista_template',$data, TRUE);
+		echo $data;
 	}
 
 	public function editar( $id_role )

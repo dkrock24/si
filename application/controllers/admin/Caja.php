@@ -28,7 +28,6 @@ class Caja extends MY_Controller {
 		$url_page 	= "admin/caja/index";
 		$pag 		= $this->MyPagination($model, $url_page , $vista = 35);
 
-		$data['menu'] 			= $this->session->menu;
 		$data['links'] 			= $pag['links'];
 		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
@@ -44,7 +43,9 @@ class Caja extends MY_Controller {
 		$_SESSION['Vista']  	= $data['title'];
 		$_SESSION['registros']  = $data['registros'];
 
-		$this->parser->parse('template', $data);
+		//$this->parser->parse('template', $data);
+		$data = $this->load->view('template/lista_template',$data, TRUE);
+		echo $data;
 	}
 
 	public function nuevo(){

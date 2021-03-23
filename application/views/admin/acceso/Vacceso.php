@@ -1,8 +1,6 @@
-<!-- Main section-->
-<section>
-   <!-- Page content-->
+
    <div class="content-wrapper">
-      <h3 style="height: 50px; ">Administrar Roles </h3>
+      <h3 style=""><i class="icon-arrow-right"></i> <?php echo $titulo; ?></h3><br><br><br><br><br><br>
 
       <div class="row">
          <div class="col-lg-4">
@@ -10,7 +8,7 @@
                <div class="panel-heading">Acceso Menu Roles</div>
                <div class="panel-body">
                   <p>
-                     <form action="index" method="post">
+                     <form id="form_filtro">
                         <select class="form-control" name="role">
                            <?php
                            if (isset($this->session->r)) {
@@ -57,16 +55,18 @@
                            ?>
                         </select>
                         <br>
-                        <input type="submit" name="" class="btn btn-primary" class="form-control" value="Buscar">
+                        <input type="button" name="<?php echo base_url() ?>admin/acceso/index" data="form_filtro" class="btn btn-primary enviar_data form-control" value="Filtrar Accesos">
+
+                        <br><br><br>
+
+                        <label>Roles / Accesos </label>
+                        <br>
+                        <input type="button" name="<?php echo base_url() ?>admin/acceso/sincAccionesRoles" data="form_filtro" class="btn btn-warning enviar_data form-control" value="Sincronizar">
                      </form>
                   </p>
                </div>
                <div class="panel-footer">Administrar Menus Por Rol</div>
-            </div>
-
-            <label>Roles / Accesos </label>
-            <br>
-            <a href="sincAccionesRoles" class="btn btn-danger">Sincronizar</a>
+            </div>            
          </div>
 
          <!-- Permitir Accesos al usuarios a menus visibles -->
@@ -77,9 +77,9 @@
                      <em class="fa fa-plus"></em>
                   </a>
                </div>
-               <div class="panel-wrapper collapse">
+               <div class="panel-wrapper ">
                   <?php if (isset($accesos)) { ?>
-                     <form action="acceso_guardar" method="post">
+                     <form id="acceso_guardar">
                         <div class="">
                            <table id="table-ext-1" class="table table-bordered table-hover">
                               <thead>
@@ -162,7 +162,7 @@
                                  <span class=" pull-right">
                                     <input type="hidden" name="id_role" value="<?php echo $accesos[0]->id_rol; ?>">
                                     <input type="hidden" name="id_menu" value="<?php echo $accesos[0]->id_menu; ?>">
-                                    <button class="btn btn-sm btn-info">Guardar</button>
+                                    <input type="button" name="<?php echo base_url() ?>admin/acceso/acceso_guardar" data="acceso_guardar" class="btn btn-sm btn-info enviar_data" value="Guardar">
                                  </span>
                               </div>
                            </div>
@@ -178,10 +178,10 @@
                      <em class="fa fa-plus"></em>
                   </a>
                </div>
-               <div class="panel-wrapper collapse">
+               <div class="panel-wrapper">
 
                      <?php if (isset($accesos_menus_internos)) { ?>
-                        <form action="accesos_menus_internos" method="post">
+                        <form id="accesos_menus_internos">
                            <div class="">
                               <table id="table-ext-1" class="table table-bordered table-hover">
                                  <thead>
@@ -259,7 +259,7 @@
                                     <span class=" pull-right">
                                        <input type="hidden" name="id_role" value="<?php echo $accesos_menus_internos[0]->id_rol; ?>">
                                        <input type="hidden" name="id_menu" value="<?php echo $accesos_menus_internos[0]->id_menu; ?>">
-                                       <button class="btn btn-sm btn-info">Guardar</button>
+                                       <button name="<?php echo base_url() ?>admin/acceso/accesos_menus_internos" data="accesos_menus_internos" class="btn btn-sm btn-info enviar_data">Guardar</button>
                                     </span>
                                  </div>
                               </div>
@@ -279,9 +279,9 @@
                      <em class="fa fa-plus"></em>
                   </a>
                </div>
-               <div class="panel-wrapper collapse">
+               <div class="panel-wrapper">
                   <?php if (isset($vista_componentes)) { ?>
-                     <form action="accesos_componenes" method="post">
+                     <form id="accesos_componenes">
                         <div class="">
                            <table id="table-ext-1" class="table table-bordered table-hover">
                               <thead>
@@ -380,7 +380,7 @@
                                  <span class=" pull-right">
                                     <input type="hidden" name="id_role" value="<?php echo $r; ?>">
                                     <input type="hidden" name="id_menu" value="<?php echo $m; ?>">
-                                    <button class="btn btn-sm btn-info">Guardar</button>
+                                    <button name="<?php echo base_url() ?>admin/acceso/accesos_componenes" data="accesos_componenes" class="btn btn-sm btn-info enviar_data">Guardar</button>
                                  </span>
                               </div>
                            </div>
@@ -398,4 +398,3 @@
       </div>
    </div>
 
-</section>

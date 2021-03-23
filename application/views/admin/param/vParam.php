@@ -127,10 +127,9 @@
    });   
 </script>
 
-<section>
    <!-- Page content-->
    <div class="content-wrapper">
-      <h3>Parametros Modulos</h3>
+      <h3 style=""><i class="icon-arrow-right"></i> Parametros Modulos</h3><br><br><br><br><br><br>
       <div class="row menu_title_bar">
          <div class="col-md-4">
             <div class="mb-lg clearfix">
@@ -285,7 +284,6 @@
          </div>
       </div>
    </div>
-</section>
 
 <!-- Modal Large UPDATE CONFIG MODAL-->
    <div id="editar_param_modal" tabindex="-1" role="dialog" aria-labelledby="editar_param_modal"  class="modal fade">

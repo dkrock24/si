@@ -36,8 +36,8 @@ class Cliente_model extends CI_Model
         $this->db->select('id_cliente,nombre_empresa_o_compania,nrc_cli,nit_cliente,nombre_empresa_o_compania,direccion_cliente,aplica_impuestos,TipoDocumento,saldos');
         $this->db->from(self::cliente);
         $this->db->join(self::tipos_documentos, ' on ' . self::cliente . '.TipoDocumento=' . self::tipos_documentos . '.id_tipo_documento');
-        $this->db->join(self::formas_pago, ' on ' . self::cliente . '.TipoPago=' . self::formas_pago . '.id_modo_pago');
-        $this->db->join(self::sys_persona . ' as p', ' on p.id_persona = Persona');
+        //$this->db->join(self::formas_pago, ' on ' . self::cliente . '.TipoPago=' . self::formas_pago . '.id_modo_pago');
+        //$this->db->join(self::sys_persona . ' as p', ' on p.id_persona = Persona');
         $this->db->where(self::cliente . '.estado_cliente = 1');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
         $this->db->where("(id_cliente LIKE '%$cliente_texto%' || lower(nombre_empresa_o_compania) LIKE lower('%$cliente_texto%') || nit_cliente LIKE '%$cliente_texto%' || dui_cli LIKE '%$cliente_texto%' || nrc_cli LIKE '%$cliente_texto%' || codigo_cliente LIKE '%$cliente_texto%' ) ");
@@ -116,7 +116,7 @@ class Cliente_model extends CI_Model
         }
         $this->db->limit($limit, $id);
         $query = $this->db->get();
-        //echo $this->db->queries[1];
+        //echo $this->db->queries[6];
 
         if ($query->num_rows() > 0) {
             return $query->result();

@@ -197,7 +197,7 @@
 <section>
     <!-- Page content-->
     <div class="content-wrapper">
-        <h3 style="height: 50px; ">Existencias </h3>
+        <h3 style="height: 50px; ">Existencias </h3><br><br>   <br><br>   <br><br>
 
         <div class="panel-heading menuTop menu_title_bar" style="color: white;">
             <div class="row">

@@ -1,13 +1,8 @@
-<?php
-echo base_url();
-?>
 
-<!-- Main section-->
-<section class="menu_title_bar">
    <!-- Page content-->
    <div class="content-wrapper">
-
-      <!-- START widgets box-->
+   <h3 style=""><i class="icon-arrow-right"></i> <?php echo $titulo; ?></h3><br><br><br><br><br><br>
+      <!-- START widgets box-->   <br><br>   <br><br>   <br><br>
       <div class="row">
          <div class="col-lg-3 col-sm-6">
             <!-- START widget-->
@@ -152,4 +147,3 @@ echo base_url();
          </aside>
       </div>
    </div>
-</section>

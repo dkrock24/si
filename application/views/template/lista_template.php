@@ -1,4 +1,4 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+
 <script type="text/javascript">
 
     var headers = <?php echo json_encode($fields['field']); ?>;
@@ -78,18 +78,29 @@
     $(document).on('keydown', '.filtro-input', function(e) {
 
         if (e.which == 13) {
-            $('form#filtros').submit();
-            return false;    //<---- Add this line
+            url_pagina = getCookie("url");
+            var form = $(this);
+            console.log( form);
+            var data = {name : $(this).val()};
+            $.ajax({
+                type: "post",
+                //data: $('form#filtros').serialize(),
+                data : form,
+                url: "<?php echo base_url(); ?>"+url_pagina,
+                success: function(result) {
+                    $(".loadViews").html(result);
+                }
+            });
         }
     });
 
-    $(document).on('change', '.estado_filtro', function(e) {
+    /*$(document).on('change', '.estado_filtro', function(e) {
 
         //if (e.which == 13) {
             $('form#filtros').submit();
-            return false;    //<---- Add this line
+            return false;
         //}
-    });
+    });*/
 
 </script>
 
@@ -102,11 +113,10 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/css/css_general.css" />
 
 <!-- Main section-->
-<section>
+
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style=""><i class="icon-arrow-right"></i> <?php echo $fields['titulo']; ?></h3>
-        
         <div class="panel menu_title_bar">
         <?php $this->load->view('notificaciones/success'); ?>
             <!-- START table-responsive-->
@@ -131,7 +141,7 @@
                                 </form>
                                 
                             </th>
-                            <form action="<?php echo base_url(). '\..' . $_SERVER['PATH_INFO'] ?>" method="post" id="filtros">
+                            <form id="filtros">
                                 <?php
                                 foreach ($column as $key => $combo) {
                                     $active_filtro = array_keys($fields['field'][$key])[0];
@@ -153,8 +163,12 @@
                                             </select><br>
                                             <?php
                                         } else {
+                                            $valor_filtro = "";
+                                            if(isset($filtros[key($fields['field'][$key])])){
+                                                $valor_filtro = $filtros[key($fields['field'][$key])];
+                                            }
                                         ?>
-                                        <input type="text" name="<?php echo key($fields['field'][$key]); ?>" autocomplete="off" value="<?php echo $filtros[$active_filtro] ?>" class="form-control filtro-input" /><br>
+                                        <input type="text" name="<?php echo key($fields['field'][$key]); ?>" autocomplete="off" value="<?php echo $valor_filtro ?>" class="form-control filtro-input" /><br>
                                         <?php
                                         }
                                     }
@@ -401,4 +415,3 @@
     </div>
     </div>
 
-</section>

@@ -35,13 +35,13 @@ class Existencias extends MY_Controller {
 		$id_rol = $this->session->roles[0];
 		$vista_id = 20; // Vista Orden Lista
 
-		$data['menu'] = $this->session->menu;
 		$data['codbarra'] = $this->Codbarra_model->getCodbarra( );
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['title'] = "Existencias";
 		$data['home'] = 'producto/existencias/codbarra_lista';
 
-		$this->parser->parse('template', $data);
+		$data = $this->load->view('producto/existencias/codbarra_lista',$data, TRUE);
+		echo $data;
 	}
 
 	public function nuevo(){
@@ -54,7 +54,8 @@ class Existencias extends MY_Controller {
 		$data['title'] = "Existencias";
 		$data['home'] = 'producto/existencias/exis_nuevo';
 
-		$this->parser->parse('template', $data);
+		$data = $this->load->view('producto/existencias/exis_nuevo',$data, TRUE);
+		echo $data;
 	}
 
 	function get_productos_lista( ){

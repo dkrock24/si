@@ -45,9 +45,10 @@ class Import extends CI_Controller
         $data['proveedor'] = $this->Proveedor_model->getAllProveedor();
 
         $data['home'] = 'importacion/importacion';
-        $data['title'] = 'Importacion';
+        $data['titulo'] = 'Importacion';
 
-        $this->parser->parse('template', $data);
+        $data = $this->load->view('importacion/importacion',$data, TRUE);
+		echo $data;
     }
 
     public function importFile()

@@ -1,11 +1,7 @@
-<!-- Main section-->
-<section>
+
     <!-- Page content-->
     <div class="content-wrapper">
-        <h3 style="height: 50px; font-size: 13px;">
-
-
-        </h3>
+        <h3 style=""><i class="icon-arrow-right"></i> <?php echo $titulo; ?></h3>
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel menu_title_bar">
@@ -177,5 +173,4 @@
             </div>
         </div>
     </div>
-    </div>
-</section>
+    

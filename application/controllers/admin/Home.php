@@ -97,10 +97,47 @@ class Home extends CI_Controller {
 		);
 
 		$data['data'] = $resultados;
+		$data['titulo'] = "Dashboard";
 		$data['home'] = 'home';
 		$data['menu'] = $this->session->menu;
 
 		$this->parser->parse('template', $data);
+
+	}
+
+	function dashboard2(){
+
+		//var_dump($this->session->userdata['db'][0]->nombre_sucursal);
+
+		if(!isset($this->session->empresa[0]->id_empresa)){
+			redirect(base_url()."login/index");
+		}
+
+		$total_ordenes_mes = $this->Dashboard_model->ordenes_mes();
+		$orden_total = "";
+		$orden_suma = 0;
+		foreach ($total_ordenes_mes as $key => $orden) {
+			$orden_total = $orden_total.= ",".$orden->total;
+			$orden_suma += $orden->total; 
+		}
+
+		$resultados = array(
+			'ordenes' 	=> $this->Dashboard_model->total_ordenes(),
+			'ventas' 	=> $this->Dashboard_model->total_ventas(),
+			'cajas' 	=> $this->Dashboard_model->terminal_caja(),
+			'terminales'=> $this->Dashboard_model->total_ordenes(),
+			'usuario_actividad' => $this->Dashboard_model->usuarios_actividad(),
+			'ordenes_mes' => $orden_total,
+			'ordenes_suma' => $orden_suma
+		);
+
+		$data['data'] = $resultados;
+		$data['titulo'] = "Dashboard";
+		$data['home'] = 'home';
+		$data['menu'] = $this->session->menu;
+
+		$data = $this->load->view('home',$data, TRUE);
+		echo $data;
 
 	}
 

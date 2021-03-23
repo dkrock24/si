@@ -21,7 +21,6 @@ class Acceso extends CI_Controller {
 	{
 		
 		if(isset($_POST['role']) and isset($_POST['menu'])){
-
 			$_SESSION['accesos'] 				=  $this->Acceso_model->get_menu_acceso( $_POST['role'] , $_POST['menu'] , NULL );
 			$_SESSION['accesos_menus_internos'] =  $this->Acceso_model->get_menu_internos( $_POST['role'] , $_POST['menu'] );
 			$_SESSION['vista_componentes'] 		=  $this->Acceso_model->accesos_componentes( $_POST['role'] , $_POST['menu']);
@@ -57,10 +56,10 @@ class Acceso extends CI_Controller {
 		}
 
 		$data['menu'] 	= $this->session->menu;
-		$data['title'] 	= "Menu Accesos";
+		$data['titulo'] = "Menu Accesos";
 		$data['home'] 	= 'admin/acceso/Vacceso.php';
-
-		$this->parser->parse('template', $data);
+		$data = $this->load->view('admin/acceso/Vacceso',$data, TRUE);
+		echo $data;
 
 	}
 
@@ -88,13 +87,10 @@ class Acceso extends CI_Controller {
 		redirect(base_url()."admin/acceso/index" );
 	}
 
-	function sincAccionesRoles(){
+	public function sincAccionesRoles(){
+
 		$this->Acceso_model->sincAccionesRoles();
-		redirect(base_url()."admin/acceso/index" );
+		
+		$this->index();
 	}
-
-	
-
-
-	
 }
