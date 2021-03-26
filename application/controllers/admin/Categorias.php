@@ -49,8 +49,7 @@ class Categorias extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -62,7 +61,7 @@ class Categorias extends MY_Controller {
 		$data['home'] 		= 'admin/categorias/categorias_nuevo';
 		$data['categorias']	= $this->Categorias_model->get_categorias_padres();
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/categorias/categorias_nuevo',$data, TRUE);
 	}
 
 	public function crear(){
@@ -91,7 +90,7 @@ class Categorias extends MY_Controller {
 
 		$this->general->editar_valido($data['categorias'], "admin/categorias/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/categorias/categorias_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){
@@ -120,7 +119,7 @@ class Categorias extends MY_Controller {
 		}
 	}
 
-	public function actualizar(){
+	public function update(){
 		// Insert pais
 		$data = $this->Categorias_model->actualizar_categoria( $_POST );
 

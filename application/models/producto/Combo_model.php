@@ -11,11 +11,10 @@ class Combo_model extends CI_Model {
         $this->db->from(self::pos_combo.' as c');
         $this->db->join(self::producto.' as p', ' on c.Producto_Combo= p.id_entidad');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa );
-
-        //$this->db->group_by('c.id_entidad');
+        $this->db->group_by('c.Producto_Combo');
         $this->db->limit($limit, $id);
         $query = $this->db->get();
-        //echo $this->db->queries[3];
+        //echo $this->db->queries[8];
 
         if($query->num_rows() > 0 )
         {
@@ -114,7 +113,7 @@ class Combo_model extends CI_Model {
 
         $this->db->where('c.Producto_Combo', $combo_id );
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa );
-        $this->db->group_by('pd.Producto' );
+        //$this->db->group_by('pd.Producto' );
         $query = $this->db->get(); 
         //echo $this->db->queries[0];
         

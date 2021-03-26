@@ -79,7 +79,7 @@ class Correlativo extends MY_Controller {
 		echo $this->load->view('producto/correlativo/c_nuevo',$data, TRUE);
 	}
 
-	public function save(){
+	public function crear(){
 		$data = $this->Correlativo_model->save( $_POST );
 
 		if(!$data['code']){

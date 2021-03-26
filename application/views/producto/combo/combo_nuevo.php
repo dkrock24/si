@@ -1,4 +1,3 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
 <script type="text/javascript">
     var productos = {};
@@ -10,32 +9,26 @@
         $("#codigo").hide();
     });
 
-    $(document).keydown(function(event) {
+    function buscar_codigo()
+    {
+        var codigo = $("#codigo").val();
 
-        if (event.keyCode == 13) {
+        $.ajax({
+            url: "<?php echo base_url() ?>producto/combo/get_productos_codigo/"+ codigo,
+            datatype: 'json',
+            cache: false,
 
-            event.preventDefault()
-            var codigo = $("#codigo").val();
+            success: function(data) {
+                var datos = JSON.parse(data);
+                var p = {};
+                p = datos["productos"];
 
-            $.ajax({
-                url: "get_productos_codigo/" + codigo,
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-                    var datos = JSON.parse(data);
-                    var p = {};
-                    p = datos["productos"];
-
-                    productos = p;
-                    producto();
-                },
-                error: function() {}
-            });
-
-        }
-    });
-
+                productos = p;
+                producto();
+            },
+            error: function() {}
+        });
+    }
 
     $(document).on("change", "#producto", function() {
 
@@ -76,17 +69,16 @@
         });
         html += "</span>";
         contador++;
-        $("#lista_productos").prepend(html);
+        $(".lista_productos").prepend(html);
 
     }
 
-    $(document).on("click", "#btn_agregar", function() {
-
+    function btn_agregar(){
         $(".producto_combo").val();
         var id = $(".producto_combo").val();
 
         $.ajax({
-            url: "get_productos_id/" + id,
+            url: "<?php echo base_url() ?>producto/combo/get_productos_id/"+ id,
             datatype: 'json',
             cache: false,
 
@@ -100,7 +92,7 @@
             },
             error: function() {}
         });
-    });
+    }
 
     $(document).on("click", ".borrar", function() {
         var id = $(this).attr("id");
@@ -141,7 +133,7 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="producto/combo/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Lista Combo</button>
             </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
@@ -152,12 +144,9 @@
                 <div id="" class="panel menu_title_bar">
                     <!-- START table-responsive-->
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div id="" class="panel">
                                 <div class="panel-heading menuTop">Crear Combo : </div>
-
-
-
                                 <div class="panel-body menuContent">
 
                                     <div class="panel ">
@@ -221,13 +210,14 @@
                                         <label for="inputPassword3" class="col-sm-3 control-label no-padding-right"><br>Codigo</label>
                                         <div class="col-sm-9">
                                             <input type="text" name="codigo" id="codigo" placeholder="Codigo Barras" class="form-control" />
+                                            <span class="btn btn-default" onClick="buscar_codigo();">Buscar</span>
                                         </div>
                                     </div>
 
                                     <br><br>
                                     <div class="form-group">
-                                        <div class="col-sm-offset-3 col-sm-9">
-                                            <button type="submit" class="btn btn-primary" id="btn_agregar"><i class="fa fa-plus-circle"> </i> Agregar Producto</button>
+                                        <div class="col-sm-offset-3 col-sm-9"><br>
+                                            <button type="submit" class="btn btn-primary" onClick="btn_agregar()" style="float:right;"><i class="fa fa-plus-circle"> </i> Agregar Producto</button>
                                         </div>
                                     </div>
 
@@ -236,15 +226,16 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-8">
                             <div id="" class="panel">
                                 <div class="panel-heading menuTop">Lista Productos Agregados : </div>
 
                                 <div class="panel-body menuContent">
-                                    <form class="form-horizontal" action='save' method="post" id="lista_productos">
+                                    <form class="form-horizontal lista_productos" id='combo' method="post">
 
                                         <input type="hidden" id="produto_principal" name="produto_principal" value="">
-                                        <a href="#" id="guardar_combo" class='btn btn-primary' onClick='guardar_combo()' value='Guardar Combo'>Guardar Combo</a>
+                                        <!-- <a id="guardar_combo" class='btn btn-primary' onClick='guardar_combo()' value='Guardar Combo'>Guardar Combo</a> -->
+                                        <input type="button" name="<?php echo base_url() ?>producto/combo/crear" data="combo" class="btn btn-success enviar_data" value="Guardar">
                                     </form>
                                 </div>
 

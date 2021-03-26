@@ -1,40 +1,29 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
 <script type="text/javascript">
     var productos = {};
     var producto_almacen = [];
     var contador = 0;
 
-    $(document).ready(function() {
-        //$(".producto_combo").hide();
-    });
+    function buscar_codigo()
+    {
+        var codigo = $("#codigo").val();
 
-    $(document).keydown(function(event) {
+        $.ajax({
+            url: "<?php echo base_url() ?>producto/combo/get_productos_codigo/"+ codigo,
+            datatype: 'json',
+            cache: false,
 
-        if (event.keyCode == 13) {
+            success: function(data) {
+                var datos = JSON.parse(data);
+                var p = {};
+                p = datos["productos"];
 
-            event.preventDefault()
-            var codigo = $("#codigo").val();
-
-            $.ajax({
-                url: "../get_productos_codigo/" + codigo,
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-                    var datos = JSON.parse(data);
-                    var p = {};
-                    p = datos["productos"];
-
-                    productos = p;
-                    producto();
-                    $("#codigo").val("");
-                },
-                error: function() {}
-            });
-
-        }
-    });
+                productos = p;
+                producto();
+            },
+            error: function() {}
+        });
+    }
 
     $(document).on("change", "#producto", function() {
         var val = $(this).val();
@@ -51,8 +40,6 @@
     function producto() {
 
         producto_almacen[contador] = productos;
-
-        console.log(producto_almacen);
 
         var html = "<span>";
 
@@ -74,17 +61,17 @@
         });
         html += "</span>";
         contador++;
-        $("#lista_productos").prepend(html);
+        $(".lista_productos").prepend(html);
 
     }
 
-    $(document).on("click", "#btn_agregar", function() {
-
+    function btn_agregar()
+    {
         $(".producto_combo").val();
         var id = $(".producto_combo").val();
 
         $.ajax({
-            url: "../get_productos_id/" + id,
+            url: "<?php echo base_url() ?>producto/combo/get_productos_id/"+ id,
             datatype: 'json',
             cache: false,
 
@@ -98,7 +85,7 @@
             },
             error: function() {}
         });
-    });
+    }
 
     $(document).on("click", ".borrar", function() {
         var id = $(this).attr("id");
@@ -108,29 +95,20 @@
 
     function guardar_combo() {
 
+        var flag = true;
 
-        $(document).on("click", "#guardar_combo", function() {
+        $.each(producto_almacen, function(i, item) {
 
-            var flag = true;
+            var valor = $('input[name=' + item[0].id_entidad + ']').val();
 
-            $.each(producto_almacen, function(i, item) {
+            if (valor == "") {
+                flag = false;
+                $('i[id=' + item[0].id_entidad + ']').text("Ingrese Valor");
+            } else {
+                flag = true;
 
-                var valor = $('input[name=' + item[0].id_entidad + ']').val();
-
-                if (valor == "") {
-                    flag = false;
-                    $('i[id=' + item[0].id_entidad + ']').text("Ingrese Valor");
-                } else {
-                    flag = true;
-
-                    $('i[id=' + item[0].id_entidad + ']').text("");
-                }
-            });
-
-            if (flag) {
-                $("#lista_productos").submit();
+                $('i[id=' + item[0].id_entidad + ']').text("");
             }
-
         });
     }
 </script>
@@ -140,7 +118,7 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">
-            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="producto/combo/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Lista Combo</button>
             </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
@@ -153,17 +131,12 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-white">
-
                             <div class="panel-body">
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div id="" class="panel">
-                                        <div class="panel-heading menuTop">Combo Formulario : <?php //echo $roles[0]->role 
-                                                                                                ?> </div>
+                                        <div class="panel-heading menuTop">Combo Formulario :</div>
                                         <p>
-
                                             <div class="panel-body menuContent">
-
-
                                                 <div class="form-group">
                                                     <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Producto</label>
                                                     <div class="col-sm-10">
@@ -183,10 +156,6 @@
                                                     </div>
                                                 </div>
                                                 <br><br>
-
-
-
-
                                                 <div class="form-group">
                                                     <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Agregar</label>
                                                     <div class="col-sm-10">
@@ -209,13 +178,15 @@
                                                     <label for="inputPassword3" class="col-sm-2 control-label no-padding-right"><br>Codigo</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="codigo" id="codigo" placeholder="Codigo Barras" class="form-control" />
+                                                        <span class="btn btn-default" onClick="buscar_codigo();">Buscar</span>
+                                                        <br><br><hr>
                                                     </div>
                                                 </div>
 
                                                 <br><br>
                                                 <div class="form-group">
                                                     <div class="col-sm-offset-2 col-sm-10">
-                                                        <button type="submit" class="btn btn-primary" id="btn_agregar">Agregar</button>
+                                                    <button type="submit" class="btn btn-primary" onClick="btn_agregar()" style="float:right;"><i class="fa fa-plus-circle"> </i> Agregar Producto</button>
                                                     </div>
                                                 </div>
 
@@ -224,14 +195,13 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6">
+                                <div class="col-lg-8">
                                     <div id="" class="panel">
-                                        <div class="panel-heading menuTop">Productos en Combo : <?php //echo $roles[0]->role 
-                                                                                                ?> </div>
+                                        <div class="panel-heading menuTop">Productos en Combo :</div>
                                         <p>
 
                                             <div class="panel-body menuContent">
-                                                <form class="form-horizontal" action='../update' method="post" id="lista_productos">
+                                                <form class="form-horizontal" id='combo' method="post">
                                                     <table class="table">
                                                         <tr>
                                                             <td>Codigo</td>
@@ -240,6 +210,7 @@
                                                             <td>Cantidad</td>
                                                             <td>Accion</td>
                                                         </tr>
+                                                        <tbody>
                                                         <?php
                                                         if ($combo) {
                                                             foreach ($combo as $key => $value) {
@@ -258,11 +229,11 @@
                                                             }
                                                         }
                                                         ?>
-                                                    </table>
-                                                    
-
+                                                        </tbody>
+                                                    </table><br><br><hr>
+                                                    <span class="lista_productos"></span>
                                                     <input type="hidden"  id="produto_principal" name="produto_principal" value="<?php echo $value->Producto_Combo ?>">
-                                                    <a href="#" id="guardar_combo" style="text-align: center;float: right;" class='btn btn-info' onClick='guardar_combo()' value='Actualizar'>Actualizar</a>
+                                                    <input type="button" name="<?php echo base_url() ?>producto/combo/update" data="combo" class="btn btn-success enviar_data" value="Guardar">
                                                 </form>
                                             </div>
                                         </p>

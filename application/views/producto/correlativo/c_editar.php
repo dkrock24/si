@@ -1,19 +1,9 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
-<script type="text/javascript">
-    
-</script>
-<!-- Main section-->
-<style type="text/css">
-    .preview_producto{
-        width: 50%;
-    }
-</style>
 <section>
     <!-- Page content-->
     <div class="content-wrapper">  
         <h3 style="height: 50px; font-size: 13px;">  
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="producto/correlativo/index"" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Correlativos</button> 
             </a> 
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
@@ -21,15 +11,11 @@
         </h3>
         <div class="row">
             <div class="col-lg-12">
-
-
-                        <div id="panelDemo10" class="panel menu_title_bar">    
-                                                
-                            <div class="panel-heading menuTop">Editar Correlativo : <?php //echo $correlativo[0]->nombre_submenu ?> </div>
-                             <div class="panel-body menuContent">        
-                            
-                            <form class="form-horizontal" enctype="multipart/form-data" id="save" name="correlativo" action='../update' method="post">
-                                <input type="hidden" value="<?php echo $correlativo[0]->id_correlativos; ?>" name="id_correlativos">
+                 <div id="panelDemo10" class="panel menu_title_bar">    
+                    <div class="panel-heading menuTop">Editar Correlativo : <?php //echo $correlativo[0]->nombre_submenu ?> </div>
+                        <div class="panel-body menuContent">        
+                            <form class="form-horizontal" enctype="multipart/form-data" id="correlativo" name="correlativo">
+                            <input type="hidden" value="<?php echo $correlativo[0]->id_correlativos; ?>" name="id_correlativos">
                                 <div class="row">
 
                                     <div class="col-lg-6">
@@ -120,7 +106,7 @@
                                             </div>
                                         </div>
 
-                                         <div class="form-group">
+                                            <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
                                                 
                                                 <label>
@@ -145,25 +131,15 @@
 
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="submit" id="btn_save" class="btn btn-info">Guardar</button>
+                                            <input type="button" name="<?php echo base_url() ?>producto/correlativo/update" data="correlativo" class="btn btn-success enviar_data" value="Guardar">
                                             </div>
                                         </div>
 
                                         
                                     </div>
-
-
-                                    <div class="col-lg-6">
-                                      
-                                       
-
-
-                                    </div>
-                                </div>
-                                
-                            
+                                    <div class="col-lg-6"></div>
+                                </div>                          
                             </form>
-                                                              
                         </div>            
                 </div>
             </div>
