@@ -3,7 +3,7 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">
-            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="admin/roles/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Lista Roles</button>
             </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Editar</button>
@@ -19,7 +19,7 @@
                         <div class="b">
                         <div class="row">
                             <div class="col-lg-6" style="border-right:1px solid grey">
-                                <form class="form-horizontal" action='../update_roles' method="post">
+                                <form class="form-horizontal" id='roles' method="post">
 
                                         <div class="panel-heading">
                                            
@@ -67,7 +67,7 @@
                                         <div class="panel-footer text-left">
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-info">Guardar</button>
+                                                <input type="button" name="<?php echo base_url() ?>admin/roles/update" data="roles" class="btn btn-warning enviar_data" value="Guardar">
                                                 </div>
                                             </div>
                                         </div>

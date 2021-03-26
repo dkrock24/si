@@ -1,4 +1,3 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -9,7 +8,7 @@
             var departamento = $(this).val();
 
             $.ajax({
-                url: "../getCiudadId/"+departamento,
+                url: "<?php echo base_url(). 'admin/persona/getCiudadId/'; ?>"+departamento,
                 datatype: 'json',      
                 cache : false,                
 
@@ -33,7 +32,7 @@
     <!-- Page content-->
     <div class="content-wrapper">  
         <h3 style="height: 50px; font-size: 13px;">  
-            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="admin/persona/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Persona</button> 
             </a> 
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
@@ -48,7 +47,7 @@
                     <div class="panel-heading menuTop"><i class="fa fa-user-circle fa-lg"></i> Editar Persona : <?php //echo $persona[0]->nombre_submenu ?> </div>
                         <div class="panel-body menuContent">        
                     <p> 
-                    <form class="form-horizontal" name="persona" action='../update' method="post">
+                    <form class="form-horizontal" name="persona" id='persona' method="post">
                         <input type="hidden" value="<?php echo $persona[0]->id_persona; ?>" name="id_persona">
                         <div class="row">
 
@@ -266,14 +265,12 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
-                                        <button type="submit" class="btn btn-info">Guardar</button>
+                                        <input type="button" name="<?php echo base_url() ?>admin/persona/update" data="persona" class="btn btn-warning enviar_data" value="Guardar">                                     
                                     </div>
                                 </div>
 
-
                             </div>
                         </div>
-                        
                     
                     </form>
                     </p>                                    

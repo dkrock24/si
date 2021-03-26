@@ -250,13 +250,18 @@ class Usuario_model extends CI_Model {
     {
         if ($data['metodo'] == 'agregar') {
 
-            $data = array(
-                'usuario_rol_usuario' => $data['usuario'],
-                'usuario_rol_role' => $data['id_rol'],
-                'usuario_rol_creado' => date("Y-m-d h:i:s"),
-                'usuario_rol_estado' => 1
-            );
-            $this->db->insert(self::usuario_roles, $data ); 
+            $result = $this->role_users_exist($data);
+
+            if (!$result) {
+
+                $_data = array(
+                    'usuario_rol_usuario' => $data['usuario'],
+                    'usuario_rol_role' => $data['id_rol'],
+                    'usuario_rol_creado' => date("Y-m-d h:i:s"),
+                    'usuario_rol_estado' => 1
+                );
+                $this->db->insert(self::usuario_roles, $_data ); 
+            }
         }
 
         if ($data['metodo'] == 'remover') {
@@ -265,6 +270,20 @@ class Usuario_model extends CI_Model {
             $this->db->where('usuario_rol_role', $data['id_rol'] );
             $this->db->delete(self::usuario_roles); 
             return 1;
+        }
+    }
+
+    private function role_users_exist($data) 
+    {
+        $this->db->select('*');
+        $this->db->from(self::usuario_roles);  
+        $this->db->where(self::usuario_roles.'.usuario_rol_usuario',$data['usuario']);
+        $this->db->where(self::usuario_roles.'.usuario_rol_role',$data['id_rol']);
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
         }
     }
 

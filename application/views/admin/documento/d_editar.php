@@ -1,45 +1,57 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <!-- Main section-->
 <script>
-    $(document).ready(function() {
 
-        $(".vincular").click(function() {
-            var vista = $(this).attr('id');
-            var documento = $("#id_tipo_documento").val();
-            methodo = "asociar";
+    function remover(vista){
+        var documento = $("#id_tipo_documento").val();
+        metodo = "remover";
+        
+        display(vista, documento, metodo)
+    }
 
-            asociar(vista, documento, methodo);
-        });
+    $(".vincular").click(function() {
+        var vista = $(this).attr('id');
+        var documento = $("#id_tipo_documento").val();
+        metodo = "asociar";
 
-        $(".remover").click(function() {
-            var vista = $(this).attr('id');
-            var documento = $("#id_tipo_documento").val();
-            methodo = "remover";
-
-            asociar(vista, documento, methodo);
-        });
-
-        function asociar(vista, documento, methodo) {
-            $.ajax({
-                type: "POST",
-                url: "../" + methodo + "/" + documento + "/" + vista,
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-                    location.reload();
-                },
-                error: function() {}
-            });
-        }
-
+        display(vista, documento, metodo);
     });
+
+    function display(vista, documento, method){
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url() ?>admin/documento/"+ metodo + "/" + documento + "/" + vista,
+            datatype: 'json',
+            cache: false,
+
+            success: function(data) {
+                var datos = JSON.parse(data);
+                var html_ = "";
+                var cont = 1;
+
+                $.each(datos, function(i , item){
+
+                    html_ += '<tr>';
+                    html_ += '<td>' + cont + '</td>';
+                    html_ += '<td>' + item.vista_nombre + '</td>';
+                    html_ += '<td>';
+                    html_ += '<span class="btn btn-danger" style="color: white;" onClick="remover('+ item.id_vista +')" id="'+ item.id_vista +'"><i class="fa fa-trash"></i></span>';
+                        html_ += '</td>';
+                    html_ += '</tr>';
+                    cont++;
+                });
+
+                $('#documento_vista').html(html_);
+            },
+            error: function() {}
+        });
+    }
+       
 </script>
 <section>
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="admin/documento/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Documento</button>
             </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
@@ -52,7 +64,7 @@
                     <div class="panel-heading menuTop">Editar Documento : </div>
                     <div class="panel-body menuContent">
 
-                        <form class="form-horizontal" name="documento" action='../update' method="post">
+                        <form class="form-horizontal" id="documento">
                             <input type="hidden" value="<?php echo $documento[0]->id_tipo_documento; ?>" id="id_tipo_documento" name="id_tipo_documento">
                             <div class="row">
 
@@ -145,7 +157,7 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-info">Guardar</button>
+                                        <input type="button" name="<?php echo base_url() ?>admin/documento/update" data="documento" class="btn btn-success enviar_data" value="Guardar">
                                         </div>
                                     </div>
 
@@ -179,7 +191,7 @@
                                     </div>
                                     <div class="content" style="border:0px solid black;height:500px;width:390px;overflow:scroll;display:inline-block;">
                                         <i class="fa fa-info-circle"></i> Remover documento de la vista.<br><br>
-                                        <table class="table">
+                                        <table class="table" id="documento_vista">
                                             <?php
                                             if ($vistas_doc) {
                                                 $cnt = 0;
@@ -194,7 +206,7 @@
                                                         </td>
                                                         <td>
                                                             <span class="">
-                                                                <a href="#" id="<?= $value->id_vista ?>" class="btn btn-danger remover">Remover</a>
+                                                                <a id="<?= $value->id_vista ?>" onClick="remover(<?= $value->id_vista ?>)" class="btn btn-danger remover"><i class="fa fa-trash"></i></a>
                                                             </span>
                                                         </td>
                                                     </tr>

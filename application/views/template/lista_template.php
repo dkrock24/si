@@ -55,7 +55,24 @@
                 //redirec("index");
                 if(url != null){
                     
-                    window.location.href = url;
+                    //window.location.href = url;
+                    var url_accion = url;
+                    url_pagina     = getCookie("url");
+                    var folder     = url_pagina.split('/')[0];
+                    var controller = url_pagina.split('/')[1];
+                    var action     = url_pagina.split('/')[2];
+
+                    if (action == 'index') {
+                        url_accion = folder+"/"+controller+"/"+url_accion;
+                    }
+
+                    $.ajax({
+                        type: "post",
+                        url: "<?php echo base_url(); ?>"+url_accion,
+                        success: function(result) {
+                            $(".loadViews").html(result);
+                        }
+                    });
                 }
             } else {
                 swal("Salir", "Debes Hacer Login de Nuevo", "error");
@@ -93,6 +110,8 @@
             });
         }
     });
+
+    
 
     /*$(document).on('change', '.estado_filtro', function(e) {
 
@@ -144,14 +163,19 @@
                             <form id="filtros">
                                 <?php
                                 foreach ($column as $key => $combo) {
-                                    $active_filtro = array_keys($fields['field'][$key])[0];
+                                    //$active_filtro = array_keys($fields['field'][$key])[0];
+                                    $valor_filtro = "";
+                                    if(isset($filtros[key($fields['field'][$key])])){
+                                        $valor_filtro = $filtros[key($fields['field'][$key])];
+                                    }
+                                    
                                     ?>
                                     <th style="color: black;">
                                     <?php
                                     if (isset($filtros)) {
                                         if ($combo == 'Creado') {
                                             ?>
-                                            <input type="date" name="<?php echo key($fields['field'][$key]); ?>" autocomplete="off" value="<?php echo $filtros[$active_filtro] ?>" class="form-control filtro-input" /><br>
+                                            <input type="date" name="<?php echo key($fields['field'][$key]); ?>" autocomplete="off" value="<?php echo $valor_filtro ?>" class="form-control filtro-input" /><br>
                                             <?php
                                         } else if ($combo == 'Estado' && isset($fields['filtro_estado'])) {
                                             ?>
@@ -163,10 +187,7 @@
                                             </select><br>
                                             <?php
                                         } else {
-                                            $valor_filtro = "";
-                                            if(isset($filtros[key($fields['field'][$key])])){
-                                                $valor_filtro = $filtros[key($fields['field'][$key])];
-                                            }
+                                            
                                         ?>
                                         <input type="text" name="<?php echo key($fields['field'][$key]); ?>" autocomplete="off" value="<?php echo $valor_filtro ?>" class="form-control filtro-input" /><br>
                                         <?php
@@ -205,7 +226,7 @@
                                                 if ($value->accion_valor == 'btn_superior') {
                                                     ?>
                                                     <li>
-                                                        <a href="<?php echo $url;  ?>" onclick="<?php echo $value->accion_btn_nombre;  ?>"  id="">
+                                                        <a name="<?php echo $url;  ?>" onclick="<?php echo $value->accion_btn_nombre;  ?>"  class="accion_superior">
                                                             <span class="btn btn-info">
                                                                 <i class='<?php echo $value->accion_btn_icon; ?>'></i>
                                                             </span>
@@ -355,7 +376,7 @@
                                                         ?>
 
                                                         <li>
-                                                            <a href="<?php echo  $url;  ?>/<?php echo $table->$id; ?>">
+                                                            <a name="<?php echo  $url;  ?>/<?php echo $table->$id; ?>" class="accion_superior">
                                                                 <span class="btn btn-success">
                                                                     <i class="<?php echo $value->accion_btn_icon; ?>"></i>
                                                                 </span>
@@ -370,7 +391,7 @@
                                                         ?>
                                                         <li class="divider"></li>
                                                         <li>
-                                                            <a href="#" name="<?php echo $url;  ?>/<?php echo $table->$id; ?>" class="remove" id="<?php echo $contador; ?>">
+                                                            <a name="<?php echo $url;  ?>/<?php echo $table->$id; ?>" class="remove accion_superior" id="<?php echo $contador; ?>">
                                                                 <span class="btn btn-danger">
                                                                     <i class="<?php echo $value->accion_btn_icon; ?>"></i>
                                                                 </span>

@@ -93,7 +93,7 @@ class Empleado extends MY_Controller {
 		$data['title'] = "Crear Empleado";
 		$data['home'] = 'admin/empleado/e_nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/empleado/e_nuevo',$data, TRUE);
 	}
 
 	public function crear(){
@@ -134,7 +134,7 @@ class Empleado extends MY_Controller {
 		$data['home'] = 'admin/empleado/e_editar';
 
 		$this->general->editar_valido($data['empleado'], "admin/empleado/index");
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/empleado/e_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){

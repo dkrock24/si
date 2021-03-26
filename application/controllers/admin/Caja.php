@@ -58,7 +58,7 @@ class Caja extends MY_Controller {
 		$data['title'] = "Nueva Caja";
 		$data['home'] = 'admin/caja/c_nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/caja/c_nuevo',$data, TRUE);
 	}
 
 	public function crear(){
@@ -90,7 +90,7 @@ class Caja extends MY_Controller {
 		$data['home'] = 'admin/caja/c_editar';
 		$data['title'] = "Editar Caja";
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/caja/c_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0 ){

@@ -3,8 +3,8 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">                
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
-                <button type="button" class="mb-sm btn btn-success"> Lista Linea</button> 
+        <a name="producto/linea/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
+            <button type="button" class="mb-sm btn btn-success"> Lista Linea</button> 
         </a> 
         <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
         </h3>        
@@ -14,10 +14,10 @@
                 <div id="panelDemo10" class="panel menu_title_bar"> 
                     <div class="panel-heading menuTop">Nueva Linea </div>
 
-                    <div class="panel-body menuContent">    
+                    <div class="panel-body menuContent">
                         <div class="row">
                             <div class="col-lg-6">                                    
-                                <form class="form-horizontal" action='save_linea' method="post">
+                                <form class="form-horizontal" id='linea' name="linea" method="post">
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Tipo</label>
                                         <div class="col-sm-10">
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-info">Guardar</button>
+                                        <input type="button" name="<?php echo base_url() ?>producto/linea/crear" data="linea" class="btn btn-warning enviar_data" value="Guardar">
                                         </div>
                                     </div>
                                 </form>                                    

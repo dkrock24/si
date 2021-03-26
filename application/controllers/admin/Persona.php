@@ -73,7 +73,7 @@ class Persona extends MY_Controller {
 		$data['home'] 	= 'admin/persona/persona_nuevo';
 		$data['title'] 	= 'Crear Personas';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/persona/persona_nuevo',$data, TRUE);
 	}
 
 	public function crear(){
@@ -106,7 +106,7 @@ class Persona extends MY_Controller {
 		$data['home'] 		= 'admin/persona/persona_editar';
 
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/persona/persona_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){

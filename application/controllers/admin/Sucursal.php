@@ -61,8 +61,7 @@ class Sucursal extends MY_Controller {
 		$_SESSION['Vista']  	= $data['title'];
 		$_SESSION['registros']  = $data['registros'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template', $data, TRUE);
 	}
 
 	public function nuevo(){
@@ -73,7 +72,7 @@ class Sucursal extends MY_Controller {
 		$data['title'] 	= "Nueva Sucursal";
 		$data['home'] 	= 'admin/sucursal/sucursal_nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/sucursal/sucursal_nuevo', $data, TRUE);
 	}
 
 	public function crear(){
@@ -100,7 +99,7 @@ class Sucursal extends MY_Controller {
 
 		$this->general->editar_valido($data['sucursal'], "admin/sucursal/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/sucursal/sucursal_editar', $data, TRUE);
 	}
 
 	public function ver( $id = 0){

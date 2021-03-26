@@ -44,8 +44,7 @@ class Giros extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -56,7 +55,7 @@ class Giros extends MY_Controller {
 		$data['home'] 	= 'admin/giros/giros_nuevo';
 		$data['title'] 	= 'Nuevo Giros';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/giros/giros_nuevo',$data, TRUE);
 	}
 
 	public function crear(){
@@ -82,7 +81,7 @@ class Giros extends MY_Controller {
 
 		$this->general->editar_valido($data['giros'], "admin/giros/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/giros/giros_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){

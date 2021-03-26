@@ -154,7 +154,9 @@ class Sucursal_model extends CI_Model
         $id       = $this->db->insert_id();
         $empleado = $this->session->userdata['usuario'][0]->id_empleado;
 
-        $this->insert_empleado_sucursal($empleado, $id);
+        if ($id) {
+            $this->insert_empleado_sucursal($empleado, $id);
+        }
 
         if (!$result) {
             $result = $this->db->error();

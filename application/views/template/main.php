@@ -59,14 +59,45 @@
     });
 
     /**
+     * MENUS INTERNOS
+    */
+    $(document).on("click", ".accion_superior", function() {
+        
+        var url_accion = $(this).attr('name');
+        url_pagina     = getCookie("url");
+        var folder     = url_pagina.split('/')[0];
+        var controller = url_pagina.split('/')[1];
+        var action     = url_pagina.split('/')[2];
+
+        if (action == 'index') {
+            url_accion = folder+"/"+controller+"/"+url_accion;
+        }
+        loadJsFiles();
+        $.ajax({
+            type: "post",
+            url: "<?php echo base_url(); ?>"+url_accion,
+            success: function(result) {
+                $(".loadViews").html(result);
+            }
+        });
+    });
+
+    /**
      * FORMULARIOS
      */
     $(document).on("click", ".enviar_data", function() {
-         var url_pagina = $(this).attr('name');
+         
+      var url_pagina = $(this).attr('name');
+      var form = $('#' + $(this).attr('data') )[0];
+      var data = new FormData(form);
 
          $.ajax({
             type: "post",
-            data:  $('#' + $(this).attr('data') ).serialize(),
+            enctype: 'multipart/form-data',
+            processData: false,  // Important!
+            contentType: false,
+            cache: false,
+            data:  data,
             url: url_pagina,
             success: function(result) {
                $(".loadViews").html(result);
@@ -103,10 +134,26 @@
       }
       return "";
    }
+
+   function loadJsFiles(){
+      url_pagina     = getCookie("url");
+      var folder     = url_pagina.split('/')[0];
+      var controller = url_pagina.split('/')[1];
+      var action     = url_pagina.split('/')[2];
+
+      if (controller == 'usuario') {
+         //$.getScript("<?php echo base_url(); ?>"+"../asstes/js/pantallas/usuarios.js", function(data, textStatus, jqxhr) {});
+         <?php include("asstes/js/pantallas/usuarios.php"); ?>
+      }
+   }
       
     </script>
 
     <style type="text/css">
+
+    .content-wrapper{
+      margin-top: 100px !important;
+    }
 
     .link_paginacion{
       cursor:pointer;

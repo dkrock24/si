@@ -48,8 +48,7 @@ class Terminal extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -61,7 +60,7 @@ class Terminal extends MY_Controller {
 		$data['sucursal'] 	= $this->Sucursal_model->getAllSucursalEmpresa();
 		$data['usuario'] 	= $this->Usuario_model->get_usuarios_sucursal();
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/terminal/t_nuevo',$data, TRUE);
 	}
 
 	public function crear(){
@@ -96,7 +95,7 @@ class Terminal extends MY_Controller {
 
 		$this->general->editar_valido($data['terminal'], "admin/cargo/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/terminal/t_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){
@@ -179,7 +178,7 @@ class Terminal extends MY_Controller {
 		$data['title'] 		= "Terminal Usuarios";
 		$data['home'] 		= 'admin/terminal/t_asociar';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/terminal/t_asociar',$data, TRUE);
 	}
 
 	/**
@@ -198,7 +197,15 @@ class Terminal extends MY_Controller {
 	}
 
 	public function agregar(){
-		$data = $this->Terminal_model->agregar_usuario( $_POST );
+		$this->Terminal_model->agregar_usuario( $_POST );
+		$data = $this->Terminal_model->get_terminal_users( $_POST['terminal'] );
+
+		foreach ($data as $key => $value) {
+			unset($data[$key]->img);
+			unset($data[$key]->img_empleado);
+		}
+				
+		echo json_encode($data);
 	}
 
 	public function impresor_estado() {
@@ -212,7 +219,27 @@ class Terminal extends MY_Controller {
 	}
 
 	public function inactivar(){		
-		$data = $this->Terminal_model->eliminar_usuario( $_POST );
+		$this->Terminal_model->eliminar_usuario( $_POST );
+		$data = $this->Terminal_model->get_terminal_users( $_POST['terminal'] );
+
+		foreach ($data as $key => $value) {
+			unset($data[$key]->img);
+			unset($data[$key]->img_empleado);
+		}
+				
+		echo json_encode($data);
+	}
+
+	public function dispositivo(){		
+		$this->Terminal_model->dispositivo( $_POST );
+		$data = $this->Terminal_model->get_terminal_users( $_POST['terminal'] );
+
+		foreach ($data as $key => $value) {
+			unset($data[$key]->img);
+			unset($data[$key]->img_empleado);
+		}
+				
+		echo json_encode($data);
 	}
 
 	public function column(){

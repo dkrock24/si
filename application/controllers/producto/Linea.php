@@ -54,8 +54,7 @@ class Linea extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -69,10 +68,10 @@ class Linea extends MY_Controller {
 		$data['home'] 	= 'producto/linea/linea_nuevo';
 		$data['title'] 	= 'Crear Linea';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('producto/linea/linea_nuevo',$data, TRUE);
 	}
 
-	public function save_linea(){
+	public function crear(){
 		$data = $this->Linea_model->save_linea( $_POST );
 
 		if(!$data['code']){
@@ -96,7 +95,7 @@ class Linea extends MY_Controller {
 		$data['acciones'] = $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$this->general->editar_valido($data['lineas'], "producto/linea/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('producto/linea/linea_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){

@@ -1,9 +1,7 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
-
+<!-- Main section-->
 <script type="text/javascript">
-    $(document).ready(function(){
-        
-        $('#persona_modal').appendTo("body");
+   
+   $('#persona_modal').appendTo("body");
         $('#error').appendTo("body");
 
         $(document).on('change', '.Imagen', function()
@@ -25,7 +23,7 @@
         var contador_precios=1;
 
         $.ajax({
-            url: "../get_empleado",
+            url: "<?php echo base_url(). 'admin/usuario/get_empleado'; ?>",
             datatype: 'json',      
             cache : false,                
 
@@ -50,104 +48,9 @@
             }
         });
     } 
-
-    // filtrar producto
-    $(document).on('keyup', '#buscar_producto', function(){
-        var texto_input = $(this).val();
-
-        $("#list tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
-        });        
-    });
-
-    // Seleccionar persona
-    $(document).on('click', '.seleccionar_persona', function(){
-        var id = $(this).attr("id");
-        var name = $(this).attr("name");
-
-        $.ajax({
-            url: "../validar_usuario/"+id,
-            datatype: 'json',      
-            cache : false,                
-
-            success: function(data){
-                if(data){
-                     $(".notificacion_texto").text("Empleado ya vinculado a un usuario existente.");
-                    $('#error').modal('show');
-
-                }else{
-                    $("#persona").val(id);
-                    $("#nombre_persona").val(name);
-                    $('#persona_modal').modal('hide');
-                }               
-            },
-            error:function(){
-            }
-        });
-    });
-
-    //Compar password
-    $(document).on('click','#btn_save',function(){
-        var password = $("#password").val();
-        var password2 = $("#password2").val();
-
-        if( (password == password2) ){
-            //$('form#crear').submit();
-        }else{
-            $(".notificacion_texto").text("Password Diferente.");
-            $('#error').modal('show');
-        }
-    });
-
-    $("#imagen_nueva").hide();
-
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-              $('.preview_producto').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-            $("#imagen_nueva").show();
-            }
-        }
-    });
-
-    // Asignar roles
-    $(document).on('click', '.agregar_rol', function(){
-        var id_rol = $(this).attr("id");
-        var accion = $(this).attr("name");
-        var usuario = $("#id_usuario").val();
-
-        var data = {id_rol : id_rol, usuario:usuario, metodo:accion };
-
-        $.ajax({
-            url: "../agregar_remover_rol/",
-            datatype: 'json',
-            type : 'GET',
-            data : data,
-            cache : false,                
-
-            success: function(data){
-                /*if (accion == "agregar") {
-                    $(".notificacion_texto").text("Rol agregado.");
-                } else {
-                    $(".notificacion_texto").text("Rol eliminado.");
-                }
-                $('#error').modal('show');   
-                */
-               location.reload();
-            },
-            error:function(){
-            }
-        });
-    });
-
-    
 </script>
-<!-- Main section-->
+
+
 <style type="text/css">
     .preview_producto{
         width: 50%;
@@ -157,13 +60,13 @@
     <!-- Page content-->
     <div class="content-wrapper">  
         <h3 style="height: 50px; font-size: 13px;">  
-            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="admin/usuario/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Usuario</button> 
             </a> 
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
             
         </h3>
-        <form class="form-horizontal" enctype="multipart/form-data" id="crear" name="usuario" action='../update' method="post">
+        <form class="form-horizontal" enctype="multipart/form-data" id="usuario" name="usuario" method="post">
         <div class="row">
             <div class="col-lg-12">
                 
@@ -324,12 +227,12 @@
                                 ?>
 
                                 <br><br> <b> <h4>Roles Asignados</h4> </b>
-                                
+                                <span class="roels_asignados">
                                 <?php
                                 $cont =1;                                
                                 foreach ($usuario_roles as $ur) {   
                                     ?>
-                                    <label class="btn btn-success label-lg agregar_rol" style="margin-top:2px;" name="remover" id="<?php echo $ur->id_rol; ?>">
+                                    <label class="btn btn-success label-lg agregar_rol" style="margin-top:2px;margin-left:2px;" name="remover" id="<?php echo $ur->id_rol; ?>">
                                         <?php echo $ur->role; ?>
                                     </label>
                                     
@@ -337,13 +240,14 @@
                                     $cont ++;
                                 }
                                 ?>
+                                </span>
                             </div>
                         </div>
 
                         <div class="panel-footer text-right">
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-9">
-                                    <input type="submit" id="btn_save" class="btn btn-info" value="Guardar">                               
+                                    <input type="button" name="<?php echo base_url() ?>admin/usuario/update" data="usuario" class="btn btn-warning enviar_data" value="Guardar">                             
                                 </div>
                             </div>
                         </div>

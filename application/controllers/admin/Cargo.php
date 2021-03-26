@@ -78,7 +78,7 @@ class Cargo extends MY_Controller {
 		$data['title'] = "Nuevo Cargo Laboral";
 		$data['home'] = 'admin/cargo/c_nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/cargo/c_nuevo',$data, TRUE);
 	}
 
 	public function crear(){
@@ -106,7 +106,7 @@ class Cargo extends MY_Controller {
 
 		$this->general->editar_valido($data['cargo'], "admin/cargo/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/cargo/c_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){

@@ -45,8 +45,7 @@ class Marca extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function editar( $marca_id )
@@ -57,7 +56,7 @@ class Marca extends MY_Controller {
 		$data['home'] 	= 'admin/marca/m_editar';
 
 		$this->general->editar_valido($data['marca'], "admin/marca/index");
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/marca/m_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){
@@ -109,10 +108,10 @@ class Marca extends MY_Controller {
 		$data['marca'] 		= $this->Marca_model->getAllMarca();
 		$data['marca_categoria'] = $this->Marca_model->marca_categoria();
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/marca/m_nuevo',$data, TRUE);
 	}
 
-	public function save(){
+	public function crear(){
 
 		$data = $this->Marca_model->nuevo_marca( $_POST );
 
@@ -122,16 +121,19 @@ class Marca extends MY_Controller {
 			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Marca No Fue Creado : ". $data['message']);
 		}
-		redirect(base_url()."admin/marca/index");
+		redirect(base_url()."admin/marca/nuevo");
 	}
 
 	public function save_categoria_marca(){
 		$val = $this->Marca_model->save_categoria_marca( $_POST );
-		echo json_encode($val);
+		$data = $this->Marca_model->marca_categoria();
+		echo json_encode($data);
 	}
 
 	public function delete_categoria_marca($id){
 		$this->Marca_model->delete_categoria_marca( $id );
+		$data = $this->Marca_model->marca_categoria();
+		echo json_encode($data);
 	}
 
 	public function eliminar($id){

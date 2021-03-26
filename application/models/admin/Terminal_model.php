@@ -178,7 +178,6 @@ class Terminal_model extends CI_Model {
         {
             return $query->result();
         }
-
     }
 
     public function get_users(){
@@ -228,6 +227,7 @@ class Terminal_model extends CI_Model {
                 'Terminal' => $data['terminal'],
                 'Cajero_terminal' => $data['usuario'],
                 'estado_terminal_cajero' => 1,
+                'dispositivo_terminal' => $data['dispositivo'],
             );
 
             $this->db->insert( self::pos_terminal_cajero , $array );
@@ -269,7 +269,25 @@ class Terminal_model extends CI_Model {
         }
 
         $array = array(
-            'estado_terminal_cajero' => $valor,
+            'estado_terminal_cajero' => $valor
+        );
+
+        $condition = array(
+            'Terminal' => $data['terminal'],
+            'Cajero_terminal' => $data['usuario']
+        );
+
+        $this->db->where(  $condition );
+        $insert = $this->db->update( self::pos_terminal_cajero , $array );
+
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+    }
+
+    public function dispositivo( $data ){
+
+        $array = array(
             'dispositivo_terminal' => $data['dispositivo']
         );
 
@@ -284,7 +302,6 @@ class Terminal_model extends CI_Model {
         if(!$insert){
             $insert = $this->db->error();
         }
-
     }
 
     function insert_api($terminales)

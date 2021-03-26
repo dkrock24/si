@@ -1218,7 +1218,7 @@ _:-ms-lang(x),
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff23b7e5', endColorstr='#ff51c6ea', GradientType=1);
   }
   .content-wrapper > h3{
-    margin-top: 30px;
+    margin-top: -50px;
   }
 
   .topnavbar .navbar-header {

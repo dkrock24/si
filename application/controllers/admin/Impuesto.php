@@ -49,15 +49,14 @@ class Impuesto extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
 		$data['menu'] 	= $this->session->menu;
 		$data['home'] 	= 'admin/impuesto/nuevo';
 		$data['title'] 	= "Nuevo Impuesto";
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/impuesto/nuevo',$data, TRUE);
 	}
 
 	public function save(){
@@ -193,7 +192,7 @@ class Impuesto extends MY_Controller {
 		$data['home'] 		= 'admin/impuesto/config';
 		$data['title'] 		= "Impuestos - Config";
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/impuesto/config',$data, TRUE);
 	}
 
 	public function asociar(){

@@ -56,10 +56,10 @@ class Roles extends MY_Controller {
 
 		$this->general->editar_valido($data['roles'], "admin/roles/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/roles/roles_editar',$data, TRUE);
 	}
 
-	public function update_roles()
+	public function update()
 	{	
 		$data = $this->Roles_model->setRoles( $_POST );	
 
@@ -93,10 +93,10 @@ class Roles extends MY_Controller {
 		$data['home'] = 'admin/roles/roles_nuevo';
 		$data['title'] = 'Nuevo Role';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/roles/roles_nuevo',$data, TRUE);
 	}
 
-	public function save_rol(){
+	public function crear(){
 
 		$data = $this->Roles_model->nuevo_rol( $_POST );
 

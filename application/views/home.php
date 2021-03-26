@@ -1,8 +1,8 @@
 
    <!-- Page content-->
    <div class="content-wrapper">
-   <h3 style=""><i class="icon-arrow-right"></i> <?php echo $titulo; ?></h3><br><br><br><br><br><br>
-      <!-- START widgets box-->   <br><br>   <br><br>   <br><br>
+   <h3 style=""><i class="icon-arrow-right"></i> <?php echo $titulo; ?></h3><br>
+      <!-- START widgets box-->   
       <div class="row">
          <div class="col-lg-3 col-sm-6">
             <!-- START widget-->

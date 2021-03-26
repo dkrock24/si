@@ -73,7 +73,7 @@ class Usuario extends MY_Controller {
 		$data['home'] 	= 'admin/usuario/u_nuevo';
 		$data['title'] 	= "Nuevo Usuario";
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/usuario/u_nuevo', $data, TRUE);
 	}
 
 	function get_empleado(){
@@ -116,13 +116,21 @@ class Usuario extends MY_Controller {
 
 		$this->general->editar_valido($data['usuario'], "admin/usuario/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/usuario/u_editar', $data, TRUE);
+	}
+
+	public function get_usuario_rol($usuario_id)
+	{
+		$data = $this->Usuario_model->get_usuario_roles2($usuario_id);
+		echo json_encode($data);
 	}
 
 	public function agregar_remover_rol()
 	{
 		if (isset($_GET)) {
-			return $result = $this->Usuario_model->agregar_remover_rol( $_GET );
+			$this->Usuario_model->agregar_remover_rol( $_GET );
+			$data = $this->Usuario_model->get_usuario_roles2($_GET['usuario']);
+			echo json_encode($data);
 		}
 	}
 

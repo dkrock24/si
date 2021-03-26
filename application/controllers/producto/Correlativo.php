@@ -57,8 +57,7 @@ class Correlativo extends MY_Controller {
 		$_SESSION['Vista']  	= $data['title'];
 		$data['home'] 			= 'template/lista_template';
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -77,7 +76,7 @@ class Correlativo extends MY_Controller {
 		$data['title'] 		= "Nuevo Correlativo";
 		$data['home'] 		= 'producto/correlativo/c_nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('producto/correlativo/c_nuevo',$data, TRUE);
 	}
 
 	public function save(){
@@ -111,7 +110,7 @@ class Correlativo extends MY_Controller {
 
 		$this->general->editar_valido($data['correlativo'], "producto/correlativo/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('producto/correlativo/c_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){

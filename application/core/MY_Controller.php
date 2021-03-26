@@ -92,16 +92,16 @@ class MY_Controller extends CI_Controller
             $flag = false;
 				
 			foreach ($_POST as $key => $field) {
-				
+				$field = strtolower($field);
 				if($field){
                     
                     if($flag){
-                        $filtro .= " and ". $key ." like '%$field%' ";
+                        $filtro .= " and lower(". $key .") like '%$field%' ";
                     }else{
-                        $filtro .= " ". $key ." like '%$field%'  ";
+                        $filtro .= " lower(". $key .") like '%$field%'  ";
                     }
 					$flag = true;
-                }               
+                }
 			}
 
 			if(!isset($_POST['total_pagina'])){

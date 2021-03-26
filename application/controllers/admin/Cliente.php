@@ -72,7 +72,8 @@ class Cliente extends MY_Controller {
 		$data['title'] = "Nuevo Cliente";
 		$data['home'] = 'admin/cliente/cliente_nuevo';
 
-		$this->parser->parse('template', $data);
+		//$this->parser->parse('template', $data);
+		echo $this->load->view('admin/cliente/cliente_nuevo',$data, TRUE);
 	}
 
 	function get_empleado(){
@@ -111,7 +112,7 @@ class Cliente extends MY_Controller {
 		$data['home'] = 'admin/cliente/cliente_editar';
 
 		$this->general->editar_valido($data['cliente'], "admin/cliente/index");
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/cliente/cliente_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){

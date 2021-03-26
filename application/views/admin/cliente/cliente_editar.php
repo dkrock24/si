@@ -1,4 +1,4 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -20,7 +20,7 @@
             var contador_precios = 1;
 
             $.ajax({
-                url: "../get_empleado",
+                url: "<?php echo base_url(); ?>/admin/cliente/get_empleado",
                 datatype: 'json',
                 cache: false,
 
@@ -95,7 +95,7 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">
-            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="admin/cliente/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Clientes</button>
             </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
@@ -111,7 +111,7 @@
                     <div class="menuContent">
                         <div class="b">    
                             <div class="panel-heading"></div>
-                            <form class="form-horizontal" enctype="multipart/form-data" name="cliente" action='../update' method="post">
+                            <form class="form-horizontal" enctype="multipart/form-data" id="cliente">
                                 <input type="hidden" value="<?php echo $cliente[0]->id_cliente; ?>" name="id_cliente">
                                 <div class="row">
 
@@ -461,8 +461,8 @@
 
                                 <div class="panel-footer text-right">
                                     <div class="form-group">
-                                        <div class="col-sm-offset-3 col-sm-9">
-                                            <button type="submit" class="btn btn-primary">Guardar</button>                                            
+                                        <div class="col-sm-offset-3 col-sm-9">                                           
+                                            <input type="button" name="<?php echo base_url() ?>admin/cliente/update" data="cliente" class="btn btn-warning enviar_data" value="Guardar">
                                         </div>
                                     </div>
                                 </div>

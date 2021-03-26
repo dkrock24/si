@@ -21,7 +21,6 @@ class Documento extends MY_Controller {
 		$this->load->model('admin/Documento_model');
 		$this->load->model('admin/Impresor_model');
 		$this->load->model('admin/Terminal_model');	
-
 	}
 
 	public function index()
@@ -47,8 +46,7 @@ class Documento extends MY_Controller {
 		$_SESSION['Vista']  	= $data['title'];
 
 		//$this->parser->parse('template', $data);
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function editar( $documento_id )
@@ -62,17 +60,19 @@ class Documento extends MY_Controller {
 
 		$this->general->editar_valido($data['documento'], "admin/documento/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/documento/d_editar',$data, TRUE);
 	}
 
 	public function asociar($documento , $vista){
-		$data['vistas'] 	= $this->Vistas_model->asociar($documento , $vista);
-		echo 1;
+		$this->Vistas_model->asociar($documento , $vista);
+		$data = $this->Vistas_model->get_vista_doc($documento);
+		echo json_encode($data);
 	}
 
 	public function remover($documento , $vista){
-		$data['vistas'] 	= $this->Vistas_model->remover($documento , $vista);
-		echo 1;
+		$this->Vistas_model->remover($documento , $vista);
+		$data = $this->Vistas_model->get_vista_doc($documento);
+		echo json_encode($data);
 	}
 
 	public function ver( $id = 0){
@@ -112,7 +112,7 @@ class Documento extends MY_Controller {
 		$data['title'] = "Nuevo Documento";	
 		$data['home'] = 'admin/documento/d_nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/documento/d_nuevo',$data, TRUE);
 	}
 
 	public function update()
@@ -128,7 +128,7 @@ class Documento extends MY_Controller {
 		redirect(base_url()."admin/documento/index");
 	}
 
-	public function save(){
+	public function crear(){
 		$data = $this->Documento_model->nuevo_documento( $_POST );
 
 		$documentos = $this->Documento_model->getAllDocumento();
