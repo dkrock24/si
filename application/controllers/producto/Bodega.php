@@ -53,8 +53,7 @@ class Bodega extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -71,10 +70,10 @@ class Bodega extends MY_Controller {
 		$data['home'] = 'producto/bodega/bodega_nuevo';
 		$data['title'] = "Nueva Bodega";
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('producto/bodega/bodega_nuevo',$data, TRUE);
 	}
 
-	public function save_bodega(){
+	public function crear(){
 
 		$data['bodegas'] = $this->Bodega_model->saveBodegas( $_POST );
 
@@ -101,7 +100,7 @@ class Bodega extends MY_Controller {
 
 		$this->general->editar_valido($data['bodega'], "producto/bodega/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('producto/bodega/bodega_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){
@@ -137,7 +136,7 @@ class Bodega extends MY_Controller {
 
 	}
 
-	public function update_bodega(){
+	public function update(){
 
 		$data['bodegas'] = $this->Bodega_model->update_bodega( $_POST );
 

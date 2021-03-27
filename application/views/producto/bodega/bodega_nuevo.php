@@ -3,7 +3,7 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">                
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="producto/bodega/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Lista Bodegas</button> 
         </a> 
         <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
@@ -17,7 +17,7 @@
                         <div class="b">    
                             <div class="panel-heading"></div>
                             </p>
-                            <form class="form-horizontal" action='save_bodega' method="post">
+                            <form class="form-horizontal" id='bodega' method="post">
                                 <div class="row">
                                     <div class="col-lg-6">                
                                         <div class="form-group">
@@ -88,7 +88,7 @@
                                 <div class="panel-footer text-right">
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-9">
-                                            <button type="submit" class="btn btn-primary">Guardar</button>                                    
+                                        <input type="button" name="<?php echo base_url() ?>producto/bodega/crear" data="bodega" class="btn btn-success enviar_data" value="Guardar">
                                         </div>
                                     </div>
                                 </div>

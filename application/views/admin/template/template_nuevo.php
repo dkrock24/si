@@ -1,11 +1,15 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script>
 	$(document).ready(function() {
+		$("#ModalEmpresa").appendTo('body');
 
 		setTimeout(function() {
             $("#ModalEmpresa").modal();
             
         }, 1000);
+
+		$("#btn_template").on("click", function(){
+			$("#ModalEmpresa").modal('toggle');
+		});
 
 		(function($) {
 
@@ -17,10 +21,7 @@
 				return false;
 			});
 
-		})(jQuery);
-
-
-		$("#ModalEmpresa").appendTo('body');
+		})(jQuery);		
 
 		// Mostrar contenido en Vista Previa
 		$("#template_html").keyup(function() {
@@ -267,7 +268,7 @@
 	<!-- Page content-->
 	<div class="content-wrapper">
 		<h3 style="height: 50px; font-size: 13px;">
-			<a href="index" style="top: -12px;position: relative; text-decoration: none">
+			<a name="admin/template/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
 				<button type="button" class="mb-sm btn btn-success"> Template</button>
 			</a>
 			<button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
@@ -383,7 +384,7 @@
 								<div class="col-md-11 content" style="height: 100%">
 									<div class="panel ">
 
-										<form action="crear" method="post">
+										<form id="template" method="post">
 											<div class="panel-body"><br>
 
 												<div class="row">
@@ -545,7 +546,9 @@
 															$data = [1, 2, 3, 4, 5];
 															?>
 															<div class="panel-heading">
-																EDITOR <span><input type="submit" class="btn btn-default" name="enviar" value="Guardar" style="float: right;" /></span>
+																EDITOR <span>
+																<input type="button" id="btn_template" name="<?php echo base_url() ?>admin/template/crear" data="template" class="btn btn-success enviar_data" value="Guardar">
+																</span>
 															</div>
 															<div class="panel-body">
 																<textarea name="template_html" id="template_html" cols="30" rows="10" class="form-control"></textarea>

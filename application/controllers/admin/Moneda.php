@@ -46,8 +46,7 @@ class Moneda extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -56,10 +55,10 @@ class Moneda extends MY_Controller {
 		$data['home'] 	= 'admin/moneda/moneda_nuevo';
 		$data['title'] 	= "Crear Moneda";
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/moneda/moneda_nuevo',$data, TRUE);
 	}
 
-	public function save(){
+	public function crear(){
 
 		if(isset($_POST)){
 			$data = $this->Moneda_model->save( $_POST );
@@ -85,7 +84,7 @@ class Moneda extends MY_Controller {
 		$data['home'] 		= 'admin/moneda/moneda_editar';
 		$data['title'] 		= "Editar Moneda";
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/moneda/moneda_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){

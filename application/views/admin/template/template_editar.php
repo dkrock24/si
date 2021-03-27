@@ -1,10 +1,14 @@
 	<script>
 		$(document).ready(function() {
-
+			$("#ModalEmpresa").appendTo('body');
 			setTimeout(function() {
 				$("#ModalEmpresa").modal();
 
 			}, 1000);
+
+			$("#btn_template").on("click", function(){
+				$("#ModalEmpresa").modal('toggle');
+			});
 
 			(function($) {
 
@@ -17,8 +21,6 @@
 				});
 
 			})(jQuery);
-
-			$("#ModalEmpresa").appendTo('body');
 
 			// Mostrar contenido en Vista Previa
 			$("#template_html").keyup(function() {
@@ -293,7 +295,7 @@
 		<!-- Page content-->
 		<div class="content-wrapper">
 			<h3 style="height: 50px; font-size: 13px;">
-				<a href="../index" style="top: -12px;position: relative; text-decoration: none">
+				<a name="admin/template/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
 					<button type="button" class="mb-sm btn btn-success"> Template</button>
 				</a>
 				<button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
@@ -328,7 +330,7 @@
 				<div class="modal-body" style="background:#dadada">
 
 					<!-- START panel-->
-					<form action="../update" method="post">
+					<form id="template" method="post">
 						<div class="panel" style="background:#dadada">
 							<div class="panel-heading" id="giro_nombre2"></div>
 							<!-- START table-responsive-->
@@ -591,7 +593,7 @@
 
 												<div class="panel-heading" style="background: ##4d555d;color: white;">
 													EDITOR <span>
-														<input type="submit" class="btn btn-info" name="enviar" value="Guardar" style="float: right;" />
+													<input type="button" name="<?php echo base_url() ?>admin/template/update" id="btn_template" data="template" class="btn btn-success enviar_data" value="Guardar">
 														<a href="#" class="btn btn-default" id="button">Copiar</a>
 													</span>
 												</div>

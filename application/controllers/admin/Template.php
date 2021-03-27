@@ -56,8 +56,7 @@ class Template extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;		
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 	
 	public function nuevo(){
@@ -76,12 +75,11 @@ class Template extends MY_Controller {
 		$data['title'] 				= "Nuevo Template";
 		$data['home'] 				= 'admin/template/template_nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/template/template_nuevo',$data, TRUE);
 	}
 	
 
 	public function crear(){
-		
 		$data = $this->Template_model->crear_template( $_POST );
 
 		if($data){
@@ -118,7 +116,7 @@ class Template extends MY_Controller {
 		$data['documento'] 	= $this->Documento_model->getAllDocumento();
 		$data['home'] 		= 'admin/template/template_asociar';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/template/template_asociar',$data, TRUE);
 	}
 
 	public function update_pago( $id_tabla , $id_pago ){
@@ -160,7 +158,7 @@ class Template extends MY_Controller {
 		$data['formato'] 	= $this->Template_model->getFormatoId($formato_id);
 		$this->general->editar_valido($data['formato'], "admin/template/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/template/template_editar',$data, TRUE);
 	}
 
 	public function update(){
