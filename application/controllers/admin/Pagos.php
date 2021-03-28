@@ -46,8 +46,7 @@ class Pagos extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -56,10 +55,10 @@ class Pagos extends MY_Controller {
 		$data['home'] = 'admin/pagos/p_nuevo';
 		$data['title'] = "Crear Nuevo Pago";
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/pagos/p_nuevo',$data, TRUE);
 	}
 
-	public function save(){
+	public function crear(){
 
 		if(isset($_POST)){
 			$data = $this->Pagos_model->save( $_POST );
@@ -85,7 +84,7 @@ class Pagos extends MY_Controller {
 		$data['home'] 		= 'admin/pagos/p_editar';
 		$data['title'] 		= "Editar Forma Pago";
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/pagos/p_editar',$data, TRUE);
 	}
 
 	public function update(){
