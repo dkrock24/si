@@ -1,4 +1,3 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 
 <script type="text/javascript">
 
@@ -8,26 +7,11 @@
       $('#modulo_modal').appendTo("body");
       $('#edit_modulo_modal').appendTo("body");
 
-      $(".save_params1").on('click',function(){
-
-         var clas = $(this).attr('name');
-
-         var form = $("."+clas).serializeArray();
-         var method = '../'+ $(this).attr('id');
-         
-         $.ajax({
-             type: 'POST',
-             data: {
-                 param : form,
-             },
-             url: method,
-
-             success: function(data){
-                 location.reload();
-             },
-             error:function(){
-             } 
-         });
+      $(".enviar_data").on("click", function(){
+         $("#editar_param_modal").modal('hide');
+         $("#modulo_modal").modal('hide');
+         $("#edit_modulo_modal").modal('hide');
+         $("#param_modal").modal('hide');
       });
 
       $(".btn_conf").on('click', function(){
@@ -40,6 +24,7 @@
                  id : id,
              },
              url: method,
+             url: "<?php echo base_url() ?>admin/param/get_params",
 
              success: function(data){
                
@@ -61,6 +46,7 @@
                $("#valor_conf").val(conf[0].valor_conf);
                $("#descripcion_conf").val(conf[0].descripcion_conf);
                $("#id_conf").val(conf[0].id_conf);
+               $(".param_delete").val(conf[0].id_conf);
 
                var estado_conf = "<select name='estado_conf' class='form-control'>" ;
                $.each(conf, function(i, item) {
@@ -84,14 +70,13 @@
 
       $(".edit_modulo").on('click', function(){
          var id = $(this).attr('id');
-         var method = "../get_modulo";
 
          $.ajax({
              type: 'POST',
              data: {
                  id : id,
              },
-             url: method,
+             url: "<?php echo base_url() ?>admin/param/get_modulo",
 
              success: function(data){
                
@@ -295,8 +280,8 @@
                </button>
                <h4 id="myModalLabelLarge" class="modal-title" style="text-align: center;"> Editar Parametro </h4>
             </div>
-            <div class="modal-body">  
-               <form name="update_params" id="update_params" class="update_params">
+            <form name="update_params" id="params">
+               <div class="modal-body">  
                   <input type="hidden" name="id_conf" value="" id="id_conf">
                   <div class="row">
                      <div class="col-md-4">Modulo</div>
@@ -328,14 +313,16 @@
                            <span class="estado_conf"></span>
                      </div>
                   </div>   
-               </form>                 
-
             </div>
             <div class="modal-footer">
-               <button type="button" style="float: left;" data-dismiss="modal" class="btn btn-danger save_params1" id="delete_params" name="update_params" delete="">Eliminar</button>
-               <button type="button" data-dismiss="modal" class="btn btn-info save_params1" id="update_params" name="update_params">Guardar</button>
+               <input type="button" id="close_modal" name="<?php echo base_url() ?>admin/param/update" data="params" class="btn btn-success enviar_data" value="Guardar">
                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
             </div>
+            </form>
+            <form id="delete_params">
+               <input type="hidden" name="param" value="" class="param_delete">
+               <input type="button" style="float: left;" data-dismiss="modal" id="close_modal" name="<?php echo base_url() ?>admin/param/delete_params" data="delete_params" class="btn btn-danger enviar_data" value="Eliminar">  
+            </form>
          </div>
       </div>
    </div>
@@ -351,8 +338,8 @@
                </button>
                <h4 id="myModalLabelLarge" class="modal-title" style="text-align: center;"> Crear Nuevo Parametro </h4>
             </div>
-            <div class="modal-body">  
-               <form name="param_form" id="save_params" class="save_params" >
+            <form name="nuevo_config" id="nuevo_config" class="nuevo_config" >
+               <div class="modal-body">  
                   <div class="row">
                      <div class="col-md-4">Modulo</div>
                      <div class="col-md-8">
@@ -394,13 +381,12 @@
                            </select>
                      </div>
                   </div>   
-               </form>                 
-
             </div>
             <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-info save_params1" id="save_params" name="save_params">Guardar</button>
+            <input type="button" name="<?php echo base_url() ?>admin/param/nuevo_config" data="nuevo_config" class="btn btn-success enviar_data" value="Guardar">
                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
             </div>
+            </form>    
          </div>
       </div>
    </div>
@@ -417,7 +403,7 @@
                <h4 id="myModalLabelLarge" class="modal-title" style="text-align: center;"> Crear Nuevo Modulo </h4>
             </div>
             <div class="modal-body">  
-               <form name="param_form" id="save_modulo" class="save_modulo">
+               <form name="param_form" id="nuevo_modulo" class="save_modulo">
                   <div class="row">
                      <div class="col-md-4">Modulo</div>
                      <div class="col-md-8">
@@ -455,7 +441,7 @@
 
             </div>
             <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-info save_params1" id="save_modulo" name="save_modulo">Guardar</button>
+               <input type="button" name="<?php echo base_url() ?>admin/param/nuevo_modulo" data="nuevo_modulo" class="btn btn-success enviar_data" value="Guardar">
                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
             </div>
          </div>
@@ -473,8 +459,8 @@
                </button>
                <h4 id="myModalLabelLarge" class="modal-title" style="text-align: center;"> Editar Modulo </h4>
             </div>
-            <div class="modal-body">  
-               <form name="param_form" id="update_modulo" class="update_modulo">
+            <form name="param_form" id="update_modulo" class="update_modulo">
+               <div class="modal-body">  
                   <input type="hidden" name="id_modulo" id="id_modulo" value="">
                   <div class="row">
                      <div class="col-md-4">Modulo</div>
@@ -506,13 +492,12 @@
                         <span id="estado_modulo"></span>
                      </div>
                   </div>   
-               </form>                 
-
             </div>
             <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-info save_params1" id="update_modulo" name="update_modulo">Guardar</button>
-               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
+            <input type="button" name="<?php echo base_url() ?>admin/param/update_modulo" data="update_modulo" class="btn btn-success enviar_data" value="Guardar">
+               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
             </div>
+            </form> 
          </div>
       </div>
    </div>

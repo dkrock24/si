@@ -38,32 +38,21 @@ class Param_model extends CI_Model {
 	}
 
 	public function save_params($param){
-		$data = array();
-		
-		foreach ($param as $key => $value) {
-			@$data[$value['name']] .= $value['value'] ;
-		}
 
-		$data['creado_conf'] = date("Y-m-d h-i-s");
+		$param['creado_conf'] = date("Y-m-d h-i-s");
 
-		$this->db->insert(self::conf, $data ); 
+		$this->db->insert(self::conf, $param ); 
 	}
 
 	public function update_params($param){
-		$data = array();
-		
-		foreach ($param as $key => $value) {
-			@$data[$value['name']] .= $value['value'] ;
-		}
 
-		@$data['actualizado_conf'] .= date("Y-m-d h-i-s");
-		$this->db->where(self::conf.'.id_conf', $data['id_conf']);
-		$this->db->update(self::conf, $data ); 
+		$param['actualizado_conf'] = date("Y-m-d h-i-s");
+		$this->db->where(self::conf.'.id_conf', $param['id_conf']);
+		$this->db->update(self::conf, $param ); 
 	}
 
 	public function delete_params($param){
-		
-		$this->db->delete(self::conf, array('id_conf' => $param[0]['value']) ); 
+		$this->db->delete(self::conf, array('id_conf' => $param['param']) ); 
 	}
 
 	public function get_params($id){
@@ -81,13 +70,8 @@ class Param_model extends CI_Model {
 	}
 
 	public function save_modulo($param){
-		$data = array();
-		
-		foreach ($param as $key => $value) {
-			@$data[$value['name']] .= $value['value'] ;
-		}
 
-		$this->db->insert(self::modulo, $data ); 
+		$this->db->insert(self::modulo, $param ); 
 	}
 
 	public function get_modulos_id($id){
@@ -104,14 +88,9 @@ class Param_model extends CI_Model {
 	}
 
 	public function update_modulo($param){
-		$data = array();
-		
-		foreach ($param as $key => $value) {
-			@$data[$value['name']] .= $value['value'] ;
-		}
 
-		$this->db->where(self::modulo.'.id_modulo', $data['id_modulo']);
-		$this->db->update(self::modulo, $data ); 
+		$this->db->where(self::modulo.'.id_modulo', $param['id_modulo']);
+		$this->db->update(self::modulo, $param ); 
 	}
 
 	/**

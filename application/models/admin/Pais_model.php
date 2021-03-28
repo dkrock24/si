@@ -72,7 +72,14 @@ class Pais_model extends CI_Model {
 
 	// Delete Pais
 	function pais_delete( $id_pais ){
-		
+        $this->db->where('id_pais', $id_pais);
+        $result = $data = $this->db->delete(self::pais);
+        
+        if(!$result){
+            $result = $this->db->error();
+        }
+
+        return $result;
 	}
 
 	function crear_pais( $pais ){

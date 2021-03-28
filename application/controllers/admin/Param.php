@@ -20,23 +20,23 @@ class Param extends CI_Controller {
 		$data['total'] 	= $this->Param_model->record_count();
 		$data['title'] 	= "Parametros";
 		$data['home'] 	= 'admin/param/vParam';
-		//$this->parser->parse('template', $data);
-		$data = $this->load->view('admin/param/vParam',$data, TRUE);
-		echo $data;
-		
+
+		echo $this->load->view('admin/param/vParam',$data, TRUE);
 	}
 
-	public function save_params(){
-		$this->Param_model->save_params($_POST['param']);
+	public function nuevo_config(){
+		$this->Param_model->save_params($_POST);
+		redirect(base_url()."admin/param/index");
 	}
 
-	public function update_params(){
-		$this->Param_model->update_params($_POST['param']);
+	public function update(){
+		$this->Param_model->update_params($_POST);
+		redirect(base_url()."admin/param/index");
 	}
 
 	public function delete_params(){
-
-		$this->Param_model->delete_params($_POST['param']);
+		$this->Param_model->delete_params($_POST);
+		redirect(base_url()."admin/param/index");
 	}
 
 	public function get_params(){
@@ -45,8 +45,9 @@ class Param extends CI_Controller {
 		echo json_encode($data);
 	}
 
-	public function save_modulo(){
-		$this->Param_model->save_modulo($_POST['param']);
+	public function nuevo_modulo(){
+		$this->Param_model->save_modulo($_POST);
+		redirect(base_url()."admin/param/index");
 	}
 
 	public function get_modulo(){
@@ -55,7 +56,8 @@ class Param extends CI_Controller {
 	}
 
 	public function update_modulo(){
-		$this->Param_model->update_modulo($_POST['param']);
+		$this->Param_model->update_modulo($_POST);
+		redirect(base_url()."admin/param/index");
 	}
 	
 }

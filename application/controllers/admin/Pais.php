@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Pais extends MY_Controller {
 
 	public function __construct()
@@ -28,9 +27,6 @@ class Pais extends MY_Controller {
 		$url_page 	= "admin/pais/index";
 		$pag 		= $this->MyPagination($model, $url_page, $vista = 5) ;
 
-		// GET PAIS
-		//$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
 		$data['menu'] 			= $this->session->menu;
 		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
@@ -46,8 +42,7 @@ class Pais extends MY_Controller {
 		$data['home'] 			= 'template/lista_template';
 		$data['title'] 			= 'Paises';
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 	
 	public function nuevo(){
@@ -58,7 +53,7 @@ class Pais extends MY_Controller {
 		$data['title'] 	= "Nuevo Pais";	
 		$data['home'] 	= 'admin/pais/pais_nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/pais/pais_nuevo',$data, TRUE);
 	}
 
 	public function crear(){
@@ -83,7 +78,7 @@ class Pais extends MY_Controller {
 		$data['home'] = 'admin/pais/pais_edit';
 		$data['title'] = 'Editar Pais';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/pais/pais_edit',$data, TRUE);
 	}
 	
 	public function update( ){
@@ -101,7 +96,7 @@ class Pais extends MY_Controller {
 	
 	public function eliminar( $id_pais ){
 		// DELETE PAIS //
-		$data['pais'] = $this->Pais_model->pais_delete( $id_pais );
+		$data = $this->Pais_model->pais_delete( $id_pais );
 
 		if($data){
 			$this->session->set_flashdata('warning', "Pais Fue Eliminado");
@@ -127,7 +122,7 @@ class Pais extends MY_Controller {
 		$data['home'] 			= 'admin/pais/dep';
 		$data['title'] 			= 'Departamento';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/pais/dep',$data, TRUE);
 	}
 
 	public function nuevo_dep( $id_pais ){
@@ -138,7 +133,7 @@ class Pais extends MY_Controller {
 		$data['home'] 		= 'admin/pais/dep_nuevo';
 		$data['title'] 		= 'Nuevo Departamento';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/pais/dep_nuevo',$data, TRUE);
 	}
 
 	public function crear_dep(){
@@ -165,7 +160,7 @@ class Pais extends MY_Controller {
 		$data['home'] 	= 'admin/pais/dep_editar';
 		$data['dep'] 	= $this->Pais_model->editar_dep( $id_dep );
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/pais/dep_editar',$data, TRUE);
 	}
 
 	public function update_dep(){
@@ -197,14 +192,16 @@ class Pais extends MY_Controller {
 
 // Start Ciudad **********************************************************************************
 
-	public function ciu($id_dep){
+	public function ciu($id_dep, $pais){
 
 		$data['title']= 'Lista Ciudad';
 		$data['home'] = 'admin/pais/ciu';
 		$data['menu'] = $this->session->menu;
 		$data['ciu']  = $this->Pais_model->get_ciu_by( $id_dep );
+		$data['id_dep'] = $id_dep;
+		$data['id_pais'] = $pais;
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/pais/ciu',$data, TRUE);
 	}
 
 	public function nuevo_ciu( $id_dep ){
@@ -213,8 +210,9 @@ class Pais extends MY_Controller {
 		$data['dep']  =  $id_dep;
 		$data['home'] = 'admin/pais/ciu_nuevo';
 		$data['title']= 'Nueva Ciudad';
+		$data['id_dep'] = $id_dep;
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/pais/ciu_nuevo',$data, TRUE);
 	}
 
 	public function crear_ciu(){
@@ -236,7 +234,7 @@ class Pais extends MY_Controller {
 		$data['ciu']  =  $this->Pais_model->get_ciu( $id_ciu );
 		$data['home'] = 'admin/pais/ciu_editar';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/pais/ciu_editar',$data, TRUE);
 	}
 
 	public function update_ciu(){
