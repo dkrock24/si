@@ -48,8 +48,7 @@ class Impresor extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -58,10 +57,10 @@ class Impresor extends MY_Controller {
 		$data['home'] 	= 'admin/impresor/nuevo';
 		$data['title'] 	= "Crear Impresor";
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/impresor/nuevo',$data, TRUE);
 	}
 
-	public function save(){
+	public function crear(){
 
 		if (isset($_POST)) {
 			
@@ -94,7 +93,7 @@ class Impresor extends MY_Controller {
 		$data['home'] 		= 'admin/impresor/editar';
 		$data['title'] 		= "Editar Impresor";
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/impresor/editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){
