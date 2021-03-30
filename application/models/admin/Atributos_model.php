@@ -83,7 +83,6 @@ class Atributos_model extends CI_Model {
 
 	function crear_atributo( $atributos){
 
-        
 		$data = array(
             'nam_atributo' => $atributos['nam_atributo'],
             'tipo_atributo' => $atributos['tipo_atributo'],
@@ -99,25 +98,20 @@ class Atributos_model extends CI_Model {
 
     function guardar_atributos_opciones( $ultimo_id , $atributos ){
         // esta funcion guarda las opcciones de los tipos de atributos de multiples opciones
-        var_dump($atributos);
         $contador = 1;
         foreach ($atributos as $key => $value) {
 
-            $option = (int)$key;
-
-            $int2 = (int) $option;
-            
-            if($int2 != 0){
+            if (strpos($key, 'option') !== false) {
 
                 $data = array(
-                    'Atributo'  => $ultimo_id,
-                    'attr_valor' => $value,
-                    'attr_fecha_creado' => date("Y-m-d h:i:s"),
-                    'attr_estado' => 1
+                    'Atributo'      => $ultimo_id,
+                    'attr_valor'    => $value,
+                    'attr_estado'   => 1,
+                    'attr_fecha_creado' => date("Y-m-d h:i:s")
                 );
                 $this->db->insert(self::atributos_opciones, $data ); 
                 $contador += 1;
-            }            
+            }
         }
     }
 

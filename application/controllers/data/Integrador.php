@@ -47,8 +47,7 @@ class Integrador extends MY_Controller
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-        $data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+        echo $this->load->view('template/lista_template',$data, TRUE);
     }
 
     public function nuevo()
@@ -57,10 +56,10 @@ class Integrador extends MY_Controller
 		$data['home'] 	= 'data/integrador/crear';
 		$data['title'] 	= "Crear Integracion";
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('data/integrador/crear',$data, TRUE);
     }
 
-    public function save()
+    public function crear()
     {
         if(isset($_POST)){
 			$data = $this->Integrador_model->save( $_POST );
@@ -86,7 +85,7 @@ class Integrador extends MY_Controller
 		$data['home'] 		= 'data/integrador/editar';
 		$data['title'] 		= "Editar Moneda";
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('data/integrador/editar',$data, TRUE);
     }
     
     public function update()

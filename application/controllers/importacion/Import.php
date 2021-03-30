@@ -47,8 +47,7 @@ class Import extends CI_Controller
         $data['home'] = 'importacion/importacion';
         $data['titulo'] = 'Importacion';
 
-        $data = $this->load->view('importacion/importacion',$data, TRUE);
-		echo $data;
+        echo $this->load->view('importacion/importacion',$data, TRUE);
     }
 
     public function importFile()

@@ -1,4 +1,3 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
 
@@ -58,24 +57,20 @@
     <section>
         <!-- Page content-->
         <div class="content-wrapper">            
-            
-            <h3 style="height: 50px; font-size: 13px;">                
-                <a href="../index" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" class="mb-sm btn btn-success"> Atributos</button> </a> 
-                <a href="../dep/<?php //echo $dep;  ?>" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" style="top: 0px; position: relative;" class="mb-sm btn btn-info btn-outline">/ Editar</button></a>
-                </h3>
+            <h3 style="height: 50px; font-size: 13px;">
+                <a name="admin/atributos/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
+                    <button type="button" class="mb-sm btn btn-success"> Atrributos </button>
+                </a>
+                <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
+            </h3>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
-                        <form class="form-horizontal" action='../actualizar' method="post">
-                        
-                            <div class="col-lg-6">
-                               
+                        <form class="form-horizontal" id='atributo' method="post">                        
+                            <div class="col-lg-6">                               
                                 <div id="" class="panel panel-info menu_title_bar">
                                     <div class="panel-heading">Editar Atributo </div>
-                                        <p>
-                                        
+                                        <p>                                        
                                             <input type="hidden" value="<?php echo $atributo[0]->id_prod_atributo; ?>" name="id_prod_atributo">
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
@@ -118,7 +113,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-info">Guardar</button>
+                                                    <input type="button" name="<?php echo base_url() ?>admin/atributos/update" data="atributo" class="btn btn-success enviar_data" value="Guardar">
                                                 </div>
                                             </div>
                                         

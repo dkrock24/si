@@ -41,8 +41,7 @@ class Atributos extends MY_Controller {
 		$data['title'] 			= "Atributos";
 		$data['home'] 			= 'template/lista_template';
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -53,7 +52,7 @@ class Atributos extends MY_Controller {
 		$data['title'] = "Nuevo Atributo";	
 		$data['home'] = 'admin/atributos/atributos_nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/atributos/atributos_nuevo',$data, TRUE);
 	}
 
 	public function crear(){
@@ -71,7 +70,7 @@ class Atributos extends MY_Controller {
 		$data['title'] = "Editar Atributo";	
 		$data['home'] = 'admin/atributos/atributos_editar';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/atributos/atributos_editar',$data, TRUE);
 	}
 
 	public function eliminar($id){
@@ -85,7 +84,7 @@ class Atributos extends MY_Controller {
 		redirect(base_url()."admin/atributos/index");
 	}
 
-	public function actualizar(){
+	public function update(){
 		// Insert pais
 		$data['atributos'] = $this->Atributos_model->actualizar_atributo( $_POST );
 
