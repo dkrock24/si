@@ -3,9 +3,9 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">  
-            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="admin/vistas/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Vistas</button> 
-            </a>    
+            </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Componentes</button>                     
         </h3>
         <div class="panel panel-default">
@@ -34,7 +34,7 @@
                                         <span class="sr-only">default</span>
                                     </button>
                                     <ul role="menu" class="dropdown-menu">
-                                        <li><a href="../componentes_nuevo/<?php echo $vista_id; ?>">Nuevo</a>                </li>
+                                        <li><a name="admin/vistas/componentes_nuevo/<?php echo $vista_id; ?>" class="holdOn_plugin">Nuevo</a>                </li>
                                         <li><a href="#">Exportar</a>              </li>
                                         <li class="divider"></li>
                                         <li><a href="#">Otros</a>
@@ -80,11 +80,11 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul role="menu" class="dropdown-menu">                                                                    
-                                            <li><a href="edit/<?php echo $compo->id_vista_componente; ?>">Editar</a></li>
-                                            <li><a href="componentes/<?php echo $compo->id_vista_componente; ?>">Componentes</a></li>
+                                            <li><a name="admin/vistas/edit/<?php echo $compo->id_vista_componente; ?>" class="holdOn_plugin">Editar</a></li>
+                                            <li><a name="componentes/<?php echo $compo->id_vista_componente; ?>" class="holdOn_plugin">Componentes</a></li>
                                             
                                             <li class="divider"></li>
-                                            <li><a href="../componente_eliminar/<?php echo $compo->id_vista; ?>/<?php echo $compo->id_vista_componente; ?>">Eliminar</a></li>
+                                            <li><a name="admin/vistas/componente_eliminar/<?php echo $compo->id_vista; ?>/<?php echo $compo->id_vista_componente; ?>" class="holdOn_plugin">Eliminar</a></li>
                                         </ul>
                                     </div>
                                 </td>

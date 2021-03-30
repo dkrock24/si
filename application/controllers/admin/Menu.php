@@ -29,8 +29,7 @@ class Menu extends MY_Controller {
 		$data['menu'] 		= $this->session->menu;
 		$data['lista_menu'] = $this->Menu_model->lista_menu();
 
-		$data = $this->load->view('admin/menu/menu',$data, TRUE);
-		echo $data;
+		echo $this->load->view('admin/menu/menu',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -38,10 +37,10 @@ class Menu extends MY_Controller {
 		$data['menu'] 	= $this->session->menu;
 		$data['home']	= 'admin/menu/nuevoMenu.php';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/menu/nuevoMenu',$data, TRUE);
 	}
 
-	public function save_menu(){
+	public function crear(){
 		$this->Menu_model->save_menu( $_POST );
 		redirect(base_url()."admin/menu/index");
 	}
@@ -54,7 +53,7 @@ class Menu extends MY_Controller {
 		$data['menu'] 		= $this->session->menu;
 		$data['submenus'] 	= $this->Menu_model->getSubMenu( $id_menu );
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/menu/submenu',$data, TRUE);
 	}
 
 	public function editar_menu( $id_menu ){
@@ -65,7 +64,7 @@ class Menu extends MY_Controller {
 		$data['home'] 	= 'admin/menu/menueditar';
 		$data['onMenu'] = $this->Menu_model->getOneMenu( $id_menu );
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/menu/menueditar',$data, TRUE);
 	}
 
 	// Cargar formulario para nuevo menu
@@ -78,7 +77,7 @@ class Menu extends MY_Controller {
 		$data['allMenus'] 	= $this->Menu_model->getAllMenu();
 		$data['vistas2'] 	= $this->Vistas_model->get_all_vistas();
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/menu/nuevo_sub_menu',$data, TRUE);
 	}
 
 	public function save_sub_menu( $id_menu ){
@@ -104,7 +103,7 @@ class Menu extends MY_Controller {
 		$data['vistas2'] 	= $this->Vistas_model->get_all_vistas();
 		$data['onMenu'] 	= $this->Menu_model->getOneSubMenu( $id_sub_menu );
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/menu/submenueditar',$data, TRUE);
 	}
 
 	public function update_sub_menu(){

@@ -3,7 +3,7 @@
     <!-- Page content-->
     <div class="content-wrapper">  
         <h3 style="height: 50px; font-size: 13px;">  
-            <a href="../componentes/<?php echo $vista_id; ?>" style="top: -12px;position: relative; text-decoration: none">
+            <a name="admin/vistas/componentes/<?php echo $vista_id; ?>" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Componentes</button> 
             </a> 
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
@@ -20,7 +20,7 @@
                             <div class="panel-heading">Nuevo Componente : <?php //echo $onMenu[0]->nombre_submenu ?> </div>
                              <div class="panel-body">        
                             <p> 
-                            <form class="form-horizontal" action='../componente_crear' method="post">
+                            <form class="form-horizontal" id='componentes' method="post">
                                 <input type="hidden" value="<?php echo $vista_id; ?>" name="vista_id">
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">Accion Nombre</label>
@@ -128,7 +128,7 @@
                                 
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <input type="button" name="<?php echo base_url() ?>admin/vistas/componente_crear" data="componentes" class="btn btn-success enviar_data" value="Guardar">
                                     </div>
                                 </div>
                             
@@ -147,7 +147,7 @@
                                     <td><?php echo $value->accion_nombre ?></td>
                                     <td><?php echo $value->accion_btn_url ?></td>
                                     <td><?php echo $value->accion_valor ?></td>
-                                    <td><a href="../copiar/<?php echo $vista_id.'/'.$value->id_vista_componente ?>" class="btn btn-success">Copiar</a></td>
+                                    <td><a name="admin/vistas/copiar/<?php echo $vista_id.'/'.$value->id_vista_componente ?>" class="btn btn-success holdOn_plugin">Copiar</a></td>
                                 </tr>
                                 <?php
                             }

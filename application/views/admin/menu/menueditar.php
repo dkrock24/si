@@ -4,7 +4,7 @@
         <div class="content-wrapper">            
             
             <h3 style="height: 50px; font-size: 13px;">                
-                <a href="../index" style="top: -12px;position: relative; text-decoration: none">
+                <a name="admin/menu/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                     <button type="button" class="mb-sm btn btn-success"> Menus</button> </a> 
                     <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">/ Editar</button>
                 </h3>
@@ -17,7 +17,7 @@
                         <div class="panel-body menuContent">   
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <form class="form-horizontal" action='../update_menu' method="post">
+                                    <form class="form-horizontal" id_menu='update_menu' method="post">
                                 <input type="hidden" value="<?php echo  $onMenu[0]->id_menu; ?>" name="id_menu">
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-info">Guardar</button>
+                                    <input type="button" name="<?php echo base_url() ?>admin/menu/update_menu/" data="update_menu" class="btn btn-success enviar_data" value="Guardar">
                                     </div>
                                 </div>
                                     </form>

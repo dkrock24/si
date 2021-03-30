@@ -256,14 +256,14 @@ class Vistas_model extends CI_Model {
             'accion_estado' => $componente['accion_estado'],           
         );
         $this->db->insert(self::sys_componentes, $data );
-        $insert = $id_componente = $this->db->insert_id();
+        $id_componente = $this->db->insert_id();
 
         $this->vista_componente_crear($id_componente , $componente['vista_id'] , $componente['role']);
 
-        if(!$insert){
+        if(!$id_componente){
             $insert = $this->db->error();
         }
-        return $insert;
+        return $id_componente;
     }
 
     function getVistaId($id){
@@ -373,7 +373,7 @@ class Vistas_model extends CI_Model {
         $this->db->select();
         $this->db->from(self::roles);
         $this->db->where('id_rol', $role );
-        $query = $this->db->get();   
+        $query = $this->db->get();
 
         $roles = $query->result();
 

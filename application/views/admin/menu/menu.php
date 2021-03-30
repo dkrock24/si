@@ -1,12 +1,17 @@
 <!-- Main section-->
-    <section>
-        <!-- Page content-->
-        <div class="content-wrapper">
-            <h3 style="height: 50px; ">Lista Menus </h3>
-            <div class="panel panel-default">
+<section>
+    <!-- Page content-->
+    <div class="content-wrapper">
+        <h3 style="height: 50px; font-size: 13px;">
+            <a name="admin/menu/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
+                <button type="button" class="mb-sm btn btn-success"> Menu</button>
+            </a>
+            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
+        </h3>
+        <div class="row">
+            <div class="col-lg-12">
                 
                 <!-- START table-responsive-->
-                <div class="">
                     <table id="datatable1" class="table table-striped table-hover">
                         <thead class="linea_superior">
                             <tr>
@@ -24,8 +29,8 @@
                                           <span class="sr-only">default</span>
                                        </button>
                                        <ul role="menu" class="dropdown-menu">
-                                          <li><a href="nuevo">Nuevo</a>                </li>
-                                          <li><a href="#">Exportar</a>              </li>
+                                          <li><a name="admin/menu/nuevo" class="holdOn_plugin">Nuevo</a>                </li>
+                                          <li><a name="#">Exportar</a>              </li>
                                           <li class="divider"></li>
                                           <li><a href="#">Otros</a>
                                           </li>
@@ -66,11 +71,11 @@
                                                         <span class="caret"></span>
                                                     </button>
                                                     <ul role="menu" class="dropdown-menu">
-                                                        <li><a href="submenu/<?php echo $menus->id_menu; ?>">Ver</a></li>
-                                                        <li><a href="editar_menu/<?php echo $menus->id_menu; ?>">Editar</a></li>
-                                                        <li><a href="nuevo_submenu/<?php echo $menus->id_menu; ?>">Nuevo</a></li>
+                                                        <li><a class="holdOn_plugin" name="admin/menu/submenu/<?php echo $menus->id_menu; ?>">Ver</a></li>
+                                                        <li><a class="holdOn_plugin" name="admin/menu/editar_menu/<?php echo $menus->id_menu; ?>">Editar</a></li>
+                                                        <li><a class="holdOn_plugin" name="admin/menu/nuevo_submenu/<?php echo $menus->id_menu; ?>">Nuevo</a></li>
                                                         <li class="divider"></li>
-                                                        <li><a href="delete/<?php echo $menus->id_menu; ?>">Eliminar</a></li>
+                                                        <li><a class="holdOn_plugin" name="admin/menu/delete/<?php echo $menus->id_menu; ?>">Eliminar</a></li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -82,7 +87,6 @@
                             ?>                                   
                         </tbody>                                
                     </table>
-                </div>
 
                 <div class="text-right  panel-footer bg-gray-light">
                     <ul class="pagination pagination-md">
@@ -91,6 +95,5 @@
                 </div>
             </div>
         </div>
-    </div>
 </section>
 
