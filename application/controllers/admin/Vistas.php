@@ -57,30 +57,26 @@ class Vistas extends MY_Controller
 		$data['title'] 			= "Vistas";
 		$data['home'] 			= 'template/lista_template';
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo()
 	{
-
 		$data['menu'] 	= $this->session->menu;
 		$data['title'] 	= "Nueva Vista";
 		$data['home'] 	= 'admin/vistas/vistas_nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/vistas/vistas_nuevo',$data, TRUE);
 	}
 
 	public function crear()
 	{
-
 		$this->Vistas_model->crear($_POST);
 		redirect(base_url() . "admin/vistas/index");
 	}
 
 	public function editar($vista_id)
 	{
-
 		$data['menu'] 	= $this->session->menu;
 		$data['vistas'] = $this->Vistas_model->vistas_by_id($vista_id);
 		$data['estados'] = $this->Vistas_model->estados_vistas($vista_id);
@@ -88,19 +84,17 @@ class Vistas extends MY_Controller
 		$data['title'] 	= "Editar Vista";
 		$data['home'] 	= 'admin/vistas/vistas_editar';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/vistas/vistas_editar',$data, TRUE);
 	}
 
 	public function update()
 	{
-
 		$this->Vistas_model->update($_POST);
 		redirect(base_url() . "admin/vistas/index");
 	}
 
 	public function column()
 	{
-
 		$column = array(
 			'Nombre', 'Codigo', 'Metodo', 'Url', 'Descripcion', 'Botones', 'Estado'
 		);
@@ -126,7 +120,6 @@ class Vistas extends MY_Controller
 			),
 		);
 
-
 		$fields['id'] 	  = array('id_vista');
 		$fields['estado'] = array('orden_estado_nombre');
 		$fields['titulo'] = "Vistas Lista";
@@ -138,7 +131,6 @@ class Vistas extends MY_Controller
 
 	public function componentes($vista_id)
 	{
-
 		$model 		= "Vistas_model";
 		$url_page 	= "admin/vistas/componentes";
 		$pag 		= $this->MyPagination($model, $url_page, $vista_id);
@@ -158,12 +150,11 @@ class Vistas extends MY_Controller
 		$data['title'] 			= "Vistas";
 		$data['vista_id'] 		= $vista_id;
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/vistas/componentes_lista',$data, TRUE);
 	}
 
 	public function componentes_nuevo($vista_id)
 	{
-
 		$data['menu'] = $this->session->menu;
 		$data['componentes'] = $this->Vistas_model->get_all_componentes();
 		$data['roles'] = $this->Roles_model->getAllRoles();
@@ -172,7 +163,7 @@ class Vistas extends MY_Controller
 		//$vista_id = $this->Vistas_model->getVistaId($vista_id);
 		$data['vista_id'] = $vista_id; //$vista_id[0]->Vista;
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/vistas/componentes_nuevo',$data, TRUE);
 	}
 
 	public function componente_crear()
@@ -208,16 +199,25 @@ class Vistas extends MY_Controller
 	public function agregar_estado($estado, $vista)
 	{
 		$this->Vistas_model->agregar_estado($estado, $vista);
+		$datos = $this->Vistas_model->estados_vistas($vista);
+
+		echo json_encode($datos);
 	}
 
 	public function update_estado($acion, $id, $orden, $vista)
 	{
 		$this->Vistas_model->update_estado($acion, $id, $orden, $vista);
+		$datos = $this->Vistas_model->estados_vistas($vista);
+
+		echo json_encode($datos);
 	}
 
 	public function delete_estado($id, $vista_id)
 	{
 		$this->Vistas_model->delete_estado($id, $vista_id);
+		$datos = $this->Vistas_model->estados_vistas($vista_id);
+
+		echo json_encode($datos);
 	}
 
 	public function columnC()
