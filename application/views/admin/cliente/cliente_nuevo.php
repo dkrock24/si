@@ -1,58 +1,57 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $('#persona_modal').appendTo("body");
 
-        $('#persona_modal').appendTo("body");
+    function openModal(){
+        $('#persona_modal').modal('show');
+        get_clientes_lista();
+    }
+
+    function get_clientes_lista() {
+
+        var table = "<table class='table table-sm table-hover'>";
+        table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control buscar_producto' name='buscar_producto'/> </td></tr>"
+        table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
+        var table_tr = "<tbody id='list'>";
+        var contador_precios = 1;
+
+        $.ajax({
+            url: "<?php echo base_url(); ?>/admin/cliente/get_empleado",
+            datatype: 'json',
+            cache: false,
+
+            success: function(data) {
+                var datos = JSON.parse(data);
+                var clientes = datos["empleado"];
+
+                $.each(clientes, function(i, item) {
+
+                    table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.tel + '</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_persona" id="' + item.id_persona + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
+                    contador_precios++;
 
 
-        $(document).on('click', '.persona_codigo', function() {
-            $('#persona_modal').modal('show');
-            get_clientes_lista();
+                });
+                table += table_tr;
+                table += "</tbody></table>";
+
+                $(".cliente_lista_datos").html(table);
+
+            },
+            error: function() {}
         });
+    }
 
-        function get_clientes_lista() {
-
-            var table = "<table class='table table-sm table-hover'>";
-            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
-            table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
-            var table_tr = "<tbody id='list'>";
-            var contador_precios = 1;
-
-            $.ajax({
-                url: "<?php echo base_url(); ?>/admin/cliente/get_empleado",
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-                    var datos = JSON.parse(data);
-                    var clientes = datos["empleado"];
-
-                    $.each(clientes, function(i, item) {
-
-                        table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.tel + '</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_persona" id="' + item.id_persona + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
-                        contador_precios++;
-
-
-                    });
-                    table += table_tr;
-                    table += "</tbody></table>";
-
-                    $(".cliente_lista_datos").html(table);
-
-                },
-                error: function() {}
-            });
-        }
+    $(document).ready(function() {        
 
         // filtrar producto
-    $(document).on('keyup', '#buscar_producto', function(){
-        var texto_input = $(this).val();
-
-        $("#list tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
-        });        
-    });
+        $(document).on('keyup', '.buscar_producto', function(){
+            var texto_input = $(this).val().toLowerCase();
+            console.log(texto_input);
+            $("#list tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
+            });        
+        });
 
         // Seleccionar persona
         $(document).on('click', '.seleccionar_persona', function(){
@@ -229,7 +228,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
                                             <div class="col-sm-9">
-                                            <input type="text" required class="form-control persona_codigo" value="">
+                                            <input type="text" required class="form-control persona_codigo" value="" onClick="openModal();">
                                             <input type="hidden" class="form-control" id="persona" name="Persona" placeholder="Persona" value="">
                                             </div>
                                         </div>

@@ -1,8 +1,3 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
-
-<script type="text/javascript">
-    $(document).ready(function() {});
-</script>
 <!-- Main section-->
 <style type="text/css">
     .preview_producto {
@@ -23,9 +18,7 @@
             <div class="col-lg-6">
 
                 <div id="panelDemo10" class="panel menu_title_bar">
-
-                    <div class="panel-heading menuTop"><i class="fa fa-user" style="font-size:22px;color:grey;"></i> Nuevo -Cargo Laboral :  </div>
-
+                    <div class="panel-heading menuTop"><i class="fa fa-user" style="font-size:22px;color:grey;"></i> Nuevo Cargo Laboral :  </div>
                     <form class="form-horizontal" enctype="multipart/form-data" id="cargo" name="cargo" method="post">
                     <div class="menuContent">
                         <div class="b">
@@ -91,52 +84,7 @@
                     </form>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
-
-<!-- Modal Large CLIENTES MODAL-->
-<div id="persona_modal" tabindex="-1" role="dialog" aria-labelledby="persona_modal" class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 id="myModalLabelLarge" class="modal-title">Buscar Persona</h4>
-            </div>
-            <div class="modal-body">
-                <p class="cliente_lista_datos">
-
-                </p>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal Small-->
-
-
-<!-- Modal Large CLIENTES MODAL-->
-<div id="error" tabindex="-1" role="dialog" aria-labelledby="error" class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-info-dark">
-                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 id="myModalLabelLarge" class="modal-title"><i class="fa fa-warning fa-fw"></i> Notificación</h4>
-            </div>
-            <div class="modal-body">
-                <p style="text-align: center; font-size: 18px;" class="notificacion_texto"></p>
-            </div>
-            <div class="modal-footer bg-gray">
-                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal Small-->

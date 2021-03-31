@@ -367,7 +367,7 @@
                                                         $num = is_numeric(substr($_SERVER['PATH_INFO'], -1, 1));
 
                                                         if ($num) {
-                                                            $url = $url . '\..' . $_SERVER['PATH_INFO'] . '\../../' . $value->accion_btn_url;
+                                                            //$url = $url . '\..' . $_SERVER['PATH_INFO'] . '\../../' . $value->accion_btn_url;
                                                         } else {
                                                             $url = $value->accion_btn_url;
                                                         }
@@ -376,7 +376,7 @@
                                                         ?>
 
                                                         <li>
-                                                            <a name="<?php echo  $url;  ?>/<?php echo $table->$id; ?>" class="accion_superior">
+                                                            <a name="<?php echo  $value->accion_btn_url;  ?>/<?php echo $table->$id; ?>" class="accion_superior">
                                                                 <span class="btn btn-success">
                                                                     <i class="<?php echo $value->accion_btn_icon; ?>"></i>
                                                                 </span>
@@ -391,7 +391,7 @@
                                                         ?>
                                                         <li class="divider"></li>
                                                         <li>
-                                                            <a name="<?php echo $url;  ?>/<?php echo $table->$id; ?>" class="remove accion_superior" id="<?php echo $contador; ?>">
+                                                            <a name="<?php echo $value->accion_btn_url;  ?>/<?php echo $table->$id; ?>" class="remove accion_superior" id="<?php echo $contador; ?>">
                                                                 <span class="btn btn-danger">
                                                                     <i class="<?php echo $value->accion_btn_icon; ?>"></i>
                                                                 </span>

@@ -3,22 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Cargo extends MY_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
 	public function __construct()
 	{
 		parent::__construct();    
@@ -65,14 +49,10 @@ class Cargo extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		//$this->parser->parse('template', $data);
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
-
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;	
 		$data['title'] = "Nuevo Cargo Laboral";
@@ -82,7 +62,6 @@ class Cargo extends MY_Controller {
 	}
 
 	public function crear(){
-		// Insert Nuevo Usuario
 		$data = $this->Cargos_model->crear_cargo( $_POST );
 
 		if(!$data['code']){
@@ -96,8 +75,6 @@ class Cargo extends MY_Controller {
 
 	public function editar( $cargo_id ){
 		
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
 		$data['menu'] = $this->session->menu;	
 		
 		$data['cargo'] = $this->Cargos_model->get_cargo_id( $cargo_id );
@@ -120,7 +97,7 @@ class Cargo extends MY_Controller {
 		$data['menu'] = $this->session->menu;		
 		$data['data'] = $this->Cargos_model->get_cargo_id( $id );	
 
-		if($data['data']){
+		if ($data['data']) {
 
 			foreach ($data['data']  as $key => $value) {			
 				$vars = get_object_vars ( $value );				
@@ -137,12 +114,12 @@ class Cargo extends MY_Controller {
 	}
 
 	public function update(){
-		if(isset($_POST)){
+		if (isset($_POST)) {
 			$data = $this->Cargos_model->update( $_POST );
 			
-			if(!$data['code']){
+			if (!$data['code']) {
 				$this->session->set_flashdata('info', "Cargo Fue Actualizado");
-			}else{
+			} else {
 				$data = $this->db_error_format($data);
 				$this->session->set_flashdata('danger', "Cargo No Fue Actualizado : ". $data['message']);
 			}
@@ -154,9 +131,9 @@ class Cargo extends MY_Controller {
 		
 		$data = $this->Cargos_model->eliminar( $id );
 
-		if(!$data['code']){
+		if (!$data['code']) {
 			$this->session->set_flashdata('warning', "Cargo Fue Eliminado");
-		}else{
+		} else {
 			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Cargo Fue Eliminado : ". $data['message']);
 		}
@@ -203,8 +180,6 @@ class Cargo extends MY_Controller {
 		$this->xls( $_SESSION['registros'] , $_SESSION['Vista']  ,$column, $fields  );
 
 	}
-	
-
 }
 
 ?>

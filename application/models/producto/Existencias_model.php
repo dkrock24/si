@@ -7,7 +7,7 @@ class Existencias_model extends CI_Model {
                             left join pos_producto_bodega as pb on pb.Producto = p.id_entidad
                             left join pos_bodega as b on b.id_bodega = pb.Bodega
                             left join pos_sucursal as s on s.id_sucursal = b.Sucursal
-                            left join producto_detalle as pd on pd.id_producto_detalle = pb.Presentacion
+                            left join producto_detalle as pd on pd.Producto = pb.Producto
                             left join pos_empresa as e on e.id_empresa = s.Empresa_Suc
                             left join sys_moneda as m on m.id_moneda = e.Moneda
                             

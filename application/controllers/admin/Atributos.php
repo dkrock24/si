@@ -45,7 +45,6 @@ class Atributos extends MY_Controller {
 	}
 
 	public function nuevo(){
-		// GET PAIS
 		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;	

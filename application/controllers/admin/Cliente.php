@@ -39,7 +39,6 @@ class Cliente extends MY_Controller {
 		$url_page 	= "admin/cliente/index";
 		$pag 		= $this->MyPagination($model, $url_page , $vista = 21);
 
-		//var_dump($_POST);
 		$data['links'] 			= $pag['links'];
 		$data['filtros'] 		= $pag['field'];
 		$data['contador_tabla'] = $pag['contador_tabla'];
@@ -51,28 +50,22 @@ class Cliente extends MY_Controller {
 		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones( $pag['vista_id'] , $pag['id_rol'] );
 		$data['registros'] 		= $this->Cliente_model->getAllClientes( $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
 		$data['title'] 			= "Clientes";
-		//$data['home'] 			= 'template/lista_template';
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
-		//$this->parser->parse('template', $data);
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
 
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
 		$data['clienteTipo'] = $this->ClienteTipo_model->get_cliente_tipo();
 		$data['menu'] = $this->session->menu;		
-		//	$data['empresa'] = $this->Empresa_model->getEmpresas();
 		$data['documento'] = $this->Documento_model->getAllDocumento();
 		$data['pago'] = $this->Pagos_model->getTipoPago();
 		$data['persona'] = $this->Persona_model->getAllPersona();
 		$data['title'] = "Nuevo Cliente";
 		$data['home'] = 'admin/cliente/cliente_nuevo';
 
-		//$this->parser->parse('template', $data);
 		echo $this->load->view('admin/cliente/cliente_nuevo',$data, TRUE);
 	}
 
@@ -82,8 +75,6 @@ class Cliente extends MY_Controller {
 	}
 
 	public function crear(){
-		// Insert Nuevo Cliente
-		
 		$data = $this->Cliente_model->crear_cliente( $_POST );
 		
 		if(!$data['code']){
@@ -98,10 +89,7 @@ class Cliente extends MY_Controller {
 
 	public function editar( $cliente_id ){
 		
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
-
 		$data['clienteTipo'] = $this->ClienteTipo_model->get_cliente_tipo();
-
 		$data['menu'] = $this->session->menu;
 		$data['cliente'] = $this->Cliente_model->get_clientes_id( $cliente_id );
 		$data['documento'] = $this->Documento_model->getAllDocumento();
@@ -122,11 +110,8 @@ class Cliente extends MY_Controller {
 		}
 
 		$data['title'] = "Ver";
-
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
+		$data['menu'] = $this->session->menu;
 		$data['data'] = $this->Cliente_model->get_clientes_id( $id );
 		
 		if($data['data']){
@@ -163,7 +148,6 @@ class Cliente extends MY_Controller {
 	}
 
 	public function update(){
-		// Actualizar Giro 
 		$data = $this->Cliente_model->update( $_POST );
 
 		if(!$data['code']){
@@ -190,7 +174,7 @@ class Cliente extends MY_Controller {
 			['primer_nombre_persona'=> 'Nombre'],
 			['primer_apellido_persona'=> 'Apellido'],
 			['nrc_cli'=> 'NRC'],
-			['nrc_cli'=> 'NIT'],
+			['nit_cliente'=> 'NIT'],
 			['clase_cli' => 'Clase'],
 			['codigo_modo_pago' => 'Tipo Pago'],
 			['saldos' => 'Saldos'],

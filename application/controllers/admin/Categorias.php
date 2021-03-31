@@ -24,8 +24,6 @@ class Categorias extends MY_Controller {
 		$this->load->model('admin/Giros_model');
 	}
 
-// Start PAIS **********************************************************************************
-
 	public function index(){
 
 		$model 		= "Categorias_model";
@@ -53,7 +51,6 @@ class Categorias extends MY_Controller {
 	}
 
 	public function nuevo(){
-		// GET PAIS
 		$data['title'] 		= "Crear Categoria";
 		$data['menu'] 		= $this->session->menu;
 		$data['marcas'] 	= $this->Marca_model->getAllMarca();
@@ -79,7 +76,6 @@ class Categorias extends MY_Controller {
 	}
 
 	public function editar( $id_categoria ){
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] 		= $this->session->menu;
 		$data['categorias'] = $this->Categorias_model->get_categoria_id( $id_categoria );
@@ -120,7 +116,6 @@ class Categorias extends MY_Controller {
 	}
 
 	public function update(){
-		// Insert pais
 		$data = $this->Categorias_model->actualizar_categoria( $_POST );
 
 		if(!$data['code']){
@@ -180,12 +175,10 @@ class Categorias extends MY_Controller {
 	}
 
 	function export(){
-
 		$column = $this->column();
 		$fields = $this->fields();
 
 		$this->xls( $_SESSION['registros'] , $_SESSION['Vista'] ,$column, $fields  );
-
 	}
 	
 }

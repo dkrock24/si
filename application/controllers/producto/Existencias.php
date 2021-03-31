@@ -40,8 +40,7 @@ class Existencias extends MY_Controller {
 		$data['title'] = "Existencias";
 		$data['home'] = 'producto/existencias/codbarra_lista';
 
-		$data = $this->load->view('producto/existencias/codbarra_lista',$data, TRUE);
-		echo $data;
+		echo $this->load->view('producto/existencias/codbarra_lista',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -54,8 +53,7 @@ class Existencias extends MY_Controller {
 		$data['title'] = "Existencias";
 		$data['home'] = 'producto/existencias/exis_nuevo';
 
-		$data = $this->load->view('producto/existencias/exis_nuevo',$data, TRUE);
-		echo $data;
+		echo $this->load->view('producto/existencias/exis_nuevo',$data, TRUE);
 	}
 
 	function get_productos_lista( ){

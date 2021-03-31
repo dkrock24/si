@@ -1,5 +1,5 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
+
 <script>
     var _orden = {};
     var _productos = {};
@@ -13,154 +13,153 @@
     var producto_cantidad_linea = 1;
     var sucursal = 0;
     var interno_sucursal = 0;
+    var success = false;
 
+    $('.dataSelect').hide();
+    $('.dataSelect2').hide();
+    $(".producto_buscar").focus();
 
-    $(document).ready(function() {
+/* 2 - Filtrado del texto a buscar en productos */
+function search_texto(texto){
+    var contador_precios = 1;
+    var table_tr = "";
 
-        $('.dataSelect').hide();
-        $('.dataSelect2').hide();
-        $(".producto_buscar").focus();
+    $.ajax({
+        url: "<?php echo base_url() ?>producto/existencias/get_productos_lista",
+        type: "POST",
+        datatype: 'json',
+        cache: true,
+        async:false,
+        data:{texto:texto},
 
-        /* 1 - Input Buscar Producto */
-        $(document).on('keypress', '.producto_buscar', function(e) {
-       
-            if ( e.keyCode == 13 ) {
-                search_texto(this.value);
-                
-            }
-            
-        });
+        success: function(data,status,xhr) {
 
-        /* 2 - Filtrado del texto a buscar en productos */
-        function search_texto(texto) {            
-            
-            var contador_precios = 1;
-            var table_tr = "";
-                
-            $.ajax({
-                type: "POST",
-                url: "get_productos_lista",
-                datatype: 'json',
-                cache: false,
-                data:{texto:texto},
+            var datos       = JSON.parse(data);
+            var productos   = datos["productos"];
+            var producto_id = 0;
+            _productos_lista= productos;
+            var producto_id = 0;
+                                
+            if(productos==0){
 
-                success: function(data) {
-                    var datos       = JSON.parse(data);
-                    var productos   = datos["productos"];
-                    var producto_id = 0;
-                    _productos_lista= productos;
-                    var producto_id = 0;
+                var type = "info";
+                var title = "El Producto No Existe";
+                var mensaje = "Error en Parametros : search_texto";
+                var boton = "info";
+                var  finalMessage = "Gracias..."
+
+                generalAlert(type , mensaje , title , boton, finalMessage);
                                         
-                    if(productos==0){
+            }else{
 
-                        var type = "info";
-                        var title = "El Producto No Existe";
-                        var mensaje = "Error en Parametros : search_texto";
-                        var boton = "info";
-                        var  finalMessage = "Gracias..."
+                if(productos.length == 1){
+                    get_producto_completo(productos[0].id_entidad);
 
-                        generalAlert(type , mensaje , title , boton, finalMessage);
-                                               
-                    }else{
+                }else{
+                    $('.dataSelect').show();  
+                    $.each(productos, function(i, item) {
 
-                        if(productos.length == 1){
-                            get_producto_completo(productos[0].id_entidad);
+                        var name = item.name_entidad.toUpperCase();
+                        var cod_barra = item.cod_barra;
+                        
+                            producto_id = item.id_entidad;
+                            var precio = 0;
 
-                        }else{
-                            $('.dataSelect').show();  
-                            $.each(productos, function(i, item) {
+                            table_tr += '<option value="' + item.id_entidad + '">' + item.name_entidad +" " +item.nombre_marca +" " +item.precio_venta + '</option>';
+                            contador_precios++;
+                        
+                        });
+                    }
 
-                                var name = item.name_entidad.toUpperCase();
-                                var cod_barra = item.cod_barra;
-                                
-                                    producto_id = item.id_entidad;
-                                    var precio = 0;
+                    $(".dataSelect").html(table_tr);
+                    $(".dataSelect").css("height","300px");
+                }
 
-                                    table_tr += '<option value="' + item.id_entidad + '">' + item.name_entidad +" " +item.nombre_marca +" " +item.precio_venta + '</option>';
-                                    contador_precios++;
-                                
-                                });
-                            }
-
-                            $(".dataSelect").html(table_tr);
-                            $(".dataSelect").css("height","300px");
-                        }
-
-                },
-                error: function() {}
-            });
-            
-        }
-        $(".producto_buscar").focus();
-
-        /* 3 - Selecionado Producto de la lista y precionando ENTER */
-        $(document).on('keypress', '.dataSelect', function() {
-
-            if (event.which == 13) {
-
-                get_producto_completo(this.value);
-                event.preventDefault();
-                $('#dataSelect').hide();
-                $('.dataSelect').hide();
-                $(".producto_buscar").focus();
-                $(".producto_buscar").empty();
-
-                $("#producto_buscar").val(this.value);
-
-                $(".producto_buscar").val("");
-            }
-
-        });
-
-        $(document).on('keydown', '.producto_buscar', function() {
-            if (event.keyCode == 40) {
-                $('.dataSelect').focus();
-                document.getElementById('dataSelect').selectedIndex = 0;
-            }
-
-        });
-
-        /* 4 - Buscar producto por Id para agregarlo a la linea */
-        function get_producto_completo(producto_id) {
-
-            $("#grabar").attr('disabled');
-            var codigo, presentacion, tipo, precioUnidad, descuento, total
-
-            $.ajax({
-                url: "get_producto_completo/" + producto_id,
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-                    var datos = JSON.parse(data);
-                    var contador = 1;
-                    var existencias_total = 0;
-                    var html = '';
-
-                    $("#nombre_producto").text("[ Codigo " + datos['producto'][0].codigo_barras +" ] [ Producto "+ datos['producto'][0].name_entidad +" ]");
-
-                    $.each(datos['producto'], function(i, item) {
-
-                        existencias_total += parseInt(item.Cantidad);
-                        html += '<tr>';
-                        html += '<td>' + contador + '</td>';
-                        html += '<td>' + item.nombre_sucursal + '</td>';
-                        html += '<td>' + item.nombre_bodega + '</td>';
-                        html += '<td>' + item.Cantidad + '</td>';
-                        html += '<td>' + item.moneda_simbolo + " "+  item.precio + '</td>';
-                        html += '<td>' + item.costo + '</td>';
-                        html += '<td>' + 0.00 + '</td>';
-                        html += '</tr>';
-                        contador++;
-                    });
-                    html += '<tr><td colspan="3"></td><td>' + existencias_total + '</td><td colspan="4"></td></tr>'
-                    $('.uno').html(html);
-
-                },
-                error: function() {}
-            });
-        }
+        },
+        error: function() {}
     });
+}
+
+/* 4 - Buscar producto por Id para agregarlo a la linea */
+function get_producto_completo(producto_id) {
+
+    $("#grabar").attr('disabled');
+    var codigo, presentacion, tipo, precioUnidad, descuento, total
+
+    $.ajax({
+        url: "<?php echo base_url() ?>producto/existencias/get_producto_completo/"+ producto_id,
+        datatype: 'json',
+        cache: false,
+
+        success: function(data) {
+            var datos = JSON.parse(data);
+            var contador = 1;
+            var existencias_total = 0;
+            var html = '';
+
+            $("#nombre_producto").text("[ Codigo " + datos['producto'][0].codigo_barras +" ] [ Producto "+ datos['producto'][0].name_entidad +" ]");
+
+            $.each(datos['producto'], function(i, item) {
+
+                existencias_total += parseInt(item.Cantidad);
+                html += '<tr>';
+                html += '<td>' + contador + '</td>';
+                html += '<td>' + item.nombre_sucursal + '</td>';
+                html += '<td>' + item.nombre_bodega + '</td>';
+                html += '<td>' + item.Cantidad + '</td>';
+                html += '<td>' + item.moneda_simbolo + " "+  item.precio + '</td>';
+                html += '<td>' + item.costo + '</td>';
+                html += '<td>' + 0.00 + '</td>';
+                html += '</tr>';
+                contador++;
+            });
+            html += '<tr><td colspan="3"></td><td>' + existencias_total + '</td><td colspan="4"></td></tr>'
+            $('.uno').html(html);
+
+            $('#dataSelect').hide();
+            $('.dataSelect').hide();
+            $(".producto_buscar").focus();
+            $(".producto_buscar").empty();
+            $("#producto_buscar").val(this.value);
+            $(".producto_buscar").val("");
+
+        },
+        error: function() {}
+    });    
+}
+
+var input = document.getElementById("myInput");
+
+input.addEventListener("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    search_texto(input.value);
+
+        $('#dataSelect').hide();
+        $('.dataSelect').hide();
+        $(".producto_buscar").focus();
+        $(".producto_buscar").empty();
+    }
+});
+
+/* 3 - Selecionado Producto de la lista y precionando ENTER */
+$(document).on('keypress', '.dataSelect', function() {
+    if (event.which == 13) {
+        get_producto_completo(this.value);
+        event.preventDefault();
+    }
+});
+
+$(document).on('keydown', '.producto_buscar', function() {
+    if (event.keyCode == 40) {
+        $('.dataSelect').focus();
+        document.getElementById('dataSelect').selectedIndex = 0;
+    }
+});
+        
 </script>
 
 <style type="text/css">
@@ -197,7 +196,7 @@
 <section>
     <!-- Page content-->
     <div class="content-wrapper">
-        <h3 style="height: 50px; ">Existencias </h3><br><br>   <br><br>   <br><br>
+        <h3 style="height: 50px; ">Existencias </h3>
 
         <div class="panel-heading menuTop menu_title_bar" style="color: white;">
             <div class="row">
@@ -205,10 +204,8 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="input-group m-b" style="position: relative;">
                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                        <input type="text" placeholder="Buscar Producto" name="producto_buscar" class="form-control producto_buscar" autocomplete="off">
-                        
+                        <input type="text" placeholder="Buscar Producto" name="producto_buscar" id="myInput" class="form-control producto_buscar" autocomplete="off">
                     </div>
-                    
                 </div>
 
                 <div class="col-lg-6 col-md-6">
@@ -227,11 +224,11 @@
             <table class="table table-sm table-hover">
                 <div class="col-lg-4">
 
-                    <select multiple="" class="form-control dataSelect" id="dataSelect">
+                    <select multiple="" class="form-control dataSelect" id="dataSelect" style="height: 300px; width: 800px; font-size: 22px; font-family: monospace; display: block;border:3px solid #badae;">
 
                     </select>
 
-                    <select multiple="" class="form-control dataSelect2">
+                    <select multiple="" class="form-control dataSelect2" style="height: 300px; width: 800px; font-size: 22px; font-family: monospace; display: block;border:3px solid #badae;">
 
                     </select>
                 </div>

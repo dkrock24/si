@@ -43,14 +43,10 @@ class Caja extends MY_Controller {
 		$_SESSION['Vista']  	= $data['title'];
 		$_SESSION['registros']  = $data['registros'];
 
-		//$this->parser->parse('template', $data);
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
-
-		$id_rol = $this->session->userdata['usuario'][0]->id_rol;
 
 		$data['menu'] = $this->session->menu;	
 		$data['doc'] = $this->Documento_model->getDocTemplate();
@@ -76,8 +72,6 @@ class Caja extends MY_Controller {
 
 	public function editar($caja_id){
 		
-		$menu_session = $this->session->menu;	
-
 		$id_rol = $this->session->roles;
 		$vista_id = 8; // Vista Orden Lista
 
@@ -100,13 +94,9 @@ class Caja extends MY_Controller {
 		}
 
 		$data['title'] = "Ver";
-
 		$data['home'] = 'template/ver_general';
-
-		$data['menu'] = $this->session->menu;		
-
-		$data['data'] = $this->Caja_model->get_caja( $id );
-		
+		$data['menu'] = $this->session->menu;
+		$data['data'] = $this->Caja_model->get_caja( $id );		
 		if($data['data']){
 
 			foreach ($data['data']  as $key => $value) {

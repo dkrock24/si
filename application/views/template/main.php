@@ -45,7 +45,8 @@
       /**
        * MENUS
        */
-      $(document).on("click", ".holdOn_plugin", function() {
+      $(document).on("click", ".holdOn_plugin", function(event) {
+         event.preventDefault();
          var url_pagina = $(this).attr('name');
          document.cookie = "url = "+url_pagina;
 

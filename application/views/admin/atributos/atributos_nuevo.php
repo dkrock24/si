@@ -3,13 +3,11 @@
 
         $('.removeInput').click(function(){
             //$(this).remove();
-            alert(1);
         });
 
         if($("#tipo_atributo").val() == 'text'){
             $(".agregar").hide();
         }       
-
 
         $("#tipo_atributo").change(function(){
             clearOption();
