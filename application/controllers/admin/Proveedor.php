@@ -49,8 +49,7 @@ class Proveedor extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -61,7 +60,7 @@ class Proveedor extends MY_Controller {
 		$data['title'] 		= "Nuevo Proveedor";
 		$data['home'] 		= 'admin/proveedor/proveedor_nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/proveedor/proveedor_nuevo',$data, TRUE);
 	}
 
 	public function crear(){
@@ -72,7 +71,7 @@ class Proveedor extends MY_Controller {
 			$this->session->set_flashdata('success', "Proveedor Fue Creado");
 		}else{
 			$this->session->set_flashdata('warning', "Proveedor No Fue Creado : ". $data['message']);
-		}	
+		}
 
 		redirect(base_url()."admin/proveedor/index");
 	}
@@ -90,7 +89,7 @@ class Proveedor extends MY_Controller {
 
 		$this->general->editar_valido($data['proveedor'], "admin/proveedor/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/proveedor/proveedor_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){
@@ -113,7 +112,7 @@ class Proveedor extends MY_Controller {
 	
 			$data['columns'] = $vars;
 	
-			$this->parser->parse('template', $data);
+			echo $this->load->view('template/ver_general',$data, TRUE);
 
 		}else{
 			redirect(base_url()."admin/proveedor/index");

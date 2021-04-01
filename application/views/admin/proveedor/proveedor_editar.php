@@ -1,17 +1,9 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-
-
-    });
-</script>
 <!-- Main section-->
 <section>
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
+        <a name="admin/proveedor/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Proveedores</button>
             </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
@@ -22,7 +14,7 @@
                 <div id="panelDemo10" class="panel menu_title_bar">
                     <div class="panel-heading menuTop">Editar Proveedor</div>
                     <div class="menuContent">
-                        <form class="form-horizontal" enctype="multipart/form-data" name="cliente" action='../update' method="post">
+                        <form class="form-horizontal" enctype="multipart/form-data" name="cliente" id='proveedor' method="post">
                             <input type="hidden" value="<?php echo $proveedor[0]->id_proveedor; ?>" name="id_proveedor">
                             <div class="b">
                                 <div class="panel-heading"></div>
@@ -201,7 +193,7 @@
                                 <div class="panel-footer text-right">
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-9">
-                                            <button type="submit" class="btn btn-info">Guardar</button>
+                                            <input type="button" name="<?php echo base_url() ?>admin/proveedor/update" data="proveedor" class="btn btn-warning enviar_data" value="Guardar">
                                         </div>
                                     </div>
                                 </div>

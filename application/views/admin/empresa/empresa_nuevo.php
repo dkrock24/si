@@ -3,7 +3,7 @@
     <!-- Page content-->
     <div class="content-wrapper">  
         <h3 style="height: 50px; font-size: 13px;">  
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="admin/empresa/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mmb-sm btn btn-success"> Empresas</button> 
             </a> 
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
@@ -18,7 +18,7 @@
                             <div class="b">    
                                 <div class="panel-heading"></div>
                     
-                                <form class="form-horizontal" enctype="multipart/form-data" name="empresa" action='crear' method="post">
+                                <form class="form-horizontal" enctype="multipart/form-data" name="empresa" id='empresa' method="post">
                                     <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
                                     <div class="row">
 
@@ -210,7 +210,7 @@
                                     <div class="panel-footer text-right">
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="submit" class="btn btn-info">Guardar</button>                                                
+                                                <input type="button" name="<?php echo base_url() ?>admin/empresa/crear" data="empresa" class="btn btn-warning enviar_data" value="Guardar">
                                             </div>
                                         </div>
                                     </div>

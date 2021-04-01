@@ -1,17 +1,9 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-
-
-    });
-</script>
 <!-- Main section-->
 <section>
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
+                <a name="admin/proveedor/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Proveedores</button>
             </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
@@ -20,13 +12,12 @@
         <div class="row">
             <div class="col-lg-12">
 
-
                 <div id="panelDemo10" class="panel menu_title_bar">
 
                     <div class="panel-heading menuTop">Nuevo Proveedor </div>
                     <div class="menuContent">
 
-                        <form class="form-horizontal" enctype="multipart/form-data" name="cliente" action='crear' method="post">
+                        <form class="form-horizontal" enctype="multipart/form-data" name="cliente" id='proveedor' method="post">
                             <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; ?>" name="id_submenu">
 
                             <div class="b">
@@ -188,7 +179,7 @@
                                             if($linea && $persona){
 
                                                 ?>
-                                                <button type="submit" class="btn btn-info">Guardar</button>
+                                                <input type="button" name="<?php echo base_url() ?>admin/proveedor/crear" data="proveedor" class="btn btn-warning enviar_data" value="Guardar">
                                                 <?php
                                                 
                                             }else{

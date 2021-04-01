@@ -8,7 +8,7 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">
-            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="admin/empresa/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Empresas</button>
             </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
@@ -22,7 +22,7 @@
                     <div class="menuContent">
                     <div class="b">
                         <div class="panel-heading"></div>
-                            <form class="form-horizontal" enctype="multipart/form-data" name="empresa" action='../update' method="post">
+                            <form class="form-horizontal" enctype="multipart/form-data" name="empresa" id='empresa' method="post">
                                 <input type="hidden" value="<?php echo $empresa[0]->id_empresa; ?>" name="id_empresa">
                                 <div class="row">                                    
                                     <div class="col-lg-4">
@@ -208,8 +208,13 @@
                                             <div class=" col-sm-10">
                                                 <label>
                                                     <select name="empresa_estado" class="form-control">
+                                                    <?php if($empresa[0]->empresa_estado == 0): ?>
+                                                        <option value="0">Inactivo</option>
+                                                        <option value="1">Activo</option>
+                                                    <?php else: ?>
                                                         <option value="1">Activo</option>
                                                         <option value="0">Inactivo</option>
+                                                    <?php endif ?>
                                                     </select>
                                                 </label>
                                                 
@@ -222,7 +227,7 @@
                                 <div class="panel-footer text-right">
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-9">
-                                            <button type="submit" class="btn btn-info"><i class="fa fa-save"></i> Guardar</button>
+                                            <input type="button" name="<?php echo base_url() ?>admin/empresa/update" data="empresa" class="btn btn-warning enviar_data" value="Guardar">
                                         </div>
                                     </div>
                                 </div>

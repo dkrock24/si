@@ -243,7 +243,7 @@ function get_persona_lista() {
 </style>
 <section>
     <!-- Page content-->
-    <div class="content-wrapper">>
+    <div class="content-wrapper"
         <h3 style="height: 50px; font-size: 13px;">
             <a name="admin/empleado/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Empleado</button>
