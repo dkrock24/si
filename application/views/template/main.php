@@ -144,7 +144,7 @@
 
       if (controller == 'usuario') {
          //$.getScript("<?php echo base_url(); ?>"+"../asstes/js/pantallas/usuarios.js", function(data, textStatus, jqxhr) {});
-         <?php include("asstes/js/pantallas/usuarios.php"); ?>
+         <?php //include("asstes/js/pantallas/usuarios.php"); ?>
       }
    }
       

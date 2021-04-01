@@ -1,53 +1,147 @@
 <!-- Main section-->
 <script type="text/javascript">
-   
-   $('#persona_modal').appendTo("body");
-        $('#error').appendTo("body");
 
-        $(document).on('change', '.Imagen', function()
-        {
-            readURL(this);
-        });
+$('#persona_modal').appendTo("body");
+$('#error').appendTo("body");
 
-        $(document).on('click', '.persona_codigo', function(){
-            $('#persona_modal').modal('show');
-            get_clientes_lista();
-        });
+function getEmpleado(){
+    $('#persona_modal').modal('show');
+    get_clientes_lista();
+}
 
-        function get_clientes_lista(){
+function get_clientes_lista(){
         
-        var table = "<table class='table table-sm table-hover'>";
-            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
-            table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
-        var table_tr = "<tbody id='list'>";
-        var contador_precios=1;
+    var table = "<table class='table table-sm table-hover'>";
+        table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
+        table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
+    var table_tr = "<tbody id='list'>";
+    var contador_precios=1;
 
-        $.ajax({
-            url: "<?php echo base_url(). 'admin/usuario/get_empleado'; ?>",
-            datatype: 'json',      
-            cache : false,                
+    $.ajax({
+        url: "get_empleado",
+        url: "<?php echo base_url(). 'admin/usuario/get_empleado'; ?>",
+        datatype: 'json',      
+        cache : false,                
 
-            success: function(data){
-                var datos = JSON.parse(data);
-                var clientes = datos["empleado"];
-                
-                $.each(clientes, function(i, item) { 
-                        
-                        table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.primer_nombre_persona+' '+item.segundo_nombre_persona+' '+item.primer_apellido_persona+' '+item.segundo_apellido_persona+'</td><td>'+item.dui+'</td><td>'+item.nit+'</td><td>'+item.cel+'</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_persona" id="'+item.id_empleado+'" name="'+item.primer_nombre_persona+' '+item.segundo_nombre_persona+' '+item.primer_apellido_persona+' '+item.segundo_apellido_persona+'">Agregar</a></td></tr>';
-                        contador_precios++;
-                    
-                    
-                });
-                table += table_tr;
-                table += "</tbody></table>";
-
-                $(".cliente_lista_datos").html(table);
+        success: function(data){
+            var datos = JSON.parse(data);
+            var clientes = datos["empleado"];
             
-            },
-            error:function(){
+            $.each(clientes, function(i, item) { 
+                    name = item.primer_nombre_persona+' '+item.segundo_nombre_persona+' '+item.primer_apellido_persona+' '+item.segundo_apellido_persona;
+                    table_tr += '<tr><td>'+contador_precios+'</td><td>'+item.primer_nombre_persona+' '+item.segundo_nombre_persona+' '+item.primer_apellido_persona+' '+item.segundo_apellido_persona+'</td><td>'+item.dui+'</td><td>'+item.nit+'</td><td>'+item.cel+'</td><td><a href="#" class="btn btn-primary btn-xs" onClick="seleccionar_persona('+item.id_empleado+');" id="'+item.id_empleado+'" name="'+item.primer_nombre_persona+' '+item.segundo_nombre_persona+' '+item.primer_apellido_persona+' '+item.segundo_apellido_persona+'">Agregar</a></td></tr>';
+                    contador_precios++;
+            });
+            table += table_tr;
+            table += "</tbody></table>";
+
+            $(".cliente_lista_datos").html(table);
+        
+        },
+        error:function(){
+        }
+    });
+} 
+
+// filtrar producto
+$(document).on('keyup', '#buscar_producto', function(){
+    var texto_input = $(this).val();
+
+    $("#list tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
+    });        
+});
+
+function seleccionar_persona(id){
+    $.ajax({
+        url: "<?php echo base_url(). 'admin/usuario/validar_usuario/'; ?>"+ id,
+        datatype: 'json',      
+        cache : false,                
+
+        success: function(data){
+            if(data){
+                $(".notificacion_texto").text("Empleado ya vinculado a un usuario existente.");
+                $('#error').modal('show');
+
+            }else{
+                $("#persona").val(id);
+                $("#nombre_persona").val($('#'+id).attr('name'));
+                $('#persona_modal').modal('hide');
+            }               
+        },
+        error:function(){
+        }
+    });
+}
+
+    //Compar password
+    $(document).on('click','#btn_save',function(){
+        var password = $("#password").val();
+        var password2 = $("#password2").val();
+
+        if( (password == password2) ){
+            //$('form#crear').submit();
+        }else{
+            $(".notificacion_texto").text("Password Diferente.");
+            $('#error').modal('show');
+        }
+    });
+
+    $("#imagen_nueva").hide();
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+              $('.preview_producto').attr('src', e.target.result);
             }
-        });
-    } 
+
+            reader.readAsDataURL(input.files[0]);
+            $("#imagen_nueva").show();
+            }
+        }
+
+function agregar_rol(id_rol,accion)
+{
+    var usuario = $("#id_usuario").val();
+    var data = {id_rol : id_rol, usuario:usuario, metodo:accion };
+    var url = "<?php echo base_url() ?>"; 
+
+    $.ajax({
+        url:  url+"admin/usuario/agregar_remover_rol",
+        datatype: 'json',
+        type : 'GET',
+        data : data,
+        cache : false,                
+
+        success: function(data){
+            dibujar(data);
+        },
+        error:function(){
+        }
+    });
+}
+
+function dibujar(response_data){
+    var html = '';
+    var datos = JSON.parse(response_data);
+    $(".roels_asignados").empty();
+            
+    $.each(datos, function(i, item) {
+        html += "<label class='btn btn-success label-lg' onClick='agregar_rol("+item.id_rol+", "+'"remover"'+")'; style='margin-top:2px;' name='remover' id="+item.id_rol+">";
+            html += item.role;
+        html += '</label>';
+    });
+
+    $(".roels_asignados").html(html);
+}
+
+
+$(document).on('change', '.Imagen', function()
+{
+    readURL(this);
+});
 </script>
 
 
@@ -173,7 +267,7 @@
                                 <div class="form-group">
                                     <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empleado</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control persona_codigo" id="nombre_persona" name="nombre_persona" placeholder="Nombre Persona" value="<?php echo $usuario[0]->primer_nombre_persona.' '.$usuario[0]->segundo_nombre_persona.' '.$usuario[0]->primer_apellido_persona.' '.$usuario[0]->segundo_apellido_persona ?>">
+                                        <input type="text" class="form-control persona_codigo" onClick="getEmpleado();" name="nombre_persona" placeholder="Nombre Persona" value="<?php echo $usuario[0]->primer_nombre_persona.' '.$usuario[0]->segundo_nombre_persona.' '.$usuario[0]->primer_apellido_persona.' '.$usuario[0]->segundo_apellido_persona ?>">
                                         <input type="hidden" class="form-control persona_codigo" id="persona" name="persona" placeholder="Persona" value="<?php echo $usuario[0]->Empleado ?>">
                                         
                                     </div>
@@ -219,7 +313,7 @@
                                 <?php
                                 foreach ($roles as $key => $rol) {
                                     ?>
-                                    <label class="btn btn-info label-lg agregar_rol" style="margin-top:2px;" name="agregar" id="<?php echo $rol->id_rol; ?>">
+                                    <label class="btn btn-info label-lg" onClick="agregar_rol(<?php echo $rol->id_rol; ?>,'agregar');" style="margin-top:2px;" name="agregar" id="<?php echo $rol->id_rol; ?>">
                                         <?php echo $rol->role; ?>
                                     </label>
                                     <?php
@@ -232,7 +326,7 @@
                                 $cont =1;                                
                                 foreach ($usuario_roles as $ur) {   
                                     ?>
-                                    <label class="btn btn-success label-lg agregar_rol" style="margin-top:2px;margin-left:2px;" name="remover" id="<?php echo $ur->id_rol; ?>">
+                                    <label class="btn btn-success label-lg" onClick="agregar_rol(<?php echo $ur->id_rol; ?>, 'remover');" style="margin-top:2px;margin-left:2px;" name="remover" id="<?php echo $ur->id_rol; ?>">
                                         <?php echo $ur->role; ?>
                                     </label>
                                     

@@ -3,22 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Usuario extends MY_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
 	public function __construct()
 	{
 		parent::__construct();    
@@ -37,8 +21,6 @@ class Usuario extends MY_Controller {
 		$this->load->model('admin/Roles_model');
 		$this->load->model('admin/Empleado_model');
 	}
-
-// Start  **********************************************************************************
 
 	public function index(){
 
@@ -62,8 +44,7 @@ class Usuario extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -168,7 +149,7 @@ class Usuario extends MY_Controller {
 	
 			$data['columns'] = $vars;
 	
-			$this->parser->parse('template', $data);
+			echo $this->load->view('template/ver_general', $data, TRUE);
 
 		}else{
 			redirect(base_url()."admin/cargo/index");
