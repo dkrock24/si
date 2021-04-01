@@ -171,10 +171,8 @@
                                             </div>
                                         </div>
 
-
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
-                                                
                                                 <label>
                                                     <select name="estado_caja" class="form-control">
                                                         <option value="1">Activo</option>
@@ -183,10 +181,7 @@
                                                 </label>
                                             </div>
                                         </div>
-
-
                                     </div>
-
                                 </div>
                         
                             <div class="panel-footer text-right">

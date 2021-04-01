@@ -1,5 +1,105 @@
 
 <script type="text/javascript">
+
+
+function getSucursal(){
+
+    var id_empresa = $(".empresa_").val();
+    $.ajax({
+        url: "<?php echo base_url(). 'admin/empleado/get_sucursal/'; ?>"+ id_empresa,
+        datatype: 'json',
+        cache: false,
+
+        success: function(data) {
+            var datos = JSON.parse(data);
+            var sucursal = datos["sucursal"];
+            var Sucursal = '';
+            $.each(sucursal, function(i, item) {
+                Sucursal += '<option value="' + item.id_sucursal + '">' + item.nombre_sucursal + '</option>';
+
+            });
+            $("#Sucursal").html(Sucursal);
+        },
+        error: function() {}
+    });
+}
+
+function getEmpleados(){
+    $('#persona_modal').modal('show');
+    accion = $(".encargado_lista").attr("id");
+    get_encargado_lista();
+}
+
+function get_encargado_lista() {
+    var table = "<table class='table table-sm table-hover'>";
+    table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control buscar_producto' name='buscar_producto'/> </td></tr>"
+    table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
+    var table_tr = "<tbody id='list'>";
+    var contador_precios = 1;
+
+    $.ajax({
+        url: "get_persona",
+        url: "<?php echo base_url(). 'admin/empleado/get_persona'; ?>",
+        datatype: 'json',
+        cache: false,
+
+        success: function(data) {
+            var datos = JSON.parse(data);
+            var persona = datos["persona"];
+
+            $.each(persona, function(i, item) {
+
+                table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.cel + '</td><td><a href="#" class="btn btn-primary btn-xs encargado" id="' + item.id_persona + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
+                contador_precios++;
+            });
+            table += table_tr;
+            table += "</tbody></table>";
+
+            $(".cliente_lista_datos").html(table);
+
+        },
+        error: function() {}
+    });
+}
+
+function getPersona(){
+    $('#persona_modal').modal('show');
+    accion = $(this).attr("id");
+    get_persona_lista();
+}
+
+function get_persona_lista() {
+    var table = "<table class='table table-sm table-hover'>";
+    table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control buscar_producto' name='buscar_producto'/> </td></tr>"
+    table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
+    var table_tr = "<tbody id='list'>";
+    var contador_precios = 1;
+
+    $.ajax({
+        url: "<?php echo base_url(). 'admin/empleado/get_persona'; ?>",
+        datatype: 'json',
+        cache: false,
+
+        success: function(data) {
+            var datos = JSON.parse(data);
+            var persona = datos["persona"];
+
+            $.each(persona, function(i, item) {
+
+                table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.cel + '</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_persona" id="' + item.id_persona + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
+                contador_precios++;
+            });
+            table += table_tr;
+            table += "</tbody></table>";
+
+            $(".cliente_lista_datos").html(table);
+
+        },
+        error: function() {}
+    });
+}
+
+
     $(document).ready(function() {
 
         var accion = "";
@@ -13,46 +113,8 @@
             readURL(this);
         });
 
-        $(document).on('click', '.seleccionar_encargado', function() {
-            $('#persona_modal').modal('show');
-            accion = $(this).attr("id");
-            get_encargado_lista();
-        });
-
-        function get_encargado_lista() {
-
-            var table = "<table class='table table-sm table-hover'>";
-            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
-            table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
-            var table_tr = "<tbody id='list'>";
-            var contador_precios = 1;
-
-            $.ajax({
-                url: "<?php echo base_url(). 'admin/empleado/get_persona'; ?>",
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-                    var datos = JSON.parse(data);
-                    var persona = datos["persona"];
-
-                    $.each(persona, function(i, item) {
-
-                        table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.cel + '</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_persona" id="' + item.id_persona + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
-                        contador_precios++;
-                    });
-                    table += table_tr;
-                    table += "</tbody></table>";
-
-                    $(".cliente_lista_datos").html(table);
-
-                },
-                error: function() {}
-            });
-        }
-
         // filtrar producto
-        $(document).on('keyup', '#buscar_producto', function() {
+        $(document).on('keyup', '.buscar_producto', function() {
             var texto_input = $(this).val();
 
             $("#list tr").filter(function() {
@@ -60,40 +122,6 @@
             });
         });
 
-        // Seleccionar Persona
-        $(document).on('click', '.seleccionar_persona', function() {
-            var id = $(this).attr("id");
-            var name = $(this).attr("name");
-
-            $.ajax({
-                url: "<?php echo base_url(). 'admin/empleado/validar_persona/'; ?>"+ id,
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-                     
-                        if (accion == 'encargado_nombre') {
-                            $("#encargado").val(id);
-                            $("#encargado_nombre").val(name);
-                        } else {
-
-                            if (data) {
-
-                                $(".notificacion_texto").text("Empleado ya vinculado a un usuario existente.");
-                                $('#error').modal('show');
-
-                            }else{
-
-                                $("#Persona_E").val(id);
-                                $("#persona_nombre").val(name);
-                            }
-                        } 
-                        $('#persona_modal').modal('hide');        
-                        
-                },
-                error: function() {}
-            });
-        });
 
         $(document).on('click', '#btn_save', function() {
             var password = $("#password").val();
@@ -106,30 +134,6 @@
                 $('#error').modal('show');
             }
         });
-
-        $(document).on('change', '#Empresa', function() {
-            var id_empresa = $(this).val();
-            $.ajax({
-                url: "<?php echo base_url(). 'admin/empleado/get_sucursal/'; ?>"+ id_empresa,
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-                    var datos = JSON.parse(data);
-                    var sucursal = datos["sucursal"];
-                    var Sucursal = '';
-                    $.each(sucursal, function(i, item) {
-                        Sucursal += '<option value="' + item.id_sucursal + '">' + item.nombre_sucursal + '</option>';
-
-                    });
-                    $("#Sucursal").html(Sucursal);
-                },
-                error: function() {}
-            });
-        });
-
-
-
 
         $("#imagen_nueva").hide();
 
@@ -268,7 +272,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empresa</label>
                                             <div class="col-sm-9">
-                                                <select id="Empresa" name="Empresa" class="form-control">
+                                                <select id="Empresa" name="Empresa" class="form-control empresa_" onchange="getSucursal();">
                                                     <?php
                                                     foreach ($empresa as $key => $p) {
                                                         if ($p->id_empresa == $empleado[0]->Empresa_Suc) {
@@ -320,18 +324,18 @@
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
                                             <div class="col-sm-9">
                                                 <?php if(isset($encargado[0]->segundo_apellido_persona)) : ?>
-                                                <input type="text" class="form-control seleccionar_encargado" required id="encargado_nombre" name="" placeholder="Persona" value="<?php echo $encargado[0]->primer_nombre_persona." ".$encargado[0]->segundo_nombre_persona." ".$encargado[0]->primer_apellido_persona." ".$encargado[0]->segundo_apellido_persona ?>">
+                                                <input type="text" class="form-control encargado_lista" required onClick="getEmpleados();" placeholder="Persona" value="<?php echo $encargado[0]->primer_nombre_persona." ".$encargado[0]->segundo_nombre_persona." ".$encargado[0]->primer_apellido_persona." ".$encargado[0]->segundo_apellido_persona ?>">
                                                 <?php else: ?>
-                                                <input type="text" class="form-control seleccionar_encargado" required id="encargado_nombre" name="" placeholder="Persona" value="<?php echo $encargado[0]['primer_nombre_persona']." ".$encargado[0]['segundo_nombre_persona']." ".$encargado[0]['primer_apellido_persona']." ".$encargado[0]['segundo_apellido_persona'] ?>">
+                                                <input type="text" class="form-control encargado_lista" required onClick="getEmpleados();" placeholder="Persona" value="<?php echo $encargado[0]['primer_nombre_persona']." ".$encargado[0]['segundo_nombre_persona']." ".$encargado[0]['primer_apellido_persona']." ".$encargado[0]['segundo_apellido_persona'] ?>">
                                                 <?php endif ?>
-                                                <input type="hidden" class="form-control seleccionar_encargado" id="encargado" name="encargado" placeholder="Persona" value="<?php echo $empleado[0]->encargado ?>">
+                                                <input type="hidden" class="form-control" id="encargado" name="encargado" placeholder="Persona" value="<?php echo $empleado[0]->encargado ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control seleccionar_encargado" id="persona_nombre" name="persona" placeholder="Encargado" value=" <?php echo $empleado[0]->primer_nombre_persona . ' ' . $empleado[0]->segundo_nombre_persona . ' ' . $empleado[0]->primer_apellido_persona . ' ' . $empleado[0]->segundo_apellido_persona ?>">
+                                                <input type="text" class="form-control seleccionar_encargado" onClick="getPersona();" name="persona" placeholder="Encargado" value=" <?php echo $empleado[0]->primer_nombre_persona . ' ' . $empleado[0]->segundo_nombre_persona . ' ' . $empleado[0]->primer_apellido_persona . ' ' . $empleado[0]->segundo_apellido_persona ?>">
                                                 <input type="hidden" class="form-control persona_codigo" id="Persona_E" name="Persona_E" placeholder="Persona" value="<?php echo $empleado[0]->Persona_E ?>">
 
                                             </div>

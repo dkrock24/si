@@ -1,5 +1,128 @@
 
 <script type="text/javascript">
+
+function setEmpresa(){
+    var id_empresa = $(".empresa_").val();
+    $.ajax({
+        url: "<?php echo base_url(). 'admin/empleado/get_sucursal/'; ?>"+ id_empresa,
+        datatype: 'json',
+        cache: false,
+
+        success: function(data) {
+            var datos = JSON.parse(data);
+            var sucursal = datos["sucursal"];
+            var Sucursal = '';
+            $.each(sucursal, function(i, item) {
+                Sucursal += '<option value="' + item.id_sucursal + '">' + item.nombre_sucursal + '</option>';
+
+            });
+            $("#Sucursal").html(Sucursal);
+        },
+        error: function() {}
+    });
+}
+
+setEmpresa();
+
+function getSucursal(){
+
+    var id_empresa = $(".empresa_").val();
+    $.ajax({
+        url: "<?php echo base_url(). 'admin/empleado/get_sucursal/'; ?>"+ id_empresa,
+        datatype: 'json',
+        cache: false,
+
+        success: function(data) {
+            var datos = JSON.parse(data);
+            var sucursal = datos["sucursal"];
+            var Sucursal = '';
+            $.each(sucursal, function(i, item) {
+                Sucursal += '<option value="' + item.id_sucursal + '">' + item.nombre_sucursal + '</option>';
+
+            });
+            $("#Sucursal").html(Sucursal);
+        },
+        error: function() {}
+    });
+}
+
+function getEmpleados(){
+    $('#persona_modal').modal('show');
+    accion = $(".encargado_lista").attr("id");
+    get_encargado_lista();
+}
+
+function get_encargado_lista() {
+    var table = "<table class='table table-sm table-hover'>";
+    table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control buscar_producto' name='buscar_producto'/> </td></tr>"
+    table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
+    var table_tr = "<tbody id='list'>";
+    var contador_precios = 1;
+
+    $.ajax({
+        url: "get_persona",
+        url: "<?php echo base_url(). 'admin/empleado/get_persona'; ?>",
+        datatype: 'json',
+        cache: false,
+
+        success: function(data) {
+            var datos = JSON.parse(data);
+            var persona = datos["persona"];
+
+            $.each(persona, function(i, item) {
+
+                table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.cel + '</td><td><a href="#" class="btn btn-primary btn-xs encargado" id="' + item.id_persona + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
+                contador_precios++;
+            });
+            table += table_tr;
+            table += "</tbody></table>";
+
+            $(".cliente_lista_datos").html(table);
+
+        },
+        error: function() {}
+    });
+}
+
+function getPersona(){
+    $('#persona_modal').modal('show');
+    accion = $(this).attr("id");
+    get_persona_lista();
+}
+
+function get_persona_lista() {
+    var table = "<table class='table table-sm table-hover'>";
+    table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control buscar_producto' name='buscar_producto'/> </td></tr>"
+    table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
+    var table_tr = "<tbody id='list'>";
+    var contador_precios = 1;
+
+    $.ajax({
+        url: "<?php echo base_url(). 'admin/empleado/get_persona'; ?>",
+        datatype: 'json',
+        cache: false,
+
+        success: function(data) {
+            var datos = JSON.parse(data);
+            var persona = datos["persona"];
+
+            $.each(persona, function(i, item) {
+
+                table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.cel + '</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_persona" id="' + item.id_persona + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
+                contador_precios++;
+            });
+            table += table_tr;
+            table += "</tbody></table>";
+
+            $(".cliente_lista_datos").html(table);
+
+        },
+        error: function() {}
+    });
+}
+
+
+
     $(document).ready(function() {
 
         var accion = "";
@@ -13,85 +136,12 @@
             readURL(this);
         });
 
-        $(document).on('click', '.encargado_lista', function() {
-            $('#persona_modal').modal('show');
-            accion = $(this).attr("id");
-            get_encargado_lista();
-        });
 
-        $(document).on('click', '.seleccionar_encargado', function() {
-            $('#persona_modal').modal('show');
-            accion = $(this).attr("id");
-            get_persona_lista();
-        });
+        
 
-        function get_encargado_lista() {
-
-            var table = "<table class='table table-sm table-hover'>";
-            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
-            table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
-            var table_tr = "<tbody id='list'>";
-            var contador_precios = 1;
-
-            $.ajax({
-                url: "get_persona",
-                url: "<?php echo base_url(). 'admin/empleado/get_persona'; ?>",
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-                    var datos = JSON.parse(data);
-                    var persona = datos["persona"];
-
-                    $.each(persona, function(i, item) {
-
-                        table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.cel + '</td><td><a href="#" class="btn btn-primary btn-xs encargado" id="' + item.id_persona + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
-                        contador_precios++;
-                    });
-                    table += table_tr;
-                    table += "</tbody></table>";
-
-                    $(".cliente_lista_datos").html(table);
-
-                },
-                error: function() {}
-            });
-        }
-
-        function get_persona_lista() {
-
-            var table = "<table class='table table-sm table-hover'>";
-            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
-            table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
-            var table_tr = "<tbody id='list'>";
-            var contador_precios = 1;
-
-            $.ajax({
-                url: "<?php echo base_url(). 'admin/empleado/get_persona'; ?>",
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-                    var datos = JSON.parse(data);
-                    var persona = datos["persona"];
-
-                    $.each(persona, function(i, item) {
-
-                        table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '</td><td>' + item.dui + '</td><td>' + item.nit + '</td><td>' + item.cel + '</td><td><a href="#" class="btn btn-primary btn-xs seleccionar_persona" id="' + item.id_persona + '" name="' + item.primer_nombre_persona + ' ' + item.segundo_nombre_persona + ' ' + item.primer_apellido_persona + ' ' + item.segundo_apellido_persona + '">Agregar</a></td></tr>';
-                        contador_precios++;
-                    });
-                    table += table_tr;
-                    table += "</tbody></table>";
-
-                    $(".cliente_lista_datos").html(table);
-
-                },
-                error: function() {}
-            });
-        }
 
         // filtrar producto
-        $(document).on('keyup', '#buscar_producto', function() {
+        $(document).on('keyup', '.buscar_producto', function() {
             var texto_input = $(this).val();
 
             $("#list tr").filter(function() {
@@ -166,48 +216,6 @@
                 $(".notificacion_texto").text("Password Diferente.");
                 $('#error').modal('show');
             }
-        });
-
-        $(document).ready(function() {
-            var id_empresa = $("#Empresa").val();
-            $.ajax({
-                url: "<?php echo base_url(). 'admin/empleado/get_sucursal/'; ?>"+ id_empresa,
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-                    var datos = JSON.parse(data);
-                    var sucursal = datos["sucursal"];
-                    var Sucursal = '';
-                    $.each(sucursal, function(i, item) {
-                        Sucursal += '<option value="' + item.id_sucursal + '">' + item.nombre_sucursal + '</option>';
-
-                    });
-                    $("#Sucursal").html(Sucursal);
-                },
-                error: function() {}
-            });
-        });
-
-        $(document).change("#Empresa", function() {
-            var id_empresa = $("#Empresa").val();
-            $.ajax({
-                url: "<?php echo base_url(). 'admin/empleado/get_sucursal'; ?>"+ id_empresa,
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-                    var datos = JSON.parse(data);
-                    var sucursal = datos["sucursal"];
-                    var Sucursal = '';
-                    $.each(sucursal, function(i, item) {
-                        Sucursal += '<option value="' + item.id_sucursal + '">' + item.nombre_sucursal + '</option>';
-
-                    });
-                    $("#Sucursal").html(Sucursal);
-                },
-                error: function() {}
-            });
         });
 
         $("#imagen_nueva").hide();
@@ -358,7 +366,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Empresa</label>
                                             <div class="col-sm-9">
-                                                <select id="Empresa" required name="Empresa" class="form-control">
+                                                <select required name="Empresa" class="form-control empresa_" onchange="getSucursal();">
                                                     <?php
                                                     foreach ($empresa as $key => $p) {
                                                         ?>
@@ -392,8 +400,8 @@
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Encargado</label>
                                             <div class="col-sm-9">
 
-                                                <input type="text" required class="form-control encargado_lista" required id="encargado_nombre" name="" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
-                                                <input type="hidden" class="form-control encargado_lista" id="encargado_id" name="encargado" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu ?>">
+                                                <input type="text" required class="form-control encargado_lista" onClick="getEmpleados();" name="" placeholder="Persona" value="">
+                                                <input type="hidden" class="form-control encargado_lista" id="encargado_id" name="encargado" placeholder="Persona" value="">
 
                                             </div>
                                         </div>
@@ -401,7 +409,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Persona</label>
                                             <div class="col-sm-9">
-                                                <input type="text" required class="form-control seleccionar_encargado" id="persona_nombre" name="persona" placeholder="Encargado" value="<?php //echo $onMenu[0]->titulo_submenu 
+                                                <input type="text" required class="form-control seleccionar_encargado" onClick="getPersona();" name="persona" placeholder="Encargado" value="<?php //echo $onMenu[0]->titulo_submenu 
                                                                                                                                                                                 ?>">
                                                 <input type="hidden" class="form-control persona_codigo" id="Persona_E" name="Persona_E" placeholder="Persona" value="<?php //echo $onMenu[0]->titulo_submenu 
                                                                                                                                                                         ?>">

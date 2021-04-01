@@ -44,8 +44,7 @@ class Empresa extends MY_Controller {
 		$_SESSION['Vista']  	= $data['title'];
 		
 		//$this->parser->parse('template', $data);
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -59,7 +58,7 @@ class Empresa extends MY_Controller {
 		$data['home'] 	= 'admin/empresa/empresa_nuevo';
 		$data['title'] 	= 'Crear Empresa';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/empresa/empresa_nuevo',$data, TRUE);
 	}
 
 	public function crear(){
@@ -97,7 +96,7 @@ class Empresa extends MY_Controller {
 
 			$this->general->editar_valido($data['empresa'], "admin/empresa/index");
 
-			$this->parser->parse('template', $data);
+			echo $this->load->view('admin/empresa/empresa_editar',$data, TRUE);
 
 		}else{
 			redirect(base_url()."admin/Empresa/index");
@@ -126,7 +125,7 @@ class Empresa extends MY_Controller {
 	
 			$data['columns'] = $vars;
 	
-			$this->parser->parse('template', $data);
+			echo $this->load->view('template/ver_general',$data, TRUE);
 
 		}else{
 			redirect(base_url()."admin/empresa/index");
@@ -184,7 +183,6 @@ class Empresa extends MY_Controller {
 			['moneda_nombre' => 'MONEDA'],
 			['codigo' => 'CODIGO'],
 			['empresa_creado' => 'CREADO'],
-			//['empresa_actualizado' =>'ACTUA'],
 			['orden_estado_nombre' =>'ESTADO']
 		);
 

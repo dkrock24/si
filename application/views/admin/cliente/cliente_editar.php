@@ -14,7 +14,7 @@
         function get_clientes_lista() {
 
             var table = "<table class='table table-sm table-hover'>";
-            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
+            table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control buscar_producto' name='buscar_producto'/> </td></tr>"
             table += "<th>#</th><th>Nombre Completo</th><th>DUI</th><th>NIT</th><th>Telefono</th><th>Action</th>";
             var table_tr = "<tbody id='list'>";
             var contador_precios = 1;
@@ -46,7 +46,7 @@
         }
 
         // filtrar producto
-    $(document).on('keyup', '#buscar_producto', function(){
+    $(document).on('keyup', '.buscar_producto', function(){
         var texto_input = $(this).val();
 
         $("#list tr").filter(function() {
