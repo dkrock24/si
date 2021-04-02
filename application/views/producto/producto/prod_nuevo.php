@@ -1,6 +1,11 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
-<script src="<?php echo base_url(); ?>../asstes/js/producto/producto.js"></script>
+<!--
+<script src="<?php //echo base_url(); ?>../asstes/js/producto/producto.js"></script>
+-->
+<?php include("asstes/js/producto/producto.php"); ?>
 
+<script type="text/javascript">
+
+</script>
 
 <style type="text/css">
     .icon-center{
@@ -39,16 +44,16 @@
     <section>
         <!-- Page content-->
         <div class="content-wrapper">            
-            
-            <h3 style="height: 50px; font-size: 13px;">                
-                <a href="index" style="top: -12px;position: relative; text-decoration: none">
-                    <button type="button" class="mb-sm btn btn-success"> Producto</button> </a> 
-                    <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
-                </h3>
+            <h3 style="height: 50px; font-size: 13px;">  
+                <a name="producto/producto/index"" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
+                    <button type="button" class="mb-sm btn btn-success"> Producto</button> 
+                </a> 
+                <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
+                
+            </h3>
             <div class="row">
                 <div class="col-lg-12">
-                        <!-- INICIO MENU IZQUIERDO -->
-                        
+                        <!-- INICIO MENU IZQUIERDO -->                        
                         <div class="col-lg-3">
                             <div id="" class="panel panel-default" style="">
                                 <div class="panel-heading menuTop">Nuevo Producto :  </div>
@@ -291,9 +296,7 @@
                                                 <div class="form-group">
                                                      <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Relacion</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="procuto_asociado" id="procuto_asociado" class="form-control" value="">
-                                                        
-                                                        
+                                                        <input type="text" name="" id="" onClick="producto_asociado();" class="form-control" value="">
                                                     </div>
                                                     <div class="col-sm-1"></div>
                                                 </div>
@@ -522,7 +525,6 @@
                         
                         <!-- FIN PRODUCTO PRECIOS -->
 
-
                         <!-- INICIO PRODUCTO ATRIBUTOS -->
                         <div class="row">
                         <div class="col-lg-12"> 
@@ -547,24 +549,4 @@
     </section>
 
 
-<!-- Modal Large-->
-   <div id="producto_asociado_modal" tabindex="-1" role="dialog" aria-labelledby="producto_asociado_modal"  class="modal fade">
-      <div class="modal-dialog modal-lg">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
-                  <span aria-hidden="true">&times;</span>
-               </button>
-               <h4 id="myModalLabelLarge" class="modal-title">Lista de Productos</h4>
-            </div>
-            <div class="modal-body">
-                <p class="productos_lista_datos"></p>                                 
-               
-            </div>
-            <div class="modal-footer">
-               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
-            </div>
-         </div>
-      </div>
-   </div>
-   <!-- Modal Small-->
+

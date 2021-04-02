@@ -1,3 +1,45 @@
+<script type="text/javascript">
+
+$('#producto_asociado_modal').appendTo("body");
+
+function producto_asociado(){
+    $('#producto_asociado_modal').modal();
+    //get_productos_lista();
+}
+
+function get_productos_lista() {
+
+    var table = "<table class='table table-hover'>";
+    table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
+    table += "<th>#</th><th>Nombre</th><th>Id Producto</th><th>Marca</th><th>Categoria</th><th>Sub Categoria</th><th>Giro</th><th>Empresa</th><th>Action</th>";
+    var table_tr = "<tbody id='list'>";
+    var contador_precios = 1;
+
+    $.ajax({
+        url: "<?php echo base_url(). 'producto/producto/get_productos_lista'; ?>",
+        datatype: 'json',
+        cache: false,
+
+        success: function (data) {
+            var datos = JSON.parse(data);
+            var productos = datos["productos"];
+
+            $.each(productos, function (i, item) {
+
+                table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.name_entidad + '</td><td>' + item.id_entidad + '</td><td>' + item.nombre_marca + '</td><td>' + item.nombre_categoria + '</td><td>' + item.SubCategoria + '</td><td>' + item.nombre_giro + '</td><td>' + item.nombre_razon_social + '</td><td><a href="#" class="btn btn-primary relacionar_producto" id="' + item.id_entidad + '">Relacionar</a></td></tr>';
+                contador_precios++;
+            });
+            table += table_tr;
+            table += "</tbody></table>";
+
+            $(".productos_lista_datos").html(table);
+
+        },
+        error: function () {
+        }
+    });
+}
+
 $(document).ready(function () {
 
     $('#producto_asociado_modal').appendTo("body");
@@ -18,44 +60,8 @@ $(document).ready(function () {
     get_cliente();
 
     loadEmpresa($("#empresa").val());
+
     
-    $(document).on('click', '#procuto_asociado', function () {
-        $('#producto_asociado_modal').modal('show');
-        //get_productos_lista();
-    });
-
-    function get_productos_lista() {
-
-        var table = "<table class='table table-hover'>";
-        table += "<tr><td colspan='9'>Buscar <input type='text' class='form-control' name='buscar_producto' id='buscar_producto'/> </td></tr>"
-        table += "<th>#</th><th>Nombre</th><th>Id Producto</th><th>Marca</th><th>Categoria</th><th>Sub Categoria</th><th>Giro</th><th>Empresa</th><th>Action</th>";
-        var table_tr = "<tbody id='list'>";
-        var contador_precios = 1;
-
-        $.ajax({
-            url: "get_productos_lista",
-            datatype: 'json',
-            cache: false,
-
-            success: function (data) {
-                var datos = JSON.parse(data);
-                var productos = datos["productos"];
-
-                $.each(productos, function (i, item) {
-
-                    table_tr += '<tr><td>' + contador_precios + '</td><td>' + item.name_entidad + '</td><td>' + item.id_entidad + '</td><td>' + item.nombre_marca + '</td><td>' + item.nombre_categoria + '</td><td>' + item.SubCategoria + '</td><td>' + item.nombre_giro + '</td><td>' + item.nombre_razon_social + '</td><td><a href="#" class="btn btn-primary relacionar_producto" id="' + item.id_entidad + '">Relacionar</a></td></tr>';
-                    contador_precios++;
-                });
-                table += table_tr;
-                table += "</tbody></table>";
-
-                $(".productos_lista_datos").html(table);
-
-            },
-            error: function () {
-            }
-        });
-    }
 
     // Agregar el Id del producto al input del producto relacionado
     $(document).on('click', '.relacionar_producto', function () {
@@ -78,7 +84,7 @@ $(document).ready(function () {
         $("#sub_categoria").empty();
         var id = $(this).val();
         $.ajax({
-            url: "sub_categoria_byId/" + id,
+            url: "<?php echo base_url(). 'producto/producto/sub_categoria_byId/'; ?>"+ id,
             datatype: 'json',
             cache: false,
 
@@ -110,7 +116,7 @@ $(document).ready(function () {
         var id = id_empresa_select;
         
         $.ajax({
-            url: "get_giros_empresa/" + id,
+            url: "<?php echo base_url(). 'producto/producto/get_giros_empresa/'; ?>"+ id,
             datatype: 'json',
             cache: false,
 
@@ -135,7 +141,7 @@ $(document).ready(function () {
         var id = $(this).val();
         
         $.ajax({
-            url: "get_giros_empresa/" + id,
+            url: "<?php echo base_url(). 'producto/producto/get_giros_empresa/'; ?>"+ id,
             datatype: 'json',
             cache: false,
 
@@ -155,7 +161,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: "get_categorias_empresa/" + id,
+            url: "<?php echo base_url(). 'producto/producto/get_categorias_empresa/'; ?>"+ id,
             datatype: 'json',
             cache: false,
 
@@ -179,7 +185,7 @@ $(document).ready(function () {
     $("#giro").change(function () {
         var id = $(this).val();
         $.ajax({
-            url: "get_empresa_giro_atributos/" + id,
+            url: "<?php echo base_url(). 'producto/producto/get_empresa_giro_atributos/'; ?>"+ id,
             datatype: 'json',
             cache: false,
 
@@ -365,7 +371,8 @@ $(document).ready(function () {
     function get_cliente() {
 
         $.ajax({
-            url: "get_clientes",
+            //url: "get_clientes",
+            url: "<?php echo base_url(). 'producto/producto/get_clientes'; ?>",
             datatype: 'json',
             cache: false,
 
@@ -502,13 +509,28 @@ $(document).ready(function () {
             reader.readAsDataURL(input.files[0]);
         }
     }
-
-    /* Para Combo
-    $(document).on('click', '#combo_class', function(){
-
-        $("#producto_formulario").css("display","none");
-        $(".combos_html").css("display","1");
-        
-    });
-    */
 });
+
+</script>
+
+<!-- Modal Large-->
+<div id="producto_asociado_modal" tabindex="-1" role="dialog" aria-labelledby="producto_asociado_modal"  class="modal fade">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               <h4 id="myModalLabelLarge" class="modal-title">Lista de Productos</h4>
+            </div>
+            <div class="modal-body">
+                <p class="productos_lista_datos"></p>                                 
+               
+            </div>
+            <div class="modal-footer">
+               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Modal Small-->

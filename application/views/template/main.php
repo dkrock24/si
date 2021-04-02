@@ -141,11 +141,6 @@
       var folder     = url_pagina.split('/')[0];
       var controller = url_pagina.split('/')[1];
       var action     = url_pagina.split('/')[2];
-
-      if (controller == 'usuario') {
-         //$.getScript("<?php echo base_url(); ?>"+"../asstes/js/pantallas/usuarios.js", function(data, textStatus, jqxhr) {});
-         <?php //include("asstes/js/pantallas/usuarios.php"); ?>
-      }
    }
       
     </script>

@@ -36,8 +36,7 @@ class Producto extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  = $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -54,7 +53,7 @@ class Producto extends MY_Controller {
 		$data['empresa'] 	= $this->Giros_model->get_empresa();
 		$data['home'] 		= 'producto/producto/prod_nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('producto/producto/prod_nuevo',$data, TRUE);
 	}
 
 	public function crear(){
