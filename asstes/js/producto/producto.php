@@ -66,7 +66,7 @@ $(document).ready(function () {
     // Agregar el Id del producto al input del producto relacionado
     $(document).on('click', '.relacionar_producto', function () {
         var id = $(this).attr("id");
-        $("#procuto_asociado").val(id);
+        $("#producto_asociado").val(id);
         $('#producto_asociado_modal').modal('hide');
     });
 

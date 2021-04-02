@@ -1,8 +1,167 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script>
-    $(document).ready(function() {
+    $('#producto_asociado_modal').appendTo("body");
 
-        $('#producto_asociado_modal').appendTo("body");
+    // Llamadas de funciones catalogos
+    get_cliente();
+    atributos();
+
+    // Obtener los clientes desde la base de datos mediante Ajax
+    function get_cliente() {
+
+        $.ajax({
+            url: "<?php echo base_url(). 'producto/producto/get_clientes/'; ?>",
+            datatype: 'json',
+            cache: false,
+
+            success: function(data) {
+                var datos = JSON.parse(data);
+                obj_cliente = datos['cliente'];
+                obj_impuesto = datos['impuesto'];
+                obj_sucursales = datos['sucursal'];
+
+            },
+            error: function() {}
+        });
+    }
+
+    // Busca el Giro para dibujar los inputs del producto
+    function atributos() {
+        var id = $("#id_producto").val();
+
+        $.ajax({
+            url: "<?php echo base_url(). 'producto/producto/get_atributos_producto/'; ?>"+ id,
+            datatype: 'json',
+            cache: false,
+
+            success: function(data) {
+
+                var datos = JSON.parse(data);
+                var atributos = datos["atributos"];
+                $(".giro_atributos").empty();
+
+                var id_producto = 0;
+                $.each(atributos, function(i, item) {
+
+                    if (id_producto != item.id_prod_atributo) {
+                        if (item.tipo_atributo == 'text' || item.tipo_atributo == 'file') {
+                            $(".giro_atributos").append(html_template_text(item, atributos));
+                        }
+                        if (item.tipo_atributo == 'select') {
+                            $(".giro_atributos").append(html_template_select(item.id_prod_atributo, atributos));
+                        }
+                        if (item.tipo_atributo == 'radio') {
+                            $(".giro_atributos").append(html_template_radio(item.id_prod_atributo, atributos));
+                        }
+                        if (item.tipo_atributo == 'check') {
+                            $(".giro_atributos").append(html_template_check(item.id_prod_atributo, atributos));
+                        }
+                        id_producto = item.id_prod_atributo;
+                    }
+                });
+            },
+            error: function() {}
+        });
+    }
+
+    // Dibuja los atributos de tipo TEXT
+    function html_template_text(item, atributos) {
+        var html_template = "";
+        html_template = '<div class="col-sm-3">' +
+            '<div class="form-group">' +
+            '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">' + item.nam_atributo + '</label><br>' +
+            '<div class="col-sm-offset-1 col-sm-11">' +
+            '<input type="' + item.tipo_atributo + '" name="' + item.AtributoId + '" value="' + item.valor + '"  class="form-control ' + item.nam_atributo + '">' +
+            '</div>' +
+            '<span class="col-sm-1 control-label no-padding-right"></span>' +
+            '</div>' +
+            '</div>';
+        return html_template;
+    }
+
+    // Dibuja los atributos de tipo SELECT
+    function html_template_select(id, plantilla) {
+
+        var opciones = "";
+        var nombre = "";
+        var delimitador = 0;
+        var atributo_id = 0;
+
+        $.each(plantilla, function(i, item) {
+
+            if (id == item.id_prod_atributo) {
+                if (item.valor == item.attr_valor) {
+                    opciones += '<option value="' + item.valor + '">' + item.attr_valor + '</option>';
+                }
+            }
+        });
+        $.each(plantilla, function(i, item) {
+
+            if (id == item.id_prod_atributo) {
+                if (item.valor != item.attr_valor) {
+                    opciones += '<option value="' + item.attr_valor + '">' + item.attr_valor + '</option>';
+                }
+                nombre = item.nam_atributo;
+                atributo_id = item.AtributoId;
+            }
+        });
+
+        var html_template = "";
+        html_template = '<div class="col-sm-3">' +
+            '<div class="form-group">' +
+            '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">' + nombre + '</label><br>' +
+            '<div class="col-sm-offset-1 col-sm-11">' +
+            '<select name="' + atributo_id + '" class="form-control ' + atributo_id + '">' + opciones + '</select>' +
+            '</div>' +
+            '<span class="col-sm-1 control-label no-padding-right"></span>' +
+            '</div>' +
+            '</div>';
+        return html_template;
+    }
+
+    // Dibuja los atributos de tipo CHECK -- PENDIENTE
+    function html_template_check(id, plantilla) {
+
+        var opciones = "";
+        var nombre = "";
+
+        $.each(plantilla, function(i, item) {
+            var checked2 = "";
+
+            if (item.valor == 1 || item.valor == 'on') {
+                checked2 = "checked";
+                incluyeIva = obj_impuesto[0].porcentage;
+            }
+
+            if (id == item.id_prod_atributo) {
+                nombre = item.nam_atributo;
+                opciones += '<input type="hidden" value="' + item.valor + '" name="' + item.AtributoId + '">' +
+                    //'<input type="checkbox" '+checked2+' class="check'+item.AtributoId+'" name="'+item.AtributoId+'"/>'+item.attr_valor+'<br>';    
+
+                    '<span class="inline checkbox c-checkbox">' +
+                    '<label>' +
+                    '<input type="checkbox" id="todo-item-1" ' + checked2 + ' class="check' + item.AtributoId + '" name="' + item.AtributoId + '"/>' +
+                    '<span class="fa fa-check"></span>' +
+                    '</label></span>';
+
+
+            }
+        });
+
+        var html_template = "";
+        html_template = '<div class="col-sm-3">' +
+            '<div class="form-group">' +
+            '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">' + nombre + '</label><br>' +
+            '<div class="col-sm-offset-1 col-sm-11">' +
+            opciones +
+            '</div>' +
+            '<span class="col-sm-1 control-label no-padding-right"></span>' +
+            '</div>' +
+            '</div>';
+
+        return html_template;
+    }
+
+    $(document).ready(function() {
 
         var html_cliente2;
         var obj_cliente;
@@ -17,12 +176,7 @@
         var precios_contador = 0;
         var checked = 0;
 
-
-        // Llamadas de funciones catalogos
-        get_cliente();
-        atributos();
-
-        $(document).on('click', '#procuto_asociado', function() {
+        $(document).on('click', '#producto_asociado', function() {
             $('#producto_asociado_modal').modal('show');
             //get_productos_lista();
         });
@@ -63,7 +217,7 @@
         // Agregar el Id del producto al input del producto relacionado
         $(document).on('click', '.relacionar_producto', function() {
             var id = $(this).attr("id");
-            $("#procuto_asociado").val(id);
+            $("#producto_asociado").val(id);
             $('#producto_asociado_modal').modal('hide');
         });
 
@@ -82,12 +236,11 @@
             $("#sub_categoria").empty();
             var id = $(this).val();
             $.ajax({
-                url: "../sub_categoria_byId/" + id,
+                url: "<?php echo base_url(). 'producto/producto/sub_categoria_byId/'; ?>"+ id,
                 datatype: 'json',
                 cache: false,
 
                 success: function(data) {
-                    //console.log(data);
                     $.each(JSON.parse(data), function(i, item) {
 
                         var datos = JSON.parse(data);
@@ -103,9 +256,7 @@
                         $.each(marcas, function(i, item) {
                             $("#marca").append('<option value=' + item.id_marca + '>' + item.nombre_marca + '</option>');
                         });
-
                     });
-
                 },
                 error: function() {}
             });
@@ -115,7 +266,7 @@
             $("#giro").empty();
             var id = $(this).val();
             $.ajax({
-                url: "../get_giros_empresa/" + id,
+                url: "<?php echo base_url(). 'producto/producto/get_giros_empresa/'; ?>"+ id,
                 datatype: 'json',
                 cache: false,
 
@@ -133,51 +284,6 @@
                 error: function() {}
             });
         });
-
-        // Busca el Giro para dibujar los inputs del producto
-        function atributos() {
-            var id = $("#id_producto").val();
-
-            $.ajax({
-                url: "../get_atributos_producto/" + id,
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-
-                    var datos = JSON.parse(data);
-                    var atributos = datos["atributos"];
-                    $(".giro_atributos").empty();
-
-                    //$(".giro_atributos").append('<div class="col-sm-3">' );
-                    var id_producto = 0;
-                    $.each(atributos, function(i, item) {
-
-                        if (id_producto != item.id_prod_atributo) {
-                            if (item.tipo_atributo == 'text' || item.tipo_atributo == 'file') {
-                                $(".giro_atributos").append(html_template_text(item, atributos));
-                            }
-                            if (item.tipo_atributo == 'select') {
-                                $(".giro_atributos").append(html_template_select(item.id_prod_atributo, atributos));
-                            }
-                            if (item.tipo_atributo == 'radio') {
-                                $(".giro_atributos").append(html_template_radio(item.id_prod_atributo, atributos));
-                            }
-                            if (item.tipo_atributo == 'check') {
-                                $(".giro_atributos").append(html_template_check(item.id_prod_atributo, atributos));
-                            }
-
-                            id_producto = item.id_prod_atributo;
-                        }
-
-                    });
-
-                    // $(".giro_atributos").append( '</div>' );
-
-                },
-                error: function() {}
-            });
-        }
 
         $(document).on('click', '.deletePrecio', function() {
 
@@ -235,7 +341,6 @@
         }
 
         $(document).on('change', '#iva', function () {
-            console.log(1);
             incluyeIva = obj_impuesto[0].porcentage;
             calcularUtilidadPosPrecios();
         });
@@ -270,11 +375,8 @@
         }
 
         $("#AgregarPrecios").click(function() {
-
             contador++;
-
             obj_precios_cont.push(contador);
-            console.log(obj_precios_cont);
 
             var cliente = html_get_cliente(contador);
             var sucursal = html_get_sucursal(contador);
@@ -344,81 +446,7 @@
             return html_sucursal2;
         }
 
-        // Obtener los clientes desde la base de datos mediante Ajax
-        function get_cliente() {
-
-            $.ajax({
-                url: "../get_clientes",
-                datatype: 'json',
-                cache: false,
-
-                success: function(data) {
-
-                    var datos = JSON.parse(data);
-
-                    obj_cliente = datos['cliente'];
-                    obj_sucursales = datos['sucursal'];
-                    obj_impuesto = datos['impuesto'];
-
-                },
-                error: function() {}
-            });
-        }
-
-        // Dibuja los atributos de tipo TEXT
-        function html_template_text(item, atributos) {
-            var html_template = "";
-            html_template = '<div class="col-sm-3">' +
-                '<div class="form-group">' +
-                '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">' + item.nam_atributo + '</label><br>' +
-                '<div class="col-sm-offset-1 col-sm-11">' +
-                '<input type="' + item.tipo_atributo + '" name="' + item.AtributoId + '" value="' + item.valor + '"  class="form-control ' + item.nam_atributo + '">' +
-                '</div>' +
-                '<span class="col-sm-1 control-label no-padding-right"></span>' +
-                '</div>' +
-                '</div>';
-            return html_template;
-        }
-
-        // Dibuja los atributos de tipo SELECT
-        function html_template_select(id, plantilla) {
-
-            var opciones = "";
-            var nombre = "";
-            var delimitador = 0;
-            var atributo_id = 0;
-
-            $.each(plantilla, function(i, item) {
-
-                if (id == item.id_prod_atributo) {
-                    if (item.valor == item.attr_valor) {
-                        opciones += '<option value="' + item.valor + '">' + item.attr_valor + '</option>';
-                    }
-                }
-            });
-            $.each(plantilla, function(i, item) {
-
-                if (id == item.id_prod_atributo) {
-                    if (item.valor != item.attr_valor) {
-                        opciones += '<option value="' + item.attr_valor + '">' + item.attr_valor + '</option>';
-                    }
-                    nombre = item.nam_atributo;
-                    atributo_id = item.AtributoId;
-                }
-            });
-
-            var html_template = "";
-            html_template = '<div class="col-sm-3">' +
-                '<div class="form-group">' +
-                '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">' + nombre + '</label><br>' +
-                '<div class="col-sm-offset-1 col-sm-11">' +
-                '<select name="' + atributo_id + '" class="form-control ' + atributo_id + '">' + opciones + '</select>' +
-                '</div>' +
-                '<span class="col-sm-1 control-label no-padding-right"></span>' +
-                '</div>' +
-                '</div>';
-            return html_template;
-        }
+        
 
         // Dibuja los atributos de tipo RADIO
         function html_template_radio(id, plantilla) {
@@ -444,49 +472,6 @@
                 '<span class="col-sm-1 control-label no-padding-right"></span>' +
                 '</div>' +
                 '</div>';
-            return html_template;
-        }
-
-        // Dibuja los atributos de tipo CHECK -- PENDIENTE
-        function html_template_check(id, plantilla) {
-
-            var opciones = "";
-            var nombre = "";
-
-            $.each(plantilla, function(i, item) {
-                var checked2 = "";
-
-                if (item.valor == 1 || item.valor == 'on') {
-                    checked2 = "checked";
-                    incluyeIva = obj_impuesto[0].porcentage;
-                }
-
-                if (id == item.id_prod_atributo) {
-                    nombre = item.nam_atributo;
-                    opciones += '<input type="hidden" value="' + item.valor + '" name="' + item.AtributoId + '">' +
-                        //'<input type="checkbox" '+checked2+' class="check'+item.AtributoId+'" name="'+item.AtributoId+'"/>'+item.attr_valor+'<br>';    
-
-                        '<span class="inline checkbox c-checkbox">' +
-                        '<label>' +
-                        '<input type="checkbox" id="todo-item-1" ' + checked2 + ' class="check' + item.AtributoId + '" name="' + item.AtributoId + '"/>' +
-                        '<span class="fa fa-check"></span>' +
-                        '</label></span>';
-
-
-                }
-            });
-
-            var html_template = "";
-            html_template = '<div class="col-sm-3">' +
-                '<div class="form-group">' +
-                '<label for="inputEmail3" class="col-sm-offset-1 control-label no-padding-right">' + nombre + '</label><br>' +
-                '<div class="col-sm-offset-1 col-sm-11">' +
-                opciones +
-                '</div>' +
-                '<span class="col-sm-1 control-label no-padding-right"></span>' +
-                '</div>' +
-                '</div>';
-
             return html_template;
         }
 
@@ -560,12 +545,14 @@
     <!-- Page content-->
     <div class="content-wrapper">
 
-        <h3 style="height: 50px; font-size: 13px;">
-            <a href="../index" style="top: -12px;position: relative; text-decoration: none">
-                <button type="button" class="mb-sm btn btn-success"> Producto</button> </a>
-            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info">Nuevo</button>
+        <h3 style="height: 50px; font-size: 13px;">  
+            <a name="producto/producto/index"" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
+                <button type="button" class="mb-sm btn btn-success"> Producto</button> 
+            </a> 
+            <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Editar</button>
+            
         </h3>
-        <div class="row">
+        <div class="row" style="margin-top: -50px !important;">
             <div class="col-lg-12">
 
                 <div class="col-lg-3">
@@ -638,7 +625,7 @@
                     </div>
                 </div>
 
-                <form class="form-horizontal" enctype="multipart/form-data" action='../actualizar' method="post">
+                <form class="form-horizontal" enctype="multipart/form-data" id='producto' method="post">
 
                     <div class="col-lg-9">
 
@@ -852,7 +839,7 @@
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-offset-1 col-sm-3 control-label no-padding-right">Relacion</label>
                                             <div class="col-sm-8">
-                                                <input type="text" name="procuto_asociado" value="<?php echo $producto[0]->id_producto_relacionado ?>" id="procuto_asociado" class="form-control">
+                                                <input type="text" name="producto_asociado" value="<?php echo $producto[0]->id_producto_relacionado ?>" id="producto_asociado" class="form-control">
 
                                             </div>
                                             <div class="col-sm-1"></div>
@@ -1056,7 +1043,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-3">
-                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                                <input type="button" name="<?php echo base_url() ?>producto/producto/update" data="producto" class="btn btn-success enviar_data" value="Guardar">
                                             </div>
 
                                         </div>

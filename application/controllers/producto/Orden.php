@@ -62,8 +62,7 @@ class Orden extends MY_Controller {
 		//var_dump($data['filtros']);die;
 
 		//$this->parser->parse('template', $data);
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function get_correlativo_by_sucursal($sucursal_id){
@@ -98,16 +97,14 @@ class Orden extends MY_Controller {
 			$data['title'] 			= "Nueva Orden";
 			$data['home'] 			= 'producto/orden/orden_crear';
 
-			$data = $this->load->view('producto/orden/orden_crear',$data, TRUE);
-			echo $data;
+			echo $this->load->view('producto/orden/orden_crear',$data, TRUE);
 		}else{
 			$data['home'] = 'producto/orden/orden_denegado';
 			$data['terminal'] = "Usuario Inactivo";
 			if($terminal_acceso != false) {
 				$data['terminal'] = "Usuario no registrado !";
 			}
-			$data = $this->load->view('producto/orden/orden_denegado',$data, TRUE);
-			echo $data;
+			echo $this->load->view('producto/orden/orden_denegado',$data, TRUE);
 		}
 	}
 
@@ -135,9 +132,9 @@ class Orden extends MY_Controller {
 
 		$data['producto'] = $this->Orden_model->get_producto_completo3($producto_id, $id_bodega);
 
-		$contador	=0;
 		$atributos	= array();
 		/*
+		$contador	=0;
 		foreach ($data['producto'] as $key => $value) {
 			//$atributos += [ $value->nam_atributo => $data['producto'][$contador]->valor ];
 			$contador+=1;
@@ -197,7 +194,7 @@ class Orden extends MY_Controller {
 
 			$data['home'] = 'producto/orden/orden_editar';
 			$data['temp'] = $this->Template_model->printer( $order_id );
-			$this->parser->parse('template', $data);
+			echo $this->load->view('producto/orden/orden_editar',$data, TRUE);
 		}
 	}
 
@@ -237,16 +234,14 @@ class Orden extends MY_Controller {
 				$data['msj_orden'] = "Su número de transacción es: # ". $data['orden'][0]->num_correlativo;
 				
 				$this->generarDocumento( $name , $data['temp'][0]->factura_template );
-				$this->load->view('producto/orden/orden_impresion', $data);		
+				echo $this->load->view('producto/orden/orden_impresion',$data, TRUE);
 			}else{
 				$this->general->editar_valido($data['orden'], "producto/orden/nuevo");
-			}
-				
-		}else{
-
+			}				
+		} else {
 			$data['home'] = 'producto/orden/orden_editar';
 			$data['temp'] = $this->Template_model->printer( $order_id );
-			$this->parser->parse('template', $data);
+			echo $this->load->view('producto/orden/orden_editar',$data, TRUE);
 		}
 	}
 
@@ -254,11 +249,11 @@ class Orden extends MY_Controller {
 		
 		$data['correlativo'] = $this->Correlativo_model->get_correlativo_sucursal( $documento , $sucursal );
 
-		$template = $this->Template_model->get_template_sucursal_documento( $sucursal, $documento);
 		$correlativos = [];
-		if($template) {
-			$totalDocumentos = $this->totalDocumentos($template, $totalProductos);
+		$template = $this->Template_model->get_template_sucursal_documento( $sucursal, $documento);
 
+		if ($template) {
+			$totalDocumentos = $this->totalDocumentos($template, $totalProductos);
 			
 			if($totalDocumentos > 1){
 				$numCorrelativos = $data['correlativo'][0]->siguiente_valor;
@@ -271,7 +266,6 @@ class Orden extends MY_Controller {
 			$data['numeros_correlativos'] = $correlativos;
 			$data['cantidad_por_documento'] = $template[0]->factura_lineas;
 		}		
-		
 		echo json_encode($data);
 	}
 
@@ -288,10 +282,6 @@ class Orden extends MY_Controller {
 
 			return $productosEnDocumento;
 		}
-	}
-
-	private function getCorrelativos($documento ,$sucursal , $cantidad){
-
 	}
 
 	public function update_orden(){
@@ -315,7 +305,6 @@ class Orden extends MY_Controller {
 		$data = $this->Orden_model->update( $_POST , $id_usuario ,$cliente , $dataParametros);
 
 		echo json_encode($data);
-		//redirect(base_url()."producto/orden/index");
 	}
 
 	public function cerrar_orden(){
@@ -420,14 +409,12 @@ class Orden extends MY_Controller {
 
 		// Obteniendo el cliente by ID desde Model Cliente
 		$data = $this->Cliente_model->get_clientes_id( $cliente_id );
-
 		return $data;
 	}
 
 	function get_empleados_by_sucursal($sucursal){
 
-		$data['empleados'] = $this->Usuario_model->get_empleados_by_sucursal($sucursal);
-		
+		$data['empleados'] = $this->Usuario_model->get_empleados_by_sucursal($sucursal);		
 		echo json_encode( $data );
 	}
 
@@ -524,10 +511,10 @@ class Orden extends MY_Controller {
 		
 			$data['home'] = 'producto/orden/venta_rapida';
 
-			$this->load->view('producto/orden/venta_rapida',$data);
+			echo $this->load->view('producto/orden/venta_rapida',$data, TRUE);
 		}else{
 			$data['home'] = 'producto/orden/orden_denegado';
-			$this->parser->parse('template', $data);
+			echo $this->load->view('producto/orden/orden_denegado',$data, TRUE);
 		}
 	}
 
@@ -557,6 +544,7 @@ class Orden extends MY_Controller {
 
 		//$this->parser->parse('template', $data);
 		$this->load->view('producto/ventas/venta_detalle2', $data);
+		echo $this->load->view('producto/ventas/venta_detalle2',$data, TRUE);
 	}
 
 	public function unload(){

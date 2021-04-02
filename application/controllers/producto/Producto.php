@@ -108,7 +108,7 @@ class Producto extends MY_Controller {
 
 		$this->general->editar_valido($data['producto'], "producto/producto/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('producto/producto/prod_editar',$data, TRUE);
 	}
 
 	public function eliminar( $producto_id ){
@@ -155,7 +155,7 @@ class Producto extends MY_Controller {
 		echo json_encode( $sucursales );
 	}
 
-	public function actualizar(){
+	public function update(){
 
 		$bodegas = $this->Bodega_model->getBodegaProducto();
 
