@@ -49,38 +49,62 @@
          event.preventDefault();
          var url_pagina = $(this).attr('name');
          document.cookie = "url = "+url_pagina;
+         console.log(url_pagina);
 
-         $.ajax({
-            type: "post",
-            url: "<?php echo base_url(); ?>"+url_pagina,
-            success: function(result) {
-               $(".loadViews").html(result);
-            }
-         });
+         if((url_pagina != "producto/orden/nuevo") ){
+            $.ajax({
+               type: "post",
+               url: "<?php echo base_url(); ?>"+url_pagina,
+               success: function(result) {
+                  $(".loadViews").html(result);
+               }
+            });
+         } else {
+            window.location.href ="<?php echo base_url(); ?>" + url_pagina;
+         }
     });
+
+      $(document).on('keypress', '#buscar_pantalla', function() {
+         if (event.which == 13) {
+            var buscar_pantalla = $("#buscar_pantalla").val();     
+            $.ajax({
+               type: "post",
+               url: "<?php echo base_url(); ?>admin/home/buscar",
+               data : {buscar:buscar_pantalla},
+               success: function(result) {
+                  $(".loadViews").html(result);
+                  $("#buscar_pantalla").val("");
+               }
+            });
+         }
+      });
 
     /**
      * MENUS INTERNOS
     */
     $(document).on("click", ".accion_superior", function() {
         
-        var url_accion = $(this).attr('name');
-        url_pagina     = getCookie("url");
-        var folder     = url_pagina.split('/')[0];
-        var controller = url_pagina.split('/')[1];
-        var action     = url_pagina.split('/')[2];
+         var url_accion = $(this).attr('name');
+         url_pagina     = getCookie("url");
+         var folder     = url_pagina.split('/')[0];
+         var controller = url_pagina.split('/')[1];
+         var action     = url_pagina.split('/')[2];
 
-        if (action == 'index') {
-            url_accion = folder+"/"+controller+"/"+url_accion;
-        }
-        loadJsFiles();
-        $.ajax({
-            type: "post",
-            url: "<?php echo base_url(); ?>"+url_accion,
-            success: function(result) {
-                $(".loadViews").html(result);
-            }
-        });
+         url_accion = folder+"/"+controller+"/"+url_accion;
+         if (action == 'index') {
+         }
+         if((url_pagina != "producto/orden/nuevo") && (url_pagina != "producto/orden/index")){
+            loadJsFiles();
+            $.ajax({
+                  type: "post",
+                  url: "<?php echo base_url(); ?>"+url_accion,
+                  success: function(result) {
+                     $(".loadViews").html(result);
+                  }
+            });
+         }else{
+            window.location.href = "<?php echo base_url(); ?>" + url_accion;
+         }
     });
 
     /**
@@ -147,6 +171,10 @@
 
     <style type="text/css">
 
+    .holdOn_plugin{
+       cursor:pointer;
+    }
+
     .content-wrapper{
       margin-top: 100px !important;
     }
@@ -181,31 +209,35 @@
 
     /* Formularios, botones y lineas style*/
 
-.lineas_formulario{
-    display:inline-block;
-    float:right;
-}
+      .lineas_formulario{
+         display:inline-block;
+         float:right;
+      }
 
-.lineas_top_formulario{
-    color:#4974a7;
-}
+      .lineas_top_formulario{
+         color:#4974a7;
+      }
 
-.background_inputs{
-    background:#68af93
-}
+      .background_inputs{
+         background:#68af93
+      }
 
-/** Botones */
-.btn-success{
-    background:#4974a7;
-}
+      /** Botones */
+      .btn-success{
+         background:#4974a7;
+      }
 
-.btn-info{
-    background:#68af93
-}      
+      .btn-info{
+         background:#68af93
+      }      
 
-.img-thumbnail{
-   height:none !important;
-}
+      .img-thumbnail{
+         height:none !important;
+      }
+
+      #buscar_pantalla{
+         margin-top:10px;
+      }
     </style>
 
   </head>
@@ -300,6 +332,10 @@
                         <em class="icon-magnifier"></em>
                      </a>
                   </li>
+
+                  <li>
+                  <input type="text" placeholder="Buscar" name="buscar" id="buscar_pantalla" class="form-control">
+                  </li>
                                     
                   <!-- Fullscreen (only desktops)-->
                   <li class="visible-lg">
@@ -308,48 +344,44 @@
                      </a>
                   </li>
 
-      
                   <!-- START Alert menu-->
                   <li class="dropdown dropdown-list">
                      
-                        <div class="user-block-picture" data-toggle="dropdown">
-                              <div class="user-block-status">
-                                <?php
-                                  $type = $this->session->usuario[0]->t;
-                                  $code = $this->session->usuario[0]->c;
-                                ?>
-                                 <img src="data: <?php echo $type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode( $code ) ?>" width="60" height="60" class="img-thumbnail img-circle">
-                                 <div class="circle circle-success circle-lg"></div>
-                              </div>
-                           </div>
+                     <div class="user-block-picture" data-toggle="dropdown">
+                        <div class="user-block-status">
+                           <?php
+                              $type = $this->session->usuario[0]->t;
+                              $code = $this->session->usuario[0]->c;
+                           ?>
+                           <img src="data: <?php echo $type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode( $code ) ?>" width="60" height="60" class="img-thumbnail img-circle" style="height:60px;">
+                           <div class="circle circle-success circle-lg"></div>
+                        </div>
+                     </div>
 
-                           
-                     
                      <!-- START Dropdown menu-->
                      <ul class="dropdown-menu animated flipInX">
-                        <li>
+                        <li>user-block-status
                            <!-- START list group-->
                            <div class="list-group">
                               <!-- list item-->
                               <a href="<?php echo base_url(); ?>login/logout" class="list-group-item">
                                  <div class="user-block-info">
-                              <span class="user-block-name">Hola, 
-                                <?php 
-                                if(isset($this->session->usuario[0]->nombre_usuario)){
-                                  echo $this->session->usuario[0]->nombre_usuario;
-                                }
-                                ?>
-                              </span>
-                              <span class="user-block-role">
-                                <?php   
-                                if(isset($this->session->usuario[0]->role))                     {
-                                  echo $this->session->usuario[0]->role;
-                                }
-                                ?>
-                              </span>
-                           </div>
+                                    <span class="user-block-name">Hola, 
+                                    <?php 
+                                    if(isset($this->session->usuario[0]->nombre_usuario)){
+                                       echo $this->session->usuario[0]->nombre_usuario;
+                                    }
+                                    ?>
+                                    </span>
+                                    <span class="user-block-role">
+                                    <?php   
+                                    if(isset($this->session->usuario[0]->role))                     {
+                                       echo $this->session->usuario[0]->role;
+                                    }
+                                    ?>
+                                    </span>
+                                 </div>
                               </a>
-
 
                               <a href="<?php echo base_url(); ?>login/logout" class="list-group-item">
                                  <div class="media-box">
@@ -410,19 +442,20 @@
                         <em class="icon-notebook"></em>
                      </a>
                   </li>
+
+                  
                   <!-- END Offsidebar menu-->
                </ul>
                <!-- END Right Navbar-->
             </div>
             <!-- END Nav wrapper-->
             <!-- START Search form-->
-            <form role="search" action="<?php echo base_url().'admin/home/buscar' ?>" method="post" class="navbar-form">
-               <div class="form-group has-feedback">
-                  <input type="text" placeholder="Buscar" name="buscar" class="form-control">
-                  <div data-search-dismiss="" class="fa fa-times form-control-feedback"></div>
+            <!--<form role="search" class="navbar-form">
+               <div  class="form-group has-feedback">
+                  <input type="text" placeholder="Buscar" name="buscar" id="buscar_pantalla" class="form-control">
                </div>
-               <button type="submit" class="hidden btn btn-default">Submit</button>
             </form>
+            -->
             <!-- END Search form-->
          </nav>
          <!-- END Top Navbar-->

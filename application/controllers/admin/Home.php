@@ -19,8 +19,8 @@ class Home extends CI_Controller {
 		$this->load->model('Dashboard_model');
 	}
 
-	public function index()
-	{		
+	public function index() 
+	{
 		// Construir Menu		
 		$this->load->model('Login_model');
 		$usuario_id = $this->session->usuario[0]->id_usuario;
@@ -44,7 +44,7 @@ class Home extends CI_Controller {
 		// Obtener toda la informacion de la empresa en session.
 		$empresa_id = $this->Usuario_model->permiso_empresa( $empleado_id );
 		$empresa_session = $this->session->empresa_id;
-				
+
 		if(isset($empresa_id)){
 			if(isset($empresa_session)){
 				//$_SESSION['empresa'] = $this->Usuario_model->permiso_empresa( $empresa_session );
@@ -186,7 +186,7 @@ class Home extends CI_Controller {
 		echo json_encode($empresa);
 	}
 
-	function buscar(){
+	public function buscar(){
 
 		if(isset($_POST['buscar'])){
 			

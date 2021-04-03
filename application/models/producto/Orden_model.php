@@ -320,6 +320,7 @@ class Orden_model extends CI_Model
 			'num_caja' 		=> $dataParametros['terminal_numero'], //terminal_numero
 			'd_inc_imp0' 	=> $dataParametros['impuesto'], //impuesto
 			'id_tipod' 		=> $dataParametros['id_tipo_documento'], //modo_pago_id
+			'documento' 	=> $dataParametros['factura_documento'], //modo_pago_id
 			'id_sucursal' 	=> $dataParametros['sucursal_destino'], //sucursal_destino
 			'num_correlativo'=> $correlativo_final, //$orden['encabezado'][5]['value'], //numero correlativo
 			'id_cliente' 	=> $dataParametros['cliente_codigo'], //cliente_codigo
@@ -527,6 +528,7 @@ class Orden_model extends CI_Model
 			'num_caja' 		=> $dataParametros['terminal_numero'], 
 			'd_inc_imp0' 	=> $dataParametros['impuesto'], 
 			'id_tipod' 		=> $dataParametros['orden_documento'], 
+			'documento' 	=> $dataParametros['factura_documento'],
 			'id_sucursal' 	=> $dataParametros['sucursal_destino'], 
 			'num_correlativo' => $dataParametros['orden_numero'], 
 			'id_cliente' 	=> $dataParametros['cliente_codigo'], 

@@ -1,4 +1,3 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
     var path = "../";
 
@@ -37,10 +36,10 @@ include("asstes/pos_orden.php");
 
         setTimeout(function() {
             console.log(this.error);
-            if(error == false){
+            //if(error == false){
                 $("#m_orden_creada").modal();
                 //$("#imprimir").modal(); 
-            }            
+            //}            
         }, 1000);
 
         $(".printer").click(function() {
@@ -145,7 +144,7 @@ include("asstes/pos_orden.php");
 
                     <div id="panelDemo1" class="panel" style="margin-top: 60px;">
 
-                        <a href="../index" style="top: 0px;position: relative; text-decoration: none; float: left;">
+                        <a name="producto/orden/index" style="top: 0px;position: relative; text-decoration: none; float: left;" class="holdOn_plugin">
                             <button type="button" class="mb-sm btn btn-info"> Lista Ordenes </button>
                         </a>
 
@@ -168,8 +167,7 @@ include("asstes/pos_orden.php");
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success control-style control-style">
                                                 <label class="format-label">
-                                                <i class="fa fa-file-o sz" style="font-size:20px;float:left;padding:5px;"></i>
-                                                Tipo Documento</label> 
+                                                <i class="fa fa-file-o sz" style="font-size:20px;float:left;padding:5px;"></i>Formato Template Documento</label> 
                                                 <select class="form-control" name="orden_documento" id="orden_documento">
                                                 <?php
                                                     if ($tipoDocumento) {
@@ -287,12 +285,33 @@ include("asstes/pos_orden.php");
                                     <div class="row">
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success control-style">
-                                            <label class="format-label">
-                                                <i class="fa fa-comment sz" style="font-size:20px;float:left;padding:5px;"></i>
-                                                Comentarios</label>
-                                                <input type="text" name="comentarios" class="form-control">
+                                                <label class="format-label">
+                                                    <i class="fa fa-file-o sz" style="font-size:20px; float:left;padding:5px;"></i>Tipo Documento
+                                                </label>
+                                                <select class="form-control" name="factura_documento" id="factura_documento" class="factura_documento">
+                                                    <?php
+                                                    if ($lista_documento) {
+                                                        foreach ($lista_documento as $documento) {
+                                                            if($documento->id_tipo_documento == $orden[0]->documento){
+                                                        ?>
+                                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                                        <?php
+                                                            }
+                                                        }
+
+                                                        foreach ($lista_documento as $documento) {
+                                                            if($documento->id_tipo_documento != $orden[0]->documento){
+                                                        ?>
+                                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                                        <?php
+                                                            }
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
                                             </div>
                                         </div>
+                                        
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success control-style">
                                             <label class="format-label">
@@ -347,7 +366,15 @@ include("asstes/pos_orden.php");
                                 <div class="panel-body">
                                     <div class="row">
 
-                                        <div class="btn-group col-lg-6 col-md-6"></div>
+                                        <div class="btn-group col-lg-3 col-md-3"></div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success control-style">
+                                            <label class="format-label">
+                                                <i class="fa fa-comment sz" style="font-size:20px;float:left;padding:5px;"></i>
+                                                Comentarios</label>
+                                                <input type="text" name="comentarios" class="form-control">
+                                            </div>
+                                        </div>
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success control-style">
                                             <label class="format-label">
@@ -411,11 +438,11 @@ include("asstes/pos_orden.php");
                                     <input type="text" placeholder="Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:3px solid grey;font-size:20px;">
                                 </div>
 
-                                <select multiple="" class="form-control dataSelect" id="dataSelect">
+                                <select multiple="" class="form-control dataSelect" id="dataSelect" style="height: 300px; width: 800px; font-size: 22px; font-family: monospace; display: block;">
 
                                 </select>
 
-                                <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="display: inline-block;">
+                                <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="height: 300px; width: 800px; font-size: 22px; font-family: monospace; display: block;border:3px solid #badae;">
 
                                 </select>
 

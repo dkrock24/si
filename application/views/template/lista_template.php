@@ -127,6 +127,9 @@
     .sa-error-container{
         display:none;
     }
+    .lista_item{
+        cursor:pointer;
+    }
 </style>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/css/css_general.css" />
@@ -375,7 +378,7 @@
                                                         if ($value->accion_valor == 'btn_medio' && $value->accion_nombre != 'Eliminar') {
                                                         ?>
 
-                                                        <li>
+                                                        <li class="lista_item">
                                                             <a name="<?php echo  $value->accion_btn_url;  ?>/<?php echo $table->$id; ?>" class="accion_superior">
                                                                 <span class="btn btn-success">
                                                                     <i class="<?php echo $value->accion_btn_icon; ?>"></i>

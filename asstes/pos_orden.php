@@ -101,6 +101,7 @@
 
         if(path == "../"){
             var id_orden = window.location.pathname.split("/").pop();
+
             getImpuestosLista();
             setTimeout(() => {
                 get_orden(id_orden);
@@ -115,7 +116,8 @@
                         
             $.ajax({
                 type: "POST",
-                url: "../venta/autoload_venta",
+                //url: "../venta/autoload_venta",
+                url: "<?php echo base_url(); ?>producto/venta/autoload_venta",
                 datatype: 'json',
                 data: {
                     id: venta_id,
@@ -166,7 +168,8 @@
 
             $.ajax({
                 type: "POST",
-                url: path+"autoload_orden",
+                //url: path+"autoload_orden",
+                url: "<?php echo base_url(); ?>producto/orden/autoload_orden",
                 datatype: 'json',
                 data: {
                     id: orden_id
@@ -212,7 +215,8 @@
         function getImpuestosLista() {
 
             $.ajax({
-                url: path+"get_impuestos_lista",
+                //url: path+"get_impuestos_lista",
+                url: "<?php echo base_url(); ?>producto/orden/get_impuestos_lista",
                 datatype: 'json',
                 cache: false,
 

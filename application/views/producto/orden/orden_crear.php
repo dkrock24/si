@@ -1,4 +1,4 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+
 <script type="text/javascript">
     var path = "";
 
@@ -96,16 +96,12 @@ include("asstes/pos_orden.php");
 <!-- Main section-->
 <section>
     <!-- Page content-->
-
-
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <!-- Team Panel-->
             <div class="">
-
                 <!-- START panel-->
                 <form name="encabezado_form" id="encabezado_form" method="post" action="">
-
                     <!-- Campos de la terminal -->
                     <input type="hidden" name="terminal_id" value="<?php echo $terminal[0]->id_terminal; ?>" />
                     <input type="hidden" name="terminal_numero" value="<?php echo $terminal[0]->numero; ?>" />
@@ -118,10 +114,9 @@ include("asstes/pos_orden.php");
                     <input type="hidden" name="impuesto" value="" id="impuesto" />
                     <!-- Fin Campos del cliente -->
 
-
                     <div id="panelDemo1" class="panel" style="margin-top: 60px;">
 
-                        <a href="index" style="top: 0px;position: relative; text-decoration: none; float: left;">
+                        <a name="producto/orden/index" style="top: 0px;position: relative; text-decoration: none; float: left;" class="holdOn_plugin">
                             <button type="button" class="mb-sm btn btn-info"> Lista Ordenes </button>
                         </a>
 
@@ -152,7 +147,7 @@ include("asstes/pos_orden.php");
 
                                             <div class="form-group has-success control-style">
                                                 <label class="format-label">
-                                                    <i class="fa fa-file-o sz" style="font-size:20px; float:left;padding:5px;"></i>Tipo Documento
+                                                    <i class="fa fa-file-o sz" style="font-size:20px; float:left;padding:5px;"></i>Formato Template Documento
                                                 </label>
                                                 <select class="form-control" name="id_tipo_documento" id="id_tipo_documento" class="id_tipo_documento">
                                                     <?php
@@ -312,9 +307,27 @@ include("asstes/pos_orden.php");
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success control-style">
                                                 <label class="format-label">
-                                                    <i class="fa fa-comment sz" style="font-size:20px; float:left;padding:5px;"></i>Comentarios
+                                                    <i class="fa fa-file-o sz" style="font-size:20px; float:left;padding:5px;"></i>Tipo Documento
                                                 </label>
-                                                <input type="text" name="comentarios" class="form-control">
+                                                <select class="form-control" name="factura_documento" id="factura_documento" class="factura_documento">
+                                                    <?php
+                                                    if ($lista_documento) {
+                                                        foreach ($lista_documento as $documento) {
+                                                            $doc = strtoupper($documento->nombre);
+                                                            //if (strpos($doc, 'ORDEN') !== FALSE) {
+                                                    ?>
+                                                            <option value="<?php echo $documento->id_tipo_documento; ?>"><?php echo $documento->nombre; ?></option>
+                                                        <?php
+                                                            //}
+                                                        }
+                                                    } else {
+                                                        ?>
+                                                        <option value="">No Hay Documento</option>
+                                                    <?php
+                                                    }
+
+                                                    ?>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3">
@@ -381,7 +394,15 @@ include("asstes/pos_orden.php");
 
                                 <div class="panel-body">
                                     <div class="row">
-                                        <div class="btn-group col-lg-9 col-md-9"></div>
+                                        <div class="btn-group col-lg-6 col-md-6"></div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success control-style">
+                                                <label class="format-label">
+                                                    <i class="fa fa-comment sz" style="font-size:20px; float:left;padding:5px;"></i>Comentarios
+                                                </label>
+                                                <input type="text" name="comentarios" class="form-control">
+                                            </div>
+                                        </div>                                        
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success control-style">
                                                 <label class="format-label">
@@ -421,7 +442,7 @@ include("asstes/pos_orden.php");
                                     <?php
                                     if (isset($tipoDocumento) && isset($sucursales) && isset($bodega) && isset($cliente)) {
                                     ?>
-                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 20px;" name="guardar_orden" id="guardar_orden"><i class='fa fa-save' style="color:white;"></i> </button>
+                                        <button type="button" class="btn btn-labeled bg-green" style="font-size: 20px;" name="guardar_orden" id="guardar_orden" onClick="guardar_orden();"><i class='fa fa-save' style="color:white;"></i> </button>
                                     <?php
                                     } else {
                                     ?>
@@ -435,7 +456,8 @@ include("asstes/pos_orden.php");
                                     <span>
                                         ?<input type="number" class="form-control border-input" id="cantidad" name="cantidad" size="1px" value="1" min="1" max="1000" style="width: 80px;height:50px;display:inline-block;">
                                         <input type="text" class="form-control border-input" placeholder="Des. *" id="descuento" name="descuento" size="2px" style="width: 80px;height:50px;display:inline-block;">
-                                        <input type="text" class="form-control border-input" placeholder="Orden -" id="buscar_orden" name="buscar_orden" style="width: 100px;height:50px;display:inline-block;">
+
+                                            <input type="text" class="form-control border-input" placeholder="Orden -" id="buscar_orden" name="buscar_orden" style="width: 100px;height:50px;display:inline-block;">
                                     </span>
                                 </div>
                             </div>
@@ -614,7 +636,7 @@ include("asstes/pos_orden.php");
                     <input type="text" placeholder="Buscar Exsitencia" name="existencia_buscar" class="form-control existencia_buscar">
                 </div>
 
-                <select multiple="" class="form-control 1dataSelect" id="1dataSelect"></select>
+                <select multiple="" class="form-control 1dataSelect" id="1dataSelect" style="height:450px;"></select>
 
                 <select multiple="" class="form-control 1dataSelect2" style="display: inline-block;"></select>
 

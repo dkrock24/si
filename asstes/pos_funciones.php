@@ -1,6 +1,60 @@
+<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script>
     var documento_inventario    = 0;
+
+
+
+    function seleccionar_productos_array(precio_id) {
+
+        if (_productos_precio.length > 1 ) {
+            var item = _productos_precio.find(x => x.id_producto_detalle === precio_id);
+
+            if (item) {
+
+                _productos.presentacion         = item.presentacion;
+                _productos.id_producto_detalle  = item.id_producto_detalle;
+                _productos.presentacionFactor   = item.factor;
+                _productos.presentacionPrecio   = item.precio;
+                _productos.presentacionUnidad   = item.unidad;
+                _productos.presentacionCliente  = item.Cliente;
+                _productos.presentacionCliente  = item.Sucursal;
+                _productos.presentacionCodBarra = item.cod_barra;
+                _productos.precioUnidad         = item.unidad;
+                _productos.total                = item.precio;
+                _productos.producto2            = item.id_producto_detalle
+
+                $("#presentacion").val(_productos.presentacion);
+                $("#precioUnidad").val(_productos.presentacionUnidad);
+                $("#factor").val(item.factor);
+
+                set_calculo_precio(item.unidad, item.factor);
+            }
+        }
+    }
+
+
+
     $(document).ready(function() {
+
+        $('#existencias').appendTo("body");
+        $('#procesar_venta').appendTo("body");
+        $('#cliente_modal').appendTo("body");
+        $('#vendedor_modal').appendTo("body");
+        $('#vendedores_modal').appendTo("body");
+        $('#presentacion_modal').appendTo("body");
+        $("#autorizacion_descuento").appendTo("body");
+        $("#devolucion").appendTo("body");
+        $('#imprimir').appendTo("body");
+        $('#anulado').appendTo("body");        
+        $('#en_proceso').appendTo("body");
+        $('#en_reserva').appendTo("body");
+        $('#m_orden_creada').appendTo("body");
+        $('.dataSelect').hide();
+        $('.dataSelect2').hide();
+        $('.1dataSelect').hide();
+        $('.1dataSelect2').hide();
+        $('.cliente_codigo2').hide();
+        $('.msg_error').hide(); 
 
         var input_producto_buscar   = $(".producto_buscar");
         var input_bodega_select     = $("#bodega_select");
@@ -22,25 +76,7 @@
         var _correlativos_lista     = [];
         var correlativo_disponible  = false;
         
-        $('#existencias').appendTo("body");
-        $('#procesar_venta').appendTo("body");
-        $('#cliente_modal').appendTo("body");
-        $('#vendedor_modal').appendTo("body");
-        $('#vendedores_modal').appendTo("body");
-        $('#presentacion_modal').appendTo("body");
-        $("#autorizacion_descuento").appendTo("body");
-        $("#devolucion").appendTo("body");
-        $('#imprimir').appendTo("body");
-        $('#anulado').appendTo("body");        
-        $('#en_proceso').appendTo("body");
-        $('#en_reserva').appendTo("body");
-        $('#m_orden_creada').appendTo("body");
-        $('.dataSelect').hide();
-        $('.dataSelect2').hide();
-        $('.1dataSelect').hide();
-        $('.1dataSelect2').hide();
-        $('.cliente_codigo2').hide();
-        $('.msg_error').hide();        
+       
 
         var height = 39;
 
@@ -58,12 +94,15 @@
         var input_autorizacion_descuento = 0;
         var mondeda_global = '';
 
+        
         getImpuestosLista();
 
         function getImpuestosLista() {
             /** Load Impuestos everytime */
+
             $.ajax({
-                url: path + "get_impuestos_lista",
+                //url: path + "get_impuestos_lista",
+                url: "<?php echo base_url(); ?>producto/orden/get_impuestos_lista",
                 datatype: 'json',
                 cache: false,
 
@@ -81,6 +120,126 @@
             });
 
         }
+
+        
+        $(document).on('click',"#guardar_orden", function(){
+            if (_orden.length != 0) {
+                $("#guardar_orden").attr("disabled","disabled");
+                procesar_venta($("#guardar_orden").attr('name'));
+            }
+        });
+
+            /**
+ * PROCESAR VENTA
+ */
+function procesar_venta(method) {
+
+var tipo_documento  = $("#id_tipo_documento").val();
+var sucursal_origen = $("#sucursal_id2").val();
+var cliente_id      = $("#cliente_codigo").val();
+var correlativo_documento = $("#correlativo_documento").val();
+var formulario      = $('#encabezado_form').serializeArray();
+var orden_estado    = $("#orden_estado").val(); //$(this).attr('name');
+var orden_numero    = $("#orden_numero").val();
+var vista_id        = formulario.find(x => x.name === 'vista_id').value;
+
+this.convetirToNegativo  =  $("#check_devolucion").is(":checked")   ? true : false;
+
+formulario[formulario.length] = { name : 'devolucion_nit'       , value :  $("#input_devolucion_nit").val()};           
+formulario[formulario.length] = { name : 'devolucion_dui'       , value :  $("#input_devolucion_dui").val()};
+formulario[formulario.length] = { name : 'devolucion_nombre'    , value :  $("#input_devolucion_nombre").val()};
+formulario[formulario.length] = { name : 'devolucion_documento' , value :  $("#input_devolucion").val()};
+formulario[formulario.length] = { name : 'check_devolucion'     , value :  this.convetirToNegativo };
+
+formulario[formulario.length] = { name : 'doc_cli_nombre'     , value :  $("#doc_cli_nombre").val() };
+formulario[formulario.length] = { name : 'doc_cli_identificacion', value :  $("#doc_cli_identificacion").val() };
+formulario[formulario.length] = { name : 'input_devolucion_id'  , value : this.input_devolucion_id ?? 0 };
+
+if ($("#orden_estado_venta").val()) {
+    orden_estado = $("#orden_estado_venta").val();
+}
+
+if(_impuestos_orden_iva[0]){
+    _impuestos_orden_iva[0].ordenImpTotal = total_iva;                
+}else{
+    _impuestos_orden_iva.ordenImpTotal = total_iva;
+}
+
+var impuestos_data = {
+    'imp_condicion' : _impuestos_orden_condicion,
+    'imp_especial'  : _impuestos_orden_especial,
+    'imp_excluyente': _impuestos_orden_excluyentes,
+    'imp_iva'       : _impuestos_orden_iva,
+    'exento_iva'    : _impuestos_orden_exento
+}
+
+_orden[0]['total_dinero'] = total_venta;
+_orden[0]['total_cambio'] = total_cambio;
+
+if (_orden.length != 0) {
+    $.ajax({
+        type: 'POST',
+        data: {
+            orden       : _orden,
+            encabezado  : formulario,
+            estado      : orden_estado,
+            impuestos   : impuestos_data,
+            pagos       : pagos_array,
+            cliente     : cliente_id,
+            orden_numero: orden_numero,
+            documento_tipo      : tipo_documento,
+            sucursal_origen     : sucursal_origen,
+            correlativo_documento: correlativo_documento,
+            correlativos_extra: correlativos_array,
+        },
+        //url: path + method,
+        url: "<?php echo base_url(); ?>producto/orden/"+ method,
+
+        success: function(data) {
+
+            var datos = JSON.parse(data);
+
+            if(method == "update_orden"){
+                location.reload();
+                return;
+            }
+            
+            if(orden_numero){
+                cerrar_orden(orden_numero);
+            }
+
+            if(!datos.code){
+                if (method == "guardar_orden") {
+                    window.location.href = "<?php echo base_url(); ?>producto/orden/editar/" + data;
+                    //after_save(data);
+                    
+                }
+                else if (method == "../venta/guardar_venta") 
+                {                                
+                    $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
+                    $(".print_venta").attr("href", "venta/" + datos['id']);
+                    if(vista_id == 13){
+                        if(orden_numero){
+                            window.location.href = "../../venta/facturacion/" + datos['id'];
+                        }else{
+                            window.location.href = "../venta/facturacion/" + datos['id'];
+                        }
+                    }else{
+                        window.location.href = "../venta/facturacion/" + datos['id'];                            
+                    }
+                }
+            }else{
+                $(".db_msj").html("<i class='fa fa-exclamation-triangle'></i> Base de Datos Notificación. CODIGO : " +datos.code);
+            }                        
+        },
+        error: function() {}
+    });
+}
+
+    if (method != "update_orden") {
+        //cerrar_orden($("#orden_numero").val());
+    }
+}
 
         $(document).on('keypress', '.existencia_buscar', function(e) {
             /* Filtro de productos Existencias */
@@ -112,7 +271,8 @@
 
             $.ajax({
                 type: "POST",
-                url: path + "get_productos_lista",
+                //url: path + "get_productos_lista",
+                url: "<?php echo base_url(); ?>producto/orden/get_productos_lista",
                 datatype: 'json',
                 data: {
                     sucursal: sucursal,
@@ -125,7 +285,7 @@
 
                     var datos       = JSON.parse(data);
                     var productos   = datos["productos"];
-
+                    console.log("------------------> ", productos);
                     if (productos != "") {
 
                         var producto_id = 0;
@@ -160,7 +320,7 @@
 
                 producto_id = item.id_entidad;
                 precio = parseInt(item.precio_venta);
-                table_tr += '<option value="' + item.id_entidad + '">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + ' - ' + precio.toFixed(2) + '</option>';
+                table_tr += '<option value="' + item.id_entidad + '" style="font-size: 18px; color:red;">' + item.nombre_marca + ' ' + item.name_entidad + ' - ' + item.presentacion + ' - ' + precio.toFixed(2) + '</option>';
                 contador_precios++;
 
                 $('.1dataSelect').show();
@@ -172,13 +332,12 @@
             document.getElementById('1dataSelect').selectedIndex = 0;
         }
 
-        $(document).on('keypress', '#buscar_orden', function() {
-            /*
-            * Buscar una orden existente y editarla.
-            */
-            var buscar_orden = $("#buscar_orden").val();
-            if (event.which == 13) {
-                window.location.href = path +"editar/"+ buscar_orden;
+        var input = document.getElementById("buscar_orden");
+        input.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                var buscar_orden = $("#buscar_orden").val();
+                window.location.href = "<?php echo base_url(); ?>producto/orden/editar/" + buscar_orden;         
             }
         });
 
@@ -210,7 +369,8 @@
             var codigo, presentacion, tipo, precioUnidad, descuento, total
 
             $.ajax({
-                url: path+"../existencias/get_producto_completo/" + producto_id,
+                //url: path+"../existencias/get_producto_completo/" + producto_id,
+                url: "<?php echo base_url(); ?>producto/existencias/get_producto_completo/"+ producto_id,
                 datatype: 'json',
                 cache: false,
 
@@ -273,13 +433,13 @@
 
             sucursal    = input_sucursal;
             var bodega  = input_bodega_select.val();
-
             interno_sucursal = sucursal;            
 
             interno_bodega = bodega;
             $.ajax({
                 type: "POST",
-                url: path + "get_productos_lista",
+                //url: path + "get_productos_lista",
+                url: "<?php echo base_url(); ?>producto/orden/get_productos_lista/",
                 datatype: 'json',
                 data: {
                     sucursal: sucursal,
@@ -458,8 +618,6 @@
                 $('#dataSelect2').hide();
                 //$('#dataSelect2').empty();
             }
-            
-
         });
 
         function get_producto_completo(producto_id) {
@@ -482,7 +640,8 @@
             }
 
             $.ajax({
-                url: path + "get_producto_completo/" + producto_id + "/" + interno_bodega,
+                //url: path + "get_producto_completo/" + producto_id + "/" + interno_bodega,
+                url: "<?php echo base_url(); ?>producto/orden/get_producto_completo/"+ producto_id + "/" + interno_bodega,
                 datatype: 'json',
                 cache: false,
 
@@ -1046,32 +1205,6 @@
             $(this).css("background", "#6964bb");
         });
 
-        function seleccionar_productos_array(precio_id) {
-
-            var item = _productos_precio.find(x => x.id_producto_detalle === precio_id);
-
-            if (item) {
-
-                _productos.presentacion         = item.presentacion;
-                _productos.id_producto_detalle  = item.id_producto_detalle;
-                _productos.presentacionFactor   = item.factor;
-                _productos.presentacionPrecio   = item.precio;
-                _productos.presentacionUnidad   = item.unidad;
-                _productos.presentacionCliente  = item.Cliente;
-                _productos.presentacionCliente  = item.Sucursal;
-                _productos.presentacionCodBarra = item.cod_barra;
-                _productos.precioUnidad         = item.unidad;
-                _productos.total                = item.precio;
-                _productos.producto2            = item.id_producto_detalle
-
-                $("#presentacion").val(_productos.presentacion);
-                $("#precioUnidad").val(_productos.presentacionUnidad);
-                $("#factor").val(item.factor);
-
-                set_calculo_precio(item.unidad, item.factor);
-            }
-        }
-
         $(document).on('click', '#grabar', function() {
 
             grabar();
@@ -1167,7 +1300,8 @@
                         passwd: passwd,
                     },
                     dataType: 'json',
-                    url: "autenticar_usuario_descuento",
+                    //url: "autenticar_usuario_descuento",
+                    url: "<?php echo base_url(); ?>producto/orden/autenticar_usuario_descuento",
 
                     success: function(data) {
 
@@ -1308,7 +1442,8 @@
                     id_bodega: id_bodega,
                     id_producto_detalle: id_producto_detalle
                 },
-                url: path + "producto_combo",
+                //url: path + "producto_combo",
+                url: "<?php echo base_url(); ?>producto/orden/producto_combo",
 
                 success: function(data) {
                     var productoX = JSON.parse(data);
@@ -1621,7 +1756,8 @@
             input_bodega_select.empty();
             var select_option;
             $.ajax({
-                url: path + "get_bodega_sucursal/" + sucursal,
+                //url: path + "get_bodega_sucursal/" + sucursal,
+                url: "<?php echo base_url(); ?>producto/orden/get_bodega_sucursal/" + sucursal,
                 datatype: 'json',
                 cache: false,
 
@@ -1823,7 +1959,8 @@
                 path = "../venta";
                 $.ajax({
                     type: "POST",
-                    url: path + "/anular_venta",
+                    //url: path + "/anular_venta",
+                    url: "<?php echo base_url(); ?>producto/orden/anular_venta",
                     datatype: 'json',
                     data : anulacion_data,
                     cache: false,
@@ -1873,7 +2010,8 @@
             var total_articulos = getTotalElementos();
             contadorCorrelativos = 0;
             $.ajax({
-                url: path + "get_correlativo_documento/" + tipo_documento + "/" + sucursal_id + "/"+total_articulos,
+                //url: path + "get_correlativo_documento/" + tipo_documento + "/" + sucursal_id + "/"+total_articulos,
+                url: "<?php echo base_url(); ?>producto/orden/get_correlativo_documento/"+ tipo_documento + "/" + sucursal_id + "/"+total_articulos,
                 datatype: 'json',
                 cache: false,
 
@@ -1913,7 +2051,8 @@
             data = { documento,correlativo,input_sucursal };
             $.ajax({
                 type: 'POST',
-                url: path + "../venta/check_correlativo",
+                //url: path + "../venta/check_correlativo",
+                url: "<?php echo base_url(); ?>producto/venta/check_correlativo",
                 data : data,
                 cache: false,
                 datatype: 'json',
@@ -1939,7 +2078,8 @@
             var internal_total  = this.total_venta;
 
             $.ajax({
-                url: path + "get_form_pago/" + cli_form_pago + "/" + tipo_documento + "/" + sucursal_id,
+                //url: path + "get_form_pago/" + cli_form_pago + "/" + tipo_documento + "/" + sucursal_id,
+                url: "<?php echo base_url(); ?>producto/orden/get_form_pago/"+ cli_form_pago + "/" + tipo_documento + "/" + sucursal_id,
                 datatype: 'json',
                 cache: false,
 
@@ -2114,13 +2254,6 @@
             }
         });
 
-        $(document).on('click', '#guardar_orden', function() {
-            if (_orden.length != 0) {
-                $("#guardar_orden").attr("disabled","disabled");
-                procesar_venta($(this).attr('name'));
-            }
-        });
-
         $(document).on('click', '#add_pago', function() {
 
             var select      = $("#metodo_pago");
@@ -2230,7 +2363,8 @@
             var table_tr = "";
 
             $.ajax({
-                url: path + "get_clientes_lista/" + texto_cliente,
+                //url: path + "get_clientes_lista/" + texto_cliente,
+                url: "<?php echo base_url(); ?>producto/orden/get_clientes_lista/"+ texto_cliente,
                 datatype: 'json',
                 cache: false,
 
@@ -2282,114 +2416,7 @@
                 $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
             });
         });
-/**
- * PROCESAR VENTA
- */
-        function procesar_venta(method) {
 
-            var tipo_documento  = $("#id_tipo_documento").val();
-            var sucursal_origen = $("#sucursal_id2").val();
-            var cliente_id      = $("#cliente_codigo").val();
-            var correlativo_documento = $("#correlativo_documento").val();
-            var formulario      = $('#encabezado_form').serializeArray();
-            var orden_estado    = $("#orden_estado").val(); //$(this).attr('name');
-            var orden_numero    = $("#orden_numero").val();
-            var vista_id        = formulario.find(x => x.name === 'vista_id').value;
-
-            this.convetirToNegativo  =  $("#check_devolucion").is(":checked")   ? true : false;
-
-            formulario[formulario.length] = { name : 'devolucion_nit'       , value :  $("#input_devolucion_nit").val()};           
-            formulario[formulario.length] = { name : 'devolucion_dui'       , value :  $("#input_devolucion_dui").val()};
-            formulario[formulario.length] = { name : 'devolucion_nombre'    , value :  $("#input_devolucion_nombre").val()};
-            formulario[formulario.length] = { name : 'devolucion_documento' , value :  $("#input_devolucion").val()};
-            formulario[formulario.length] = { name : 'check_devolucion'     , value :  this.convetirToNegativo };
-            
-            formulario[formulario.length] = { name : 'doc_cli_nombre'     , value :  $("#doc_cli_nombre").val() };
-            formulario[formulario.length] = { name : 'doc_cli_identificacion', value :  $("#doc_cli_identificacion").val() };
-            formulario[formulario.length] = { name : 'input_devolucion_id'  , value : this.input_devolucion_id ?? 0 };
-            console.log("------",this.input_devolucion_id);
-            
-            if ($("#orden_estado_venta").val()) {
-                orden_estado = $("#orden_estado_venta").val();
-            }
-
-            if(_impuestos_orden_iva[0]){
-                _impuestos_orden_iva[0].ordenImpTotal = total_iva;                
-            }else{
-                _impuestos_orden_iva.ordenImpTotal = total_iva;
-            }
-
-            var impuestos_data = {
-                'imp_condicion' : _impuestos_orden_condicion,
-                'imp_especial'  : _impuestos_orden_especial,
-                'imp_excluyente': _impuestos_orden_excluyentes,
-                'imp_iva'       : _impuestos_orden_iva,
-                'exento_iva'    : _impuestos_orden_exento
-            }
-
-            _orden[0]['total_dinero'] = total_venta;
-            _orden[0]['total_cambio'] = total_cambio;
-
-            if (_orden.length != 0) {
-                $.ajax({
-                    type: 'POST',
-                    data: {
-                        orden       : _orden,
-                        encabezado  : formulario,
-                        estado      : orden_estado,
-                        impuestos   : impuestos_data,
-                        pagos       : pagos_array,
-                        cliente     : cliente_id,
-                        orden_numero: orden_numero,
-                        documento_tipo      : tipo_documento,
-                        sucursal_origen     : sucursal_origen,
-                        correlativo_documento: correlativo_documento,
-                        correlativos_extra: correlativos_array,
-                    },
-                    url: path + method,
-
-                    success: function(data) {
-                        var datos = JSON.parse(data);
-
-                        if(method == "update_orden"){
-                            location.reload();
-                            return;
-                        }
-                        
-                        if(orden_numero){
-                            cerrar_orden(orden_numero);
-                        }
-
-                        if(!datos.code){
-                            if (method == "guardar_orden") {
-                                window.location.href = "editar/" + data;
-                            } 
-                            else if (method == "../venta/guardar_venta") 
-                            {                                
-                                $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
-                                $(".print_venta").attr("href", "venta/" + datos['id']);
-                                if(vista_id == 13){
-                                    if(orden_numero){
-                                        window.location.href = "../../venta/facturacion/" + datos['id'];
-                                    }else{
-                                        window.location.href = "../venta/facturacion/" + datos['id'];
-                                    }
-                                }else{
-                                    window.location.href = "../venta/facturacion/" + datos['id'];                            
-                                }
-                            }
-                        }else{
-                            $(".db_msj").html("<i class='fa fa-exclamation-triangle'></i> Base de Datos Notificación. CODIGO : " +datos.code);
-                        }                        
-                    },
-                    error: function() {}
-                });
-            }
-
-            if (method != "update_orden") {
-                //cerrar_orden($("#orden_numero").val());
-            }
-        }
 
         function cerrar_orden(correlativo_orden) {
 
@@ -2428,7 +2455,8 @@
             $('#cliente_codigo2').modal('hide');
             $(".saldo").text("Saldo $ " + saldos +" - ");
             $.ajax({
-                url: path + "get_clientes_documento/" + id,
+                //url: path + "get_clientes_documento/" + id,
+                url: "<?php echo base_url(); ?>producto/orden/get_clientes_documento/" + id,
                 datatype: 'json',
                 cache: false,
 
@@ -2489,7 +2517,8 @@
             var contador_precios = 1;
 
             $.ajax({
-                url: path + "get_empleados_by_sucursal/" + sucursal,
+                //url: path + "get_empleados_by_sucursal/" + sucursal,
+                url: "<?php echo base_url(); ?>producto/orden/get_empleados_by_sucursal/"+ sucursal,
                 datatype: 'json',
                 cache: false,
 

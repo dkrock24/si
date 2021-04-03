@@ -348,8 +348,8 @@ class Usuario_model extends CI_Model {
                 $this->db->where('id_usuario', $datos['id_usuario']);  
         $insert = $this->db->update(self::sys_usuario, $data);  
 
-        $this->delete_role_usuario($datos['id_usuario']);
-        $this->update_role_usuario($datos['id_usuario'] , $datos);
+        //$this->delete_role_usuario($datos['id_usuario']);
+        //$this->update_role_usuario($datos['id_usuario'] , $datos);
 
         if(!$insert){
             $insert = $this->db->error();

@@ -59,10 +59,9 @@ class Orden extends MY_Controller {
 		$data['home'] 			= 'template/lista_template';
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
-		//var_dump($data['filtros']);die;
 
-		//$this->parser->parse('template', $data);
 		echo $this->load->view('template/lista_template',$data, TRUE);
+		//$this->parser->parse('template', $data);
 	}
 
 	public function get_correlativo_by_sucursal($sucursal_id){
@@ -88,6 +87,7 @@ class Orden extends MY_Controller {
 			$data['cliente'] 		= $this->Cliente_model->get_cliente();
 			$data['estados']		= $this->Estados_model->get_estados_vistas($this->vista_id);
 			$data['configuracion']  = $this->Orden_model->getConfg('orden_exitencias_alerta');
+			$data['lista_documento'] = $this->Documento_model->getAllDocumento();
 			$data['vista_id']		= 13;
 			
 			if ($data['cliente'][0]) {
@@ -97,7 +97,8 @@ class Orden extends MY_Controller {
 			$data['title'] 			= "Nueva Orden";
 			$data['home'] 			= 'producto/orden/orden_crear';
 
-			echo $this->load->view('producto/orden/orden_crear',$data, TRUE);
+			$this->parser->parse('template', $data);
+			//echo $this->load->view('producto/orden/orden_crear',$data, TRUE);
 		}else{
 			$data['home'] = 'producto/orden/orden_denegado';
 			$data['terminal'] = "Usuario Inactivo";
@@ -183,9 +184,12 @@ class Orden extends MY_Controller {
 				$data['file'] 			= $name;
 				$data['msj_title'] = "Su orden ha sido grabada satisfactoriamente";
 				$data['msj_orden'] = "Su número de transacción es: # ". $data['orden'][0]->num_correlativo;
+				$data['lista_documento'] = $this->Documento_model->getAllDocumento();
 				
 				$this->generarDocumento( $name , $data['temp'][0]->factura_template );
-				$this->parser->parse('template', $data);			
+				$this->parser->parse('template', $data);
+				$data['numero_orden'] = $order_id;
+				//echo $this->load->view('producto/orden/orden_editar',$data, TRUE);
 			}else{
 				$this->general->editar_valido($data['orden'], "producto/orden/nuevo");
 			}
@@ -293,8 +297,10 @@ class Orden extends MY_Controller {
 		foreach ($_POST['encabezado'] as $key => $value) {
 		
 			foreach ($_POST['encabezado'] as $key => $value) {
-		
-				$dataParametros[$value['name']] = $value['value'];
+
+				if(isset($value['value'])){
+					$dataParametros[$value['name']] = $value['value'];
+				}
 			}
 		}
 
@@ -319,14 +325,14 @@ class Orden extends MY_Controller {
 	}
 
 	public function autoload_orden(){
-
+		$id_orden_load = $_POST['id'];
 		$componente_conf = "combo";		
 		$impuesto_conf 	 = "impuestos";
 
-		$data['orden_detalle'] 	= $this->Orden_model->get_orden_detalle($_POST['id']);
+		$data['orden_detalle'] 	= $this->Orden_model->get_orden_detalle($id_orden_load);
 		$data['conf'] 			= $this->Orden_model->getConfg($componente_conf);
 		$data['impuesto'] 		= $this->Orden_model->getConfgImpuesto($impuesto_conf);
-		
+
 		echo json_encode($data);
 	}
 
@@ -346,7 +352,9 @@ class Orden extends MY_Controller {
 		// Obteniendo informacion del cliente
 		$cliente = $this->get_clientes_id($dataParametros['cliente_codigo']);
 
-		echo $id = $this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente , $dataParametros );
+		$id = $this->Orden_model->guardar_orden( $_POST , $id_usuario ,$cliente , $dataParametros );
+		echo $id;
+		//redirect(base_url()."producto/orden/editar/". $id);
 	}
 
 	function get_productos_lista(){
@@ -357,7 +365,7 @@ class Orden extends MY_Controller {
 		$data['productos'] = $this->Orden_model->get_productos_valor($sucursal ,$bodega, $texto);
 		$data['moneda'] = $this->Moneda_model->get_modena_by_user();
 		unset($data['moneda'][0]->logo_empresa);
-		
+
 		echo json_encode( $data );
 	}
 
