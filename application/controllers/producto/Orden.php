@@ -288,6 +288,12 @@ class Orden extends MY_Controller {
 		}
 	}
 
+	public function limite_documento($documento)
+	{
+		$data = $this->Correlativo_model->get_documento_limite($documento);
+		echo $data[0]->monto_limite;
+	}
+
 	public function update_orden(){
 
 		$dataParametros = array();

@@ -25,6 +25,18 @@ class Correlativo_model extends CI_Model
         }
     }
 
+    public function get_documento_limite($documento_id)
+    {
+        $this->db->select('monto_limite');
+        $this->db->from(self::documento);
+        $this->db->where('id_tipo_documento', $documento_id);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+    }
+
     public function get_by_id($sucursal)
     {
 

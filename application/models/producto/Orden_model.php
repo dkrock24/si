@@ -326,6 +326,7 @@ class Orden_model extends CI_Model
 			'id_cliente' 	=> $dataParametros['cliente_codigo'], //cliente_codigo
 			'nombre' 		=> $dataParametros['cliente_nombre'], //cliente_nombre
 			'direccion' 	=> $dataParametros['cliente_direccion'], //cliente_direccion
+			'numero_documento' 	=> $dataParametros['numero_documento_persona'], //numero_documento
 			'id_condpago' 	=> $dataParametros['modo_pago_id'], //modo_pago_id
 			'comentarios' 	=> $dataParametros['comentarios'], //comentarios
 			'id_sucursal_origin'=> $dataParametros['sucursal_origin'], //sucursal_origin	

@@ -3,7 +3,6 @@
     var documento_inventario    = 0;
 
 
-
     function seleccionar_productos_array(precio_id) {
 
         if (_productos_precio.length > 1 ) {
@@ -32,10 +31,9 @@
         }
     }
 
-
-
     $(document).ready(function() {
 
+        $("#documento_limite_modal").appendTo('body');
         $('#existencias').appendTo("body");
         $('#procesar_venta').appendTo("body");
         $('#cliente_modal').appendTo("body");
@@ -75,9 +73,7 @@
         var total_cambio            = 0.00;
         var _correlativos_lista     = [];
         var correlativo_disponible  = false;
-        
-       
-
+        var documento_limite        = 0;
         var height = 39;
 
         input_producto_buscar.focus();
@@ -93,9 +89,9 @@
         var producto_cantidad_linea = 1;
         var input_autorizacion_descuento = 0;
         var mondeda_global = '';
-
         
         getImpuestosLista();
+        get_limite_documento();
 
         function getImpuestosLista() {
             /** Load Impuestos everytime */
@@ -121,7 +117,6 @@
 
         }
 
-        
         $(document).on('click',"#guardar_orden", function(){
             if (_orden.length != 0) {
                 $("#guardar_orden").attr("disabled","disabled");
@@ -129,112 +124,127 @@
             }
         });
 
-            /**
+    $(document).on('keyup','.numero_documento_persona', function(){
+        console.log($(".numero_documento_persona").val());
+        $("#numero_documento_persona").val($(".numero_documento_persona").val());
+    });
+
+/**
  * PROCESAR VENTA
  */
 function procesar_venta(method) {
 
-var tipo_documento  = $("#id_tipo_documento").val();
-var sucursal_origen = $("#sucursal_id2").val();
-var cliente_id      = $("#cliente_codigo").val();
-var correlativo_documento = $("#correlativo_documento").val();
-var formulario      = $('#encabezado_form').serializeArray();
-var orden_estado    = $("#orden_estado").val(); //$(this).attr('name');
-var orden_numero    = $("#orden_numero").val();
-var vista_id        = formulario.find(x => x.name === 'vista_id').value;
+    if (total_msg >= documento_limite && (documento_limite != "")) {
+        if ($("#numero_documento_persona").val() == "") {
+            $("#numero_documento_persona").css("border","3px solid red");
+            $("#documento_limite_modal").modal('show');
+            $(".numero_documento_persona").focus();
+            $("#guardar_orden").attr("disabled",false);
+            return false;
+        }
+    }
 
-this.convetirToNegativo  =  $("#check_devolucion").is(":checked")   ? true : false;
+    var tipo_documento  = $("#id_tipo_documento").val();
+    var sucursal_origen = $("#sucursal_id2").val();
+    var cliente_id      = $("#cliente_codigo").val();
+    var correlativo_documento = $("#correlativo_documento").val();
+    var formulario      = $('#encabezado_form').serializeArray();
+    var orden_estado    = $("#orden_estado").val(); //$(this).attr('name');
+    var orden_numero    = $("#orden_numero").val();
+    var vista_id        = formulario.find(x => x.name === 'vista_id').value;
 
-formulario[formulario.length] = { name : 'devolucion_nit'       , value :  $("#input_devolucion_nit").val()};           
-formulario[formulario.length] = { name : 'devolucion_dui'       , value :  $("#input_devolucion_dui").val()};
-formulario[formulario.length] = { name : 'devolucion_nombre'    , value :  $("#input_devolucion_nombre").val()};
-formulario[formulario.length] = { name : 'devolucion_documento' , value :  $("#input_devolucion").val()};
-formulario[formulario.length] = { name : 'check_devolucion'     , value :  this.convetirToNegativo };
+    this.convetirToNegativo  =  $("#check_devolucion").is(":checked")   ? true : false;
 
-formulario[formulario.length] = { name : 'doc_cli_nombre'     , value :  $("#doc_cli_nombre").val() };
-formulario[formulario.length] = { name : 'doc_cli_identificacion', value :  $("#doc_cli_identificacion").val() };
-formulario[formulario.length] = { name : 'input_devolucion_id'  , value : this.input_devolucion_id ?? 0 };
+    formulario[formulario.length] = { name : 'devolucion_nit'       , value :  $("#input_devolucion_nit").val()};           
+    formulario[formulario.length] = { name : 'devolucion_dui'       , value :  $("#input_devolucion_dui").val()};
+    formulario[formulario.length] = { name : 'devolucion_nombre'    , value :  $("#input_devolucion_nombre").val()};
+    formulario[formulario.length] = { name : 'devolucion_documento' , value :  $("#input_devolucion").val()};
+    formulario[formulario.length] = { name : 'check_devolucion'     , value :  this.convetirToNegativo };
 
-if ($("#orden_estado_venta").val()) {
-    orden_estado = $("#orden_estado_venta").val();
-}
+    formulario[formulario.length] = { name : 'doc_cli_nombre'     , value :  $("#doc_cli_nombre").val() };
+    formulario[formulario.length] = { name : 'doc_cli_identificacion', value :  $("#doc_cli_identificacion").val() };
+    formulario[formulario.length] = { name : 'input_devolucion_id'  , value : this.input_devolucion_id ?? 0 };
 
-if(_impuestos_orden_iva[0]){
-    _impuestos_orden_iva[0].ordenImpTotal = total_iva;                
-}else{
-    _impuestos_orden_iva.ordenImpTotal = total_iva;
-}
+    if ($("#orden_estado_venta").val()) {
+        orden_estado = $("#orden_estado_venta").val();
+    }
 
-var impuestos_data = {
-    'imp_condicion' : _impuestos_orden_condicion,
-    'imp_especial'  : _impuestos_orden_especial,
-    'imp_excluyente': _impuestos_orden_excluyentes,
-    'imp_iva'       : _impuestos_orden_iva,
-    'exento_iva'    : _impuestos_orden_exento
-}
+    if(_impuestos_orden_iva[0]){
+        _impuestos_orden_iva[0].ordenImpTotal = total_iva;                
+    }else{
+        _impuestos_orden_iva.ordenImpTotal = total_iva;
+    }
 
-_orden[0]['total_dinero'] = total_venta;
-_orden[0]['total_cambio'] = total_cambio;
+    var impuestos_data = {
+        'imp_condicion' : _impuestos_orden_condicion,
+        'imp_especial'  : _impuestos_orden_especial,
+        'imp_excluyente': _impuestos_orden_excluyentes,
+        'imp_iva'       : _impuestos_orden_iva,
+        'exento_iva'    : _impuestos_orden_exento
+    }
 
-if (_orden.length != 0) {
-    $.ajax({
-        type: 'POST',
-        data: {
-            orden       : _orden,
-            encabezado  : formulario,
-            estado      : orden_estado,
-            impuestos   : impuestos_data,
-            pagos       : pagos_array,
-            cliente     : cliente_id,
-            orden_numero: orden_numero,
-            documento_tipo      : tipo_documento,
-            sucursal_origen     : sucursal_origen,
-            correlativo_documento: correlativo_documento,
-            correlativos_extra: correlativos_array,
-        },
-        //url: path + method,
-        url: "<?php echo base_url(); ?>producto/orden/"+ method,
+    _orden[0]['total_dinero'] = total_venta;
+    _orden[0]['total_cambio'] = total_cambio;
 
-        success: function(data) {
+    if (_orden.length != 0) {
+        $.ajax({
+            type: 'POST',
+            data: {
+                orden       : _orden,
+                encabezado  : formulario,
+                estado      : orden_estado,
+                impuestos   : impuestos_data,
+                pagos       : pagos_array,
+                cliente     : cliente_id,
+                orden_numero: orden_numero,
+                documento_tipo      : tipo_documento,
+                sucursal_origen     : sucursal_origen,
+                correlativo_documento: correlativo_documento,
+                correlativos_extra: correlativos_array,
+            },
+            //url: path + method,
+            url: "<?php echo base_url(); ?>producto/orden/"+ method,
 
-            var datos = JSON.parse(data);
+            success: function(data) {
 
-            if(method == "update_orden"){
-                location.reload();
-                return;
-            }
-            
-            if(orden_numero){
-                cerrar_orden(orden_numero);
-            }
+                var datos = JSON.parse(data);
 
-            if(!datos.code){
-                if (method == "guardar_orden") {
-                    window.location.href = "<?php echo base_url(); ?>producto/orden/editar/" + data;
-                    //after_save(data);
-                    
+                if(method == "update_orden"){
+                    location.reload();
+                    return;
                 }
-                else if (method == "../venta/guardar_venta") 
-                {                                
-                    $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
-                    $(".print_venta").attr("href", "venta/" + datos['id']);
-                    if(vista_id == 13){
-                        if(orden_numero){
-                            window.location.href = "../../venta/facturacion/" + datos['id'];
-                        }else{
-                            window.location.href = "../venta/facturacion/" + datos['id'];
-                        }
-                    }else{
-                        window.location.href = "../venta/facturacion/" + datos['id'];                            
+                
+                if(orden_numero){
+                    cerrar_orden(orden_numero);
+                }
+
+                if(!datos.code){
+                    if (method == "guardar_orden") {
+                        window.location.href = "<?php echo base_url(); ?>producto/orden/editar/" + data;
+                        //after_save(data);
+                        
                     }
-                }
-            }else{
-                $(".db_msj").html("<i class='fa fa-exclamation-triangle'></i> Base de Datos Notificación. CODIGO : " +datos.code);
-            }                        
-        },
-        error: function() {}
-    });
-}
+                    else if (method == "../venta/guardar_venta") 
+                    {                                
+                        $(".transacion").text(datos['msj_title'] + datos['msj_orden']);
+                        $(".print_venta").attr("href", "venta/" + datos['id']);
+                        if(vista_id == 13){
+                            if(orden_numero){
+                                window.location.href = "../../venta/facturacion/" + datos['id'];
+                            }else{
+                                window.location.href = "../venta/facturacion/" + datos['id'];
+                            }
+                        }else{
+                            window.location.href = "../venta/facturacion/" + datos['id'];                            
+                        }
+                    }
+                }else{
+                    $(".db_msj").html("<i class='fa fa-exclamation-triangle'></i> Base de Datos Notificación. CODIGO : " +datos.code);
+                }                        
+            },
+            error: function() {}
+        });
+    }
 
     if (method != "update_orden") {
         //cerrar_orden($("#orden_numero").val());
@@ -1901,7 +1911,31 @@ if (_orden.length != 0) {
                     factor_total = 0;
                     factor_precio = 0;
                     contador_tabla++;
+                    solicitar_documento_total_mayor_documento();
                 }
+            }
+        }
+
+        $(document).on('change', '#factura_documento', function() {
+            get_limite_documento();
+        });
+
+        function get_limite_documento(){
+            var factura_documento_id = $("#factura_documento").val();
+
+            $.ajax({
+                type: "post",
+                url: "<?php echo base_url(); ?>producto/orden/limite_documento/"+ factura_documento_id,
+                success: function(result) {
+                    documento_limite = result;
+                }
+            });
+        }
+
+        function solicitar_documento_total_mayor_documento()
+        {
+            if (total_msg >= documento_limite ) {
+                $("#numero_documento_persona").css("border","3px solid red");
             }
         }
 
@@ -2019,6 +2053,7 @@ if (_orden.length != 0) {
                     var datos           = JSON.parse(data);
                     var correlativo     = datos["correlativo"];
                     documento_inventario= correlativo[0].efecto_inventario;
+                    documento_limite    = correlativo[0].monto_limite;
                     $("#correlativo_documento").val(correlativo[0].siguiente_valor);
                     var inputs = "<hr>";
                     var increment = 1;

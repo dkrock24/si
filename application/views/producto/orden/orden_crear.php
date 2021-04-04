@@ -394,7 +394,15 @@ include("asstes/pos_orden.php");
 
                                 <div class="panel-body">
                                     <div class="row">
-                                        <div class="btn-group col-lg-6 col-md-6"></div>
+                                        <div class="btn-group col-lg-3 col-md-3"></div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-group has-success control-style">
+                                                <label class="format-label">
+                                                    <i class="fa fa-credit-card sz" style="font-size:20px; float:left;padding:5px;"></i>Documento Persona
+                                                </label>
+                                                <input type="text" name="numero_documento_persona" id="numero_documento_persona" class="form-control">
+                                            </div>
+                                        </div>     
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success control-style">
                                                 <label class="format-label">
@@ -1110,6 +1118,43 @@ include("asstes/pos_orden.php");
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-success bg-green btn_aut_desc input_devolucion_btn" name="5">Aceptar Devolución</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Small-->
+
+
+<!-- Modal Large LIMITE DOCUMENTO MODAL-->
+<div id="documento_limite_modal" tabindex="-1" role="dialog" aria-labelledby="documento_limite_modal" class="modal fade">
+    <div class="modal-dialog modal-xs">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h2>Notificación</h2>
+            </div>
+            <div class="modal-body">
+                
+                    <div class="row">
+                        <div class="btn-group col-lg-4 col-md-4"></div>
+                        <div class="col-lg-4 col-md-4">
+                            <h4>Debe Ingresar Documento DUI / NIT / NRC </h4><br><br>
+
+                            <div class="form-group has-success">
+                                <label class="format-label">
+                                    <i class="fa fa-credit-card sz" style="font-size:20px; float:left;padding:5px;"></i>Documento Persona
+                                </label>
+                                <input type="text" name="numero_documento_persona_modal" id="" class="form-control numero_documento_persona" value="">
+                            </div>
+                        </div>
+                        <div class="btn-group col-lg-4 col-md-4"></div>
+                    </div>                
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success bg-green" name="2">Si</button>
+                <button type="button" data-dismiss="modal" class="btn btn-warning">No</button>
             </div>
         </div>
     </div>
