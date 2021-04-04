@@ -152,6 +152,13 @@
 
                                             </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Cliente</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente" placeholder="codigo cliente" value="<?php echo $cliente[0]->codigo_cliente ?>">
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="col-lg-4" style="border-left:1px solid grey;border-right:1px solid grey">

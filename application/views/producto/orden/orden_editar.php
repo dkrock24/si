@@ -958,54 +958,53 @@ include("asstes/pos_orden.php");
                                 $linea = "border-bottom";
                                 $border = "border='1'";
                             }
-                            
-                        
                             ?>
-                        <?php include("asstes/temp/" . $file . ".php"); ?>
+                        <?php //include("asstes/temp/" . $file . ".php"); ?>
                         <?php
 
                         ?>
                     </div>
                     <div class="col-md-4 col-lg-4" 
                         style="border-left:1px black;
-                        height:900px;
+                        height:100vh;
                         position: relative;
                         float:right;
                         margin:0px;
                         background: white;
                         margin-top: -15px;">
 
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                <?php //echo $msj_title ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                <h1>
-                                    Número de Transacción : # <br>
-                                    <?php echo $orden[0]->num_correlativo ?>
-                                </h1>
-                            </div>
-                        </div>
-
                         <div class="row" style="bottom:0px;padding:0px;">
-
                             <div class="col-lg-6 col-md-6" style="font-size:24px;background:#5d9cec;">
 
-
                                 <a href="../nuevo" class="btn btn-primary printer" id="nuevo" style="margin-top:0px;background:#5d9cec">
-                                    <h3> <i class="icon-plus"></i> Nueva <i class="icon-arrow-left"></i> $ <i class="icon-arrow-right"></i></h3>
+                                    <h3> <i class="icon-plus" style="color:white;"></i> Nueva <i class="icon-arrow-left"></i> $ <i class="icon-arrow-right"></i></h3>
                                 </a>
 
                             </div>
                             <div class="col-lg-6 col-md-6" style="font-size:24px;background:#2b957a;">
                                 <a href="#" id="prin" name="<?php echo $orden[0]->num_correlativo ?>" class="btn btn-info" style="background:#2b957a;color:black;margin-top:0px;color:white;">
-                                    <h3> <i class="icon-printer"></i> Imprimir <i class="icon-arrow-left"></i>F2<i class="icon-arrow-right"></i></h3>
+                                    <h3> <i class="icon-printer" style="color:white;"></i> Imprimir <i class="icon-arrow-left"></i>F2<i class="icon-arrow-right"></i></h3>
                                 </a>
                             </div>
                             <span id="cmd"></span>
                         </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                <h1>
+                                    Número de Transacción : <br>
+                                    # <b style="color:red;font-size:50px;"><?php echo $orden[0]->num_correlativo ?></b>
+                                </h1>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                                <?php //echo $msj_title ?>
+                            </div>
+                        </div>                        
+
+                        
 
                     </div>
                 </div>

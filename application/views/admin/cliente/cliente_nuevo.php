@@ -299,6 +299,13 @@
                                             </div>
                                         </div>
 
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Codigo Cliente</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente" placeholder="codigo cliente">
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                     <div class="col-lg-4">

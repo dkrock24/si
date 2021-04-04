@@ -10,7 +10,7 @@ class Home extends CI_Controller {
 
 		$this->load->library('parser');
 		@$this->load->library('session');
-		$this->load->helper('url');
+		$this->load->helper(array('cookie', 'url'));
 
 		$this->load->model('admin/Menu_model');
 		$this->load->model('admin/Usuario_model');
@@ -207,9 +207,11 @@ class Home extends CI_Controller {
 					}
 				}
 
-				if($result == $data['vistas'][0]->id_submenu ){
-					redirect(base_url().$data['vistas'][0]->vista_url);
-				}else{
+				if ($result == $data['vistas'][0]->id_submenu ) {
+					$data = $data['vistas'][0]->vista_url;
+					//redirect(base_url().$data['vistas'][0]->vista_url);
+					echo $data;
+				} else {
 					redirect(base_url()."admin/home/index");
 				}
 				

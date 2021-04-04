@@ -2570,8 +2570,8 @@ if (_orden.length != 0) {
             show_existencias();
         });
 
-        $(document).on('keypress', '.cntProducto', function() {
-            if (event.which == 13) {
+        $(document).on('change', '.cntProducto', function() {
+            //if (event.which == 13) {
                 var prod_id_input  = $(this).attr('cd');
                 var prod_val_input = $(this).val();
 
@@ -2599,7 +2599,7 @@ if (_orden.length != 0) {
 
                     depurar_producto();
                 }
-            }
+            //}
         });
 
         $(document).keydown(function(e) {

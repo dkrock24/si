@@ -163,7 +163,7 @@ class Cliente extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Empresa','Nombre','Apellido','NRC','NIT','Clase','T. Pago','Saldos','T. Documento', 'Descuento', 'Estado'
+			'Empresa','Codigo','Nombre','Apellido','NRC','NIT','Clase','T. Pago','Saldos','T. Documento', 'Descuento', 'Estado'
 		);
 		return $column;
 	}
@@ -171,6 +171,7 @@ class Cliente extends MY_Controller {
 	public function fields(){
 		$fields['field'] = array(
 			['nombre_empresa_o_compania'=> 'Nombre'],
+			['codigo_cliente' => 'Codigo'],
 			['primer_nombre_persona'=> 'Nombre'],
 			['primer_apellido_persona'=> 'Apellido'],
 			['nrc_cli'=> 'NRC'],

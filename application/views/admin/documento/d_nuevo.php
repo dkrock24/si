@@ -96,6 +96,13 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Monto Limite</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" class="form-control" required id="monto_limite" name="monto_limite" placeholder="Monto Limite" value="0">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <label>
                                                 <select name="estado" class="form-control">

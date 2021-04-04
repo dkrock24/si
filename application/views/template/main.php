@@ -66,18 +66,30 @@
 
       $(document).on('keypress', '#buscar_pantalla', function() {
          if (event.which == 13) {
-            var buscar_pantalla = $("#buscar_pantalla").val();     
+            var buscar_pantalla = $("#buscar_pantalla").val();
+
             $.ajax({
                type: "post",
                url: "<?php echo base_url(); ?>admin/home/buscar",
                data : {buscar:buscar_pantalla},
                success: function(result) {
-                  $(".loadViews").html(result);
+                  document.cookie = "url = " + result;
+                  loadPantalla(result);
                   $("#buscar_pantalla").val("");
                }
             });
          }
       });
+
+      function loadPantalla(url){
+         $.ajax({
+            type: "post",
+            url: "<?php echo base_url(); ?>"+ url,
+            success: function(result) {
+               $(".loadViews").html(result);
+            }
+         });
+      }
 
     /**
      * MENUS INTERNOS

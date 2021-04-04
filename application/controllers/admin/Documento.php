@@ -168,7 +168,7 @@ class Documento extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Nombre','Inventario','Iva','Cuentas','Caja','Ventas','Automatico','Emitir','Estado'
+			'Nombre','Inventario','Iva','Cuentas','Caja','Ventas','Automatico','Emitir','Monto Limite','Estado'
 		);
 		return $column;
 	}
@@ -183,6 +183,7 @@ class Documento extends MY_Controller {
 			['efecto_en_report_venta' => 'Ventas'],
 			['automatico' => 'Automatico'],
 			['emitir_a' => 'Emitir'],
+			['monto_limite' => 'Monto Limite'],
 			['orden_estado_nombre'=> 'Estado']
 		);
 

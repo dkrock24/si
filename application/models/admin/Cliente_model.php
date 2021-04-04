@@ -103,7 +103,7 @@ class Cliente_model extends CI_Model
 
     function getAllClientes($limit, $id  , $filters){
         $this->db->select('p.primer_nombre_persona,p.primer_apellido_persona,fp.codigo_modo_pago,c.nombre_empresa_o_compania,
-        c.nrc_cli,c.nit_cliente,c.clase_cli,c.estado_cliente,c.id_cliente,td.nombre,saldos,
+        c.nrc_cli,c.nit_cliente,c.clase_cli,c.estado_cliente,c.id_cliente,td.nombre,saldos,c.codigo_cliente,
         c.porcentage_descuentos,es.*');
         $this->db->from(self::cliente.' as c');
         $this->db->join(self::tipos_documentos.' as td', ' on c.TipoDocumento=td.id_tipo_documento');
@@ -151,6 +151,7 @@ class Cliente_model extends CI_Model
                 'clase_cli'         => $datos['clase_cli'],
                 'mail_cli'          => $datos['mail_cli'],            
                 'TipoPago'          => $datos['TipoPago'],
+                'codigo_cliente'    => $datos['codigo_cliente'],
                 'TipoDocumento'     => $datos['TipoDocumento'],
                 'nombre_empresa_o_compania' => $datos['nombre_empresa_o_compania'],
                 'numero_cuenta'     => $datos['numero_cuenta'],
@@ -294,6 +295,7 @@ class Cliente_model extends CI_Model
             'clase_cli'         => $datos['clase_cli'],
             'mail_cli'          => $datos['mail_cli'],
             'TipoPago'          => $datos['TipoPago'],
+            'codigo_cliente'    => $datos['codigo_cliente'],
             'TipoDocumento'     => $datos['TipoDocumento'],
             'nombre_empresa_o_compania' => $datos['nombre_empresa_o_compania'],
             'numero_cuenta'             => $datos['numero_cuenta'],
