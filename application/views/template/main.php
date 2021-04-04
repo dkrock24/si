@@ -91,6 +91,27 @@
          });
       }
 
+      $(document).on('keydown', '.filtro-input', function(e) {
+        
+        if (e.which == 13) {
+            url_pagina = getCookie("url");
+            var form = $(this);
+            console.log( form);
+            var data = {name : $(this).val()};
+            e.preventDefault();
+            $.ajax({
+                type: "post",
+                //data: $('form#filtros').serialize(),
+                data : form,
+                url: "<?php echo base_url(); ?>"+url_pagina,
+                success: function(result) {
+                    $(".loadViews").html(result);
+                }
+            });
+            console.log("******** ----- *************");
+        }
+    });
+
     /**
      * MENUS INTERNOS
     */

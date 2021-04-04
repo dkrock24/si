@@ -220,8 +220,12 @@ function procesar_venta(method) {
 
                 if(!datos.code){
                     if (method == "guardar_orden") {
-                        window.location.href = "<?php echo base_url(); ?>producto/orden/editar/" + data;
-                        //after_save(data);
+                        //window.location.href = "<?php echo base_url(); ?>producto/orden/editar/" + data;
+                        $("#m_orden_creada").modal('show');
+                        $(".numero_correlativo").text(data);
+                        reset_calculos();
+                        depurar_producto();
+                        $("#guardar_orden").attr("disabled",false);
                         
                     }
                     else if (method == "../venta/guardar_venta") 
@@ -918,7 +922,7 @@ function procesar_venta(method) {
                         f8_table_pagos();
                         break;
                     case '-':
-                        focus_general_input($("#buscar_orden"), 0);
+                        //focus_general_input($("#buscar_orden"), 0);
                         focus_general_input($("#orden_numero"), 0);
                         //orden_numero
                         break;
@@ -2750,18 +2754,23 @@ function procesar_venta(method) {
             $(".producto_agregados").html(tr_html);
 
         } else {
-            contador_productos          = 0;
-            _orden                      = [];
-            _productos                  = {};
-            _impuestos_orden_condicion  = [];
-            _impuestos_orden_especial   = [];
-            _impuestos_orden_excluyentes= [];
-
-            total_msg = parseFloat(0.00);
-            $(".total_msg").text("$ " + total_msg.toFixed(2));
-            $(".producto_agregados").empty();
-            calculo_totales();
+            reset_calculos();
         }
+    }
+
+    function reset_calculos()
+    {
+        contador_productos          = 0;
+        _orden                      = [];
+        _productos                  = {};
+        _impuestos_orden_condicion  = [];
+        _impuestos_orden_especial   = [];
+        _impuestos_orden_excluyentes= [];
+
+        total_msg = parseFloat(0.00);
+        $(".total_msg").text("$ " + total_msg.toFixed(2));
+        $(".producto_agregados").empty();
+        calculo_totales();
     }
 
     function calculo_totales() {

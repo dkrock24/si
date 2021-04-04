@@ -8,6 +8,8 @@
         empresa = "<?php echo $_SESSION['empresa'][0]->nombre_comercial ?>",
     ];
 
+
+
     $(document).ready(function() {
         $(".filtro-input").each(function() {
             //console.log($(this).val());
@@ -90,28 +92,7 @@
                 $('#pagina_x').submit();
             }
         });
-    });
-
-    $(document).on('keydown', '.filtro-input', function(e) {
-
-        if (e.which == 13) {
-            url_pagina = getCookie("url");
-            var form = $(this);
-            console.log( form);
-            var data = {name : $(this).val()};
-            $.ajax({
-                type: "post",
-                //data: $('form#filtros').serialize(),
-                data : form,
-                url: "<?php echo base_url(); ?>"+url_pagina,
-                success: function(result) {
-                    $(".loadViews").html(result);
-                }
-            });
-        }
-    });
-
-    
+    });    
 
     /*$(document).on('change', '.estado_filtro', function(e) {
 
