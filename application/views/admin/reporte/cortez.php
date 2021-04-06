@@ -206,12 +206,13 @@
                                                         ?>
                                                         <option value="0"> - </option>
                                                         <?php
-
-                                                        foreach ($cajero as $key => $value) {
-                                                            if ($filters['cajero'] != $value->id_empleado) {
-                                                        ?>
-                                                            <option value="<?= $value->id_empleado ?>"><?= $value->primer_apellido_persona . " " . $value->primer_nombre_persona ?></option>
-                                                        <?php
+                                                        if($cajero){
+                                                            foreach ($cajero as $key => $value) {
+                                                                if ($filters['cajero'] != $value->id_empleado) {
+                                                            ?>
+                                                                <option value="<?= $value->id_empleado ?>"><?= $value->primer_apellido_persona . " " . $value->primer_nombre_persona ?></option>
+                                                            <?php
+                                                                }
                                                             }
                                                         }
                                                         ?>

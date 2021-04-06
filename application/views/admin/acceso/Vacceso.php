@@ -46,7 +46,7 @@
                            }
 
                            foreach ($menus as $menu) {
-                              if ($role->id_menu == $cero) {
+                              if ($this->session->m != $menu->id_menu) {
                               ?>
                               <option value="<?php echo $menu->id_menu; ?>"><?php echo $menu->nombre_menu; ?></option>
                               <?php

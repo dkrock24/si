@@ -155,10 +155,12 @@
                                                     <select name="cajero" class="form-control">
                                                         <option value="0"> - </option>
                                                         <?php
-                                                        foreach ($cajero as $key => $value) {
-                                                        ?>
-                                                            <option value="<?= $value->id_empleado ?>"><?= $value->primer_apellido_persona . " " . $value->primer_nombre_persona ?></option>
-                                                        <?php
+                                                        if($cajero){
+                                                            foreach ($cajero as $key => $value) {
+                                                            ?>
+                                                                <option value="<?= $value->id_empleado ?>"><?= $value->primer_apellido_persona . " " . $value->primer_nombre_persona ?></option>
+                                                            <?php
+                                                            }
                                                         }
                                                         ?>
                                                     </select>

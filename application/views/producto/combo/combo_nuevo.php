@@ -172,10 +172,12 @@
                                             <select class="form-control" name="producto" id="producto" readonly>
                                                 <option value="0">Selecionar</option>
                                                 <?php
-                                                foreach ($productos_combo as $key => $value) {
-                                                ?>
-                                                    <option value="<?php echo $value->id_entidad ?>"><?php echo $value->name_entidad ?></option>
-                                                <?php
+                                                if($productos_combo) {
+                                                    foreach ($productos_combo as $key => $value) {
+                                                    ?>
+                                                        <option value="<?php echo $value->id_entidad ?>"><?php echo $value->name_entidad ?></option>
+                                                    <?php
+                                                    }
                                                 }
                                                 ?>
                                             </select>

@@ -58,8 +58,7 @@ class Acceso extends CI_Controller {
 		$data['menu'] 	= $this->session->menu;
 		$data['titulo'] = "Menu Accesos";
 		$data['home'] 	= 'admin/acceso/Vacceso.php';
-		$data = $this->load->view('admin/acceso/Vacceso',$data, TRUE);
-		echo $data;
+		echo $this->load->view('admin/acceso/Vacceso',$data, TRUE);
 
 	}
 

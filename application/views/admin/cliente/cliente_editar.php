@@ -349,7 +349,7 @@
                                                         }
 
                                                         foreach ($documento as $key => $d) {
-                                                            if ($cliente[0]->TipoDocumento != $p->id_tipo_documento) {
+                                                            if ($cliente[0]->TipoDocumento != $d->id_tipo_documento) {
                                                                 ?>
                                                             <option value="<?php echo $d->id_tipo_documento; ?>"><?php echo $d->nombre; ?></option>
                                                     <?php

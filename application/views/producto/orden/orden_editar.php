@@ -1102,7 +1102,7 @@ include("asstes/pos_orden.php");
                     <div class="row">
                         <div class="btn-group col-lg-4 col-md-4"></div>
                         <div class="col-lg-4 col-md-4">
-                            <h4>Debe Ingresar Documento DUI / NIT / NRC </h4><br><br>
+                            <h4>Debe Ingresar Documento DUI / NIT </h4><br><br>
 
                             <div class="form-group has-success">
                                 <label class="format-label">

@@ -103,6 +103,7 @@
                <div class="list-group" data-height="280" data-scrollable="">
                   <!-- START list group item-->
                   <?php
+                  if($data['usuario_actividad']){
                   foreach ($data['usuario_actividad'] as $key => $usuarios) {
                   ?>
                      <div class="list-group-item">
@@ -129,7 +130,7 @@
                         </div>
                      </div>
                   <?php
-                  }
+                  }}
                   ?>
 
                   <!-- END list group item-->
