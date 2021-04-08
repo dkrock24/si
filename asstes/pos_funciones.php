@@ -117,17 +117,73 @@
 
         }
 
-        $(document).on('click',"#guardar_orden", function(){
-            if (_orden.length != 0) {
-                $("#guardar_orden").attr("disabled","disabled");
-                procesar_venta($("#guardar_orden").attr('name'));
-            }
-        });
+    load_mask();
+    
+    var valor1_html = "";
+    var documento_editar_valor = $("#numero_documento_persona").val();
+    var documento_tipo_persona = numero_documento_persona_lenght($("#numero_documento_persona").val());
+    
+    if(documento_tipo_persona == 9){
+        $("input:radio[id=dui]").attr('checked', true);
+    }
+    if(documento_tipo_persona == 14){
+        $("input:radio[id=nit]").attr('checked', true);
+    }
+    
+    $("input:radio[name=identificacion]").on('change', function(){
 
-    $(document).on('keyup','.numero_documento_persona', function(){
-        console.log($(".numero_documento_persona").val());
-        $("#numero_documento_persona").val($(".numero_documento_persona").val());
+        if ($(this).val() == 'nit') {
+            valor1_html = '<input type="text" name="numero_documento_persona" data-accept="" id="numero_documento_persona" class="form-control" placeholder="____-______-___-_" value="'+documento_editar_valor+'" data-slots="_">';
+        } else {
+            valor1_html = '<input type="text" name="numero_documento_persona" data-accept="" id="numero_documento_persona" class="form-control" placeholder="________-_" value="'+documento_editar_valor+'" data-slots="_">';
+        }
+        $(".valor1").html(valor1_html);
+        load_mask();
     });
+
+    var dui_lenght = 0;
+    // This code empowers all input tags having a placeholder and data-slots attribute
+    function load_mask(){
+        for (const el of document.querySelectorAll("[placeholder][data-slots]")) {
+            const pattern = el.getAttribute("placeholder"),
+                slots = new Set(el.dataset.slots || "_"),
+                prev = (j => Array.from(pattern, (c,i) => slots.has(c)? j=i+1: j))(0),
+                first = [...pattern].findIndex(c => slots.has(c)),
+                accept = new RegExp(el.dataset.accept || "\\d", "g"),
+                clean = input => {
+                    input = input.match(accept) || [];
+                    return Array.from(pattern, c =>
+                        input[0] === c || slots.has(c) ? input.shift() || c : c
+                    );
+                },
+                format = () => {
+                    const [i, j] = [el.selectionStart, el.selectionEnd].map(i => {
+                        i = clean(el.value.slice(0, i)).findIndex(c => slots.has(c));
+                        return i<0? prev[prev.length-1]: back? prev[i-1] || first: i;
+                    });
+                    
+                    el.value = clean(el.value).join``;
+                    el.setSelectionRange(i, j);
+                    back = false;
+                };
+            let back = false;
+            el.addEventListener("keydown", (e) => back = e.key === "Backspace");
+            el.addEventListener("input", format);
+            el.addEventListener("focus", format);
+            el.addEventListener("blur", () => el.value === pattern && (el.value=""));
+        }
+    }
+
+    $(document).on('click',"#guardar_orden", function(){
+        if (_orden.length != 0) {
+            $("#guardar_orden").attr("disabled","disabled");
+            procesar_venta($("#guardar_orden").attr('name'));
+        }
+    });
+
+    function numero_documento_persona_lenght(valor){
+        return  (valor.match(/\d/g) || []).length;
+    }
 
 /**
  * PROCESAR VENTA
@@ -135,13 +191,40 @@
 function procesar_venta(method) {
 
     if (total_msg >= documento_limite && (documento_limite != "")) {
+        var tipo_radio = $("input:radio[name=identificacion]:checked").val();
+        var numero_documento_persona = $("#numero_documento_persona").val();
+
         if ($("#numero_documento_persona").val() == "") {
             $("#numero_documento_persona").css("border","3px solid red");
             $("#documento_limite_modal").modal('show');
-            $(".numero_documento_persona").focus();
             $("#guardar_orden").attr("disabled",false);
             return false;
         }
+        var document_caracter = numero_documento_persona_lenght(numero_documento_persona)
+
+        if(tipo_radio == 'nit' && document_caracter < 14) {
+            $('.documento_formato').html("FORMATO NIT INCOMPATIBLE <br> Caracteres Encontrados "+ document_caracter);
+            $("#documento_limite_modal").modal('show');
+            $("#guardar_orden").attr("disabled",false);
+            return false;
+        }
+
+        if(tipo_radio == 'dui' && document_caracter < 9) {
+            $('.documento_formato').html("FORMATO DUI INCOMPATIBLE <br> Caracteres Encontrados "+ document_caracter);
+            $("#documento_limite_modal").modal('show');
+            $("#guardar_orden").attr("disabled",false);
+            return false;
+        }
+
+        var cliente_nombre_nombre = $("#cliente_nombre").val().toLowerCase();
+        if(cliente_nombre_nombre == 'varios') {
+            $('.documento_formato').html("DEBE INGRESAR NOMBRE CLIENTE CORRESPONDIENTE AL DOCUMENTO" );
+            $("#documento_limite_modal").modal('show');
+            $("#guardar_orden").attr("disabled",false);
+            return false;
+        }
+
+        
     }
 
     var tipo_documento  = $("#id_tipo_documento").val();

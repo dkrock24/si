@@ -24,8 +24,9 @@ class Cliente_model extends CI_Model
         $this->db->join(self::sys_persona . ' as p', ' on p.id_persona = Persona');
         $this->db->where(self::cliente . '.estado_cliente = 1');
         $this->db->where('p.Empresa', $this->session->empresa[0]->id_empresa);
+        $this->db->order_by(self::cliente.'.id_cliente','asc');
         $query = $this->db->get();
-        //echo $this->db->queries[1];
+        //echo $this->db->queries[10];die;
 
         if ($query->num_rows() > 0) {
             return $query->result();

@@ -204,7 +204,13 @@ include("asstes/pos_orden.php");
                                             <label class="format-label">
                                                 <i class="fa fa-user sz" style="font-size:20px;float:left;padding:5px;"></i>
                                                 Cliente Nombre</label>
-                                                <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente[0]->nombre_empresa_o_compania ?>">
+                                                <?php
+                                                    $cliente_nombre = $cliente[0]->nombre_empresa_o_compania;
+                                                    if($orden[0]->nombre != $cliente[0]->nombre_empresa_o_compania) {
+                                                        $cliente_nombre = $orden[0]->nombre;
+                                                    }                                                    
+                                                ?>
+                                                <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente_nombre ?>">
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3">
@@ -369,9 +375,18 @@ include("asstes/pos_orden.php");
                                     |   <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success control-style">
                                                 <label class="format-label">
-                                                    <i class="fa fa-credit-card sz" style="font-size:20px; float:left;padding:5px;"></i>Documento Persona
+                                                    <i class="fa fa-credit-card sz" style="font-size:20px; float:left;padding:5px;">
+                                                    <input type="radio" id="dui" name="identificacion" value="dui" checked>
+                                                    <label for="dui">DUI</label>
+                                                    <input type="radio" id="nit" name="identificacion" value="nit">
+                                                    <label for="nit">NIT</label>
+                                                    </i>                                                    
+                                                    Documento Persona
                                                 </label>
-                                                <input type="text" name="numero_documento_persona" id="numero_documento_persona" value="<?php echo $orden[0]->numero_documento; ?>" class="form-control">
+                                                
+                                                <span class="valor1">
+                                                    <input type="text" name="numero_documento_persona" id="numero_documento_persona" data-accept="" value="<?php echo $orden[0]->numero_documento; ?>" class="form-control" placeholder="________-_" data-slots="_">
+                                                </span>
                                             </div>
                                         </div>  
 
@@ -460,7 +475,7 @@ include("asstes/pos_orden.php");
                                 <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="update_orden" id="guardar_orden"><i class='fa fa-save' style="color:white;"></i><span style="font-size:18;"> 5</span></button>
                             <?php endif ?>
                                 <span class="btn bg-green" id="btn_existencias" data-toggle='modal' style="font-size: 25px;" data-target='#existencias'><i class="fa fa-dropbox" style="color:white;"></i><span style="font-size:18;"> 6</span></span>
-
+                                <span class="btn bg-green" id="btn_discount" style="font-size: 20px;"><i class="fa fa-percent" aria-hidden="true" style="color:white;"></i> <span style="font-size:18;color:white;">[ 7 ]</span></span>
                                 <!--
                                 <div class="btn-group ">
                                     <button type="button" class="btn bg-green"><i class="fa fa-plus" style="font-size: 38px;color:white;"></i></button>
@@ -1087,9 +1102,9 @@ include("asstes/pos_orden.php");
     </div>
     <!-- Modal Small-->
 
-    <!-- Modal Large LIMITE DOCUMENTO MODAL-->
-<div id="documento_limite_modal" tabindex="-1" role="dialog" aria-labelledby="documento_limite_modal" class="modal fade">
-    <div class="modal-dialog modal-xs">
+<!-- Modal Large LIMITE DOCUMENTO MODAL-->
+<div id="documento_limite_modal" tabindex="-1" role="dialog" aria-labelledby="documento_limite_modal" class="modal">
+    <div class="modal-dialog modal-xs modal-1">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
@@ -1100,23 +1115,66 @@ include("asstes/pos_orden.php");
             <div class="modal-body">
                 
                     <div class="row">
-                        <div class="btn-group col-lg-4 col-md-4"></div>
-                        <div class="col-lg-4 col-md-4">
-                            <h4>Debe Ingresar Documento DUI / NIT </h4><br><br>
-
-                            <div class="form-group has-success">
-                                <label class="format-label">
-                                    <i class="fa fa-credit-card sz" style="font-size:20px; float:left;padding:5px;"></i>Documento Persona
-                                </label>
-                                <input type="text" name="numero_documento_persona_modal" id="" class="form-control numero_documento_persona" value="">
-                            </div>
+                        <div class="btn-group col-lg-2 col-md-2"></div>
+                        <div class="col-lg-8 col-md-8">
+                            <h4>Debe Ingresar Documento DUI / NIT</h4><br><br>
+                            <span class="documento_formato"></span>
                         </div>
-                        <div class="btn-group col-lg-4 col-md-4"></div>
+                        <div class="btn-group col-lg-2 col-md-2"></div>
                     </div>                
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-success bg-green" name="2">Si</button>
-                <button type="button" data-dismiss="modal" class="btn btn-warning">No</button>
+                <button type="button" data-dismiss="modal" class="btn btn-success bg-green" name="2">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Small-->
+
+<!-- METODO DE PAGOS MODAL-->
+<div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento" class="modal flip fade-scale">
+    <div class="modal-dialog modal-md modal-1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span style="font-size: 20px; "><i class="fa fa-info-circle"></i> AUTORIZAR DESCUENTO</span>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
+                        <p class="msg_error"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6" style="border-right:1px solid grey;text-align:center;">
+                        <br /><br /><img src="/asstes/img/user_autorization.png" width="20%" /><br /><br /><br />
+                        <span style="font-size:24px;text-align:center;margin-top:0px;">Ingresar Credenciales</span>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="row">
+
+                            <div class="col-lg-12 col-md-12">
+                                
+                            </div>
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:left;margin-top:0px;">
+                                Usuario
+                                <input type="text" class="form-control has-success" autocomplete="off" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
+                            </div>
+
+                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:left;margin-top:0px;">
+                                Password
+                                <input type="password" class="form-control has-success" name="input_autorizacion_passwd" id="input_autorizacion_passwd">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success bg-green btn_aut_desc" name="5">Autorizar</button>
+                <button type="button" data-dismiss="modal" class="btn btn-warning">Cancelar</button>
             </div>
         </div>
     </div>

@@ -170,3 +170,31 @@ body{
       background: red;
     }
   }
+
+/** PARAMETROS MODALS STYLES */
+
+.modal-1{
+    width: 40% !important;
+    height: 300px !important;
+    margin: 0 !important;
+    padding-left: 0% !important;
+    position: absolute;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.modal-2{
+    width: 60% !important;
+    height: 600px !important;
+    margin: 0 !important;
+    padding-left: 0% !important;
+    position: absolute;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.modal-header{
+	background:#dde6e9;
+}

@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
     var path = "";
 
@@ -31,12 +30,13 @@ include("asstes/pos_orden.php");
 ?>
 <script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
 
+
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/pos.css" />
 
 <style>
     .modal-dialog {
         width: 100%;
-        height: 100%;
+        height:100%;
         margin: 0;
         padding-left: 10%;
     }
@@ -398,9 +398,16 @@ include("asstes/pos_orden.php");
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success control-style">
                                                 <label class="format-label">
-                                                    <i class="fa fa-credit-card sz" style="font-size:20px; float:left;padding:5px;"></i>Documento Persona
+                                                    <i class="fa fa-credit-card sz" style="font-size:20px; float:left;padding:5px;">
+                                                    <input type="radio" id="dui" name="identificacion" value="dui" checked>
+                                                    <label for="dui">DUI</label>
+                                                    <input type="radio" id="nit" name="identificacion" value="nit">
+                                                    <label for="nit">NIT</label>
+                                                    </i>Documento Persona
                                                 </label>
-                                                <input type="text" name="numero_documento_persona" id="numero_documento_persona" class="form-control">
+                                                <span class="valor1">
+                                                    <input type="text" name="numero_documento_persona" id="numero_documento_persona" data-accept="" value="" class="form-control" placeholder="________-_" data-slots="_">
+                                                </span>
                                             </div>
                                         </div>     
                                         <div class="col-lg-3 col-md-3">
@@ -588,14 +595,14 @@ include("asstes/pos_orden.php");
 </section>
 
 <!-- Modal Large CLIENTES MODAL-->
-<div id="vendedor_modal" tabindex="-1" role="dialog" aria-labelledby="vendedor_modal" class="modal">
-    <div class="modal-dialog modal-lg">
+<div id="vendedor_modal" tabindex="-1" role="dialog" aria-labelledby="vendedor_modal" class="modal flip fade-scale">
+    <div class="modal-dialog modal-md modal-2">
         <div class="modal-content">
-            <div class="panel-header" style="background: #535D67; color: white;">
+            <div class="panel-header">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 id="myModalLabelLarge" class="modal-title">Buscar Vendedor</h4>
+                <span style="font-size: 20px; "><i class="fa fa-info-circle"></i> BUSCAR VENDEDOR</span>
             </div>
             <div class="modal-body">
                 <p class="vendedor_lista_datos">
@@ -611,9 +618,9 @@ include("asstes/pos_orden.php");
 
 <!-- Modal Large CLIENTES MODAL-->
 <div id="cliente_modal" tabindex="-1" role="dialog" aria-labelledby="cliente_modal" class="modal fade fade-scale">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
-            <div class="panel-header" style="background: #535D67; color: white;">
+            <div class="panel-header">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -875,13 +882,13 @@ include("asstes/pos_orden.php");
 
 <!-- METODO DE PAGOS MODAL-->
 <div id="autorizacion_descuento" tabindex="-1" role="dialog" aria-labelledby="autorizacion_descuento" class="modal flip fade-scale">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-md modal-1">
         <div class="modal-content">
-            <div class="modal-header" style="background: #dde6e9">
+            <div class="modal-header">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <span style="font-size: 20px; ">[ Autorizacion - Descuento ]</span>
+                <span style="font-size: 20px; "><i class="fa fa-info-circle"></i> AUTORIZAR DESCUENTO</span>
             </div>
             <div class="modal-body">
 
@@ -893,16 +900,17 @@ include("asstes/pos_orden.php");
                 <div class="row">
                     <div class="col-lg-6 col-md-6" style="border-right:1px solid grey;text-align:center;">
                         <br /><br /><img src="/asstes/img/user_autorization.png" width="20%" /><br /><br /><br />
+                        <span style="font-size:24px;text-align:center;margin-top:0px;">Ingresar Credenciales</span>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="row">
 
-                            <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
-                                Ingresar Credenciales
+                            <div class="col-lg-12 col-md-12">
+                                
                             </div>
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:left;margin-top:0px;">
                                 Usuario
-                                <input type="text" class="form-control has-success" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
+                                <input type="text" class="form-control has-success" autocomplete="off" name="input_autorizacion_descuento" id="input_autorizacion_descuento">
                             </div>
 
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:left;margin-top:0px;">
@@ -1065,9 +1073,9 @@ include("asstes/pos_orden.php");
 
 <!-- METODO DE PAGOS MODAL-->
 <div id="devolucion" tabindex="-1" role="dialog" aria-labelledby="devolucion" class="modal flip fade-scale">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-md modal-2">
         <div class="modal-content">
-            <div class="modal-header" style="background: #dde6e9">
+            <div class="modal-header">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -1126,8 +1134,8 @@ include("asstes/pos_orden.php");
 
 
 <!-- Modal Large LIMITE DOCUMENTO MODAL-->
-<div id="documento_limite_modal" tabindex="-1" role="dialog" aria-labelledby="documento_limite_modal" class="modal fade">
-    <div class="modal-dialog modal-xs">
+<div id="documento_limite_modal" tabindex="-1" role="dialog" aria-labelledby="documento_limite_modal" class="modal">
+    <div class="modal-dialog modal-xs modal-1">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
@@ -1138,23 +1146,16 @@ include("asstes/pos_orden.php");
             <div class="modal-body">
                 
                     <div class="row">
-                        <div class="btn-group col-lg-4 col-md-4"></div>
-                        <div class="col-lg-4 col-md-4">
+                        <div class="btn-group col-lg-2 col-md-2"></div>
+                        <div class="col-lg-8 col-md-8">
                             <h4>Debe Ingresar Documento DUI / NIT</h4><br><br>
-
-                            <div class="form-group has-success">
-                                <label class="format-label">
-                                    <i class="fa fa-credit-card sz" style="font-size:20px; float:left;padding:5px;"></i>Documento Persona
-                                </label>
-                                <input type="text" name="numero_documento_persona_modal" id="" class="form-control numero_documento_persona" value="">
-                            </div>
+                            <span class="documento_formato"></span>
                         </div>
-                        <div class="btn-group col-lg-4 col-md-4"></div>
+                        <div class="btn-group col-lg-2 col-md-2"></div>
                     </div>                
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-success bg-green" name="2">Si</button>
-                <button type="button" data-dismiss="modal" class="btn btn-warning">No</button>
+                <button type="button" data-dismiss="modal" class="btn btn-success bg-green" name="2">Cerrar</button>
             </div>
         </div>
     </div>
