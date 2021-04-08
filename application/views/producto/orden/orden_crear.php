@@ -1,3 +1,4 @@
+<script src="<?php echo base_url(); ?>../asstes/js/device-uuid.js"></script>
 <script type="text/javascript">
     var path = "";
 
@@ -20,6 +21,43 @@
     var combo_descuento = 0.00;
     var _conf = [];
     var _impuestos = [];
+
+    var uuid = new DeviceUUID().get();
+    //
+    console.log(uuid)
+    console.log('3a91f950-dec8-4688-ba14-5b7bbfc7a563')
+    document.getElementById("fingerprint").innerHTML = uuid;
+    var du = new DeviceUUID().parse();
+    var dua = [
+        du.language,
+        du.platform,
+        du.os,
+        du.cpuCores,
+        du.isAuthoritative,
+        du.silkAccelerated,
+        du.isKindleFire,
+        du.isDesktop,
+        du.isMobile,
+        du.isTablet,
+        du.isWindows,
+        du.isLinux,
+        du.isLinux64,
+        du.isMac,
+        du.isiPad,
+        du.isiPhone,
+        du.isiPod,
+        du.isSmartTV,
+        du.pixelDepth,
+        du.isTouchScreen
+    ];
+    console.log(dua)
+    // IE cpuClass
+    var uuid2 = du.hashMD5(dua.join(':'));
+    var uuid3 = du.hashInt(dua.join(':'));
+    console.log(uuid2.slice(0,8), uuid2.slice(8,12), uuid2.slice(12,16), uuid2.slice(16,20), uuid2.slice(20))
+    document.getElementById("fingerprint-2").innerHTML = uuid2;
+    document.getElementById("fingerprint-3").innerHTML = uuid3;
+    console.log(navigator, screen, window.performance)
 </script>
 
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
