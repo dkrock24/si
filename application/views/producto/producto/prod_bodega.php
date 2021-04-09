@@ -1,4 +1,3 @@
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
    $(document).on('click', '.btn_cantidad', function() {
 
@@ -14,7 +13,7 @@
    <!-- Page content-->
    <div class="content-wrapper">
       <h3 style="height: 50px; ">
-         <a href="index" style="top: -12px;position: relative; text-decoration: none">
+         <a name="producto/producto/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
             <button type="button" class="mb-sm btn btn-success"> Productos</button>
          </a>
          <span style="top: -12px;position: relative; text-decoration: none">Producto Bodega</span> </h3>
@@ -27,11 +26,11 @@
                <div class="panel-heading menuTop">Filtros</div>
                <div class="panel-body">
                   <p>
-                     <form action="bodega" method="post">
+                     <form id="bodega" method="post">
                         <input type="text" class="form-control" name="producto" placeholder="Codigo" value="<?php echo $producto; ?>">
 
                         <br>
-                        <input type="submit" name="" class="btn btn-primary" class="form-control" value="Buscar">
+                        <input type="button" name="<?php echo base_url() ?>producto/producto/bodega" data="bodega" class="btn btn-success enviar_data" value="Guardar">
                      </form>
                   </p>
                </div>
@@ -63,7 +62,7 @@
                       
 
                            <!-- START table-responsive-->
-                           <form action="producto_activar" method="post">
+                           <form id="producto_activar" method="post">
 
                            <input type="hidden" class="form-control" name="producto" value="<?php echo $producto; ?>">
 
@@ -170,7 +169,7 @@
                                     <div class="col-lg-2">
                                        <span class=" pull-right">
                                           <input type="hidden" name="producto_id" value="<?php echo $prod_bodega[0]->Producto; ?>">
-                                          <button class="btn btn-sm btn-info">Guardar</button>
+                                          <input type="button" name="<?php echo base_url() ?>producto/producto/producto_activar" data="producto_activar" class="btn btn-success enviar_data" value="Guardar">
                                        </span>
                                     </div>
                                  </div>
@@ -200,7 +199,7 @@
                      <!-- Main section-->
                      <section>
 
-                        <form action="associar_bodega" method="post">
+                        <form id="associar_bodega" method="post">
 
                            <table id="table-ext-1" class="table table-bordered table-hover">
                               <thead class="" style="color:black;">
@@ -286,7 +285,7 @@
                                     <span class=" pull-right">
                                        <input type="hidden" name="producto" value="<?php echo $producto_id; ?>">
 
-                                       <button class="btn btn-sm btn-info">Guardar</button>
+                                       <input type="button" name="<?php echo base_url() ?>producto/producto/associar_bodega" data="associar_bodega" class="btn btn-success enviar_data" value="Guardar">
                                     </span>
                                  </div>
                               </div>

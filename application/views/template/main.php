@@ -27,6 +27,7 @@
     <script src="<?php echo base_url(); ?>../asstes/js/HoldOn.min.js"></script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/HoldOn.min.css">
 
+    <script src="<?php echo base_url(); ?>../asstes/js/device-uuid.js"></script>
     <script type="text/javascript">
 
       window.addEventListener("load", function(){

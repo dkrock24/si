@@ -110,7 +110,8 @@ class Orden extends MY_Controller {
 			if($terminal_acceso != false) {
 				$data['terminal'] = "Usuario no registrado !";
 			}
-			echo $this->load->view('producto/orden/orden_denegado',$data, TRUE);
+			//echo $this->load->view('producto/orden/orden_denegado',$data, TRUE);
+			$this->parser->parse('template', $data);
 		}
 	}
 
@@ -467,14 +468,13 @@ class Orden extends MY_Controller {
 	function validar_usuario_terminal( $usuario_id  ){
 
 		$terminal_nombe = $_SERVER;//gethostbyaddr($_SERVER['REMOTE_ADDR']);
-		$str = $_SERVER['HTTP_USER_AGENT'];
+		$str = $this->session->uuid;
 		
-		//var_dump($terminal_nombe);die;
+
 		$caracteres = array(
 			"/"," ",",",";",".","(",")"
 		);
-		$str = $this->limpiar_terminal_nombre($caracteres,"",$str);
-		//var_dump($str);die;
+
 		$terminal_datos = $this->Terminal_model->validar_usuario_terminal($usuario_id, $str);
 		if ($terminal_datos) {
 			if($terminal_datos[0]->estado_terminal_cajero == 1){

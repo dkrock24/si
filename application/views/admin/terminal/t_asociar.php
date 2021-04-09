@@ -180,6 +180,10 @@
     .inactive {
         background: #ffc107 !important;
     }
+
+    .codigo_navegador{
+        color:#e44848;
+    }
 </style>
 <section>
     <!-- Page content-->
@@ -299,8 +303,7 @@
                         </div>
 
                         <div class="col-lg-12">
-                            <h4><u>TERMINAL</u> USUARIO </h4>
-                            <?php echo $terminal_nombre; ?>
+                            <h4><u>TERMINAL</u> USUARIO -|| CODIGO NAVEGADOR :  <span class="codigo_navegador"><?php echo $this->session->uuid; ?></span></h4>
                             <table id="datatable1" class="table table-striped table-hover">
                                 <thead class="linea_superior">
                                     <tr>

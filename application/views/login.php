@@ -26,45 +26,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/login/css/util.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/login/css/main.css">
 <!--===============================================================================================-->
-<script src="<?php echo base_url(); ?>../asstes/js/device-uuid.js"></script>
-<script>
-var uuid = new DeviceUUID().get();
-    //
-    console.log(uuid)
-    console.log('3a91f950-dec8-4688-ba14-5b7bbfc7a563')
-    document.getElementById("fingerprint").innerHTML = uuid;
-    var du = new DeviceUUID().parse();
-    var dua = [
-        du.language,
-        du.platform,
-        du.os,
-        du.cpuCores,
-        du.isAuthoritative,
-        du.silkAccelerated,
-        du.isKindleFire,
-        du.isDesktop,
-        du.isMobile,
-        du.isTablet,
-        du.isWindows,
-        du.isLinux,
-        du.isLinux64,
-        du.isMac,
-        du.isiPad,
-        du.isiPhone,
-        du.isiPod,
-        du.isSmartTV,
-        du.pixelDepth,
-        du.isTouchScreen
-    ];
-    console.log(dua)
-    // IE cpuClass
-    var uuid2 = du.hashMD5(dua.join(':'));
-    var uuid3 = du.hashInt(dua.join(':'));
-    console.log(uuid2.slice(0,8), uuid2.slice(8,12), uuid2.slice(12,16), uuid2.slice(16,20), uuid2.slice(20))
-    document.getElementById("fingerprint-2").innerHTML = uuid2;
-    document.getElementById("fingerprint-3").innerHTML = uuid3;
-    console.log(navigator, screen, window.performance)
-</script>
+
 </head>
 <body>
 	
@@ -87,6 +49,7 @@ var uuid = new DeviceUUID().get();
 					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
 						<span class="label-input100">Password</span>
 						<input class="input100" type="password" name="passwd" placeholder="Ingresar Password">
+						<input class="input100" type="hidden" name="uuid" id="uuid"/>
 						<span class="focus-input100"></span>
 					</div>
                     <!--
@@ -132,6 +95,46 @@ var uuid = new DeviceUUID().get();
 	<script src="<?php echo base_url(); ?>../asstes/login/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="<?php echo base_url(); ?>../asstes/login/js/main.js"></script>
+
+	<script src="<?php echo base_url(); ?>../asstes/js/device-uuid.js"></script>
+<script>
+	var uuid = new DeviceUUID().get();
+    //
+    console.log(uuid)
+    //console.log('3a91f950-dec8-4688-ba14-5b7bbfc7a563')
+	//$(".uuid").text(uuid);
+    document.getElementById("uuid").value = uuid;
+
+    var du = new DeviceUUID().parse();
+    var dua = [
+        du.language,
+        du.platform,
+        du.os,
+        du.cpuCores,
+        du.isAuthoritative,
+        du.silkAccelerated,
+        du.isKindleFire,
+        du.isDesktop,
+        du.isMobile,
+        du.isTablet,
+        du.isWindows,
+        du.isLinux,
+        du.isLinux64,
+        du.isMac,
+        du.isiPad,
+        du.isiPhone,
+        du.isiPod,
+        du.isSmartTV,
+        du.pixelDepth,
+        du.isTouchScreen
+    ];
+    //console.log(dua)
+    // IE cpuClass
+    var uuid2 = du.hashMD5(dua.join(':'));
+    var uuid3 = du.hashInt(dua.join(':'));
+    //console.log(uuid2.slice(0,8), uuid2.slice(8,12), uuid2.slice(12,16), uuid2.slice(16,20), uuid2.slice(20))
+    //console.log(navigator, screen, window.performance)
+</script>
 
 </body>
 </html>

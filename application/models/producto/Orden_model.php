@@ -128,7 +128,7 @@ class Orden_model extends CI_Model
 				LEFT JOIN `pos_bodega` as `b` ON `b`.`id_bodega` = `pb`.`Bodega`
 				LEFT JOIN producto_detalle AS `pde` ON pde.Producto = P.id_entidad
 				
-				WHERE b.id_bodega='" . $bodega . "' and b.Sucursal='" . $sucursal . "' and pde.estado_producto_detalle=1
+				WHERE b.id_bodega='" . $bodega . "' and pde.estado_producto_detalle=1
 				 and (P.name_entidad LIKE '%$texto%' || P.codigo_barras LIKE '%$texto%' ||
 				  P.descripcion_producto LIKE '%$texto%' )");
 

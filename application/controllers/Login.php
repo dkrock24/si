@@ -44,6 +44,7 @@ class Login extends CI_Controller {
 
 			$usuario = $_POST['usuario'];
 			$passwd  = $_POST['passwd'];
+			$uuid	 = $_POST['uuid'];
 
 			// Autenticamos al usuario respecto a su negocio
 			$user = $this->Login_model->autenticacion( $usuario , $passwd );	
@@ -55,6 +56,7 @@ class Login extends CI_Controller {
 					//session_start();
 					
 					$_SESSION['usuario'] = $user;					
+					$_SESSION['uuid'] = $uuid;
 
 					header("location:../admin/home/seleccionar_empresa");
 

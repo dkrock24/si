@@ -215,7 +215,8 @@ class Producto extends MY_Controller {
 
 		$data['home'] = 'producto/producto/prod_bodega';
 
-		$this->parser->parse('template', $data);
+		//$this->parser->parse('template', $data);
+		echo $this->load->view('producto/producto/prod_bodega',$data, TRUE);
 	}
 	
 	public function producto_activar(){ // Activar / Desactivar - Producto de la Bodega

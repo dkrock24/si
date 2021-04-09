@@ -25,7 +25,7 @@
 			}, function(isConfirm) {
 				if (isConfirm) {
 					swal("Ok!", "Solicita Permiso.", "success");
-					window.location.href = '<?php echo base_url() ?>admin/home/index';
+					//window.location.href = '<?php echo base_url() ?>admin/home/index';
 					//window.location.href='index';
 				}
 			});
