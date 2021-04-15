@@ -1,4 +1,27 @@
 <script>
+
+    function correlativo_documento(cli_form_pago, tipo_documento, sucursal_id) {
+        $.ajax({
+            url: "<?php echo base_url(); ?>producto/orden/get_correlativo_documento/" + tipo_documento + "/" + sucursal_id + "/" + 0,
+            datatype: 'json',
+            cache: false,
+            success: function(data) {
+                var datos       = JSON.parse(data);
+                var correlativo = datos["correlativo"];
+                $("#correlativo_documento").val(correlativo[0].siguiente_valor);
+            },
+            error: function() {}
+        });
+    }
+
+    function buscar_correlativo() {
+        var cli_form_pago = $("#cliente_codigo").val();
+        var tipo_documento = parseInt($("#id_tipo_documento").val());
+        var sucursal_id = $("#sucursal_id").val();
+
+        correlativo_documento(cli_form_pago, tipo_documento, sucursal_id);
+    }
+
     $(document).ready(function() {
 
         var input_producto_buscar = $(".producto_buscar");
@@ -49,7 +72,7 @@
 
             $.ajax({
                 type: "POST",
-                url: path + "autoload_traslado",
+                url: "<?php echo base_url(); ?>producto/compras/autoload_traslado",
                 datatype: 'json',
                 data: {
                     id: compra
@@ -94,7 +117,7 @@
             var codigo, presentacion, tipo, precioUnidad, descuento, total
 
             $.ajax({
-                url: path + "get_producto_completo/" + producto_id ,
+                url: "<?php echo base_url(); ?>producto/compras/get_producto_completo/" + producto_id ,
                 datatype: 'json',
                 cache: false,
 
@@ -183,7 +206,7 @@
             /** Load Impuestos everytime */
 
             $.ajax({
-                url: path + "get_impuestos_lista",
+                url: "<?php echo base_url(); ?>producto/compras/get_impuestos_lista",
                 datatype: 'json',
                 cache: false,
 
@@ -233,7 +256,7 @@
 
             $.ajax({
                 type: "POST",
-                url: path + "get_productos_lista",
+                url: "<?php echo base_url(); ?>producto/compras/get_productos_lista",
                 datatype: 'json',
                 data: {
                     sucursal: sucursal,
@@ -330,7 +353,7 @@
              */
 
             $.ajax({
-                url: path+"../existencias/get_producto_completo/" + producto_id,
+                url: "<?php echo base_url(); ?>producto/existencias/get_producto_completo/" + producto_id,
                 datatype: 'json',
                 cache: false,
 
@@ -400,7 +423,7 @@
             interno_bodega  = bodega;
             $.ajax({
                 type: "POST",
-                url: path + "get_productos_lista",
+                url: "<?php echo base_url(); ?>producto/compras/get_productos_lista",
                 datatype: 'json',
                 data: {
                     texto: texto
@@ -532,7 +555,7 @@
             }
 
             $.ajax({
-                url: path + "get_producto_completo/" + producto_id,
+                url: "<?php echo base_url(); ?>producto/compras/get_producto_completo/" + producto_id,
                 datatype: 'json',
                 cache: false,
 
@@ -1531,7 +1554,7 @@
             input_bodega_select.empty();
             var select_option;
             $.ajax({
-                url: path + "get_bodega_sucursal/" + sucursal,
+                url: "<?php echo base_url(); ?>producto/orden/get_bodega_sucursal/" + sucursal,
                 datatype: 'json',
                 cache: false,
 
@@ -1669,16 +1692,6 @@
             }
         }
 
-        $(document).on('change', '#id_tipo_documento', function() {
-
-            var cli_form_pago = $("#cliente_codigo").val();
-            var tipo_documento = parseInt($("#id_tipo_documento").val());
-            var sucursal_id = $("#sucursal_id2").val();
-
-            correlativo_documento(cli_form_pago, tipo_documento, sucursal_id);
-
-        });
-
         $(document).on('click', '.guardar', function() {
             f4_guardar();
         });
@@ -1686,7 +1699,7 @@
         function f4_guardar() {
 
             var id_modo_pag     = $("#modo_pago_id").val();
-            var sucursal_id     = $("#sucursal_id2").val();
+            var sucursal_id     = $("#sucursal_id").val();
             var cli_form_pago   = $("#cliente_codigo").val();
             var tipo_documento  = parseInt($("#id_tipo_documento").val());
 
@@ -1699,20 +1712,6 @@
 
             $("#procesar_venta").modal();
             $('#procesar_btn').hide();
-        }
-
-        function correlativo_documento(cli_form_pago, tipo_documento, sucursal_id) {
-            $.ajax({
-                url: path + "get_correlativo_documento/" + tipo_documento + "/" + sucursal_id,
-                datatype: 'json',
-                cache: false,
-                success: function(data) {
-                    var datos       = JSON.parse(data);
-                    var correlativo = datos["correlativo"];
-                    $("#correlativo_documento").val(correlativo[0].siguiente_valor);
-                },
-                error: function() {}
-            });
         }
 
         function guardarX(cli_form_pago, tipo_documento, sucursal_id) {
@@ -1930,7 +1929,7 @@
             var table_tr = "";
 
             $.ajax({
-                url: path + "get_proveedor_lista/" + texto_cliente,
+                url: "<?php echo base_url(); ?>producto/compras/get_proveedor_lista/" + texto_cliente,
                 datatype: 'json',
                 cache: false,
 
@@ -2093,7 +2092,7 @@
             $('#cliente_codigo2').modal('hide');
 
             $.ajax({
-                url: path + "get_clientes_documento/" + id,
+                url: "<?php echo base_url(); ?>producto/orden/get_clientes_documento/" + id,
                 datatype: 'json',
                 cache: false,
 

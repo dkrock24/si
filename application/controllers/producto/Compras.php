@@ -44,8 +44,7 @@ class Compras extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$data = $this->load->view('template/lista_template',$data, TRUE);
-		echo $data;
+		echo $this->load->view('template/lista_template',$data, TRUE);
     }
 
     public function nuevo(){
@@ -73,7 +72,7 @@ class Compras extends MY_Controller {
 		$data['title'] 			= "Nueva Compra";
 		$data['home'] 			= 'producto/compras/nuevo';
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('producto/compras/nuevo',$data, TRUE);
 	}
 
 	public function editar($compra_id){
@@ -111,7 +110,7 @@ class Compras extends MY_Controller {
 		}
 		
 		$data['home'] = 'producto/compras/compra_editar';
-		$this->parser->parse('template', $data);
+		echo $this->load->view('producto/compras/compra_editar',$data, TRUE);
 	}
 
 	public function autoload_traslado(){

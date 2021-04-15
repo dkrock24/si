@@ -12,6 +12,12 @@ class Empresa_model extends CI_Model {
     const pos_orden_estado = 'pos_orden_estado';
     const modulo = 'sys_modulo2';
 
+    public function __construct() {
+        parent::__construct();
+      
+        $this->load->model('admin/Sucursal_model');
+    }
+
     function getEmpresas( $limit, $id , $filters){
         
         $this->db->select('id_empresa , nombre_razon_social ,nombre_comercial,nrc,nit,autorizacion,giro,direccion,slogan,resolucion,representante,
@@ -170,17 +176,35 @@ class Empresa_model extends CI_Model {
             'slogan'                => $empresa['slogan'],
             'representante'         => $empresa['representante'],
             'website'               => $empresa['website'],
-            'tel'                   => $empresa['tel'],    
+            'tel'                   => $empresa['tel'],
+            'admin'                 => 1,
             'Moneda'                => $empresa['Moneda'],
+            'codigo'                => $empresa['codigo'],
             'natural_juridica'      => $empresa['natural_juridica'],
             'metodo_inventario'     => $empresa['metodo_inventario'],
             'empresa_creado'        => date("Y-m-d h:i:s"),
             'empresa_estado'        => $empresa['empresa_estado']
         );
         $result = $this->db->insert(self::pos_empresa, $data ); 
+        $id = $this->db->insert_id();
         if(!$result){
             $result = $this->db->error();
         }
+
+        $sucursal_template = array(
+            'nombre_sucursal' => 'Ejemplo',
+            'direct' => 'Ejemplo',
+            'encargado_sucursal' => 'Ejemplo',
+            'tel' => 'Ejemplo',
+            'codigo_sucursal' => 'Ejemplo',
+            'cel' => 'Ejemplo',
+            'Ciudad_Suc' => 2,
+            'Empresa_Suc' => $id,
+            'sucursal_estado' => 1
+
+        );
+
+        $this->Sucursal_model->crear_sucursal($sucursal_template);
 
         return $result;
     }

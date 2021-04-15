@@ -1,5 +1,4 @@
 
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
     var path = "";
 
@@ -44,7 +43,7 @@
             var contador_precios = 1;
 
             $.ajax({
-                url: "../../admin/empleado/get_persona",
+                url: "<?php echo base_url(); ?>admin/empleado/get_persona",
                 datatype: 'json',
                 cache: false,
 
@@ -126,7 +125,7 @@ include("asstes/js/compras/pos_funciones.php");
 
                     <div id="panelDemo1" class="panel" style="margin-top: 60px;">
 
-                        <a href="index" style="top: 0px;position: relative; text-decoration: none; float: left;">
+                        <a name="producto/compras/index" style="top: 0px;position: relative; text-decoration: none; float: left;" class="holdOn_plugin">
                             <button type="button" class="mb-sm btn btn-pill-right btn-primary btn-outline"> Lista Compras </button>
                         </a>
 
@@ -156,7 +155,7 @@ include("asstes/js/compras/pos_funciones.php");
                                         <div class="col-lg-3 col-md-3">
                                             <div class="form-group has-success">
                                                 <label>Tipo Documento</label>
-                                                <select class="form-control" name="id_tipo_documento" id="id_tipo_documento">
+                                                <select class="form-control" name="id_tipo_documento" id="id_tipo_documento" onChange="buscar_correlativo();">
                                                     <?php
                                                     foreach ($vista_doc as $key => $value) {
                                                     ?>
@@ -821,7 +820,7 @@ include("asstes/js/compras/pos_funciones.php");
 
 <!-- Modal Large CLIENTES MODAL-->
 <div id="persona_modal" tabindex="-1" role="dialog" aria-labelledby="persona_modal" class="modal fade">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xs modal-1">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" data-dismiss="modal" aria-label="Close" class="close">
