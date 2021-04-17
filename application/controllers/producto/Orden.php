@@ -474,15 +474,15 @@ class Orden extends MY_Controller {
 			"/"," ",",",";",".","(",")"
 		);
 
-		$terminal_datos = $this->Terminal_model->validar_usuario_terminal($usuario_id, $str);
-		if ($terminal_datos) {
+		$terminal_dato = $this->Terminal_model->validar_usuario_terminal($usuario_id, $str);
+		if ($terminal_dato) {
 
 			$terminal_datos = $this->Terminal_model->selecionar_usuario_terminal($usuario_id, $str);
-			
+
 			if (isset($terminal_datos[0]->estado_terminal_cajero)) {
 				$terminal_estado = $terminal_datos[0]->estado_terminal_cajero;
 			} else {
-				$terminal_estado = $terminal_datos['estado_terminal_cajero'];
+				$terminal_estado = $terminal_dato['estado_terminal_cajero'];
 			}
 
 			if ($terminal_estado == 1) {
