@@ -482,7 +482,7 @@ class Orden extends MY_Controller {
 			if (isset($terminal_datos[0]->estado_terminal_cajero)) {
 				$terminal_estado = $terminal_datos[0]->estado_terminal_cajero;
 			} else {
-				$terminal_estado = $terminal_dato['estado_terminal_cajero'];
+				$terminal_estado = $terminal_dato['estado_terminal_cajero'] ? $terminal_dato['estado_terminal_cajero'] : $terminal_dato[0]->estado_terminal_cajero;
 			}
 
 			if ($terminal_estado == 1) {
