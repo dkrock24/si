@@ -223,15 +223,9 @@ class Terminal extends MY_Controller {
 	}
 
 	public function dispositivo(){		
-		$this->Terminal_model->dispositivo( $_POST );
-		$data = $this->Terminal_model->get_terminal_users( $_POST['terminal'] );
-
-		foreach ($data as $key => $value) {
-			unset($data[$key]->img);
-			unset($data[$key]->img_empleado);
-		}
+		$result = $this->Terminal_model->dispositivo( $_POST );
 				
-		echo json_encode($data);
+		echo json_encode($result);
 	}
 
 	public function column(){

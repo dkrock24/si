@@ -1,6 +1,9 @@
 <script type="text/javascript">
 
-    function agregar(id_usuario, id_terminal) {
+    $("#dispositivos_modal").appendTo("body");
+
+    function agregar(id_usuario, id_terminal)
+    {
         var _html0 = '<i class="fa fa-desktop" style="font-size:18px; color:#39b2d6;"></i>';
         var _html1 = '<i class="fa fa-desktop" style="font-size:18px; color:#39b2d6;"></i>';
         var params = {
@@ -13,7 +16,8 @@
         procesar(params, _html0, _html1);
     }
 
-    function eliminar(id_usuario, id_terminal) {
+    function eliminar(id_usuario, id_terminal)
+    {
         var _html0 = '<i class="fa fa-ban" style="font-size:18px; color:#39b2d6;"></i>';
         var _html1 = '<i class="fa fa-ban" style="font-size:18px; color:grey;"></i>';
         var params = {
@@ -25,6 +29,65 @@
         procesar(params, _html0, _html1);
     }
 
+    function remover_device(usuario_id, id)
+    {
+        dispositivos(usuario_id, id, "delete");
+    }
+
+    function dispositivos(id_usuario, id_terminal, option)
+    {
+        params = {usuario_id:id_usuario, id_terminal:id_terminal,option:option};
+        $.ajax({
+            url: "<?php echo base_url(); ?>admin/terminal/dispositivo",
+            datatype: 'json',
+            cache: false,
+            type: 'POST',
+            data: params,
+
+            success: function(data) {
+                var result = JSON.parse(data);
+                $(".dispositivo_input").attr("id",id_usuario);
+                $(".dispositivo_input").attr("name",id_terminal);
+                showDevices(result);
+                var fullname = $(".usuario_nombre_" + id_usuario).text() + " " + $(".usuario_apellido_" + id_usuario).text();
+                $(".usuario_fullname").text(fullname);
+            },
+            error: function() {}
+        });
+    }
+
+    function inactivar_device(usuario_id, id)
+    {
+        dispositivos(usuario_id, id, "inactivar");
+    }
+
+    function showDevices(result)
+    {
+        $(".dispositivo_input").val("");
+        var _html_device = "";
+        var contador = 1;
+        _html_device += "<table class='table table-striped table-hover'>";
+        $.each(result, function(i, element){
+            _html_device += "<tr>";
+                _html_device += "<td>"+contador+"</td>";
+                _html_device += "<td>"+element.dispositivo_nombre+"</td>";
+                _html_device += "<td>"+element.creado+"</td>";
+                if(element.dispositivo_estado == 1) {
+                    
+                    _html_device += '<td><span class="label label-success" style="background: #39b2d6">Activo</span></td>';
+                } else {
+                    _html_device += '<td><span class="label label-success" style="background: grey">Activo</span></td>';
+                }
+                _html_device += "<td><span class='btn btn-warning' onClick='inactivar_device("+element.usuario_id+","+element.id+")'>Estado</span></td>";
+                _html_device += "<td><span class='btn btn-info' onClick='remover_device("+element.usuario_id+","+element.id+")'>Eliminar</span></td>";
+            _html_device += "</tr>";
+            contador++;
+        });
+        _html_device += "</table>";
+        $(".dispositivos_modal").html(_html_device);
+        $("#dispositivos_modal").modal("show");
+    }
+
     $(document).on('keyup', '#filtrar_nombre', function(){
         var texto_input = $(this).val();
 
@@ -33,18 +96,28 @@
         });        
     });
 
-    $(".dispositivo").change('click', function(){
-        var id_usuario = $(this).attr('id');
-        var id_terminal = $(this).attr('name');
+    $(".dispositivo_input").change('click', function(){
 
         var params = {
-            usuario: id_usuario,
-            terminal: id_terminal,
-            dispositivo: $(this).val(),
-            method: 'dispositivo'
+            usuario_id: $(".dispositivo_input").attr("id"),
+            id_terminal: $(".dispositivo_input").attr("name"),
+            dispositivo_nombre: $(this).val(),
+            option: "post"
         };
-        
-        procesar(params);
+
+        $.ajax({
+            url: "<?php echo base_url(); ?>admin/terminal/dispositivo",
+            datatype: 'json',
+            cache: false,
+            type: 'POST',
+            data: params,
+
+            success: function(data) {
+                var result = JSON.parse(data);
+                showDevices(result);
+            },
+            error: function() {}
+        });
     });
 
     function procesar(params, _html0, _html1) {
@@ -231,7 +304,6 @@
                         <div class="col-lg-12">
                             <h4><u>LISTA</u> USUARIOS </h4>
                             <input type="text" name="filtrar_nombre" id="filtrar_nombre" value="" class="form-control"  placeholder="Buscar Usuario" style="float:right; width:250px;" />
-                            <br><br><span style="float:right;"> CODIGO NAVEGADOR : <span class="codigo_navegador" > <?php echo $this->session->uuid; ?></span></span>
                             <table id="datatable1" class="table table-striped table-hover">
                                 <thead class="linea_superior">
                                     <tr>
@@ -256,8 +328,8 @@
                                             <tr>
                                                 <th scope="row"><?php echo $contado; ?></th>
                                                 <td><?php echo $ter_usu->nombre_sucursal; ?></td>
-                                                <td><?php echo $ter_usu->primer_apellido_persona . " " . $ter_usu->segundo_apellido_persona; ?></td>
-                                                <td><?php echo $ter_usu->primer_nombre_persona . " " . $ter_usu->segundo_nombre_persona; ?></td>
+                                                <td class="usuario_nombre_<?php echo $ter_usu->id_usuario ?>"><?php echo $ter_usu->primer_apellido_persona . " " . $ter_usu->segundo_apellido_persona; ?></td>
+                                                <td class="usuario_apellido_<?php echo $ter_usu->id_usuario ?>"><?php echo $ter_usu->primer_nombre_persona . " " . $ter_usu->segundo_nombre_persona; ?></td>
                                                 <td>
                                                     <?php
                                                     if ($ter_usu->estado == 1) {
@@ -273,23 +345,25 @@
                                                 </td>
 
                                                 <td class="terminal<?php echo $ter_usu->id_usuario ?>">
-                                                    <?php if(isset($ter_usu->id_terminal_cajero)): ?>
+                                                    <?php if (isset($ter_usu->id_terminal_cajero)) : ?>
                                                         <i class="fa fa-desktop" style="font-size:18px; color:#39b2d6;"></i>
                                                     <?php else: ?>
                                                         <i class="fa fa-desktop" style="font-size:18px; color:grey;"></i>
                                                     <?php endif ?>
                                                 </td>
                                                 <td class="estado<?php echo $ter_usu->id_usuario ?>">
-                                                    <?php if(isset($ter_usu->id_terminal_cajero)): ?>
+                                                    <?php if (@$ter_usu->estado_terminal_cajero == 1) : ?>
                                                         <i class="fa fa-ban" style="font-size:18px; color:#39b2d6;"></i>
                                                     <?php else: ?>
                                                         <i class="fa fa-ban" style="font-size:18px; color:grey;"></i>
                                                     <?php endif ?>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-primary btn-sm" onClick="agregar(<?php echo $ter_usu->id_usuario; ?>,<?php echo $terminal[0]->id_terminal; ?>)" rel="" name="" id=""><i class="fa fa-plus-circle" style="font-size:18px"></i></a>
+                                                    <a class="btn btn-primary btn-sm" onClick="agregar(<?php echo $ter_usu->id_usuario; ?>,<?php echo $terminal[0]->id_terminal; ?>)"><i class="fa fa-plus-circle" style="font-size:18px"></i></a>
                                                 </td>
-                                                <td><input type="text" name="<?php echo $terminal[0]->id_terminal; ?>" class="dispositivo" id="<?php echo $ter_usu->id_usuario; ?>" value="" class="form-control" autocomplete="off" /></td>
+                                                <td>
+                                                    <a class="btn btn-primary btn-sm" onClick="dispositivos(<?php echo $ter_usu->id_usuario; ?>,<?php echo $terminal[0]->id_terminal; ?>,'get')"><i class="fa fa-mobile" style="font-size:18px"></i></a>
+                                                </td>
                                                 <td>
                                                     <a onClick="eliminar(<?php echo $ter_usu->id_usuario; ?>,<?php echo $terminal[0]->id_terminal; ?>);" class="btn btn-warning btn-sm"><i class="fa fa-refresh" style="font-size:18px"></i></a>
 
@@ -402,7 +476,33 @@
 
         </div>
     </div>
-
-
-    </div>
 </section>
+
+<!-- Modal Large CLIENTES MODAL-->
+   <div id="dispositivos_modal" tabindex="-1" role="dialog" aria-labelledby="dispositivos_modal"  class="modal fade">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header bg-info-dark">
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+                <span>Usuario : <span style="color:red;" class="usuario_fullname"></span> </span>
+                <table class="table table-striped table-hover">
+                    <tr>
+                        <td>
+                            <span style="float:right;"> CODIGO DISPOSITIVO : <span class="codigo_navegador" > <?php echo $this->session->uuid; ?></span></span><br><br>
+                            <input type="text" name="<?php echo $terminal[0]->id_terminal; ?>" class="dispositivo_input" value="" class="form-control" autocomplete="off" />
+                        </td>
+                    </tr>
+                </table>
+                <p class="dispositivos_modal"></p>
+            </div>
+            <div class="modal-footer bg-gray-light">
+               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>               
+            </div>
+         </div>
+      </div>
+   </div>
+<!-- Modal Small-->

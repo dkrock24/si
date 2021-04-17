@@ -331,20 +331,63 @@ class Terminal_model extends CI_Model {
 
     public function dispositivo( $data ){
 
-        $array = array(
-            'dispositivo_terminal' => $data['dispositivo']
-        );
+        if ($data['option'] == "post") {
 
-        $condition = array(
-            'Terminal' => $data['terminal'],
-            'Cajero_terminal' => $data['usuario']
-        );
+            $dispositivo = array(
+                'usuario_id' => $data['usuario_id'],
+                'dispositivo_nombre' => $data['dispositivo_nombre'],
+                'dispositivo_estado' => 1,
+                'creado' => date('Y-m-d h:i:s')
+            );
 
-        $this->db->where(  $condition );
-        $insert = $this->db->update( self::pos_terminal_cajero , $array );
+            $insert = $this->db->insert( self::usuario_dispositivo , $dispositivo );
 
-        if(!$insert){
-            $insert = $this->db->error();
+            if(!$insert){
+                $insert = $this->db->error();
+            }
+        }
+
+        if ($data['option'] == "delete") {
+
+            $condition = array(
+                'usuario_id' => $data['usuario_id'],
+                'id' => $data['id_terminal']
+            );
+    
+            $this->db->where(  $condition );
+            $insert = $this->db->delete( self::usuario_dispositivo);
+        }
+
+        if ($data['option'] == "inactivar") {
+
+            $this->db->select('*');
+            $this->db->from(self::usuario_dispositivo);
+            $this->db->where('id', $data['id_terminal']);             
+            $query = $this->db->get();
+            $device = $query->result();
+
+            $value_estado = $device[0]->dispositivo_estado == 0 ? 1 : 0;
+
+            $condition = array(
+                'id' => $data['id_terminal']
+            );
+    
+            $array = array(
+                'dispositivo_estado' => $value_estado,
+            );
+    
+            $this->db->where(  $condition );
+            $this->db->update( self::usuario_dispositivo , $array );
+        }
+
+        $this->db->select('*');
+        $this->db->from(self::usuario_dispositivo);
+        $this->db->where('usuario_id', $data['usuario_id']);             
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
         }
     }
 
