@@ -173,7 +173,7 @@ class Terminal extends MY_Controller {
 		$data['terminal'] 	= $this->Terminal_model->get_terminal( $id_terminal );
 		$data['terminal_usuario'] = $this->Terminal_model->get_terminal_users( $id_terminal );
 		$data['impresores']	= $this->Impresor_model->get_impresor_terminal();
-		$data['usuario'] 	= $this->Terminal_model->get_users( );	
+		$data['usuario'] 	= $this->Terminal_model->get_users($data, $id_terminal);	
 		$data['terminal_nombre'] = 	$this->limpiar_terminal_nombre($caracteres,"",$str);
 		$data['title'] 		= "Terminal Usuarios";
 		$data['home'] 		= 'admin/terminal/t_asociar';
@@ -197,15 +197,11 @@ class Terminal extends MY_Controller {
 	}
 
 	public function agregar(){
-		$this->Terminal_model->agregar_usuario( $_POST );
-		$data = $this->Terminal_model->get_terminal_users( $_POST['terminal'] );
+		$flag = $this->Terminal_model->agregar_usuario( $_POST );
 
-		foreach ($data as $key => $value) {
-			unset($data[$key]->img);
-			unset($data[$key]->img_empleado);
-		}
+		$result['terminal'] = $flag;
 				
-		echo json_encode($data);
+		echo json_encode($result);
 	}
 
 	public function impresor_estado() {
@@ -219,15 +215,11 @@ class Terminal extends MY_Controller {
 	}
 
 	public function inactivar(){		
-		$this->Terminal_model->eliminar_usuario( $_POST );
-		$data = $this->Terminal_model->get_terminal_users( $_POST['terminal'] );
+		$flag = $this->Terminal_model->eliminar_usuario( $_POST );
 
-		foreach ($data as $key => $value) {
-			unset($data[$key]->img);
-			unset($data[$key]->img_empleado);
-		}
+		$result['inactivar'] = $flag;
 				
-		echo json_encode($data);
+		echo json_encode($result);
 	}
 
 	public function dispositivo(){		

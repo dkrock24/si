@@ -156,7 +156,7 @@ include("asstes/pos_orden.php");
 
                         <a name="producto/orden/index" style="top: 0px;position: relative; text-decoration: none; float: left;" class="holdOn_plugin">
                             <button type="button" class="mb-sm btn btn-info"> Lista Ordenes </button>
-                        </a>
+                        </a> <?php echo " Terminal : ". $terminal[0]->nombre; ?>
 
                         <span style="text-align: left; font-size: 20px;overflow: hidden;margin-left:20px;">
 

@@ -1,9 +1,8 @@
 <script type="text/javascript">
 
-    $(document).on('click','.agregar', function() { 
-        var id_usuario = $(this).attr('name');
-        var id_terminal = $(this).attr('id');
-
+    function agregar(id_usuario, id_terminal) {
+        var _html0 = '<i class="fa fa-desktop" style="font-size:18px; color:#39b2d6;"></i>';
+        var _html1 = '<i class="fa fa-desktop" style="font-size:18px; color:#39b2d6;"></i>';
         var params = {
             usuario: id_usuario,
             terminal: id_terminal,
@@ -11,7 +10,27 @@
             method: 'agregar'
         };
 
-        procesar(params);
+        procesar(params, _html0, _html1);
+    }
+
+    function eliminar(id_usuario, id_terminal) {
+        var _html0 = '<i class="fa fa-ban" style="font-size:18px; color:#39b2d6;"></i>';
+        var _html1 = '<i class="fa fa-ban" style="font-size:18px; color:grey;"></i>';
+        var params = {
+            usuario: id_usuario,
+            terminal: id_terminal,
+            method: 'inactivar'
+        };
+        
+        procesar(params, _html0, _html1);
+    }
+
+    $(document).on('keyup', '#filtrar_nombre', function(){
+        var texto_input = $(this).val();
+
+        $(".list tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(texto_input) > -1)
+        });        
     });
 
     $(".dispositivo").change('click', function(){
@@ -28,21 +47,7 @@
         procesar(params);
     });
 
-    $(".eliminar").on('click', function() {
-
-        var id_usuario = $(this).attr('name');
-        var id_terminal = $(this).attr('id');
-
-        var params = {
-            usuario: id_usuario,
-            terminal: id_terminal,
-            method: 'inactivar'
-        };
-        
-        procesar(params);
-    }); 
-
-    function procesar(params) {
+    function procesar(params, _html0, _html1) {
         $.ajax({
             url: "<?php echo base_url(); ?>admin/terminal/"+params.method,
             datatype: 'json',
@@ -51,34 +56,19 @@
             data: params,
 
             success: function(data) {
-                var table_tr = "";
-                var datos = JSON.parse(data);
-                var contador = 1;
-                $(".terminal_usuarios").empty();
-                $.each(datos, function(i, item) { 
+                var result = JSON.parse(data);
 
-                    table_tr += '<tr>';
-                    table_tr += '<th scope="row">'+contador+'</th>';
-                        table_tr += '<td>' + item.nombre_sucursal +'</td>';
-                        table_tr += '<td>' + item.nombre +'</td>';
-                        table_tr += '<td>' + item.codigo +'</td>';
-                        table_tr += '<td>' + item.primer_apellido_persona + " " + item.segundo_apellido_persona +'</td>';
-                        table_tr += '<td>' + item.primer_nombre_persona + " " + item.segundo_nombre_persona +'</td>';
-                        table_tr += '<td>' +item.dispositivo_terminal+'</td>';
-                        table_tr += '<td>';
-                            if (item.estado_terminal_cajero == 1) {
-                                table_tr += '<span class="label label-success" style="background: #39b2d6">Activo</span>';
-                            } else {
-                                table_tr += '<span class="label label-warning" style="background: #d26464">Inactivo</span>';
-                            }
-                        table_tr += '</td>';
+                if (result.terminal) {
+                    $(".terminal" + params.usuario).html(_html1);
+                }
 
-                        table_tr += '</tr>';
+                if (result.inactivar == false) {
+                    $(".estado" + params.usuario).html(_html1);
+                }
 
-                    contador++;
-                });
-
-                $(".terminal_usuarios").html(table_tr);
+                if (result.inactivar == true) {
+                    $(".estado" + params.usuario).html(_html0);
+                }
             },
             error: function() {}
         });
@@ -239,7 +229,9 @@
                     <div class="row">
 
                         <div class="col-lg-12">
-                            <h4><u>EMPRESA</u> USUARIOS </h4>
+                            <h4><u>LISTA</u> USUARIOS </h4>
+                            <input type="text" name="filtrar_nombre" id="filtrar_nombre" value="" class="form-control"  placeholder="Buscar Usuario" style="float:right; width:250px;" />
+                            <br><br><span style="float:right;"> CODIGO NAVEGADOR : <span class="codigo_navegador" > <?php echo $this->session->uuid; ?></span></span>
                             <table id="datatable1" class="table table-striped table-hover">
                                 <thead class="linea_superior">
                                     <tr>
@@ -247,13 +239,15 @@
                                         <th style="color: black;">Sucursal</th>
                                         <th style="color: black;">Apellidos</th>
                                         <th style="color: black;">Nombres</th>
+                                        <th style="color: black;">Usuario</th>
+                                        <th style="color: black;">Terminal</th>
                                         <th style="color: black;">Estado</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
+                                        <th style="color: black;">Agregar</th>
+                                        <th style="color: black;">Dispositivo</th>
+                                        <th style="color: black;">Estado</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="list">
                                     <?php
                                     $contado = 1;
                                     if ($usuario) {
@@ -278,12 +272,27 @@
                                                     ?>
                                                 </td>
 
+                                                <td class="terminal<?php echo $ter_usu->id_usuario ?>">
+                                                    <?php if(isset($ter_usu->id_terminal_cajero)): ?>
+                                                        <i class="fa fa-desktop" style="font-size:18px; color:#39b2d6;"></i>
+                                                    <?php else: ?>
+                                                        <i class="fa fa-desktop" style="font-size:18px; color:grey;"></i>
+                                                    <?php endif ?>
+                                                </td>
+                                                <td class="estado<?php echo $ter_usu->id_usuario ?>">
+                                                    <?php if(isset($ter_usu->id_terminal_cajero)): ?>
+                                                        <i class="fa fa-ban" style="font-size:18px; color:#39b2d6;"></i>
+                                                    <?php else: ?>
+                                                        <i class="fa fa-ban" style="font-size:18px; color:grey;"></i>
+                                                    <?php endif ?>
+                                                </td>
                                                 <td>
-                                                    <a class="btn btn-primary btn-sm agregar" rel="" name="<?php echo $ter_usu->id_usuario; ?>" id="<?php echo $terminal[0]->id_terminal; ?>"><i class="fa fa-plus-circle" style="font-size:18px"></i></a>
+                                                    <a class="btn btn-primary btn-sm" onClick="agregar(<?php echo $ter_usu->id_usuario; ?>,<?php echo $terminal[0]->id_terminal; ?>)" rel="" name="" id=""><i class="fa fa-plus-circle" style="font-size:18px"></i></a>
                                                 </td>
                                                 <td><input type="text" name="<?php echo $terminal[0]->id_terminal; ?>" class="dispositivo" id="<?php echo $ter_usu->id_usuario; ?>" value="" class="form-control" autocomplete="off" /></td>
                                                 <td>
-                                                    <a name="<?php echo $ter_usu->id_usuario; ?>" id="<?php echo $terminal[0]->id_terminal; ?>" class="btn btn-warning btn-sm eliminar"><i class="fa fa-refresh" style="font-size:18px"></i></a>
+                                                    <a onClick="eliminar(<?php echo $ter_usu->id_usuario; ?>,<?php echo $terminal[0]->id_terminal; ?>);" class="btn btn-warning btn-sm"><i class="fa fa-refresh" style="font-size:18px"></i></a>
+
                                                 </td>
                                             </tr>
                                     <?php
@@ -294,74 +303,7 @@
 
                                 </tbody>
                             </table>
-
-                            <div class="text-right  panel-footer bg-gray-light">
-                                <ul class="pagination pagination-md">
-
-                                </ul>
-                            </div>
                         </div>
-
-                        <div class="col-lg-12">
-                            <h4><u>TERMINAL</u> USUARIO -|| CODIGO NAVEGADOR :  <span class="codigo_navegador"><?php echo $this->session->uuid; ?></span></h4>
-                            <table id="datatable1" class="table table-striped table-hover">
-                                <thead class="linea_superior">
-                                    <tr>
-                                        <th style="color: black;">#</th>
-                                        <th style="color: black;">Sucursal</th>
-                                        <th style="color: black;">Terminal</th>
-                                        <th style="color: black;">Codigo</th>
-                                        <th style="color: black;">Apellidos</th>
-                                        <th style="color: black;">Nombres</th>
-                                        <th style="color: black;">Dispositivo</th>
-                                        <th style="color: black;">Estado</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="terminal_usuarios">
-                                    <?php
-                                    $contado = 1;
-                                    if ($terminal_usuario) {
-                                        foreach ($terminal_usuario as $ter_usu) {
-                                    ?>
-                                            <tr>
-                                                <th scope="row"><?php echo $contado; ?></th>
-                                                <td><?php echo $ter_usu->nombre_sucursal; ?></td>
-                                                <td><?php echo $ter_usu->nombre; ?></td>
-                                                <td><?php echo $ter_usu->codigo; ?></td>
-                                                <td><?php echo $ter_usu->primer_apellido_persona . " " . $ter_usu->segundo_apellido_persona; ?></td>
-                                                <td><?php echo $ter_usu->primer_nombre_persona . " " . $ter_usu->segundo_nombre_persona; ?></td>
-                                                <td><?php echo $ter_usu->dispositivo_terminal ?></td>
-                                                <td>
-                                                    <?php
-                                                    if ($ter_usu->estado_terminal_cajero == 1) {
-                                                    ?>
-                                                        <span class="label label-success" style="background: #39b2d6">Activo</span>
-                                                    <?php
-                                                    } else {
-                                                    ?>
-                                                        <span class="label label-warning" style="background: #d26464">Inactivo</span>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </td>
-                                            </tr>
-                                    <?php
-                                            $contado += 1;
-                                        }
-                                    }
-                                    ?>
-
-                                </tbody>
-                            </table>
-
-                            <div class="text-right  panel-footer bg-gray-light">
-                                <ul class="pagination pagination-md">
-
-                                </ul>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
                 <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">

@@ -75,7 +75,6 @@ class Orden extends MY_Controller {
 	}
 
 	public function nuevo(){
-
 		// Seguridad :: Validar URL usuario	
 		$terminal_acceso 	= FALSE;
 		$id_usuario 		= $this->session->usuario[0]->id_usuario;
@@ -477,7 +476,16 @@ class Orden extends MY_Controller {
 
 		$terminal_datos = $this->Terminal_model->validar_usuario_terminal($usuario_id, $str);
 		if ($terminal_datos) {
-			if($terminal_datos[0]->estado_terminal_cajero == 1){
+
+			$terminal_datos = $this->Terminal_model->selecionar_usuario_terminal($usuario_id, $str);
+			
+			if (isset($terminal_datos[0]->estado_terminal_cajero)) {
+				$terminal_estado = $terminal_datos[0]->estado_terminal_cajero;
+			} else {
+				$terminal_estado = $terminal_datos['estado_terminal_cajero'];
+			}
+
+			if ($terminal_estado == 1) {
 				return $terminal_datos;
 			} else {
 				return 0;

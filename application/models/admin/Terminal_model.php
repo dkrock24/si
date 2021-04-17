@@ -11,16 +11,35 @@ class Terminal_model extends CI_Model {
     const empleado = 'sys_empleado';
     const persona = 'sys_persona';
     const pos_orden_estado = 'pos_orden_estado';
+    const usuario_dispositivo = 'pos_usuario_dispositivo';
 
 	public function validar_usuario_terminal( $usuario_id , $terminal_nombe ){
-        //var_dump($terminal_nombe);die;
 		$this->db->select('*');
         $this->db->from(self::pos_terminal.' as terminal');
         $this->db->join(self::pos_terminal_cajero.' as cajero ',' on cajero.Terminal = terminal.id_terminal ');
         $this->db->join(self::caja.' as caja', ' on caja.id_caja = terminal.Caja');
-        $this->db->where('cajero.Cajero_terminal = '. $usuario_id);
-        $this->db->where('cajero.dispositivo_terminal = ', $terminal_nombe);
+        $this->db->join(self::usuario_dispositivo.' as dispositivo', ' on dispositivo.usuario_id = cajero.Cajero_terminal');
+        $this->db->where('dispositivo.usuario_id = '. $usuario_id);
+        $this->db->where('dispositivo.dispositivo_nombre = ', $terminal_nombe);
         //$this->db->where('cajero.estado_terminal_cajero = ', 1);
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+	}
+
+    public function selecionar_usuario_terminal( $usuario_id , $terminal_nombe ){
+		$this->db->select('*');
+        $this->db->from(self::pos_terminal.' as terminal');
+        $this->db->join(self::pos_terminal_cajero.' as cajero ',' on cajero.Terminal = terminal.id_terminal ');
+        $this->db->join(self::caja.' as caja', ' on caja.id_caja = terminal.Caja');
+        $this->db->join(self::usuario_dispositivo.' as dispositivo', ' on dispositivo.usuario_id = cajero.Cajero_terminal');
+        $this->db->where('dispositivo.usuario_id = '. $usuario_id);
+        $this->db->where('dispositivo.dispositivo_nombre = ', $terminal_nombe);
+        $this->db->where('cajero.estado_terminal_cajero = ', 1);
+        $this->db->where('dispositivo.dispositivo_estado = ', 1);
         $query = $this->db->get(); 
 
         if($query->num_rows() > 0 )
@@ -38,37 +57,42 @@ class Terminal_model extends CI_Model {
      */
     public function insertar_usuario_terminal($usuario_id , $terminal_nombe)
     {
-        /** Obtener todas las terminales */
-        $terminales = $this->get_terminal_lista();
+        /** Buscar si existe usuario/dispositivo en dispositivos de usuario */
+        $dispositivos = $this->get_dispositivos($usuario_id, $terminal_nombe);
 
-        foreach ($terminales as $terminal) {
-
-            $data = array(
-                'usuario'  => $usuario_id,
-                'terminal' => $terminal->id_terminal
-            );
+        if ( !$dispositivos ) {
             
-            /** Validar si ya existe usuario en terminal */
-            $existe_usuario_terminal = $this->get_user_terminal($data);
+            $data = array(
+                'usuario_id' => $usuario_id,
+                'dispositivo_nombre' => $terminal_nombe,
+                'dispositivo_estado' => 0,
+                'creado' => date('Y-m-d h:s:i')
+            );
 
-            if (!$existe_usuario_terminal) {
-
-                $data = array(
-                    'activa' => 0,
-                    'Terminal' => $terminal->id_terminal,
-                    'Cajero_terminal' => $usuario_id,
-                    'dispositivo_terminal' => $terminal_nombe,
-                    'estado_terminal_cajero' => 0
-                );
+            /** Insertar usuario/dispositivo nuevo */
+            $insert = $this->db->insert( self::usuario_dispositivo , $data );
                 
-                /** Insertar usuario nuevo en terminales */
-                $insert = $this->db->insert( self::pos_terminal_cajero , $data );
-                
-                if(!$insert){
-                    $insert = $this->db->error();
-                }
+            if(!$insert){
+                $insert = $this->db->error();
+            } else {
+                return true;
             }
         }
+    }
+
+    private function get_dispositivos($usuario_id , $terminal_nombe) 
+    {
+        $this->db->select('*');
+        $this->db->from( self::usuario_dispositivo);
+        $this->db->where('usuario_id', $usuario_id);
+        $this->db->where('dispositivo_nombre', $terminal_nombe);
+
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
     }
 
     public function get_all_terminal( $limit, $id , $filters){;
@@ -180,14 +204,17 @@ class Terminal_model extends CI_Model {
         }
     }
 
-    public function get_users(){
+    public function get_users($data, $id_terminal){
 
         $this->db->select('*');
-        $this->db->from(self::usuario.' as u');        
-        $this->db->join(self::empleado.' as e', ' e.id_empleado = u.Empleado ');      
-        $this->db->join(self::sucursal.' as s', ' s.id_sucursal = e.Sucursal ');        
-        $this->db->join(self::persona.' as p', ' p.id_persona = e.Persona_E ');   
-        $this->db->where('p.Empresa = ', $this->session->empresa[0]->id_empresa );
+        $this->db->from(self::usuario.' as u');
+        $this->db->join(self::empleado.' as e', ' e.id_empleado = u.Empleado ');
+        $this->db->join(self::sucursal.' as s', ' s.id_sucursal = e.Sucursal ');
+        $this->db->join(self::persona.' as p', ' p.id_persona = e.Persona_E ');
+        $this->db->join(self::pos_terminal_cajero.' as terminal', ' terminal.Cajero_terminal = u.id_usuario','left');
+        $this->db->where('p.Empresa ', $this->session->empresa[0]->id_empresa );
+        $this->db->where('s.id_sucursal ', $data['terminal'][0]->Sucursal);
+        //$this->db->where('terminal.Terminal ', $id_terminal);
         $this->db->order_by('s.id_sucursal',' desc');
         
         $query = $this->db->get(); 
@@ -207,8 +234,23 @@ class Terminal_model extends CI_Model {
 
         $this->db->where('Terminal', $data['terminal']);             
         $this->db->where('Cajero_terminal', $data['usuario']);
+        //$this->db->where('dispositivo_terminal', $data['dispositivo']);
         $query = $this->db->get(); 
         //echo $this->db->queries[1];
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    public function get_user_terminal_desactivar( $data ){
+
+        $this->db->select('*');
+        $this->db->from(self::pos_terminal_cajero);
+        $this->db->where('Terminal', $data['terminal']);             
+        $this->db->where('Cajero_terminal', $data['usuario']);
+        $query = $this->db->get(); 
         
         if($query->num_rows() > 0 )
         {
@@ -226,8 +268,7 @@ class Terminal_model extends CI_Model {
             $array = array(
                 'Terminal' => $data['terminal'],
                 'Cajero_terminal' => $data['usuario'],
-                'estado_terminal_cajero' => 1,
-                'dispositivo_terminal' => $data['dispositivo'],
+                'estado_terminal_cajero' => 0
             );
 
             $this->db->insert( self::pos_terminal_cajero , $array );
@@ -257,15 +298,16 @@ class Terminal_model extends CI_Model {
 
     public function eliminar_usuario( $data ){
 
-        $existe = $this->get_user_terminal($data);
+        $flag = true;
+
+        $existe = $this->get_user_terminal_desactivar($data);
         $valor  = 1;
 
         if($existe){
-
             if( $existe[0]->estado_terminal_cajero == 1 ){
                 $valor = 0;
+                $flag = false;
             }
-
         }
 
         $array = array(
@@ -283,6 +325,8 @@ class Terminal_model extends CI_Model {
         if(!$insert){
             $insert = $this->db->error();
         }
+        
+        return $flag;
     }
 
     public function dispositivo( $data ){
