@@ -467,8 +467,22 @@ include("asstes/pos_orden.php");
                                                     <i class="fa fa-user sz" style="font-size:20px; float:left;padding:5px;"></i>Vendedor
                                                 </label>
                                                 <div class="" style="border:1px solid grey;height:35px;">
+                                                    <!--
                                                     <input type="hidden" name="vendedor" id="vendedor1" value="<?php echo @$empleado[0]->id_empleado; ?>">
                                                     <a href="#" class="vendedores_lista1" id="<?php echo @$empleado[0]->id_sucursal; ?>"><?php echo @$empleado[0]->primer_nombre_persona . " " . @$empleado[0]->primer_apellido_persona; ?></a>
+                                                    -->
+                                                    <select class="form-control" name="vendedor" id="vendedor">
+                                                        <option value="<?php echo @$empleado[0]->id_empleado; ?>"><?php echo @$empleado[0]->primer_nombre_persona . " " . @$empleado[0]->primer_apellido_persona; ?></option>
+                                                        <?php
+                                                        foreach ($empleados as $emp) {
+                                                            if ($emp->id_empleado != $empleado[0]->id_empleado) {
+                                                        ?>
+                                                            <option value="<?php echo $emp->id_empleado; ?>"><?php echo $emp->primer_nombre_persona . " " . $emp->primer_apellido_persona; ?></option>
+                                                        <?php
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
