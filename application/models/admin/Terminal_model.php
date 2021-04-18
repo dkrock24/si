@@ -373,17 +373,21 @@ class Terminal_model extends CI_Model {
 
         if ($data['option'] == "post") {
 
-            $dispositivo = array(
-                'usuario_id' => $data['usuario_id'],
-                'dispositivo_nombre' => $data['dispositivo_nombre'],
-                'dispositivo_estado' => 1,
-                'creado' => date('Y-m-d h:i:s')
-            );
+            $device = $this->get_dispositivos($data['usuario_id'], $data['dispositivo_nombre']);
 
-            $insert = $this->db->insert( self::usuario_dispositivo , $dispositivo );
-
-            if(!$insert){
-                $insert = $this->db->error();
+            if (!$device) {
+                $dispositivo = array(
+                    'usuario_id' => $data['usuario_id'],
+                    'dispositivo_nombre' => $data['dispositivo_nombre'],
+                    'dispositivo_estado' => 1,
+                    'creado' => date('Y-m-d h:i:s')
+                );
+    
+                $insert = $this->db->insert( self::usuario_dispositivo , $dispositivo );
+    
+                if(!$insert){
+                    $insert = $this->db->error();
+                }
             }
         }
 
