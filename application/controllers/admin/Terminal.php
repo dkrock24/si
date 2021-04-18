@@ -168,7 +168,7 @@ class Terminal extends MY_Controller {
 		$caracteres = array(
 			"/"," ",",",";",".","(",")"
 		);
-
+		$this->Terminal_model->sincronizar_usuarios( $id_terminal );
 		$data['menu'] 		= $this->session->menu;
 		$data['terminal'] 	= $this->Terminal_model->get_terminal( $id_terminal );
 		$data['terminal_usuario'] = $this->Terminal_model->get_terminal_users( $id_terminal );

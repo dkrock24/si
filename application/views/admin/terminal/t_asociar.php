@@ -345,14 +345,14 @@
                                                 </td>
 
                                                 <td class="terminal<?php echo $ter_usu->id_usuario ?>">
-                                                    <?php if (isset($ter_usu->id_terminal_cajero)) : ?>
+                                                    <?php if ($ter_usu->id_terminal_cajero != NULL) : ?>
                                                         <i class="fa fa-desktop" style="font-size:18px; color:#39b2d6;"></i>
                                                     <?php else: ?>
                                                         <i class="fa fa-desktop" style="font-size:18px; color:grey;"></i>
                                                     <?php endif ?>
                                                 </td>
                                                 <td class="estado<?php echo $ter_usu->id_usuario ?>">
-                                                    <?php if (@$ter_usu->estado_terminal_cajero == 1) : ?>
+                                                    <?php if ($ter_usu->estado_terminal_cajero == 1) : ?>
                                                         <i class="fa fa-ban" style="font-size:18px; color:#39b2d6;"></i>
                                                     <?php else: ?>
                                                         <i class="fa fa-ban" style="font-size:18px; color:grey;"></i>

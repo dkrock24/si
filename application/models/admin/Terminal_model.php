@@ -211,14 +211,13 @@ class Terminal_model extends CI_Model {
         $this->db->join(self::empleado.' as e', ' e.id_empleado = u.Empleado ');
         $this->db->join(self::sucursal.' as s', ' s.id_sucursal = e.Sucursal ');
         $this->db->join(self::persona.' as p', ' p.id_persona = e.Persona_E ');
-        $this->db->join(self::pos_terminal_cajero.' as terminal', ' terminal.Cajero_terminal = u.id_usuario','left');
-        $this->db->where('p.Empresa ', $this->session->empresa[0]->id_empresa );
-        $this->db->where('s.id_sucursal ', $data['terminal'][0]->Sucursal);
-        //$this->db->where('terminal.Terminal ', $id_terminal);
+        $this->db->join(self::pos_terminal_cajero.' as terminal', ' terminal.Cajero_terminal = u.id_usuario');
+        $this->db->where('s.Empresa_Suc ', $this->session->empresa[0]->id_empresa);
+        $this->db->where('terminal.Terminal ', $id_terminal);
         $this->db->order_by('s.id_sucursal',' desc');
         
         $query = $this->db->get(); 
-        //echo $this->db->queries[1];
+        //echo $this->db->queries[7];die;
         
         if($query->num_rows() > 0 )
         {
@@ -276,6 +275,47 @@ class Terminal_model extends CI_Model {
             $flag = true;
         }
         return $flag;
+    }
+
+    public function sincronizar_usuarios($terminal)
+    {
+        $usuarios = $this->get_usuarios();
+
+        foreach ($usuarios as $key => $usuario) {
+
+            $data = array(
+                'terminal' => $terminal,
+                'usuario' => $usuario->id_usuario
+            );
+
+            $existe  = $this->get_user_terminal_desactivar($data);
+
+            if(!$existe) {
+
+                $array = array(
+                    'Terminal' => $terminal,
+                    'Cajero_terminal' => $usuario->id_usuario,
+                    'estado_terminal_cajero' => 0
+                );
+    
+                $this->db->insert( self::pos_terminal_cajero , $array );
+            }
+        }
+    }
+
+    public function get_usuarios()
+    {
+        $this->db->select('*');
+        $this->db->from(self::usuario. ' as u');
+        $this->db->join(self::empleado.' as e', ' e.id_empleado = u.Empleado ');
+        $this->db->join(self::sucursal.' as s', ' s.id_sucursal = e.Sucursal ');
+        $this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);             
+        $query = $this->db->get();
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
     }
 
     public function unload($terminal , $estado){
