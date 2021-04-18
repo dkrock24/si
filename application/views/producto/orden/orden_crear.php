@@ -304,7 +304,12 @@ include("asstes/pos_orden.php");
                                                 <label class="format-label">
                                                     <i class="fa fa-user sz" style="font-size:20px; float:left;padding:5px;"></i>
                                                     <?php
-                                                    $saldo = $cliente[0]->saldos ? $cliente[0]->saldos : 0.00;
+                                                    $saldo = 0.00;
+                                                    
+                                                    if (isset($cliente[0])) {
+                                                        $saldo = $cliente[0]->saldos ? $cliente[0]->saldos : 0.00;
+                                                    }
+
                                                     ?>
                                                     <span class="saldo"><?php echo " Saldo $ " . $saldo . " - "; ?> </span>
                                                     Cliente Nombre
