@@ -1356,7 +1356,7 @@ _:-ms-lang(x),
 .sidebar > .nav > li > a,
 .sidebar > .nav > li > .nav-item {
   padding: 12px 24px;
-  /*color: rgb(255, 255, 255);*/
+  color: rgb(255, 255, 255);
   background:#2b333d;
   letter-spacing: .025em;
   font-weight: normal;
