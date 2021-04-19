@@ -74,6 +74,19 @@ class Caja_model extends CI_Model {
         }
     }
 
+    function get_caja_sucursal($sucursal_id){
+        $this->db->select('*');
+        $this->db->from( self::caja);
+        $this->db->where('Empresa', $this->session->empresa[0]->id_empresa );
+        $this->db->where('Sucursal', $sucursal_id );
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function getCajaSucursal($sucursal){
         $this->db->select('*');
         $this->db->from( self::caja.' as c');

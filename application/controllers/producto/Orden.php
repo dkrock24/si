@@ -78,8 +78,15 @@ class Orden extends MY_Controller {
 		// Seguridad :: Validar URL usuario	
 		$terminal_acceso 	= FALSE;
 		$id_usuario 		= $this->session->usuario[0]->id_usuario;
-		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
+		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario, $_POST);
 		$data['menu'] 		= $this->session->menu;
+
+		if ($terminal_acceso == 3) {
+			//usuario_datos
+			$data['home'] = 'producto/orden/crear_terminal';
+			$this->parser->parse('template', $data);
+			return;
+		}
 
 		if($terminal_acceso){
 			$data['terminal'] 		= $terminal_acceso;
@@ -106,7 +113,7 @@ class Orden extends MY_Controller {
 			//echo $this->load->view('producto/orden/orden_crear',$data, TRUE);
 		}else{
 			$data['home'] = 'producto/orden/orden_denegado';
-			$data['terminal'] = "Usuario Inactivo";
+			$data['terminal'] = "Terminal Inactiva";
 			if($terminal_acceso != false) {
 				$data['terminal'] = "Usuario no registrado !";
 			}
@@ -163,7 +170,7 @@ class Orden extends MY_Controller {
 		// Seguridad :: Validar URL usuario	
 		$terminal_acceso 	= FALSE;
 		$id_usuario 		= $this->session->usuario[0]->id_usuario;
-		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
+		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario , $pos=null );
 		$data['menu'] 		= $this->session->menu;
 
 		if($terminal_acceso){
@@ -217,7 +224,7 @@ class Orden extends MY_Controller {
 		// Seguridad :: Validar URL usuario	
 		$terminal_acceso 	= FALSE;
 		$id_usuario 		= $this->session->usuario[0]->id_usuario;
-		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
+		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario , $pos=null);
 		$data['menu'] 		= $this->session->menu;
 
 		if($terminal_acceso){
@@ -466,35 +473,35 @@ class Orden extends MY_Controller {
 		echo json_encode( $data );
 	}
 
-	function validar_usuario_terminal( $usuario_id  ){
+	function validar_usuario_terminal( $usuario_id, $usuario_datos){
 
-		$terminal_nombe = $_SERVER;//gethostbyaddr($_SERVER['REMOTE_ADDR']);
-		$str = $this->session->uuid;
-		
+		$terminal_nombe = $_SERVER['HTTP_USER_AGENT'];//gethostbyaddr($_SERVER['REMOTE_ADDR']);
+		$_unique_uuid = $this->session->uuid;
 
-		$caracteres = array(
-			"/"," ",",",";",".","(",")"
-		);
-
-		$terminal_dato = $this->Terminal_model->validar_usuario_terminal($usuario_id, $str);
+		$terminal_dato = $this->Terminal_model->get_terminal_registrada($usuario_id, $_unique_uuid);
 		if ($terminal_dato) {
 
-			$terminal_datos = $this->Terminal_model->selecionar_usuario_terminal($usuario_id, $str);
+			/**
+			 * Estados de la terminal
+			 * 0 = Inactivar
+			 * 1 = Activa
+			 * 3 = Invitado
+			 */
 
-			if (isset($terminal_datos[0]->estado_terminal_cajero)) {
-				$terminal_estado = $terminal_datos[0]->estado_terminal_cajero;
-			} else {
-				$terminal_estado = $terminal_dato[0]->estado_terminal_cajero;
-			}
-
-			if ($terminal_estado == 1) {
-				return $terminal_datos;
+			if ($terminal_dato[0]->estado_terminal == 1 ||  $terminal_dato[0]->estado_terminal == 3) {
+				return $terminal_dato;
 			} else {
 				return 0;
 			}
 		} else {
 			/** Insertar Usuario Terminal Para Solicitar Permiso a ordenes */
-			$this->Terminal_model->insertar_usuario_terminal($usuario_id, $str);
+			$caracteres = array("/"," ",",",";",".","(",")");
+			$dispositivo_info = $this->array_terminal_nombre($caracteres,"",$terminal_nombe);
+			if (!empty($usuario_datos)) {
+				$this->Terminal_model->crear_terminal_dispositivo($usuario_id, $_unique_uuid, $dispositivo_info, $usuario_datos);
+			} else {
+				return 3;
+			}
 		}
 		return false;
 	}
@@ -514,13 +521,52 @@ class Orden extends MY_Controller {
 		return $str;
 	}
 
+	/**
+	 * Limpiar el nombre de la terminal de caracteres raros
+	 *
+	 * @return string
+	 */
+	public function array_terminal_nombre($caracteres,$remplazo,$cadena){
+		
+		$str = $cadena;
+		$_info = array();
+		foreach ($caracteres as $caracter) {
+			$str = str_replace($caracter, $remplazo, $str);
+		}
+
+		$_info['general'] = $str;
+
+		if (strpos($str, 'Linux') !== false) {
+			$_info['so'] = 'Linux';
+			$_info['device'] = 'Pc';
+		} else if (strpos($str, 'Window') !== false) {
+			$_info['so'] = 'Window';
+			$_info['device'] = 'Pc';
+		} else if (strpos($str, 'Android') !== false) {
+			$_info['so'] = 'Android';
+			$_info['device'] = 'Movil/Tablet';
+		}
+
+		if (strpos($str, 'Firefox') !== false) {
+			$_info['browser'] = 'Firefox';
+		} else if (strpos($str, 'Chrome') !== false) {
+			$_info['browser'] = 'Chrome';
+		} else if (strpos($str, 'Opera') !== false) {
+			$_info['browser'] = 'Opera';
+		} else if (strpos($str, 'Safari') !== false) {
+			$_info['browser'] = 'Safari';
+		}
+
+		return $_info;
+	}
+
 	/************ Venta Rapida *********/
 	public function venta_rapida(){
 
 		// Seguridad :: Validar URL usuario	
 		$terminal_acceso 	= FALSE;
 		$id_usuario 		= $this->session->usuario[0]->id_usuario;
-		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario );
+		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario, $pos=null );
 		$data['menu'] 		= $this->session->menu;
 		$this->vista_id		= 38;
 
@@ -552,7 +598,7 @@ class Orden extends MY_Controller {
 	function venta($id_venta){
 
 		$id_usuario 			= $this->session->usuario[0]->id_usuario;
-		$terminal_acceso 		= $this->validar_usuario_terminal( $id_usuario );
+		$terminal_acceso 		= $this->validar_usuario_terminal( $id_usuario , $pos=null);
 
 		$data['encabezado'] 	= $this->Venta_model->getVentaId( $id_venta );
 		$data['detalle'] 		= $this->Venta_model->getVentaDetalleId( $id_venta );

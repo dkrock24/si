@@ -11,88 +11,71 @@ class Terminal_model extends CI_Model {
     const empleado = 'sys_empleado';
     const persona = 'sys_persona';
     const pos_orden_estado = 'pos_orden_estado';
-    const usuario_dispositivo = 'pos_usuario_dispositivo';
 
-	public function validar_usuario_terminal( $usuario_id , $terminal_nombe ){
-		$this->db->select('*');
-        $this->db->from(self::pos_terminal.' as terminal');
-        $this->db->join(self::pos_terminal_cajero.' as cajero ',' on cajero.Terminal = terminal.id_terminal ');
+    public function __construct()
+	{
+		parent::__construct();    
+		$this->load->model('admin/Caja_model');
+	}
+
+    public function get_terminal_registrada($usuario_id , $_unique_uuid)
+    {
+        $this->db->select('*');
+        $this->db->from(self::pos_terminal. ' terminal');
         $this->db->join(self::caja.' as caja', ' on caja.id_caja = terminal.Caja');
-        $this->db->join(self::usuario_dispositivo.' as dispositivo', ' on dispositivo.usuario_id = cajero.Cajero_terminal');
-        $this->db->where('dispositivo.usuario_id = '. $usuario_id);
-        $this->db->where('dispositivo.dispositivo_nombre = ', $terminal_nombe);
-        //$this->db->where('cajero.estado_terminal_cajero = ', 1);
+        $this->db->where('terminal.Usuario', $usuario_id);
+        $this->db->where('terminal.ip_o_mack', $_unique_uuid);
         $query = $this->db->get(); 
-
+        
         if($query->num_rows() > 0 )
         {
             return $query->result();
         }
-	}
-
-    public function selecionar_usuario_terminal( $usuario_id , $terminal_nombe ){
-		$this->db->select('*');
-        $this->db->from(self::pos_terminal.' as terminal');
-        $this->db->join(self::pos_terminal_cajero.' as cajero ',' on cajero.Terminal = terminal.id_terminal ');
-        $this->db->join(self::caja.' as caja', ' on caja.id_caja = terminal.Caja');
-        $this->db->join(self::usuario_dispositivo.' as dispositivo', ' on dispositivo.usuario_id = cajero.Cajero_terminal');
-        $this->db->where('dispositivo.usuario_id = '. $usuario_id);
-        $this->db->where('dispositivo.dispositivo_nombre = ', $terminal_nombe);
-        $this->db->where('cajero.estado_terminal_cajero = ', 1);
-        $this->db->where('dispositivo.dispositivo_estado = ', 1);
-        $query = $this->db->get(); 
-
-        if($query->num_rows() > 0 )
-        {
-            return $query->result();
-        }
-	}
+    }
 
     /**
      * Crear Usuario en terminales cuando no existen
      *
      * @param int $usuario_id
-     * @param string $terminal_nombe
+     * @param string $_unique_uuid
+     * @param string $dispositivo_info
      * @return void
      */
-    public function insertar_usuario_terminal($usuario_id , $terminal_nombe)
+    public function crear_terminal_dispositivo($usuario_id , $_unique_uuid, $dispositivo_info, $usuario_datos)
     {
         /** Buscar si existe usuario/dispositivo en dispositivos de usuario */
-        $dispositivos = $this->get_dispositivos($usuario_id, $terminal_nombe);
+        $sucursal_id = $this->session->usuario[0]->Sucursal;
+        $cajas = $this->Caja_model->get_caja_sucursal($sucursal_id);
 
-        if ( !$dispositivos ) {
-            
-            $data = array(
-                'usuario_id' => $usuario_id,
-                'dispositivo_nombre' => $terminal_nombe,
-                'dispositivo_estado' => 0,
-                'creado' => date('Y-m-d h:s:i')
+        if ($cajas) {
+            $terminal = array(
+                'Caja' => $cajas[0]->id_caja,
+                'series' => $dispositivo_info['general'],
+                'marca' => $dispositivo_info['so'],
+                'nombre' => $usuario_datos['nombre_input'],
+                'licencia' => $usuario_datos['licencia_input'],
+                'modelo' => $dispositivo_info['so'],
+                'Sucursal' => $sucursal_id,
+                'Usuario' => $usuario_id,
+                'ip_o_mack' => $_unique_uuid,
+                'navegador' => $dispositivo_info['browser'],
+                'sys_autorz' => 0,
+                'emp_autorz' => 3,
+                'dispositivo' => $dispositivo_info['device'],
+                'estado_terminal' => 0,
+                'sist_operativo' => $dispositivo_info['so'],
+                'fh_inicio' => date('Y-m-d h:s:i'),
+                'fecha_creado' => date('Y-m-d h:s:i')
             );
-
             /** Insertar usuario/dispositivo nuevo */
-            $insert = $this->db->insert( self::usuario_dispositivo , $data );
-                
+            $insert = $this->crear($terminal);
+
             if(!$insert){
                 $insert = $this->db->error();
             } else {
                 return true;
             }
         }
-    }
-
-    private function get_dispositivos($usuario_id , $terminal_nombe) 
-    {
-        $this->db->select('*');
-        $this->db->from( self::usuario_dispositivo);
-        $this->db->where('usuario_id', $usuario_id);
-        $this->db->where('dispositivo_nombre', $terminal_nombe);
-
-        $query = $this->db->get(); 
-        
-        if($query->num_rows() > 0 )
-        {
-            return $query->result();
-        } 
     }
 
     public function get_all_terminal( $limit, $id , $filters){;
@@ -367,72 +350,6 @@ class Terminal_model extends CI_Model {
         }
         
         return $flag;
-    }
-
-    public function dispositivo( $data ){
-
-        if ($data['option'] == "post") {
-
-            $device = $this->get_dispositivos($data['usuario_id'], $data['dispositivo_nombre']);
-
-            if (!$device) {
-                $dispositivo = array(
-                    'usuario_id' => $data['usuario_id'],
-                    'dispositivo_nombre' => $data['dispositivo_nombre'],
-                    'dispositivo_estado' => 1,
-                    'creado' => date('Y-m-d h:i:s')
-                );
-    
-                $insert = $this->db->insert( self::usuario_dispositivo , $dispositivo );
-    
-                if(!$insert){
-                    $insert = $this->db->error();
-                }
-            }
-        }
-
-        if ($data['option'] == "delete") {
-
-            $condition = array(
-                'usuario_id' => $data['usuario_id'],
-                'id' => $data['id_terminal']
-            );
-    
-            $this->db->where(  $condition );
-            $insert = $this->db->delete( self::usuario_dispositivo);
-        }
-
-        if ($data['option'] == "inactivar") {
-
-            $this->db->select('*');
-            $this->db->from(self::usuario_dispositivo);
-            $this->db->where('id', $data['id_terminal']);             
-            $query = $this->db->get();
-            $device = $query->result();
-
-            $value_estado = $device[0]->dispositivo_estado == 0 ? 1 : 0;
-
-            $condition = array(
-                'id' => $data['id_terminal']
-            );
-    
-            $array = array(
-                'dispositivo_estado' => $value_estado,
-            );
-    
-            $this->db->where(  $condition );
-            $this->db->update( self::usuario_dispositivo , $array );
-        }
-
-        $this->db->select('*');
-        $this->db->from(self::usuario_dispositivo);
-        $this->db->where('usuario_id', $data['usuario_id']);             
-        $query = $this->db->get(); 
-        
-        if($query->num_rows() > 0 )
-        {
-            return $query->result();
-        }
     }
 
     function insert_api($terminales)
