@@ -230,7 +230,7 @@ class Terminal extends MY_Controller {
 
 	public function column(){
 		$column = array(
-			'Sucursal','Nombre','Caja','Numero','Ubicacion','Modelo','Serie','Marca','Estado'
+			'Sucursal','Nombre','Licencia','Caja','Numero','Ubicacion','Modelo','Tipo','Marca','Navegador','Estado'
 		);
 		return $column;
 	}
@@ -239,12 +239,14 @@ class Terminal extends MY_Controller {
 		$fields['field'] = array(
 			['nombre_sucursal' => 'Sucursal'],
 			['nombre' => 'Nombre'],
+			['licencia' => 'Licencia'],
 			['nombre_caja' => 'Caja'],
 			['numero' => 'Número'],
 			['ubicacion' => 'Ubicación'],
 			['modelo' => 'Modelo'],
-			['series' => 'Serie'],
+			['dispositivo' => 'Tipo'],
 			['marca' => 'Marca'],
+			['navegador' => 'Navegador'],
 			['orden_estado_nombre' => 'Estado'],
 		);
 		

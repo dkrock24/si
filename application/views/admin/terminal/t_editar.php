@@ -299,6 +299,20 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Invitado</label>
+                                    <div class="col-sm-9">
+                                        <select name="invitado" class="form-control">
+                                        <?php if($terminal[0]->invitado == 1) : ?>
+                                            <option value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
+                                        <?php else: ?>
+                                            <option value="0">Inactivo</option>
+                                            <option value="1">Activo</option>
+                                        <?php endif ?>
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">

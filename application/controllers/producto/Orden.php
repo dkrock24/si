@@ -81,11 +81,25 @@ class Orden extends MY_Controller {
 		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario, $_POST);
 		$data['menu'] 		= $this->session->menu;
 
-		if ($terminal_acceso == 3) {
-			//usuario_datos
+		if (isset($terminal_acceso['code'])) {
+			if ($terminal_acceso['code'] == 3) {
+			$terminal_actual = $terminal_acceso['result'][0];
 			$data['home'] = 'producto/orden/crear_terminal';
+			if (isset($terminal_actual->ip_o_mack)) {
+				$data['mensaje'] = 'El dispositivo (<b>'.$terminal_actual->ip_o_mack.'</b>) ya esta registrado
+				y el modo invitado esta <b>INACTIVO</b> y no permite otros usuarios invitados. <br><br>
+				Si necesitas ingresar con tu usuario en este dispositivo, Debes activar el modo invitado en el registro del dispositivo. <br><br>
+				Esta situación sucede ya que la terminal fue creada y asignada a un usuario
+				específico.';
+			} else {
+				$data['mensaje'] = 'El dispositivos con el que intentas ingresar no esta
+				registrado, por favor ingresa la información requerida
+				y el dispositivo se registrara para posterior ser verificado
+				por la empresa y el administrador.';
+			}
 			$this->parser->parse('template', $data);
 			return;
+			}
 		}
 
 		if($terminal_acceso){
@@ -113,7 +127,7 @@ class Orden extends MY_Controller {
 			//echo $this->load->view('producto/orden/orden_crear',$data, TRUE);
 		}else{
 			$data['home'] = 'producto/orden/orden_denegado';
-			$data['terminal'] = "Terminal Inactiva";
+			$data['terminal'] = "Terminal Inactiva : <br> Debes contactar al administrador";
 			if($terminal_acceso != false) {
 				$data['terminal'] = "Usuario no registrado !";
 			}
@@ -475,10 +489,9 @@ class Orden extends MY_Controller {
 
 	function validar_usuario_terminal( $usuario_id, $usuario_datos){
 
-		$terminal_nombe = $_SERVER['HTTP_USER_AGENT'];//gethostbyaddr($_SERVER['REMOTE_ADDR']);
 		$_unique_uuid = $this->session->uuid;
 
-		$terminal_dato = $this->Terminal_model->get_terminal_registrada($usuario_id, $_unique_uuid);
+		$terminal_dato = $this->get_terminal_registrada($usuario_id, $_unique_uuid);
 		if ($terminal_dato) {
 
 			/**
@@ -488,22 +501,38 @@ class Orden extends MY_Controller {
 			 * 3 = Invitado
 			 */
 
-			if ($terminal_dato[0]->estado_terminal == 1 ||  $terminal_dato[0]->estado_terminal == 3) {
+			if ($terminal_dato[0]->estado_terminal == 1 && ( $terminal_dato[0]->invitado == 1 || $terminal_dato[0]->Usuario == $usuario_id )) {
 				return $terminal_dato;
 			} else {
-				return 0;
+				return $this->crear_terminal($usuario_id, $usuario_datos, $_unique_uuid, $terminal_dato);
 			}
 		} else {
-			/** Insertar Usuario Terminal Para Solicitar Permiso a ordenes */
-			$caracteres = array("/"," ",",",";",".","(",")");
-			$dispositivo_info = $this->array_terminal_nombre($caracteres,"",$terminal_nombe);
-			if (!empty($usuario_datos)) {
-				$this->Terminal_model->crear_terminal_dispositivo($usuario_id, $_unique_uuid, $dispositivo_info, $usuario_datos);
-			} else {
-				return 3;
-			}
+			return $this->crear_terminal($usuario_id, $usuario_datos, $_unique_uuid, $terminal_dato);
 		}
 		return false;
+	}
+
+	private function get_terminal_registrada($usuario_id, $_unique_uuid)
+	{
+		return $this->Terminal_model->get_terminal_registrada($usuario_id, $_unique_uuid);
+	}
+
+	private function crear_terminal($usuario_id, $usuario_datos, $_unique_uuid, $terminal_dato)
+	{
+		$terminal_nombe = $_SERVER['HTTP_USER_AGENT'];//gethostbyaddr($_SERVER['REMOTE_ADDR']);
+		/** Insertar Usuario Terminal Para Solicitar Permiso a ordenes */
+		$caracteres = array("/"," ",",",";",".","(",")");
+		$dispositivo_info = $this->array_terminal_nombre($caracteres,"",$terminal_nombe);
+		if (!empty($usuario_datos) && empty($terminal_dato[0])) {
+			$this->Terminal_model->crear_terminal_dispositivo($usuario_id, $_unique_uuid, $dispositivo_info, $usuario_datos);
+		} else {
+			// Necesita crear terminal / dispositivo
+			$result = array(
+				'code' => 3,
+				'result' => $terminal_dato
+			);
+			return $result;
+		}
 	}
 
 	/**

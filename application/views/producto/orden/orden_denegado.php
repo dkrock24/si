@@ -13,7 +13,7 @@
 			e.preventDefault();
 			swal({
 				html: true,
-				title: "Acceso Restringido. " + "<?php echo $terminal ?>",
+				title: "<?php echo $terminal ?>",
 				text: html_,
 				type: "info",
 

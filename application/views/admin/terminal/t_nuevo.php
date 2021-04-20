@@ -257,6 +257,15 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Invitado</label>
+                                    <div class="col-sm-9">
+                                        <select name="invitado" class="form-control">
+                                            <option value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">

@@ -23,7 +23,6 @@ class Terminal_model extends CI_Model {
         $this->db->select('*');
         $this->db->from(self::pos_terminal. ' terminal');
         $this->db->join(self::caja.' as caja', ' on caja.id_caja = terminal.Caja');
-        $this->db->where('terminal.Usuario', $usuario_id);
         $this->db->where('terminal.ip_o_mack', $_unique_uuid);
         $query = $this->db->get(); 
         
@@ -75,6 +74,19 @@ class Terminal_model extends CI_Model {
             } else {
                 return true;
             }
+        } else {
+            $caja = array(
+                'Empresa' => $this->session->empresa[0]->id_empresa,
+                'Sucursal' => $sucursal_id,
+                'nombre_caja' => "Caja Generica",
+                'cod_interno_caja' => 000,
+                'pred_id_tpdoc' => null,
+                'fecha_oper_caja' => date('Y-m-d h:s:i'),
+                'estado_caja' => 1
+            );
+            $this->Caja_model->crear_caja($caja);
+
+            $this->crear_terminal_dispositivo($usuario_id , $_unique_uuid, $dispositivo_info, $usuario_datos);
         }
     }
 
