@@ -83,21 +83,21 @@ class Orden extends MY_Controller {
 
 		if (isset($terminal_acceso['code'])) {
 			if ($terminal_acceso['code'] == 3) {
-			$terminal_actual = $terminal_acceso['result'][0];
-			$data['home'] = 'producto/orden/crear_terminal';
-			if (isset($terminal_actual->ip_o_mack)) {
-				$data['mensaje'] = 'El dispositivo (<b>'.$terminal_actual->ip_o_mack.'</b>) ya esta registrado
-				y el modo invitado esta <b>INACTIVO</b> y no permite otros usuarios invitados. <br><br>
-				Si necesitas ingresar con tu usuario en este dispositivo, Debes activar el modo invitado en el registro del dispositivo. <br><br>
-				Esta situación sucede ya que la terminal fue creada y asignada a un usuario
-				específico.';
-			} else {
-				$data['mensaje'] = 'El dispositivos con el que intentas ingresar no esta
-				registrado, por favor ingresa la información requerida
-				y el dispositivo se registrara para posterior ser verificado
-				por la empresa y el administrador.';
-			}
-			$this->parser->parse('template', $data);
+				$data['home'] = 'producto/orden/crear_terminal';
+				if (isset($terminal_acceso['result'][0]->ip_o_mack)) {
+					$terminal_actual = $terminal_acceso['result'][0];
+					$data['mensaje'] = 'El dispositivo (<b>'.$terminal_actual->ip_o_mack.'</b>) ya esta registrado
+					y el modo invitado esta <b>INACTIVO</b> y no permite otros usuarios invitados. <br><br>
+					Si necesitas ingresar con tu usuario en este dispositivo, Debes activar el modo invitado en el registro del dispositivo. <br><br>
+					Esta situación sucede ya que la terminal fue creada y asignada a un usuario
+					específico.';
+				} else {
+					$data['mensaje'] = 'El dispositivos con el que intentas ingresar no esta
+					registrado, por favor ingresa la información requerida
+					y el dispositivo se registrara para posterior ser verificado
+					por la empresa y el administrador.';
+				}
+				$this->parser->parse('template', $data);
 			return;
 			}
 		}
