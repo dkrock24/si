@@ -332,7 +332,7 @@ class Orden_model extends CI_Model
 			'id_sucursal_origin'=> $dataParametros['sucursal_origin'], //sucursal_origin	
 			'id_vendedor' 	=> $dataParametros['vendedor'], //vendedor
 			'id_usuario' 	=> $id_usuario,
-			'fecha' 		=> date("Y-m-d h:i:s"),
+			'fecha' 		=> $dataParametros['fecha'],
 			'digi_total' 	=> $total_orden,
 			'desc_porc' 	=> $orden['orden'][0]['descuento_limite'],
 			//'id_bodega' 	=> $orden['orden'][0]['bodega'],
@@ -540,7 +540,7 @@ class Orden_model extends CI_Model
 			'comentarios' 	=> $dataParametros['comentarios'], 
 			'id_sucursal_origin' 	=> $dataParametros['sucursal_origin'], 
 			'id_usuario' 	=> $id_usuario,
-			'fecha' 		=> date("Y-m-d h:i:s"),
+			'fecha' 		=> $dataParametros['fecha'],
 			'digi_total' 	=> $total_orden,
 			'desc_porc' 	=> $orden['orden'][0]['por_desc'],
 			'id_bodega' 	=> $orden['orden'][0]['bodega'],
