@@ -53,7 +53,7 @@ class Orden_model extends CI_Model
 		if($filters){
 			$filters = " and ".$filters;
 		}
-		$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,
+		$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,orden.nombre as nombre_cliente_orden,
 			orden.num_correlativo,DATE_FORMAT(orden.fecha,'%m/%d/%Y - %H:%i') AS fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
 			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, vendedor.nombre_usuario AS vendedor, pago.nombre_modo_pago, oe.orden_estado_nombre,
 			(SELECT SUM(od.precioUnidad * od.factor) FROM pos_orden_detalle AS od WHERE od.id_orden = orden.id) AS monto_orden
@@ -895,7 +895,7 @@ class Orden_model extends CI_Model
 
 	function get_orden($order_id)
 	{
-		$this->db->select('*');
+		$this->db->select('*,o.comentarios as orden_comentario');
 		$this->db->from(self::pos_ordenes . ' as o');
 		$this->db->join(self::sucursal . ' as s', 'on s.id_sucursal = o.id_sucursal');
 		$this->db->join(self::sys_empleado . ' as e', 'on e.id_empleado = o.id_vendedor', 'left');

@@ -723,7 +723,7 @@ class Orden extends MY_Controller {
 		$fields['field'] = array(
 			['num_correlativo' => 'Correlativo'],
 			['nombre_sucursal' => 'Sucursal'],
-			['nombre_empresa_o_compania' => 'Cliente'],
+			['nombre_cliente_orden' => 'Cliente'],
 			['nombre_usuario' => 'Usuario'],
 			['vendedor' => 'Vendedor'],
 			['nombre_modo_pago' => 'Metodo Pago'],

@@ -394,7 +394,7 @@ include("asstes/pos_orden.php");
                                             <label class="format-label">
                                                 <i class="fa fa-comment sz" style="font-size:20px;float:left;padding:5px;"></i>
                                                 Comentarios</label>
-                                                <input type="text" name="comentarios" class="form-control">
+                                                <input type="text" name="comentarios" class="form-control" value="<?php echo $orden[0]->orden_comentario; ?>">
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-3">
