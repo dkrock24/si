@@ -81,25 +81,9 @@ class Orden extends MY_Controller {
 		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario, $_POST);
 		$data['menu'] 		= $this->session->menu;
 
-		if (isset($terminal_acceso['code'])) {
-			if ($terminal_acceso['code'] == 3) {
-				$data['home'] = 'producto/orden/crear_terminal';
-				if (isset($terminal_acceso['result'][0]->ip_o_mack)) {
-					$terminal_actual = $terminal_acceso['result'][0];
-					$data['mensaje'] = 'El dispositivo (<b>'.$terminal_actual->ip_o_mack.'</b>) ya esta registrado
-					y el modo invitado esta <b>INACTIVO</b> y no permite otros usuarios invitados. <br><br>
-					Si necesitas ingresar con tu usuario en este dispositivo, Debes activar el modo invitado en el registro del dispositivo. <br><br>
-					Esta situación sucede ya que la terminal fue creada y asignada a un usuario
-					específico.';
-				} else {
-					$data['mensaje'] = 'El dispositivos con el que intentas ingresar no esta
-					registrado, por favor ingresa la información requerida
-					y el dispositivo se registrara para posterior ser verificado
-					por la empresa y el administrador.';
-				}
-				$this->parser->parse('template', $data);
+		$terminal_validation = $this->notification_terminal_registro($terminal_acceso);
+		if ($terminal_validation == 1) {
 			return;
-			}
 		}
 
 		if($terminal_acceso){
@@ -133,6 +117,35 @@ class Orden extends MY_Controller {
 			}
 			//echo $this->load->view('producto/orden/orden_denegado',$data, TRUE);
 			$this->parser->parse('template', $data);
+		}
+	}
+
+	private function notification_terminal_registro($terminal_acceso)
+	{
+		if (isset($terminal_acceso['code'])) {
+			if ($terminal_acceso['code'] == 3) {
+
+				$data['menu'] 		= $this->session->menu;
+
+				$data['home'] = 'producto/orden/crear_terminal';
+				if (isset($terminal_acceso['result'][0]->ip_o_mack)) {
+					$data['option'] = 1;
+					$terminal_actual = $terminal_acceso['result'][0];
+					$data['mensaje'] = 'El dispositivo (<b>'.$terminal_actual->ip_o_mack.'</b>) ya esta registrado
+					y el modo invitado esta <b>INACTIVO</b> y no permite otros usuarios invitados. <br><br>
+					Si necesitas ingresar con tu usuario en este dispositivo, Debes activar el modo invitado en el registro del dispositivo. <br><br>
+					Esta situación sucede ya que la terminal fue creada y asignada a un usuario
+					específico.';
+				} else {
+					$data['option'] = 2;
+					$data['mensaje'] = 'El dispositivos con el que intentas ingresar no esta
+					registrado, por favor ingresa la información requerida
+					y el dispositivo se registrara para posterior ser verificado
+					por la empresa y el administrador.';
+				}
+				$this->parser->parse('template', $data);
+				return 1;
+			}
 		}
 	}
 
@@ -184,8 +197,13 @@ class Orden extends MY_Controller {
 		// Seguridad :: Validar URL usuario	
 		$terminal_acceso 	= FALSE;
 		$id_usuario 		= $this->session->usuario[0]->id_usuario;
-		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario , $pos=null );
+		$terminal_acceso 	= $this->validar_usuario_terminal( $id_usuario , $_POST );
 		$data['menu'] 		= $this->session->menu;
+
+		$terminal_validation = $this->notification_terminal_registro($terminal_acceso);
+		if ($terminal_validation == 1) {
+			return;
+		}
 
 		if($terminal_acceso){
 			
