@@ -114,10 +114,11 @@ class Usuario_model extends CI_Model {
 	}
 
     function get_empleados_by_sucursal( $sucursal ){
-        $this->db->select('id_empleado, codigo_empleado,primer_nombre_persona, segundo_nombre_persona, primer_apellido_persona');
+        $this->db->select('id_empleado, codigo_empleado,primer_nombre_persona, segundo_nombre_persona, primer_apellido_persona, nombre_usuario');
         $this->db->from(self::empleado);
         $this->db->join(self::sucursal,' on '.self::empleado.'.Sucursal='.self::sucursal.'.id_sucursal');
         $this->db->join(self::persona,' on '.self::persona.'.id_persona='.self::empleado.'.Persona_E');
+        $this->db->join(self::sys_usuario,' on '.self::sys_usuario.'.Empleado='.self::empleado.'.id_empleado');
 
         $this->db->where(self::empleado.'.Sucursal = ', $sucursal);
         $this->db->where(self::empleado.'.estado = 1');

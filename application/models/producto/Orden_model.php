@@ -49,20 +49,20 @@ class Orden_model extends CI_Model
 
 	function getOrdenes($limit, $id , $filters )
 	{
+		//var_dump($filters);die;
 		//echo $this->session->user[0]->id_usuario;
 		if($filters){
 			$filters = " and ".$filters;
 		}
-		$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,orden.nombre as nombre_cliente_orden,
+		$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,orden.nombre_cliente_orden,
 			orden.num_correlativo,DATE_FORMAT(orden.fecha,'%m/%d/%Y - %H:%i') AS fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
-			,tdoc.nombre as tipo_documento, usuario.nombre_usuario, vendedor.nombre_usuario AS vendedor, pago.nombre_modo_pago, oe.orden_estado_nombre,
+			,tdoc.nombre as tipo_documento, vendedor.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre,
 			(SELECT SUM(od.precioUnidad * od.factor) FROM pos_orden_detalle AS od WHERE od.id_orden = orden.id) AS monto_orden
 			from pos_ordenes as orden 
 
 			left join pos_cliente as cliente on cliente.id_cliente = orden.id_cliente
 			left join pos_sucursal as sucursal on sucursal.id_sucursal=orden.id_sucursal
 			left join pos_tipo_documento as tdoc on tdoc.id_tipo_documento = orden.documento
-			left join sys_usuario as usuario on usuario.id_usuario = orden.id_usuario
 			left join sys_usuario AS vendedor ON vendedor.id_usuario = orden.id_vendedor
 			left join pos_formas_pago as pago on pago.id_modo_pago = orden.id_condpago 
 			left join pos_orden_estado as oe  on oe.id_orden_estado= orden.orden_estado
@@ -71,7 +71,7 @@ class Orden_model extends CI_Model
 			and sucursal.Empresa_Suc=" . $this->session->empresa[0]->id_empresa . $filters. 
 			" Order By oe.id_orden_estado ASC , orden.fecha DESC Limit " . $id . ',' . $limit);
 
-		//echo $this->db->queries[5];die;
+		//echo $this->db->queries[9];die;
 		return $query->result();
 	}
 
@@ -324,7 +324,7 @@ class Orden_model extends CI_Model
 			'id_sucursal' 	=> $dataParametros['sucursal_destino'], //sucursal_destino
 			'num_correlativo'=> $correlativo_final, //$orden['encabezado'][5]['value'], //numero correlativo
 			'id_cliente' 	=> $dataParametros['cliente_codigo'], //cliente_codigo
-			'nombre' 		=> $dataParametros['cliente_nombre'], //cliente_nombre
+			'nombre_cliente_orden' => $dataParametros['cliente_nombre'], //cliente_nombre
 			'direccion' 	=> $dataParametros['cliente_direccion'], //cliente_direccion
 			'numero_documento' 	=> $dataParametros['numero_documento_persona'], //numero_documento
 			'id_condpago' 	=> $dataParametros['modo_pago_id'], //modo_pago_id
@@ -533,7 +533,7 @@ class Orden_model extends CI_Model
 			'id_sucursal' 	=> $dataParametros['sucursal_destino'], 
 			'num_correlativo' => $dataParametros['orden_numero'], 
 			'id_cliente' 	=> $dataParametros['cliente_codigo'], 
-			'nombre' 		=> $dataParametros['cliente_nombre'], 
+			'nombre_cliente_orden' => $dataParametros['cliente_nombre'], 
 			'direccion' 		=> $dataParametros['cliente_direccion'], 
 			'numero_documento' 	=> $dataParametros['numero_documento_persona'], //numero_documento
 			'id_condpago' 	=> $dataParametros['modo_pago_id'], 

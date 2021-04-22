@@ -152,7 +152,7 @@
                                     if(isset($filtros[key($fields['field'][$key])])){
                                         $valor_filtro = $filtros[key($fields['field'][$key])];
                                     }
-                                    
+
                                     ?>
                                     <th style="color: black;">
                                     <?php
@@ -167,6 +167,15 @@
                                                 <option value=""></option>
                                                 <?php foreach($fields['filtro_estado'] as $estados) : ?>
                                                 <option value="<?php echo $estados->orden_estado_nombre ?>"><?php echo $estados->orden_estado_nombre ?></option>
+                                                <?php endforeach ?>
+                                            </select><br>
+                                            <?php
+                                        } else if($combo == "Vendedor" && isset($fields['orden_vendedor'])) {
+                                            ?>
+                                            <select name="<?php echo key($fields['field'][$key]); ?>" class="estado_filtro form-control filtro-input">
+                                                <option value=""></option>
+                                                <?php foreach($fields['orden_vendedor'] as $vendedor) : ?>
+                                                    <option value="<?php echo $vendedor->nombre_usuario ?>"><?php echo $vendedor->nombre_usuario ?></option>
                                                 <?php endforeach ?>
                                             </select><br>
                                             <?php

@@ -713,19 +713,19 @@ class Orden extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Correlativo','Sucursal','Cliente','Usuario','Vendedor','Metodo Pago','Documento','Monto','Creado','Estado'
+			'Correlativo','Sucursal','Cliente','Vendedor','Metodo Pago','Documento','Monto','Creado','Estado'
 		);
 		return $column;
 	}
 
-	public function fields(){
+	public function fields() {
 
 		$fields['field'] = array(
 			['num_correlativo' => 'Correlativo'],
 			['nombre_sucursal' => 'Sucursal'],
 			['nombre_cliente_orden' => 'Cliente'],
-			['nombre_usuario' => 'Usuario'],
-			['vendedor' => 'Vendedor'],
+			//['nombre_usuario' => 'Usuario'],
+			['nombre_usuario' => 'Vendedor'],
 			['nombre_modo_pago' => 'Metodo Pago'],
 			['tipo_documento' => 'Documento'],
 			['monto_orden' => 'Monto'],
@@ -734,6 +734,8 @@ class Orden extends MY_Controller {
 		);
 
 		$fields['filtro_estado'] = $this->get_estados();
+
+		$fields['orden_vendedor'] = $this->Usuario_model->get_empleados_by_sucursal($this->session->usuario[0]->id_sucursal);
 
 		$fields['reglas'] = array(
 			'orden_estado_nombre' => array(
