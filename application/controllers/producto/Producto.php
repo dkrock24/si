@@ -166,7 +166,8 @@ class Producto extends MY_Controller {
 		}else{
 			$this->session->set_flashdata('danger', "Producto No Fue Actualizado");
 		}
-
+		echo $_POST['id_producto'];
+		die;
 		redirect(base_url()."producto/producto/editar/".$_POST['id_producto']);
 	}
 
