@@ -119,10 +119,16 @@
     $(document).on("click", ".accion_superior", function() {
         
          var url_accion = $(this).attr('name');
+         var url_id = $(this).attr('id');
          url_pagina     = getCookie("url");
          var folder     = url_pagina.split('/')[0];
          var controller = url_pagina.split('/')[1];
          var action     = url_pagina.split('/')[2];
+         var btn_data  = $(this).attr('data');
+         if(btn_data == "eliminar"){
+            var confirm = askForRemoveItem(url_accion, url_id);
+            return;
+         }
 
          url_accion = folder+"/"+controller+"/"+url_accion;
          if (action == 'index') {

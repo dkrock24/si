@@ -8,6 +8,23 @@
         empresa = "<?php echo $_SESSION['empresa'][0]->nombre_comercial ?>",
     ];
 
+    function askForRemoveItem(url,id)
+    {
+        //$(".remove").click(function(){
+            var url = url;
+            var id = id;
+            //alert("Desea Eliminar el registro "+id);
+            
+            var type = "warning";
+            var title = "Desea Eliminar Registro";
+            var mensaje = "";
+            var boton = "info";
+            var finalMessage = "Gracias..."
+            return showNotification(type, mensaje, title, boton, finalMessage, url);
+
+        //});
+    }
+
 
 
     $(document).ready(function() {
@@ -18,25 +35,10 @@
                 $(this).select();
             }
         });
-
-        $(".remove").click(function(){
-            var url = $(this).attr('name');
-            var id = $(this).attr('id');
-            //alert("Desea Eliminar el registro "+id);
-            
-            var type = "warning";
-            var title = "Desea Eliminar Registro";
-            var mensaje = "";
-            var boton = "info";
-            var finalMessage = "Gracias..."
-            showNotification(type, mensaje, title, boton, finalMessage, url);
-
-        });
-
     });
 
     function showNotification( type , mensaje , title , boton , finalMessage, url) {
-        console.log(url);
+        var confirm = false;
         $('.cancel').focus();
         $('.cancel').css("background","red");
         swal({
@@ -44,16 +46,17 @@
             title: title,
             text: mensaje,
             type: type,
-            //showCancelButton: true,
+            showCancelButton: true,
             confirmButtonText: "Eliminar",
             //cancelButtonText: "Cancelar!",
-            closeOnConfirm: false,
+            //closeOnConfirm: false,
             //closeOnCancel: false,
             //showLoaderOnConfirm: true,
         }, function (isConfirm) {
 
             if (isConfirm) {
                 swal("Eliminado", finalMessage);
+                confirm = true;
                 //redirec("index");
                 if(url != null){
                     
@@ -80,6 +83,7 @@
                 swal("Salir", "Debes Hacer Login de Nuevo", "error");
             } 
         });
+        return confirm;
     }
 
         
@@ -384,7 +388,7 @@
                                                         ?>
                                                         <li class="divider"></li>
                                                         <li>
-                                                            <a name="<?php echo $value->accion_btn_url;  ?>/<?php echo $table->$id; ?>" class="remove accion_superior" id="<?php echo $contador; ?>">
+                                                            <a name="<?php echo $value->accion_btn_url;  ?>/<?php echo $table->$id; ?>" data="eliminar" class="remove accion_superior" id="<?php echo $contador; ?>">
                                                                 <span class="btn btn-danger">
                                                                     <i class="<?php echo $value->accion_btn_icon; ?>"></i>
                                                                 </span>
