@@ -309,7 +309,10 @@ class Orden_model extends CI_Model
 			//$total_orden += ($orden['orden'][0]['total'] * $orden['orden'][0]['impuesto_porcentaje']);
 		}
 
-		$desc_val = ($orden['orden'][0]['descuento_limite'] * $orden['orden'][0]['total']);
+		$desc_val = 0;
+		if (!empty($orden['orden'][0]['descuento_limite'])) {
+			$desc_val = ($orden['orden'][0]['descuento_limite'] * $orden['orden'][0]['total']);
+		}
 
 		$siguiente_correlativo = $this->get_siguiente_correlativo( $dataParametros['sucursal_origin'] , $dataParametros['id_tipo_documento'] );
 		
