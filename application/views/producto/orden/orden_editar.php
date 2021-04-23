@@ -206,9 +206,9 @@ include("asstes/pos_orden.php");
                                                 Cliente Nombre</label>
                                                 <?php
                                                     $cliente_nombre = $cliente[0]->nombre_empresa_o_compania;
-                                                    if($orden[0]->nombre != $cliente[0]->nombre_empresa_o_compania) {
-                                                        $cliente_nombre = $orden[0]->nombre;
-                                                    }                                                    
+                                                    if($orden[0]->nombre_cliente_orden != $cliente[0]->nombre_empresa_o_compania) {
+                                                        $cliente_nombre = $orden[0]->nombre_cliente_orden;
+                                                    }
                                                 ?>
                                                 <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente_nombre ?>">
                                             </div>
