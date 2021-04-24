@@ -1,6 +1,6 @@
 
    <div class="content-wrapper">
-      <h3 style=""><i class="icon-arrow-right"></i> <?php echo $titulo; ?></h3><br><br><br><br><br><br>
+      <h3 style=""><i class="icon-arrow-right"></i> <?php echo $titulo; ?></h3><br><br>
 
       <div class="row">
          <div class="col-lg-4">
@@ -55,13 +55,13 @@
                            ?>
                         </select>
                         <br>
-                        <input type="button" name="<?php echo base_url() ?>admin/acceso/index" data="form_filtro" class="btn btn-primary enviar_data form-control" value="Filtrar Accesos">
+                        <input type="button" name="<?php echo base_url() ?>admin/acceso/index" data="form_filtro" class="btn btn-primary enviar_data form-control" value="BUSCAR">
 
                         <br><br><br>
 
                         <label>Roles / Accesos </label>
                         <br>
-                        <input type="button" name="<?php echo base_url() ?>admin/acceso/sincAccionesRoles" data="form_filtro" class="btn btn-warning enviar_data form-control" value="Sincronizar">
+                        <input  name="<?php echo base_url() ?>admin/acceso/sincAccionesRoles" data="form_filtro" class="btn btn-success enviar_data form-control" value="SINCRONIZAR ROLES">
                      </form>
                   </p>
                </div>
@@ -380,7 +380,7 @@
                                  <span class=" pull-right">
                                     <input type="hidden" name="id_role" value="<?php echo $r; ?>">
                                     <input type="hidden" name="id_menu" value="<?php echo $m; ?>">
-                                    <button name="<?php echo base_url() ?>admin/acceso/accesos_componenes" data="accesos_componenes" class="btn btn-sm btn-info enviar_data">Guardar</button>
+                                    <button type="button" name="<?php echo base_url() ?>admin/acceso/accesos_componenes" data="accesos_componenes" class="btn btn-sm btn-info enviar_data">Guardar</button>
                                  </span>
                               </div>
                            </div>

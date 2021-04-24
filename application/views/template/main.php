@@ -50,7 +50,6 @@
          event.preventDefault();
          var url_pagina = $(this).attr('name');
          document.cookie = "url = "+url_pagina;
-         console.log(url_pagina);
 
          if((url_pagina != "producto/orden/nuevo") ){
             $.ajax({
@@ -109,7 +108,6 @@
                     $(".loadViews").html(result);
                 }
             });
-            console.log("******** ----- *************");
         }
     });
 
