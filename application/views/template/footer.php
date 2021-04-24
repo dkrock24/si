@@ -150,39 +150,3 @@
 
   	});
   </script>
-
-
-  <div class="modal fade" id="opciones" role="dialog">
-  	<div class="modal-dialog">
-
-  		<!-- Modal content-->
-  		<div class="modal-content">
-  			<div class="modal-header">
-
-  				<h3 style="color:black;"><span class="fa fa-print"></span> Lista de Campos</h3>
-  			</div>
-  			<div class="modal-body">
-  				<form role="form" id="pdfParametros" name="pdfParametros">
-
-  					<?php
-						if (isset($fields['field'])) {
-							foreach ($fields['field'] as $key => $item) {
-								foreach ($item as $key => $item2) {
-						?>
-
-  								<input type="checkbox" checked="checked" name="<?php echo $key ?>" value="<?php echo $item2 ?>" />
-  								<label><?php echo $item2 ?></label>
-  								<br />
-  					<?php
-								}
-							}
-						}
-						?>
-  				</form>
-  			</div>
-  			<div class="modal-footer">
-  				<button onclick="b()" id="pdfParametros" class="btn btn-info">Guardar</button>
-  			</div>
-  		</div>
-  	</div>
-  </div>

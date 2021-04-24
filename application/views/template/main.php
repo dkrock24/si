@@ -374,7 +374,7 @@
                   </li>
 
                   <li>
-                  <input type="text" placeholder="Buscar" name="buscar" id="buscar_pantalla" class="form-control">
+                  <input type="text" placeholder="Buscar" name="buscar" autocomplete="off" id="buscar_pantalla" class="form-control">
                   </li>
                                     
                   <!-- Fullscreen (only desktops)-->
