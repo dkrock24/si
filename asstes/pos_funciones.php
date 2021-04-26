@@ -303,13 +303,12 @@ function procesar_venta(method) {
 
                 if(!datos.code){
                     if (method == "guardar_orden") {
-                        //window.location.href = "<?php echo base_url(); ?>producto/orden/editar/" + data;
-                        $("#m_orden_creada").modal('show');
+                        window.location.href = "<?php echo base_url(); ?>producto/orden/nuevo?data=" + data;
+                        //$("#m_orden_creada").modal('show');
                         $(".numero_correlativo").text(data);
                         reset_calculos();
                         depurar_producto();
                         $("#guardar_orden").attr("disabled",false);
-                        
                     }
                     else if (method == "../venta/guardar_venta") 
                     {                                

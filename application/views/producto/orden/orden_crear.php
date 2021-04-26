@@ -25,7 +25,6 @@
     var uuid = new DeviceUUID().get();
     //
     console.log(uuid)
-    console.log('3a91f950-dec8-4688-ba14-5b7bbfc7a563')
     document.getElementById("fingerprint").innerHTML = uuid;
     var du = new DeviceUUID().parse();
     var dua = [
@@ -163,6 +162,18 @@ include("asstes/pos_orden.php");
                         </span>
 
                         <div class="panel-heading" style="text-align: right; font-size: 20px;">
+                        <?php
+                        if(isset($_GET['data'])) {
+                            ?>
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    $("#m_orden_creada").modal('show');
+                                });
+                            </script>
+                            <?php
+                            
+                        }
+                        ?>
 
                             <?php
                             if ($empleado[0]) {
@@ -1258,7 +1269,7 @@ include("asstes/pos_orden.php");
                             <div class="col-lg-12 col-md-12" style="font-size:24px;text-align:center;margin-top:0px;">
                                 <h1>
                                     Número de Transacción : <br>
-                                    # <b style="color:red;font-size:50px;" class="numero_correlativo"></b>
+                                    # <?php if(isset($_GET['data'])) { echo $_GET['data']; } ?><b style="color:red;font-size:50px;" class="numero_correlativo"></b>
                                 </h1>
                                 <br>
                                 <img src="<?php echo base_url() ?>../asstes/img/download.png" />

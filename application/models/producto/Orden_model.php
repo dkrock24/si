@@ -420,7 +420,7 @@ class Orden_model extends CI_Model
 				'producto' 		=> $orden['producto'],
 				'producto_id' 	=> $orden['producto_id'],
 				'producto2' 	=> $orden['producto2'],
-				//'inventario_id' => $orden['inventario_id'],
+				'inventario_id' => $orden['inventario_id'],
 				'id_bodega' 	=> $orden['id_bodega'],
 				'bodega' 		=> $orden['bodega'],
 				'combo' 		=> $orden['combo'],
