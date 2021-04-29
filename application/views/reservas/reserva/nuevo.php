@@ -13,33 +13,13 @@
             success: function(result) {
                 var json = JSON.parse(result);
 
-                //console.log(json);
-                var calendarEl = document.getElementById('calendar');
-
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                headerToolbar: {
-                    left: 'prevYear,prev,next,nextYear today',
-                    center: 'title',
-                    right: 'dayGridMonth,dayGridWeek,dayGridDay'
-                },
-                initialDate: '<?php echo date("Y-m-d") ?>',
-                navLinks: true, // can click day/week names to navigate views
-                editable: true,
-                dayMaxEvents: true, // allow "more" link when too many events
-                events: 
-                    json                
-                });
-
-                calendar.render();
-
-                //setCalendar(result);                
+                setCalendar(json);                
             }
         });
     });
-  //document.addEventListener('DOMContentLoaded', function() {
 
     function setCalendar(eventos){
-        console.log(eventos);
+
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -51,10 +31,19 @@
         initialDate: '<?php echo date("Y-m-d") ?>',
         navLinks: true, // can click day/week names to navigate views
         editable: true,
-        dayMaxEvents: true, // allow "more" link when too many events
-        events: [
-            eventos
-        ]
+        dayMaxEvents: true, // allow "more" link when too many events   
+        displayEventEnd:true,
+        eventTimeFormat: { // like '14:30:00'
+                hour: '2-digit',
+                minute: '2-digit',
+                omitZeroMinute: false,
+                meridiem: true,
+                hour12: false
+            },
+        events: 
+            eventos,
+            color: 'black',     // an option!
+            textColor: 'white', // an option!     
         });
 
         calendar.render();
@@ -77,12 +66,14 @@
         });
     }
 
-
-  //});
-
 </script>
 
 <style>
+
+    .custom{
+        color:red;
+        background:orange;
+    }
 
     .input-check{
         top: 0;
@@ -164,14 +155,14 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Ingreso</label>
                                         <div class="col-sm-8">
-                                            <input type="datetime-local" class="form-control" id="fecha_entrada_reserva" name="fecha_entrada_reserva" placeholder="" value="<?php echo date('Y-m-d\TH:i',time()) ?>">
+                                            <input type="datetime-local" class="form-control" id="fecha_entrada_reserva" name="fecha_entrada_reserva" placeholder="" value="<?php echo date('Y-m-d\TH:i') ?>">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Salida</label>
                                         <div class="col-sm-8">
-                                            <input type="datetime-local" class="form-control" id="fecha_salida_reserva" name="fecha_salida_reserva" placeholder="" value="<?php echo date('Y-m-d\TH:i',time()) ?>">
+                                            <input type="datetime-local" class="form-control" id="fecha_salida_reserva" name="fecha_salida_reserva" placeholder="" value="<?php echo date('Y-m-d\TH:i') ?>">
                                         </div>
                                     </div>
 
@@ -187,7 +178,7 @@
                                     <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Niños</label>
                                         <div class="col-sm-8">
-                                            <input type="number" class="form-control" id="total_niños_reserva" name="total_niños_reserva" placeholder="" value="0">
+                                            <input type="number" class="form-control" id="total_ninos_reserva" name="total_ninos_reserva" placeholder="" value="0">
 
                                         </div>
                                     </div>
@@ -249,6 +240,30 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Color</label>
+                                        <div class="col-sm-8">
+                                            <input type="color" class="form-control" id="color" name="color" value="#63c0d9">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Estado</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" id="estado_reserva" name="estado_reserva">
+                                                <?php
+                                                foreach ($estados as $estado) {
+                                                    ?>
+                                                    <option value="<?php echo $estado->id_reserva_estados ?>"><?php echo $estado->nombre_reserva_estados ?></option>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <div class="col-sm-offset-4 col-sm-8">
                                             <input type="button" name="<?php echo base_url() ?>reservas/reserva/crear" data="reservas" class="btn btn-success enviar_data" value="Guardar">
                                         </div>
@@ -278,7 +293,7 @@
 
                                     <div class="col-lg-12">
                                         <hr>
-                                        <h4><i class="fa fa-home"></i> Habitaciones :</h4>
+                                        <h4><i class="fa fa-dashboard"></i> Habitaciones :</h4>
                                         <table class="">
                                             <tr>
                                                 <td>
@@ -317,13 +332,17 @@
                                         <table >
                                             <tr>
                                             <?php
-                                            foreach ($habitacion as $habitaciones) {
-                                                ?>
-                                                <td class="box-padding">
-                                                    <input type="checkbox" class="input-check" name="habitacion-<?php echo $habitaciones->id_reserva_habitacion ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->codigo_habitacion ?>"/>
-                                                    <?php echo $habitaciones->codigo_habitacion ."  ". $habitaciones->nombre_habitacion ?>
-                                                </td>
-                                                <?php
+                                            if($habitacion){
+                                                foreach ($habitacion as $key => $habitaciones) {
+                                                    ?>
+                                                    <td class="box-padding">
+                                                        <input type="checkbox" class="input-check" name="habitacion-<?php echo $key ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->id_reserva_habitacion ?>"/>
+                                                        <?php echo $habitaciones->codigo_habitacion ."  ". $habitaciones->nombre_habitacion ?>
+                                                    </td>
+                                                    <?php
+                                                }
+                                            } else {
+                                                echo "Vacio";
                                             }
                                             ?>
                                             </tr>
@@ -332,18 +351,46 @@
 
                                     <div class="col-lg-12">
                                         <hr>
-                                        <h4><i class="fa fa-home"></i> Mesas:</h4>
+                                        <h4><i class="fa fa-cutlery"></i> Mesas:</h4>
                                         <span class="mensaje_habitacion" style="color:red;"></span>
                                         <table >
                                             <tr>
                                             <?php
-                                            foreach ($habitacion as $habitaciones) {
-                                                ?>
-                                                <td class="box-padding">
-                                                    <input type="checkbox" class="input-check" name="habitacion-<?php echo $habitaciones->id_reserva_habitacion ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->codigo_habitacion ?>"/>
-                                                    <?php echo $habitaciones->codigo_habitacion ."  ". $habitaciones->nombre_habitacion ?>
-                                                </td>
-                                                <?php
+                                            if($mesa){
+                                                foreach ($mesa as $key => $mesas) {
+                                                    ?>
+                                                    <td class="box-padding">
+                                                        <input type="checkbox" class="input-check" name="mesa-<?php echo $key ?>" id="mesas" onClick="get_habitacion_disponible(<?php echo $mesas->id_reserva_mesa ?>);" value="<?php echo $mesas->id_reserva_mesa ?>"/>
+                                                        <?php echo $mesas->codigo_mesa ."  ". $mesas->nombre_mesa ?>
+                                                    </td>
+                                                    <?php
+                                                }
+                                            } else {
+                                                echo "Vacio";
+                                            }
+                                            ?>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <hr>
+                                        <h4><i class="fa fa-map-signs"></i> Zonas:</h4>
+                                        <span class="mensaje_habitacion" style="color:red;"></span>
+                                        <table >
+                                            <tr>
+                                            <?php
+                                            if($zona){
+                                                foreach ($zona as $key => $zonas) {
+                                                    ?>
+                                                    <td class="box-padding">
+                                                        <input type="checkbox" class="input-check" name="zona-<?php echo $key ?>" id="zonas" onClick="get_habitacion_disponible(<?php echo $zonas->id_reserva_zona ?>);" value="<?php echo $zonas->id_reserva_zona ?>"/>
+                                                        <?php echo $zonas->codigo_zona ."  ". $zonas->nombre_zona ?>
+                                                    </td>
+                                                    <?php
+                                                }
+                                            } else {
+                                                echo "Vacio";
                                             }
                                             ?>
                                             </tr>

@@ -8,6 +8,8 @@ class Reserva_model extends CI_Model {
     const reserva = 'reserva';
     const reserva_habitacion = 'reserva_habitacion';
     const reserva_detalle_habitacion = 'reserva_detalle_habitacion';
+    const reserva_detalle_mesa = 'reserva_detalle_mesa';
+    const reserva_detalle_zona = 'reserva_detalle_zona';    
 
     function get_all_reservas( $limit, $id ,$filters){;
         $this->db->select('*');
@@ -85,7 +87,7 @@ class Reserva_model extends CI_Model {
 
     public function get_reservaciones_calendar_data()
     {
-        $this->db->select('nombre_reserva as title,fecha_entrada_reserva as start,fecha_salida_reserva as end');
+        $this->db->select('nombre_reserva as title,fecha_entrada_reserva as start,fecha_salida_reserva as end,color');
         $this->db->from( self::reserva.' as reserva' );
         $this->db->join( self::sucursal.' as s', ' on reserva.Sucursal = s.id_sucursal' );
         $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
@@ -123,26 +125,79 @@ class Reserva_model extends CI_Model {
         }
     }
 
-    function crear($mesa){
+    function crear($reserva){
+        $reserva_datos = $reserva;
 
-        $mesa['Sucursal'] = $this->session->usuario[0]->Sucursal;
-        $numero_mesa = (int) $mesa['numero_mesa'];
-        $incrementar = (int) $mesa['incrementar'];
-        $cc = 1;
-        $incremento_mesa = $mesa['codigo_mesa'];
-        unset($mesa['numero_mesa']);
-        unset($mesa['incrementar']);
+        $cc = 0;
+        $reserva_mesa = [];
+        $reserva_zona = [];
+        $reserva_habitacion = array();
 
-        for($cc = 1; $cc <= $numero_mesa; $cc++) {
-            if ($incrementar == 1) {
-                $mesa['codigo_mesa'] = $incremento_mesa;
+        foreach ($reserva as $key => $habitacion) {
+
+            if (isset($reserva['habitacion-'.$cc])) {
+                $reserva_habitacion[] = $reserva['habitacion-'.$cc];
+                unset($reserva['habitacion-'.$cc]);
             }
-            $insert = $this->db->insert(self::mesa, $mesa);
-            $incremento_mesa++;
+
+            if (isset($reserva['mesa-'.$cc])) {
+                $reserva_mesa[] = $reserva['mesa-'.$cc];
+                unset($reserva['mesa-'.$cc]);
+            }
+
+            if (isset($reserva['zona-'.$cc])) {
+                $reserva_zona[] = $reserva['zona-'.$cc];
+                unset($reserva['zona-'.$cc]);
+            }
+
+            $cc++;
         }
+
+        $fechaInicio = $reserva['fecha_entrada_reserva'];
+        $fechaInicio = explode("T", $fechaInicio);
+
+        $fechaFin = $reserva['fecha_salida_reserva'];
+        $fechaFin = explode("T", $fechaFin);
+
+        $reserva['fecha_entrada_reserva'] = $fechaInicio[0].' '.$fechaInicio[1].':00';
+        $reserva['fecha_salida_reserva'] = $fechaInicio[0].' '.$fechaInicio[1].':00';
+        $reserva['fecha_creada_reserva'] = date('Y-m-d H:i:s');
+
+        /** Insertar Reserva */        
+        $reserva['Sucursal'] = $this->session->usuario[0]->Sucursal;
+        
+        $insert     = $this->db->insert(self::reserva, $reserva);
+        $id_reserva = $this->db->insert_id();
 
         if(!$insert){
             $insert = $this->db->error();
+        }
+
+        /** Insertar Detalle habitacion */
+        if($reserva_habitacion){
+            foreach ($reserva_habitacion as $key => $habitacion) {
+                
+                $detalle = array('reserva'=> $id_reserva, 'habitacion'=> $habitacion);
+                $this->db->insert(self::reserva_detalle_habitacion, $detalle);
+            }
+        }
+
+        /** Insertar Detalle mesas */
+        if($reserva_mesa){
+            foreach ($reserva_mesa as $key => $mesa) {
+                
+                $detalle = array('reserva'=> $id_reserva, 'mesa'=> $mesa);
+                $this->db->insert(self::reserva_detalle_mesa, $detalle);
+            }
+        }
+
+        /** Insertar Detalle Zona */
+        if($reserva_zona){
+            foreach ($reserva_zona as $key => $zona) {
+                
+                $detalle = array('reserva'=> $id_reserva, 'zona'=> $zona);
+                $this->db->insert(self::reserva_detalle_zona, $detalle);
+            }
         }
 
         return $insert;

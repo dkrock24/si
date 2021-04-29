@@ -18,6 +18,8 @@ class Reserva extends MY_Controller {
 		$this->load->model('accion/Accion_model');
 		$this->load->model('reservas/Mesa_model');
         $this->load->model('reservas/Reserva_model');
+        $this->load->model('reservas/Zona_model');
+        $this->load->model('reservas/Estado_model');
         $this->load->model('admin/Cliente_model');
         $this->load->model('admin/Pagos_model');
 	}
@@ -58,6 +60,12 @@ class Reserva extends MY_Controller {
         $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(8)); //8 limpieza
         $data['habitacion_mantenimiento']   = $this->Reserva_model->get_habitacion(array(9)); //9 mantenimiento
 
+        $data['mesa'] = $this->Mesa_model->get_mesa_sucursal();
+
+        $data['zona'] = $this->Zona_model->get_zona_sucursal();
+
+        $data['estados'] = $this->Estado_model->get_estado_lista();
+
 		$data['menu'] = $this->session->menu;
 		$data['title'] = "Nueva Reserva";
 		$data['home'] = 'reservas/mesa/uevo';
@@ -73,21 +81,22 @@ class Reserva extends MY_Controller {
     public function reservaciones(){
         $data = array();
         $reservas = $this->Reserva_model->get_reservaciones_calendar_data();
-        foreach($reservas as $row)
-        {
-            $data[] = array(
-            'title'   => $row->title,
-            'start'   => $row->start,
-            'end'   => $row->end
-            );
+        if($reservas) {
+            foreach($reservas as $row)
+            {
+                $data[] = array(
+                'title'   => $row->title,
+                'start'   => $row->start,
+                'end'   => $row->end,
+                'backgroundColor' => $row->color,
+                'textColor' => 'black'
+                );
+            }
         }
-        //$abc = '[{"title":"Rafael Tejada","start":"2021-04-28 14:12:39","end":"2021-04-29 14:12:40"},{"title":"Esteban Alvarenga","start":"2021-04-28 14:12:39","end":"2021-04-28 14:12:40"}]';
         echo json_encode($data);
     }
 
 	public function crear(){
-
-        var_dump($_POST);die;
 
 		$data = $this->Reserva_model->crear( $_POST );
 
@@ -97,7 +106,7 @@ class Reserva extends MY_Controller {
 			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Reserva No Fue Creado : ". $data['message']);
 		}	
-		redirect(base_url()."reservas/mesa/index");
+		redirect(base_url()."reservas/reserva/index");
 	}
 
 	public function editar($reserva){
@@ -154,7 +163,7 @@ class Reserva extends MY_Controller {
 			['fecha_real_salida_reserva'=> 'Codigo'],
             ['fecha_creada_reserva'=> 'Codigo'],
             ['total_adultos_reserva'=> 'Codigo'],
-            ['total_niños_reserva'=> 'Codigo'],
+            ['total_ninos_reserva'=> 'Codigo'],
             ['tipo_pago_reserva'=> 'Codigo'],
             ['referencia_pago_reserva'=> 'Codigo'],
             ['anticipo_pago_reserva'=> 'Codigo'],

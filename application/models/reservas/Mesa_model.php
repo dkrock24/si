@@ -30,6 +30,21 @@ class Mesa_model extends CI_Model {
         return $result;
     }
 
+    public function get_mesa_sucursal()
+    {
+        $this->db->select('*');
+        $this->db->from( self::mesa.' as mesa' );
+        $this->db->join( self::sucursal.' as s', ' on mesa.Sucursal = s.id_sucursal' );
+        $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
+       
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function crear($mesa){
 
         $mesa['Sucursal'] = $this->session->usuario[0]->Sucursal;

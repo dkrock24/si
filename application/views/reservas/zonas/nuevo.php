@@ -34,7 +34,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Marca</label>
+                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Ubicación</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="ubicacion_zona" name="ubicacion_zona" placeholder="Ubicacion Zona" value="">
 

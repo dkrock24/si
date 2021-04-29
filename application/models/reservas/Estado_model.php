@@ -53,6 +53,19 @@ class Estado_model extends CI_Model {
         }
     }
 
+    function get_estado_lista(){
+    	$this->db->select('*');
+        $this->db->from( self::estados.' as estado');
+        $this->db->join( self::empresa.' as e', ' on estado.empresa = e.id_empresa' );
+        $this->db->where('e.id_empresa', $this->session->empresa[0]->id_empresa );
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function update($estado){
 
     	$this->db->where('id_reserva_estados', $estado['id_reserva_estados']);  
