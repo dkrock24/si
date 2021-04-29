@@ -100,16 +100,23 @@ class Reserva_model extends CI_Model {
 
     public function get_reservacion_habiatacion($data)
     {
+        $fechaInicio = $_POST['start'];
+        $fechaInicio = explode("T", $fechaInicio);
+
+        $fechaFin = $_POST['end'];
+        $fechaFin = explode("T", $fechaFin);
+
         $this->db->select('nombre_reserva, codigo_habitacion, ');
         $this->db->from(self::reserva.' as reserva');  
         $this->db->join(self::reserva_detalle_habitacion.' as rdh',' vd ON rdh.reserva = reserva.id_reserva');
         $this->db->join(self::reserva_habitacion.' as rh','rh.id_reserva_habitacion = rdh.habitacion', 'RIGHT');  
         
-        $this->db->where('DATE(fecha_entrada_reserva)  >= ' , $data['start'] );
-        $this->db->where('DATE(fecha_entrada_reserva) <=' , $data['start'] );
+        $this->db->where('fecha_entrada_reserva  >= ' , $fechaInicio[0].' '.$fechaInicio[1] );
+        $this->db->where('fecha_salida_reserva <=' , $fechaFin[0].' '.$fechaFin[1] );
         $this->db->where('id_reserva_habitacion' , $data['habitacion'] );
 
         $query = $this->db->get();
+        //echo $this->db->queries[4];
         if($query->num_rows() > 0 )
         {
             return $query->result();

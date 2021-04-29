@@ -87,6 +87,8 @@ class Reserva extends MY_Controller {
 
 	public function crear(){
 
+        var_dump($_POST);die;
+
 		$data = $this->Reserva_model->crear( $_POST );
 
 		if(!$data['code']){
