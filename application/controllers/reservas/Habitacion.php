@@ -17,6 +17,7 @@ class Habitacion extends MY_Controller {
 
 		$this->load->model('accion/Accion_model');
 		$this->load->model('reservas/Habitacion_model');
+		$this->load->model('reservas/Articulo_model');
 	}
 
 	public function index(){
@@ -49,6 +50,8 @@ class Habitacion extends MY_Controller {
 		$data['title'] = "Nueva Habitacion";
 		$data['home'] = 'reservas/estado/c_nuevo';
 
+		$data['articulos'] = $this->Articulo_model->get_articulos();
+
 		echo $this->load->view('reservas/habitacion/nuevo',$data, TRUE);
 	}
 
@@ -71,6 +74,9 @@ class Habitacion extends MY_Controller {
 		$data['habitacion'] =  $this->Habitacion_model->get_habitacion( $habitacion );
 		$data['home'] = 'reservas/estado/editar';
 		$data['title'] = "Editar Habitacion";
+
+		$data['articulos'] = $this->Articulo_model->get_articulos();
+		$data['habitacion_articulos'] = $this->Habitacion_model->get_habitacion_articulos($habitacion);
 
 		echo $this->load->view('reservas/habitacion/editar',$data, TRUE);
 	}

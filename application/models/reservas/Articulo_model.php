@@ -65,6 +65,21 @@ class Articulo_model extends CI_Model {
         return $result;
     }
 
+    function get_articulos(){;
+        $this->db->select('*');
+        $this->db->from( self::articulo.' as articulo' );
+        $this->db->join( self::sucursal.' as s', ' on articulo.Sucursal = s.id_sucursal' );
+        $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        } 
+    }
+
+    
+
     function eliminar($id)
     {
         $this->db->where('id_reserva_articulo', $id);  

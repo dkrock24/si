@@ -5,6 +5,7 @@ class Habitacion_model extends CI_Model {
     const sucursal = "pos_sucursal";
     const estados = 'reserva_estados';
     const habitacion = 'reserva_habitacion';
+    const habitacion_articulo = 'reserva_habitacion_articulo';
 
     function get_all_articulos( $limit, $id ,$filters){;
         $this->db->select('*');
@@ -33,13 +34,44 @@ class Habitacion_model extends CI_Model {
 
     function crear($habitacion){
 
-        $zona['Sucursal'] = $this->session->usuario[0]->Sucursal;
+        $cc = 0;
+        $reserva_habitacion_articulo = [];
+        foreach ($habitacion as $key => $habitaciones) {
+
+            if (isset($habitacion['articulo-'.$cc])) {
+                $reserva_habitacion_articulo[$cc]['articulo'] = $habitacion['articulo-'.$cc];
+                $reserva_habitacion_articulo[$cc]['cantidad'] = $habitacion['cantidad-'.$cc];
+                unset($habitacion['articulo-'.$cc]);
+            }
+            if (isset($habitacion['cantidad-'.$cc])) {
+                unset($habitacion['cantidad-'.$cc]);
+            }
+
+            $cc++;
+        }
+        $habitacion['Sucursal'] = $this->session->usuario[0]->Sucursal;
         $insert = $this->db->insert(self::habitacion, $habitacion);
+        $habitacion_id = $this->db->insert_id();
+
         if(!$insert){
             $insert = $this->db->error();
         }
+        
+        if($habitacion_id && $reserva_habitacion_articulo){
+            
+            $this->crear_reserva_habitacion_articulo($habitacion_id,$reserva_habitacion_articulo);
+        }
 
         return $insert;
+    }
+
+    private function crear_reserva_habitacion_articulo($habitacion_id, $reserva_habitacion_articulo)
+    {
+        foreach ($reserva_habitacion_articulo as $key => $habitacion_articulo) {
+            $habitacion_articulo['habitacion'] = $habitacion_id;
+
+            $this->db->insert(self::habitacion_articulo, $habitacion_articulo);
+        }
     }
 
     function get_habitacion($habitacion){
@@ -55,12 +87,50 @@ class Habitacion_model extends CI_Model {
         }
     }
 
+    public function get_habitacion_articulos($habitacion)
+    {
+        $this->db->select('*');
+        $this->db->from( self::habitacion.' as habitacion');
+        $this->db->join( self::habitacion_articulo.' as ha', ' on habitacion.id_reserva_habitacion = ha.habitacion' );
+        $this->db->join( self::sucursal.' as s', ' on habitacion.Sucursal = s.id_sucursal' );
+        $this->db->where('habitacion.id_reserva_habitacion', $habitacion );
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function update($habitacion){
+
+        $cc = 0;
+        $reserva_habitacion_articulo = [];
+        foreach ($habitacion as $key => $habitaciones) {
+
+            if (isset($habitacion['articulo-'.$cc])) {
+                $reserva_habitacion_articulo[$cc]['articulo'] = $habitacion['articulo-'.$cc];
+                $reserva_habitacion_articulo[$cc]['cantidad'] = $habitacion['cantidad-'.$cc];
+                unset($habitacion['articulo-'.$cc]);
+            }
+            if (isset($habitacion['cantidad-'.$cc])) {
+                unset($habitacion['cantidad-'.$cc]);
+            }
+
+            $cc++;
+        }
 
     	$this->db->where('id_reserva_habitacion', $habitacion['id_reserva_habitacion']);  
         $result = $this->db->update(self::habitacion, $habitacion);  
+
         if(!$result){
             $result = $this->db->error();
+        }
+
+        if($reserva_habitacion_articulo){
+            $this->db->where('habitacion', $habitacion['id_reserva_habitacion']);  
+            $this->db->delete(self::habitacion_articulo);
+            $this->crear_reserva_habitacion_articulo($habitacion['id_reserva_habitacion'], $reserva_habitacion_articulo);
         }
 
         return $result;

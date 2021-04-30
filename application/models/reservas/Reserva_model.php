@@ -5,6 +5,7 @@ class Reserva_model extends CI_Model {
     const sucursal = "pos_sucursal";
     const estados = 'reserva_estados';
     const mesa = 'reserva_mesa';
+    const zona = 'reserva_zona';
     const reserva = 'reserva';
     const cliente = 'pos_cliente';
     const reserva_habitacion = 'reserva_habitacion';
@@ -220,6 +221,57 @@ class Reserva_model extends CI_Model {
         $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
         $this->db->where('reserva.id_reserva', $reserva);
         $query = $this->db->get();
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    public function get_habitacion_($reserva){
+        $this->db->select('*');
+        $this->db->from( self::reserva.' as reserva' );
+        $this->db->join(self::reserva_detalle_habitacion.' as rdh',' vd ON rdh.reserva = reserva.id_reserva');
+        $this->db->join( self::reserva_habitacion.' as habitacion',' habitacion.id_reserva_habitacion = rdh.habitacion');
+        $this->db->join( self::sucursal.' as s', ' on reserva.Sucursal = s.id_sucursal' );
+        $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
+        $this->db->where('reserva.id_reserva', $reserva);
+        
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    public function get_mesa_($reserva){
+        $this->db->select('*');
+        $this->db->from( self::reserva.' as reserva' );
+        $this->db->join(self::reserva_detalle_mesa.' as rdm',' vd ON rdm.reserva = reserva.id_reserva');
+        $this->db->join( self::mesa.' as mesa',' mesa.id_reserva_mesa = rdm.mesa');
+        $this->db->join( self::sucursal.' as s', ' on reserva.Sucursal = s.id_sucursal' );
+        $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
+        $this->db->where('reserva.id_reserva', $reserva);
+        
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    public function get_zona_($reserva){
+        $this->db->select('*');
+        $this->db->from( self::reserva.' as reserva' );
+        $this->db->join(self::reserva_detalle_zona.' as rdz',' vd ON rdz.reserva = reserva.id_reserva');
+        $this->db->join( self::zona.' as zona',' zona.id_reserva_zona = rdz.zona');
+        $this->db->join( self::sucursal.' as s', ' on reserva.Sucursal = s.id_sucursal' );
+        $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
+        $this->db->where('reserva.id_reserva', $reserva);
+        
+        $query = $this->db->get(); 
         
         if($query->num_rows() > 0 )
         {

@@ -121,6 +121,10 @@ class Reserva extends MY_Controller {
         $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(5)); //5 limpieza
         $data['habitacion_mantenimiento']   = $this->Reserva_model->get_habitacion(array(6)); //9 mantenimiento
 
+		$data['habitacion_']   = $this->Reserva_model->get_habitacion_($reserva);
+		$data['mesa_']   = $this->Reserva_model->get_mesa_($reserva);
+		$data['zona_']   = $this->Reserva_model->get_zona_($reserva);
+
         $data['mesa'] = $this->Mesa_model->get_mesa_sucursal();
 
         $data['zona'] = $this->Zona_model->get_zona_sucursal();
