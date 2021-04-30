@@ -86,8 +86,8 @@
 
                                             <label>
                                                 <select name="estado_habitacion" class="form-control">
-                                                    <option value="1">Activo</option>
-                                                    <option value="0">Inactivo</option>
+                                                    <option value="7">Activo</option>
+                                                    <option value="8">Inactivo</option>
                                                 </select>
                                             </label>
 

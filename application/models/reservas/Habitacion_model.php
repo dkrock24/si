@@ -10,6 +10,7 @@ class Habitacion_model extends CI_Model {
         $this->db->select('*');
         $this->db->from( self::habitacion.' as habitacion' );
         $this->db->join( self::sucursal.' as s', ' on habitacion.Sucursal = s.id_sucursal' );
+        $this->db->join( self::estados.' as estados', ' on habitacion.estado_habitacion = estados.id_reserva_estados' );
         $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
         if($filters!=""){
             $this->db->where($filters);

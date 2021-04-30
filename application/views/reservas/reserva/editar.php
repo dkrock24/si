@@ -105,7 +105,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div id="panelDemo10" class="panel menu_title_bar">
-                    <div class="panel-heading menuTop">Nueva Reservacion </div>
+                    <div class="panel-heading menuTop">Editar Reservacion </div>
                     <div class="panel-body menuContent">
                         <div class="row">
 
@@ -121,11 +121,14 @@
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-left">Cliente</label>
                                                 <div class="col-sm-8">
                                                     <select class="form-control" id="cliente_reserva" name="cliente_reserva">
+                                                        <option value="<?php echo $reserva[0]->id_cliente; ?>"><?php echo $reserva[0]->nombre_empresa_o_compania; ?></option>
                                                         <?php
                                                         foreach ($cliente as $c) {
+                                                            if($reserva[0]->id_cliente != $c->id_cliente) {
                                                         ?>
                                                             <option value="<?php echo $c->id_cliente ?>"><?php echo $c->nombre_empresa_o_compania ?></option>
                                                         <?php
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -135,7 +138,7 @@
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Nombre Reservación</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" id="nombre_reserva" name="nombre_reserva" value="">
+                                                    <input type="text" class="form-control" id="nombre_reserva" name="nombre_reserva" value="<?php echo $reserva[0]->nombre_reserva; ?>">
                                                 </div>
                                             </div>
 
@@ -143,6 +146,7 @@
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Identificacion</label>
                                                 <div class="col-sm-8">
                                                     <select class="form-control" id="identificacion_reserva" name="identificacion_reserva">
+                                                        <option value="<?php echo $reserva[0]->identificacion_reserva; ?>"><?php echo $reserva[0]->identificacion_reserva; ?></option>
                                                         <option value="DUI">DUI</option>
                                                         <option value="NIT">NIT</option>
                                                         <option value="PASAPORTE">PASAPORTE</option>
@@ -153,7 +157,7 @@
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Número Documento</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" id="identificacion_numero_reserva" name="identificacion_numero_reserva" value="">
+                                                    <input type="text" class="form-control" id="identificacion_numero_reserva" name="identificacion_numero_reserva" value="<?php echo $reserva[0]->identificacion_numero_reserva; ?>">
                                                 </div>
                                             </div>
 
@@ -163,9 +167,18 @@
                                                     <select class="form-control" id="estado_reserva" name="estado_reserva">
                                                         <?php
                                                         foreach ($estados as $estado) {
-                                                        ?>
+                                                            if($reserva[0]->estado_reserva == $estado->id_reserva_estados) {
+                                                            ?>
+                                                            <option value="<?php echo $reserva[0]->estado_reserva; ?>"><?php echo $estado->nombre_reserva_estados; ?></option>
+                                                        <?php
+                                                            }
+                                                        }
+                                                        foreach ($estados as $estado) {
+                                                            if($reserva[0]->estado_reserva != $estado->id_reserva_estados) {
+                                                            ?>
                                                             <option value="<?php echo $estado->id_reserva_estados ?>"><?php echo $estado->nombre_reserva_estados ?></option>
                                                         <?php
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -179,14 +192,14 @@
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Ingreso</label>
                                                 <div class="col-sm-8">
-                                                    <input type="datetime-local" class="form-control" id="fecha_entrada_reserva" name="fecha_entrada_reserva" placeholder="" value="<?php echo date('Y-m-d\T14:00') ?>">
+                                                    <input type="datetime-local" class="form-control" id="fecha_entrada_reserva" name="fecha_entrada_reserva" placeholder="" value="<?php $date = new DateTime($reserva[0]->fecha_entrada_reserva);echo $date->format('Y-m-d\T14:00'); ?>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Adultos</label>
                                                 <div class="col-sm-8">
-                                                    <input type="number" class="form-control" id="total_adultos_reserva" name="total_adultos_reserva" placeholder="" value="1">
+                                                    <input type="number" class="form-control" id="total_adultos_reserva" name="total_adultos_reserva" placeholder="" value="<?php echo $reserva[0]->total_adultos_reserva; ?>">
                                                 </div>
                                             </div>
 
@@ -196,9 +209,18 @@
                                                     <select class="form-control" id="tipo_pago_reserva" name="tipo_pago_reserva">
                                                         <?php
                                                         foreach ($pago as $p) {
+                                                            if($reserva[0]->tipo_pago_reserva != $p->id_modo_pago){
                                                         ?>
                                                             <option value="<?php echo $p->id_modo_pago ?>"><?php echo $p->nombre_modo_pago ?></option>
                                                         <?php
+                                                            }
+                                                        }
+                                                        foreach ($pago as $p) {
+                                                            if($reserva[0]->tipo_pago_reserva == $p->id_modo_pago){
+                                                            ?>
+                                                                <option value="<?php echo $p->id_modo_pago ?>"><?php echo $p->nombre_modo_pago ?></option>
+                                                            <?php
+                                                            }
                                                         }
                                                         ?>
                                                     </select>
@@ -208,21 +230,21 @@
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Monto Anticipo</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" id="anticipo_pago_reserva" name="anticipo_pago_reserva" placeholder="" value="">
+                                                    <input type="text" class="form-control" id="anticipo_pago_reserva" name="anticipo_pago_reserva" placeholder="" value="<?php echo $reserva[0]->anticipo_pago_reserva; ?>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Telefono</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" id="telefono_trabajo_reserva" name="telefono_trabajo_reserva" placeholder="" value="">
+                                                    <input type="text" class="form-control" id="telefono_trabajo_reserva" name="telefono_trabajo_reserva" placeholder="" value="<?php echo $reserva[0]->telefono_trabajo_reserva; ?>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Comentarios</label>
                                                 <div class="col-sm-8">
-                                                    <textarea class="form-control" id="comentarios" name="comentarios"></textarea>
+                                                    <textarea class="form-control" id="comentarios" name="comentarios"><?php echo $reserva[0]->comentarios; ?></textarea>
                                                 </div>
                                             </div>
 
@@ -232,14 +254,14 @@
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Salida</label>
                                                 <div class="col-sm-8">
-                                                    <input type="datetime-local" class="form-control" id="fecha_salida_reserva" name="fecha_salida_reserva" placeholder="" value="<?php echo date('Y-m-d\T14:00') ?>">
+                                                    <input type="datetime-local" class="form-control" id="fecha_salida_reserva" name="fecha_salida_reserva" placeholder="" value="<?php $date = new DateTime($reserva[0]->fecha_salida_reserva);echo $date->format('Y-m-d\T14:00'); ?>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Niños</label>
                                                 <div class="col-sm-8">
-                                                    <input type="number" class="form-control" id="total_ninos_reserva" name="total_ninos_reserva" placeholder="" value="0">
+                                                    <input type="number" class="form-control" id="total_ninos_reserva" name="total_ninos_reserva" placeholder="" value="<?php echo $reserva[0]->total_ninos_reserva; ?>">
 
                                                 </div>
                                             </div>
@@ -247,7 +269,7 @@
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Referencia</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" id="referencia_pago_reserva" name="referencia_pago_reserva" placeholder="" value="">
+                                                    <input type="text" class="form-control" id="referencia_pago_reserva" name="referencia_pago_reserva" placeholder="" value="<?php echo $reserva[0]->referencia_pago_reserva; ?>">
 
                                                 </div>
                                             </div>
@@ -255,7 +277,7 @@
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Color</label>
                                                 <div class="col-sm-8">
-                                                    <input type="color" class="form-control" id="color" name="color" value="#63c0d9">
+                                                    <input type="color" class="form-control" id="color" name="color" value="<?php echo $reserva[0]->color; ?>">
 
                                                 </div>
                                             </div>
@@ -263,7 +285,7 @@
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Celular</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" id="telefono_celular_reserva" name="telefono_celular_reserva" placeholder="" value="">
+                                                    <input type="text" class="form-control" id="telefono_celular_reserva" name="telefono_celular_reserva" placeholder="" value="<?php echo $reserva[0]->telefono_celular_reserva; ?>">
 
                                                 </div>
                                             </div>

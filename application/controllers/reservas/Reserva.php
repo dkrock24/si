@@ -52,13 +52,13 @@ class Reserva extends MY_Controller {
 
         $data['cliente']    = $this->Cliente_model->getCliente();
         $data['pago']       = $this->Pagos_model->getTipoPago();
-        $data['reservas_proceso']   = $this->Reserva_model->get_reservas_activas(1);
-        $data['reservas_reservadas']   = $this->Reserva_model->get_reservas_activas(2);
+        $data['reservas_proceso']   = $this->Reserva_model->get_reservas_activas(2);
+        $data['reservas_reservadas']   = $this->Reserva_model->get_reservas_activas(1);
         $data['habitacion_reservadas']   = $this->Reserva_model->get_habitacion_reserva(array(1,2));
         
-        $data['habitacion']   = $this->Reserva_model->get_habitacion(array(1));
-        $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(8)); //8 limpieza
-        $data['habitacion_mantenimiento']   = $this->Reserva_model->get_habitacion(array(9)); //9 mantenimiento
+        $data['habitacion']   = $this->Reserva_model->get_habitacion(array(1,2));
+        $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(5)); //5 limpieza
+        $data['habitacion_mantenimiento']   = $this->Reserva_model->get_habitacion(array(6)); //9 mantenimiento
 
         $data['mesa'] = $this->Mesa_model->get_mesa_sucursal();
 
@@ -111,8 +111,24 @@ class Reserva extends MY_Controller {
 
 	public function editar($reserva){
 
+		$data['cliente']    = $this->Cliente_model->getCliente();
+        $data['pago']       = $this->Pagos_model->getTipoPago();
+        $data['reservas_proceso']   = $this->Reserva_model->get_reservas_activas(2);
+        $data['reservas_reservadas']   = $this->Reserva_model->get_reservas_activas(1);
+        $data['habitacion_reservadas']   = $this->Reserva_model->get_habitacion_reserva(array(1,2));
+        
+        $data['habitacion']   = $this->Reserva_model->get_habitacion(array(1,2));
+        $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(5)); //5 limpieza
+        $data['habitacion_mantenimiento']   = $this->Reserva_model->get_habitacion(array(6)); //9 mantenimiento
+
+        $data['mesa'] = $this->Mesa_model->get_mesa_sucursal();
+
+        $data['zona'] = $this->Zona_model->get_zona_sucursal();
+
+        $data['estados'] = $this->Estado_model->get_estado_lista();
+
 		$data['menu'] = $this->session->menu;
-		$data['mesa'] =  $this->Reserva_model->get_reserva( $reserva );
+		$data['reserva'] =  $this->Reserva_model->get_reserva( $reserva );
 		$data['home'] = 'reservas/reserva/editar';
 		$data['title'] = "Editar Reserva";
 
@@ -149,7 +165,7 @@ class Reserva extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Codigo','Cliente','Entrada','Salida','Final','Creado','Adultos','Niños','T.Pago','Referencia','Anticipo','Sucursal','Estado'
+			'Codigo','Cliente','Reserva','Entrada','Salida','Creado','Adultos','NIÑOS','T.Pago','Sucursal','Estado'
 		);
 		return $column;
 	}
@@ -157,18 +173,19 @@ class Reserva extends MY_Controller {
 	public function fields(){
 		$fields['field'] = array(
             ['codigo_reserva'=> 'Codigo'],
-			['cliente_reserva' => 'Cliente'],
+			['nombre_empresa_o_compania' => 'Cliente'],
+			['nombre_reserva' => 'Reserva'],
 			['fecha_entrada_reserva'=> 'Descripcion'],
             ['fecha_salida_reserva'=> 'Capacidad'],
-			['fecha_real_salida_reserva'=> 'Codigo'],
+			//['fecha_real_salida_reserva'=> 'Codigo'],
             ['fecha_creada_reserva'=> 'Codigo'],
             ['total_adultos_reserva'=> 'Codigo'],
             ['total_ninos_reserva'=> 'Codigo'],
             ['tipo_pago_reserva'=> 'Codigo'],
-            ['referencia_pago_reserva'=> 'Codigo'],
-            ['anticipo_pago_reserva'=> 'Codigo'],
-			['Sucursal'=> 'Sucursal'],
-			['estado_reserva' => 'Estado']
+            //['referencia_pago_reserva'=> 'Codigo'],
+            //['anticipo_pago_reserva'=> 'Codigo'],
+			['nombre_sucursal'=> 'Sucursal'],
+			['nombre_reserva_estados' => 'Estado']
 		);
 
 		$fields['reglas'] = array(

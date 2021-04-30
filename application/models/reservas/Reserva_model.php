@@ -6,6 +6,7 @@ class Reserva_model extends CI_Model {
     const estados = 'reserva_estados';
     const mesa = 'reserva_mesa';
     const reserva = 'reserva';
+    const cliente = 'pos_cliente';
     const reserva_habitacion = 'reserva_habitacion';
     const reserva_detalle_habitacion = 'reserva_detalle_habitacion';
     const reserva_detalle_mesa = 'reserva_detalle_mesa';
@@ -14,7 +15,9 @@ class Reserva_model extends CI_Model {
     function get_all_reservas( $limit, $id ,$filters){;
         $this->db->select('*');
         $this->db->from( self::reserva.' as reserva' );
+        $this->db->join( self::estados.' as estados', ' on reserva.estado_reserva = estados.id_reserva_estados' );
         $this->db->join( self::sucursal.' as s', ' on reserva.Sucursal = s.id_sucursal' );
+        $this->db->join( self::cliente.' as cliente', ' on reserva.cliente_reserva = cliente.id_cliente' );
         $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
         if($filters!=""){
             $this->db->where($filters);
@@ -159,13 +162,18 @@ class Reserva_model extends CI_Model {
         $fechaFin = $reserva['fecha_salida_reserva'];
         $fechaFin = explode("T", $fechaFin);
 
+        $today = date("Ymd");
+        $rand = sprintf("%02d", rand(0,99));
+        $unique = $today .'-'. $rand;
+
         $reserva['fecha_entrada_reserva'] = $fechaInicio[0].' '.$fechaInicio[1].':00';
         $reserva['fecha_salida_reserva'] = $fechaInicio[0].' '.$fechaInicio[1].':00';
         $reserva['fecha_creada_reserva'] = date('Y-m-d H:i:s');
 
         /** Insertar Reserva */        
         $reserva['Sucursal'] = $this->session->usuario[0]->Sucursal;
-        
+        $reserva['codigo_reserva'] =$unique;
+
         $insert     = $this->db->insert(self::reserva, $reserva);
         $id_reserva = $this->db->insert_id();
 
@@ -203,12 +211,15 @@ class Reserva_model extends CI_Model {
         return $insert;
     }
 
-    function get_mesa($mesa){
+    function get_reserva($reserva){
     	$this->db->select('*');
-        $this->db->from( self::mesa.' as mesa');
-        $this->db->join( self::sucursal.' as s', ' on mesa.Sucursal = s.id_sucursal' );
-        $this->db->where('mesa.id_reserva_mesa', $mesa );
-        $query = $this->db->get(); 
+        $this->db->from( self::reserva.' as reserva' );
+        $this->db->join( self::estados.' as estados', ' on reserva.estado_reserva = estados.id_reserva_estados' );
+        $this->db->join( self::sucursal.' as s', ' on reserva.Sucursal = s.id_sucursal' );
+        $this->db->join( self::cliente.' as cliente', ' on reserva.cliente_reserva = cliente.id_cliente' );
+        $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
+        $this->db->where('reserva.id_reserva', $reserva);
+        $query = $this->db->get();
         
         if($query->num_rows() > 0 )
         {

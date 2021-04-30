@@ -121,7 +121,7 @@ class Habitacion extends MY_Controller {
             ['capacidad_habitacion'=> 'Capacidad'],
 			['codigo_habitacion'=> 'Codigo'],
 			['Sucursal'=> 'Sucursal'],
-			['estado_habitacion' => 'Estado']
+			['nombre_reserva_estados' => 'Estado']
 		);
 
 		$fields['reglas'] = array(

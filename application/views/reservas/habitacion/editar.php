@@ -87,11 +87,11 @@
                                             <label>
                                                 <select name="estado_habitacion" class="form-control">
                                                     <?php if($habitacion[0]->estado_habitacion == 1): ?>
-                                                    <option value="1">Activo</option>
-                                                    <option value="0">Inactivo</option>
+                                                    <option value="7">Activo</option>
+                                                    <option value="8">Inactivo</option>
                                                     <?php else: ?>
-                                                    <option value="0">Inactivo</option>
-                                                    <option value="1">Activo</option>
+                                                    <option value="8">Inactivo</option>
+                                                    <option value="7">Activo</option>
                                                     <?php endif ?>
                                                 </select>
                                             </label>
