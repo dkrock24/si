@@ -11,7 +11,8 @@ class Reserva_model extends CI_Model {
     const reserva_habitacion = 'reserva_habitacion';
     const reserva_detalle_habitacion = 'reserva_detalle_habitacion';
     const reserva_detalle_mesa = 'reserva_detalle_mesa';
-    const reserva_detalle_zona = 'reserva_detalle_zona';    
+    const reserva_detalle_zona = 'reserva_detalle_zona';
+    const pagos = 'pos_formas_pago';
 
     function get_all_reservas( $limit, $id ,$filters){;
         $this->db->select('*');
@@ -19,6 +20,7 @@ class Reserva_model extends CI_Model {
         $this->db->join( self::estados.' as estados', ' on reserva.estado_reserva = estados.id_reserva_estados' );
         $this->db->join( self::sucursal.' as s', ' on reserva.Sucursal = s.id_sucursal' );
         $this->db->join( self::cliente.' as cliente', ' on reserva.cliente_reserva = cliente.id_cliente' );
+        $this->db->join( self::pagos.' as pagos', ' on reserva.tipo_pago_reserva = pagos.id_modo_pago' );
         $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
         if($filters!=""){
             $this->db->where($filters);

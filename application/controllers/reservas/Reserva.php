@@ -117,7 +117,7 @@ class Reserva extends MY_Controller {
         $data['reservas_reservadas']   = $this->Reserva_model->get_reservas_activas(1);
         $data['habitacion_reservadas']   = $this->Reserva_model->get_habitacion_reserva(array(1,2));
         
-        $data['habitacion']   = $this->Reserva_model->get_habitacion(array(1,2));
+        $data['habitacion']   = $this->Reserva_model->get_habitacion(array(1,2,7));
         $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(5)); //5 limpieza
         $data['habitacion_mantenimiento']   = $this->Reserva_model->get_habitacion(array(6)); //9 mantenimiento
 
@@ -182,10 +182,10 @@ class Reserva extends MY_Controller {
 			['fecha_entrada_reserva'=> 'Descripcion'],
             ['fecha_salida_reserva'=> 'Capacidad'],
 			//['fecha_real_salida_reserva'=> 'Codigo'],
-            ['fecha_creada_reserva'=> 'Codigo'],
-            ['total_adultos_reserva'=> 'Codigo'],
-            ['total_ninos_reserva'=> 'Codigo'],
-            ['tipo_pago_reserva'=> 'Codigo'],
+            ['fecha_creada_reserva'=> 'Creado'],
+            ['total_adultos_reserva'=> 'Adultos'],
+            ['total_ninos_reserva'=> 'Menores'],
+            ['nombre_modo_pago'=> 'Tipo Pago'],
             //['referencia_pago_reserva'=> 'Codigo'],
             //['anticipo_pago_reserva'=> 'Codigo'],
 			['nombre_sucursal'=> 'Sucursal'],

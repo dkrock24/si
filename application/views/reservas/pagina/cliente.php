@@ -109,7 +109,7 @@
     <!--about-us start -->
     <section id="home" class="about-us">
 
-        <div class="container">
+        <div class="container"><br><br><br><br><br><br>
             <div class="row">
                 <div class="col-md-12">
                     <div class="single-travel-boxes">
@@ -134,17 +134,14 @@
                                             <div class="row">
                                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                                     <div class="single-tab-select-box">
-
                                                         <h2>Nombre Reservacón</h2>
-
                                                         <div class="travel-check-icon">
                                                             <input type="text" class="form-control" required name="nombre_reserva" value="">
                                                         </div>
-
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-2 col-md-3 col-sm-4">
+                                                <div class="col-lg-2 col-md-4 col-sm-4">
                                                     <div class="single-tab-select-box">
                                                         <h2>Ingreso</h2>
                                                         <div class="travel-check-icon">
@@ -153,7 +150,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-2 col-md-3 col-sm-4">
+                                                <div class="col-lg-2 col-md-4 col-sm-4">
                                                     <div class="single-tab-select-box">
                                                         <h2>Salida</h2>
                                                         <div class="travel-check-icon">
@@ -162,20 +159,20 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-2 col-md-1 col-sm-4">
+                                                <div class="col-lg-2 col-md-4 col-sm-4">
                                                     <div class="single-tab-select-box">
                                                         <h2>Adultos</h2>
                                                         <div class="travel-check-icon">
-                                                            <input type="number" name="total_adultos_reserva" required min="1" max="100" class="form-control">
+                                                            <input type="number" name="total_adultos_reserva" required min="1" value="1" max="100" class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-2 col-md-1 col-sm-4">
+                                                <div class="col-lg-2 col-md-4 col-sm-4">
                                                     <div class="single-tab-select-box">
                                                         <h2>Niños</h2>
                                                         <div class="travel-check-icon">
-                                                            <input type="number" name="total_ninos_reserva" required min="1" max="100" class="form-control">
+                                                            <input type="number" name="total_ninos_reserva" required min="1" value="0" max="100" class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -198,7 +195,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-6 col-sm-4">
+                                                <div class="col-lg-4 col-md-4 col-sm-12">
                                                     <div class="single-tab-select-box">
                                                         <h2>Número</h2>
                                                         <div class="travel-check-icon">
@@ -207,7 +204,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-2 col-md-3 col-sm-4">
+                                                <div class="col-lg-2 col-md-2 col-sm-12">
                                                     <div class="single-tab-select-box">
                                                         <h2>Tipo Pago</h2>
                                                         <div class="travel-select-icon">
@@ -219,7 +216,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-2 col-md-1 col-sm-4">
+                                                <div class="col-lg-2 col-md-2 col-sm-12">
                                                     <div class="single-tab-select-box">
                                                         <h2>Monto Abono</h2>
                                                         <div class="travel-check-icon">
@@ -227,13 +224,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                                     <div class="single-tab-select-box">
-
                                                         <h2>Telefono 1</h2>
                                                         <div class="travel-check-icon">
                                                             <input type="text" class="form-control" required name="telefono_trabajo_reserva" value="">
@@ -241,17 +236,16 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-6 col-sm-4">
+                                                <div class="col-lg-4 col-md-4 col-sm-12">
                                                     <div class="single-tab-select-box">
                                                         <h2>Telefono 2</h2>
                                                         <div class="travel-check-icon">
                                                             <input type="text" class="form-control" name="telefono_celular_reserva" value="">
                                                         </div>
-
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-6 col-sm-4">
+                                                <div class="col-lg-4 col-md-4 col-sm-12">
                                                     <div class="single-tab-select-box">
                                                         <h2>Adjuntar Comprobante</h2>
                                                         <div class="travel-check-icon">
@@ -259,11 +253,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-sm-5">
+                                                <div class="col-lg-5 col-md-8 col-sm-12">
                                                     <h4>
                                                         <?php
                                                         if (isset($unique)) {
@@ -273,7 +266,7 @@
                                                     </h4>
                                                 </div>
 
-                                                <div class="clo-sm-7">
+                                                <div class="col-lg-7 col-md-4 col-sm-12">
                                                     <div class="about-btn travel-mrt-0 pull-right">
                                                         <input type="submit" class="about-view travel-btn" value="Registrar" />
                                                     </div>
@@ -286,7 +279,6 @@
                                 </div>
 
                                 <div role="tabpanel" class="tab-pane fade in" id="hotels">
-                                   
                                 </div>
 
                             </div>
@@ -416,10 +408,10 @@
             <div class="gallery-details">
                 <div class="gallary-header text-center">
                     <h2>
-                        top destination
+                        Instalaciones
                     </h2>
                     <p>
-                        Where do you wanna go? How much you wanna explore?
+                        Aqui te mostramos algunas imagenes de nuestras instalaciones
                     </p>
                 </div>
                 <!--/.gallery-header-->

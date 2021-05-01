@@ -209,7 +209,7 @@
                                                     <select class="form-control" id="tipo_pago_reserva" name="tipo_pago_reserva">
                                                         <?php
                                                         foreach ($pago as $p) {
-                                                            if($reserva[0]->tipo_pago_reserva != $p->id_modo_pago){
+                                                            if($reserva[0]->tipo_pago_reserva == $p->id_modo_pago){
                                                         ?>
                                                             <option value="<?php echo $p->id_modo_pago ?>"><?php echo $p->nombre_modo_pago ?></option>
                                                         <?php
