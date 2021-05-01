@@ -56,7 +56,7 @@ class Reserva extends MY_Controller {
         $data['reservas_reservadas']   = $this->Reserva_model->get_reservas_activas(1);
         $data['habitacion_reservadas']   = $this->Reserva_model->get_habitacion_reserva(array(1,2));
         
-        $data['habitacion']   = $this->Reserva_model->get_habitacion(array(1,2));
+        $data['habitacion']   = $this->Reserva_model->get_habitacion(array(1,2,7,8));
         $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(5)); //5 limpieza
         $data['habitacion_mantenimiento']   = $this->Reserva_model->get_habitacion(array(6)); //9 mantenimiento
 
@@ -149,7 +149,7 @@ class Reserva extends MY_Controller {
 			$data = $this->db_error_format($data);
 			$this->session->set_flashdata('danger', "Reserva No Fue Actualizada : ". $data['message']);
 		}	
-		redirect(base_url()."reservas/reserva/index");
+		redirect(base_url()."reservas/reserva/editar/". $_POST['id_reserva']);
 	}
 
 	public function eliminar($id){

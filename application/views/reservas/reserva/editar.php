@@ -112,7 +112,7 @@
                         </div>
                         <div class="row">
                             <form class="form-horizontal" id='reservas' method="post">
-
+                                <input type="hidden" name="id_reserva" value="<?php echo $reserva[0]->id_reserva; ?>"/>
                                 <div class="col-lg-7">
                                     <div class="row">
                                         <div class="col-lg-4">
@@ -292,7 +292,7 @@
 
                                             <div class="form-group">
                                                 <div class="col-sm-offset-4 col-sm-8">
-                                                    <input type="button" name="<?php echo base_url() ?>reservas/reserva/crear" data="reservas" class="btn btn-success enviar_data" value="Guardar">
+                                                    <input type="button" name="<?php echo base_url() ?>reservas/reserva/update" data="reservas" class="btn btn-success enviar_data" value="Guardar">
                                                 </div>
                                             </div>
 
@@ -307,14 +307,16 @@
                                                 <tr>
                                                     <?php
                                                     $habitacion_asignada = [];
-                                                    foreach ($habitacion_ as $key => $habitaciones) {
-                                                        $habitacion_asignada[] = $habitaciones->id_reserva_habitacion;
-                                                    ?>
-                                                        <td class="box-padding">
-                                                            <input type="checkbox" checked class="input-check" name="habitacion-<?php echo $key ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->id_reserva_habitacion ?>" />
-                                                            <?php echo $habitaciones->codigo_habitacion . "  " . $habitaciones->nombre_habitacion ?>
-                                                        </td>
-                                                    <?php
+                                                    if ($habitacion_) {
+                                                        foreach ($habitacion_ as $key => $habitaciones) {
+                                                            $habitacion_asignada[] = $habitaciones->id_reserva_habitacion;
+                                                        ?>
+                                                            <td class="box-padding">
+                                                                <input type="checkbox" checked class="input-check" name="habitacion-<?php echo $key ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->id_reserva_habitacion ?>" />
+                                                                <?php echo $habitaciones->codigo_habitacion . "  " . $habitaciones->nombre_habitacion ?>
+                                                            </td>
+                                                        <?php
+                                                        }
                                                     }
 
                                                     if ($habitacion) {
@@ -344,15 +346,15 @@
                                             <table>
                                                 <tr>
                                                     <?php
-
+                                                    $cc = 0;
                                                     $mesa_asignada = [];
                                                     if($mesa_){
-                                                        foreach ($mesa_ as $key => $mesa) {
-                                                            $mesa_asignada[] = $mesa->id_reserva_mesa;
+                                                        foreach ($mesa_ as $key => $_mesa) {
+                                                            $mesa_asignada[] = $_mesa->id_reserva_mesa;
                                                             ?>
                                                             <td class="box-padding">
-                                                                <input type="checkbox" checked class="input-check" name="mesa-<?php echo $key ?>" id="mesas" value="<?php echo $mesa->id_reserva_mesa ?>" />
-                                                                <?php echo $mesa->codigo_mesa . "  " . $mesa->nombre_mesa ?>
+                                                                <input type="checkbox" checked class="input-check" name="mesa-<?php echo $key ?>" id="mesas" value="<?php echo $_mesa->id_reserva_mesa ?>" />
+                                                                <?php echo $_mesa->codigo_mesa . "  " . $_mesa->nombre_mesa ?>
                                                             </td>
                                                         <?php
                                                         }

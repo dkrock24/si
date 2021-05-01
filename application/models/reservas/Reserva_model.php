@@ -33,8 +33,8 @@ class Reserva_model extends CI_Model {
     }
 
     function record_count($filter){
-        $this->db->where('habitacion.Sucursal', $this->session->usuario[0]->Sucursal. ' '. $filter);
-        $this->db->from( self::mesa.' as habitacion');
+        $this->db->where('reserva.Sucursal', $this->session->usuario[0]->Sucursal. ' '. $filter);
+        $this->db->from( self::reserva.' as reserva');
         $result = $this->db->count_all_results();
         return $result;
     }
@@ -279,12 +279,86 @@ class Reserva_model extends CI_Model {
         }
     }
 
-    function update($habitacion){
+    function update($reserva){
 
-    	$this->db->where('id_reserva_mesa', $habitacion['id_reserva_mesa']);  
-        $result = $this->db->update(self::mesa, $habitacion);  
+    	$cc = 0;
+        $reserva_mesa = [];
+        $reserva_zona = [];
+        $reserva_habitacion = array();
+
+        foreach ($reserva as $key => $habitacion) {
+
+            if (isset($reserva['habitacion-'.$cc])) {
+                $reserva_habitacion[] = $reserva['habitacion-'.$cc];
+                unset($reserva['habitacion-'.$cc]);
+            }
+
+            if (isset($reserva['mesa-'.$cc])) {
+                $reserva_mesa[] = $reserva['mesa-'.$cc];
+                unset($reserva['mesa-'.$cc]);
+            }
+
+            if (isset($reserva['zona-'.$cc])) {
+                $reserva_zona[] = $reserva['zona-'.$cc];
+                unset($reserva['zona-'.$cc]);
+            }
+
+            $cc++;
+        }
+
+
+
+        /** Insertar Reserva */        
+        $id_reserva = $reserva['id_reserva'];
+        unset($reserva['id_reserva']);
+        //var_dump($reserva);die;
+
+        $this->db->where('id_reserva', $id_reserva);
+        $result = $this->db->update(self::reserva, $reserva);
+
         if(!$result){
             $result = $this->db->error();
+        }
+
+        /** Insertar Detalle habitacion */
+        
+        $this->db->where('reserva', $id_reserva);
+        $this->db->delete(self::reserva_detalle_habitacion);
+        
+        if($reserva_habitacion){
+
+            foreach ($reserva_habitacion as $key => $habitacion) {
+                
+                $detalle = array('reserva'=> $id_reserva, 'habitacion'=> $habitacion);
+                $this->db->insert(self::reserva_detalle_habitacion, $detalle);
+            }
+        }
+
+        /** Insertar Detalle mesas */
+        
+        $this->db->where('reserva', $id_reserva);
+        $this->db->delete(self::reserva_detalle_mesa);
+        
+        if($reserva_mesa){
+
+            foreach ($reserva_mesa as $key => $mesa) {
+                
+                $detalle = array('reserva'=> $id_reserva, 'mesa'=> $mesa);
+                $this->db->insert(self::reserva_detalle_mesa, $detalle);
+            }
+        }
+
+        /** Insertar Detalle Zona */
+        $this->db->where('reserva', $id_reserva);
+        $this->db->delete(self::reserva_detalle_zona);
+
+        if($reserva_zona){
+
+            foreach ($reserva_zona as $key => $zona) {
+                
+                $detalle = array('reserva'=> $id_reserva, 'zona'=> $zona);
+                $this->db->insert(self::reserva_detalle_zona, $detalle);
+            }
         }
 
         return $result;
@@ -299,5 +373,42 @@ class Reserva_model extends CI_Model {
         }
 
         return $result;
+    }
+
+    function get_reservar_from_landing($reserva)
+    {       
+
+        $imagen="";
+        $imageProperties="";
+        if (!empty($_FILES['imagen_pago_reserva']['tmp_name'])) {
+            $imagen = @file_get_contents($_FILES['imagen_pago_reserva']['tmp_name']);
+            $imageProperties = @getimageSize($_FILES['imagen_pago_reserva']['tmp_name']);
+        }
+
+        $reserva['fecha_entrada_reserva'] = $reserva['fecha_entrada_reserva'].' 00:00:00';
+        $reserva['fecha_salida_reserva'] = $reserva['fecha_salida_reserva'].' 00:00:00';
+
+        $today = date("Ymd");
+        $rand = sprintf("%02d", rand(0,99));
+        $unique = $today .'-'. $rand;
+
+        $reserva['fecha_creada_reserva'] = date('Y-m-d H:i:s');
+        $reserva['imagen_pago_reserva'] = @$imagen;
+        $reserva['imagen_tipo_reserva'] = @$imageProperties['mime'];
+        $reserva['estado_reserva'] = 10;
+
+        /** Insertar Reserva */        
+        $reserva['Sucursal'] = 2;
+        $reserva['codigo_reserva'] = $unique;
+        $reserva['cliente_reserva'] = 1;
+
+        $insert     = $this->db->insert(self::reserva, $reserva);
+        $id_reserva = $this->db->insert_id();
+
+        if(!$insert){
+            $insert = $this->db->error();
+        }
+
+        return $unique;
     }
 }

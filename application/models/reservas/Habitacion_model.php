@@ -146,4 +146,17 @@ class Habitacion_model extends CI_Model {
 
         return $result;
     }
+
+    function get_habitacion_landing(){
+        $this->db->select('*');
+        $this->db->from( self::habitacion.' as habitacion');
+        $this->db->join( self::sucursal.' as s', ' on habitacion.Sucursal = s.id_sucursal' );
+        $this->db->where('habitacion.id_reserva_habitacion' );
+        $query = $this->db->get();
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
 }
