@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <html>
-  <head>
 
-    <!-- Font Icons CSS-->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/fontawesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/animate.css/animate.min.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/whirl/dist/whirl.css">
+<head>
 
-     <!-- DATATABLES-->
+   <!-- Font Icons CSS-->
+   <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/fontawesome/css/font-awesome.min.css">
+   <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/simple-line-icons/css/simple-line-icons.css">
+   <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/animate.css/animate.min.css">
+   <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/whirl/dist/whirl.css">
+
+   <!-- DATATABLES-->
    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/datatables-colvis/css/dataTables.colVis.css">
    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/datatables/media/css/dataTables.bootstrap.css">
    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/dataTables.fontAwesome/index.css">
-   
-    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/sweetalert/dist/sweetalert.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/bootstrap.css" id="bscss">
 
-    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/select2/dist/css/select2.css">
-    
+   <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/sweetalert/dist/sweetalert.css">
+   <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/bootstrap.css" id="bscss">
 
-    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/app.css" id="maincss">
+   <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+   <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/select2/dist/css/select2.css">
 
-    <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
-    <script src="<?php echo base_url(); ?>../asstes/js/HoldOn.min.js"></script>
-    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/HoldOn.min.css">
 
-    <script src="<?php echo base_url(); ?>../asstes/js/device-uuid.js"></script>
+   <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/app.css" id="maincss">
 
-    <link href="<?php echo base_url(); ?>../asstes/css/calendar/calendar.css" rel='stylesheet'></link>
-<script src="<?php echo base_url(); ?>../asstes/js/calendar/calendar.js"></script>
-    <script type="text/javascript">
+   <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+   <script src="<?php echo base_url(); ?>../asstes/js/HoldOn.min.js"></script>
+   <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/css/HoldOn.min.css">
 
-      window.addEventListener("load", function(){
-        /*
+   <script src="<?php echo base_url(); ?>../asstes/js/device-uuid.js"></script>
+
+   <link href="<?php echo base_url(); ?>../asstes/css/calendar/calendar.css" rel='stylesheet'>
+   </link>
+   <script src="<?php echo base_url(); ?>../asstes/js/calendar/calendar.js"></script>
+   <script type="text/javascript">
+      window.addEventListener("load", function() {
+         /*
         HoldOn.open({
             theme:"sk-bounce"
           });
@@ -42,7 +43,7 @@
          //loading();
       });
 
-      function loading(){
+      function loading() {
          HoldOn.close();
       }
 
@@ -52,20 +53,20 @@
       $(document).on("click", ".holdOn_plugin", function(event) {
          event.preventDefault();
          var url_pagina = $(this).attr('name');
-         document.cookie = "url = "+url_pagina;
+         document.cookie = "url = " + url_pagina;
 
-         if((url_pagina != "producto/orden/nuevo") ){
+         if ((url_pagina != "producto/orden/nuevo")) {
             $.ajax({
                type: "post",
-               url: "<?php echo base_url(); ?>"+url_pagina,
+               url: "<?php echo base_url(); ?>" + url_pagina,
                success: function(result) {
                   $(".loadViews").html(result);
                }
             });
          } else {
-            window.location.href ="<?php echo base_url(); ?>" + url_pagina;
+            window.location.href = "<?php echo base_url(); ?>" + url_pagina;
          }
-    });
+      });
 
       $(document).on('keypress', '#buscar_pantalla', function() {
          if (event.which == 13) {
@@ -74,7 +75,9 @@
             $.ajax({
                type: "post",
                url: "<?php echo base_url(); ?>admin/home/buscar",
-               data : {buscar:buscar_pantalla},
+               data: {
+                  buscar: buscar_pantalla
+               },
                success: function(result) {
                   document.cookie = "url = " + result;
                   loadPantalla(result);
@@ -84,10 +87,10 @@
          }
       });
 
-      function loadPantalla(url){
+      function loadPantalla(url) {
          $.ajax({
             type: "post",
-            url: "<?php echo base_url(); ?>"+ url,
+            url: "<?php echo base_url(); ?>" + url,
             success: function(result) {
                $(".loadViews").html(result);
             }
@@ -95,201 +98,208 @@
       }
 
       $(document).on('keydown', '.filtro-input', function(e) {
-        
-        if (e.which == 13) {
+
+         if (e.which == 13) {
             url_pagina = getCookie("url");
             var form = $(this);
-            console.log( form);
-            var data = {name : $(this).val()};
+            console.log(form);
+            var data = {
+               name: $(this).val()
+            };
             e.preventDefault();
             $.ajax({
-                type: "post",
-                //data: $('form#filtros').serialize(),
-                data : form,
-                url: "<?php echo base_url(); ?>"+url_pagina,
-                success: function(result) {
-                    $(".loadViews").html(result);
-                }
+               type: "post",
+               //data: $('form#filtros').serialize(),
+               data: form,
+               url: "<?php echo base_url(); ?>" + url_pagina,
+               success: function(result) {
+                  $(".loadViews").html(result);
+               }
             });
-        }
-    });
+         }
+      });
 
-    /**
-     * MENUS INTERNOS
-    */
-    $(document).on("click", ".accion_superior", function() {
-        
+      /**
+       * MENUS INTERNOS
+       */
+      $(document).on("click", ".accion_superior", function() {
+
          var url_accion = $(this).attr('name');
          var url_id = $(this).attr('id');
-         url_pagina     = getCookie("url");
-         var folder     = url_pagina.split('/')[0];
+         url_pagina = getCookie("url");
+         var folder = url_pagina.split('/')[0];
          var controller = url_pagina.split('/')[1];
-         var action     = url_pagina.split('/')[2];
-         var btn_data  = $(this).attr('data');
-         if(btn_data == "eliminar"){
+         var action = url_pagina.split('/')[2];
+         var btn_data = $(this).attr('data');
+         if (btn_data == "eliminar") {
             var confirm = askForRemoveItem(url_accion, url_id);
             return;
          }
 
-         url_accion = folder+"/"+controller+"/"+url_accion;
-         if (action == 'index') {
-         }
-         if((url_pagina != "producto/orden/nuevo") && (url_pagina != "producto/orden/index")){
+         url_accion = folder + "/" + controller + "/" + url_accion;
+         if (action == 'index') {}
+         if ((url_pagina != "producto/orden/nuevo") && (url_pagina != "producto/orden/index")) {
             loadJsFiles();
             $.ajax({
-                  type: "post",
-                  url: "<?php echo base_url(); ?>"+url_accion,
-                  success: function(result) {
-                     $(".loadViews").html(result);
-                  }
+               type: "post",
+               url: "<?php echo base_url(); ?>" + url_accion,
+               success: function(result) {
+                  $(".loadViews").html(result);
+               }
             });
-         }else{
+         } else {
             window.location.href = "<?php echo base_url(); ?>" + url_accion;
          }
-    });
+      });
 
-    /**
-     * FORMULARIOS
-     */
-    $(document).on("click", ".enviar_data", function() {
-         
-      var url_pagina = $(this).attr('name');
-      var form = $('#' + $(this).attr('data') )[0];
-      var data = new FormData(form);
+      /**
+       * FORMULARIOS
+       */
+      $(document).on("click", ".enviar_data", function() {
+
+         var url_pagina = $(this).attr('name');
+         var form = $('#' + $(this).attr('data'))[0];
+         var data = new FormData(form);
 
          $.ajax({
             type: "post",
             enctype: 'multipart/form-data',
-            processData: false,  // Important!
+            processData: false, // Important!
             contentType: false,
             cache: false,
-            data:  data,
+            data: data,
             url: url_pagina,
             success: function(result) {
                $(".loadViews").html(result);
             }
          });
-    });
-
-    /**
-     * PAGINACION 
-     */
-   $(document).on("click", ".link_paginacion", function() {
-      var url_pagina = $(this).attr('name');
-      $.ajax({
-         type: "post",
-         url: url_pagina,
-         success: function(result) {
-            $(".loadViews").html(result);
-         }
       });
-   });
 
-   function getCookie(cname) {
-      var name = cname + "=";
-      var decodedCookie = decodeURIComponent(document.cookie);
-      var ca = decodedCookie.split(';');
-      for(var i = 0; i <ca.length; i++) {
-         var c = ca[i];
-         while (c.charAt(0) == ' ') {
-            c = c.substring(1);
+      /**
+       * PAGINACION 
+       */
+      $(document).on("click", ".link_paginacion", function() {
+         var url_pagina = $(this).attr('name');
+         $.ajax({
+            type: "post",
+            url: url_pagina,
+            success: function(result) {
+               $(".loadViews").html(result);
+            }
+         });
+      });
+
+      function getCookie(cname) {
+         var name = cname + "=";
+         var decodedCookie = decodeURIComponent(document.cookie);
+         var ca = decodedCookie.split(';');
+         for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+               c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+               return c.substring(name.length, c.length);
+            }
          }
-         if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-         }
+         return "";
       }
-      return "";
-   }
 
-   function loadJsFiles(){
-      url_pagina     = getCookie("url");
-      var folder     = url_pagina.split('/')[0];
-      var controller = url_pagina.split('/')[1];
-      var action     = url_pagina.split('/')[2];
-   }
-      
-    </script>
-
-    <style type="text/css">
-
-    .holdOn_plugin{
-       cursor:pointer;
-    }
-
-    .content-wrapper{
-      margin-top: 100px !important;
-    }
-
-    .link_paginacion{
-      cursor:pointer;
-    }
-      .menuTop{
-        background: none; color: black;
-        font-family:Arial, Helvetica, sans-serif;
-        font-weight:900;
-        border:0px solid black;
-        
+      function loadJsFiles() {
+         url_pagina = getCookie("url");
+         var folder = url_pagina.split('/')[0];
+         var controller = url_pagina.split('/')[1];
+         var action = url_pagina.split('/')[2];
       }
-      .menuContent{
+   </script>
+
+   <style type="text/css">
+      .holdOn_plugin {
+         cursor: pointer;
+      }
+
+      .content-wrapper {
+         margin-top: 100px !important;
+      }
+
+      .link_paginacion {
+         cursor: pointer;
+      }
+
+      .menuTop {
          background: none;
-         border-top:4px solid #4974a7;
+         color: black;
+         font-family: Arial, Helvetica, sans-serif;
+         font-weight: 900;
+         border: 0px solid black;
+
+      }
+
+      .menuContent {
+         background: none;
+         border-top: 4px solid #4974a7;
          border-bottom: 2px solid #68af93;
 
       }
 
       .polaroid {
-        width: 80%;
-        background-color: white;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    }
-
-    div.img_logo {
-        text-align: left;
-        padding: 10px 20px;
-    }
-
-    /* Formularios, botones y lineas style*/
-
-      .lineas_formulario{
-         display:inline-block;
-         float:right;
+         width: 80%;
+         background-color: white;
+         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
       }
 
-      .lineas_top_formulario{
-         color:#4974a7;
+      div.img_logo {
+         text-align: left;
+         padding: 10px 20px;
       }
 
-      .background_inputs{
-         background:#68af93
+      /* Formularios, botones y lineas style*/
+
+      .lineas_formulario {
+         display: inline-block;
+         float: right;
+      }
+
+      .lineas_top_formulario {
+         color: #4974a7;
+      }
+
+      .background_inputs {
+         background: #68af93
       }
 
       /** Botones */
-      .btn-success{
-         background:#4974a7;
+      .btn-success {
+         background: #4974a7;
       }
 
-      .btn-info{
-         background:#68af93
-      }      
-
-      .img-thumbnail{
-         height:none !important;
+      .btn-info {
+         background: #68af93
       }
 
-      #buscar_pantalla{
-         margin-top:10px;
+      .img-thumbnail {
+         height: none !important;
       }
-    </style>
 
-  </head>
-  <title>
-      <?php
-      if(isset($title)){ echo $title; }else{ echo "Administracion"; }
-      ?>
-  </title>
-  <body>
-    <div class="wrapper">
-    <!-- top navbar-->
+      #buscar_pantalla {
+         margin-top: 10px;
+      }
+   </style>
+
+</head>
+<title>
+   <?php
+   if (isset($title)) {
+      echo $title;
+   } else {
+      echo "Administracion";
+   }
+   ?>
+</title>
+
+<body>
+   <div class="wrapper">
+      <!-- top navbar-->
       <header class="topnavbar-wrapper">
          <!-- START Top Navbar-->
          <nav role="navigation" class="navbar topnavbar">
@@ -297,15 +307,15 @@
             <div class="navbar-header">
                <a href="#/" class="navbar-brand">
                   <div class="brand-logo" style="padding: 0px 0px !important;">
-                    <h1 style="margin-top: 0px; color: black; font-size:25px;">
-                      <?php
-                      if(isset($this->session->empresa)){
-                        echo $this->session->empresa[0]->nombre_comercial;
-                      }
-                      ?>
-                    </h1>
-                    <!--
-                     <img src="<?php echo base_url(); ?>../asstes/img/logo.png" alt="App Logo" class="img-responsive"> -->  
+                     <h1 style="margin-top: 0px; color: black; font-size:25px;">
+                        <?php
+                        if (isset($this->session->empresa)) {
+                           echo $this->session->empresa[0]->nombre_comercial;
+                        }
+                        ?>
+                     </h1>
+                     <!--
+                     <img src="<?php echo base_url(); ?>../asstes/img/logo.png" alt="App Logo" class="img-responsive"> -->
                   </div>
                   <div class="brand-logo-collapsed">
                      <i alt="App Logo" class="img-responsive" style="color:black;font-size:28px;margin-top:15px;">IBS</i>
@@ -330,34 +340,16 @@
                   <!-- START User avatar toggle-->
                   <li>
                      <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
-                     <a id="user-block-toggle" href="<?php echo base_url().'admin/home/seleccionar_empresa'; ?>">
+                     <a id="user-block-toggle" href="<?php echo base_url() . 'admin/home/seleccionar_empresa'; ?>">
                         <em class="icon-home"></em>
                      </a>
                   </li>
                   <!-- END User avatar toggle-->
                   <!-- START lock screen-->
-                  
+
                   <!-- END lock screen-->
                </ul>
-               
-                  <?php
 
-                  if(isset($sucursales) && isset($terminal)){
-                     ?>
-                     <span style="text-align: left; font-size: 18px;overflow: hidden;margin-left:20px;">
-                           <?php echo $sucursales[0]->nombre_razon_social . " : "; ?>
-                            <?php echo @$empleado[0]->nombre_sucursal . "     |      "; ?>
-                            <?php echo $this->session->usuario[0]->role . " : "; ?>
-                            <?php echo $this->session->usuario[0]->nombre_usuario . "  |  "; ?>
-                            <?php echo $terminal[0]->nombre_caja . " "; ?>
-                            <?php echo $terminal[0]->nombre . " |  "; ?>
-                            <label id="time-part" style="position:relative"></label>
-                        </span>
-                     <?php
-                  }
-
-                  ?>
-               
                <!-- END Left navbar-->
                <!-- START Right Navbar-->
                <ul class="nav navbar-nav navbar-right">
@@ -369,15 +361,15 @@
                      <span style="font-size: 30px; color: grey;"> | </span>
                   </li>
                   <li>
-                    <a href="#" data-search-open="">
+                     <a href="#" data-search-open="">
                         <em class="icon-magnifier"></em>
                      </a>
                   </li>
 
                   <li>
-                  <input type="text" placeholder="Buscar" name="buscar" autocomplete="off" id="buscar_pantalla" class="form-control">
+                     <input type="text" placeholder="Buscar" name="buscar" autocomplete="off" id="buscar_pantalla" class="form-control">
                   </li>
-                                    
+
                   <!-- Fullscreen (only desktops)-->
                   <li class="visible-lg">
                      <a href="#" data-toggle-fullscreen="">
@@ -387,14 +379,14 @@
 
                   <!-- START Alert menu-->
                   <li class="dropdown dropdown-list">
-                     
+
                      <div class="user-block-picture" data-toggle="dropdown">
                         <div class="user-block-status">
                            <?php
-                              $type = $this->session->usuario[0]->t;
-                              $code = $this->session->usuario[0]->c;
+                           $type = $this->session->usuario[0]->t;
+                           $code = $this->session->usuario[0]->c;
                            ?>
-                           <img src="data: <?php echo $type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode( $code ) ?>" width="60" height="60" class="img-thumbnail img-circle" style="height:60px;">
+                           <img src="data: <?php echo $type ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($code) ?>" width="60" height="60" class="img-thumbnail img-circle" style="height:60px;">
                            <div class="circle circle-success circle-lg"></div>
                         </div>
                      </div>
@@ -407,19 +399,19 @@
                               <!-- list item-->
                               <a href="<?php echo base_url(); ?>login/logout" class="list-group-item">
                                  <div class="user-block-info">
-                                    <span class="user-block-name">Hola, 
-                                    <?php 
-                                    if(isset($this->session->usuario[0]->nombre_usuario)){
-                                       echo $this->session->usuario[0]->nombre_usuario;
-                                    }
-                                    ?>
+                                    <span class="user-block-name">Hola,
+                                       <?php
+                                       if (isset($this->session->usuario[0]->nombre_usuario)) {
+                                          echo $this->session->usuario[0]->nombre_usuario;
+                                       }
+                                       ?>
                                     </span>
                                     <span class="user-block-role">
-                                    <?php   
-                                    if(isset($this->session->usuario[0]->role))                     {
-                                       echo $this->session->usuario[0]->role;
-                                    }
-                                    ?>
+                                       <?php
+                                       if (isset($this->session->usuario[0]->role)) {
+                                          echo $this->session->usuario[0]->role;
+                                       }
+                                       ?>
                                     </span>
                                  </div>
                               </a>
@@ -484,7 +476,7 @@
                      </a>
                   </li>
 
-                  
+
                   <!-- END Offsidebar menu-->
                </ul>
                <!-- END Right Navbar-->
@@ -508,69 +500,64 @@
             <nav data-sidebar-anyclick-close="" class="sidebar">
                <!-- START sidebar nav-->
                <ul class="nav">
-                <br>
-                  
-                    <?php
-                        $id_menu = 0;
-                      if(isset($menu)){
-                        foreach ($menu as $menus)
-                        {                            
-                            if($id_menu != $menus->id_menu)
-                            {
-                                $id_menu = $menus->id_menu;                        
-                        ?>
-                        <li class=" ">
-                         <a href="#<?php echo $menus->nombre_menu; ?>" title="<?php echo $menus->nombre_menu; ?>" data-toggle="collapse">
-                            <em class="<?php echo $menus->icon_menu; ?>"></em>
-                            <span data-localize="sidebar.nav.DASHBOARD"><?php echo $menus->nombre_menu; ?></span>
-                         </a>
-                         <ul id="<?php echo $menus->nombre_menu; ?>" class="nav sidebar-subnav collapse">
-                            <?php
-                                foreach ($menu as $submenu)
-                                {
-                                    if($submenu->id_menu == $menus->id_menu && $submenu->estado_referencia !=1)
-                                    {
-                                ?>
-                                    
-                                    <li class="holdOn_plugin" name="<?php echo $submenu->url_submenu; ?>">
-                                      <?php
-                                      if($submenu->nueva_pagina ==1){
-                                        ?>
-                                        <a name="<?php echo $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>" target="_blank">
-                                          <span><?php echo $submenu->nombre_submenu; ?></span>
-                                       </a>
-                                        <?php
-                                      }else{
-                                        ?>
-                                        <a name="<?php echo $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>">
-                                          <span><?php echo $submenu->nombre_submenu; ?></span>
-                                       </a>
-                                        <?php
-                                      }
-                                      ?>
-                                       
-                                    </li>
+                  <br>
 
-                                <?php
+                  <?php
+                  $id_menu = 0;
+                  if (isset($menu)) {
+                     foreach ($menu as $menus) {
+                        if ($id_menu != $menus->id_menu) {
+                           $id_menu = $menus->id_menu;
+                  ?>
+                           <li class=" ">
+                              <a href="#<?php echo $menus->nombre_menu; ?>" title="<?php echo $menus->nombre_menu; ?>" data-toggle="collapse">
+                                 <em class="<?php echo $menus->icon_menu; ?>"></em>
+                                 <span data-localize="sidebar.nav.DASHBOARD"><?php echo $menus->nombre_menu; ?></span>
+                              </a>
+                              <ul id="<?php echo $menus->nombre_menu; ?>" class="nav sidebar-subnav collapse">
+                                 <?php
+                                 foreach ($menu as $submenu) {
+                                    if ($submenu->id_menu == $menus->id_menu && $submenu->estado_referencia != 1) {
+                                 ?>
+
+                                       <li class="holdOn_plugin" name="<?php echo $submenu->url_submenu; ?>">
+                                          <?php
+                                          if ($submenu->nueva_pagina == 1) {
+                                          ?>
+                                             <a name="<?php echo $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>" target="_blank">
+                                                <span><?php echo $submenu->nombre_submenu; ?></span>
+                                             </a>
+                                          <?php
+                                          } else {
+                                          ?>
+                                             <a name="<?php echo $submenu->url_submenu; ?>" title="<?php echo $submenu->nombre_submenu; ?>">
+                                                <span><?php echo $submenu->nombre_submenu; ?></span>
+                                             </a>
+                                          <?php
+                                          }
+                                          ?>
+
+                                       </li>
+
+                                 <?php
                                     }
-                                }
-                            ?>
+                                 }
+                                 ?>
 
-                         </ul>
-                         </li>
-                     <?php
-                            }
+                              </ul>
+                           </li>
+                  <?php
                         }
-                      }else{
-
-                      }
-                    ?>
-                  
-
-                  
+                     }
+                  } else {
+                  }
+                  ?>
 
 
-         <!-- 
+
+
+
+                  <!-- 
                   <li class=" ">
                      <a href="#multilevel" title="Multilevel" data-toggle="collapse">
                         <em class="fa fa-folder-open-o"></em>
@@ -849,7 +836,8 @@
                               </span>
                               <span class="pull-left">
                                  <!-- Contact avatar-->
-                                 <img src="<?php //echo base_url(); ?>" alt="Image" class="media-box-object img-circle thumb48">
+                                 <img src="<?php //echo base_url(); 
+                                             ?>" alt="Image" class="media-box-object img-circle thumb48">
                               </span>
                               <!-- Contact info-->
                               <span class="media-box-body">
@@ -868,7 +856,8 @@
                               </span>
                               <span class="pull-left">
                                  <!-- Contact avatar-->
-                                 <img src="<?php //echo base_url(); ?>" alt="Image" class="media-box-object img-circle thumb48">
+                                 <img src="<?php //echo base_url(); 
+                                             ?>" alt="Image" class="media-box-object img-circle thumb48">
                               </span>
                               <!-- Contact info-->
                               <span class="media-box-body">
@@ -887,7 +876,8 @@
                               </span>
                               <span class="pull-left">
                                  <!-- Contact avatar-->
-                                 <img src="<?php //echo base_url(); ?>" alt="Image" class="media-box-object img-circle thumb48">
+                                 <img src="<?php //echo base_url(); 
+                                             ?>" alt="Image" class="media-box-object img-circle thumb48">
                               </span>
                               <!-- Contact info-->
                               <span class="media-box-body">
@@ -906,7 +896,8 @@
                               </span>
                               <span class="pull-left">
                                  <!-- Contact avatar-->
-                                 <img src="<?php //echo base_url(); ?>" alt="Image" class="media-box-object img-circle thumb48">
+                                 <img src="<?php //echo base_url(); 
+                                             ?>" alt="Image" class="media-box-object img-circle thumb48">
                               </span>
                               <!-- Contact info-->
                               <span class="media-box-body">
@@ -932,7 +923,8 @@
                               </span>
                               <span class="pull-left">
                                  <!-- Contact avatar-->
-                                 <img src="<?php //echo base_url(); ?>" alt="Image" class="media-box-object img-circle thumb48">
+                                 <img src="<?php //echo base_url(); 
+                                             ?>" alt="Image" class="media-box-object img-circle thumb48">
                               </span>
                               <!-- Contact info-->
                               <span class="media-box-body">
@@ -951,7 +943,8 @@
                               </span>
                               <span class="pull-left">
                                  <!-- Contact avatar-->
-                                 <img src="<?php //echo base_url(); ?>" alt="Image" class="media-box-object img-circle thumb48">
+                                 <img src="<?php //echo base_url(); 
+                                             ?>" alt="Image" class="media-box-object img-circle thumb48">
                               </span>
                               <!-- Contact info-->
                               <span class="media-box-body">
@@ -1001,5 +994,6 @@
          <!-- END Off Sidebar (right)-->
       </aside>
 
-<script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
-<section class="loadViews"></<section>
+      <script src="<?php echo base_url(); ?>../asstes/vendor/jquery/dist/jquery.js"></script>
+      <section class="loadViews">
+         </<section>

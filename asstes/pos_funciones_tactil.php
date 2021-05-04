@@ -604,7 +604,6 @@ function procesar_venta(method) {
         }
 
         function showProducts(_productos_lista) {
-
             var producto_id = 0;
             var contador_precios = 1;
             interno_bodega = bodega;
@@ -640,6 +639,7 @@ function procesar_venta(method) {
                 var id_producto_presentacion = 0;
                 var conInterno = 0;
                 var idInterno = 0;
+                table_tr += "<option value='0'> Selecione Producto </option>";
                 $.each(_productos_lista, function(i, item) {
 
                     if ((id_producto_presentacion != item.id_entidad)
@@ -669,7 +669,7 @@ function procesar_venta(method) {
                     $(".dataSelect").html(table_tr);
                     selected = document.getElementById('dataSelect').selectedIndex = 0;
                     document.getElementById('dataSelect').focus();
-                }                
+                }
             }
         }
 
@@ -693,7 +693,7 @@ function procesar_venta(method) {
 
         });
 
-        $(document).on('click', '.dataSelect', function() {
+        $(document).on('change', '.dataSelect', function() {
             
             filtrar_presentaciones(this.value);
             event.preventDefault();
@@ -711,6 +711,7 @@ function procesar_venta(method) {
             var prod_escala_next    = 0;
             var prod_escala_cont    = 0;
             var prod_temp_id        = 0;
+            table_tr += "<option value='0'> Selecione Producto </option>";
             $.each(_productos_lista, function(i, item) {
 
                 if (producto == item.id_entidad ){
@@ -737,6 +738,7 @@ function procesar_venta(method) {
                 $(".dataSelect2").html(table_tr);
                 document.getElementById('dataSelect2').selectedIndex = 0;
                 document.getElementById('dataSelect2').focus();
+                $('.dataSelect2').siblings().show();
             }
         }
 
@@ -759,7 +761,7 @@ function procesar_venta(method) {
         });
 
         /* Buscar Producto Real  CLICK*/
-        $(document).on('click', '.dataSelect2', function() {
+        $(document).on('change', '.dataSelect2', function() {
             get_producto_completo(this.value);
             event.preventDefault();
             $('#dataSelect').hide();
@@ -2858,7 +2860,7 @@ function procesar_venta(method) {
                     tr_html += "<td class='border-table-left'>" + contador_tabla + "</td>";
                     tr_html += "<td class=''>" + element.producto + "</td>";
                     tr_html += "<td class=''>" + element.descripcion + "</td>";
-                    tr_html += "<td class=''><input type='text' autocomplete='off' name='cntProducto' cd='"+element.id_producto_detalle+"' class='form-control cntProducto' size='3' id='" + element.producto + "' value='" + element.cantidad + "' style='border:1px solid grey;width:90px;'></input></td>";
+                    tr_html += "<td class=''><input type='text' autocomplete='off' name='cntProducto' cd='"+element.id_producto_detalle+"' class='form-control cntProducto' size='3' id='" + element.producto + "' value='" + element.cantidad + "' style='border:1px solid grey;'></input></td>";
                     tr_html += "<td class=''>" + element.presentacion + "</td>";
                     tr_html += "<td class=''>" + element.presentacionFactor + "</td>";
                     if(precio_tag==0){
@@ -2867,7 +2869,7 @@ function procesar_venta(method) {
                         tr_html += "<td class=''><input type='text' class='form-control preProducto' size='4' name='" + element.producto + "' value='" + precio_tag.toFixed(2) + "' style='border:1px solid grey;'></input></td>";
                     }
 
-                    tr_html += "<td class=''><input type='text' class='form-control cntProducto' size='4' id='d" + element.producto + "' value='" + desc_tag.toFixed(2) + "' style='border:1px solid grey;width:40px;'></input></td>";
+                    tr_html += "<td class=''><input type='text' class='form-control cntProducto' size='4' id='d" + element.producto + "' value='" + desc_tag.toFixed(2) + "' style='border:1px solid grey;'></input></td>";
                     tr_html += "<td class=' total'>" + total_tag.toFixed(2) +" "+ gravado_exento + "</td>";
                     tr_html += "<td class=' '>" + element.bodega + "</td>";
                     if (element.combo == 1 || !element.id_producto_combo || element.invisible == 0) {
