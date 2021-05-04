@@ -203,6 +203,13 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label no-padding-right">Tactil</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" required class="form-control" id="dispositivo_tactil" name="dispositivo_tactil" placeholder="Tactil" value="0">
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div class="col-lg-4">

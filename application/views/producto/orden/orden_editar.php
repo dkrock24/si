@@ -24,7 +24,12 @@
 <script src="<?php echo base_url(); ?>../asstes/general.js"></script>
 
 <?php
-include("asstes/pos_funciones.php");
+
+if($terminal[0]->dispositivo_tactil) {
+    include("asstes/pos_funciones_tactil.php");
+} else {
+    include("asstes/pos_funciones.php");
+}
 include("asstes/pos_orden.php");
 ?>
 <script src="<?php echo base_url(); ?>../asstes/js/generalAlert.js"></script>
@@ -164,7 +169,8 @@ include("asstes/pos_orden.php");
                             <div class="panel-body">
                                 <div class="panel-body">
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
+
                                             <div class="form-group has-success control-style control-style">
                                                 <label class="format-label">
                                                 <i class="fa fa-file-o sz" style="font-size:20px;float:left;padding:5px;"></i>Formato Template Documento</label> 
@@ -190,7 +196,7 @@ include("asstes/pos_orden.php");
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-3 col-md-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
                                             <div class="form-group has-success control-style">
                                             <label class="format-label">
                                                 <i class="fa fa-user sz" style="font-size:20px;float:left;padding:5px;"></i>
@@ -199,7 +205,7 @@ include("asstes/pos_orden.php");
                                                 <select multiple="" class="form-control cliente_codigo2" id="cliente_codigo2" name="abc"></select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
                                             <div class="form-group has-success control-style">
                                             <label class="format-label">
                                                 <i class="fa fa-user sz" style="font-size:20px;float:left;padding:5px;"></i>
@@ -213,7 +219,7 @@ include("asstes/pos_orden.php");
                                                 <input type="text" name="cliente_nombre" class="form-control cliente_nombre" id="cliente_nombre" value="<?php echo $cliente_nombre ?>">
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
                                             <div class="form-group has-success control-style">
                                             <label class="format-label">
                                                 <i class="fa fa-user sz" style="font-size:20px;float:left;padding:5px;"></i>
@@ -289,7 +295,7 @@ include("asstes/pos_orden.php");
 
                                 <div class="panel-body">
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
                                             <div class="form-group has-success control-style">
                                                 <label class="format-label">
                                                     <i class="fa fa-file-o sz" style="font-size:20px; float:left;padding:5px;"></i>Tipo Documento
@@ -318,7 +324,7 @@ include("asstes/pos_orden.php");
                                             </div>
                                         </div>
                                         
-                                        <div class="col-lg-3 col-md-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
                                             <div class="form-group has-success control-style">
                                             <label class="format-label">
                                                 <i class="fa fa-clock-o sz" style="font-size:20px;float:left;padding:5px;"></i>
@@ -328,7 +334,7 @@ include("asstes/pos_orden.php");
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-3 col-md-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
                                             <div class="form-group has-success control-style">
                                                 <label class="format-label">
                                                 <i class="fa fa-building sz" style="font-size:20px;float:left;padding:5px;"></i>
@@ -356,7 +362,7 @@ include("asstes/pos_orden.php");
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-3 col-md-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
                                             <div class="form-group has-success control-style">
                                                 <label class="format-label">
                                                 <i class="fa fa-list-alt sz" style="font-size:20px;float:left;padding:5px;"></i>
@@ -371,7 +377,7 @@ include("asstes/pos_orden.php");
 
                                 <div class="panel-body">
                                     <div class="row">
-                                         <div class="col-lg-3 col-md-3">
+                                         <div class="col-lg-3 col-md-3 col-sm-6">
                                             <div class="form-group has-success control-style">
                                                 <label class="format-label">
                                                     <i class="fa fa-credit-card sz" style="font-size:20px; float:left;padding:5px;">
@@ -389,7 +395,7 @@ include("asstes/pos_orden.php");
                                             </div>
                                         </div>  
 
-                                        <div class="col-lg-3 col-md-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
                                             <div class="form-group has-success control-style">
                                             <label class="format-label">
                                                 <i class="fa fa-comment sz" style="font-size:20px;float:left;padding:5px;"></i>
@@ -397,7 +403,7 @@ include("asstes/pos_orden.php");
                                                 <input type="text" name="comentarios" class="form-control" value="<?php echo $orden[0]->orden_comentario; ?>">
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
                                             <div class="form-group has-success control-style">
                                             <label class="format-label">
                                                 <i class="fa fa-money sz" style="font-size:20px;float:left;padding:5px;"></i>
@@ -429,7 +435,7 @@ include("asstes/pos_orden.php");
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-3 col-md-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
                                             <div class="form-group has-success control-style">
                                                 <label class="format-label">
                                                 <i class="fa fa-user sz" style="font-size:20px;float:left;padding:5px;"></i>
@@ -467,24 +473,24 @@ include("asstes/pos_orden.php");
 
                 <!-- START table-responsive-->
                 <div class="row" style="padding:0px;">
-                    <div class="col-md-10">
+                    <div class="col-xs-12 col-md-10">
                         <table class="table table-sm table-hover" style="margin-bottom: 0px;">
                         <div class="row" style="background:#2D3B48;">
-                            <div class="col-lg-4">
+                            <div class="col-xs-4 col-md-5">
                                 <div class="" id="headerInputs" style="margin-left:0px;border:1px solid black;">
                                     <input type="text" placeholder="Buscar Producto" autocomplete="off" width="100px" name="producto_buscar" class="form-control producto_buscar " style="width:450px;border:3px solid grey;font-size:20px;">
                                 </div>
 
-                                <select multiple="" class="form-control dataSelect" id="dataSelect" style="height: 300px; width: 800px; font-size: 22px; font-family: monospace; display: block;">
-
-                                </select>
-
-                                <select multiple="" class="form-control dataSelect2" id="dataSelect2" style="height: 300px; width: 800px; font-size: 22px; font-family: monospace; display: block;border:3px solid #badae;">
-
-                                </select>
+                                <?php if ( $terminal[0]->dispositivo_tactil ) : ?>
+                                    <select class="form-control dataSelect" id="dataSelect" style="width: 800px; font-size: 22px; font-family: monospace; display: block;"></select>
+                                    <select  class="form-control dataSelect2" size="2" id="dataSelect2" style="height: 300px; width: 800px; font-size: 22px; font-family: monospace; display: block;border:3px solid #badae;"></select>
+                                <?php else: ?>
+                                    <select multiple class="form-control dataSelect" id="dataSelect" style="width: 800px; font-size: 22px; font-family: monospace; display: block;"></select>
+                                    <select multiple class="form-control dataSelect2" size="2" id="dataSelect2" style="height: 300px; width: 800px; font-size: 22px; font-family: monospace; display: block;border:3px solid #badae;"></select>
+                                <?php endif ?>
 
                             </div>
-                            <div class="col-lg-8" id="">
+                            <div class="col-xs-8 col-md-7">
                             <?php if($orden[0]->orden_estado != 6): ?>
                                 <button type="button" class="btn btn-labeled bg-green" style="font-size: 25px;" name="update_orden" id="guardar_orden"><i class='fa fa-save' style="color:white;"></i><span style="font-size:18;"> 5</span></button>
                             <?php endif ?>
@@ -546,7 +552,7 @@ include("asstes/pos_orden.php");
                         </div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-xs-12 col-md-2">
                         <div class="row" style="background:#2D3B48;padding-top: 7px;">
                             <div class="col-md-12" style="width: 100%; background: #2D3B48/*#0f4871*/;text-align: left;color: white;">
                                 <span style="font-size: 30px;">

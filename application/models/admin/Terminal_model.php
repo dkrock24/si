@@ -61,6 +61,7 @@ class Terminal_model extends CI_Model {
                 'sys_autorz' => 0,
                 'emp_autorz' => 3,
                 'dispositivo' => $dispositivo_info['device'],
+                'dispositivo_tactil' => $dispositivo_info['dispositivo_tactil'],
                 'estado_terminal' => 0,
                 'sist_operativo' => $dispositivo_info['so'],
                 'fh_inicio' => date('Y-m-d h:s:i'),
