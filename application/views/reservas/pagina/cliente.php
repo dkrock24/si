@@ -74,7 +74,7 @@
                     <div class="col-sm-2">
                         <div class="logo">
                             <a href="#">
-                                Empresa<span>Name</span>
+                                ORO Y <span>MIEL</span>
                             </a>
                         </div><!-- /.logo-->
                     </div><!-- /.col-->
