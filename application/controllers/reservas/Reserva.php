@@ -19,6 +19,7 @@ class Reserva extends MY_Controller {
 		$this->load->model('reservas/Mesa_model');
         $this->load->model('reservas/Reserva_model');
         $this->load->model('reservas/Zona_model');
+		$this->load->model('reservas/Paquete_model');
         $this->load->model('reservas/Estado_model');
         $this->load->model('admin/Cliente_model');
         $this->load->model('admin/Pagos_model');
@@ -59,6 +60,8 @@ class Reserva extends MY_Controller {
         $data['habitacion']   = $this->Reserva_model->get_habitacion(array(1,2,7,8));
         $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(5)); //5 limpieza
         $data['habitacion_mantenimiento']   = $this->Reserva_model->get_habitacion(array(6)); //9 mantenimiento
+
+		$data['paquetes'] = $this->Paquete_model->get_paquete_lista();
 
         $data['mesa'] = $this->Mesa_model->get_mesa_sucursal();
 

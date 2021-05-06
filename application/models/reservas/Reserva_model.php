@@ -9,6 +9,7 @@ class Reserva_model extends CI_Model {
     const reserva = 'reserva';
     const cliente = 'pos_cliente';
     const reserva_habitacion = 'reserva_habitacion';
+    const reserva_paquete = 'reserva_paquete_reserva';
     const reserva_detalle_habitacion = 'reserva_detalle_habitacion';
     const reserva_detalle_mesa = 'reserva_detalle_mesa';
     const reserva_detalle_zona = 'reserva_detalle_zona';
@@ -316,7 +317,7 @@ class Reserva_model extends CI_Model {
         $id_reserva = $reserva['id_reserva'];
         unset($reserva['id_reserva']);
 
-        $paquete['habitacion_aplica'] = isset($reserva['habitacion_aplica']) ? 1 : 0;
+        $reserva['habitacion_aplica'] = isset($reserva['habitacion_aplica']) ? 1 : 0;
         $reserva['estadia_aplica'] = isset($reserva['estadia_aplica']) ? 1 : 0;
         $reserva['comida_aplica'] = isset($reserva['comida_aplica']) ? 1 : 0;
 
@@ -392,8 +393,9 @@ class Reserva_model extends CI_Model {
             $imageProperties = @getimageSize($_FILES['imagen_pago_reserva']['tmp_name']);
         }
 
-        $reserva['fecha_entrada_reserva'] = $reserva['fecha_entrada_reserva'].' 00:00:00';
-        $reserva['fecha_salida_reserva'] = $reserva['fecha_salida_reserva'].' 00:00:00';
+        $reserva['fecha_entrada_reserva'] = $reserva['fecha_entrada_reserva'].' 14:00:00';
+        $reserva['fecha_salida_reserva'] = $reserva['fecha_salida_reserva'].' 14:00:00';
+        $reserva['color'] = "#e4f21c";
 
         $today = date("Ymd");
         $rand = sprintf("%02d", rand(0,99));
@@ -409,13 +411,49 @@ class Reserva_model extends CI_Model {
         $reserva['codigo_reserva'] = $unique;
         $reserva['cliente_reserva'] = 1;
 
+        $reserva['habitacion_aplica'] = isset($reserva['habitacion_aplica']) ? 1 : 0;
+        $reserva['estadia_aplica'] = isset($reserva['estadia_aplica']) ? 1 : 0;
+        $reserva['comida_aplica'] = isset($reserva['comida_aplica']) ? 1 : 0;
+
+        $reserva['total_personas_reserva'] = $reserva['total_adultos_reserva'] + $reserva['total_ninos_reserva'];
+
+        $cc = 0;
+        $reserva_paquete_reserva = [];
+        foreach ($reserva as $key => $paquete) {
+
+            if (isset($reserva['paquete_'.$cc])) {
+                $reserva_paquete_reserva[$cc]['paquete'] = $reserva['paquete_'.$cc];
+                $reserva_paquete_reserva[$cc]['cantidad'] = $reserva['cantidad_'.$cc];
+                unset($reserva['paquete_'.$cc]);
+            }
+            unset($reserva['cantidad_'.$cc]);
+
+            $cc++;
+        }
+
         $insert     = $this->db->insert(self::reserva, $reserva);
         $id_reserva = $this->db->insert_id();
 
+        $this->insert_reserva_paquete($id_reserva, $reserva_paquete_reserva);
+
         if(!$insert){
             $insert = $this->db->error();
+            return $insert;            
         }
 
         return $unique;
+    }
+
+    private function insert_reserva_paquete($reserva, $paquetes)
+    {
+        if ($paquetes) {
+            foreach ($paquetes as $paquete) {
+                $this->db->insert(self::reserva_paquete, array(
+                    'reserva' => $reserva,
+                    'paquete' => $paquete['paquete'],
+                    'cantidad' => $paquete['cantidad']
+                ));
+            }
+        }
     }
 }

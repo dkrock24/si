@@ -40,6 +40,6 @@ class Empresa extends MY_Controller {
            $code = $this->Reserva_model->get_reservar_from_landing($_POST);
         }
 
-        redirect(base_url()."reservacion/Empresa/index/". $code);
+        redirect(base_url()."reservacion/empresa/index/". $code);
     }
 }

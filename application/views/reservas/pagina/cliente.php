@@ -66,6 +66,76 @@
             width: 25px;
             background-color: #eee;
         }
+
+        .quantity {
+  position: relative;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+{
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number]
+{
+  -moz-appearance: textfield;
+}
+
+.quantity input {
+  
+  height: 42px;
+  line-height: 1.65;
+  float: left;
+  display: block;
+  padding: 0;
+  margin: 0;
+  padding-left: 20px;
+  border: 1px solid #eee;
+}
+
+.quantity input:focus {
+  outline: 0;
+}
+
+.quantity-nav {
+  float: left;
+  position: relative;
+  height: 42px;
+}
+
+.quantity-button {
+  position: relative;
+  cursor: pointer;
+  border-left: 1px solid #eee;
+  width: 20px;
+  text-align: center;
+  color: #333;
+  font-size: 13px;
+  font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+  line-height: 1.7;
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.quantity-button.quantity-up {
+  position: absolute;
+  height: 50%;
+  top: 0;
+  border-bottom: 1px solid #eee;
+}
+
+.quantity-button.quantity-down {
+  position: absolute;
+  bottom: -1px;
+  height: 50%;
+}
     </style>
 
 </head>
@@ -83,7 +153,7 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <div class="logo">
-                            <a href="<?php echo base_url() ?>/reservacion/empresa/index">
+                            <a href="<?php echo base_url() ?>reservacion/empresa/index">
                                 ORO Y <span>MIEL</span>
                             </a>
                         </div><!-- /.logo-->
@@ -113,7 +183,7 @@
         </div><!-- /.header-area -->
 
     </header><!-- /.top-area-->
-
+    <form action="reservar" name="reservar" method="post" enctype="multipart/form-data">
     <section id="home" class="about-us">
 
         <div class="container"><br><br><br><br><br><br>
@@ -133,165 +203,164 @@
 
                             <!-- Tab panes -->
                             <div class="tab-content">
-
                                 <div role="tabpanel" class="tab-pane active fade in" id="tours">
                                     <div class="tab-para">
-
-                                        <form action="reservar" name="reservar" method="post" enctype="multipart/form-data">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                                    <div class="single-tab-select-box">
-                                                        <h2>Nombre Reservacón</h2>
-                                                        <div class="travel-check-icon">
-                                                            <input type="text" class="form-control" required name="nombre_reserva" value="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-2 col-md-4 col-sm-4">
-                                                    <div class="single-tab-select-box">
-                                                        <h2>Ingreso</h2>
-                                                        <div class="travel-check-icon">
-                                                            <input type="date" name="fecha_entrada_reserva" class="form-control" value="<?php echo date('Y-m-d'); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-2 col-md-4 col-sm-4">
-                                                    <div class="single-tab-select-box">
-                                                        <h2>Salida</h2>
-                                                        <div class="travel-check-icon">
-                                                            <input type="date" name="fecha_salida_reserva" class="form-control" value="<?php echo date('Y-m-d'); ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-2 col-md-4 col-sm-4">
-                                                    <div class="single-tab-select-box">
-                                                        <h2>Adultos</h2>
-                                                        <div class="travel-check-icon">
-                                                            <input type="number" name="total_adultos_reserva" required min="1" value="1" max="100" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-2 col-md-4 col-sm-4">
-                                                    <div class="single-tab-select-box">
-                                                        <h2>Niños</h2>
-                                                        <div class="travel-check-icon">
-                                                            <input type="number" name="total_ninos_reserva" required min="1" value="0" max="100" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                                    <div class="single-tab-select-box">
-
-                                                        <h2>Documento</h2>
-                                                        <div class="travel-select-icon">
-                                                            <select class="form-control " name="identificacion_reserva">
-                                                                <option value="DUI">DUI</option><!-- /.option-->
-                                                                <option value="NIT">NIT</option><!-- /.option-->
-                                                                <option value="PASAPORTE">PASAPORTE</option><!-- /.option-->
-                                                            </select>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                                    <div class="single-tab-select-box">
-                                                        <h2>Número</h2>
-                                                        <div class="travel-check-icon">
-                                                            <input type="text" class="form-control" required name="identificacion_numero_reserva" value="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-2 col-md-2 col-sm-12">
-                                                    <div class="single-tab-select-box">
-                                                        <h2>Tipo Pago</h2>
-                                                        <div class="travel-select-icon">
-                                                            <select class="form-control " name="tipo_pago_reserva">
-                                                                <option value="1">Efectivo</option><!-- /.option-->
-                                                                <option value="2">T. Credito</option><!-- /.option-->
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-2 col-md-2 col-sm-12">
-                                                    <div class="single-tab-select-box">
-                                                        <h2>Monto Abono</h2>
-                                                        <div class="travel-check-icon">
-                                                            <input type="text" class="form-control" name="anticipo_pago_reserva" value="">
-                                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Nombre Reservacón</h2>
+                                                    <div class="travel-check-icon">
+                                                        <input type="text" class="form-control" required name="nombre_reserva" value="">
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                                    <div class="single-tab-select-box">
-                                                        <h2>Telefono 1</h2>
-                                                        <div class="travel-check-icon">
-                                                            <input type="text" class="form-control" required name="telefono_trabajo_reserva" value="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                                    <div class="single-tab-select-box">
-                                                        <h2>Telefono 2</h2>
-                                                        <div class="travel-check-icon">
-                                                            <input type="text" class="form-control" name="telefono_celular_reserva" value="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                                    <div class="single-tab-select-box">
-                                                        <h2>Adjuntar Comprobante</h2>
-                                                        <div class="travel-check-icon">
-                                                            <input type="file" class="form-control" name="imagen_pago_reserva" value="">
-                                                        </div>
+                                            <div class="col-lg-2 col-md-4 col-sm-4">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Ingreso</h2>
+                                                    <div class="travel-check-icon">
+                                                        <input type="date" name="fecha_entrada_reserva" class="form-control" value="<?php echo date('Y-m-d'); ?>">
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-lg-1 col-md-1 col-sm-12">
-                                                    <input type="checkbox" class="input-check" name="estadia" value="" />Estadia
+                                            <div class="col-lg-2 col-md-4 col-sm-4">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Salida</h2>
+                                                    <div class="travel-check-icon">
+                                                        <input type="date" name="fecha_salida_reserva" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-1 col-md-1 col-sm-12">
-                                                    <input type="checkbox" class="input-check" name="habitacion" value="" />Habitación
-                                                </div>
-                                                <div class="col-lg-1 col-md-1 col-sm-12">
-                                                    <input type="checkbox" class="input-check" name="comida" value="" />Comida
-                                                </div>
-                                                <div class="col-lg-2 col-md-5 col-sm-12">
-                                                    <h4>
-                                                        <?php
-                                                        if (isset($unique)) {
-                                                            echo "Tu Codigo de Reserva es : " . "<label class='badge badge-info' style='font-size:22px;background:orange;'>" . $unique . "<label>";
-                                                        }
-                                                        ?>
-                                                    </h4>
-                                                </div>
+                                            </div>
 
-                                                <div class="col-lg-7 col-md-4 col-sm-12">
-                                                    <div class="about-btn travel-mrt-0 pull-right">
+                                            <div class="col-lg-2 col-md-4 col-sm-4">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Adultos</h2>
+                                                    <div class="travel-check-icon">
+                                                        <input type="number" name="total_adultos_reserva" required min="1" value="1" max="100" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col-md-4 col-sm-4">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Niños</h2>
+                                                    <div class="travel-check-icon">
+                                                        <input type="number" name="total_ninos_reserva" min="0" value="0" max="100" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                                <div class="single-tab-select-box">
+
+                                                    <h2>Documento</h2>
+                                                    <div class="travel-select-icon">
+                                                        <select class="form-control " name="identificacion_reserva">
+                                                            <option value="DUI">DUI</option><!-- /.option-->
+                                                            <option value="NIT">NIT</option><!-- /.option-->
+                                                            <option value="PASAPORTE">PASAPORTE</option><!-- /.option-->
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Número</h2>
+                                                    <div class="travel-check-icon">
+                                                        <input type="text" class="form-control" required name="identificacion_numero_reserva" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col-md-2 col-sm-12">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Tipo Pago</h2>
+                                                    <div class="travel-select-icon">
+                                                        <select class="form-control " name="tipo_pago_reserva">
+                                                            <option value="1">Efectivo</option><!-- /.option-->
+                                                            <option value="2">T. Credito</option><!-- /.option-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col-md-2 col-sm-12">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Monto Abono</h2>
+                                                    <div class="travel-check-icon">
+                                                        <input type="text" class="form-control" name="anticipo_pago_reserva" value="0">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Telefono 1</h2>
+                                                    <div class="travel-check-icon">
+                                                        <input type="text" class="form-control" required name="telefono_trabajo_reserva" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Telefono 2</h2>
+                                                    <div class="travel-check-icon">
+                                                        <input type="text" class="form-control" name="telefono_celular_reserva" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Adjuntar Comprobante</h2>
+                                                    <div class="travel-check-icon">
+                                                        <input type="file" class="form-control" name="imagen_pago_reserva" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-1 col-md-1 col-sm-12">
+                                                <input type="checkbox" class="input-check" name="estadia_aplica" value="" />Estadia
+                                            </div>
+                                            <div class="col-lg-1 col-md-1 col-sm-12">
+                                                <input type="checkbox" class="input-check" name="habitacion_aplica" value="" />Habitación
+                                            </div>
+                                            <div class="col-lg-1 col-md-1 col-sm-12">
+                                                <input type="checkbox" class="input-check" name="comida_aplica" value="" />Comida
+                                            </div>
+                                            <div class="col-lg-4 col-md-5 col-sm-12">
+                                                <h4>
+                                                    <?php
+                                                    if (isset($unique)) {
+                                                        echo "Tu Codigo de Reservación es : " . "<label class='badge badge-info' style='font-size:22px;background:orange;'>" . $unique . "<label>";
+                                                    }
+                                                    ?>
+                                                </h4>
+                                            </div>
+
+                                            <div class="col-lg-5 col-md-4 col-sm-12">
+                                                <div class="about-btn travel-mrt-0 pull-right">
+                                                    <?php if (!isset($unique)) : ?>
                                                         <input type="submit" class="about-view travel-btn" value="Registrar" />
-                                                    </div>
+                                                    <?php else: ?>
+                                                        <a href="index" class="about-view travel-btn">Regresar</a>
+                                                    <?php endif ?>
                                                 </div>
-
                                             </div>
-                                        </form>
-                                    </div>
 
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div role="tabpanel" class="tab-pane fade in" id="hotels">
@@ -342,6 +411,125 @@
 
     </section>
 
+    <!--packages start-->
+    <section id="pack" class="packages" style="padding: 0px 0 90px;">
+        <div class="container">
+            <div class="gallary-header text-center">
+                <h2>
+                    Paquetes
+                </h2>
+                <p>
+                    Te ofrecemos los mejores precios para ti!
+                </p>
+            </div>
+            <!--/.gallery-header-->
+            <div class="packages-content">
+                <div class="row">
+
+                    <?php
+                    $cnt = 0;
+                    foreach ($paquetes as $key => $paquete) {
+                        if (!$paquete->solo_imagen) {
+                    ?>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="single-package-item">
+                                    <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/packages/p1.jpg" alt="package-place" class="reserva_paquete img<?php echo $paquete->id_reserva_paquete; ?>" id="<?php echo $paquete->id_reserva_paquete; ?>">
+                                    <div class="single-package-item-txt" id="reserva_informacion<?php echo $paquete->id_reserva_paquete; ?>">
+                                        <h3><?php echo $paquete->nombre_paquete; ?> <span class="pull-right">$ <?php echo $paquete->precio_paquete; ?></span></h3>
+                                        <div class="packages-para">
+                                            <p><i class="fa fa-angle-right"></i> <?php echo $paquete->descripcion_paquete; ?></p>
+                                        </div>
+                                        <div class="packages-review">
+                                            INCLUYE <br>
+                                            <?php
+                                            if ($paquete->estadia_paquete) {
+                                            ?><span><i class="fa fa-angle-right"></i> ESTADIA</span><br><?php
+                                            }
+                                            if ($paquete->habitacion) {
+                                                ?><span><i class="fa fa-angle-right"></i> HABITACION</span><br><?php
+                                                }
+                                                if ($paquete->comida_paquete) {
+                                                    ?><span><i class="fa fa-angle-right"></i> COMIDA</span><br><?php
+                                                }
+                                                ?>
+                                            <br>
+                                            GRUPO DE PERSONAS <span><i class="fa fa-angle-right"></i> <?php echo $paquete->limite_personas ?></span><br>
+                                        </div>
+                                    </div>
+                                    <div class="about-btn">
+                                        <span style="padding-left:15px;">Selecionar</span>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="checkbox" class="form-control" name="paquete_<?php echo $cnt; ?>" id="paquete" value="<?php echo $paquete->id_reserva_paquete; ?>" />
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="quantity">
+                                                        <input type="number" name="cantidad_<?php echo $cnt ?>" min="1" max="9" step="1" value="1">
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
+                        } else {
+                        ?>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="single-package-item">
+                                    <?php if ($paquete->imagen_paquete) : ?>
+                                        <img src="data: <?php echo $paquete->imagen_tipo ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($paquete->imagen_paquete) ?>" class="reserva_paquete img<?php echo $paquete->id_reserva_paquete; ?>" id="<?php echo $paquete->id_reserva_paquete; ?>" />
+
+                                    <?php endif ?>
+                                    <div class="single-package-item-txt" id="reserva_informacion<?php echo $paquete->id_reserva_paquete; ?>">
+                                        <h3><?php echo $paquete->nombre_paquete; ?> <span class="pull-right">$ <?php echo $paquete->precio_paquete; ?></span></h3>
+                                        <div class="packages-para">
+                                            <p><i class="fa fa-angle-right"></i> <?php echo $paquete->descripcion_paquete; ?></p>
+                                        </div>
+                                        <div class="packages-review">
+                                            INCLUYE <br>
+                                            <?php
+                                            if ($paquete->estadia_paquete) {
+                                            ?><span><i class="fa fa-angle-right"></i> ESTADIA</span><br><?php
+                                                }
+                                                if ($paquete->habitacion) {
+                                                    ?><span><i class="fa fa-angle-right"></i> HABITACION</span><br><?php
+                                                    }
+                                                    if ($paquete->comida_paquete) {
+                                                        ?><span><i class="fa fa-angle-right"></i> COMIDA</span><br><?php
+                                                    }
+                                                    ?>
+                                        </div>
+
+                                    </div>
+                                    <div class="about-btn">
+                                        <span style="padding-left:15px;">Selecionar</span>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6">
+                                                <input type="checkbox" class="form-control" name="paquete_<?php echo $cnt; ?>" id="paquete" value="<?php echo $paquete->id_reserva_paquete; ?>" />
+                                            </div>
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="quantity">
+                                                    <input type="number" name="cantidad_<?php echo $cnt ?>" min="1" max="9" step="1" value="1">
+                                                </div>
+                                            </div>
+                                        </div>                                      
+                                    </div>
+                                </div>
+                            </div>
+                    <?php
+                        }
+                        $cnt++;
+                    }
+                    ?>
+                </div>
+                <!--/.row-->
+            </div>
+            <!--/.packages-content-->
+        </div>
+        <!--/.container-->
+
+    </section>
+    </form>
     <!--service start-->
     <section id="service" class="service">
         <div class="container">
@@ -411,114 +599,10 @@
 
             </div>
             <!--/.statistics-counter-->
-        </div>
+    </div>
         <!--/.container-->
 
     </section>
-    <!--/.service-->
-    <!--service end-->
-
-    <!--packages start-->
-    <section id="pack" class="packages" style="padding: 0px 0 90px;">
-        <div class="container">
-            <div class="gallary-header text-center">
-                <h2>
-                    Paquetes
-                </h2>
-                <p>
-                    Te ofrecemos los mejores precios para ti!
-                </p>
-            </div>
-            <!--/.gallery-header-->
-            <div class="packages-content">
-                <div class="row">
-
-                    <?php
-                    $cnt = 0;
-                    foreach ($paquetes as $key => $paquete) {
-                        if (!$paquete->solo_imagen) {
-                    ?>
-                            <div class="col-md-4 col-sm-6">
-                                <div class="single-package-item">
-                                    <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/packages/p1.jpg" alt="package-place" class="reserva_paquete img<?php echo $paquete->id_reserva_paquete; ?>" id="<?php echo $paquete->id_reserva_paquete; ?>">
-                                    <div class="single-package-item-txt" id="reserva_informacion<?php echo $paquete->id_reserva_paquete; ?>">
-                                        <h3><?php echo $paquete->nombre_paquete; ?> <span class="pull-right">$ <?php echo $paquete->precio_paquete; ?></span></h3>
-                                        <div class="packages-para">
-                                            <p><i class="fa fa-angle-right"></i> <?php echo $paquete->descripcion_paquete; ?></p>
-                                        </div>
-                                        <div class="packages-review">
-                                            INCLUYE <br>
-                                            <?php
-                                            if ($paquete->estadia_paquete) {
-                                            ?><span><i class="fa fa-angle-right"></i> ESTADIA</span><br><?php
-                                                                                                }
-                                                                                                if ($paquete->habitacion) {
-                                                                                                    ?><span><i class="fa fa-angle-right"></i> HABITACION</span><br><?php
-                                                                                                    }
-                                                                                                    if ($paquete->comida_paquete) {
-                                                                                                        ?><span><i class="fa fa-angle-right"></i> COMIDA</span><br><?php
-                                                                                                    }
-                                                                                                    ?>
-                                            <br>
-                                            GRUPO DE PERSONAS <span><i class="fa fa-angle-right"></i> <?php echo $paquete->limite_personas ?></span><br>
-                                        </div>
-                                    </div>
-                                    <div class="about-btn">
-                                        Selecionar <input type="checkbox" class="form-control  packages-btn" name="paquete<?php echo $cnt; ?>" id="paquete" />
-                                    </div>
-                                </div>
-                            </div>
-                        <?php
-                        } else {
-                        ?>
-                            <div class="col-md-4 col-sm-6">
-                                <div class="single-package-item">
-                                    <?php if ($paquete->imagen_paquete) : ?>
-                                        <img src="data: <?php echo $paquete->imagen_tipo ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($paquete->imagen_paquete) ?>" class="reserva_paquete img<?php echo $paquete->id_reserva_paquete; ?>" id="<?php echo $paquete->id_reserva_paquete; ?>" />
-
-                                    <?php endif ?>
-                                    <div class="single-package-item-txt" id="reserva_informacion<?php echo $paquete->id_reserva_paquete; ?>">
-                                        <h3><?php echo $paquete->nombre_paquete; ?> <span class="pull-right">$ <?php echo $paquete->precio_paquete; ?></span></h3>
-                                        <div class="packages-para">
-                                            <p><i class="fa fa-angle-right"></i> <?php echo $paquete->descripcion_paquete; ?></p>
-                                        </div>
-                                        <div class="packages-review">
-                                            INCLUYE <br>
-                                            <?php
-                                            if ($paquete->estadia_paquete) {
-                                            ?><span><i class="fa fa-angle-right"></i> ESTADIA</span><br><?php
-                                                                                                    }
-                                                                                                    if ($paquete->habitacion) {
-                                                                                                        ?><span><i class="fa fa-angle-right"></i> HABITACION</span><br><?php
-                                                                                                        }
-                                                                                                        if ($paquete->comida_paquete) {
-                                                                                                            ?><span><i class="fa fa-angle-right"></i> COMIDA</span><br><?php
-                                                                                                        }
-                                                                                                        ?>
-                                        </div>
-
-                                    </div>
-                                    <div class="about-btn">
-                                        Selecionar <input type="checkbox" class="form-control  packages-btn" name="paquete<?php echo $cnt; ?>" id="paquete" />
-                                    </div>
-                                </div>
-                            </div>
-                    <?php
-                        }
-                        $cnt++;
-                    }
-                    ?>
-                </div>
-                <!--/.row-->
-            </div>
-            <!--/.packages-content-->
-        </div>
-        <!--/.container-->
-
-    </section>
-    <!--/.packages-->
-    <!--packages end-->
-
     <!--galley start-->
     <section id="gallery" class="gallery">
         <div class="container">
@@ -621,10 +705,6 @@
         <!--/.container-->
 
     </section>
-    <!--/.gallery-->
-    <!--gallery end-->
-
-    <!--subscribe end-->
 
     <!-- footer-copyright start -->
     <footer class="footer-copyright">
@@ -648,10 +728,6 @@
         </div><!-- /.container-->
 
     </footer><!-- /.footer-copyright-->
-    <!-- footer-copyright end -->
-
-
-
 
     <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -733,6 +809,39 @@
                 $("#reserva_paquete").modal("show");
             });
         });
+
+        jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
+    jQuery('.quantity').each(function() {
+      var spinner = jQuery(this),
+        input = spinner.find('input[type="number"]'),
+        btnUp = spinner.find('.quantity-up'),
+        btnDown = spinner.find('.quantity-down'),
+        min = input.attr('min'),
+        max = input.attr('max');
+
+      btnUp.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue >= max) {
+          var newVal = oldValue;
+        } else {
+          var newVal = oldValue + 1;
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+      });
+
+      btnDown.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue <= min) {
+          var newVal = oldValue;
+        } else {
+          var newVal = oldValue - 1;
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+      });
+
+    });
     </script>
 
 </body>
