@@ -20,8 +20,8 @@ class Empresa extends MY_Controller {
         $this->load->model('reservas/Reserva_model');
         $this->load->model('reservas/Zona_model');
         $this->load->model('reservas/Estado_model');
+        $this->load->model('reservas/Paquete_model');
         $this->load->model('admin/Cliente_model');
-        $this->load->model('admin/Pagos_model');
 	}
 
 	public function index($code = 0){
@@ -29,7 +29,7 @@ class Empresa extends MY_Controller {
         if (!empty($code)) {
             $data['unique'] = $code;
         }
-        //$data['habitaciones']   = $this->Habitacion_model->get_habitacion_landing();
+        $data['paquetes'] = $this->Paquete_model->get_paquete_lista();
         $this->load->view('reservas/pagina/cliente', $data);
 	}
 

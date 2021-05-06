@@ -177,6 +177,10 @@ class Reserva_model extends CI_Model {
         $reserva['Sucursal'] = $this->session->usuario[0]->Sucursal;
         $reserva['codigo_reserva'] =$unique;
 
+        $paquete['habitacion'] = isset($paquete['habitacion']) ? 1 : 0;
+        $paquete['estadia'] = isset($paquete['estadia']) ? 1 : 0;
+        $paquete['comida'] = isset($paquete['comida']) ? 1 : 0;
+
         $insert     = $this->db->insert(self::reserva, $reserva);
         $id_reserva = $this->db->insert_id();
 
@@ -308,12 +312,13 @@ class Reserva_model extends CI_Model {
             $cc++;
         }
 
-
-
         /** Insertar Reserva */        
         $id_reserva = $reserva['id_reserva'];
         unset($reserva['id_reserva']);
-        //var_dump($reserva);die;
+
+        $paquete['habitacion_aplica'] = isset($reserva['habitacion_aplica']) ? 1 : 0;
+        $reserva['estadia_aplica'] = isset($reserva['estadia_aplica']) ? 1 : 0;
+        $reserva['comida_aplica'] = isset($reserva['comida_aplica']) ? 1 : 0;
 
         $this->db->where('id_reserva', $id_reserva);
         $result = $this->db->update(self::reserva, $reserva);

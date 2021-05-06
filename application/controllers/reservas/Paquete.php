@@ -106,7 +106,7 @@ class Paquete extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Nombre','Precio','Habitacion','Estadia','Comida','Descripcion','Limite','Sucursal','Estado'
+			'Nombre','Precio','Habitacion','Estadia','Comida','Descripcion','Limite','Mostrar Solo Imagen','Sucursal','Estado'
 		);
 		return $column;
 	}
@@ -120,6 +120,7 @@ class Paquete extends MY_Controller {
 			['comida_paquete'=> 'Comida'],
 			['descripcion_paquete'=> 'Descripcion'],
 			['limite_personas'=> 'Limite'],
+			['solo_imagen'=> 'SoloImagen'],
 			['Sucursal'=> 'Sucursal'],
 			['nombre_reserva_estados' => 'Estado']
 		);

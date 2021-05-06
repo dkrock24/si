@@ -84,6 +84,16 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-10">
+                                            <?php
+                                            $check_solo_imagen = $paquete[0]->solo_imagen ? 'checked' : '';
+                                            ?>
+                                            <input type="checkbox" <?php echo $check_solo_imagen; ?> id="solo_imagen" name="solo_imagen" value="1">
+                                            <label for="inputEmail3" class="">Mostrar solo imagen</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-10">
 
                                             <label>
                                                 <select name="estado_reserva_paquete" class="form-control">

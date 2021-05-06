@@ -33,6 +33,27 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-10">
+                                            <label for="inputEmail3" class="control-label no-padding-right">Descripcion</label>
+                                            <textarea class="form-control" id="descripcion_paquete" name="descripcion_paquete"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-10">
+                                            <label for="inputEmail3" class="">Imagen Paquete</label>
+                                            <input type="file" class="form-control" id="imagen_paquete" name="imagen_paquete">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-10">
+                                            <label for="inputEmail3" class="">Limite Persona</label>
+                                            <input type="text" class="form-control" id="limite_personas" name="limite_personas" placeholder="Limite Personas" value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-10">
                                             <input type="checkbox" class="" id="habitacion" name="habitacion" value="1">
                                             <label for="inputEmail3" class="">Habitación</label>
                                         </div>
@@ -54,22 +75,8 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-10">
-                                            <label for="inputEmail3" class="control-label no-padding-right">Descripcion</label>
-                                            <textarea class="form-control" id="descripcion_paquete" name="descripcion_paquete"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-10">
-                                            <label for="inputEmail3" class="">Imagen Paquete</label>
-                                            <input type="file" class="form-control" id="imagen_paquete" name="imagen_paquete">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-10">
-                                            <label for="inputEmail3" class="">Limite Persona</label>
-                                            <input type="text" class="form-control" id="limite_personas" name="limite_personas" placeholder="Limite Personas" value="">
+                                            <input type="checkbox" class="" id="solo_imagen" name="solo_imagen" value="1">
+                                            <label for="inputEmail3" class="">Mostrar solo imagen</label>
                                         </div>
                                     </div>
 

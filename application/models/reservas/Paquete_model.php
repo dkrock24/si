@@ -66,6 +66,19 @@ class Paquete_model extends CI_Model {
         }
     }
 
+    function get_paquete_lista(){
+    	$this->db->select('*');
+        $this->db->from( self::paquete.' as paquete');
+        $this->db->join( self::sucursal.' as s', ' on paquete.Sucursal = s.id_sucursal' );
+        $this->db->where('paquete.estado_reserva_paquete', 7 );
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function update($paquete){
 
         if (!empty($_FILES['imagen_paquete']['tmp_name'])) {
@@ -84,6 +97,7 @@ class Paquete_model extends CI_Model {
         $paquete['habitacion']      = isset($paquete['habitacion']) ? 1 : 0;
         $paquete['estadia_paquete'] = isset($paquete['estadia_paquete']) ? 1 : 0;
         $paquete['comida_paquete']  = isset($paquete['comida_paquete']) ? 1 : 0;
+        $paquete['solo_imagen']     = isset($paquete['solo_imagen']) ? 1 : 0;
 
     	$this->db->where('id_reserva_paquete', $id_reserva_paquete);
         $result = $this->db->update(self::paquete, $paquete);  

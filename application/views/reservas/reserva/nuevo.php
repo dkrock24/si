@@ -172,6 +172,27 @@
                                                 </div>
                                             </div>
 
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Estadia</label>
+                                                <div class="col-sm-8 no-padding-left">
+                                                    <input type="checkbox" class="input-check" id="estadia" name="estadia_aplica" value="">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Habitacón</label>
+                                                <div class="col-sm-8 no-padding-left">
+                                                    <input type="checkbox" class="input-check" id="habitacion" name="habitacion_aplica" value="">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Comida</label>
+                                                <div class="col-sm-8 no-padding-left">
+                                                    <input type="checkbox" class="input-check" id="comida" name="comida_aplica" value="">
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                         <div class="col-lg-4">
@@ -326,7 +347,7 @@
 
                                         <div class="col-lg-12">
                                             <hr>
-                                            <h4><i class="fa fa-map-signs"></i> Zonas:</h4>
+                                            <h4><i class="fa fa-map-signs"></i> Estadias:</h4>
                                             <table>
                                                 <tr>
                                                     <?php

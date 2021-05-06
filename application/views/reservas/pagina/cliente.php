@@ -58,6 +58,16 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
+    <style>
+        .input-check {
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -73,7 +83,7 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <div class="logo">
-                            <a href="#">
+                            <a href="<?php echo base_url() ?>/reservacion/empresa/index">
                                 ORO Y <span>MIEL</span>
                             </a>
                         </div><!-- /.logo-->
@@ -90,8 +100,8 @@
                             <div class="collapse navbar-collapse">
                                 <ul class="nav navbar-nav navbar-right">
                                     <li class="smooth-menu"><a href="#home">Inicio</a></li>
-                                    <li class="smooth-menu"><a href="#gallery">Instalaciones</a></li>
                                     <li class="smooth-menu"><a href="#pack">Precios </a></li>
+                                    <li class="smooth-menu"><a href="#gallery">Instalaciones</a></li>
                                     <!--/.project-btn-->
                                 </ul>
                             </div><!-- /.navbar-collapse -->
@@ -103,10 +113,7 @@
         </div><!-- /.header-area -->
 
     </header><!-- /.top-area-->
-    <!-- main-menu End -->
 
-
-    <!--about-us start -->
     <section id="home" class="about-us">
 
         <div class="container"><br><br><br><br><br><br>
@@ -117,9 +124,9 @@
 
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active">
-                                    <a href="#hotels" aria-controls="hotels" role="tab" data-toggle="tab">
+                                    <a href="<?php echo base_url() ?>/reservacion/empresa/index" aria-controls="hotels" role="tab" data-toggle="tab">
                                         <i class="fa fa-building"></i>
-                                        hotels
+                                        Hotel
                                     </a>
                                 </li>
                             </ul>
@@ -256,11 +263,20 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-lg-5 col-md-8 col-sm-12">
+                                                <div class="col-lg-1 col-md-1 col-sm-12">
+                                                    <input type="checkbox" class="input-check" name="estadia" value="" />Estadia
+                                                </div>
+                                                <div class="col-lg-1 col-md-1 col-sm-12">
+                                                    <input type="checkbox" class="input-check" name="habitacion" value="" />Habitación
+                                                </div>
+                                                <div class="col-lg-1 col-md-1 col-sm-12">
+                                                    <input type="checkbox" class="input-check" name="comida" value="" />Comida
+                                                </div>
+                                                <div class="col-lg-2 col-md-5 col-sm-12">
                                                     <h4>
                                                         <?php
                                                         if (isset($unique)) {
-                                                            echo "Tu Codigo de Reserva es : " . "<label class='badge badge-info' style='font-size:22px;background:orange;'>".$unique."<label>";
+                                                            echo "Tu Codigo de Reserva es : " . "<label class='badge badge-info' style='font-size:22px;background:orange;'>" . $unique . "<label>";
                                                         }
                                                         ?>
                                                     </h4>
@@ -301,13 +317,13 @@
                             <div class="about-us-txt">
                                 <?php
                                 if (isset($unique)) {
-                                    ?>
+                                ?>
                                     <h2 style="color:white;">Gracias Por Tu Reserva!. En Breve Te contactaremos.</h2>
-                                    <?php
+                                <?php
                                 } else {
-                                    ?>
+                                ?>
                                     <h2 style="color:white;">Realiza tu Reservación Ya!</h2>
-                                    <?php
+                                <?php
                                 }
                                 ?>
 
@@ -401,6 +417,107 @@
     </section>
     <!--/.service-->
     <!--service end-->
+
+    <!--packages start-->
+    <section id="pack" class="packages" style="padding: 0px 0 90px;">
+        <div class="container">
+            <div class="gallary-header text-center">
+                <h2>
+                    Paquetes
+                </h2>
+                <p>
+                    Te ofrecemos los mejores precios para ti!
+                </p>
+            </div>
+            <!--/.gallery-header-->
+            <div class="packages-content">
+                <div class="row">
+
+                    <?php
+                    $cnt = 0;
+                    foreach ($paquetes as $key => $paquete) {
+                        if (!$paquete->solo_imagen) {
+                    ?>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="single-package-item">
+                                    <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/packages/p1.jpg" alt="package-place" class="reserva_paquete img<?php echo $paquete->id_reserva_paquete; ?>" id="<?php echo $paquete->id_reserva_paquete; ?>">
+                                    <div class="single-package-item-txt" id="reserva_informacion<?php echo $paquete->id_reserva_paquete; ?>">
+                                        <h3><?php echo $paquete->nombre_paquete; ?> <span class="pull-right">$ <?php echo $paquete->precio_paquete; ?></span></h3>
+                                        <div class="packages-para">
+                                            <p><i class="fa fa-angle-right"></i> <?php echo $paquete->descripcion_paquete; ?></p>
+                                        </div>
+                                        <div class="packages-review">
+                                            INCLUYE <br>
+                                            <?php
+                                            if ($paquete->estadia_paquete) {
+                                            ?><span><i class="fa fa-angle-right"></i> ESTADIA</span><br><?php
+                                                                                                }
+                                                                                                if ($paquete->habitacion) {
+                                                                                                    ?><span><i class="fa fa-angle-right"></i> HABITACION</span><br><?php
+                                                                                                    }
+                                                                                                    if ($paquete->comida_paquete) {
+                                                                                                        ?><span><i class="fa fa-angle-right"></i> COMIDA</span><br><?php
+                                                                                                    }
+                                                                                                    ?>
+                                            <br>
+                                            GRUPO DE PERSONAS <span><i class="fa fa-angle-right"></i> <?php echo $paquete->limite_personas ?></span><br>
+                                        </div>
+                                    </div>
+                                    <div class="about-btn">
+                                        Selecionar <input type="checkbox" class="form-control  packages-btn" name="paquete<?php echo $cnt; ?>" id="paquete" />
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
+                        } else {
+                        ?>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="single-package-item">
+                                    <?php if ($paquete->imagen_paquete) : ?>
+                                        <img src="data: <?php echo $paquete->imagen_tipo ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($paquete->imagen_paquete) ?>" class="reserva_paquete img<?php echo $paquete->id_reserva_paquete; ?>" id="<?php echo $paquete->id_reserva_paquete; ?>" />
+
+                                    <?php endif ?>
+                                    <div class="single-package-item-txt" id="reserva_informacion<?php echo $paquete->id_reserva_paquete; ?>">
+                                        <h3><?php echo $paquete->nombre_paquete; ?> <span class="pull-right">$ <?php echo $paquete->precio_paquete; ?></span></h3>
+                                        <div class="packages-para">
+                                            <p><i class="fa fa-angle-right"></i> <?php echo $paquete->descripcion_paquete; ?></p>
+                                        </div>
+                                        <div class="packages-review">
+                                            INCLUYE <br>
+                                            <?php
+                                            if ($paquete->estadia_paquete) {
+                                            ?><span><i class="fa fa-angle-right"></i> ESTADIA</span><br><?php
+                                                                                                    }
+                                                                                                    if ($paquete->habitacion) {
+                                                                                                        ?><span><i class="fa fa-angle-right"></i> HABITACION</span><br><?php
+                                                                                                        }
+                                                                                                        if ($paquete->comida_paquete) {
+                                                                                                            ?><span><i class="fa fa-angle-right"></i> COMIDA</span><br><?php
+                                                                                                        }
+                                                                                                        ?>
+                                        </div>
+
+                                    </div>
+                                    <div class="about-btn">
+                                        Selecionar <input type="checkbox" class="form-control  packages-btn" name="paquete<?php echo $cnt; ?>" id="paquete" />
+                                    </div>
+                                </div>
+                            </div>
+                    <?php
+                        }
+                        $cnt++;
+                    }
+                    ?>
+                </div>
+                <!--/.row-->
+            </div>
+            <!--/.packages-content-->
+        </div>
+        <!--/.container-->
+
+    </section>
+    <!--/.packages-->
+    <!--packages end-->
 
     <!--galley start-->
     <section id="gallery" class="gallery">
@@ -507,305 +624,6 @@
     <!--/.gallery-->
     <!--gallery end-->
 
-
-
-    <!--packages start-->
-    <section id="pack" class="packages">
-        <div class="container">
-            <div class="gallary-header text-center">
-                <h2>
-                    Precios Especiales
-                </h2>
-                <p>
-                    Te ofrecemos los mejores precios para ti!
-                </p>
-            </div>
-            <!--/.gallery-header-->
-            <div class="packages-content">
-                <div class="row">
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="single-package-item">
-                            <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/packages/p1.jpg" alt="package-place">
-                            <div class="single-package-item-txt">
-                                <h3>italy <span class="pull-right">$499</span></h3>
-                                <div class="packages-para">
-                                    <p>
-                                        <span>
-                                            <i class="fa fa-angle-right"></i> 3 Days 2 nights
-                                        </span>
-                                        <i class="fa fa-angle-right"></i> 5 star accomodation
-                                    </p>
-                                    <p>
-                                        <span>
-                                            <i class="fa fa-angle-right"></i> transportation
-                                        </span>
-                                        <i class="fa fa-angle-right"></i> food facilities
-                                    </p>
-                                </div>
-                                <!--/.packages-para-->
-                                <div class="packages-review">
-                                    <p>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <span>254 reviews</span>
-                                    </p>
-                                </div>
-                                <!--/.packages-review-->
-                                <div class="about-btn">
-                                    <button class="about-view packages-btn">
-                                        book now
-                                    </button>
-                                </div>
-                                <!--/.about-btn-->
-                            </div>
-                            <!--/.single-package-item-txt-->
-                        </div>
-                        <!--/.single-package-item-->
-
-                    </div>
-                    <!--/.col-->
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="single-package-item">
-                            <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/packages/p1.jpg" alt="package-place">
-                            <div class="single-package-item-txt">
-                                <h3>england <span class="pull-right">$1499</span></h3>
-                                <div class="packages-para">
-                                    <p>
-                                        <span>
-                                            <i class="fa fa-angle-right"></i> 6 Days 7 nights
-                                        </span>
-                                        <i class="fa fa-angle-right"></i> 5 star accomodation
-                                    </p>
-                                    <p>
-                                        <span>
-                                            <i class="fa fa-angle-right"></i> transportation
-                                        </span>
-                                        <i class="fa fa-angle-right"></i> Free food
-                                    </p>
-                                </div>
-                                <!--/.packages-para-->
-                                <div class="packages-review">
-                                    <p>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <span>344 reviews</span>
-                                    </p>
-                                </div>
-                                <!--/.packages-review-->
-                                <div class="about-btn">
-                                    <button class="about-view packages-btn">
-                                        book now
-                                    </button>
-                                </div>
-                                <!--/.about-btn-->
-                            </div>
-                            <!--/.single-package-item-txt-->
-                        </div>
-                        <!--/.single-package-item-->
-
-                    </div>
-                    <!--/.col-->
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="single-package-item">
-                            <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/packages/p1.jpg" alt="package-place">
-                            <div class="single-package-item-txt">
-                                <h3>france <span class="pull-right">$1199</span></h3>
-                                <div class="packages-para">
-                                    <p>
-                                        <span>
-                                            <i class="fa fa-angle-right"></i> 5 Days 6 nights
-                                        </span>
-                                        <i class="fa fa-angle-right"></i> 5 star accomodation
-                                    </p>
-                                    <p>
-                                        <span>
-                                            <i class="fa fa-angle-right"></i> transportation
-                                        </span>
-                                        <i class="fa fa-angle-right"></i> food facilities
-                                    </p>
-                                </div>
-                                <!--/.packages-para-->
-                                <div class="packages-review">
-                                    <p>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <span>544 reviews</span>
-                                    </p>
-                                </div>
-                                <!--/.packages-review-->
-                                <div class="about-btn">
-                                    <button class="about-view packages-btn">
-                                        book now
-                                    </button>
-                                </div>
-                                <!--/.about-btn-->
-                            </div>
-                            <!--/.single-package-item-txt-->
-                        </div>
-                        <!--/.single-package-item-->
-
-                    </div>
-                    <!--/.col-->
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="single-package-item">
-                            <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/packages/p4.jpg" alt="package-place">
-                            <div class="single-package-item-txt">
-                                <h3>india <span class="pull-right">$799</span></h3>
-                                <div class="packages-para">
-                                    <p>
-                                        <span>
-                                            <i class="fa fa-angle-right"></i> 4 Days 5 nights
-                                        </span>
-                                        <i class="fa fa-angle-right"></i> 5 star accomodation
-                                    </p>
-                                    <p>
-                                        <span>
-                                            <i class="fa fa-angle-right"></i> transportation
-                                        </span>
-                                        <i class="fa fa-angle-right"></i> food facilities
-                                    </p>
-                                </div>
-                                <!--/.packages-para-->
-                                <div class="packages-review">
-                                    <p>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <span>625 reviews</span>
-                                    </p>
-                                </div>
-                                <!--/.packages-review-->
-                                <div class="about-btn">
-                                    <button class="about-view packages-btn">
-                                        book now
-                                    </button>
-                                </div>
-                                <!--/.about-btn-->
-                            </div>
-                            <!--/.single-package-item-txt-->
-                        </div>
-                        <!--/.single-package-item-->
-
-                    </div>
-                    <!--/.col-->
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="single-package-item">
-                            <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/packages/p4.jpg" alt="package-place">
-                            <div class="single-package-item-txt">
-                                <h3>spain <span class="pull-right">$999</span></h3>
-                                <div class="packages-para">
-                                    <p>
-                                        <span>
-                                            <i class="fa fa-angle-right"></i> 4 Days 4 nights
-                                        </span>
-                                        <i class="fa fa-angle-right"></i> 5 star accomodation
-                                    </p>
-                                    <p>
-                                        <span>
-                                            <i class="fa fa-angle-right"></i> transportation
-                                        </span>
-                                        <i class="fa fa-angle-right"></i> food facilities
-                                    </p>
-                                </div>
-                                <!--/.packages-para-->
-                                <div class="packages-review">
-                                    <p>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <span>379 reviews</span>
-                                    </p>
-                                </div>
-                                <!--/.packages-review-->
-                                <div class="about-btn">
-                                    <button class="about-view packages-btn">
-                                        book now
-                                    </button>
-                                </div>
-                                <!--/.about-btn-->
-                            </div>
-                            <!--/.single-package-item-txt-->
-                        </div>
-                        <!--/.single-package-item-->
-
-                    </div>
-                    <!--/.col-->
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="single-package-item">
-                            <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/packages/p4.jpg" alt="package-place">
-                            <div class="single-package-item-txt">
-                                <h3>thailand <span class="pull-right">$799</span></h3>
-                                <div class="packages-para">
-                                    <p>
-                                        <span>
-                                            <i class="fa fa-angle-right"></i> 5 Days 6 nights
-                                        </span>
-                                        <i class="fa fa-angle-right"></i> 5 star accomodation
-                                    </p>
-                                    <p>
-                                        <span>
-                                            <i class="fa fa-angle-right"></i> transportation
-                                        </span>
-                                        <i class="fa fa-angle-right"></i> food facilities
-                                    </p>
-                                </div>
-                                <!--/.packages-para-->
-                                <div class="packages-review">
-                                    <p>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <span>447 reviews</span>
-                                    </p>
-                                </div>
-                                <!--/.packages-review-->
-                                <div class="about-btn">
-                                    <button class="about-view packages-btn">
-                                        book now
-                                    </button>
-                                </div>
-                                <!--/.about-btn-->
-                            </div>
-                            <!--/.single-package-item-txt-->
-                        </div>
-                        <!--/.single-package-item-->
-
-                    </div>
-                    <!--/.col-->
-
-                </div>
-                <!--/.row-->
-            </div>
-            <!--/.packages-content-->
-        </div>
-        <!--/.container-->
-
-    </section>
-    <!--/.packages-->
-    <!--packages end-->
-
-
     <!--subscribe end-->
 
     <!-- footer-copyright start -->
@@ -872,6 +690,50 @@
     <!--Custom JS-->
     <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/custom.js"></script>
 
+    <!-- Modal Large CLIENTES MODAL-->
+    <div id="reserva_paquete" tabindex="-1" role="dialog" aria-labelledby="reserva_paquete" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info-dark">
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 id="myModalLabelLarge" class="modal-title">Paquete Información</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-12">
+                            <span class="load_paquete"></span>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <span class="load_detalle"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-gray-light">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Small-->
+
+    <script>
+        $(document).ready(function() {
+            $("#reserva_paquete").appendTo('body');
+
+            $(".reserva_paquete").on('click', function(e) {
+                var reserva_paquete = $(this).attr('id');
+                var el = $('#' + reserva_paquete).clone();
+                $('.load_paquete').html(el);
+
+                var reserva_informacion = $('#reserva_informacion' + reserva_paquete).clone();
+                $('.load_detalle').html(reserva_informacion);
+
+                $("#reserva_paquete").modal("show");
+            });
+        });
+    </script>
 
 </body>
 
