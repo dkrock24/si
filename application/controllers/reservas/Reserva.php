@@ -147,6 +147,7 @@ class Reserva extends MY_Controller {
 		$data['habitacion_']   = $this->Reserva_model->get_habitacion_($reserva);
 		$data['mesa_']   = $this->Reserva_model->get_mesa_($reserva);
 		$data['zona_']   = $this->Reserva_model->get_zona_($reserva);
+		$data['paquete_'] = $this->Reserva_model->get_paquete_($reserva);
 
 		/**
          * obtener la configuracion de la empresa para mostrar data
