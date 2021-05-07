@@ -328,128 +328,151 @@
 
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                        <hr>
+                                        <h4><i class="fa fa-users"></i> Paquetes:</h4>
+                                        <?php
+                                            foreach ($paquetes as $key => $paquete) {
+                                            ?>
+                                                <div class="col-lg-2">
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-4 control-label no-padding-left"><?php echo $paquete->nombre_paquete ?></label>
+                                                        <div class="col-sm-12">
+                                                            <input type="checkbox" class="input-check" name="paquete<?php echo $key ?>" id="<?php echo $key ?>" value="<?php echo $paquete->id_reserva_paquete ?>" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php
+                                            }
+                                        ?>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <hr>
                                             <h4><i class="fa fa-home"></i> Habitaciones:</h4>
                                             <span class="mensaje_habitacion" style="color:red;"></span>
-                                            <table>
-                                                <tr>
-                                                    <?php
-                                                    $habitacion_asignada = [];
-                                                    if ($habitacion_) {
-                                                        foreach ($habitacion_ as $key => $habitaciones) {
-                                                            $habitacion_asignada[] = $habitaciones->id_reserva_habitacion;
-                                                        ?>
-                                                            <td class="box-padding">
-                                                                <input type="checkbox" checked class="input-check" name="habitacion-<?php echo $key ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->id_reserva_habitacion ?>" />
-                                                                <?php echo $habitaciones->codigo_habitacion . "  " . $habitaciones->nombre_habitacion ?>
-                                                            </td>
-                                                        <?php
-                                                        }
-                                                    }
-
-                                                    if ($habitacion) {
-                                                        foreach ($habitacion as $key => $habitaciones) {
-                                                            $existe = in_array($habitaciones->id_reserva_habitacion,$habitacion_asignada);
-                                                            if(empty($existe)){
-                                                                $existe = null;
-                                                            ?>
-                                                                <td class="box-padding">
-                                                                    <input type="checkbox" class="input-check" name="habitacion-<?php echo $key ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->id_reserva_habitacion ?>" />
-                                                                    <?php echo $habitaciones->codigo_habitacion . "  " . $habitaciones->nombre_habitacion ?>
-                                                                </td>
-                                                            <?php
-                                                            }
-                                                        }
-                                                    } else {
-                                                        echo "Vacio";
-                                                    }
+                                            <?php
+                                            $habitacion_asignada = [];
+                                            if ($habitacion_) {
+                                                foreach ($habitacion_ as $key => $habitaciones) {
+                                                    $habitacion_asignada[] = $habitaciones->id_reserva_habitacion;
                                                     ?>
-                                                </tr>
-                                            </table>
+                                                    <div class="col-lg-2">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="control-label "><?php echo $habitaciones->codigo_habitacion . "  " . $habitaciones->nombre_habitacion ?></label><br>
+                                                                <input type="checkbox" checked class="input-check" name="habitacion-<?php echo $key ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->id_reserva_habitacion ?>" />
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+
+                                            if ($habitacion) {
+                                                foreach ($habitacion as $key => $habitaciones) {
+                                                    $existe = in_array($habitaciones->id_reserva_habitacion,$habitacion_asignada);
+                                                    if(empty($existe)){
+                                                        $existe = null;
+                                                    ?>
+                                                        <div class="col-lg-2">
+                                                            <div class="form-group">
+                                                                <div class="col-sm-12">
+                                                                    <label for="inputEmail3" class="control-label "><?php echo $habitaciones->codigo_habitacion . "  " . $habitaciones->nombre_habitacion ?></label><br>
+                                                                        <input type="checkbox" class="input-check" name="habitacion-<?php echo $key ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->id_reserva_habitacion ?>" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php
+                                                    }
+                                                }
+                                            } else {
+                                                echo "Vacio";
+                                            }
+                                            ?>
                                         </div>
 
                                         <div class="col-lg-12">
                                             <hr>
                                             <h4><i class="fa fa-cutlery"></i> Mesas:</h4>
-                                            <table>
-                                                <tr>
-                                                    <?php
-                                                    $cc = 0;
-                                                    $mesa_asignada = [];
-                                                    if($mesa_){
-                                                        foreach ($mesa_ as $key => $_mesa) {
-                                                            $mesa_asignada[] = $_mesa->id_reserva_mesa;
-                                                            ?>
-                                                            <td class="box-padding">
-                                                                <input type="checkbox" checked class="input-check" name="mesa-<?php echo $key ?>" id="mesas" value="<?php echo $_mesa->id_reserva_mesa ?>" />
-                                                                <?php echo $_mesa->codigo_mesa . "  " . $_mesa->nombre_mesa ?>
-                                                            </td>
-                                                        <?php
-                                                        }
-                                                    }
-
-                                                    if ($mesa) {
-                                                        foreach ($mesa as $key => $mesas) {
-                                                            $existe = in_array($mesas->id_reserva_mesa,$mesa_asignada);
-                                                            if(empty($existe)){
-                                                                $existe = null;
-                                                            ?>
-                                                                <td class="box-padding">
-                                                                    <input type="checkbox" class="input-check" name="mesa-<?php echo $key ?>" id="mesas" value="<?php echo $mesas->id_reserva_mesa ?>" />
-                                                                    <?php echo $mesas->codigo_mesa . "  " . $mesas->nombre_mesa ?>
-                                                                </td>
-                                                            <?php
-                                                            }
-                                                        }
-                                                    } else {
-                                                        echo "Vacio";
-                                                    }
+                                            <?php
+                                            $cc = 0;
+                                            $mesa_asignada = [];
+                                            if($mesa_){
+                                                foreach ($mesa_ as $key => $_mesa) {
+                                                    $mesa_asignada[] = $_mesa->id_reserva_mesa;
                                                     ?>
-                                                </tr>
-                                            </table>
+                                                    <div class="col-lg-2">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class=" control-label"><?php echo $_mesa->codigo_mesa . "  " . $_mesa->nombre_mesa ?></label><br>
+                                                                <input type="checkbox" checked class="input-check" name="mesa-<?php echo $key ?>" id="mesas" value="<?php echo $_mesa->id_reserva_mesa ?>" />
+                                                        </div>
+                                                    </div>
+                                                <?php
+                                                }
+                                            }
+
+                                            if ($mesa) {
+                                                foreach ($mesa as $key => $mesas) {
+                                                    $existe = in_array($mesas->id_reserva_mesa,$mesa_asignada);
+                                                    if(empty($existe)){
+                                                        $existe = null;
+                                                    ?>
+                                                        <div class="col-lg-2">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class=" control-label"><?php echo $mesas->codigo_mesa . "  " . $mesas->nombre_mesa ?></label><br>
+                                                                <input type="checkbox" class="input-check" name="mesa-<?php echo $key ?>" id="mesas" value="<?php echo $mesas->id_reserva_mesa ?>" />
+                                                            </div>
+                                                        </div>
+                                                    <?php
+                                                    }
+                                                }
+                                            } else {
+                                                echo "Vacio";
+                                            }
+                                            ?>
                                         </div>
 
                                         <div class="col-lg-12">
                                             <hr>
                                             <h4><i class="fa fa-map-signs"></i> Estadias:</h4>
-                                            <table>
-                                                <tr>
-                                                    <?php
-                                                    $zona_asignada = [];
-                                                    if($zona_){
-                                                        foreach ($zona_ as $key => $z) {
-                                                            $zona_asignada[] = $z->id_reserva_zona;
-                                                            ?>
-                                                            <td class="box-padding">
-                                                                <input type="checkbox" checked class="input-check" name="zona-<?php echo $key ?>" id="zonas" value="<?php echo $z->id_reserva_zona ?>" />
-                                                                <?php echo $z->codigo_zona . "  " . $z->nombre_zona ?>
-                                                            </td>
-                                                        <?php
-                                                        }
-                                                    }
-
-
-                                                    if ($zona) {
-                                                        foreach ($zona as $key => $zonas) {
-                                                            $existe = in_array($zonas->id_reserva_zona,$zona_asignada);
-                                                            if(empty($existe)){
-                                                                $existe = null;
-                                                            ?>
-                                                            <td class="box-padding">
-                                                                <input type="checkbox" class="input-check" name="zona-<?php echo $key ?>" id="zonas" value="<?php echo $zonas->id_reserva_zona ?>" />
-                                                                <?php echo $zonas->codigo_zona . "  " . $zonas->nombre_zona ?>
-                                                            </td>
-                                                        <?php
-                                                            }
-                                                        }
-                                                    } else {
-                                                        echo "Vacio";
-                                                    }
+                                            <?php
+                                            $zona_asignada = [];
+                                            if($zona_){
+                                                foreach ($zona_ as $key => $z) {
+                                                    $zona_asignada[] = $z->id_reserva_zona;
                                                     ?>
-                                                </tr>
-                                            </table>
+                                                    <div class="col-lg-2">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="control-label"><?php echo $z->codigo_zona . "  " . $z->nombre_zona ?></label><br>
+                                                            <input type="checkbox" checked class="input-check" name="zona-<?php echo $key ?>" id="zonas" value="<?php echo $z->id_reserva_zona ?>" />
+                                                        </div>                                                        
+                                                    </div>
+                                                <?php
+                                                }
+                                            }
+
+                                            if ($zona) {
+                                                foreach ($zona as $key => $zonas) {
+                                                    $existe = in_array($zonas->id_reserva_zona,$zona_asignada);
+                                                    if(empty($existe)){
+                                                        $existe = null;
+                                                    ?>
+                                                    <div class="col-lg-2">
+                                                        <div class="form-group">
+                                                            <label for="inputEmail3" class="control-label"><?php echo $zonas->codigo_zona . "  " . $zonas->nombre_zona ?></label><br>
+                                                            <input type="checkbox" class="input-check" name="zona-<?php echo $key ?>" id="zonas" value="<?php echo $zonas->id_reserva_zona ?>" />
+                                                        </div>                                                        
+                                                    </div>
+                                                <?php
+                                                    }
+                                                }
+                                            } else {
+                                                echo "Vacio";
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>

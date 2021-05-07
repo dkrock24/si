@@ -23,6 +23,8 @@ class Reserva_model extends CI_Model {
         $this->db->join( self::cliente.' as cliente', ' on reserva.cliente_reserva = cliente.id_cliente' );
         $this->db->join( self::pagos.' as pagos', ' on reserva.tipo_pago_reserva = pagos.id_modo_pago' );
         $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
+        $this->db->order_by('reserva.fecha_creada_reserva','desc');
+        $this->db->order_by('reserva.fecha_entrada_reserva','desc');
         if($filters!=""){
             $this->db->where($filters);
         }
@@ -139,6 +141,7 @@ class Reserva_model extends CI_Model {
         $reserva_mesa = [];
         $reserva_zona = [];
         $reserva_habitacion = array();
+        $reserva_paquete = [];
 
         foreach ($reserva as $key => $habitacion) {
 
@@ -156,6 +159,13 @@ class Reserva_model extends CI_Model {
                 $reserva_zona[] = $reserva['zona-'.$cc];
                 unset($reserva['zona-'.$cc]);
             }
+
+            if (isset($reserva['paquete-'.$cc])) {
+                $reserva_paquete[$cc]['paquete'] = $reserva['paquete-'.$cc];
+                $reserva_paquete[$cc]['cantidad'] = $reserva['cantidad-'.$cc];
+                unset($reserva['paquete-'.$cc]);
+            }
+            unset($reserva['cantidad-'.$cc]);
 
             $cc++;
         }
@@ -213,6 +223,14 @@ class Reserva_model extends CI_Model {
                 
                 $detalle = array('reserva'=> $id_reserva, 'zona'=> $zona);
                 $this->db->insert(self::reserva_detalle_zona, $detalle);
+            }
+        }
+        
+        /** Insertar Paquete */
+        if($reserva_paquete){
+            foreach ($reserva_paquete as $key => $paquete) {
+                $detalle = array('reserva' => $id_reserva, 'paquete'=> $paquete['paquete'], 'cantidad'=> $paquete['cantidad']);
+                $this->db->insert(self::reserva_paquete, $detalle);
             }
         }
 

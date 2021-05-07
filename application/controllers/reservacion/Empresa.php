@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Empresa extends MY_Controller {
+class Empresa extends CI_Controller {
 
 	public function __construct()
 	{
@@ -9,11 +9,8 @@ class Empresa extends MY_Controller {
 		$this->load->database(); 
 
 		$this->load->library('parser');	    
-	    @$this->load->library('session');	
-	    $this->load->library('pagination');    
 	    $this->load->library('../controllers/general');
 		$this->load->helper('url');
-		$this->load->helper('paginacion/paginacion_helper');
 
 		$this->load->model('accion/Accion_model');
 		$this->load->model('reservas/Habitacion_model');
@@ -22,14 +19,27 @@ class Empresa extends MY_Controller {
         $this->load->model('reservas/Estado_model');
         $this->load->model('reservas/Paquete_model');
         $this->load->model('admin/Cliente_model');
+        $this->load->model('reservas/Configuracion_model');
 	}
 
 	public function index($code = 0){
+        $empresa_id = 0;
         $data = [];
         if (!empty($code)) {
             $data['unique'] = $code;
         }
-        $data['paquetes'] = $this->Paquete_model->get_paquete_lista();
+        /**
+         * obtener la configuracion de la empresa para mostrar data
+         */
+        $configuracion = $this->Configuracion_model->get_configuracion('oroymiel');
+        foreach ($configuracion as $key => $config) {
+            if($config->nombre_configuracion == 'empresa') {
+
+                $empresa_id = $config->valor_configuracion;
+            }
+        }
+
+        $data['paquetes'] = $this->Paquete_model->get_paquete_lista($empresa_id);
         $this->load->view('reservas/pagina/cliente', $data);
 	}
 

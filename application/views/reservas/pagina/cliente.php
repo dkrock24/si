@@ -59,6 +59,11 @@
 		<![endif]-->
 
     <style>
+
+    .reserva_paquete {
+        cursor:pointer;
+    }
+
         .input-check {
             top: 0;
             left: 0;
@@ -354,7 +359,7 @@ input[type=number]
                                                     <?php if (!isset($unique)) : ?>
                                                         <input type="submit" class="about-view travel-btn" value="Registrar" />
                                                     <?php else: ?>
-                                                        <a href="index" class="about-view travel-btn">Regresar</a>
+                                                        <a href="../index" class="about-view travel-btn">Regresar</a>
                                                     <?php endif ?>
                                                 </div>
                                             </div>

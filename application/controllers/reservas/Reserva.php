@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Reserva extends MY_Controller {
 
+	private $empresa_id;
+
 	public function __construct()
 	{
 		parent::__construct();    
@@ -23,6 +25,7 @@ class Reserva extends MY_Controller {
         $this->load->model('reservas/Estado_model');
         $this->load->model('admin/Cliente_model');
         $this->load->model('admin/Pagos_model');
+		$this->load->model('reservas/Configuracion_model');
 	}
 
 	public function index(){
@@ -61,7 +64,13 @@ class Reserva extends MY_Controller {
         $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(5)); //5 limpieza
         $data['habitacion_mantenimiento']   = $this->Reserva_model->get_habitacion(array(6)); //9 mantenimiento
 
-		$data['paquetes'] = $this->Paquete_model->get_paquete_lista();
+		/**
+         * obtener la configuracion de la empresa para mostrar data
+         */
+		$this->get_paquetes();
+        
+
+		$data['paquetes'] = $this->Paquete_model->get_paquete_lista($this->empresa_id);
 
         $data['mesa'] = $this->Mesa_model->get_mesa_sucursal();
 
@@ -74,6 +83,17 @@ class Reserva extends MY_Controller {
 		$data['home'] = 'reservas/mesa/uevo';
 
 		echo $this->load->view('reservas/reserva/nuevo',$data, TRUE);
+	}
+
+	private function get_paquetes()
+	{
+		$configuracion = $this->Configuracion_model->get_configuracion('oroymiel');
+        foreach ($configuracion as $key => $config) {
+            if($config->nombre_configuracion == 'empresa') {
+
+                $this->empresa_id = $config->valor_configuracion;
+            }
+        }
 	}
 
     public function get_reservacion_habiatacion(){
@@ -127,6 +147,13 @@ class Reserva extends MY_Controller {
 		$data['habitacion_']   = $this->Reserva_model->get_habitacion_($reserva);
 		$data['mesa_']   = $this->Reserva_model->get_mesa_($reserva);
 		$data['zona_']   = $this->Reserva_model->get_zona_($reserva);
+
+		/**
+         * obtener la configuracion de la empresa para mostrar data
+         */
+		$this->get_paquetes();
+
+		$data['paquetes'] = $this->Paquete_model->get_paquete_lista($this->empresa_id);
 
         $data['mesa'] = $this->Mesa_model->get_mesa_sucursal();
 

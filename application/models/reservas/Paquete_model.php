@@ -66,12 +66,13 @@ class Paquete_model extends CI_Model {
         }
     }
 
-    function get_paquete_lista(){
+    function get_paquete_lista($empresa_id){
     	$this->db->select('*');
         $this->db->from( self::paquete.' as paquete');
         $this->db->join( self::sucursal.' as s', ' on paquete.Sucursal = s.id_sucursal' );
         $this->db->where('paquete.estado_reserva_paquete', 7 );
-        $query = $this->db->get(); 
+        $this->db->where('s.Empresa_Suc', $empresa_id );
+        $query = $this->db->get();
         
         if($query->num_rows() > 0 )
         {
