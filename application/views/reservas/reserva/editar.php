@@ -74,6 +74,8 @@
                 //console.log(data);
                 if(data.capacidad != null) {
                     $(".utilizado").text(data.capacidad);
+                } else {
+                    $(".utilizado").text(0);
                 }
             }
         });

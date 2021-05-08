@@ -202,7 +202,18 @@ class Reserva extends MY_Controller {
 	 */
 	public function get_capacidad_fecha()
 	{
-		$param =  $this->Reserva_model->get_capacidad($_POST);
+		$fechaInicio = $_POST['inicio'];
+        $fechaInicio = explode("T", $fechaInicio);
+
+        $fechaFin = $_POST['fin'];
+        $fechaFin = explode("T", $fechaFin);
+
+		$dates = array(
+			'inicio' => $fechaInicio[0],
+			'fin' => $fechaFin[0]
+		);
+
+		$param =  $this->Reserva_model->get_capacidad($dates);
 		echo json_encode($param[0]);
 	}
 

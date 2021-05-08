@@ -520,7 +520,7 @@ class Reserva_model extends CI_Model {
         $this->db->where('DATE(fecha_entrada_reserva) >=', date('Y-m-d',strtotime($dates['inicio'])));
         $this->db->where('DATE(fecha_salida_reserva) <=', date('Y-m-d',strtotime($dates['fin'])));
         $query = $this->db->get();
-        //echo $this->db->queries[11];die;
+        //echo $this->db->queries[0];die;
 
         if($query->num_rows() > 0 )
         {

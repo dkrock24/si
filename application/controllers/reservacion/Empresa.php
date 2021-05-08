@@ -31,7 +31,7 @@ class Empresa extends CI_Controller {
         /**
          * obtener la configuracion de la empresa para mostrar data
          */
-        $configuracion = $this->Configuracion_model->get_configuracion_externa('empresa',1);
+        $configuracion = $this->Configuracion_model->get_configuracion_externa('empresa',2);
         $empresa_id = $configuracion[0]->valor_configuracion;
 
         $data['paquetes'] = $this->Paquete_model->get_paquete_lista($empresa_id);
