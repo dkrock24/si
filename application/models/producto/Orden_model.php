@@ -57,7 +57,7 @@ class Orden_model extends CI_Model
 		$query = $this->db->query("select orden.id,orden.id_sucursal,orden.id_vendedor,orden.id_condpago,orden.num_caja,orden.nombre_cliente_orden,
 			orden.num_correlativo,DATE_FORMAT(orden.fecha,'%m/%d/%Y - %H:%i') AS fecha,orden.anulado,orden.modi_el, cliente.nombre_empresa_o_compania , sucursal.nombre_sucursal,orden_estado
 			,tdoc.nombre as tipo_documento, vendedor.nombre_usuario, pago.nombre_modo_pago, oe.orden_estado_nombre,
-			(SELECT SUM(od.precioUnidad * od.factor) FROM pos_orden_detalle AS od WHERE od.id_orden = orden.id) AS monto_orden
+			(SELECT SUM(od.precioUnidad * od.factor) FROM pos_orden_detalle AS od WHERE od.id_orden = orden.id) AS monto_orden,id_reserva
 			from pos_ordenes as orden 
 
 			left join pos_cliente as cliente on cliente.id_cliente = orden.id_cliente
@@ -325,6 +325,7 @@ class Orden_model extends CI_Model
 			'id_tipod' 		=> $dataParametros['id_tipo_documento'], //modo_pago_id
 			'documento' 	=> $dataParametros['factura_documento'], //modo_pago_id
 			'id_sucursal' 	=> $dataParametros['sucursal_destino'], //sucursal_destino
+			'id_reserva'	=> $dataParametros['id_reserva'], //id_reserva
 			'num_correlativo'=> $correlativo_final, //$orden['encabezado'][5]['value'], //numero correlativo
 			'id_cliente' 	=> $dataParametros['cliente_codigo'], //cliente_codigo
 			'nombre_cliente_orden' => $dataParametros['cliente_nombre'], //cliente_nombre

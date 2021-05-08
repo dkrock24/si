@@ -713,7 +713,7 @@ class Orden extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Correlativo','Sucursal','Cliente','Vendedor','Metodo Pago','Documento','Monto','Creado','Estado'
+			'Correlativo','Sucursal','Cliente','Vendedor','Metodo Pago','Documento','Monto','Codigo','Creado','Estado'
 		);
 		return $column;
 	}
@@ -729,6 +729,7 @@ class Orden extends MY_Controller {
 			['nombre_modo_pago' => 'Metodo Pago'],
 			['tipo_documento' => 'Documento'],
 			['monto_orden' => 'Monto'],
+			['id_reserva' => 'Codigo'],
 			['fecha' => 'Creado'],
 			['orden_estado_nombre' => 'Actual'],
 		);

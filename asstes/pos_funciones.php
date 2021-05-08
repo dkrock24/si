@@ -247,6 +247,7 @@ function procesar_venta(method) {
     formulario[formulario.length] = { name : 'doc_cli_nombre'     , value :  $("#doc_cli_nombre").val() };
     formulario[formulario.length] = { name : 'doc_cli_identificacion', value :  $("#doc_cli_identificacion").val() };
     formulario[formulario.length] = { name : 'input_devolucion_id'  , value : this.input_devolucion_id ?? 0 };
+    formulario[formulario.length] = { name : 'id_reserva'  , value : $("#id_reserva").val() };
 
     if ($("#orden_estado_venta").val()) {
         orden_estado = $("#orden_estado_venta").val();

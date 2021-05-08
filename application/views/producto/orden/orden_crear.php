@@ -149,6 +149,7 @@ include("asstes/pos_orden.php");
                     <input type="hidden" name="caja_id" value="<?php echo $terminal[0]->id_caja; ?>" />
                     <input type="hidden" name="caja_numero" value="<?php echo $terminal[0]->cod_interno_caja; ?>" />
                     <input type="hidden" name="vista_id" value="<?php echo $vista_id; ?>" />
+                    <input type="hidden" name="id_reserva" id="id_reserva" value="<?php echo @$_GET['reserva_id']; ?>" />
                     <!-- Fin Campos de la terminal -->
 
                     <!-- Campos del cliente -->

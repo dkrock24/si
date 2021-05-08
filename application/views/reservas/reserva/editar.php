@@ -456,7 +456,7 @@ input[type=number]
                                                 <div class="col-sm-offset-4 col-sm-8">
                                                     <a name="<?php echo base_url() ?>reservas/reserva/update" data="reservas" class="btn btn-success enviar_data btn btn-default" style="width: 100% !important;"><i class="fa fa-save" style="font-size:24px;"></i> Guardar</a>
                                                     <br><br>
-                                                    <a href="<?php echo base_url() ?>producto/orden/nuevo" class="btn btn-default" style="width: 100% !important;"><i class="fa fa-shopping-cart" style="font-size:24px;"></i> Abrir Orden</a>
+                                                    <a href="<?php echo base_url() ?>producto/orden/nuevo?reserva_id=<?php echo $reserva[0]->codigo_reserva; ?>" class="btn btn-default" style="width: 100% !important;"><i class="fa fa-shopping-cart" style="font-size:24px;"></i> Abrir Orden</a>
                                                 </div>
                                             </div>
 
