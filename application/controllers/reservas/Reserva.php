@@ -137,26 +137,30 @@ class Reserva extends MY_Controller {
 
 	public function editar($reserva){
 
-		$data['cliente']    = $this->Cliente_model->getCliente();
-        $data['pago']       = $this->Pagos_model->getTipoPago();
-        $data['reservas_proceso']   = $this->Reserva_model->get_reservas_activas(2);
-        $data['reservas_reservadas']   = $this->Reserva_model->get_reservas_activas(1);
-        $data['habitacion_reservadas']   = $this->Reserva_model->get_habitacion_reserva(array(2)); // En Proceso
+		$data['cliente']    			= $this->Cliente_model->getCliente();
+        $data['pago']       			= $this->Pagos_model->getTipoPago();
+        $data['reservas_proceso']   	= $this->Reserva_model->get_reservas_activas(2);
+        $data['reservas_reservadas']   	= $this->Reserva_model->get_reservas_activas(1);
+        $data['habitacion_reservadas']  = $this->Reserva_model->get_habitacion_reserva(array(2)); // En Proceso
         
-        $data['habitacion']   = $this->Reserva_model->get_habitacion(array(7)); // Toda las ctivas
-        $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(8)); //5 limpieza
+        $data['habitacion']   			= $this->Reserva_model->get_habitacion(array(7)); // Toda las ctivas
+        $data['habitacion_limpieza']   	= $this->Reserva_model->get_habitacion(array(8)); //5 limpieza
 
-		$data['habitacion_']   = $this->Reserva_model->get_habitacion_($reserva);
-		$data['mesa_']   = $this->Reserva_model->get_mesa_($reserva);
-		$data['zona_']   = $this->Reserva_model->get_zona_($reserva);
-		$data['paquete_'] = $this->Reserva_model->get_paquete_($reserva);
+		$data['habitacion_']   			= $this->Reserva_model->get_habitacion_($reserva);
+		$data['mesa_']   				= $this->Reserva_model->get_mesa_($reserva);
+		$data['zona_']   				= $this->Reserva_model->get_zona_($reserva);
+		$data['paquete_'] 				= $this->Reserva_model->get_paquete_($reserva);
+
+		$data['reserva'] =  $this->Reserva_model->get_reserva( $reserva );
 
 		$dates = [
-			'inicio' => date('Y-m-d'),
-			'fin' => date('Y-m-d')
+			'inicio' => $data['reserva'][0]->fecha_entrada_reserva,
+			'fin' => $data['reserva'][0]->fecha_salida_reserva
 		];
 		$capacidad = $this->Reserva_model->get_capacidad($dates);
-		$data['capacidad'] = $capacidad[0]->capacidad ? $capacidad[0]->capacidad :  0;
+		$data['utilizado'] = $capacidad[0]->capacidad ? $capacidad[0]->capacidad :  0;
+
+		$data['capacidad'] = $this->get_configuracion_capacidad('limite_personas');
 
 		/**
          * obtener la configuracion de la empresa para mostrar data
@@ -172,17 +176,34 @@ class Reserva extends MY_Controller {
         $data['estados'] = $this->Estado_model->get_estado_lista();
 
 		$data['menu'] = $this->session->menu;
-		$data['reserva'] =  $this->Reserva_model->get_reserva( $reserva );
 		$data['home'] = 'reservas/reserva/editar';
 		$data['title'] = "Editar Reserva";
 
 		echo $this->load->view('reservas/reserva/editar',$data, TRUE);
 	}
 
+	/**
+	 * Obtener la capacidad de persona global que permite el establecimiento
+	 *
+	 * @param String $limite
+	 * @return void
+	 */
 	private function get_configuracion_capacidad($limite)
 	{
 		$param =  $this->Configuracion_model->get_configuracion($limite);
 		return $param[0]->valor_configuracion;
+	}
+
+	/**
+	 * Obtener la capacidad de persona global que permite el establecimiento
+	 *
+	 * @param Array $fecha
+	 * @return void
+	 */
+	public function get_capacidad_fecha()
+	{
+		$param =  $this->Reserva_model->get_capacidad($_POST);
+		echo json_encode($param[0]);
 	}
 
 	public function update(){

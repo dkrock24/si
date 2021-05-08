@@ -16,42 +16,71 @@
             }
         });
 
+        $("#fecha_entrada_reserva").on('change', function(){
+            var fechaInicio = $(this).val();
+            var fechaFin = $("#fecha_salida_reserva").val();
+            
+            get_capacidad_fecha(fechaInicio, fechaFin);
+        });
+
+        $("#fecha_salida_reserva").on('change', function(){
+            var fechaFin = $(this).val();
+            var fechaInicio = $("#fecha_entrada_reserva").val();
+            
+            get_capacidad_fecha(fechaInicio, fechaFin);
+        });
+
         jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
-    jQuery('.quantity').each(function() {
-      var spinner = jQuery(this),
-        input = spinner.find('input[type="number"]'),
-        btnUp = spinner.find('.quantity-up'),
-        btnDown = spinner.find('.quantity-down'),
-        min = input.attr('min'),
-        max = input.attr('max');
+        jQuery('.quantity').each(function() {
+            var spinner = jQuery(this),
+            input = spinner.find('input[type="number"]'),
+            btnUp = spinner.find('.quantity-up'),
+            btnDown = spinner.find('.quantity-down'),
+            min = input.attr('min'),
+            max = input.attr('max');
 
-      btnUp.click(function() {
-        var oldValue = parseFloat(input.val());
-        if (oldValue >= max) {
-          var newVal = oldValue;
-        } else {
-          var newVal = oldValue + 1;
-        }
-        spinner.find("input").val(newVal);
-        spinner.find("input").trigger("change");
-      });
+            btnUp.click(function() {
+                var oldValue = parseFloat(input.val());
+                if (oldValue >= max) {
+                    var newVal = oldValue;
+                } else {
+                    var newVal = oldValue + 1;
+                }
+                spinner.find("input").val(newVal);
+                spinner.find("input").trigger("change");
+            });
 
-      btnDown.click(function() {
-        var oldValue = parseFloat(input.val());
-        if (oldValue <= min) {
-          var newVal = oldValue;
-        } else {
-          var newVal = oldValue - 1;
-        }
-        spinner.find("input").val(newVal);
-        spinner.find("input").trigger("change");
-      });
-
+            btnDown.click(function() {
+                var oldValue = parseFloat(input.val());
+                if (oldValue <= min) {
+                    var newVal = oldValue;
+                } else {
+                    var newVal = oldValue - 1;
+                }
+                spinner.find("input").val(newVal);
+                spinner.find("input").trigger("change");
+            });
+        });
     });
-    });
 
-    function setCalendar(eventos) {
+    function get_capacidad_fecha(fechaInicio, fechaFin)
+    {
+        $.ajax({
+            type: "post",
+            data: {inicio:fechaInicio,fin:fechaFin},
+            url: "<?php echo base_url(); ?>" + "reservas/reserva/get_capacidad_fecha",
+            success: function(result) {
+                var data = JSON.parse(result);
+                //console.log(data);
+                if(data.capacidad != null) {
+                    $(".utilizado").text(data.capacidad);
+                }
+            }
+        });
+    }
 
+    function setCalendar(eventos)
+    {
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -80,7 +109,8 @@
         calendar.render();
     }
 
-    function get_habitacion_disponible(habitacion) {
+    function get_habitacion_disponible(habitacion)
+    {
         $(".mensaje_habitacion").text("");
         var data = {
             start: $('#fecha_entrada_reserva').val(),
@@ -563,11 +593,11 @@ input[type=number]
                                                     </td>
                                                     <td>
                                                         <button type="button" class="btn btn-default">CAPACIDAD<br>
-                                                            <span class="utilizado" style="display:inline-block;">
-                                                                <h2><?php echo $utilizado; ?> / </h2>
+                                                            <span style="display:inline-block;">
+                                                                <h2><label class="utilizado"><?php echo $utilizado; ?></label> / </h2>
                                                             </span>
-                                                            <span class="capacidad" style="display:inline-block;">
-                                                                <h2><?php echo $capacidad; ?></h2>
+                                                            <span style="display:inline-block;">
+                                                                <h2><label class="capacidad"><?php echo $capacidad; ?></label></h2>
                                                             </span>
                                                         </button>
                                                     </td>
