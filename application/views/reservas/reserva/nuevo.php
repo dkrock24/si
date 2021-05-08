@@ -441,96 +441,119 @@ input[type=number]
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                        <hr>
-                                        <h4><i class="fa fa-users"></i> Paquetes:</h4>
-                                        <?php
-                                            foreach ($paquetes as $key => $paquete) {
-                                            ?>
-                                                <div class="col-lg-2">
-                                                    <div class="form-group">
-                                                        <label for="inputEmail3" class="col-sm-4 control-label no-padding-left"><?php echo $paquete->nombre_paquete ?></label>
-                                                        <div class="col-sm-12">
-                                                            <div class="quantity">
-                                                                <input type="number" name="cantidad-<?php echo $key ?>" min="1" max="9" step="1" value="1">
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item active">
+                                            <a class="nav-link active" id="paquete" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">PAQUETES</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="habitacion-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="habitaciones" aria-selected="false">HABITACIONES</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="mesa-tab" data-toggle="tab" href="#mesa" role="tab" aria-controls="mesas" aria-selected="false">MESAS</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="zona-tab" data-toggle="tab" href="#zona" role="tab" aria-controls="zonas" aria-selected="false">ESTADIAS</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="paquete">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <hr>
+                                                    <h4><i class="fa fa-users"></i> Paquetes:</h4>
+                                                    <?php
+                                                        foreach ($paquetes as $key => $paquete) {
+                                                        ?>
+                                                            <div class="col-lg-2">
+                                                                <div class="form-group">
+                                                                    <label for="inputEmail3" class="col-sm-4 control-label no-padding-left"><?php echo $paquete->nombre_paquete ?></label>
+                                                                    <div class="col-sm-12">
+                                                                        <div class="quantity">
+                                                                            <input type="number" name="cantidad-<?php echo $key ?>" min="1" max="9" step="1" value="1">
+                                                                        </div>
+                                                                        <input type="checkbox" class="input-check" name="paquete-<?php echo $key ?>" id="<?php echo $key ?>" value="<?php echo $paquete->id_reserva_paquete ?>" />
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <input type="checkbox" class="input-check" name="paquete-<?php echo $key ?>" id="<?php echo $key ?>" value="<?php echo $paquete->id_reserva_paquete ?>" />
+                                                        <?php
+                                                        }
+                                                    ?>
+                                                </div>                                              
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="habitacion-tab">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <hr>
+                                                    <h4><i class="fa fa-bed"></i> Habitaciones:</h4>
+                                                    <span class="mensaje_habitacion" style="color:red;"></span>
+                                                    
+                                                    <?php
+                                                    if ($habitacion) {
+                                                        foreach ($habitacion as $key => $habitaciones) {
+                                                    ?>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="control-label "><?php echo $habitaciones->codigo_habitacion . "  " . $habitaciones->nombre_habitacion ?></label><br>
+                                                                <input type="checkbox" class="input-check" name="habitacion-<?php echo $key ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->id_reserva_habitacion ?>" />
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    <?php
+                                                        }
+                                                    } else {
+                                                        echo "Vacio";
+                                                    }
+                                                    ?>                                                        
                                                 </div>
-                                            <?php
-                                            }
-                                        ?>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <hr>
-                                            <h4><i class="fa fa-bed"></i> Habitaciones:</h4>
-                                            <span class="mensaje_habitacion" style="color:red;"></span>
-                                            
-                                            <?php
-                                            if ($habitacion) {
-                                                foreach ($habitacion as $key => $habitaciones) {
-                                            ?>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="inputEmail3" class="control-label "><?php echo $habitaciones->codigo_habitacion . "  " . $habitaciones->nombre_habitacion ?></label><br>
-                                                        <input type="checkbox" class="input-check" name="habitacion-<?php echo $key ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->id_reserva_habitacion ?>" />
-                                                    </div>
+                                        <div class="tab-pane" id="mesa" role="tabpanel" aria-labelledby="mesa-tab">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <hr>
+                                                    <h4><i class="fa fa-cutlery"></i> Mesas:</h4>
+                                                    <?php
+                                                    if ($mesa) {
+                                                        foreach ($mesa as $key => $mesas) {
+                                                    ?>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="control-label "><?php echo $mesas->codigo_mesa . "  " . $mesas->nombre_mesa ?></label><br>
+                                                                <input type="checkbox" class="input-check" name="mesa-<?php echo $key ?>" id="mesas" value="<?php echo $mesas->id_reserva_mesa ?>" />
+                                                        </div>
+                                                        </div>
+                                                    <?php
+                                                        }
+                                                    } else {
+                                                        echo "Vacio";
+                                                    }
+                                                    ?>                                                    
                                                 </div>
-                                            <?php
-                                                }
-                                            } else {
-                                                echo "Vacio";
-                                            }
-                                            ?>
-                                                
+                                            </div>
                                         </div>
-
-                                        <div class="col-lg-12">
-                                            <hr>
-                                            <h4><i class="fa fa-cutlery"></i> Mesas:</h4>
-                                            <?php
-                                            if ($mesa) {
-                                                foreach ($mesa as $key => $mesas) {
-                                            ?>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="inputEmail3" class="control-label "><?php echo $mesas->codigo_mesa . "  " . $mesas->nombre_mesa ?></label><br>
-                                                        <input type="checkbox" class="input-check" name="mesa-<?php echo $key ?>" id="mesas" value="<?php echo $mesas->id_reserva_mesa ?>" />
+                                        <div class="tab-pane" id="zona" role="tabpanel" aria-labelledby="zona-tab">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <hr>
+                                                    <h4><i class="fa fa-map-signs"></i> Estadias:</h4>
+                                                    <?php
+                                                    if ($zona) {
+                                                        foreach ($zona as $key => $zonas) {
+                                                    ?>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="control-label "><?php echo $zonas->codigo_zona . "  " . $zonas->nombre_zona ?></label><br>
+                                                                <input type="checkbox" class="input-check" name="zona-<?php echo $key ?>" id="zonas" value="<?php echo $zonas->id_reserva_zona ?>" />
+                                                            </div>
+                                                        </div>
+                                                    <?php
+                                                        }
+                                                    } else {
+                                                        echo "Vacio";
+                                                    }
+                                                    ?>
                                                 </div>
-                                                </div>
-                                            <?php
-                                                }
-                                            } else {
-                                                echo "Vacio";
-                                            }
-                                            ?>
-                                               
-                                        </div>
-
-                                        <div class="col-lg-12">
-                                            <hr>
-                                            <h4><i class="fa fa-map-signs"></i> Estadias:</h4>
-                                            <?php
-                                            if ($zona) {
-                                                foreach ($zona as $key => $zonas) {
-                                            ?>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="inputEmail3" class="control-label "><?php echo $zonas->codigo_zona . "  " . $zonas->nombre_zona ?></label><br>
-                                                        <input type="checkbox" class="input-check" name="zona-<?php echo $key ?>" id="zonas" value="<?php echo $zonas->id_reserva_zona ?>" />
-                                                    </div>
-                                                </div>
-                                            <?php
-                                                }
-                                            } else {
-                                                echo "Vacio";
-                                            }
-                                            ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
