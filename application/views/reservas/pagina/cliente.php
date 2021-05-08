@@ -628,72 +628,72 @@ input[type=number]
 
                                 <div class="col-md-6">
                                     <div class="filtr-item">
-                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g1.jpg" alt="portfolio image" />
+                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g1.jpeg" alt="portfolio image" />
                                         <div class="item-title">
                                             <a href="#">
-                                                china
+                                            Piscinas
                                             </a>
-                                            <p><span>20 tours</span><span>15 places</span></p>
+                                            <p><span>Infantiles</span><span>y para adultos</span></p>
                                         </div><!-- /.item-title -->
                                     </div><!-- /.filtr-item -->
                                 </div><!-- /.col -->
 
                                 <div class="col-md-6">
                                     <div class="filtr-item">
-                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g2.jpg" alt="portfolio image" />
+                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g2.jpeg" alt="portfolio image" />
                                         <div class="item-title">
                                             <a href="#">
-                                                venuzuala
+                                                Areas Comodas
                                             </a>
-                                            <p><span>12 tours</span><span>9 places</span></p>
+                                            <p><span>Infantiles</span><span>y para adultos</span></p>
                                         </div> <!-- /.item-title-->
                                     </div><!-- /.filtr-item -->
                                 </div><!-- /.col -->
 
                                 <div class="col-md-4">
                                     <div class="filtr-item">
-                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g3.jpg" alt="portfolio image" />
+                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g3.jpeg" alt="portfolio image" />
                                         <div class="item-title">
                                             <a href="#">
-                                                brazil
+                                                Espacios Libres
                                             </a>
-                                            <p><span>25 tours</span><span>10 places</span></p>
+                                            <p><span>Canchas</span><span>Abiertas</span></p>
                                         </div><!-- /.item-title -->
                                     </div><!-- /.filtr-item -->
                                 </div><!-- /.col -->
 
                                 <div class="col-md-4">
                                     <div class="filtr-item">
-                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g4.jpg" alt="portfolio image" />
+                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g4.jpeg" alt="portfolio image" />
                                         <div class="item-title">
                                             <a href="#">
-                                                australia
+                                                Areas Verdes
                                             </a>
-                                            <p><span>18 tours</span><span>9 places</span></p>
+                                            <p><span>Camina</span><span>Y disfruta</span></p>
                                         </div> <!-- /.item-title-->
                                     </div><!-- /.filtr-item -->
                                 </div><!-- /.col -->
 
                                 <div class="col-md-4">
                                     <div class="filtr-item">
-                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g5.jpg" alt="portfolio image" />
+                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g5.jpeg" alt="portfolio image" />
                                         <div class="item-title">
                                             <a href="#">
-                                                netharlands
+                                                Habitaciones
                                             </a>
-                                            <p><span>14 tours</span><span>12 places</span></p>
+                                            <p><span>Comodas</span><span>para i</span></p>
                                         </div> <!-- /.item-title-->
                                     </div><!-- /.filtr-item -->
                                 </div><!-- /.col -->
 
                                 <div class="col-md-8">
                                     <div class="filtr-item">
-                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g6.jpg" alt="portfolio image" />
+                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g6.jpeg" alt="portfolio image" />
                                         <div class="item-title">
                                             <a href="#">
-                                                turkey
+                                                Area comun
                                             </a>
-                                            <p><span>14 tours</span><span>6 places</span></p>
+                                            <p><span>Descanza</span><span>y pasala bien</span></p>
                                         </div> <!-- /.item-title-->
                                     </div><!-- /.filtr-item -->
                                 </div><!-- /.col -->
