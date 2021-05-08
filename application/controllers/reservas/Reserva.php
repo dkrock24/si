@@ -58,11 +58,19 @@ class Reserva extends MY_Controller {
         $data['pago']       = $this->Pagos_model->getTipoPago();
         $data['reservas_proceso']   = $this->Reserva_model->get_reservas_activas(2);
         $data['reservas_reservadas']   = $this->Reserva_model->get_reservas_activas(1);
-        $data['habitacion_reservadas']   = $this->Reserva_model->get_habitacion_reserva(array(1,2));
+        $data['habitacion_reservadas']   = $this->Reserva_model->get_habitacion_reserva(array(2)); // En Proceso
         
-        $data['habitacion']   = $this->Reserva_model->get_habitacion(array(1,2,7,8));
-        $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(5)); //5 limpieza
-        $data['habitacion_mantenimiento']   = $this->Reserva_model->get_habitacion(array(6)); //9 mantenimiento
+        $data['habitacion']   = $this->Reserva_model->get_habitacion(array(7)); // Toda las ctivas
+        $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(8)); //5 limpieza
+
+		$dates = [
+			'inicio' => date('Y-m-d'),
+			'fin' => date('Y-m-d')
+		];
+		$capacidad = $this->Reserva_model->get_capacidad($dates);
+		$data['utilizado'] = $capacidad[0]->capacidad ? $capacidad[0]->capacidad :  0;
+
+		$data['capacidad'] = $this->get_configuracion_capacidad('limite_personas');
 
 		/**
          * obtener la configuracion de la empresa para mostrar data
@@ -87,13 +95,8 @@ class Reserva extends MY_Controller {
 
 	private function get_paquetes()
 	{
-		$configuracion = $this->Configuracion_model->get_configuracion('oroymiel');
-        foreach ($configuracion as $key => $config) {
-            if($config->nombre_configuracion == 'empresa') {
-
-                $this->empresa_id = $config->valor_configuracion;
-            }
-        }
+		$configuracion = $this->Configuracion_model->get_configuracion('empresa');
+        $this->empresa_id = $configuracion[0]->valor_configuracion;
 	}
 
     public function get_reservacion_habiatacion(){
@@ -138,16 +141,22 @@ class Reserva extends MY_Controller {
         $data['pago']       = $this->Pagos_model->getTipoPago();
         $data['reservas_proceso']   = $this->Reserva_model->get_reservas_activas(2);
         $data['reservas_reservadas']   = $this->Reserva_model->get_reservas_activas(1);
-        $data['habitacion_reservadas']   = $this->Reserva_model->get_habitacion_reserva(array(1,2));
+        $data['habitacion_reservadas']   = $this->Reserva_model->get_habitacion_reserva(array(2)); // En Proceso
         
-        $data['habitacion']   = $this->Reserva_model->get_habitacion(array(1,2,7));
-        $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(5)); //5 limpieza
-        $data['habitacion_mantenimiento']   = $this->Reserva_model->get_habitacion(array(6)); //9 mantenimiento
+        $data['habitacion']   = $this->Reserva_model->get_habitacion(array(7)); // Toda las ctivas
+        $data['habitacion_limpieza']   = $this->Reserva_model->get_habitacion(array(8)); //5 limpieza
 
 		$data['habitacion_']   = $this->Reserva_model->get_habitacion_($reserva);
 		$data['mesa_']   = $this->Reserva_model->get_mesa_($reserva);
 		$data['zona_']   = $this->Reserva_model->get_zona_($reserva);
 		$data['paquete_'] = $this->Reserva_model->get_paquete_($reserva);
+
+		$dates = [
+			'inicio' => date('Y-m-d'),
+			'fin' => date('Y-m-d')
+		];
+		$capacidad = $this->Reserva_model->get_capacidad($dates);
+		$data['capacidad'] = $capacidad[0]->capacidad ? $capacidad[0]->capacidad :  0;
 
 		/**
          * obtener la configuracion de la empresa para mostrar data
@@ -168,6 +177,12 @@ class Reserva extends MY_Controller {
 		$data['title'] = "Editar Reserva";
 
 		echo $this->load->view('reservas/reserva/editar',$data, TRUE);
+	}
+
+	private function get_configuracion_capacidad($limite)
+	{
+		$param =  $this->Configuracion_model->get_configuracion($limite);
+		return $param[0]->valor_configuracion;
 	}
 
 	public function update(){
@@ -200,7 +215,7 @@ class Reserva extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Codigo','Cliente','Reserva','Entrada','Salida','Creado','Adultos','NIÑOS','T.Pago','Sucursal','Estado'
+			'Codigo','Cliente','Reserva','Entrada','Salida','Creado','Adultos','Total','NIÑOS','T.Pago','Estado'
 		);
 		return $column;
 	}
@@ -216,10 +231,10 @@ class Reserva extends MY_Controller {
             ['fecha_creada_reserva'=> 'Creado'],
             ['total_adultos_reserva'=> 'Adultos'],
             ['total_ninos_reserva'=> 'Menores'],
+			['total_personas_reserva'=> 'Total Personas'],
             ['nombre_modo_pago'=> 'Tipo Pago'],
             //['referencia_pago_reserva'=> 'Codigo'],
             //['anticipo_pago_reserva'=> 'Codigo'],
-			['nombre_sucursal'=> 'Sucursal'],
 			['nombre_reserva_estados' => 'Estado']
 		);
 

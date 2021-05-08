@@ -424,7 +424,9 @@ input[type=number]
 
                                             <div class="form-group">
                                                 <div class="col-sm-offset-4 col-sm-8">
-                                                    <input type="button" name="<?php echo base_url() ?>reservas/reserva/update" data="reservas" class="btn btn-success enviar_data" value="Guardar">
+                                                    <a name="<?php echo base_url() ?>reservas/reserva/update" data="reservas" class="btn btn-success enviar_data btn btn-default" style="width: 100% !important;"><i class="fa fa-save" style="font-size:24px;"></i> Guardar</a>
+                                                    <br><br>
+                                                    <a href="<?php echo base_url() ?>producto/orden/nuevo" class="btn btn-default" style="width: 100% !important;"><i class="fa fa-shopping-cart" style="font-size:24px;"></i> Abrir Orden</a>
                                                 </div>
                                             </div>
 
@@ -608,7 +610,7 @@ input[type=number]
 
                                 <div class="col-lg-5" style="background:#ecedef;">
                                     <div class="row">
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-3">
                                             <h4><i class="fa fa-clock-o"></i> Reservaciones :</h4>
                                             <table class="">
                                                 <tr>
@@ -630,7 +632,7 @@ input[type=number]
                                             </table>
                                         </div>
 
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-9">
                                             <h4><i class="fa fa-dashboard"></i> Habitaciones :</h4>
                                             <table class="">
                                                 <tr>
@@ -656,16 +658,16 @@ input[type=number]
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-default">Mantenimiento<br>
+                                                        <button type="button" class="btn btn-default">TOTAL<br>
                                                             <span class="">
-                                                                <h2><?php echo count((array) $habitacion_mantenimiento) ?></h2>
+                                                                <h2><?php echo count((array) $habitacion)  +  count((array) $habitacion_limpieza) ?></h2>
                                                             </span>
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-default">TOTAL<br>
+                                                        <button type="button" class="btn btn-default">CAPACIDAD<br>
                                                             <span class="">
-                                                                <h2><?php echo count((array) $habitacion) + count((array) $habitacion_mantenimiento) + count((array) $habitacion_limpieza) ?></h2>
+                                                                <h2><?php echo $capacidad; ?></h2>
                                                             </span>
                                                         </button>
                                                     </td>

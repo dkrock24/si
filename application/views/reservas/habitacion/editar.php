@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div id="panelDemo10" class="panel menu_title_bar">
-                    <div class="panel-heading menuTop">Nuevo Habitacion </div>
+                    <div class="panel-heading menuTop">Editar Habitación </div>
                     <div class="panel-body menuContent">
                         <form class="form-horizontal" id='habitacion' method="post">
                         <div class="row">
@@ -95,7 +95,7 @@
 
                                             <label>
                                                 <select name="estado_habitacion" class="form-control">
-                                                    <?php if($habitacion[0]->estado_habitacion == 1): ?>
+                                                    <?php if($habitacion[0]->estado_habitacion == 7): ?>
                                                     <option value="7">Activo</option>
                                                     <option value="8">Inactivo</option>
                                                     <?php else: ?>

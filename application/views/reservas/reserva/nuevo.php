@@ -248,7 +248,7 @@ input[type=number]
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Nombre Reservación</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" id="nombre_reserva" name="nombre_reserva" value="">
+                                                    <input type="text" class="form-control" required id="nombre_reserva" name="nombre_reserva" value="">
                                                 </div>
                                             </div>
 
@@ -404,7 +404,7 @@ input[type=number]
 
                                             <div class="form-group">
                                                 <div class="col-sm-offset-4 col-sm-8">
-                                                    <input type="button" name="<?php echo base_url() ?>reservas/reserva/crear" data="reservas" class="btn btn-success enviar_data" value="Guardar">
+                                                    <a name="<?php echo base_url() ?>reservas/reserva/crear" data="reservas" class="btn btn-success enviar_data btn btn-default" style="width: 100% !important;"><i class="fa fa-save" style="font-size:24px;"></i> Guardar</a>
                                                 </div>
                                             </div>
 
@@ -507,9 +507,9 @@ input[type=number]
 
                                 <div class="col-lg-5" style="background:#ecedef;">
                                     <div class="row">
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-3">
                                             <h4><i class="fa fa-clock-o"></i> Reservaciones :</h4>
-                                            <table class="">
+                                            <table>
                                                 <tr>
                                                     <td>
                                                         <button type="button" class="btn btn-primary">En Proceso<br>
@@ -529,7 +529,7 @@ input[type=number]
                                             </table>
                                         </div>
 
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-9">
                                             <h4><i class="fa fa-dashboard"></i> Habitaciones :</h4>
                                             <table class="">
                                                 <tr>
@@ -555,16 +555,19 @@ input[type=number]
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-default">Mantenimiento<br>
+                                                        <button type="button" class="btn btn-default">TOTAL<br>
                                                             <span class="">
-                                                                <h2><?php echo count((array) $habitacion_mantenimiento) ?></h2>
+                                                                <h2><?php echo count((array) $habitacion)  +  count((array) $habitacion_limpieza) ?></h2>
                                                             </span>
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-default">TOTAL<br>
-                                                            <span class="">
-                                                                <h2><?php echo count((array) $habitacion) + count((array) $habitacion_mantenimiento) + count((array) $habitacion_limpieza) ?></h2>
+                                                        <button type="button" class="btn btn-default">CAPACIDAD<br>
+                                                            <span class="utilizado" style="display:inline-block;">
+                                                                <h2><?php echo $utilizado; ?> / </h2>
+                                                            </span>
+                                                            <span class="capacidad" style="display:inline-block;">
+                                                                <h2><?php echo $capacidad; ?></h2>
                                                             </span>
                                                         </button>
                                                     </td>

@@ -49,7 +49,7 @@ class Reserva_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from( self::reserva.' as reserva' );
-        $this->db->join( self::reserva_detalle_habitacion.' as reserva_habitacion', ' on reserva_habitacion.reserva = reserva.id_reserva','left');
+        //$this->db->join( self::reserva_detalle_habitacion.' as reserva_habitacion', ' on reserva_habitacion.reserva = reserva.id_reserva','left');
         $this->db->join( self::sucursal.' as s', ' on reserva.Sucursal = s.id_sucursal' );
         $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
         $this->db->where('reserva.estado_reserva', $estado);
@@ -181,8 +181,9 @@ class Reserva_model extends CI_Model {
         $rand = sprintf("%02d", rand(0,99));
         $unique = $today .'-'. $rand;
 
+        $reserva['total_personas_reserva'] = $reserva['total_adultos_reserva'] + $reserva['total_ninos_reserva'];
         $reserva['fecha_entrada_reserva'] = $fechaInicio[0].' '.$fechaInicio[1].':00';
-        $reserva['fecha_salida_reserva'] = $fechaInicio[0].' '.$fechaInicio[1].':00';
+        $reserva['fecha_salida_reserva'] = $fechaFin[0].' '.$fechaFin[1].':00';
         $reserva['fecha_creada_reserva'] = date('Y-m-d H:i:s');
 
         /** Insertar Reserva */        
@@ -361,6 +362,7 @@ class Reserva_model extends CI_Model {
         $id_reserva = $reserva['id_reserva'];
         unset($reserva['id_reserva']);
 
+        $reserva['total_personas_reserva'] = $reserva['total_adultos_reserva'] + $reserva['total_ninos_reserva'];
         $reserva['habitacion_aplica'] = isset($reserva['habitacion_aplica']) ? 1 : 0;
         $reserva['estadia_aplica'] = isset($reserva['estadia_aplica']) ? 1 : 0;
         $reserva['comida_aplica'] = isset($reserva['comida_aplica']) ? 1 : 0;
@@ -508,6 +510,21 @@ class Reserva_model extends CI_Model {
                     'cantidad' => $paquete['cantidad']
                 ));
             }
+        }
+    }
+
+    public function get_capacidad($dates)
+    {
+        $this->db->select('sum(total_personas_reserva) as capacidad');
+        $this->db->from(self::reserva);
+        $this->db->where('DATE(fecha_entrada_reserva) >=', date('Y-m-d',strtotime($dates['inicio'])));
+        $this->db->where('DATE(fecha_salida_reserva) <=', date('Y-m-d',strtotime($dates['fin'])));
+        $query = $this->db->get();
+        //echo $this->db->queries[11];die;
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
         }
     }
 }
