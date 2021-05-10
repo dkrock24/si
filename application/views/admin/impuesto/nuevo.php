@@ -3,7 +3,7 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="admin/impuesto/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Impuesto</button>
             </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
@@ -17,7 +17,7 @@
                     <div class="menuContent">
                     <div class="b">    
                         <div class="panel-heading"></div>
-                        <form class="form-horizontal" name="impuesto" action='save' method="post">
+                        <form class="form-horizontal" id="impuesto">
                             <input type="hidden" value="<?php //echo $onMenu[0]->id_submenu; 
                                                         ?>" name="id_submenu">
                             <div class="row">
@@ -172,7 +172,7 @@
                             <div class="panel-footer text-right">
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
-                                        <button type="submit" class="btn btn-info">Guardar</button>
+                                        <input type="button" name="<?php echo base_url() ?>admin/impuesto/crear" data="impuesto" class="btn btn-success enviar_data" value="Guardar">
                                     </div>
                                 </div>
                             </div>

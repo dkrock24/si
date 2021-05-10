@@ -52,7 +52,7 @@ class ClienteTipo extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('template/lista_template',$data, TRUE);
 	}
 
 	public function nuevo(){
@@ -61,7 +61,8 @@ class ClienteTipo extends MY_Controller {
 		$data['title'] = "Nuevo Tipo Cliente";
 		$data['home'] = 'admin/clienteTipo/clientetipo_nuevo';
 
-		$this->parser->parse('template', $data);
+		//$this->parser->parse('template', $data);
+		echo $this->load->view('admin/clienteTipo/clientetipo_nuevo',$data, TRUE);
 	}
 
 	public function crear(){

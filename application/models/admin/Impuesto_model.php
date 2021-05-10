@@ -42,7 +42,6 @@ class Impuesto_model extends CI_Model {
     function nuevo_impuesto( $impuesto ){
 
         $registros = $this->getAllImpuesto($impuesto['nombre']);
-        var_dump($impuesto);die;
         if(!$registros){
 
             $data = array(

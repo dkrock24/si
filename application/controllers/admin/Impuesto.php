@@ -59,7 +59,7 @@ class Impuesto extends MY_Controller {
 		echo $this->load->view('admin/impuesto/nuevo',$data, TRUE);
 	}
 
-	public function save(){
+	public function crear(){
 
 		$data = $this->Impuesto_model->nuevo_impuesto( $_POST );
 
@@ -82,7 +82,7 @@ class Impuesto extends MY_Controller {
 
 		$this->general->editar_valido($data['impuesto'], "admin/impuesto/index");
 
-		$this->parser->parse('template', $data);
+		echo $this->load->view('admin/impuesto/editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){
