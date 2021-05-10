@@ -395,9 +395,9 @@ class Giros_model extends CI_Model {
     function get_giros_empresa( $empresa ){
         
         $this->db->select('*');
-        $this->db->from(self::empresa_plantilla.' as ep');
-        $this->db->join(self::giros.' as g',' on g.id_giro = ep.Giro');
-        $this->db->where('ep.Empresa ='. $empresa );
+        //$this->db->from(self::empresa_plantilla.' as ep');
+        $this->db->from(self::giros.' as g',' on g.id_giro = ep.Giro');
+        $this->db->where('g.Empresa ='. $empresa );
         $query = $this->db->get(); 
         //echo $this->db->queries[10];
         
