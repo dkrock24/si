@@ -906,7 +906,7 @@ class Orden_model extends CI_Model
 		$this->db->join(self::pos_empresa . ' as em', 'on em.id_empresa = s.Empresa_Suc', 'left');
 		$this->db->join(self::cliente.' as c',' on c.id_cliente = o.id_cliente');
 		$this->db->join(self::sys_persona.' as p',' on p.id_persona = e.Persona_E');
-		$this->db->where('o.num_correlativo', $order_id);
+		$this->db->where('o.id', $order_id);
 		$this->db->where('s.Empresa_Suc', $this->session->empresa[0]->id_empresa);
 		$query = $this->db->get();
 		

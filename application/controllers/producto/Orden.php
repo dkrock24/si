@@ -745,7 +745,7 @@ class Orden extends MY_Controller {
 			),
 		);
 		
-		$fields['id'] 		= array('num_correlativo');
+		$fields['id'] 		= array('id');
 		$fields['estado'] 	= array('orden_estado_nombre');
 		$fields['titulo'] 	= "Orden Lista";
 
