@@ -949,7 +949,7 @@ class Orden_model extends CI_Model
 		$this->db->from(self::pos_ordenes . ' as o');
 		$this->db->join(self::pos_ordenes_detalle . ' as do',' on o.id = do.id_orden');
 		//$this->db->where('o.orden_estado = 1');
-		$this->db->where_in('o.num_correlativo', $valores );
+		$this->db->where_in('o.id', $valores );
 		$query = $this->db->get();
 		//echo $this->db->queries[0];
 
