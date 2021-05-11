@@ -288,6 +288,7 @@
                                  <tr style="background:#e3f3f6;">
                                     <th>ID</th>
                                     <th>Menu</th>
+                                    <th>Sub Menu</th>
                                     <th>Vista</th>
                                     <th>Componente</th>
                                     <th>Permiso En</th>
@@ -313,6 +314,11 @@
                                        <td class="" width="">
                                           <div class="">
                                              <?php echo $value->nombre_menu; ?>
+                                          </div>
+                                       </td>
+                                       <td class="" width="">
+                                          <div class="">
+                                             <?php echo $value->nombre_submenu; ?>
                                           </div>
                                        </td>
                                        <td class="" width="">

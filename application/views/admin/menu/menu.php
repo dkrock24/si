@@ -21,6 +21,7 @@
                                 <th>Icono</th>                                
                                 <th>Estado</th>
                                 <th>Class</th>
+                                <th>Orden</th>
                                 <th>
                                     <div class="btn-group">
                                        <button type="button" class="btn btn-default">Opcion</button>
@@ -53,6 +54,8 @@
                                             <td><?php echo $menus->nombre_menu; ?></td>
                                             <td><?php echo $menus->url_menu; ?></td>
                                             <td><i class="<?php echo $menus->icon_menu; ?>"></i> <?php echo $menus->icon_menu; ?></td>
+                                            <td><?php echo $menus->class_menu; ?></td>
+                                            <td><?php echo $menus->orden_menu; ?></td>
                                             <td>
                                                 <?php 
                                                     if($menus->estado_menu==1){
@@ -64,7 +67,6 @@
                                                         <span class="label label-warning">Inactivo</span>
                                                         <?php
                                                     }?></td>
-                                            <td><?php echo $menus->class_menu; ?></td>
                                             <td>
                                                 <div class="btn-group mb-sm">
                                                     <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary btn-xs" style="background: #dde6e9; color: black;">Opcion

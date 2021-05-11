@@ -109,16 +109,12 @@ class Menu_model extends CI_Model {
     }
 
     function update_menu( $menu ){
-        $data = array(
-           'nombre_menu' => $menu['nombre_menu'],
-            'url_menu' => $menu['url_menu'],
-            'icon_menu' => $menu['icon_menu'],
-            'class_menu' => $menu['class_menu'],
-            'id_rol_menu' => 1,
-            'estado_menu' => $menu['estado_menu']
-        );
-        $this->db->where('id_menu', $menu['id_menu']);
-        $result = $this->db->update(self::menu, $data);  
+
+        $id = $menu['id_menu'];
+        unset($menu['id_menu']);
+
+        $this->db->where('id_menu', $id);
+        $result = $this->db->update(self::menu, $menu);
 
         if(!$result){
             $result = $this->db->error();
@@ -152,18 +148,10 @@ class Menu_model extends CI_Model {
 
         $orden_menu = $this->get_last_menu();
 
-        $data = array(
-            'nombre_menu' => $data['nombre_menu'],
-            'url_menu' => $data['url_menu'],
-            'icon_menu' =>  $data['icon_menu'],
-            'class_menu' => $data['class_menu'],
-            'id_rol_menu' => 1,
-            'orden_menu' => $orden_menu[0]['orden_menu'],
-            'estado_menu' => $data['estado_menu']
-        );
-        $result = $this->db->insert(self::menu, $data );
+        $data['orden_menu'] = $orden_menu[0]->orden_menu + 1;
 
-        $ultimo_id = $this->db->insert_id();
+        $result     = $this->db->insert(self::menu, $data );
+        $ultimo_id  = $this->db->insert_id();
 
         $query = "select distinct id_rol from sys_role";
         $query = $this->db->query($query);  
@@ -182,11 +170,19 @@ class Menu_model extends CI_Model {
         return $result;
     }
 
-    function get_last_menu(){
-        $query =  "SELECT * FROM sys_menu ORDER by id_menu  DESC LIMIT 1";
-        $query = $this->db->query($query);  
-        $data = $query->result_array(); 
-        return $data;
+    private function get_last_menu()
+    {
+
+        $this->db->select('orden_menu');
+        $this->db->from(self::menu);
+        $this->db->order_by('id_menu','DESC');
+        $this->db->limit(1);
+        $query = $this->db->get();    
+                        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
     }
 
     function delete_menu( $menu_id ){

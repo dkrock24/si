@@ -51,6 +51,14 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Orden</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="orden_menu" name="orden_menu" placeholder="Class CSS" value="<?php //echo $onMenu[0]->class_menu ?>">
+                                    
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     
                                         <label>

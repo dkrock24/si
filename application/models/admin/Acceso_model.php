@@ -260,7 +260,7 @@ class Acceso_model extends CI_Model
         $this->db->where('a.id_role', $id_rol);
         $this->db->where('m.id_menu', $menu);
         $query = $this->db->get();
-        //echo $this->db->queries[13];
+        //echo $this->db->queries[2];
 
         if ($query->num_rows() > 0) {
             return $query->result();
