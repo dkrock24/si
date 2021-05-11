@@ -374,7 +374,7 @@ class Vistas_model extends CI_Model {
         $this->db->from(self::roles);
         $this->db->where('id_rol', $role );
         $query = $this->db->get();
-
+        
         $roles = $query->result();
 
         $this->db->select();

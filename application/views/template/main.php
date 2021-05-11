@@ -136,7 +136,10 @@
             return;
          }
 
+         
          url_accion = folder + "/" + controller + "/" + url_accion;
+         console.log(url_accion);
+         document.cookie = "url = " + url_accion;
          if (action == 'index') {}
          if ((url_pagina != "producto/orden/nuevo") && (url_pagina != "producto/orden/index")) {
             loadJsFiles();

@@ -32,10 +32,10 @@
     <!-- Page content-->
     <div class="content-wrapper">
         <h3 style="height: 50px; font-size: 13px;">
-            <a href="../cliente/index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="../cliente/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn btn-success"> Clientes</button>
             </a>
-            <a href="index" style="top: -12px;position: relative; text-decoration: none">
+            <a name="admin/cliente/index" style="top: -12px;position: relative; text-decoration: none" class="holdOn_plugin">
                 <button type="button" class="mb-sm btn  btn-primary btn-outline"> Clientes Tipo</button>
             </a>
             <button type="button" style="top: -12px; position: relative;" class="mb-sm btn btn-info"> Nuevo</button>
@@ -51,7 +51,7 @@
                                                                         ?> </div>
                     <div class="panel-body menuContent">
                         <p>
-                            <form class="form-horizontal" enctype="multipart/form-data" name="cliente" action='crear' method="post">
+                            <form class="form-horizontal" id="clientetipo">
                 
                                 <div class="row">
 
@@ -149,7 +149,7 @@
 
                                         <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="submit" class="btn btn-info">Guardar</button>
+                                                <input type="button" name="<?php echo base_url() ?>admin/ClienteTipo/crear" data="clientetipo" class="btn btn-success enviar_data" value="Guardar">
                                             </div>
                                         </div>
                                     </div>

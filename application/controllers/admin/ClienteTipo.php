@@ -34,7 +34,7 @@ class ClienteTipo extends MY_Controller {
 
 		$model 		= "Cliente_model";
 		$url_page 	= "admin/clienteTipo/index";
-		$pag 		= $this->MyPagination($model, $url_page , $vista = 39); //39 Combo
+		$pag 		= $this->MyPagination($model, $url_page , $vista = 95); //95 Cliente tipo
 
 		$data['menu'] 			= $this->session->menu;
 		$data['links'] 			= $pag['links'];
@@ -61,7 +61,6 @@ class ClienteTipo extends MY_Controller {
 		$data['title'] = "Nuevo Tipo Cliente";
 		$data['home'] = 'admin/clienteTipo/clientetipo_nuevo';
 
-		//$this->parser->parse('template', $data);
 		echo $this->load->view('admin/clienteTipo/clientetipo_nuevo',$data, TRUE);
 	}
 
@@ -88,7 +87,8 @@ class ClienteTipo extends MY_Controller {
 
 		$this->general->editar_valido($data['cliente'], "admin/cliente/index");
 
-		$this->parser->parse('template', $data);
+		//$this->parser->parse('template', $data);
+		echo $this->load->view('admin/clienteTipo/clientetipo_editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){
