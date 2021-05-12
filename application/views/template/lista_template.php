@@ -163,7 +163,7 @@
                                     <th style="color: black;">
                                     <?php
                                     if (isset($filtros)) {
-                                        if ($combo == 'Creado') {
+                                        if ($combo == 'Creado' || $fields['field'][$key][key($fields['field'][$key])] == 'Creado') {
                                             ?>
                                             <input type="date" name="<?php echo key($fields['field'][$key]); ?>" autocomplete="off" value="<?php echo $valor_filtro ?>" class="form-control filtro-input" /><br>
                                             <?php

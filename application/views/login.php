@@ -39,7 +39,7 @@
 					</span>
 				</div>
 
-				<form action="login" method="post" role="form" class="login100-form validate-form">
+				<form action="<?php echo base_url() ?>login/login" method="post" role="form" class="login100-form validate-form">
 					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
 						<span class="label-input100">Usuario</span>
 						<input class="input100" type="text" name="usuario" placeholder="Ingresar Usuario">

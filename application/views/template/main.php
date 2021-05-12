@@ -35,22 +35,30 @@
    <script src="<?php echo base_url(); ?>../asstes/js/calendar/calendar.js"></script>
    <script type="text/javascript">
       window.addEventListener("load", function() {
-         /*
+         
         HoldOn.open({
             theme:"sk-bounce"
           });
-*/
-         //loading();
+
+         loading();
       });
 
       function loading() {
          HoldOn.close();
       }
 
+      function loading_pages()
+      {
+         HoldOn.open({
+            theme:"sk-bounce"
+          });
+      }
+
       /**
        * MENUS
        */
       $(document).on("click", ".holdOn_plugin", function(event) {
+         loading_pages();
          event.preventDefault();
          var url_pagina = $(this).attr('name');
          document.cookie = "url = " + url_pagina;
@@ -60,6 +68,7 @@
                type: "post",
                url: "<?php echo base_url(); ?>" + url_pagina,
                success: function(result) {
+                  loading();
                   $(".loadViews").html(result);
                }
             });
@@ -72,6 +81,8 @@
          if (event.which == 13) {
             var buscar_pantalla = $("#buscar_pantalla").val();
 
+            loading_pages();
+
             $.ajax({
                type: "post",
                url: "<?php echo base_url(); ?>admin/home/buscar",
@@ -81,6 +92,7 @@
                success: function(result) {
                   document.cookie = "url = " + result;
                   loadPantalla(result);
+                  loading();
                   $("#buscar_pantalla").val("");
                }
             });
