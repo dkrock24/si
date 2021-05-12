@@ -2,11 +2,14 @@
 <script>
     $(document).ready(function() {
 
+        $("#ModalEmpresa").appendTo('body');
+        $("#ModalAtributos").appendTo('body');
+
         $(".listar_atributos").click(function() {
             $(".dataPlantilla").empty();
             var id = $(this).attr('id');
             $.ajax({
-                url: "get_atributos/" + id,
+                url: "<?php echo base_url() ?>admin/giros/get_atributos/" + id,
                 datatype: 'json',
                 cache: false,
 
@@ -106,7 +109,7 @@
             $(".lista_empresa").empty();
             //          var id = $(this).attr('id');
             $.ajax({
-                url: "listar_giros",
+                url: "<?php echo base_url() ?>admin/giros/listar_giros",
                 datatype: 'json',
                 cache: false,
 
@@ -156,7 +159,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "guardar_giro_empresa",
+                url: "<?php echo base_url() ?>admin/giros/guardar_giro_empresa",
                 data: dataForm,
                 datatype: 'json',
                 cache: false,
@@ -171,7 +174,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "get_empresa_giro/" + id_empresa,
+                url: "<?php echo base_url() ?>admin/giros/get_empresa_giro/" + id_empresa,
                 datatype: 'json',
                 cache: false,
 

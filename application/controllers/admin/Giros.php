@@ -44,7 +44,7 @@ class Giros extends MY_Controller {
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
-		echo $this->load->view('template/lista_template',$data, TRUE);
+		echo $this->load->view('admin/giros/giros_lista',$data, TRUE);
 	}
 
 	public function nuevo(){

@@ -17,13 +17,13 @@ class Configuracion_model extends CI_Model {
         }
     }
 
-    function get_configuracion_externa($param,$empresa){
+    function get_configuracion_externa(){
         $this->db->select('valor_configuracion');
         $this->db->from( self::configuracion.' as config');
         $this->db->join(self::sucursal.' as sucursal',' on sucursal.id_sucursal = config.Sucursal');
-        $this->db->where('nombre_configuracion', $param);
-        $this->db->where('Empresa_Suc', $empresa);
-        $query = $this->db->get(); 
+        $this->db->where('empresa_nombre', 'oroymiel');
+        $this->db->where('nombre_configuracion', 'empresa');
+        $query = $this->db->get();
         
         if($query->num_rows() > 0 )
         {
