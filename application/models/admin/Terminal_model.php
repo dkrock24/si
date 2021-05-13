@@ -92,11 +92,12 @@ class Terminal_model extends CI_Model {
     }
 
     public function get_all_terminal( $limit, $id , $filters){;
-        $this->db->select('*');
+        $this->db->select('*, u.nombre_usuario');
         $this->db->from( self::pos_terminal.' as terminal');
         $this->db->join( self::sucursal.' as sucursal',' on terminal.Sucursal=sucursal.id_sucursal' );
         $this->db->join(self::caja . ' as caja',' on  caja.id_caja = terminal.Caja');
         $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = terminal.estado_terminal');
+        $this->db->join(self::usuario. ' u',' on u.id_usuario = terminal.Usuario');
         $this->db->where('sucursal.Empresa_Suc', $this->session->empresa[0]->id_empresa);
         $this->db->order_by('sucursal.id_sucursal','asc');
         if($filters!=""){
