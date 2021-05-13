@@ -213,7 +213,7 @@ input[type=number]
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 col-sm-12">
                                                 <div class="single-tab-select-box">
-                                                    <h2>Nombre Reservacón</h2>
+                                                    <h2>Nombre Responsable Reserva</h2>
                                                     <div class="travel-check-icon">
                                                         <input type="text" class="form-control" required name="nombre_reserva" value="">
                                                     </div>
@@ -241,7 +241,7 @@ input[type=number]
                                             <div class="col-lg-2 col-md-4 col-sm-4">
                                                 <div class="single-tab-select-box">
                                                     <h2>Adultos</h2>
-                                                    <div class="travel-check-icon">
+                                                    <div class="travel-person-icon">
                                                         <input type="number" name="total_adultos_reserva" required min="1" value="1" max="100" class="form-control">
                                                     </div>
                                                 </div>
@@ -250,7 +250,7 @@ input[type=number]
                                             <div class="col-lg-2 col-md-4 col-sm-4">
                                                 <div class="single-tab-select-box">
                                                     <h2>Niños</h2>
-                                                    <div class="travel-check-icon">
+                                                    <div class="travel-person-icon">
                                                         <input type="number" name="total_ninos_reserva" min="0" value="0" max="100" class="form-control">
                                                     </div>
                                                 </div>
@@ -290,6 +290,7 @@ input[type=number]
                                                         <select class="form-control " name="tipo_pago_reserva">
                                                             <option value="1">Efectivo</option><!-- /.option-->
                                                             <option value="2">T. Credito</option><!-- /.option-->
+                                                            <option value="2">Abono Bancario</option><!-- /.option-->
                                                         </select>
                                                     </div>
                                                 </div>
@@ -309,7 +310,7 @@ input[type=number]
                                             <div class="col-lg-4 col-md-4 col-sm-12">
                                                 <div class="single-tab-select-box">
                                                     <h2>Telefono 1</h2>
-                                                    <div class="travel-check-icon">
+                                                    <div class="travel-phone-icon">
                                                         <input type="text" class="form-control" required name="telefono_trabajo_reserva" value="">
                                                     </div>
                                                 </div>
@@ -318,7 +319,7 @@ input[type=number]
                                             <div class="col-lg-4 col-md-4 col-sm-12">
                                                 <div class="single-tab-select-box">
                                                     <h2>Telefono 2</h2>
-                                                    <div class="travel-check-icon">
+                                                    <div class="travel-phone-icon">
                                                         <input type="text" class="form-control" name="telefono_celular_reserva" value="">
                                                     </div>
                                                 </div>
@@ -420,6 +421,7 @@ input[type=number]
     <section id="pack" class="packages" style="padding: 0px 0 90px;">
         <div class="container">
             <div class="gallary-header text-center">
+            <br><br>
                 <h2>
                     Paquetes
                 </h2>
@@ -617,7 +619,7 @@ input[type=number]
                         Instalaciones
                     </h2>
                     <p>
-                        Aqui te mostramos algunas imagenes de nuestras instalaciones
+                        La mejor estancia para que disfrutes de un descanzo placentero
                     </p>
                 </div>
                 <!--/.gallery-header-->
@@ -652,7 +654,7 @@ input[type=number]
 
                                 <div class="col-md-4">
                                     <div class="filtr-item">
-                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g3.jpeg" alt="portfolio image" />
+                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g3.jpeg" alt="portfolio image" style="height: 300px;" />
                                         <div class="item-title">
                                             <a href="#">
                                                 Espacios Libres
@@ -662,21 +664,10 @@ input[type=number]
                                     </div><!-- /.filtr-item -->
                                 </div><!-- /.col -->
 
-                                <div class="col-md-4">
-                                    <div class="filtr-item">
-                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g4.jpeg" alt="portfolio image" />
-                                        <div class="item-title">
-                                            <a href="#">
-                                                Areas Verdes
-                                            </a>
-                                            <p><span>Camina</span><span>Y disfruta</span></p>
-                                        </div> <!-- /.item-title-->
-                                    </div><!-- /.filtr-item -->
-                                </div><!-- /.col -->
 
                                 <div class="col-md-4">
                                     <div class="filtr-item">
-                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g5.jpeg" alt="portfolio image" />
+                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g5.jpeg" alt="portfolio image" style="width: 100%;" />
                                         <div class="item-title">
                                             <a href="#">
                                                 Habitaciones
@@ -686,7 +677,19 @@ input[type=number]
                                     </div><!-- /.filtr-item -->
                                 </div><!-- /.col -->
 
-                                <div class="col-md-8">
+                                <div class="col-md-7">
+                                    <div class="filtr-item">
+                                        <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g4.jpeg" alt="portfolio image" style="width: 100%;" />
+                                        <div class="item-title">
+                                            <a href="#">
+                                                Areas Verdes
+                                            </a>
+                                            <p><span>Camina</span><span>Y disfruta</span></p>
+                                        </div> <!-- /.item-title-->
+                                    </div><!-- /.filtr-item -->
+                                </div><!-- /.col -->
+
+                                <div class="col-md-12">
                                     <div class="filtr-item">
                                         <img src="<?php echo base_url() ?>../asstes/pagina/reserva/images/gallary/g6.jpeg" alt="portfolio image" />
                                         <div class="item-title">
@@ -697,6 +700,9 @@ input[type=number]
                                         </div> <!-- /.item-title-->
                                     </div><!-- /.filtr-item -->
                                 </div><!-- /.col -->
+
+
+
 
                             </div><!-- /.row -->
 
@@ -722,7 +728,7 @@ input[type=number]
                     <li><a href="#" target="_blank" class="foot-icon-bg-2"><i class="fa fa-twitter"></i></a></li>
                     <li><a href="#" target="_blank" class="foot-icon-bg-3"><i class="fa fa-instagram"></i></a></li>
                 </ul>
-                <p>&copy; 2021 <a href="https://www.themesine.com">Empresa</a>. All Right Reserved</p>
+                <p>&copy; 2021 <a href="#">OroYMiel</a>. All Right Reserved</p>
 
             </div>
             <!--/.foot-icons-->

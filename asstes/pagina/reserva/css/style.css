@@ -472,7 +472,7 @@ html,body{
     padding: 10px;
 }
 
-.travel-check-icon{
+.travel-check-icon, .travel-phone-icon, .travel-person-icon{
     position: relative;
 }
 .travel-check-icon:after{
@@ -490,7 +490,53 @@ html,body{
     padding: 10px 8px;
 }/*travel-select-icon*/
 
+.travel-phone-icon:after{
+    position: absolute;
+    content: "\f095";
+    right: 0px;
+    top: 0;
+    font-size: 18px;
+    color: #aaa;
+    background: #f9f9f9;
+    font-family: "fontAwesome";
+    pointer-events: none;
+    border:1px solid #d7d7d7;
+    border-bottom: transparent;
+    padding: 10px 8px;
+}
+
+.travel-person-icon:after{
+    position: absolute;
+    content: "\f007";
+    right: 0px;
+    top: 0;
+    font-size: 18px;
+    color: #aaa;
+    background: #f9f9f9;
+    font-family: "fontAwesome";
+    pointer-events: none;
+    border:1px solid #d7d7d7;
+    border-bottom: transparent;
+    padding: 10px 8px;
+}
+
 .travel-select-icon  select,.travel-check-icon  input {
+	color:#aaa;
+	font-size:14px;
+	font-family: 'Poppins', sans-serif;
+	text-transform: capitalize;
+	height: 48px;
+}/*select*/
+
+.travel-select-icon  select,.travel-phone-icon  input {
+	color:#aaa;
+	font-size:14px;
+	font-family: 'Poppins', sans-serif;
+	text-transform: capitalize;
+	height: 48px;
+}/*select*/
+
+.travel-select-icon  select,.travel-person-icon  input {
 	color:#aaa;
 	font-size:14px;
 	font-family: 'Poppins', sans-serif;
