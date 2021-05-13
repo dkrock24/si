@@ -224,7 +224,7 @@ input[type=number]
                                                 <div class="single-tab-select-box">
                                                     <h2>Ingreso</h2>
                                                     <div class="travel-check-icon">
-                                                        <input type="date" name="fecha_entrada_reserva" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                                                        <input type="datetime-local" name="fecha_entrada_reserva" class="form-control" value="<?php echo date('Y-m-d\T15:00'); ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -233,7 +233,7 @@ input[type=number]
                                                 <div class="single-tab-select-box">
                                                     <h2>Salida</h2>
                                                     <div class="travel-check-icon">
-                                                        <input type="date" name="fecha_salida_reserva" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                                                        <input type="datetime-local" name="fecha_salida_reserva" class="form-control" value="<?php echo date('Y-m-d\T15:00'); ?>">
                                                     </div>
                                                 </div>
                                             </div>

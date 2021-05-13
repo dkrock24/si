@@ -356,7 +356,7 @@ input[type=number]
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Ingreso</label>
                                                 <div class="col-sm-8">
-                                                    <input type="datetime-local" class="form-control" id="fecha_entrada_reserva" name="fecha_entrada_reserva" placeholder="" value="<?php $date = new DateTime($reserva[0]->fecha_entrada_reserva);echo $date->format('Y-m-d\T14:00'); ?>">
+                                                    <input type="datetime-local" class="form-control" id="fecha_entrada_reserva" name="fecha_entrada_reserva" placeholder="" value="<?php $date = new DateTime($reserva[0]->fecha_entrada_reserva);echo $date->format('Y-m-d\TH:s'); ?>">
                                                 </div>
                                             </div>
 
@@ -418,7 +418,7 @@ input[type=number]
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Salida</label>
                                                 <div class="col-sm-8">
-                                                    <input type="datetime-local" class="form-control" id="fecha_salida_reserva" name="fecha_salida_reserva" placeholder="" value="<?php $date = new DateTime($reserva[0]->fecha_salida_reserva);echo $date->format('Y-m-d\T14:00'); ?>">
+                                                    <input type="datetime-local" class="form-control" id="fecha_salida_reserva" name="fecha_salida_reserva" placeholder="" value="<?php $date = new DateTime($reserva[0]->fecha_salida_reserva);echo $date->format('Y-m-d\TH:s'); ?>">
                                                 </div>
                                             </div>
 

@@ -450,8 +450,15 @@ class Reserva_model extends CI_Model {
             $imageProperties = @getimageSize($_FILES['imagen_pago_reserva']['tmp_name']);
         }
 
-        $reserva['fecha_entrada_reserva'] = $reserva['fecha_entrada_reserva'].' 14:00:00';
-        $reserva['fecha_salida_reserva'] = $reserva['fecha_salida_reserva'].' 14:00:00';
+        $fechaInicio = $reserva['fecha_entrada_reserva'];
+        $fechaInicio = explode("T", $fechaInicio);
+
+        $fechaFin = $reserva['fecha_salida_reserva'];
+        $fechaFin = explode("T", $fechaFin);
+
+        $reserva['fecha_entrada_reserva'] = $fechaInicio[0].' '.$fechaInicio[1].':00';
+        $reserva['fecha_salida_reserva'] = $fechaFin[0].' '.$fechaFin[1].':00';
+        
         $reserva['color'] = "#e4f21c";
 
         $today = date("Ymd");

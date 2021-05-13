@@ -50,6 +50,8 @@ class Login extends CI_Controller {
 			$user = $this->Login_model->autenticacion( $usuario , $passwd );	
 			if($user != 0){	
 				$_SESSION['db'] = $user;
+
+				$this->session->sess_expiration = '84400';
 				
 				// Usuario encontrado y redireccionado para validarlo a su empresa
 				//header("location: validar");
