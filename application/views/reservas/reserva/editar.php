@@ -478,6 +478,9 @@ input[type=number]
                                         <li class="nav-item">
                                             <a class="nav-link" id="zona-tab" data-toggle="tab" href="#zona" role="tab" aria-controls="zonas" aria-selected="false">ESTADIAS</a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="pago-tab" data-toggle="tab" href="#pago" role="tab" aria-controls="pago" aria-selected="false">COMPROBANTE PAGO</a>
+                                        </li>
                                     </ul>
 
                                     <div class="tab-content" id="myTabContent">
@@ -662,6 +665,11 @@ input[type=number]
                                                     ?>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="tab-pane" id="pago" role="tabpanel" aria-labelledby="pago-tab">
+                                            <?php if ($reserva[0]->imagen_pago_reserva) : ?>
+                                                <img src="data: <?php echo $reserva[0]->imagen_tipo_reserva ?> ;<?php echo 'base64'; ?>,<?php echo base64_encode($reserva[0]->imagen_pago_reserva) ?>" clas="preview_producto" style="width:70%;" />
+                                            <?php endif ?>
                                         </div>
                                     </div>
                                 </div>
