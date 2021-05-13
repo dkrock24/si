@@ -163,6 +163,7 @@
                url: "<?php echo base_url(); ?>" + url_accion,
                success: function(result) {
                   $(".loadViews").html(result);
+                  loading();
                }
             });
          } else {
