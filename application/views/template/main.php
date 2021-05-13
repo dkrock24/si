@@ -136,6 +136,8 @@
        */
       $(document).on("click", ".accion_superior", function() {
 
+         loading_pages();
+
          var url_accion = $(this).attr('name');
          var url_id = $(this).attr('id');
          url_pagina = getCookie("url");
@@ -145,6 +147,7 @@
          var btn_data = $(this).attr('data');
          if (btn_data == "eliminar") {
             var confirm = askForRemoveItem(url_accion, url_id);
+            loading();
             return;
          }
 
@@ -160,6 +163,7 @@
                url: "<?php echo base_url(); ?>" + url_accion,
                success: function(result) {
                   $(".loadViews").html(result);
+                  loading();
                }
             });
          } else {
@@ -171,6 +175,8 @@
        * FORMULARIOS
        */
       $(document).on("click", ".enviar_data", function() {
+
+         loading_pages();
 
          var url_pagina = $(this).attr('name');
          var form = $('#' + $(this).attr('data'))[0];
@@ -186,6 +192,7 @@
             url: url_pagina,
             success: function(result) {
                $(".loadViews").html(result);
+               loading();
             }
          });
       });
