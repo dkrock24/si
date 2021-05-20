@@ -129,7 +129,7 @@
         <div class="panel menu_title_bar">
         <?php $this->load->view('notificaciones/success'); ?>
             <!-- START table-responsive-->
-            <div class="dataList">
+            <div class="dataList" id="dataList" style="height:80vh;">
                 <?php
                 //var_dump( $_SESSION['empresa'][0]->nombre_comercial);
                 ?>
