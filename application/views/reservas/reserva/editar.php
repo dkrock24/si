@@ -319,36 +319,6 @@ input[type=number]
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Estadia</label>
-                                                <div class="col-sm-8 no-padding-left">
-                                                <?php
-                                                    $estadia_aplica = $reserva[0]->estadia_aplica ? 'checked' : '';
-                                                ?>
-                                                <input type="checkbox" <?php echo $estadia_aplica; ?> class="input-check" id="estadia_aplica" name="estadia_aplica" value="">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Habitacón</label>
-                                                <div class="col-sm-8 no-padding-left">
-                                                <?php
-                                                    $habitacion_aplica = $reserva[0]->habitacion_aplica ? 'checked' : '';
-                                                ?>
-                                                <input type="checkbox" <?php echo $habitacion_aplica; ?> class="input-check" id="habitacion_aplica" name="habitacion_aplica" value="">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Comida</label>
-                                                <div class="col-sm-8 no-padding-left">
-                                                <?php
-                                                    $comida_aplica = $reserva[0]->comida_aplica ? 'checked' : '';
-                                                ?>
-                                                <input type="checkbox" <?php echo $comida_aplica; ?> class="input-check" id="comida_aplica" name="comida_aplica" value="">
-                                                </div>
-                                            </div>
-
                                         </div>
 
                                         <div class="col-lg-4">
@@ -476,7 +446,7 @@ input[type=number]
                                             <a class="nav-link" id="mesa-tab" data-toggle="tab" href="#mesa" role="tab" aria-controls="mesas" aria-selected="false">MESAS</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="zona-tab" data-toggle="tab" href="#zona" role="tab" aria-controls="zonas" aria-selected="false">ESTADIAS</a>
+                                            <a class="nav-link" id="zona-tab" data-toggle="tab" href="#zona" role="tab" aria-controls="zonas" aria-selected="false">EVENTOS / ESTADIAS</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" id="pago-tab" data-toggle="tab" href="#pago" role="tab" aria-controls="pago" aria-selected="false">COMPROBANTE PAGO</a>
@@ -627,7 +597,7 @@ input[type=number]
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <hr>
-                                                    <h4><i class="fa fa-map-signs"></i> Estadias:</h4>
+                                                    <h4><i class="fa fa-map-signs"></i> Eventos / Estadias:</h4>
                                                     <?php
                                                     $zona_asignada = [];
                                                     if($zona_){

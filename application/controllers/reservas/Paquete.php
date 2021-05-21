@@ -134,7 +134,7 @@ class Paquete extends MY_Controller {
 		
 		$fields['id'] = array('id_reserva_paquete');
 		$fields['estado'] = array('estado');
-		$fields['titulo'] = "Paquete Lista";
+		$fields['titulo'] = "Paquetes Lista";
 
 		return $fields;
 	}

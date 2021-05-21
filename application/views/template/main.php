@@ -191,8 +191,8 @@
             data: data,
             url: url_pagina,
             success: function(result) {
-               $(".loadViews").html(result);
                loading();
+               $(".loadViews").html(result);
             }
          });
       });

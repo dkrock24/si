@@ -318,27 +318,6 @@ input[type=number]
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Estadia</label>
-                                                <div class="col-sm-8 no-padding-left">
-                                                    <input type="checkbox" class="input-check" id="estadia" name="estadia_aplica" value="">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Habitacón</label>
-                                                <div class="col-sm-8 no-padding-left">
-                                                    <input type="checkbox" class="input-check" id="habitacion" name="habitacion_aplica" value="">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Comida</label>
-                                                <div class="col-sm-8 no-padding-left">
-                                                    <input type="checkbox" class="input-check" id="comida" name="comida_aplica" value="">
-                                                </div>
-                                            </div>
-
                                         </div>
 
                                         <div class="col-lg-4">
@@ -346,7 +325,8 @@ input[type=number]
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Ingreso</label>
                                                 <div class="col-sm-8">
-                                                    <input type="datetime-local" class="form-control" id="fecha_entrada_reserva" name="fecha_entrada_reserva" placeholder="" value="<?php echo date('Y-m-d\T14:00') ?>">
+                                                    <input type="date" class="form-control" id="fecha_entrada_reserva" name="fecha_entrada_reserva" value="<?php echo date('Y-m-d') ?>">
+                                                    <input type="time" class="form-control" id="hora_entrada_reserva" name="hora_entrada_reserva" value="<?php echo date('15:00') ?>">
                                                 </div>
                                             </div>
 
@@ -389,7 +369,7 @@ input[type=number]
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Comentarios</label>
                                                 <div class="col-sm-8">
-                                                    <textarea class="form-control" id="comentarios" name="comentarios"></textarea>
+                                                    <textarea class="form-control" id="comentarios" name="comentario_reserva"></textarea>
                                                 </div>
                                             </div>
 
@@ -399,7 +379,8 @@ input[type=number]
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Salida</label>
                                                 <div class="col-sm-8">
-                                                    <input type="datetime-local" class="form-control" id="fecha_salida_reserva" name="fecha_salida_reserva" placeholder="" value="<?php echo date('Y-m-d\T14:00') ?>">
+                                                    <input type="date" class="form-control" id="fecha_salida_reserva" name="fecha_salida_reserva" value="<?php echo date('Y-m-d') ?>">
+                                                    <input type="time" class="form-control" id="hora_salida_reserva" name="hora_salida_reserva" value="<?php echo date('15:00') ?>">
                                                 </div>
                                             </div>
 
@@ -455,7 +436,7 @@ input[type=number]
                                             <a class="nav-link" id="mesa-tab" data-toggle="tab" href="#mesa" role="tab" aria-controls="mesas" aria-selected="false">MESAS</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="zona-tab" data-toggle="tab" href="#zona" role="tab" aria-controls="zonas" aria-selected="false">ESTADIAS</a>
+                                            <a class="nav-link" id="zona-tab" data-toggle="tab" href="#zona" role="tab" aria-controls="zonas" aria-selected="false">EVENTOS / ESTADIAS</a>
                                         </li>
                                     </ul>
                                     <div class="tab-content" id="myTabContent">
@@ -538,7 +519,7 @@ input[type=number]
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <hr>
-                                                    <h4><i class="fa fa-map-signs"></i> Estadias:</h4>
+                                                    <h4><i class="fa fa-map-signs"></i> Eventos / Estadias:</h4>
                                                     <?php
                                                     if ($zona) {
                                                         foreach ($zona as $key => $zonas) {

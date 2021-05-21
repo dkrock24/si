@@ -279,7 +279,7 @@ class Reserva extends MY_Controller {
 		
 		$fields['id'] = array('id_reserva');
 		$fields['estado'] = array('estado');
-		$fields['titulo'] = "Reserva Lista";
+		$fields['titulo'] = "Reservaciones Lista";
 
 		return $fields;
 	}

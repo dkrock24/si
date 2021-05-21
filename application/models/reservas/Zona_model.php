@@ -32,6 +32,10 @@ class Zona_model extends CI_Model {
 
     function crear($zona){
 
+        if(isset($zona['evento'])){
+            $zona['evento'] = 1;
+        }
+
         $zona['Sucursal'] = $this->session->usuario[0]->Sucursal;
         $insert = $this->db->insert(self::zona, $zona);  
         if(!$insert){
@@ -54,7 +58,26 @@ class Zona_model extends CI_Model {
         }
     }
 
+    function get_eventos_lista($empresa_id){
+        $this->db->select('*');
+        $this->db->from( self::zona.' as zona');
+        $this->db->join( self::sucursal.' as s', ' on zona.Sucursal = s.id_sucursal' );
+        $this->db->where('s.Empresa_Suc', $empresa_id );
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
     function update($zona){
+
+        if(isset($zona['evento'])){
+            $zona['evento'] = 1;
+        } else {
+            $zona['evento'] = 0;
+        }
 
     	$this->db->where('id_reserva_zona', $zona['id_reserva_zona']);  
         $result = $this->db->update(self::zona, $zona);  

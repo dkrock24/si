@@ -173,32 +173,30 @@ class Reserva_model extends CI_Model {
         }
 
         $fechaInicio = $reserva['fecha_entrada_reserva'];
-        $fechaInicio = explode("T", $fechaInicio);
-
+        $horaInicio = $reserva['hora_entrada_reserva'];
         $fechaFin = $reserva['fecha_salida_reserva'];
-        $fechaFin = explode("T", $fechaFin);
+        $horaFin  = $reserva['hora_salida_reserva'];
 
-        $today = date("Ymd");
-        $rand = sprintf("%02d", rand(0,99));
+        unset($reserva['hora_entrada_reserva']);
+        unset($reserva['hora_salida_reserva']);
+
+        $today  = date("Ymd");
+        $rand   = sprintf("%02d", rand(0,99));
         $unique = $today .'-'. $rand;
 
         $reserva['total_personas_reserva'] = $reserva['total_adultos_reserva'] + $reserva['total_ninos_reserva'];
-        $reserva['fecha_entrada_reserva'] = $fechaInicio[0].' '.$fechaInicio[1].':00';
-        $reserva['fecha_salida_reserva'] = $fechaFin[0].' '.$fechaFin[1].':00';
-        $reserva['fecha_creada_reserva'] = date('Y-m-d H:i:s');
+        $reserva['fecha_entrada_reserva']  = $fechaInicio.' '.$horaInicio.':00';
+        $reserva['fecha_salida_reserva']   = $fechaFin.' '.$horaFin.':00';
+        $reserva['fecha_creada_reserva']   = date('Y-m-d H:i:s');
 
         /** Insertar Reserva */        
         $reserva['Sucursal'] = $this->session->usuario[0]->Sucursal;
         $reserva['codigo_reserva'] =$unique;
 
-        $paquete['habitacion'] = isset($paquete['habitacion']) ? 1 : 0;
-        $paquete['estadia'] = isset($paquete['estadia']) ? 1 : 0;
-        $paquete['comida'] = isset($paquete['comida']) ? 1 : 0;
-
-        $insert     = $this->db->insert(self::reserva, $reserva);
+        $insertx     = $this->db->insert(self::reserva, $reserva);
         $id_reserva = $this->db->insert_id();
 
-        if(!$insert){
+        if(!$insertx){
             $insert = $this->db->error();
         }
 
@@ -237,7 +235,7 @@ class Reserva_model extends CI_Model {
             }
         }
 
-        return $insert;
+        return $insertx;
     }
 
     function get_reserva($reserva){
@@ -364,9 +362,6 @@ class Reserva_model extends CI_Model {
         unset($reserva['id_reserva']);
 
         $reserva['total_personas_reserva'] = $reserva['total_adultos_reserva'] + $reserva['total_ninos_reserva'];
-        $reserva['habitacion_aplica'] = isset($reserva['habitacion_aplica']) ? 1 : 0;
-        $reserva['estadia_aplica'] = isset($reserva['estadia_aplica']) ? 1 : 0;
-        $reserva['comida_aplica'] = isset($reserva['comida_aplica']) ? 1 : 0;
 
         $this->db->where('id_reserva', $id_reserva);
         $result = $this->db->update(self::reserva, $reserva);
@@ -429,7 +424,7 @@ class Reserva_model extends CI_Model {
         return $result;
     }
 
-    function eliminar($id)
+    public function eliminar($id)
     {
         $this->db->where('id_reserva_mesa', $id);  
         $result = $this->db->delete(self::mesa);
@@ -440,7 +435,7 @@ class Reserva_model extends CI_Model {
         return $result;
     }
 
-    function get_reservar_from_landing($reserva)
+    public function get_reservar_from_landing($reserva)
     {       
 
         $imagen="";
@@ -451,13 +446,15 @@ class Reserva_model extends CI_Model {
         }
 
         $fechaInicio = $reserva['fecha_entrada_reserva'];
-        $fechaInicio = explode("T", $fechaInicio);
+        $horaInicio  = $reserva['hora_entrada_reserva'];
+        $fechaFin    = $reserva['fecha_salida_reserva'];
+        $horaFin     = $reserva['hora_salida_reserva'];
 
-        $fechaFin = $reserva['fecha_salida_reserva'];
-        $fechaFin = explode("T", $fechaFin);
+        $reserva['fecha_entrada_reserva'] = $fechaInicio.' '.$horaInicio.':00';
+        $reserva['fecha_salida_reserva']  = $fechaFin.' '.$horaFin.':00';
 
-        $reserva['fecha_entrada_reserva'] = $fechaInicio[0].' '.$fechaInicio[1].':00';
-        $reserva['fecha_salida_reserva'] = $fechaFin[0].' '.$fechaFin[1].':00';
+        unset($reserva['hora_entrada_reserva']);
+        unset($reserva['hora_salida_reserva']);
         
         $reserva['color'] = "#e4f21c";
 
@@ -471,18 +468,19 @@ class Reserva_model extends CI_Model {
         $reserva['estado_reserva'] = 10;
 
         /** Insertar Reserva */        
-        $reserva['Sucursal'] = 2;
-        $reserva['codigo_reserva'] = $unique;
+        $reserva['Sucursal']        = 2;
+        $reserva['codigo_reserva']  = $unique;
         $reserva['cliente_reserva'] = 1;
 
-        $reserva['habitacion_aplica'] = isset($reserva['habitacion_aplica']) ? 1 : 0;
-        $reserva['estadia_aplica'] = isset($reserva['estadia_aplica']) ? 1 : 0;
-        $reserva['comida_aplica'] = isset($reserva['comida_aplica']) ? 1 : 0;
+        $reserva['habitacion_aplica']   = isset($reserva['habitacion_aplica']) ? 1 : 0;
+        $reserva['estadia_aplica']      = isset($reserva['estadia_aplica']) ? 1 : 0;
+        $reserva['comida_aplica']       = isset($reserva['comida_aplica']) ? 1 : 0;
 
         $reserva['total_personas_reserva'] = $reserva['total_adultos_reserva'] + $reserva['total_ninos_reserva'];
 
         $cc = 0;
         $reserva_paquete_reserva = [];
+        $reserva_eventos = [];
         foreach ($reserva as $key => $paquete) {
 
             if (isset($reserva['paquete_'.$cc])) {
@@ -492,13 +490,18 @@ class Reserva_model extends CI_Model {
             }
             unset($reserva['cantidad_'.$cc]);
 
+            if (isset($reserva['evento'.$cc])) {
+                $reserva_eventos[$cc] = $reserva['evento'.$cc];
+            }
+            unset($reserva['evento'.$cc]);
+
             $cc++;
         }
 
         $insert     = $this->db->insert(self::reserva, $reserva);
         $id_reserva = $this->db->insert_id();
-
         $this->insert_reserva_paquete($id_reserva, $reserva_paquete_reserva);
+        $this->insert_reserva_evento($id_reserva, $reserva_eventos);
 
         if(!$insert){
             $insert = $this->db->error();
@@ -516,6 +519,18 @@ class Reserva_model extends CI_Model {
                     'reserva' => $reserva,
                     'paquete' => $paquete['paquete'],
                     'cantidad' => $paquete['cantidad']
+                ));
+            }
+        }
+    }
+
+    private function insert_reserva_evento($reserva, $eventos)
+    {
+        if ($eventos) {
+            foreach ($eventos as $evento) {
+                $this->db->insert(self::reserva_detalle_zona, array(
+                    'reserva' => $reserva,
+                    'zona' => $evento
                 ));
             }
         }

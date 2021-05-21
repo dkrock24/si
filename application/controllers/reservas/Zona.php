@@ -105,7 +105,7 @@ class Zona extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Nombre','Descripcion','Ubicacion','Capacidad','Precio','Codigo','Sucursal','Estado'
+			'Nombre','Descripcion','Ubicacion','Capacidad','Precio','Evento','Codigo','Sucursal','Estado'
 		);
 		return $column;
 	}
@@ -117,6 +117,7 @@ class Zona extends MY_Controller {
 			['ubicacion_zona'=> 'ubicacion'],
 			['capacidad_zona'=> 'Capacidad'],
 			['precio_zona'=> 'Precio'],
+			['evento'=> 'Evento'],
 			['codigo_zona'=> 'Codigo'],
 			['Sucursal'=> 'Sucursal'],
 			['estado_zona' => 'Estado']
@@ -131,7 +132,7 @@ class Zona extends MY_Controller {
 		
 		$fields['id'] = array('id_reserva_zona');
 		$fields['estado'] = array('estado');
-		$fields['titulo'] = "Zona Lista";
+		$fields['titulo'] = "Estadia / Eventos Lista";
 
 		return $fields;
 	}

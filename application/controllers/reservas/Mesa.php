@@ -129,7 +129,7 @@ class Mesa extends MY_Controller {
 		
 		$fields['id'] = array('id_reserva_mesa');
 		$fields['estado'] = array('estado');
-		$fields['titulo'] = "Mesa Lista";
+		$fields['titulo'] = "Mesas Lista";
 
 		return $fields;
 	}

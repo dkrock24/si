@@ -224,7 +224,16 @@ input[type=number]
                                                 <div class="single-tab-select-box">
                                                     <h2>Ingreso</h2>
                                                     <div class="travel-check-icon">
-                                                        <input type="datetime-local" name="fecha_entrada_reserva" class="form-control" value="<?php echo date('Y-m-d\T15:00'); ?>">
+                                                        <input type="date" name="fecha_entrada_reserva" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col-md-4 col-sm-4">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Hora</h2>
+                                                    <div class="travel-person-icon">
+                                                        <input type="time" name="hora_entrada_reserva" class="form-control" value="<?php echo date('15:00'); ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -233,11 +242,23 @@ input[type=number]
                                                 <div class="single-tab-select-box">
                                                     <h2>Salida</h2>
                                                     <div class="travel-check-icon">
-                                                        <input type="datetime-local" name="fecha_salida_reserva" class="form-control" value="<?php echo date('Y-m-d\T15:00'); ?>">
+                                                        <input type="date" name="fecha_salida_reserva" class="form-control" value="<?php echo date('Y-m-d'); ?>">
                                                     </div>
                                                 </div>
                                             </div>
 
+                                            <div class="col-lg-2 col-md-4 col-sm-4">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Hora</h2>
+                                                    <div class="travel-person-icon">
+                                                        <input type="time" name="hora_salida_reserva" class="form-control" value="<?php echo date('15:00'); ?>">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
                                             <div class="col-lg-2 col-md-4 col-sm-4">
                                                 <div class="single-tab-select-box">
                                                     <h2>Adultos</h2>
@@ -256,9 +277,6 @@ input[type=number]
                                                 </div>
                                             </div>
 
-                                        </div>
-
-                                        <div class="row">
                                             <div class="col-lg-4 col-md-4 col-sm-12">
                                                 <div class="single-tab-select-box">
 
@@ -283,6 +301,10 @@ input[type=number]
                                                 </div>
                                             </div>
 
+                                        </div>
+
+                                        <div class="row">                                            
+
                                             <div class="col-lg-2 col-md-2 col-sm-12">
                                                 <div class="single-tab-select-box">
                                                     <h2>Tipo Pago</h2>
@@ -304,9 +326,16 @@ input[type=number]
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                                <div class="single-tab-select-box">
+                                                    <h2>Adjuntar Comprobante</h2>
+                                                    <div class="travel-check-icon">
+                                                        <input type="file" class="form-control" name="imagen_pago_reserva" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-lg-4 col-md-4 col-sm-12">
                                                 <div class="single-tab-select-box">
                                                     <h2>Telefono 1</h2>
@@ -315,6 +344,10 @@ input[type=number]
                                                     </div>
                                                 </div>
                                             </div>
+
+                                        </div>
+
+                                        <div class="row">
 
                                             <div class="col-lg-4 col-md-4 col-sm-12">
                                                 <div class="single-tab-select-box">
@@ -325,27 +358,34 @@ input[type=number]
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-4 col-md-4 col-sm-12">
-                                                <div class="single-tab-select-box">
-                                                    <h2>Adjuntar Comprobante</h2>
-                                                    <div class="travel-check-icon">
-                                                        <input type="file" class="form-control" name="imagen_pago_reserva" value="">
-                                                    </div>
-                                                </div>
+                                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                                
+                                            <h3 style="color:grey;">Comentarios</h3><br>
+                                                <textarea class="form-control" name="comentario_reserva"></textarea>                                                
                                             </div>
+                                           
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-lg-1 col-md-1 col-sm-12">
-                                                <input type="checkbox" class="input-check" name="estadia_aplica" value="" />Estadia
+                                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                            <?php
+                                            if($eventos) {
+                                                foreach ($eventos as $key => $evento) 
+                                                {
+                                                    ?>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                                            <input type="checkbox" class="input-check" name="evento<?php echo $key ?>" value="<?php echo $evento->id_reserva_zona ?>" /> <?php echo $evento->nombre_zona ?>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
                                             </div>
-                                            <div class="col-lg-1 col-md-1 col-sm-12">
-                                                <input type="checkbox" class="input-check" name="habitacion_aplica" value="" />Habitación
-                                            </div>
-                                            <div class="col-lg-1 col-md-1 col-sm-12">
-                                                <input type="checkbox" class="input-check" name="comida_aplica" value="" />Comida
-                                            </div>
+
                                             <div class="col-lg-4 col-md-5 col-sm-12">
+                                            <br>
                                                 <h4>
                                                     <?php
                                                     if (isset($unique)) {
@@ -355,10 +395,10 @@ input[type=number]
                                                 </h4>
                                             </div>
 
-                                            <div class="col-lg-5 col-md-4 col-sm-12">
+                                            <div class="col-lg-5 col-md-4 col-sm-12"><br>
                                                 <div class="about-btn travel-mrt-0 pull-right">
                                                     <?php if (!isset($unique)) : ?>
-                                                        <input type="submit" class="about-view travel-btn" value="Registrar" />
+                                                        <input type="submit" class="about-view travel-btn" value="RESERVAR" />
                                                     <?php else: ?>
                                                         <a href="../index" class="about-view travel-btn">Regresar</a>
                                                     <?php endif ?>
@@ -389,7 +429,7 @@ input[type=number]
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="single-about-us">
-                            <div class="about-us-txt">
+                            <div class="about-us-txt"><br>
                                 <?php
                                 if (isset($unique)) {
                                 ?>

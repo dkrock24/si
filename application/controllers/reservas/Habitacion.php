@@ -139,7 +139,7 @@ class Habitacion extends MY_Controller {
 		
 		$fields['id'] = array('id_reserva_habitacion');
 		$fields['estado'] = array('estado');
-		$fields['titulo'] = "habitacion Lista";
+		$fields['titulo'] = "Habitación Lista";
 
 		return $fields;
 	}

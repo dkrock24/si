@@ -35,6 +35,7 @@ class Empresa extends CI_Controller {
         $empresa_id = $configuracion[0]->valor_configuracion;
 
         $data['paquetes'] = $this->Paquete_model->get_paquete_lista($empresa_id);
+        $data['eventos'] = $this->Zona_model->get_eventos_lista($empresa_id);
         $this->load->view('reservas/pagina/cliente', $data);
 	}
 
