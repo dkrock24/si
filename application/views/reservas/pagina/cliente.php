@@ -385,7 +385,7 @@ input[type=number]
                                             </div>
 
                                             <div class="col-lg-4 col-md-5 col-sm-12">
-                                            <br>
+                                            <br><br>
                                                 <h4>
                                                     <?php
                                                     if (isset($unique)) {
@@ -399,8 +399,8 @@ input[type=number]
                                                 <div class="about-btn travel-mrt-0 pull-right">
                                                     <?php if (!isset($unique)) : ?>
                                                         <input type="submit" class="about-view travel-btn" value="RESERVAR" />
-                                                    <?php else: ?>
-                                                        <a href="../index" class="about-view travel-btn">Regresar</a>
+                                                    <?php else: ?><br><br>
+                                                        <a href="../index" class="about-view btn btn-default">Regresar</a>
                                                     <?php endif ?>
                                                 </div>
                                             </div>
@@ -422,39 +422,32 @@ input[type=number]
     </section>
 
     <!--travel-box start-->
-    <section class="travel-box">
+    <section class="">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="single-about-us">
+                    <div class="about-us-txt"><br>
+                        <?php
+                        if (isset($unique)) {
+                            ?>
+                            <h2 style="color:black;text-align:center;background:white;">Gracias Por Tu Reserva!. En Breve Te contactaremos.</h2>
+                        <?php
+                        } else {
+                            ?>
+                            <h2 style="color:white;">Realiza tu Reservación Ya!</h2>
+                        <?php
+                        }
+                        ?>
 
-        <div class="container">
-            <div class="about-us-content">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="single-about-us">
-                            <div class="about-us-txt"><br>
-                                <?php
-                                if (isset($unique)) {
-                                ?>
-                                    <h2 style="color:white;">Gracias Por Tu Reserva!. En Breve Te contactaremos.</h2>
-                                <?php
-                                } else {
-                                ?>
-                                    <h2 style="color:white;">Realiza tu Reservación Ya!</h2>
-                                <?php
-                                }
-                                ?>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-0">
-                        <div class="single-about-us">
-
-                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-sm-0">
+                <div class="single-about-us">
 
+                </div>
             </div>
         </div>
-
     </section>
 
     <!--packages start-->

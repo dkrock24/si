@@ -247,7 +247,7 @@ class Reserva extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Codigo','Cliente','Reserva','Entrada','Salida','Creado','Adultos','MENORES','Total','T.Pago','Estado'
+			'Codigo','Cliente','Reserva','Entrada','Salida','Creado','Adultos','MENORES','Total','Eventos','T.Pago','Estado'
 		);
 		return $column;
 	}
@@ -259,11 +259,11 @@ class Reserva extends MY_Controller {
 			['nombre_reserva' => 'Reserva'],
 			['fecha_entrada_reserva'=> 'Creado'],
             ['fecha_salida_reserva'=> 'Creado'],
-			//['fecha_real_salida_reserva'=> 'Codigo'],
             ['fecha_creada_reserva'=> 'Creado'],
             ['total_adultos_reserva'=> 'Adultos'],
             ['total_ninos_reserva'=> 'Menores'],
 			['total_personas_reserva'=> 'Total Personas'],
+			['eventos'=> 'Eventos'],
             ['nombre_modo_pago'=> 'Tipo Pago'],
             //['referencia_pago_reserva'=> 'Codigo'],
             //['anticipo_pago_reserva'=> 'Codigo'],

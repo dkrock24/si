@@ -326,7 +326,8 @@ input[type=number]
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Ingreso</label>
                                                 <div class="col-sm-8">
-                                                    <input type="datetime-local" class="form-control" id="fecha_entrada_reserva" name="fecha_entrada_reserva" placeholder="" value="<?php $date = new DateTime($reserva[0]->fecha_entrada_reserva);echo $date->format('Y-m-d\TH:s'); ?>">
+                                                    <input type="date" class="form-control" id="fecha_entrada_reserva" name="fecha_entrada_reserva" value="<?php $date = new DateTime($reserva[0]->fecha_entrada_reserva);echo $date->format('Y-m-d'); ?>">
+                                                    <input type="time" class="form-control" id="hora_entrada_reserva" name="hora_entrada_reserva" value="<?php $date = new DateTime($reserva[0]->fecha_entrada_reserva);echo $date->format('H:s'); ?>">
                                                 </div>
                                             </div>
 
@@ -378,7 +379,7 @@ input[type=number]
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Comentarios</label>
                                                 <div class="col-sm-8">
-                                                    <textarea class="form-control" id="comentarios" name="comentarios"><?php echo $reserva[0]->comentarios; ?></textarea>
+                                                    <textarea class="form-control" id="comentarios" name="comentario_reserva"><?php echo $reserva[0]->comentario_reserva; ?></textarea>
                                                 </div>
                                             </div>
 
@@ -388,7 +389,8 @@ input[type=number]
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Salida</label>
                                                 <div class="col-sm-8">
-                                                    <input type="datetime-local" class="form-control" id="fecha_salida_reserva" name="fecha_salida_reserva" placeholder="" value="<?php $date = new DateTime($reserva[0]->fecha_salida_reserva);echo $date->format('Y-m-d\TH:s'); ?>">
+                                                    <input type="date" class="form-control" id="fecha_salida_reserva" name="fecha_salida_reserva" value="<?php $date = new DateTime($reserva[0]->fecha_salida_reserva);echo $date->format('Y-m-d'); ?>">
+                                                    <input type="time" class="form-control" id="hora_salida_reserva" name="hora_salida_reserva" value="<?php $date = new DateTime($reserva[0]->fecha_salida_reserva);echo $date->format('H:s'); ?>">
                                                 </div>
                                             </div>
 
@@ -606,7 +608,7 @@ input[type=number]
                                                             ?>
                                                             <div class="col-lg-2">
                                                                 <div class="form-group">
-                                                                    <label for="inputEmail3" class="control-label"><?php echo $z->codigo_zona . "  " . $z->nombre_zona ?></label><br>
+                                                                    <label for="inputEmail3" class="control-label"><?php echo $z->nombre_zona ?></label><br>
                                                                     <input type="checkbox" checked class="input-check" name="zona-<?php echo $key ?>" id="zonas" value="<?php echo $z->id_reserva_zona ?>" />
                                                                 </div>                                                        
                                                             </div>
@@ -622,7 +624,7 @@ input[type=number]
                                                             ?>
                                                             <div class="col-lg-2">
                                                                 <div class="form-group">
-                                                                    <label for="inputEmail3" class="control-label"><?php echo $zonas->codigo_zona . "  " . $zonas->nombre_zona ?></label><br>
+                                                                    <label for="inputEmail3" class="control-label"><?php echo $zonas->nombre_zona ?></label><br>
                                                                     <input type="checkbox" class="input-check" name="zona-<?php echo $key ?>" id="zonas" value="<?php echo $zonas->id_reserva_zona ?>" />
                                                                 </div>                                                        
                                                             </div>

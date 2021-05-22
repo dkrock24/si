@@ -13,11 +13,15 @@ class Reserva_model extends CI_Model {
     const reserva_detalle_habitacion = 'reserva_detalle_habitacion';
     const reserva_detalle_mesa = 'reserva_detalle_mesa';
     const reserva_detalle_zona = 'reserva_detalle_zona';
+    const reserva_detalle_articulos = 'reserva_detalle_articulos';
     const pagos = 'pos_formas_pago';
     const paquetes = 'reserva_paquete';
 
     function get_all_reservas( $limit, $id ,$filters){;
-        $this->db->select('*');
+        $this->db->select('*,(SELECT GROUP_CONCAT(zona.nombre_zona SEPARATOR ",")
+            FROM reserva_zona  AS zona
+            LEFT JOIN reserva_detalle_zona AS rdz ON zona.id_reserva_zona = rdz.zona
+            WHERE rdz.reserva = reserva.id_reserva) AS eventos');
         $this->db->from( self::reserva.' as reserva' );
         $this->db->join( self::estados.' as estados', ' on reserva.estado_reserva = estados.id_reserva_estados' );
         $this->db->join( self::sucursal.' as s', ' on reserva.Sucursal = s.id_sucursal' );
@@ -32,6 +36,7 @@ class Reserva_model extends CI_Model {
         }
         $this->db->limit($limit, $id);
         $query = $this->db->get(); 
+        //echo $this->db->queries[6];
         
         if($query->num_rows() > 0 )
         {
@@ -357,6 +362,17 @@ class Reserva_model extends CI_Model {
             $cc++;
         }
 
+        $fechaInicio = $reserva['fecha_entrada_reserva'];
+        $horaInicio = $reserva['hora_entrada_reserva'];
+        $fechaFin = $reserva['fecha_salida_reserva'];
+        $horaFin  = $reserva['hora_salida_reserva'];
+
+        unset($reserva['hora_entrada_reserva']);
+        unset($reserva['hora_salida_reserva']);
+
+        $reserva['fecha_entrada_reserva']  = $fechaInicio.' '.$horaInicio.':00';
+        $reserva['fecha_salida_reserva']   = $fechaFin.' '.$horaFin.':00';
+
         /** Insertar Reserva */        
         $id_reserva = $reserva['id_reserva'];
         unset($reserva['id_reserva']);
@@ -426,8 +442,23 @@ class Reserva_model extends CI_Model {
 
     public function eliminar($id)
     {
-        $this->db->where('id_reserva_mesa', $id);  
-        $result = $this->db->delete(self::mesa);
+        $this->db->where('reserva', $id);  
+        $result = $this->db->delete(self::reserva_detalle_articulos);
+
+        $this->db->where('reserva', $id);  
+        $result = $this->db->delete(self::reserva_detalle_habitacion);
+
+        $this->db->where('reserva', $id);  
+        $result = $this->db->delete(self::reserva_detalle_mesa);
+
+        $this->db->where('reserva', $id);  
+        $result = $this->db->delete(self::reserva_paquete);
+
+        $this->db->where('reserva', $id);  
+        $result = $this->db->delete(self::reserva_detalle_zona);
+
+        $this->db->where('id_reserva', $id);  
+        $result = $this->db->delete(self::reserva);
         if(!$result){
             $result = $this->db->error();
         }
