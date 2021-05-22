@@ -20,7 +20,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="nombre_zona" name="nombre_zona" placeholder="Nombre Zona" value="">
+                                            <input type="text" class="form-control" id="nombre_zona" name="nombre_zona" placeholder="" value="">
 
                                         </div>
                                     </div>
@@ -28,7 +28,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Descripcion</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="descripcion_zona" name="descripcion_zona" placeholder="Descripcion Zona" value="">
+                                            <input type="text" class="form-control" id="descripcion_zona" name="descripcion_zona" placeholder="" value="">
 
                                         </div>
                                     </div>
@@ -36,7 +36,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Ubicación</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="ubicacion_zona" name="ubicacion_zona" placeholder="Ubicacion Zona" value="">
+                                            <input type="text" class="form-control" id="ubicacion_zona" name="ubicacion_zona" placeholder="" value="">
 
                                         </div>
                                     </div>
@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Capacidad</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="capacidad_zona" name="capacidad_zona" placeholder="Capacidad Zona" value="">
+                                            <input type="text" class="form-control" id="capacidad_zona" name="capacidad_zona" placeholder="" value="">
 
                                         </div>
                                     </div>
@@ -53,7 +53,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Precio</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="precio_zona" name="precio_zona" placeholder="Precio Zona" value="">
+                                            <input type="text" class="form-control" id="precio_zona" name="precio_zona" placeholder="" value="">
 
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Codigo</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="codigo_zona" name="codigo_zona" placeholder="Codigo Zona" value="">
+                                            <input type="text" class="form-control" id="codigo_zona" name="codigo_zona" placeholder="" value="">
 
                                         </div>
                                     </div>

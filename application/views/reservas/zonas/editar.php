@@ -16,12 +16,12 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <form class="form-horizontal" id='zona' method="post">
-                                <input type="hidden" class="form-control" id="id_reserva_zona" name="id_reserva_zona" placeholder="Nombre Zona" value="<?php echo $zona[0]->id_reserva_zona; ?>">
+                                <input type="hidden" class="form-control" id="id_reserva_zona" name="id_reserva_zona" placeholder="" value="<?php echo $zona[0]->id_reserva_zona; ?>">
 
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="nombre_zona" name="nombre_zona" placeholder="Nombre Zona" value="<?php echo $zona[0]->nombre_zona; ?>">
+                                            <input type="text" class="form-control" id="nombre_zona" name="nombre_zona" placeholder="" value="<?php echo $zona[0]->nombre_zona; ?>">
 
                                         </div>
                                     </div>
@@ -29,7 +29,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Descripcion</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="descripcion_zona" name="descripcion_zona" placeholder="Descripcion Zona" value="<?php echo $zona[0]->descripcion_zona; ?>">
+                                            <input type="text" class="form-control" id="descripcion_zona" name="descripcion_zona" placeholder="" value="<?php echo $zona[0]->descripcion_zona; ?>">
 
                                         </div>
                                     </div>
@@ -37,7 +37,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Marca</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="ubicacion_zona" name="ubicacion_zona" placeholder="Ubicacion Zona" value="<?php echo $zona[0]->ubicacion_zona; ?>">
+                                            <input type="text" class="form-control" id="ubicacion_zona" name="ubicacion_zona" placeholder="" value="<?php echo $zona[0]->ubicacion_zona; ?>">
 
                                         </div>
                                     </div>
@@ -46,7 +46,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Capacidad</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="capacidad_zona" name="capacidad_zona" placeholder="Capacidad Zona" value="<?php echo $zona[0]->capacidad_zona; ?>">
+                                            <input type="text" class="form-control" id="capacidad_zona" name="capacidad_zona" placeholder="" value="<?php echo $zona[0]->capacidad_zona; ?>">
 
                                         </div>
                                     </div>
@@ -54,7 +54,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Precio</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="precio_zona" name="precio_zona" placeholder="Precio Zona" value="<?php echo $zona[0]->precio_zona; ?>">
+                                            <input type="text" class="form-control" id="precio_zona" name="precio_zona" placeholder="" value="<?php echo $zona[0]->precio_zona; ?>">
 
                                         </div>
                                     </div>
@@ -72,7 +72,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Codigo</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="codigo_zona" name="codigo_zona" placeholder="Codigo Zona" value="<?php echo $zona[0]->codigo_zona; ?>">
+                                            <input type="text" class="form-control" id="codigo_zona" name="codigo_zona" placeholder="" value="<?php echo $zona[0]->codigo_zona; ?>">
 
                                         </div>
                                     </div>
