@@ -167,7 +167,8 @@
                                             ?>
                                             <input type="date" name="<?php echo key($fields['field'][$key]); ?>" autocomplete="off" value="<?php echo $valor_filtro ?>" class="form-control filtro-input" /><br>
                                             <?php
-                                        } else if ($combo == 'Estado' && isset($fields['filtro_estado'])) {
+                                        } else if ($combo == 'Estado' && (isset($fields['filtro_estado']) || isset($fields['filtro_reserva_estado']) ) ) {
+                                            if (isset($fields['filtro_estado'])) {
                                             ?>
                                             <select name="<?php echo key($fields['field'][$key]); ?>" class="estado_filtro form-control filtro-input">
                                                 <option value=""></option>
@@ -176,6 +177,16 @@
                                                 <?php endforeach ?>
                                             </select><br>
                                             <?php
+                                            } else {
+                                                ?>
+                                                <select name="<?php echo key($fields['field'][$key]); ?>" class="estado_filtro form-control filtro-input">
+                                                <option value=""></option>
+                                                <?php foreach($fields['filtro_reserva_estado'] as $estados) : ?>
+                                                <option value="<?php echo $estados->nombre_reserva_estados ?>"><?php echo $estados->nombre_reserva_estados ?></option>
+                                                <?php endforeach ?>
+                                                </select><br>
+                                                <?php
+                                            }
                                         } else if($combo == "Vendedor" && isset($fields['orden_vendedor'])) {
                                             ?>
                                             <select name="<?php echo key($fields['field'][$key]); ?>" class="estado_filtro form-control filtro-input">
@@ -284,7 +295,7 @@
                                                     }
                                                     else if($table->$c == 'En proceso'){
                                                         $estado = $fields['estado'][0];
-                                                        echo "<h4><span class='label label-primary'>".$table->$estado."</span></h4>";
+                                                        echo "<h4><span class='label label-success'>".$table->$estado."</span></h4>";
                                                     }
                                                     else if($table->$c == 'Facturada'){
                                                         $estado = $fields['estado'][0];
@@ -308,7 +319,10 @@
                                                     }else if($table->$c == 'Inactivo'){
                                                         $estado = $fields['estado'][0];
                                                         echo "<h4><span class='label label-warning'>".$table->$estado."</span></h4>";
-                                                    }else{
+                                                    }else if($table->$c == 'Ocupado'){
+                                                        $estado = $fields['estado'][0];
+                                                        echo "<h4><span class='label label-warning'>".$table->$estado."</span></h4>";
+                                                    }else {
                                                         $estado = $fields['estado'][0];
                                                         echo "<h4><span class='label label-info'>".$table->$estado."</span></h4>";
                                                     }

@@ -276,4 +276,8 @@ class MY_Controller extends CI_Controller
 	{
 		return $this->Estados_model->get_estados();
 	}
+
+	public function get_estados_reservas(){
+		return $this->Estado_model->get_estado_lista();
+	}
 }

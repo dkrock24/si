@@ -270,15 +270,17 @@ class Reserva extends MY_Controller {
 			['nombre_reserva_estados' => 'Estado']
 		);
 
+		$fields['filtro_reserva_estado'] = $this->get_estados_reservas();
+
 		$fields['reglas'] = array(
-			'orden_estado_nombre' => array(
+			'nombre_reserva_estados' => array(
 				'valor' => 1,
 				'condicion' => 1
 			),
 		);
 		
 		$fields['id'] = array('id_reserva');
-		$fields['estado'] = array('estado');
+		$fields['estado'] = array('nombre_reserva_estados');
 		$fields['titulo'] = "Reservaciones Lista";
 
 		return $fields;

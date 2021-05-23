@@ -28,6 +28,7 @@ class Reserva_model extends CI_Model {
         $this->db->join( self::cliente.' as cliente', ' on reserva.cliente_reserva = cliente.id_cliente' );
         $this->db->join( self::pagos.' as pagos', ' on reserva.tipo_pago_reserva = pagos.id_modo_pago' );
         $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
+        $this->db->where_not_in('estados.id_reserva_estados','9');
         $this->db->order_by('reserva.estado_reserva','desc');
         $this->db->order_by('reserva.fecha_creada_reserva','desc');
         $this->db->order_by('reserva.fecha_entrada_reserva','desc');
@@ -46,6 +47,7 @@ class Reserva_model extends CI_Model {
 
     function record_count($filter){
         $this->db->where('reserva.Sucursal', $this->session->usuario[0]->Sucursal. ' '. $filter);
+        $this->db->where_not_in('reserva.estado_reserva', '9');
         $this->db->from( self::reserva.' as reserva');
         $result = $this->db->count_all_results();
         return $result;

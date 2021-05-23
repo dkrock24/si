@@ -1025,7 +1025,7 @@ input[type=number]
                                 </div>
                                 <h2>Paquetes</h2>
                                 <div class="">
-                                    <?php echo $reserva['eventos']; ?>
+                                    <?php echo $reserva['paquete']; ?>
                                 </div>
                             </div>
                         </div>
