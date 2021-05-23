@@ -50,6 +50,44 @@
     <!--responsive.css-->
     <link rel="stylesheet" href="<?php echo base_url() ?>../asstes/pagina/reserva/css/responsive.css" />
 
+
+    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+    <!--modernizr.min.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+
+    <!--bootstrap.min.js-->
+    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/bootstrap.min.js"></script>
+
+    <!-- bootsnav js -->
+    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/bootsnav.js"></script>
+
+    <!-- jquery.filterizr.min.js -->
+    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/jquery.filterizr.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+    <!--jquery-ui.min.js-->
+    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/jquery-ui.min.js"></script>
+
+    <!-- counter js -->
+    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/jquery.counterup.min.js"></script>
+    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/waypoints.min.js"></script>
+
+    <!--owl.carousel.js-->
+    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/owl.carousel.min.js"></script>
+
+    <!-- jquery.sticky.js -->
+    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/jquery.sticky.js"></script>
+
+    <!--datepicker.js-->
+    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/datepicker.js"></script>
+
+    <!--Custom JS-->
+    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/custom.js"></script>
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 
@@ -141,7 +179,36 @@ input[type=number]
   bottom: -1px;
   height: 50%;
 }
+
+@media screen {
+  #printSection {
+      display: none;
+  }
+}
+
+    @media print {
+        body * {
+            visibility:hidden;
+        }
+        #printSection, #printSection * {
+            visibility:visible;
+        }
+        #printSection {
+            position:absolute;
+            left:0;
+            top:0;
+        }
+    }
+
     </style>
+
+    <script type="text/javascript">
+    
+    $(document).ready(function(){
+        $("#reservacion_modal").appendTo('body');    
+    });
+
+    </script>
 
 </head>
 
@@ -390,6 +457,13 @@ input[type=number]
                                                     <?php
                                                     if (isset($unique)) {
                                                         echo "Tu Codigo de Reservación es : " . "<label class='badge badge-info' style='font-size:22px;background:orange;'>" . $unique . "<label>";
+                                                        ?>
+                                                        <script type="text/javascript">
+                                                            $(document).ready(function(){
+                                                                $('#reservacion_modal').modal('show');
+                                                            });                                                                
+                                                        </script>
+                                                        <?php
                                                     }
                                                     ?>
                                                 </h4>
@@ -773,42 +847,7 @@ input[type=number]
 
     </footer><!-- /.footer-copyright-->
 
-    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/jquery.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
 
-    <!--modernizr.min.js-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-
-
-    <!--bootstrap.min.js-->
-    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/bootstrap.min.js"></script>
-
-    <!-- bootsnav js -->
-    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/bootsnav.js"></script>
-
-    <!-- jquery.filterizr.min.js -->
-    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/jquery.filterizr.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-
-    <!--jquery-ui.min.js-->
-    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/jquery-ui.min.js"></script>
-
-    <!-- counter js -->
-    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/jquery.counterup.min.js"></script>
-    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/waypoints.min.js"></script>
-
-    <!--owl.carousel.js-->
-    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/owl.carousel.min.js"></script>
-
-    <!-- jquery.sticky.js -->
-    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/jquery.sticky.js"></script>
-
-    <!--datepicker.js-->
-    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/datepicker.js"></script>
-
-    <!--Custom JS-->
-    <script src="<?php echo base_url() ?>../asstes/pagina/reserva/js/custom.js"></script>
 
     <!-- Modal Large CLIENTES MODAL-->
     <div id="reserva_paquete" tabindex="-1" role="dialog" aria-labelledby="reserva_paquete" class="modal fade">
@@ -889,5 +928,139 @@ input[type=number]
     </script>
 
 </body>
+
+<!-- Modal Large RESERVAS MODAL-->
+<div id="reservacion_modal" tabindex="-1" role="dialog" aria-labelledby="reservacion_modal"  class="modal fade">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content" id="reserva_info">
+            <div class="modal-header bg-info-dark">
+                <i class="fa fa-clock-o"></i> Reservación <b># <?php echo $unique; ?></b> : Datos Ingresados
+               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+                <?php
+                if(isset($reserva)) {
+                ?>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="single-tab-select-box">
+                                <h2>Nombre Reserva</h2>
+                                <div class="">
+                                    <?php echo $reserva['nombre_reserva']; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="single-tab-select-box">
+                                <h2>Ingreso</h2>
+                                <div class="">
+                                    <?php echo $reserva['fecha_entrada_reserva']; ?>
+                                    <?php echo $reserva['hora_entrada_reserva']; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="single-tab-select-box">
+                                <h2>Salida</h2>
+                                <div class="">
+                                    <?php echo $reserva['fecha_salida_reserva']; ?>
+                                    <?php echo $reserva['hora_salida_reserva']; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="single-tab-select-box">
+                                <h2>Adultos / Niños</h2>
+                                <div class="">
+                                    <?php echo $reserva['total_adultos_reserva']; ?> / <?php echo $reserva['total_ninos_reserva']; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="single-tab-select-box">
+
+                                <h2>Documento</h2>
+                                <div class="">
+                                    <?php echo $reserva['identificacion_reserva']; ?> : 
+                                    <?php echo $reserva['identificacion_numero_reserva']; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="single-tab-select-box">
+                                <h2>Tipo Pago</h2>
+                                <div class="">
+                                    <?php echo $reserva['tipo_pago_reserva']; ?> : 
+                                    <?php echo $reserva['anticipo_pago_reserva']; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="single-tab-select-box">
+                                <h2>Telefonos</h2>
+                                <div class="">
+                                    <?php echo $reserva['telefono_trabajo_reserva']; ?> / <?php echo $reserva['telefono_celular_reserva']; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="single-tab-select-box">
+                                <h2>Eventos</h2>
+                                <div class="">
+                                    <?php echo $reserva['eventos']; ?>
+                                </div>
+                                <h2>Paquetes</h2>
+                                <div class="">
+                                    <?php echo $reserva['eventos']; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="single-tab-select-box">
+                                <h2>Comentarios</h2>
+                                <div class="">
+                                    <?php echo $reserva['comentario_reserva']; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="single-tab-select-box">
+                                <h2>Nota</h2>
+                                <div class="">Tu Código de reservación es : <b># <?php echo $unique; ?></b> Guarda / Imprime tu comprobante y presentalo al entrar
+                                o mandalo via whatsapp si el ejecutivo de <b>ORO Y MIEL</b> te lo solicita. </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                <?php
+                }
+                ?>
+            </div>
+            <div class="modal-footer bg-gray-light">
+                <!-- <button type="button" id="btnPrint" class="btn btn-info">Imprimir</button> -->
+               <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+<!-- Modal Small-->
 
 </html>

@@ -11,6 +11,7 @@ class Empresa extends CI_Controller {
 		$this->load->library('parser');	    
 	    $this->load->library('../controllers/general');
 		$this->load->helper('url');
+        @$this->load->library('session');
 
 		$this->load->model('accion/Accion_model');
 		$this->load->model('reservas/Habitacion_model');
@@ -20,6 +21,7 @@ class Empresa extends CI_Controller {
         $this->load->model('reservas/Paquete_model');
         $this->load->model('admin/Cliente_model');
         $this->load->model('reservas/Configuracion_model');
+        $this->load->model('admin/Pagos_model');        
 	}
 
 	public function index($code = 0){
@@ -27,6 +29,14 @@ class Empresa extends CI_Controller {
         $data = [];
         if (!empty($code)) {
             $data['unique'] = $code;
+            $data['reserva'] = $this->session->reserva;
+            $pago = $this->Pagos_model->getPagoId($this->session->reserva['tipo_pago_reserva']);
+            $eventos = $this->Reserva_model->get_eventos_reserva($code);
+            $paquetes = $this->Reserva_model->get_paquetes_reserva($code);
+            $data['reserva']['tipo_pago_reserva'] = $pago[0]->nombre_modo_pago;
+            $data['reserva']['eventos'] = $eventos[0]->eventos;
+            $data['reserva']['paquete'] = $paquetes[0]->paquetes;
+
         }
         /**
          * obtener la configuracion de la empresa para mostrar data
@@ -45,6 +55,7 @@ class Empresa extends CI_Controller {
         if(isset($_POST)){
            $code = $this->Reserva_model->get_reservar_from_landing($_POST);
         }
+        $this->session->reserva = $_POST;
 
         redirect(base_url()."reservacion/empresa/index/". $code);
     }

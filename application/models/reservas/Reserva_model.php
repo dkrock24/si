@@ -581,4 +581,37 @@ class Reserva_model extends CI_Model {
             return $query->result();
         }
     }
+
+    public function get_eventos_reserva($codigo){
+        $this->db->select('(SELECT GROUP_CONCAT(zona.nombre_zona SEPARATOR ",")
+            FROM reserva_zona  AS zona
+            LEFT JOIN reserva_detalle_zona AS rdz ON zona.id_reserva_zona = rdz.zona
+            WHERE rdz.reserva = reserva.id_reserva) AS eventos');
+        $this->db->from( self::reserva.' as reserva' );
+        $this->db->join( self::estados.' as estados', ' on reserva.estado_reserva = estados.id_reserva_estados' );
+        $this->db->where('reserva.codigo_reserva', $codigo);
+
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    public function get_paquetes_reserva($codigo){
+        $this->db->select('(SELECT GROUP_CONCAT(paquete.nombre_paquete SEPARATOR ",")
+            FROM reserva_paquete  AS paquete
+            LEFT JOIN reserva_paquete_reserva AS rp ON paquete.id_reserva_paquete = rp.reserva
+            WHERE rp.reserva = reserva.id_reserva) AS paquetes');
+        $this->db->from( self::reserva.' as reserva' );
+        $this->db->where('reserva.codigo_reserva', $codigo);
+
+        $query = $this->db->get(); 
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
 }
