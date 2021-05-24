@@ -29,8 +29,8 @@ class Reserva_model extends CI_Model {
         $this->db->join( self::pagos.' as pagos', ' on reserva.tipo_pago_reserva = pagos.id_modo_pago' );
         $this->db->where('s.id_sucursal', $this->session->usuario[0]->Sucursal);
         $this->db->where_not_in('estados.id_reserva_estados','9');
+        $this->db->order_by('reserva.fecha_entrada_reserva','asc');
         $this->db->order_by('reserva.estado_reserva','desc');
-        $this->db->order_by('reserva.fecha_creada_reserva','desc');
         $this->db->order_by('reserva.fecha_entrada_reserva','desc');
         if($filters!=""){
             $this->db->where($filters);
