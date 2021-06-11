@@ -114,7 +114,7 @@
 
    <!-- Page content-->
    <div class="content-wrapper">
-      <h3 style=""><i class="icon-arrow-right"></i> Parametros Modulos</h3><br><br><br><br><br><br>
+      <h3 style=""><i class="icon-arrow-right"></i> Parametros Modulos</h3><br><br><br>
       <div class="row menu_title_bar">
          <div class="col-md-4">
             <div class="mb-lg clearfix">
@@ -197,7 +197,7 @@
             </div>
             <div class="panel b">
                <div class="panel-body">
-                  <div class="table-responsive" style="height: 400px; overflow: auto; position: relative;">
+                  <div class="table-responsive" style="height: 100%; overflow: auto; position: relative;">
                      <table id="datatable1" class="table" >
                         <thead>
                            <tr>

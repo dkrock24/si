@@ -27,7 +27,7 @@ class Param_model extends CI_Model {
 		$this->db->select('*');
 	    $this->db->from(self::modulo.' as m');
 	    $this->db->join(self::conf.' as c',' on m.id_modulo = c.modulo_conf');
-	    $this->db->where('m.id_modulo', $index );
+	    $this->db->where('c.Empresa', $this->session->usuario[0]->Empresa );
 	    $query = $this->db->get(); 
 	    //echo $this->db->queries[0];
 	    
@@ -40,6 +40,7 @@ class Param_model extends CI_Model {
 	public function save_params($param){
 
 		$param['creado_conf'] = date("Y-m-d h-i-s");
+		$param['Empresa'] = $this->session->usuario[0]->Empresa;
 
 		$this->db->insert(self::conf, $param ); 
 	}

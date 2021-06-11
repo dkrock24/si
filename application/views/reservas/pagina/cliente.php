@@ -525,6 +525,10 @@ input[type=number]
     </section>
 
     <!--packages start-->
+    <?php 
+    $valor = $controller->get_config_param('Mostrar Paquetes');
+    if($valor[key($valor)]->valor_conf == 1):
+    ?>
     <section id="pack" class="packages" style="padding: 0px 0 90px;">
         <div class="container">
             <div class="gallary-header text-center">
@@ -643,6 +647,7 @@ input[type=number]
         <!--/.container-->
 
     </section>
+    <?php endif ?>
     </form>
     <!--service start-->
     <section id="service" class="service">

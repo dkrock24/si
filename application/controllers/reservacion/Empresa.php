@@ -21,6 +21,7 @@ class Empresa extends CI_Controller {
         $this->load->model('reservas/Paquete_model');
         $this->load->model('admin/Cliente_model');
         $this->load->model('reservas/Configuracion_model');
+        $this->load->model('admin/Param_model');
         $this->load->model('admin/Pagos_model');        
 	}
 
@@ -43,11 +44,29 @@ class Empresa extends CI_Controller {
          */
         $configuracion = $this->Configuracion_model->get_configuracion_externa();
         $empresa_id = $configuracion[0]->valor_configuracion;
-
+        
+        $data['controller'] = $this; 
         $data['paquetes'] = $this->Paquete_model->get_paquete_lista($empresa_id);
         $data['eventos'] = $this->Zona_model->get_eventos_lista($empresa_id);
         $this->load->view('reservas/pagina/cliente', $data);
 	}
+
+    public function get_config_param($configuracion)
+    {
+        $params = $this->Param_model->get_modulos_conf(0);
+
+        return array_filter(
+            $params,
+            function($config) use ($configuracion){
+                if($config->componente_conf == $configuracion){
+                    return array(
+                        'estado' => $config->valor_conf,
+                        'valor'  => $config->descripcion_conf
+                    );
+                }
+            }, ARRAY_FILTER_USE_BOTH
+        );
+    }
 
     public function reservar(){
 
