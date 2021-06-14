@@ -192,7 +192,13 @@
 
                </div>
                <div class="pull-right">
-                  <p class="mb0 mt-sm"><?php echo count($config) ?> / <?php echo $total ?> </p>
+                  <p class="mb0 mt-sm">
+                  <?php 
+                  if (isset($config)) {
+                     echo count($config) ?> / <?php echo $total ?> 
+                  }
+                  ?>
+                  </p>
                </div>
             </div>
             <div class="panel b">
