@@ -56,7 +56,8 @@ class Empresa extends CI_Controller {
 
     public function get_config_param($configuracion)
     {
-        $params = $this->Param_model->get_modulos_conf(0);
+        $empresa_id = $this->getSucursal( $this->session->sucursal );
+        $params = $this->Param_model->get_modulos_conf($empresa_id);
 
         return array_filter(
             $params,

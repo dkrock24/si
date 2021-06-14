@@ -23,11 +23,11 @@ class Param_model extends CI_Model {
     	return $result;
     }
 
-	public function get_modulos_conf( $index ){
+	public function get_modulos_conf( $empresa_id ){
 		$this->db->select('*');
 	    $this->db->from(self::modulo.' as m');
 	    $this->db->join(self::conf.' as c',' on m.id_modulo = c.modulo_conf');
-	    $this->db->where('c.Empresa', $this->session->usuario[0]->Empresa );
+	    $this->db->where('c.Empresa', $empresa_id);
 	    $query = $this->db->get(); 
 	    //echo $this->db->queries[0];
 	    
