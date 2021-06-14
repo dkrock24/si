@@ -26,8 +26,17 @@ class Empresa extends CI_Controller {
 	}
 
 	public function index($code = 0){
-        $empresa_id = 0;
+        
         $data = [];
+        $empresa_id = 0;
+        
+        if (isset($_GET['id'])) {
+            $this->session->sucursal = $_GET['id'];
+            $empresa_id = $this->getSucursal( $_GET['id']);
+        } else {
+            $empresa_id = $this->getSucursal( $this->session->sucursal );
+        }
+
         if (!empty($code)) {
             $data['unique'] = $code;
             $data['reserva'] = $this->session->reserva;
@@ -37,13 +46,7 @@ class Empresa extends CI_Controller {
             $data['reserva']['tipo_pago_reserva'] = $pago[0]->nombre_modo_pago;
             $data['reserva']['eventos'] = $eventos[0]->eventos;
             $data['reserva']['paquete'] = $paquetes[0]->paquetes;
-
-        }
-        /**
-         * obtener la configuracion de la empresa para mostrar data
-         */
-        $configuracion = $this->Configuracion_model->get_configuracion_externa();
-        $empresa_id = $configuracion[0]->valor_configuracion;
+        }        
         
         $data['controller'] = $this; 
         $data['paquetes'] = $this->Paquete_model->get_paquete_lista($empresa_id);
@@ -77,5 +80,29 @@ class Empresa extends CI_Controller {
         $this->session->reserva = $_POST;
 
         redirect(base_url()."reservacion/empresa/index/". $code);
+    }
+
+    public function getClietAlreadyCreated($document){
+
+        $data['documento'] = $document;
+        $data['sucursal'] = $this->session->sucursal;
+        $result = $this->Reserva_model->getClietAlreadyCreated($data);
+        echo json_encode($result);
+    }
+
+    private function getSucursal($sucursal)
+    {
+        /**
+         * obtener la configuracion de la empresa para mostrar data
+         */
+        $configuracion = $this->Configuracion_model->get_configuracion_externa($sucursal);
+        
+
+        if(isset($configuracion[0]->valor_configuracion)) {
+            $empresa_id = $configuracion[0]->valor_configuracion;
+        } else {
+            echo "No Se Encontro El Establecimiento";die;
+        }
+        return $empresa_id;
     }
 }

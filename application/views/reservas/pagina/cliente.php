@@ -205,8 +205,35 @@ input[type=number]
     <script type="text/javascript">
     
     $(document).ready(function(){
-        $("#reservacion_modal").appendTo('body');    
+        $("#reservacion_modal").appendTo('body');
+
+        $("#identificacion_numero_reserva").on('focusout',function(){
+            getClientAlreadyCreated($("#identificacion_numero_reserva").val());
+        });
+        
     });
+
+    function getClientAlreadyCreated(documento){
+        $.ajax({
+            type: 'GET',
+            url: "<?php echo base_url(); ?>reservacion/empresa/getClietAlreadyCreated/"+documento,
+
+            success: function(data) {
+                var datos = JSON.parse(data);
+                datos = datos[0];
+
+                $("#nombre_reserva").val(datos.nombre_reserva);
+                $("#telefono_trabajo_reserva").val(datos.telefono_trabajo_reserva);
+                $("#telefono_celular_reserva").val(datos.telefono_celular_reserva);
+                $("#comentario_reserva").val(datos.comentario_reserva);                
+            }
+        });
+    }
+
+    function setData(clienteData)
+    {
+        
+    }
 
     </script>
 
@@ -282,7 +309,7 @@ input[type=number]
                                                 <div class="single-tab-select-box">
                                                     <h2>Nombre Responsable Reserva</h2>
                                                     <div class="travel-check-icon">
-                                                        <input type="text" class="form-control" required name="nombre_reserva" value="">
+                                                        <input type="text" class="form-control" required name="nombre_reserva" id="nombre_reserva" value="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -363,7 +390,7 @@ input[type=number]
                                                 <div class="single-tab-select-box">
                                                     <h2>Número</h2>
                                                     <div class="travel-check-icon">
-                                                        <input type="text" class="form-control" required name="identificacion_numero_reserva" value="">
+                                                        <input type="text" class="form-control" required name="identificacion_numero_reserva" id="identificacion_numero_reserva" value="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -407,7 +434,7 @@ input[type=number]
                                                 <div class="single-tab-select-box">
                                                     <h2>Telefono 1</h2>
                                                     <div class="travel-phone-icon">
-                                                        <input type="text" class="form-control" required name="telefono_trabajo_reserva" value="">
+                                                        <input type="text" class="form-control" required name="telefono_trabajo_reserva" id="telefono_trabajo_reserva" value="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -420,7 +447,7 @@ input[type=number]
                                                 <div class="single-tab-select-box">
                                                     <h2>Telefono 2</h2>
                                                     <div class="travel-phone-icon">
-                                                        <input type="text" class="form-control" name="telefono_celular_reserva" value="">
+                                                        <input type="text" class="form-control" name="telefono_celular_reserva" id="telefono_celular_reserva" value="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -428,7 +455,7 @@ input[type=number]
                                             <div class="col-lg-8 col-md-8 col-sm-12">
                                                 
                                             <h3 style="color:grey;">Comentarios</h3><br>
-                                                <textarea class="form-control" name="comentario_reserva"></textarea>                                                
+                                                <textarea class="form-control" name="comentario_reserva" id="comentario_reserva"></textarea>                                                
                                             </div>
                                            
                                         </div>

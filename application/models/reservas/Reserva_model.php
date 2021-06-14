@@ -616,4 +616,21 @@ class Reserva_model extends CI_Model {
             return $query->result();
         }
     }
+
+    public function getClietAlreadyCreated($data)
+    {
+        $this->db->select('*');
+        $this->db->from( self::reserva);
+        $this->db->join( self::sucursal.' as s', ' on reserva.Sucursal = s.id_sucursal' );
+        $this->db->where('s.id_sucursal', $data['sucursal']);
+        $this->db->where('identificacion_numero_reserva', $data['documento']);
+        $this->db->limit(1);
+        $query = $this->db->get();
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
 }
