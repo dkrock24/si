@@ -195,7 +195,7 @@
                   <p class="mb0 mt-sm">
                   <?php 
                   if (isset($config)) {
-                     echo count($config) ?> / <?php echo $total ?> 
+                     echo count($config) ."/".  $total;
                   }
                   ?>
                   </p>
