@@ -527,6 +527,7 @@ input[type=number]
     <!--packages start-->
     <?php 
     $valor = $controller->get_config_param('Mostrar Paquetes');
+    if(isset($valor[key($valor)])) :
     if($valor[key($valor)]->valor_conf == 1):
     ?>
     <section id="pack" class="packages" style="padding: 0px 0 90px;">
@@ -647,6 +648,7 @@ input[type=number]
         <!--/.container-->
 
     </section>
+    <?php endif ?>
     <?php endif ?>
     </form>
     <!--service start-->
@@ -1049,8 +1051,16 @@ input[type=number]
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="single-tab-select-box">
                                 <h2>Nota</h2>
-                                <div class="">Tu Código de reservación es : <b># <?php echo $unique; ?></b> Guarda / Imprime tu comprobante y presentalo al entrar
-                                o mandalo via whatsapp si el ejecutivo de <b>ORO Y MIEL</b> te lo solicita. </div>
+                                <div>
+                                <?php
+                                $valor = $controller->get_config_param('NotaReservacion');
+                                if(isset($valor[key($valor)])){
+                                    if($valor[key($valor)]->valor_conf == 1){
+                                        echo $valor[key($valor)]->descripcion_conf;
+                                    }
+                                }
+                                ?>
+                                </div>
                             </div>
                         </div>
                     </div>
