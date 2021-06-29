@@ -6,6 +6,8 @@
     var eventos = [];
 
     $(document).ready(function() {
+        $("#capacidad_modal").appendTo('body');
+
         $.ajax({
             type: "post",
             url: "<?php echo base_url(); ?>" + "reservas/reserva/reservaciones",
@@ -16,28 +18,28 @@
             }
         });
 
-        $("#fecha_entrada_reserva").on('change', function(){
+        $("#fecha_entrada_reserva").on('change', function() {
             var fechaInicio = $(this).val();
             var fechaFin = $("#fecha_salida_reserva").val();
-            
+
             get_capacidad_fecha(fechaInicio, fechaFin);
         });
 
-        $("#fecha_salida_reserva").on('change', function(){
+        $("#fecha_salida_reserva").on('change', function() {
             var fechaFin = $(this).val();
             var fechaInicio = $("#fecha_entrada_reserva").val();
-            
+
             get_capacidad_fecha(fechaInicio, fechaFin);
         });
 
         jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
         jQuery('.quantity').each(function() {
             var spinner = jQuery(this),
-            input = spinner.find('input[type="number"]'),
-            btnUp = spinner.find('.quantity-up'),
-            btnDown = spinner.find('.quantity-down'),
-            min = input.attr('min'),
-            max = input.attr('max');
+                input = spinner.find('input[type="number"]'),
+                btnUp = spinner.find('.quantity-up'),
+                btnDown = spinner.find('.quantity-down'),
+                min = input.attr('min'),
+                max = input.attr('max');
 
             btnUp.click(function() {
                 var oldValue = parseFloat(input.val());
@@ -63,27 +65,37 @@
         });
     });
 
-    function get_capacidad_fecha(fechaInicio, fechaFin)
-    {
+    function get_capacidad_fecha(fechaInicio, fechaFin) {
         $.ajax({
             type: "post",
-            data: {inicio:fechaInicio,fin:fechaFin},
+            data: {
+                inicio: fechaInicio,
+                fin: fechaFin
+            },
             url: "<?php echo base_url(); ?>" + "reservas/reserva/get_capacidad_fecha",
             success: function(result) {
                 var data = JSON.parse(result);
-                //console.log(data);
-                if(data.capacidad != null) {
+
+                if (data.capacidad != null) {
                     $(".utilizado").text(data.capacidad);
+                    var utilizado = <?php echo $capacidad; ?>;
+                    if (data.capacidad > utilizado) {
+                        $(".personas_reserva").text(data.capacidad);
+                        $(".personas_limite").text(utilizado);
+                        $("#capacidad_modal").modal('show');
+                        $(".enviar_data").hide();
+                    } else {
+                        $(".enviar_data").show();
+                    }
                 } else {
                     $(".utilizado").text(0);
-
+                    $(".enviar_data").show();
                 }
             }
         });
     }
 
-    function setCalendar(eventos)
-    {
+    function setCalendar(eventos) {
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -112,8 +124,7 @@
         calendar.render();
     }
 
-    function get_habitacion_disponible(habitacion)
-    {
+    function get_habitacion_disponible(habitacion) {
         $(".mensaje_habitacion").text("");
         var data = {
             start: $('#fecha_entrada_reserva').val(),
@@ -161,84 +172,82 @@
 </style>
 
 <style>
-        .input-check {
-            top: 0;
-            left: 0;
-            height: 25px;
-            width: 25px;
-            background-color: #eee;
-        }
+    .input-check {
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+    }
 
-        .quantity {
-  position: relative;
-}
+    .quantity {
+        position: relative;
+    }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button
-{
-  -webkit-appearance: none;
-  margin: 0;
-}
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
-input[type=number]
-{
-  -moz-appearance: textfield;
-}
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 
-.quantity input {
-  
-  height: 42px;
-  line-height: 1.65;
-  float: left;
-  display: block;
-  padding: 0;
-  margin: 0;
-  padding-left: 20px;
-  border: 1px solid #eee;
-}
+    .quantity input {
 
-.quantity input:focus {
-  outline: 0;
-}
+        height: 42px;
+        line-height: 1.65;
+        float: left;
+        display: block;
+        padding: 0;
+        margin: 0;
+        padding-left: 20px;
+        border: 1px solid #eee;
+    }
 
-.quantity-nav {
-  float: left;
-  position: relative;
-  height: 42px;
-}
+    .quantity input:focus {
+        outline: 0;
+    }
 
-.quantity-button {
-  position: relative;
-  cursor: pointer;
-  border-left: 1px solid #eee;
-  width: 20px;
-  text-align: center;
-  color: #333;
-  font-size: 13px;
-  font-family: "Trebuchet MS", Helvetica, sans-serif !important;
-  line-height: 1.7;
-  -webkit-transform: translateX(-100%);
-  transform: translateX(-100%);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
+    .quantity-nav {
+        float: left;
+        position: relative;
+        height: 42px;
+    }
 
-.quantity-button.quantity-up {
-  position: absolute;
-  height: 50%;
-  top: 0;
-  border-bottom: 1px solid #eee;
-}
+    .quantity-button {
+        position: relative;
+        cursor: pointer;
+        border-left: 1px solid #eee;
+        width: 20px;
+        text-align: center;
+        color: #333;
+        font-size: 13px;
+        font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+        line-height: 1.7;
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
 
-.quantity-button.quantity-down {
-  position: absolute;
-  bottom: -1px;
-  height: 50%;
-}
-    </style>
+    .quantity-button.quantity-up {
+        position: absolute;
+        height: 50%;
+        top: 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .quantity-button.quantity-down {
+        position: absolute;
+        bottom: -1px;
+        height: 50%;
+    }
+</style>
 <section>
     <!-- Page content-->
     <div class="content-wrapper">
@@ -446,23 +455,23 @@ input[type=number]
                                                     <hr>
                                                     <h4><i class="fa fa-users"></i> Paquetes:</h4>
                                                     <?php
-                                                        foreach ($paquetes as $key => $paquete) {
-                                                        ?>
-                                                            <div class="col-lg-2">
-                                                                <div class="form-group">
-                                                                    <label for="inputEmail3" class="col-sm-4 control-label no-padding-left"><?php echo $paquete->nombre_paquete ?></label>
-                                                                    <div class="col-sm-12">
-                                                                        <div class="quantity">
-                                                                            <input type="number" name="cantidad-<?php echo $key ?>" min="1" max="9" step="1" value="1">
-                                                                        </div>
-                                                                        <input type="checkbox" class="input-check" name="paquete-<?php echo $key ?>" id="<?php echo $key ?>" value="<?php echo $paquete->id_reserva_paquete ?>" />
+                                                    foreach ($paquetes as $key => $paquete) {
+                                                    ?>
+                                                        <div class="col-lg-2">
+                                                            <div class="form-group">
+                                                                <label for="inputEmail3" class="col-sm-4 control-label no-padding-left"><?php echo $paquete->nombre_paquete ?></label>
+                                                                <div class="col-sm-12">
+                                                                    <div class="quantity">
+                                                                        <input type="number" name="cantidad-<?php echo $key ?>" min="1" max="9" step="1" value="1">
                                                                     </div>
+                                                                    <input type="checkbox" class="input-check" name="paquete-<?php echo $key ?>" id="<?php echo $key ?>" value="<?php echo $paquete->id_reserva_paquete ?>" />
                                                                 </div>
                                                             </div>
-                                                        <?php
-                                                        }
+                                                        </div>
+                                                    <?php
+                                                    }
                                                     ?>
-                                                </div>                                              
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="habitacion-tab">
@@ -471,23 +480,23 @@ input[type=number]
                                                     <hr>
                                                     <h4><i class="fa fa-bed"></i> Habitaciones:</h4>
                                                     <span class="mensaje_habitacion" style="color:red;"></span>
-                                                    
+
                                                     <?php
                                                     if ($habitacion) {
                                                         foreach ($habitacion as $key => $habitaciones) {
                                                     ?>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="inputEmail3" class="control-label "><?php echo $habitaciones->codigo_habitacion . "  " . $habitaciones->nombre_habitacion ?></label><br>
-                                                                <input type="checkbox" class="input-check" name="habitacion-<?php echo $key ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->id_reserva_habitacion ?>" />
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label for="inputEmail3" class="control-label "><?php echo $habitaciones->codigo_habitacion . "  " . $habitaciones->nombre_habitacion ?></label><br>
+                                                                    <input type="checkbox" class="input-check" name="habitacion-<?php echo $key ?>" id="habitaciones" onClick="get_habitacion_disponible(<?php echo $habitaciones->id_reserva_habitacion ?>);" value="<?php echo $habitaciones->id_reserva_habitacion ?>" />
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                     <?php
                                                         }
                                                     } else {
                                                         echo "Vacio";
                                                     }
-                                                    ?>                                                        
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -500,18 +509,18 @@ input[type=number]
                                                     if ($mesa) {
                                                         foreach ($mesa as $key => $mesas) {
                                                     ?>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="inputEmail3" class="control-label "><?php echo $mesas->codigo_mesa . "  " . $mesas->nombre_mesa ?></label><br>
-                                                                <input type="checkbox" class="input-check" name="mesa-<?php echo $key ?>" id="mesas" value="<?php echo $mesas->id_reserva_mesa ?>" />
-                                                        </div>
-                                                        </div>
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label for="inputEmail3" class="control-label "><?php echo $mesas->codigo_mesa . "  " . $mesas->nombre_mesa ?></label><br>
+                                                                    <input type="checkbox" class="input-check" name="mesa-<?php echo $key ?>" id="mesas" value="<?php echo $mesas->id_reserva_mesa ?>" />
+                                                                </div>
+                                                            </div>
                                                     <?php
                                                         }
                                                     } else {
                                                         echo "Vacio";
                                                     }
-                                                    ?>                                                    
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -524,12 +533,12 @@ input[type=number]
                                                     if ($zona) {
                                                         foreach ($zona as $key => $zonas) {
                                                     ?>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="inputEmail3" class="control-label "><?php echo $zonas->codigo_zona . "  " . $zonas->nombre_zona ?></label><br>
-                                                                <input type="checkbox" class="input-check" name="zona-<?php echo $key ?>" id="zonas" value="<?php echo $zonas->id_reserva_zona ?>" />
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label for="inputEmail3" class="control-label "><?php echo $zonas->codigo_zona . "  " . $zonas->nombre_zona ?></label><br>
+                                                                    <input type="checkbox" class="input-check" name="zona-<?php echo $key ?>" id="zonas" value="<?php echo $zonas->id_reserva_zona ?>" />
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                     <?php
                                                         }
                                                     } else {
@@ -627,3 +636,34 @@ input[type=number]
         </div>
     </div>
 </section>
+
+<!-- Modal ms capacidad -->
+<div id="capacidad_modal" tabindex="-1" role="dialog" aria-labelledby="capacidad_modal" class="modal fade">
+    <div class="modal-dialog modal-ms">
+        <div class="modal-content" id="reserva_info">
+            <div class="modal-header bg-info-dark">
+                <i class="fa fa-info-o"></i> Verificar cantidad de personas en reserva<b>
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>La cantidad de personas sobrepasa la capacidad definida en el establecimiento para la fecha seleccionada.</h4>
+                <table class="table">
+                    <tr>
+                        <td><h4>Personas en reserva</h4></td>
+                        <td><h4>Limite Personas</h4></td>
+                    </tr>
+                    <tr>
+                        <td><spam class="personas_reserva"></spam></td>
+                        <td><spam class="personas_limite"></spam></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer bg-gray-light">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Small-->
