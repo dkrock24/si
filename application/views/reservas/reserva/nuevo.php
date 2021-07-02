@@ -89,9 +89,7 @@
                     $(".utilizado").text(data.capacidad);
 
                     if (data.capacidad > utilizado) {
-                        $(".personas_reserva").text(data.capacidad);
-                        $(".personas_limite").text(utilizado);
-                        $("#capacidad_modal").modal('show');
+                        displayModalCapacidad(data.capacidad, utilizado);
                         $(".enviar_data").hide();                        
                     } else {
                         $(".enviar_data").show();
@@ -112,7 +110,15 @@
         let totalPerosnas = parseInt(totalCreados) + parseInt(totalIngresados);
         if (totalPerosnas > utilizado) {
             $(".enviar_data").hide();
+            displayModalCapacidad(totalPerosnas, utilizado);
         }
+    }
+
+    function displayModalCapacidad(capacidad, utilizado)
+    {
+        $(".personas_reserva").text(capacidad);
+        $(".personas_limite").text(utilizado);
+        $("#capacidad_modal").modal('show');
     }
 
     function setCalendar(eventos) {
@@ -362,7 +368,7 @@
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Adultos</label>
                                                 <div class="col-sm-8">
-                                                    <input type="number" class="form-control" id="total_adultos_reserva" name="total_adultos_reserva" placeholder="" value="1">
+                                                    <input type="number" class="form-control" id="total_adultos_reserva" name="total_adultos_reserva" placeholder="" min="1" value="1">
                                                 </div>
                                             </div>
 
@@ -416,7 +422,7 @@
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Niños</label>
                                                 <div class="col-sm-8">
-                                                    <input type="number" class="form-control" id="total_ninos_reserva" name="total_ninos_reserva" placeholder="" value="0">
+                                                    <input type="number" class="form-control" id="total_ninos_reserva" name="total_ninos_reserva" placeholder="" min="0" value="0">
 
                                                 </div>
                                             </div>

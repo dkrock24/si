@@ -63,22 +63,61 @@
             });
     });
 
+    $("#total_adultos_reserva").on('change', function(){
+        var fechaInicio = $("#fecha_entrada_reserva").val();
+        var fechaFin = $("#fecha_salida_reserva").val();
+        get_capacidad_fecha(fechaInicio, fechaFin);
+    });
+
     function get_capacidad_fecha(fechaInicio, fechaFin)
     {
         $.ajax({
             type: "post",
-            data: {inicio:fechaInicio,fin:fechaFin},
+            data: {
+                inicio: fechaInicio,
+                fin: fechaFin
+            },
             url: "<?php echo base_url(); ?>" + "reservas/reserva/get_capacidad_fecha",
             success: function(result) {
+                
                 var data = JSON.parse(result);
-                //console.log(data);
-                if(data.capacidad != null) {
+                var utilizado = <?php echo $capacidad; ?>;
+                var personasIngresadas = $("#total_adultos_reserva").val();
+
+                if (data.capacidad != null) {
                     $(".utilizado").text(data.capacidad);
+
+                    if (data.capacidad > utilizado) {
+                        displayModalCapacidad(data.capacidad, utilizado);
+                        $(".enviar_data").hide();                      
+                    } else {
+                        $(".enviar_data").show();
+                        validar_personas_cantidad(utilizado, data.capacidad, personasIngresadas);
+                    }
                 } else {
                     $(".utilizado").text(0);
+                    $(".enviar_data").show();
+                    validar_personas_cantidad(utilizado, 0, personasIngresadas);
                 }
             }
         });
+    }
+
+    function validar_personas_cantidad(utilizado, totalCreados, totalIngresados)
+    {
+        $(".enviar_data").show();
+        let totalPerosnas = parseInt(totalIngresados);
+        if (totalPerosnas > utilizado) {
+            $(".enviar_data").hide();
+            displayModalCapacidad(totalPerosnas, utilizado);
+        }
+    }
+
+    function displayModalCapacidad(capacidad, utilizado)
+    {
+        $(".personas_reserva").text(capacidad);
+        $(".personas_limite").text(utilizado);
+        $("#capacidad_modal").modal('show');
     }
 
     function setCalendar(eventos) {
@@ -334,7 +373,7 @@ input[type=number]
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Adultos</label>
                                                 <div class="col-sm-8">
-                                                    <input type="number" class="form-control" id="total_adultos_reserva" name="total_adultos_reserva" placeholder="" value="<?php echo $reserva[0]->total_adultos_reserva; ?>">
+                                                    <input type="number" class="form-control" id="total_adultos_reserva" name="total_adultos_reserva" placeholder="" min="1" value="<?php echo $reserva[0]->total_adultos_reserva; ?>">
                                                 </div>
                                             </div>
 
@@ -397,7 +436,7 @@ input[type=number]
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-4 control-label no-padding-right">Niños</label>
                                                 <div class="col-sm-8">
-                                                    <input type="number" class="form-control" id="total_ninos_reserva" name="total_ninos_reserva" placeholder="" value="<?php echo $reserva[0]->total_ninos_reserva; ?>">
+                                                    <input type="number" class="form-control" id="total_ninos_reserva" name="total_ninos_reserva" placeholder="" min="0" value="<?php echo $reserva[0]->total_ninos_reserva; ?>">
 
                                                 </div>
                                             </div>
