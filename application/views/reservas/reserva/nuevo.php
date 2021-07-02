@@ -65,6 +65,12 @@
         });
     });
 
+    $("#total_adultos_reserva").on('change', function(){
+        var fechaInicio = $("#fecha_entrada_reserva").val();
+        var fechaFin = $("#fecha_salida_reserva").val();
+        get_capacidad_fecha(fechaInicio, fechaFin);
+    });
+
     function get_capacidad_fecha(fechaInicio, fechaFin) {
         $.ajax({
             type: "post",
@@ -74,25 +80,39 @@
             },
             url: "<?php echo base_url(); ?>" + "reservas/reserva/get_capacidad_fecha",
             success: function(result) {
+                
                 var data = JSON.parse(result);
+                var utilizado = <?php echo $capacidad; ?>;
+                var personasIngresadas = $("#total_adultos_reserva").val();
 
                 if (data.capacidad != null) {
                     $(".utilizado").text(data.capacidad);
-                    var utilizado = <?php echo $capacidad; ?>;
+
                     if (data.capacidad > utilizado) {
                         $(".personas_reserva").text(data.capacidad);
                         $(".personas_limite").text(utilizado);
                         $("#capacidad_modal").modal('show');
-                        $(".enviar_data").hide();
+                        $(".enviar_data").hide();                        
                     } else {
                         $(".enviar_data").show();
+                        validar_personas_cantidad(utilizado, data.capacidad, personasIngresadas);
                     }
                 } else {
                     $(".utilizado").text(0);
                     $(".enviar_data").show();
+                    validar_personas_cantidad(utilizado, 0, personasIngresadas);
                 }
             }
         });
+    }
+
+    function validar_personas_cantidad(utilizado, totalCreados, totalIngresados)
+    {
+        $(".enviar_data").show();
+        let totalPerosnas = parseInt(totalCreados) + parseInt(totalIngresados);
+        if (totalPerosnas > utilizado) {
+            $(".enviar_data").hide();
+        }
     }
 
     function setCalendar(eventos) {
