@@ -39,7 +39,7 @@ class Nodos extends MY_Controller {
 		$data['total_records'] 	= $pag['total_records'];
 		$data['acciones'] 		= $this->Accion_model->get_vistas_acciones(  $pag['vista_id'] , $pag['id_rol'] );
 		$data['home'] 			= 'template/lista_template';
-		$data['title'] 			= "Monedas";
+		$data['title'] 			= "Nodos";
 		$_SESSION['registros']  = $data['registros'];
 		$_SESSION['Vista']  	= $data['title'];
 
@@ -49,45 +49,46 @@ class Nodos extends MY_Controller {
 	public function nuevo(){
 
 		$data['menu'] 	= $this->session->menu;
-		$data['home'] 	= 'admin/moneda/moneda_nuevo';
-		$data['title'] 	= "Crear Moneda";
+		$data['home'] 	= 'admin/nodo/nuevo';
+		$data['title'] 	= "Crear Nodos";
 
-		echo $this->load->view('admin/moneda/moneda_nuevo',$data, TRUE);
+		echo $this->load->view('admin/nodo/nuevo',$data, TRUE);
 	}
 
 	public function crear(){
 
 		if(isset($_POST)){
-			$data = $this->Moneda_model->save( $_POST );
+			$data = $this->Nodos_model->save( $_POST );
 
 			if($data){
-				$this->session->set_flashdata('success', "Moneda Fue Creado");
+				$this->session->set_flashdata('success', "Nodo Fue Creado");
 			}else{
-				$this->session->set_flashdata('danger', "Moneda No Fue Creado");
+				$this->session->set_flashdata('danger', "Nodo No Fue Creado");
 			}
 		}
 
-		redirect(base_url()."admin/moneda/index");
+		redirect(base_url()."admin/nodos/index");
 	}
 
-	public function editar( $moneda_id ){
+	public function editar( $nodo ){
 
 		$id_rol = $this->session->roles;
 		$vista_id = 8; // Vista Orden Lista
 
 		$data['menu'] 		= $this->session->menu;
-		$data['monedas'] 	= $this->Moneda_model->getMonedaId($moneda_id);
+		$nodo 				= $this->Nodos_model->getNodoId($nodo);
+		$data['nodo'] 		= $nodo[0];
 		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
-		$data['home'] 		= 'admin/moneda/moneda_editar';
-		$data['title'] 		= "Editar Moneda";
+		$data['home'] 		= 'admin/nodos/nodos_editar';
+		$data['title'] 		= "Editar Nodo";
 
-		echo $this->load->view('admin/moneda/moneda_editar',$data, TRUE);
+		echo $this->load->view('admin/nodo/editar',$data, TRUE);
 	}
 
 	public function ver( $id = 0){
 
 		if( $id ==0 ){
-			redirect(base_url()."admin/moneda/index");
+			redirect(base_url()."admin/nodos/index");
 		}
 
 		$data['title'] = "Ver";
@@ -116,34 +117,34 @@ class Nodos extends MY_Controller {
 	public function update(){
 
 		if(isset($_POST)){
-			$data = $this->Moneda_model->update( $_POST );
+			$data = $this->Nodos_model->update( $_POST );
 
 			if($data){
-				$this->session->set_flashdata('info', "Moneda Fue Actualizado");
+				$this->session->set_flashdata('info', "Nodos Fue Actualizado");
 			}else{
-				$this->session->set_flashdata('danger', "Moneda No Fue Actualizado");
+				$this->session->set_flashdata('danger', "Nodos No Fue Actualizado");
 			}
 		}
 
-		redirect(base_url()."admin/moneda/index");
+		redirect(base_url()."admin/nodos/index");
 	}
 
-	public function eliminar($id){
+	public function eliminar($nodo){
 
-		$data = $this->Moneda_model->eliminar( $id );
+		$data = $this->Nodos_model->eliminar( $nodo );
 
 		if($data){
-			$this->session->set_flashdata('warning', "Moneda Fue Eliminado");
+			$this->session->set_flashdata('warning', "Nodos Fue Eliminado");
 		}else{
-			$this->session->set_flashdata('danger', "Moneda No Fue Eliminado");
+			$this->session->set_flashdata('danger', "Nodos No Fue Eliminado");
 		}
-		redirect(base_url()."admin/moneda/index");
+		redirect(base_url()."admin/nodos/index");
 	}
 
 	public function column(){
 
 		$column = array(
-			'Nombre','Simbolo','Alias','Estado'
+			'Nombre','Ubicacion','Key','Estilo','Estado'
 		);
 		return $column;
 	}
@@ -151,9 +152,10 @@ class Nodos extends MY_Controller {
 	public function fields(){
 		
 		$fields['field'] = array(
-			['moneda_nombre' => 'Nombre'],
-			['moneda_simbolo' => 'Simbolo'],
-			['moneda_alias' => 'Alias'],
+			['nodo_nombre' => 'Nombre'],
+			['nodo_ubicacion' => 'Ubicación'],
+			['nodo_key' => 'Key'],
+			['nodo_estilo' => 'Estilo'],
 			['orden_estado_nombre' => 'Estado']
 		);
 
@@ -164,9 +166,9 @@ class Nodos extends MY_Controller {
 			),
 		);
 		
-		$fields['id'] 		= array('id_moneda');
+		$fields['id'] 		= array('id_nodo');
 		$fields['estado'] 	= array('orden_estado_nombre');
-		$fields['titulo'] 	= "Moneda Lista";
+		$fields['titulo'] 	= "Nodos Lista";
 
 		return $fields;
 	}

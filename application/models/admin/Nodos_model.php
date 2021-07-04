@@ -7,9 +7,9 @@ class Nodos_model extends CI_Model {
     const pos_empresa = 'pos_empresa';
     const pos_orden_estado = 'pos_orden_estado';
 
-    function getMoneda(  $limit, $id , $filters){
+    function getNodos(  $limit, $id , $filters){
     	$this->db->select('*');
-        $this->db->from(self::nodos);
+        $this->db->from(self::nodos.' as nodo');
         $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = nodo.nodo_estado');
         
         if($filters!=""){
@@ -41,6 +41,8 @@ class Nodos_model extends CI_Model {
 
     function save($nodo){
 
+        $nodo['nodo_key'] = md5(microtime().rand());
+
         $result = $this->db->insert(self::nodos, $nodo ); 
 
         if(!$result){
@@ -62,16 +64,13 @@ class Nodos_model extends CI_Model {
         }
     }
 
-    function update($moneda){
+    function update($nodo){
 
-        $data = array(
-            'moneda_nombre' => $moneda['moneda_nombre'],
-            'moneda_simbolo' => $moneda['moneda_simbolo'],
-            'moneda_estado' => $moneda['moneda_estado'],
-            'moneda_alias' => $moneda['moneda_alias']
-        );
-        $this->db->where('id_moneda', $moneda['id_moneda'] );
-        $result =  $this->db->update(self::nodos, $data ); 
+        $nodoId = $nodo['id_nodo'];
+        unset($nodo['id_nodo']);
+        
+        $this->db->where('id_nodo', $nodoId );
+        $result =  $this->db->update(self::nodos, $nodo ); 
 
         if(!$result){
             $result = $this->db->error();
@@ -86,7 +85,7 @@ class Nodos_model extends CI_Model {
             'id_nodo' => $nodo
         );
 
-        $this->db->where('id_moneda', $nodo);
+        $this->db->where('id_nodo', $nodo);
         $result =  $this->db->delete(self::nodos, $data );
 
         if(!$result){
