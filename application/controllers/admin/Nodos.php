@@ -17,6 +17,7 @@ class Nodos extends MY_Controller {
 		$this->load->helper('paginacion/paginacion_helper');
 
 		$this->load->model('admin/Nodos_model');
+		$this->load->model('admin/Sucursal_model');
 	}
 
 	public function index(){
@@ -49,6 +50,7 @@ class Nodos extends MY_Controller {
 	public function nuevo(){
 
 		$data['menu'] 	= $this->session->menu;
+		$data['sucursal'] = $this->Sucursal_model->getSucursal();
 		$data['home'] 	= 'admin/nodo/nuevo';
 		$data['title'] 	= "Crear Nodos";
 
@@ -76,11 +78,24 @@ class Nodos extends MY_Controller {
 		$vista_id = 8; // Vista Orden Lista
 
 		$data['menu'] 		= $this->session->menu;
+		$data['sucursal'] = $this->Sucursal_model->getSucursal();
 		$nodo 				= $this->Nodos_model->getNodoId($nodo);
 		$data['nodo'] 		= $nodo[0];
 		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] 		= 'admin/nodos/nodos_editar';
 		$data['title'] 		= "Editar Nodo";
+
+		$sucursalLista = $data['sucursal'];
+		$sucursal = array_filter($sucursalLista , function($key) use ($data, $sucursalLista){
+
+			if ($sucursalLista[$key]->id_sucursal == $data['nodo']->Sucursal) {
+				return $sucursalLista[$key];
+			}
+		}, ARRAY_FILTER_USE_KEY);
+
+		unset($data['sucursal'][key($sucursal)]);
+
+		$data['sucursal'] = array_merge($sucursal, (array) $data['sucursal']);
 
 		echo $this->load->view('admin/nodo/editar',$data, TRUE);
 	}
@@ -144,7 +159,7 @@ class Nodos extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Nombre','Ubicacion','Key','Estilo','Estado'
+			'Sucursal','Nombre','Ubicacion','Key','Estilo','Estado'
 		);
 		return $column;
 	}
@@ -152,6 +167,7 @@ class Nodos extends MY_Controller {
 	public function fields(){
 		
 		$fields['field'] = array(
+			['nombre_sucursal' => 'Sucursal'],
 			['nodo_nombre' => 'Nombre'],
 			['nodo_ubicacion' => 'Ubicación'],
 			['nodo_key' => 'Key'],

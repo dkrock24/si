@@ -31,6 +31,17 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Sucursal</label>
+                                        <div class="col-sm-10">
+                                            <select name="Sucursal" class="form-control">
+                                                <?php foreach($sucursal as $suc ) : ?>
+                                                <option value="<?php echo $suc->id_sucursal ?>"><?php echo $suc->nombre_sucursal ?></option>
+                                                <?php endforeach ?>
+                                            </select>                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Ubicación</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="nodo_ubicacion" name="nodo_ubicacion" placeholder="Ubicación" value="<?php echo $nodo->nodo_ubicacion; ?>">

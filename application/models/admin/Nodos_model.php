@@ -11,6 +11,7 @@ class Nodos_model extends CI_Model {
     	$this->db->select('*');
         $this->db->from(self::nodos.' as nodo');
         $this->db->join(self::pos_orden_estado.' as es', 'on es.id_orden_estado = nodo.nodo_estado');
+        $this->db->join(self::sucursal.' as s', 'on s.id_sucursal = nodo.Sucursal');
         
         if($filters!=""){
             $this->db->where($filters);
