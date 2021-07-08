@@ -78,12 +78,17 @@ class Nodos extends MY_Controller {
 		$vista_id = 8; // Vista Orden Lista
 
 		$data['menu'] 		= $this->session->menu;
-		$data['sucursal'] = $this->Sucursal_model->getSucursal();
+		$data['sucursal']   = $this->Sucursal_model->getSucursal();
+		$data['categorias'] = $this->Categorias_model->get_categorias_padres();
 		$nodo 				= $this->Nodos_model->getNodoId($nodo);
 		$data['nodo'] 		= $nodo[0];
 		$data['acciones'] 	= $this->Accion_model->get_vistas_acciones( $vista_id , $id_rol );
 		$data['home'] 		= 'admin/nodos/nodos_editar';
 		$data['title'] 		= "Editar Nodo";
+		$categorias = $this->Nodos_model->getNodoCategoriaByNodo($nodo[0]->id_nodo);
+		$categorias = $this->convertCategoriaSingleArray($categorias);
+
+		$data['nodo_categoria'] = $categorias;
 
 		$sucursalLista = $data['sucursal'];
 		$sucursal = array_filter($sucursalLista , function($key) use ($data, $sucursalLista){
@@ -98,6 +103,22 @@ class Nodos extends MY_Controller {
 		$data['sucursal'] = array_merge($sucursal, (array) $data['sucursal']);
 
 		echo $this->load->view('admin/nodo/editar',$data, TRUE);
+	}
+
+	private function convertCategoriaSingleArray($categorias)
+	{
+		$cat = [];
+		foreach ($categorias as $key => $categoria) {
+			$cat[] = (int) $categoria['id_categoria'];
+		}
+		return $cat;
+	}
+
+	public function asociarNodoCategoria()
+	{
+		if ($_GET['nodo']) {
+			$this->Nodos_model->asociarNodoCategoria($_GET);
+		}
 	}
 
 	public function ver( $id = 0){
@@ -159,7 +180,7 @@ class Nodos extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Sucursal','Nombre','Ubicacion','Key','Estilo','Url','Estado'
+			'Sucursal','Nombre','Ubicacion','Key','Estilo','Tiempo','Url','Estado'
 		);
 		return $column;
 	}
@@ -172,6 +193,7 @@ class Nodos extends MY_Controller {
 			['nodo_ubicacion' => 'Ubicación'],
 			['nodo_key' => 'Key'],
 			['nodo_estilo' => 'Estilo'],
+			['nodo_tiempo' => 'Tiempo'],
 			['nodo_url' => 'Url'],
 			['orden_estado_nombre' => 'Estado']
 		);

@@ -85,6 +85,64 @@ class Nodos_model extends CI_Model {
         return $result;
     }
 
+    function asociarNodoCategoria($data)
+    {
+        $result = $this->checkIfNodoCategoriaExist($data);
+
+        $nodo = [
+            'id_categoria' => $data['categoria'],
+            'id_nodo' => $data['nodo']
+        ];
+
+        if (!$result) {
+
+            $result = $this->db->insert(self::nodos_categoria, $nodo ); 
+    
+            if(!$result){
+                $result = $this->db->error();
+            }
+        } else {
+
+            $this->db->where('id_nodo', $nodo['id_nodo']);
+            $this->db->where('id_categoria', $nodo['id_categoria']);
+            $result =  $this->db->delete(self::nodos_categoria, $nodo );
+
+            if(!$result){
+                $result = $this->db->error();
+            }
+        }
+        return $result;
+    }
+
+    function checkIfNodoCategoriaExist($data)
+    {
+        $this->db->select('*');
+        $this->db->from(self::nodos_categoria);
+        $this->db->where('id_nodo', $data['nodo']);
+        $this->db->where('id_categoria', $data['categoria']);
+        
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+    }
+
+    function getNodoCategoriaByNodo($nodo)
+    {
+        $this->db->select('id_categoria');
+        $this->db->from(self::nodos_categoria);
+        $this->db->where('id_nodo', $nodo);
+        
+        $query = $this->db->get(); 
+        
+        if($query->num_rows() > 0 )
+        {
+            return $query->result_array();
+        }
+    }
+
     function eliminar( $nodo ){
         
         $data = array(

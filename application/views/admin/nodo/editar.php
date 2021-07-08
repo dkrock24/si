@@ -102,6 +102,38 @@
                                     </div>
 
                                 </div>
+
+                                <div class="col-lg-6">
+                                    Categorias
+
+                                    <table class="table">
+                                    <?php
+                                    foreach ($categorias as $key => $categoria) {
+                                        ?>
+                                        <tr>
+                                            <?php
+                                            $check = '';
+                                            if(in_array($categoria->id_categoria, $nodo_categoria)){
+                                                $check = 'checked';
+                                            }
+                                            ?>
+                                            <td><input type="checkbox" <?php echo $check; ?> name="categoria" onClick="asociarCategoria(<?php echo $nodo->id_nodo; ?>,<?php echo $categoria->id_categoria; ?>)" /></td>
+                                            <td><?php echo $categoria->nombre_categoria; ?></td>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+                                    </table>
+
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="nodo_nombre" name="nodo_nombre" placeholder="Nombre" value="<?php echo $nodo->nodo_nombre; ?>">
+                                            
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </form>
                         </p>                                    
@@ -111,3 +143,35 @@
         </div>
     </div>
 </section>
+
+<script>
+
+function asociarCategoria(nodo, categoria)
+{
+    data = {
+        'nodo' : nodo,
+        'categoria' : categoria
+    };
+    sendNodoCategoria(data);
+}
+
+function sendNodoCategoria(data)
+{
+    $.ajax({ 
+        type: "GET", 
+        dataType: "json", 
+        data: data,
+        url: "<?php echo base_url(); ?>"+'admin/nodos/asociarNodoCategoria',
+        success: function(data){
+            
+        },
+        error: function(err) {
+            // do whatever you want when error occurs
+        },
+    });
+}
+
+$(document).ready(function(){
+
+});
+</script>
