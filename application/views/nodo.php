@@ -23,6 +23,9 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/login/css/util.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>../asstes/login/css/main.css">
     <!--===============================================================================================-->
+
+    <link rel="stylesheet" href="<?php echo base_url(); ?>../asstes/vendor/sweetalert/dist/sweetalert.css">
+
     <title><?php echo $nodo[0]->nodo_nombre; ?></title>
 </header>
 
@@ -33,42 +36,50 @@
                 <div class=" justify-content-between">
 
                     <div class="commandas" style="position: absolute;display:inline-block; margin-top:10px;width:100%;">
-                        <div class="row">
+                        <div class="row listaComandas">
                             <?php
                             foreach ($ordenes as $comanda) {
-                            ?>
-                                
-                                    <div class="card">
-                                        <div class="card-body row text-center">
-                                            <div class="col">
-                                                <div class="text-value-xl"><h4># <?php echo $comanda->id; ?></h4></div>
-                                                <div class="text-uppercase text-muted small">ORDEN</div>
-                                            </div>
-                                            <div class="c-vr"></div>
-                                            <div class="col">
-                                                <div class="text-value-xl"><h4><?php echo count((array)$comanda->detalle); ?></h4></div>
-                                                <div class="text-uppercase text-muted small">Articulos</div>
+                            ?>                                
+                                <div class="card comanda<?php echo $comanda->id; ?>">
+                                    <div class="card-body row text-center">
+                                        
+                                        <div class="col">                                            
+                                            <div class="text-uppercase text-muted small">
+                                                <h2><?php echo $comanda->id; ?> <span class="badge badge-secondary">ORDEN</span></h2>
                                             </div>
                                         </div>
-                                        <div class="card-header bg-facebook content-center">
-                                            <table class="table">
-                                                <?php
-                                                foreach ($comanda->detalle as $detalle) {
-                                                ?>
+                                        <div class="c-vr"></div>
+                                        
+                                        <div class="col">
+                                            <div class="text-uppercase text-muted small">
+                                                <h2><?php echo count((array)$comanda->detalle); ?> <br><span class="badge badge-secondary">ITEMS</span></h2>
+                                            </div>                                          
+                                        </div>
 
-                                                    <tr>
-                                                        <td><?php echo $detalle->cantidad ?></td>
-                                                        <td><?php echo $detalle->descripcion ?></td>
-                                                    </tr>
-
-                                                <?php
-                                                }
-                                                ?>
-                                            </table>
+                                        <div class="c-vr"></div>                                     
+                                            
+                                        <div class="col">
+                                            <div class="text-value-xl">
+                                            <br>
+                                                <a class="btn btn-success" onClick="terminar_comanda(<?php echo $comanda->id ?>,<?php echo $nodo[0]->id_nodo ?>)" id="<?php echo $comanda->id ?>" nodo="<?php echo $nodo[0]->id_nodo ?>" style="color:white;">Completar</a>
+                                            </div>
                                         </div>
                                     </div>
-
-                                
+                                    <div class="card-header bg-facebook content-center">
+                                        <table class="table">
+                                            <?php
+                                            foreach ($comanda->detalle as $detalle) {
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo (int) $detalle->cantidad ?></td>
+                                                    <td><?php echo $detalle->descripcion ?></td>
+                                                </tr>
+                                            <?php
+                                            }
+                                            ?>
+                                        </table>
+                                    </div>
+                                </div>                                
                                 <br>
                             <?php
                             }
@@ -76,56 +87,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="c-chart-wrapper" style="height:300px;margin-top:40px;">
-                    <div class="chartjs-size-monitor">
-                        <div class="chartjs-size-monitor-expand">
-                            <div class=""></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink">
-                            <div class=""></div>
-                        </div>
-                    </div>
-                    <canvas class="chart chartjs-render-monitor" id="main-chart" height="300" width="1546" style="display: block; width: 1546px; height: 300px;"></canvas>
-                    <div id="main-chart-tooltip" class="c-chartjs-tooltip center" style="opacity: 0; left: 1002.25px; top: 302.554px;">
-                        <div class="c-tooltip-header">
-                            <div class="c-tooltip-header-item">T</div>
-                        </div>
-                        <div class="c-tooltip-body">
-                            <div class="c-tooltip-body-item"><span class="c-tooltip-body-item-color" style="background-color: rgba(3, 9, 15, 0.1);"></span><span class="c-tooltip-body-item-label">My First dataset</span><span class="c-tooltip-body-item-value">163</span></div>
-                            <div class="c-tooltip-body-item"><span class="c-tooltip-body-item-color" style="background-color: transparent;"></span><span class="c-tooltip-body-item-label">My Second dataset</span><span class="c-tooltip-body-item-value">97</span></div>
-                            <div class="c-tooltip-body-item"><span class="c-tooltip-body-item-color" style="background-color: transparent;"></span><span class="c-tooltip-body-item-label">My Third dataset</span><span class="c-tooltip-body-item-value">65</span></div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="card-footer" style="bottom:0px;position: relative; background:white;">
                 <div class="row text-center">
                     <div class="col-sm-12 col-md mb-sm-2 mb-0">
-                        <div class="text-muted">Activas</div><h2><strong><?php echo count((array) $ordenes) ?></strong></h2>
+                        <div class="text-muted">Nodo</div><h2><strong><i class="fa fa-tree"></i>  <?php echo $nodo[0]->nodo_nombre ?></strong></h2>
                         <div class="progress progress-xs mt-2">
                             <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md mb-sm-2 mb-0">
-                        <div class="text-muted">Finalizadas</div><h2><strong><?php echo count((array) $ordenes) ?></strong></h2>
+                        <div class="text-muted">Sucursal</div><h2><strong><i class="fa fa-home"></i>  <?php echo $nodo[0]->nombre_sucursal ?></strong></h2>
                         <div class="progress progress-xs mt-2">
                             <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md mb-sm-2 mb-0">
-                        <div class="text-muted">Promedio</div><h2><strong><?php echo count((array) $ordenes) ?></strong></h2>
+                        <div class="text-muted">Ordenes Activas</div><h2><i class="fa fa-bell"></i><strong class="ordenes_activas"><?php echo count((array) $ordenes) ?></strong></h2>
                         <div class="progress progress-xs mt-2">
                             <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md mb-sm-2 mb-0">
-                        <div class="text-muted">Fecha</div><h2><strong><?php echo date('d-m-Y') ?></strong></h2>
-                        <div class="progress progress-xs mt-2">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md mb-sm-2 mb-0">
-                        <div class="text-muted">Hora</div><h2><strong><?php echo date('h:m:i') ?></strong></h2>
+                        <div class="text-muted">Fecha Hora</div><h2><i class="fa fa-clock-o"></i><strong class="fecha"></strong> <strong class="hora"></strong></h2>
                         <div class="progress progress-xs mt-2">
                             <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
@@ -144,5 +129,240 @@
 <!--===============================================================================================-->
 <script src="<?php echo base_url(); ?>../asstes/login/vendor/bootstrap/js/popper.js"></script>
 <script src="<?php echo base_url(); ?>../asstes/login/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="<?php echo base_url(); ?>../asstes/vendor/sweetalert/dist/sweetalert.min.js"></script>
+
+<script src="<?php echo base_url(); ?>../asstes/js/moment.min.js"></script>
+
+<script>
+
+    getData();
+    getTime();
+
+    let total_ordenes = <?php echo count($ordenes); ?>;
+
+    $(document).ready(function(){
+        const interval = setInterval(function() {
+            LongPolling();
+        }, <?php echo $nodo[0]->nodo_tiempo ?> );
+        
+    });
+
+    function terminar_comanda(id,nodo)
+    {
+        let env = {
+            "comandaId" :id,
+            "comandaNodo" : nodo
+        }
+
+        params = getGeneralParams();
+
+        showNotification(params, env);
+    }
+
+    function getGeneralParams()
+    {
+        return params = {
+            "type" : "info",
+            "title" : "Remover Comanda",
+            "mensaje" : "",
+            "boton" : "info",
+            "finalMessage" : "Gracias..."
+        };
+    }
+
+    function showNotification(params, env) {
+        
+        var confirm = false;
+        $('.cancel').focus();
+
+        swal({
+            html: true,
+            title: params.title + " #"+env.comandaId,
+            text: params.mensaje,
+            type: params.type,
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+        }, function (isConfirm) {
+
+            if (isConfirm) {
+
+                swal("Eliminado", params.finalMessage);
+                $(".comanda"+ env.comandaId).remove();
+                confirm = true;
+
+                $.ajax({
+                    type: "post",
+                    data: {env},
+                    url: "<?php echo base_url(); ?>"+'nodo/moverComanda',
+                    success: function(result) {
+
+                        //$(".loadViews").html(result);
+                        setTotalordenes(total_ordenes);
+                    }
+                });
+                
+            } else {
+                swal("Salir", "Salir", "error");
+            } 
+        });
+        return confirm;
+    }
+
+    function LongPolling()
+    {
+        $.ajax({ 
+            type: "GET", 
+            dataType: "json", 
+            url: "<?php echo base_url(); ?>"+'nodo/polling/97b0104345937c93496930bd305f9886',
+            success: function(data){
+                dibujarComanda(data);
+            },
+            error: function(err) {
+                // do whatever you want when error occurs
+            },
+        });
+    }
+
+    function dibujarComanda(data)
+    {
+        let _htmlComanda = '';
+
+        $.each(data.ordenes, function(i, index){
+
+            _htmlComanda += '<div class="card comanda'+index.id+'">';
+                _htmlComanda += '<div class="card-body row text-center">';
+                    _htmlComanda += '<div class="col">';
+                        _htmlComanda += '<div class="text-uppercase text-muted small">';
+                            _htmlComanda += '<h2>'+index.id+' <span class="badge badge-secondary">ORDEN</span> </h2>';
+                        _htmlComanda += '</div>';
+                    _htmlComanda += '</div>';
+                    _htmlComanda += '<div class="c-vr"></div>',
+                    _htmlComanda += '<div class="col">';
+                        _htmlComanda += '<div class="text-uppercase text-muted small">';
+                            _htmlComanda += '<h2>'+index.detalle.length+' <br> <span class="badge badge-secondary">ITEMS</span> </h2>';
+                        _htmlComanda += '</div>';
+                    _htmlComanda += '</div>';
+                    _htmlComanda += '<div class="c-vr"></div>';
+                    _htmlComanda += '<div class="col">';
+                        _htmlComanda += '<div class="text-uppercase text-muted small"><a class="btn btn-success" onClick="terminar_comanda('+index.id+','+data.nodo[0].id_nodo+')" id="'+index.id+'" nodo="'+data.nodo[0].id_nodo+'" style="color:white;">Completar</a></div>';
+                    _htmlComanda += '</div>';
+                _htmlComanda += '</div>';
+
+                _htmlComanda += '<div class="card-header bg-facebook content-center">';
+                    _htmlComanda += '<table class="table">';
+                        $.each(index.detalle, function(i, detalle){
+
+                            _htmlComanda += '<tr>';
+                                _htmlComanda += '<td>'+ detalle.cantidad +'</td>';
+                                _htmlComanda += '<td>'+ detalle.descripcion +'</td>';
+                            _htmlComanda += '</tr>';
+                        });
+                    _htmlComanda += '</table>';
+                _htmlComanda += '</div>';
+
+            _htmlComanda += '</div>';
+
+        });
+
+        $(".ordenes_activas").text(getTotalOrednes(data));
+        $(".listaComandas").html(_htmlComanda);
+    }
+
+    function setTotalordenes(total)
+    {
+        $(".ordenes_activas").text(--total);
+    }
+
+    function getTotalOrednes(data)
+    {
+        return Object.keys(data.ordenes).length;
+    }
+
+    function getTime()
+    {
+        var interval = setInterval(function() {
+  			var momentNow = moment();
+  			//        $('#time-part').html(momentNow.format('MMMM DD'));
+  			$('.hora').html(momentNow.format('hh:mm A'));
+  		}, 100);
+    }
+
+    function getData()
+    {
+        var months = {
+
+            January: {
+                Name: "January",
+                Translate: "Enero"
+            },
+
+            February: {
+                Name: "February",
+                Translate: "Febrero"
+            },
+
+            March: {
+                Name: "March",
+                Translate: "Marzo"
+            },
+
+            April: {
+                Name: "April",
+                Translate: "Abril"
+            },
+
+            May: {
+                Name: "May",
+                Translate: "Mayo"
+            },
+
+            June: {
+                Name: "June",
+                Translate: "Junio"
+            },
+
+            July: {
+                Name: "July",
+                Translate: "Julio"
+            },
+
+            August: {
+                Name: "August",
+                Translate: "Agosto"
+            },
+
+            September: {
+                Name: "September",
+                Translate: "Septiembre"
+            },
+
+            October: {
+                Name: "October",
+                Translate: "Octubre"
+            },
+
+            November: {
+                Name: "November",
+                Translate: "Noviembre"
+            },
+
+            December: {
+                Name: "December",
+                Translate: "Diciembre"
+            },
+        }
+
+        var momentNow = moment();
+
+        for (var i in months) {
+  			if (i == momentNow.format('MMMM')) {
+  				//console.log(months[i].Translate);
+  				$('.fecha').html(months[i].Translate + " " + momentNow.format('DD') + "-" + momentNow.format('YY') + " / ");
+  				//$('.time-part').html(months[i].Translate + " " + momentNow.format('DD') + " / " + momentNow.format('Y'));
+  			}
+  		}
+    }
+</script>
 
 </html>

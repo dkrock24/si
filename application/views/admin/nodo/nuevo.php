@@ -49,6 +49,14 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Tiempo</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="nodo_tiempo" name="nodo_tiempo" placeholder="Key" value="<?php //echo $nodo->nodo_tiempo; ?>">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Estilo</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="nodo_estilo" name="nodo_estilo" placeholder="Estilo" value="<?php //echo $onMenu[0]->icon_submenu ?>">

@@ -103,7 +103,7 @@ class Nodos_model extends CI_Model {
 
     // Commandas Calls 
 
-    public function get_ordenes_by_key($key)
+    public function get_ordenes_by_key($key, $filter)
     {
         $nodo = $this->get_nodo_by_key($key);
         $categorias = $this->get_nodo_categories($nodo);
@@ -161,12 +161,11 @@ class Nodos_model extends CI_Model {
     {
         $this->db->select('orden.*');
         $this->db->from(self::ordenes.' as orden');
-        //$this->db->join(self::orden_detalle.' as detalle', 'on detalle.id_orden = orden.id','left');
         $this->db->join(self::orden_nodo_comanda.' as comanda', 'on comanda.orden_comanda = orden.id','left');
         $this->db->join(self::nodos.' as nodo', 'on nodo.id_nodo = comanda.nodo_comanda','left');
         $this->db->where('orden.id_sucursal', $nodo[0]->Sucursal);
         $this->db->where('comanda.orden_comanda IS NULL');
-        $this->db->limit(8);
+        //$this->db->limit(20);
         
         $query = $this->db->get(); 
         
@@ -188,5 +187,15 @@ class Nodos_model extends CI_Model {
         {
             return $query->result();
         }
+    }
+
+    public function moverComanda(array $data)
+    {
+        $nodoComanda = array(
+            'orden_comanda' => $data['comandaId'],
+            'nodo_comanda' => $data['comandaNodo']
+        );
+
+        $this->db->insert(self::orden_nodo_comanda, $nodoComanda);
     }
 }

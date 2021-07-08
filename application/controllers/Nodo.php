@@ -18,17 +18,22 @@ class Nodo extends CI_Controller {
 	public function index($key = 0)
 	{
 		if ($key) {
-			$results = $this->Nodos_model->get_ordenes_by_key($key);
+			$results = $this->Nodos_model->get_ordenes_by_key($key, $filter=null);
 
-			//var_dump($results);
-			
-			$results = $this->transfor_data($results);
-			$results['ordenes'] = $results;
-			
+			$results['ordenes'] = $this->transfor_data($results);
 		}
 		$this->load->view('nodo', $results);
 	}
 
+	public function polling($key = 0)
+	{
+		if ($key) {
+			$results = $this->Nodos_model->get_ordenes_by_key($key, $filter='polling');
+
+			$results['ordenes'] = $this->transfor_data($results);
+		}
+		echo json_encode($results);
+	}
 
 	private function transfor_data(array $results)
 	{
@@ -46,5 +51,15 @@ class Nodo extends CI_Controller {
 				}
 			}, ARRAY_FILTER_USE_BOTH);
 		}, ARRAY_FILTER_USE_BOTH);
+	}
+
+	public function moverComanda()
+	{
+		if ($_POST['env']) {
+
+			$this->Nodos_model->moverComanda($_POST['env']);
+			$result = true;
+		}
+		return $result;
 	}
 }
