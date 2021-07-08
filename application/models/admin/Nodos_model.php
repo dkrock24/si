@@ -47,6 +47,7 @@ class Nodos_model extends CI_Model {
     function save($nodo){
 
         $nodo['nodo_key'] = md5(microtime().rand());
+        $nodo['nodo_url'] = base_url().'nodo/index/'.$nodo['nodo_key'];
 
         $result = $this->db->insert(self::nodos, $nodo ); 
 

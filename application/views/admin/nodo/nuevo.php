@@ -43,7 +43,7 @@
                                     <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Ubicaión</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="nodo_ubicacion" name="nodo_ubicacion" placeholder="Simbolo" value="<?php //echo $onMenu[0]->url_submenu ?>">
+                                            <input type="text" class="form-control" id="nodo_ubicacion" name="nodo_ubicacion" placeholder="Ubicaión" value="<?php //echo $onMenu[0]->url_submenu ?>">
                                             
                                         </div>
                                     </div>
@@ -51,7 +51,7 @@
                                     <div class="form-group">
                                         <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">Tiempo</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="nodo_tiempo" name="nodo_tiempo" placeholder="Key" value="<?php //echo $nodo->nodo_tiempo; ?>">
+                                            <input type="text" class="form-control" id="nodo_tiempo" name="nodo_tiempo" placeholder="Tiempo" value="<?php //echo $nodo->nodo_tiempo; ?>">
                                             
                                         </div>
                                     </div>

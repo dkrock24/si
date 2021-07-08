@@ -159,7 +159,7 @@ class Nodos extends MY_Controller {
 	public function column(){
 
 		$column = array(
-			'Sucursal','Nombre','Ubicacion','Key','Estilo','Estado'
+			'Sucursal','Nombre','Ubicacion','Key','Estilo','Url','Estado'
 		);
 		return $column;
 	}
@@ -172,6 +172,7 @@ class Nodos extends MY_Controller {
 			['nodo_ubicacion' => 'Ubicación'],
 			['nodo_key' => 'Key'],
 			['nodo_estilo' => 'Estilo'],
+			['nodo_url' => 'Url'],
 			['orden_estado_nombre' => 'Estado']
 		);
 
