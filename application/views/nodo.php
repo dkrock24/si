@@ -38,6 +38,7 @@
                     <div class="commandas" style="position: absolute;display:inline-block; margin-top:10px;width:100%;">
                         <div class="row listaComandas">
                             <?php
+                            //var_dump($ordenes);
                         if ($ordenes){
                             foreach ($ordenes as $comanda) {
                             ?>                                

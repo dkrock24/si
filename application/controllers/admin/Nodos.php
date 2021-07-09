@@ -29,7 +29,8 @@ class Nodos extends MY_Controller {
 		// Seguridad :: Validar URL usuario	
 
 		$data['menu'] 			= $this->session->menu;
-		$data['registros'] 		= $this->Nodos_model->getNodos(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$registros =  $this->Nodos_model->getNodos(  $pag['config']["per_page"], $pag['page']  ,$_SESSION['filters']  );
+		$data['registros'] 		= $this->parseToLink($registros);
 		$data['contador_tabla'] = $pag['contador_tabla'];
 		$data['links'] 			= $pag['links'];
 		$data['column'] 		= $this->column();
@@ -45,6 +46,17 @@ class Nodos extends MY_Controller {
 		$_SESSION['Vista']  	= $data['title'];
 
 		echo $this->load->view('template/lista_template',$data, TRUE);
+	}
+
+	private function parseToLink($registros)
+	{
+		foreach ($registros as $key => $nodo) {
+			if($nodo->nodo_url)
+			{
+				$registros[$key]->nodo_url = "<a href='".$nodo->nodo_url."' target='_blank'>Nodo</a>";
+			}
+		}
+		return $registros;
 	}
 
 	public function nuevo(){
@@ -108,8 +120,10 @@ class Nodos extends MY_Controller {
 	private function convertCategoriaSingleArray($categorias)
 	{
 		$cat = [];
-		foreach ($categorias as $key => $categoria) {
-			$cat[] = (int) $categoria['id_categoria'];
+		if ($categorias) {
+			foreach ($categorias as $key => $categoria) {
+				$cat[] = (int) $categoria['id_categoria'];
+			}
 		}
 		return $cat;
 	}

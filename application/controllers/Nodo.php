@@ -19,9 +19,12 @@ class Nodo extends CI_Controller {
 	{
 		if ($key) {
 			$results = $this->Nodos_model->get_ordenes_by_key($key, $filter=null);
-
-			$results['ordenes'] = $this->transfor_data($results);
+			if($results['ordenes']) {
+				
+				$results['ordenes'] = $this->transfor_data($results);
+			}
 		}
+		
 		$this->load->view('nodo', $results);
 	}
 
@@ -39,20 +42,25 @@ class Nodo extends CI_Controller {
 
 	private function transfor_data(array $results)
 	{
-		//var_dump((array)$results['categorias']);
 		$categorias = [];
 		foreach ($results['categorias'] as $key => $cat) {
 			$categorias[] = $cat['id_categoria'];
 		}
-		
-		return $ordenesFiltradas = array_filter($results['ordenes'], function($index, $key) use($categorias) {
 
-			return array_filter($index->detalle, function($index, $key) use($categorias) {
-				if(in_array($index->categoria, $categorias)) {
-					return $index;
+		foreach ($results['ordenes'] as $key1 => $ordenes) {
+
+			foreach ($ordenes->detalle as $key2 => $detalle) {
+
+				if(in_array((int)$detalle->categoria, $categorias)) {
+					//$castResult[$ordenes][$key2]->detalle = $detalle;
+					$results['ordenes'][$key1]->detalle[$key2] = $detalle;
+				} else {
+					unset($results['ordenes'][$key1]->detalle[$key2]);
 				}
-			}, ARRAY_FILTER_USE_BOTH);
-		}, ARRAY_FILTER_USE_BOTH);
+			}
+		}
+
+		return $results['ordenes'];
 	}
 
 	public function moverComanda()

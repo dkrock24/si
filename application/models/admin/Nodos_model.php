@@ -7,6 +7,7 @@ class Nodos_model extends CI_Model {
 	const empleado =  'sys_empleado';
     const sucursal = 'pos_sucursal';
     const pos_empresa = 'pos_empresa';
+    const categoria = 'categoria';
     const pos_orden_estado = 'pos_orden_estado';
     const nodos_categoria = 'pos_ordenes_nodos_categoria';
     const orden_nodo_comanda = 'pos_ordenes_nodos_comandas';
@@ -193,9 +194,10 @@ class Nodos_model extends CI_Model {
 
     public function get_nodo_categories($nodo)
     {
-        $this->db->select('id_categoria');
-        $this->db->from(self::nodos_categoria.' as categoria');
-        $this->db->where('id_nodo', $nodo[0]->id_nodo);
+        $this->db->select('categoria.id_categoria');
+        $this->db->from(self::nodos_categoria.' as categoria_nodo');
+        $this->db->join(self::categoria.' as categoria', ' on categoria_nodo.id_categoria = categoria.id_categoria_padre');
+        $this->db->where('categoria_nodo.id_nodo', $nodo[0]->id_nodo);
         
         $query = $this->db->get(); 
         

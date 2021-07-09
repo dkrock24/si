@@ -125,14 +125,6 @@
                                     ?>
                                     </table>
 
-                                    <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">Nombre</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="nodo_nombre" name="nodo_nombre" placeholder="Nombre" value="<?php echo $nodo->nodo_nombre; ?>">
-                                            
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                         </form>
