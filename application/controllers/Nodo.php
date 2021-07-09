@@ -30,7 +30,9 @@ class Nodo extends CI_Controller {
 		if ($key) {
 			$results = $this->Nodos_model->get_ordenes_by_key($key, $filter='polling');
 
-			$results['ordenes'] = $this->transfor_data($results);
+			if($results['ordenes']) {
+				$results['ordenes'] = $this->transfor_data($results);
+			}
 		}
 		echo json_encode($results);
 	}

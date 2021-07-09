@@ -38,6 +38,7 @@
                     <div class="commandas" style="position: absolute;display:inline-block; margin-top:10px;width:100%;">
                         <div class="row listaComandas">
                             <?php
+                        if ($ordenes){
                             foreach ($ordenes as $comanda) {
                             ?>                                
                                 <div class="card comanda<?php echo $comanda->id; ?>">
@@ -83,6 +84,7 @@
                                 <br>
                             <?php
                             }
+                        }
                             ?>
                         </div>
                     </div>
@@ -139,7 +141,7 @@
     getData();
     getTime();
 
-    let total_ordenes = <?php echo count($ordenes); ?>;
+    let total_ordenes = <?php if($ordenes){ echo count($ordenes); }else { echo 0;} ?>;
 
     $(document).ready(function(){
         const interval = setInterval(function() {
@@ -214,7 +216,7 @@
         $.ajax({ 
             type: "GET", 
             dataType: "json", 
-            url: "<?php echo base_url(); ?>"+'nodo/polling/97b0104345937c93496930bd305f9886',
+            url: "<?php echo base_url(); ?>"+'nodo/polling/<?php echo $nodo[0]->nodo_key ?>',
             success: function(data){
                 dibujarComanda(data);
             },
@@ -276,6 +278,10 @@
 
     function getTotalOrednes(data)
     {
+        if (!data.ordenes) {
+            return 0;
+        }
+
         return Object.keys(data.ordenes).length;
     }
 

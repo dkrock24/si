@@ -207,11 +207,12 @@ class Nodos_model extends CI_Model {
 
     private function order_format($ordenes)
     {
+        if($ordenes) {
+            foreach ($ordenes as $key => $orden) {
+                $detalle = $this->get_order_detail($orden);
 
-        foreach ($ordenes as $key => $orden) {
-            $detalle = $this->get_order_detail($orden);
-
-            $ordenes[$key]->detalle = $detalle;
+                $ordenes[$key]->detalle = $detalle;
+            }
         }
         return $ordenes;
     }
@@ -220,9 +221,11 @@ class Nodos_model extends CI_Model {
     {
         $this->db->select('orden.*');
         $this->db->from(self::ordenes.' as orden');
+        //$this->db->join(self::orden_detalle.' as detalle', 'on detalle.id_orden = orden.id','left');
         $this->db->join(self::orden_nodo_comanda.' as comanda', 'on comanda.orden_comanda = orden.id','left');
         $this->db->join(self::nodos.' as nodo', 'on nodo.id_nodo = comanda.nodo_comanda','left');
         $this->db->where('orden.id_sucursal', $nodo[0]->Sucursal);
+        //$this->db->where('detalle.id_orden_detalle = comanda.producto_comanda');
         $this->db->where('comanda.orden_comanda IS NULL');
         //$this->db->limit(20);
         
@@ -237,8 +240,10 @@ class Nodos_model extends CI_Model {
     private function get_order_detail($orden)
     {
         $this->db->select('*');
-        $this->db->from(self::orden_detalle);
+        $this->db->from(self::orden_detalle. ' as detalle');
+        $this->db->join(self::orden_nodo_comanda.' as comanda', 'on comanda.producto_comanda = detalle.id_orden_detalle','left');
         $this->db->where('id_orden',$orden->id);
+        $this->db->where('comanda.producto_comanda IS NULL');
         
         $query = $this->db->get(); 
         
