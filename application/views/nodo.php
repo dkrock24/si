@@ -115,7 +115,7 @@
                     <div class="col-sm-12 col-md mb-sm-2 mb-0">
                         <div class="text-muted">Fecha Hora</div><h2><i class="fa fa-clock-o"></i><strong class="fecha"></strong> <strong class="hora"></strong></h2>
                         <div class="progress progress-xs mt-2">
-                            <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
@@ -142,6 +142,8 @@
     getData();
     getTime();
 
+    let ordenData = [];
+
     let total_ordenes = <?php if($ordenes){ echo count($ordenes); }else { echo 0;} ?>;
 
     $(document).ready(function(){
@@ -155,7 +157,8 @@
     {
         let env = {
             "comandaId" :id,
-            "comandaNodo" : nodo
+            "comandaNodo" : nodo,
+            "items" : ordenData
         }
 
         params = getGeneralParams();
@@ -231,7 +234,11 @@
     {
         let _htmlComanda = '';
 
+        ordenData = [];
+
         $.each(data.ordenes, function(i, index){
+
+            ordenData[index.id] = index;
 
             _htmlComanda += '<div class="card comanda'+index.id+'">';
                 _htmlComanda += '<div class="card-body row text-center">';
@@ -243,12 +250,12 @@
                     _htmlComanda += '<div class="c-vr"></div>',
                     _htmlComanda += '<div class="col">';
                         _htmlComanda += '<div class="text-uppercase text-muted small">';
-                            _htmlComanda += '<h2>'+index.detalle.length+' <br> <span class="badge badge-secondary">ITEMS</span> </h2>';
+                            _htmlComanda += '<h2>'+ get_total_items_orden(index) +' <br> <span class="badge badge-secondary">ITEMS</span> </h2>';
                         _htmlComanda += '</div>';
                     _htmlComanda += '</div>';
                     _htmlComanda += '<div class="c-vr"></div>';
                     _htmlComanda += '<div class="col">';
-                        _htmlComanda += '<div class="text-uppercase text-muted small"><a class="btn btn-success" onClick="terminar_comanda('+index.id+','+data.nodo[0].id_nodo+')" id="'+index.id+'" nodo="'+data.nodo[0].id_nodo+'" style="color:white;">Completar</a></div>';
+                        _htmlComanda += '<div class="text-uppercase text-muted small"><br><a class="btn btn-success" onClick="terminar_comanda('+index.id+','+data.nodo[0].id_nodo+')" id="'+index.id+'" nodo="'+data.nodo[0].id_nodo+'" style="color:white;">Completar</a></div>';
                     _htmlComanda += '</div>';
                 _htmlComanda += '</div>';
 
@@ -270,6 +277,11 @@
 
         $(".ordenes_activas").text(getTotalOrednes(data));
         $(".listaComandas").html(_htmlComanda);
+    }
+
+    function get_total_items_orden(index)
+    {
+        return Object.keys(index.detalle).length;
     }
 
     function setTotalordenes(total)
@@ -364,9 +376,7 @@
 
         for (var i in months) {
   			if (i == momentNow.format('MMMM')) {
-  				//console.log(months[i].Translate);
   				$('.fecha').html(months[i].Translate + " " + momentNow.format('DD') + "-" + momentNow.format('YY') + " / ");
-  				//$('.time-part').html(months[i].Translate + " " + momentNow.format('DD') + " / " + momentNow.format('Y'));
   			}
   		}
     }

@@ -228,8 +228,8 @@ class Nodos_model extends CI_Model {
         $this->db->join(self::nodos.' as nodo', 'on nodo.id_nodo = comanda.nodo_comanda','left');
         $this->db->where('orden.id_sucursal', $nodo[0]->Sucursal);
         //$this->db->where('detalle.id_orden_detalle = comanda.producto_comanda');
-        $this->db->where('comanda.orden_comanda IS NULL');
-        //$this->db->limit(20);
+        $this->db->where('orden.orden_estado',1);
+        //$this->db->group_by('orden.id');
         
         $query = $this->db->get(); 
         
@@ -257,11 +257,15 @@ class Nodos_model extends CI_Model {
 
     public function moverComanda(array $data)
     {
-        $nodoComanda = array(
-            'orden_comanda' => $data['comandaId'],
-            'nodo_comanda' => $data['comandaNodo']
-        );
 
-        $this->db->insert(self::orden_nodo_comanda, $nodoComanda);
+        foreach ($data['items'][150]['detalle'] as $items) {
+            $nodoComanda = array(
+                'orden_comanda' => $data['comandaId'],
+                'nodo_comanda' => $data['comandaNodo'],
+                'producto_comanda' => $items['id_orden_detalle']
+            );
+
+            $this->db->insert(self::orden_nodo_comanda, $nodoComanda);
+        }        
     }
 }
