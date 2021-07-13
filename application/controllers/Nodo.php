@@ -49,21 +49,21 @@ class Nodo extends CI_Controller {
 
 		foreach ($results['ordenes'] as $key1 => $ordenes) {
 
-			foreach ($ordenes->detalle as $key2 => $detalle) {
+			if($ordenes->detalle) {
+				foreach ($ordenes->detalle as $key2 => $detalle) {
 
-				if(in_array((int)$detalle->categoria, $categorias)) {
+					if(in_array((int)$detalle->categoria, $categorias)) {
 
-					$results['ordenes'][$key1]->detalle[$key2] = $detalle;
-				} else {
-					unset($results['ordenes'][$key1]->detalle[$key2]);
+						$results['ordenes'][$key1]->detalle[$key2] = $detalle;
+					} else {
+						unset($results['ordenes'][$key1]->detalle[$key2]);
 
-					if (count($results['ordenes'][$key1]->detalle) == null) {
-						unset($results['ordenes'][$key1]);
+						if (count($results['ordenes'][$key1]->detalle) == null) {
+							unset($results['ordenes'][$key1]);
+						}
 					}
 				}
 			}
-
-			
 		}
 
 		return $results['ordenes'];

@@ -257,8 +257,8 @@ class Nodos_model extends CI_Model {
 
     public function moverComanda(array $data)
     {
-
-        foreach ($data['items'][150]['detalle'] as $items) {
+        //var_dump($data['items']['detalle']);
+        foreach ($data['items']['detalle'] as $items) {
             $nodoComanda = array(
                 'orden_comanda' => $data['comandaId'],
                 'nodo_comanda' => $data['comandaNodo'],

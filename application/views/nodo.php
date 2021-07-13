@@ -41,6 +41,7 @@
                             //var_dump($ordenes);
                         if ($ordenes){
                             foreach ($ordenes as $comanda) {
+                                if( $comanda->detalle ) {
                             ?>                                
                                 <div class="card comanda<?php echo $comanda->id; ?>">
                                     <div class="card-body row text-center">
@@ -84,6 +85,7 @@
                                 </div>                                
                                 <br>
                             <?php
+                                }
                             }
                         }
                             ?>
@@ -158,7 +160,7 @@
         let env = {
             "comandaId" :id,
             "comandaNodo" : nodo,
-            "items" : ordenData
+            "items" : ordenData[id]
         }
 
         params = getGeneralParams();
@@ -240,6 +242,8 @@
 
             ordenData[index.id] = index;
 
+            if (index.detalle) {
+
             _htmlComanda += '<div class="card comanda'+index.id+'">';
                 _htmlComanda += '<div class="card-body row text-center">';
                     _htmlComanda += '<div class="col">';
@@ -273,6 +277,8 @@
 
             _htmlComanda += '</div>';
 
+            }
+
         });
 
         $(".ordenes_activas").text(getTotalOrednes(data));
@@ -281,6 +287,9 @@
 
     function get_total_items_orden(index)
     {
+        if (!index.detalle) {
+            return 0;
+        }
         return Object.keys(index.detalle).length;
     }
 
